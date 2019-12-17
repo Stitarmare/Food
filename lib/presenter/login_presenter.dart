@@ -8,7 +8,7 @@ class LoginPresenter {
   LoginPresenter(this._view);
 
   void callLogin() {
-    
+    _view.onSuccessLogin();
   }
 
 }
