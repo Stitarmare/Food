@@ -28,15 +28,16 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+        body: Center(
+      child: SingleChildScrollView(
         child: mainview(),
       ),
-    );
+    ));
   }
 
   Widget mainview() {
     return Container(
-      margin: EdgeInsets.fromLTRB(30, 200, 30, 0),
+      margin: EdgeInsets.fromLTRB(30, 50, 30, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,15 +55,14 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void onSignInButtonClicked() {
-    _signInFormKey.currentState.save();
     if (_signInFormKey.currentState.validate()) {
-      return;
+      _signInFormKey.currentState.save();
+      Navigator.pushNamed(context, '/Landingview');
     } else {
       setState(() {
         _validate = true;
       });
     }
-    Navigator.pushReplacementNamed(context, '/HomePage');
   }
 
   Widget _buildmainview() {
@@ -75,6 +75,10 @@ class _LoginViewState extends State<LoginView> {
               autovalidate: _validate,
               child: Column(
                 children: <Widget>[
+                  _buildImagelogo(),
+                  SizedBox(
+                    height: 60,
+                  ),
                   _buildTextField(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
@@ -87,13 +91,40 @@ class _LoginViewState extends State<LoginView> {
                   SizedBox(
                     height: 30,
                   ),
-                  _otptext()
+                  _otptext(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  _signupbutton()
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildImagelogo() {
+    return Column(
+      children: <Widget>[
+        Image.asset(
+          'assets/foodzi_logo.jpg',
+          //height: 100,
+        ),
+        SizedBox(height: 10),
+        Text('ORDER EASY'),
+        SizedBox(
+          height: 5,
+        ),
+        Divider(
+          color: Colors.green,
+          indent: 140,
+          endIndent: 140,
+          height: 10,
+          thickness: 4,
+        )
+      ],
     );
   }
 
@@ -125,6 +156,7 @@ class _LoginViewState extends State<LoginView> {
           validator: validatepassword,
           onSaved: (String value) {
             _signInData[enterPass] = value;
+            print('Details are : $_signInData');
           },
         ),
       ],
@@ -132,6 +164,15 @@ class _LoginViewState extends State<LoginView> {
   }
 
   String validatemobno(String value) {
+    String pattern = r'(^[0-9]*$)';
+    RegExp regExp = RegExp(pattern);
+    if (value.length == 0) {
+      return KEY_MOBILE_NUMBER_REQUIRED;
+    } else if (!regExp.hasMatch(value)) {
+      return KEY_MOBILE_NUMBER_TEXT;
+    } else if (value.length != 10) {
+      return KEY_MOBILE_NUMBER_LIMIT;
+    }
     // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
@@ -140,10 +181,9 @@ class _LoginViewState extends State<LoginView> {
   }
 
   String validatepassword(String value) {
-    if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    } else if (enterPass == mobno && value.length < 8 ||
-        value.trim().length <= 0) {
+    if (value.length == 0) {
+      return KEY_PASSWORD_REQUIRED;
+    } else if (value.length != 8) {
       return KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG;
     }
     return null;
@@ -151,13 +191,17 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _forgotpassword() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        SizedBox(width: 170),
+        //SizedBox(width: 170),
         ButtonTheme(
           minWidth: 8,
           height: 5,
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/Registerview');
+            },
             child: Text(
               KEY_FORGET_PASSWORD,
               style: TextStyle(
@@ -196,9 +240,11 @@ class _LoginViewState extends State<LoginView> {
       height: 5,
       child: MaterialButton(
         elevation: 0,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/RegisterView');
+        },
         child: Text(
-          'Sign In using OTP',
+          KEY_OTP_SIGN_IN,
           style: TextStyle(
             fontSize: 20,
             color: Color.fromRGBO(34, 180, 91, 0.80),
@@ -208,13 +254,45 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  // _sendToserver(){
-  //   if(_signInFormKey.currentState.validate()){
+  Widget _signupbutton() {
+    return LimitedBox(
+      child: Row(
+        //crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Don't have an account?"),
+          SizedBox(
+            width: 3,
+          ),
+          new GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/Landingview');
+            },
+            child: new Text(
+              KEY_SIGNUP,
+              style: TextStyle(
+                  color: Color.fromRGBO(34, 180, 91, 0.80),
+                  fontWeight: FontWeight.bold),
+            ),
+          )
 
-  //   }else{
-  //     setState(() {
-  //       _validate = true;
-  //     });
-  //   }
-  // }
+          // ButtonTheme(
+          //   // height: 10,
+          //   minWidth: 2,
+          //   buttonColor: Colors.white,
+          //   child: RaisedButton(
+          //     elevation: 0,
+          //     child: Text(
+          //       'Sign Up',
+          //       style: TextStyle(color: Color.fromRGBO(34, 180, 91, 0.80)),
+          //     ),
+          //     onPressed: () {
+          //       // Navigator.pushNamed(context, '/Landingview');
+          //     },
+          //   ),
+          // )
+        ],
+      ),
+    );
+  }
 }

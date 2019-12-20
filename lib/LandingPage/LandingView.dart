@@ -10,6 +10,12 @@ class Landingview extends StatefulWidget {
 class _LandingStateView extends State<Landingview> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text('data'),
+      ),
+      body: Text("Welcome TO LANDING PAGE"),
+    );
   }
 }

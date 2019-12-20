@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import './Utils/String.dart';
 
 import './Login/LoginView.dart';
+import './LandingPage/LandingView.dart';
+
+import './RegistrationPage/RegisterView.dart';
 
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => LoginView(),
-  '/LoginView': (BuildContext context) => LoginView()
+  '/LoginView': (BuildContext context) => LoginView(),
+  '/Landingview': (BuildContext context) => Landingview(),
+  '/Registerview': (BuildContext context) => Registerview()
 };
 
 void main() => runApp(MaterialApp(

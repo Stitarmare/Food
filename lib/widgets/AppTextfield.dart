@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTextField extends StatefulWidget {
   final String tfValue;
@@ -14,6 +15,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Widget icon;
   final bool autovalidate;
+  //final Widget inputFormatters;
 
   const AppTextField({
     this.tfValue,
@@ -29,6 +31,7 @@ class AppTextField extends StatefulWidget {
     this.keyboardType,
     this.icon,
     this.autovalidate = false,
+    // this.inputFormatters,
   });
 
   @override
@@ -54,6 +57,9 @@ class _AppTextFieldState extends State<AppTextField> {
       validator: widget.validator,
       onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
+      // inputFormatters: [
+      //   new LengthLimitingTextInputFormatter(10),
+      // ],
     );
 
     if (widget.flexible) {

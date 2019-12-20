@@ -3,7 +3,12 @@
 //
 
 #import "GeneratedPluginRegistrant.h"
+
+#if __has_include(<drawerbehavior/DrawerbehaviorPlugin.h>)
 #import <drawerbehavior/DrawerbehaviorPlugin.h>
+#else
+@import drawerbehavior;
+#endif
 
 @implementation GeneratedPluginRegistrant
 
