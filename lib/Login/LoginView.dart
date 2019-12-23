@@ -109,7 +109,7 @@ class _LoginViewState extends State<LoginView> {
     return Column(
       children: <Widget>[
         Image.asset(
-          'assets/foodzi_logo.jpg',
+          'assets/Logo/foodzi_logo.jpg',
           //height: 100,
         ),
         SizedBox(height: 10),
@@ -200,7 +200,7 @@ class _LoginViewState extends State<LoginView> {
           height: 5,
           child: MaterialButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/Registerview');
+              Navigator.pushNamed(context, '/ResetPasswordview');
             },
             child: Text(
               KEY_FORGET_PASSWORD,
@@ -241,7 +241,7 @@ class _LoginViewState extends State<LoginView> {
       child: MaterialButton(
         elevation: 0,
         onPressed: () {
-          Navigator.pushNamed(context, '/RegisterView');
+          Navigator.pushNamed(context, '/OTPScreen');
         },
         child: Text(
           KEY_OTP_SIGN_IN,
@@ -266,7 +266,7 @@ class _LoginViewState extends State<LoginView> {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/Landingview');
+              Navigator.pushNamed(context, '/Registerview');
             },
             child: new Text(
               KEY_SIGNUP,
@@ -275,22 +275,6 @@ class _LoginViewState extends State<LoginView> {
                   fontWeight: FontWeight.bold),
             ),
           )
-
-          // ButtonTheme(
-          //   // height: 10,
-          //   minWidth: 2,
-          //   buttonColor: Colors.white,
-          //   child: RaisedButton(
-          //     elevation: 0,
-          //     child: Text(
-          //       'Sign Up',
-          //       style: TextStyle(color: Color.fromRGBO(34, 180, 91, 0.80)),
-          //     ),
-          //     onPressed: () {
-          //       // Navigator.pushNamed(context, '/Landingview');
-          //     },
-          //   ),
-          // )
         ],
       ),
     );

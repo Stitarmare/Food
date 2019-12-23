@@ -27,6 +27,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   # Http 
   http: ^0.12.0+2
+  pin_code_text_field: ^1.5.1
 
 dev_dependencies:
   flutter_test:
@@ -46,9 +47,25 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-      - assets/foodzi_logo.jpg
-      - assets/foodzi_logo@2x.jpg
-      - assets/foodzi_logo@3x.jpg
+      #splashscreen Images
+      - assets/SplashScreen/Group_1567.jpg
+      - assets/SplashScreen/Group_1567@2x.jpg
+      - assets/SplashScreen/Group_1567@3x.jpg
+      
+      #Logo Images  
+      - assets/Logo/foodzi_logo.jpg
+      - assets/Logo/foodzi_logo@2x.jpg
+      - assets/Logo/foodzi_logo@3x.jpg
+      #Lock Images
+      - assets/LockImage/Group_1560.png
+      - assets/LockImage/Group_1560@2x.png
+      - assets/LockImage/Group_1560@3x.png
+      #Phone Images
+      - assets/PhoneImage/Group_295.png
+      - assets/PhoneImage/Group_295@2x.png
+      - assets/PhoneImage/Group_295@3x.png
+      
+      
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -62,17 +79,20 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: HelveticaNeue
+      fonts:
+        - asset: fonts/HelveticaNeue.ttf
+      
+
+
+    - family: gotham
+      fonts:
+        - asset: fonts/gotham-book.ttf
+        - asset: fonts/gotham-Light.ttf
+          weight: 300
+        - asset: fonts/gotham-medium.ttf
+          weight: 500 
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

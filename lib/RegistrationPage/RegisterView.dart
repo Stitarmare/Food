@@ -56,7 +56,7 @@ class _RegisterviewState extends State<Registerview> {
     );
   }
 
-  void onSignInButtonClicked() {
+  void onSignUpButtonClicked() {
     if (_signUpFormKey.currentState.validate()) {
       _signUpFormKey.currentState.save();
       Navigator.pushNamed(context, '/Landingview');
@@ -85,11 +85,11 @@ class _RegisterviewState extends State<Registerview> {
                   SizedBox(
                     height: 50,
                   ),
-                  _signinButton(),
+                  _signUpButton(),
                   SizedBox(
                     height: 80,
                   ),
-                  _signupbutton()
+                  _signinbutton()
                 ],
               ),
             ),
@@ -103,7 +103,7 @@ class _RegisterviewState extends State<Registerview> {
     return Column(
       children: <Widget>[
         Image.asset(
-          'assets/foodzi_logo.jpg',
+          'assets/Logo/foodzi_logo.jpg',
           //height: 100,
         ),
         SizedBox(height: 10),
@@ -208,13 +208,13 @@ class _RegisterviewState extends State<Registerview> {
     return null;
   }
 
-  Widget _signinButton() {
+  Widget _signUpButton() {
     return ButtonTheme(
       minWidth: 350,
       height: 50,
       child: RaisedButton(
         color: Color.fromRGBO(34, 180, 91, 0.80),
-        onPressed: () => onSignInButtonClicked(),
+        onPressed: () => onSignUpButtonClicked(),
         child: Text(
           KEY_SIGN_UP,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -229,7 +229,7 @@ class _RegisterviewState extends State<Registerview> {
     );
   }
 
-  Widget _signupbutton() {
+  Widget _signinbutton() {
     return LimitedBox(
       child: Row(
         //crossAxisAlignment: CrossAxisAlignment.end,
