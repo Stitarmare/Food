@@ -6,7 +6,7 @@ import './LandingPage/LandingView.dart';
 
 import './RegistrationPage/RegisterView.dart';
 import './ResetPassword/ResetPassView.dart';
-import './SplashScreen/Splashscreen.dart';
+import './SplashScreenPage/Splashscreen.dart';
 
 import './Otp/OtpView.dart';
 import './EnterOTP/EnterOtp.dart';

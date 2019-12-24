@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: <Widget>[
             //SizedBox(height: 30),
             Image.asset(
-              'assets/SplashScreen/Group_1567@2x.jpg',
+              'assets/SplashScreen/LauncherScreen.png',
               // width: 900,
               fit: BoxFit.fill,
               // height: 500.0,
