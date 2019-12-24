@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class Registerview extends StatefulWidget {
@@ -87,7 +88,7 @@ class _RegisterviewState extends State<Registerview> {
                   ),
                   _signUpButton(),
                   SizedBox(
-                    height: 80,
+                    height: 112,
                   ),
                   _signinbutton()
                 ],
@@ -107,16 +108,23 @@ class _RegisterviewState extends State<Registerview> {
           //height: 100,
         ),
         SizedBox(height: 10),
-        Text('ORDER EASY'),
+        Text(
+          'ORDER EASY',
+          style: TextStyle(
+              fontFamily: 'HelveticaNeue',
+              fontSize: 11,
+              color: greytheme400,
+              fontWeight: FontWeight.w700,letterSpacing: 1),
+        ),
         SizedBox(
           height: 5,
         ),
         Divider(
           color: Colors.green,
-          indent: 140,
-          endIndent: 140,
+          indent: 145,
+          endIndent: 145,
           height: 10,
-          thickness: 4,
+          thickness: 3,
         )
       ],
     );
@@ -128,7 +136,7 @@ class _RegisterviewState extends State<Registerview> {
       children: <Widget>[
         AppTextField(
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.person,color: greentheme100,),
           placeHolderName: Key_USER_NAME,
           validator: validatename,
           onSaved: (String value) {
@@ -140,7 +148,7 @@ class _RegisterviewState extends State<Registerview> {
         ),
         AppTextField(
           keyboardType: TextInputType.phone,
-          icon: Icon(Icons.call),
+          icon: Icon(Icons.call,color: greentheme100),
           placeHolderName: KEY_MOBILE_NUMBER,
           validator: validatemobno,
           onSaved: (String value) {
@@ -156,7 +164,7 @@ class _RegisterviewState extends State<Registerview> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key),
+              child: Icon(Icons.vpn_key,color: greentheme100),
             ),
           ),
           validator: validatepassword,
@@ -210,14 +218,14 @@ class _RegisterviewState extends State<Registerview> {
 
   Widget _signUpButton() {
     return ButtonTheme(
-      minWidth: 350,
-      height: 50,
+      minWidth: 280,
+      height: 54,
       child: RaisedButton(
-        color: Color.fromRGBO(34, 180, 91, 0.80),
+        color: greentheme100,
         onPressed: () => onSignUpButtonClicked(),
         child: Text(
           KEY_SIGN_UP,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,fontFamily: 'gotham'),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -235,7 +243,11 @@ class _RegisterviewState extends State<Registerview> {
         //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Already have an Account?"),
+          Text("Already have an Account?",style: TextStyle(
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme100,
+                fontSize: 16),),
           SizedBox(
             width: 3,
           ),
@@ -245,9 +257,11 @@ class _RegisterviewState extends State<Registerview> {
             },
             child: new Text(
               KEY_SIGNIN,
-              style: TextStyle(
-                  color: Color.fromRGBO(34, 180, 91, 0.80),
-                  fontWeight: FontWeight.bold),
+               style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 16),
             ),
           )
         ],

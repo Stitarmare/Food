@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class EnterOTPScreen extends StatefulWidget {
@@ -78,19 +79,32 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
                 children: <Widget>[
                   _buildImagelogo(),
                   SizedBox(
-                    height: 10,
+                    height: 40,
                   ),
-                  Text(
-                    KEY_VERFICATION_OTP,
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 18),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: Text(
+                      KEY_GET_OTP_ENTER_NO,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontFamily: 'SegoeUI',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                        color: greytheme200
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
                   ),
+                  SizedBox(height:45),
                   AppTextField(
                     keyboardType: TextInputType.phone,
-                    icon: Icon(Icons.call),
+                    icon: Icon(
+                      Icons.call,
+                      color: greentheme100,
+                    ),
                     placeHolderName: KEY_MOBILE_NUMBER,
                     validator: validatemobno,
                     onSaved: (String value) {
@@ -98,7 +112,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
                     },
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 90,
                   ),
                   _submitButtonClicked(),
                 ],
@@ -139,14 +153,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
 
   Widget _submitButtonClicked() {
     return ButtonTheme(
-      minWidth: 350,
-      height: 50,
+      minWidth: 280,
+      height: 54,
       child: RaisedButton(
-        color: Color.fromRGBO(34, 180, 91, 0.80),
+        color: greentheme100,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16,fontFamily: 'gotham', fontWeight: FontWeight.w700),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,

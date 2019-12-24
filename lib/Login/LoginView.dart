@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class LoginView extends StatefulWidget {
@@ -85,15 +86,15 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   _forgotpassword(),
                   SizedBox(
-                    height: 30,
+                    height: 27,
                   ),
                   _signinButton(),
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   _otptext(),
                   SizedBox(
-                    height: 30,
+                    height: 80,
                   ),
                   _signupbutton()
                 ],
@@ -113,16 +114,20 @@ class _LoginViewState extends State<LoginView> {
           //height: 100,
         ),
         SizedBox(height: 10),
-        Text('ORDER EASY'),
+        Text('ORDER EASY',style: TextStyle(
+              fontFamily: 'HelveticaNeue',
+              fontSize: 11,
+              color: greytheme400,
+              fontWeight: FontWeight.w700,letterSpacing: 1),),
         SizedBox(
           height: 5,
         ),
         Divider(
           color: Colors.green,
-          indent: 140,
-          endIndent: 140,
+          indent: 145,
+          endIndent: 145,
           height: 10,
-          thickness: 4,
+          thickness: 3,
         )
       ],
     );
@@ -134,7 +139,10 @@ class _LoginViewState extends State<LoginView> {
       children: <Widget>[
         AppTextField(
           keyboardType: TextInputType.phone,
-          icon: Icon(Icons.call),
+          icon: Icon(
+            Icons.call,
+            color: greentheme100,
+          ),
           placeHolderName: KEY_MOBILE_NUMBER,
           validator: validatemobno,
           onSaved: (String value) {
@@ -150,7 +158,10 @@ class _LoginViewState extends State<LoginView> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key),
+              child: Icon(
+                Icons.vpn_key,
+                color: greentheme100,
+              ),
             ),
           ),
           validator: validatepassword,
@@ -205,7 +216,10 @@ class _LoginViewState extends State<LoginView> {
             child: Text(
               KEY_FORGET_PASSWORD,
               style: TextStyle(
-                  fontSize: 15, color: Color.fromRGBO(72, 189, 111, 0.80)),
+                  fontSize: 12,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  color: greentheme100),
             ),
           ),
         )
@@ -215,14 +229,15 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _signinButton() {
     return ButtonTheme(
-      minWidth: 350,
-      height: 50,
+      minWidth: 280,
+      height: 54,
       child: RaisedButton(
-        color: Color.fromRGBO(34, 180, 91, 0.80),
+        color: greentheme100,
         onPressed: () => onSignInButtonClicked(),
         child: Text(
           KEY_SIGN_IN,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'gotham'),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -246,8 +261,10 @@ class _LoginViewState extends State<LoginView> {
         child: Text(
           KEY_OTP_SIGN_IN,
           style: TextStyle(
-            fontSize: 20,
-            color: Color.fromRGBO(34, 180, 91, 0.80),
+            fontSize: 16,
+            fontFamily: 'gotham',
+            fontWeight: FontWeight.w600,
+            color: greentheme100,
           ),
         ),
       ),
@@ -260,7 +277,14 @@ class _LoginViewState extends State<LoginView> {
         //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Don't have an account?"),
+          Text(
+            "Don't have an account?",
+            style: TextStyle(
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme100,
+                fontSize: 16),
+          ),
           SizedBox(
             width: 3,
           ),
@@ -271,8 +295,10 @@ class _LoginViewState extends State<LoginView> {
             child: new Text(
               KEY_SIGNUP,
               style: TextStyle(
-                  color: Color.fromRGBO(34, 180, 91, 0.80),
-                  fontWeight: FontWeight.bold),
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 16),
             ),
           )
         ],

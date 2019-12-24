@@ -92,7 +92,15 @@ flutter:
         - asset: fonts/gotham-Light.ttf
           weight: 300
         - asset: fonts/gotham-medium.ttf
-          weight: 500 
+          weight: 500
+        - asset: fonts/gotham-Bold.ttf
+          weight: 700
+
+
+    - family: SegoeUI
+      fonts:
+        - asset: fonts/segoe-ui.ttf
   #
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

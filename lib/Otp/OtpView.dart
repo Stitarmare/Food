@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 //import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -68,7 +69,10 @@ class _OTPScreenState extends State<OTPScreen> {
               children: <Widget>[
                 Text(
                   KEY_VERFICATION_OTP,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w400),
                 )
               ],
             ),
@@ -77,14 +81,17 @@ class _OTPScreenState extends State<OTPScreen> {
               children: <Widget>[
                 Text(
                   'mobile number',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w400),
                 )
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 35),
             _mobnoEntered(),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             _buidOTPtextinput(),
             SizedBox(
@@ -114,7 +121,7 @@ class _OTPScreenState extends State<OTPScreen> {
         padding: const EdgeInsets.all(40.0),
         child: PinCodeTextField(
           wrapAlignment: WrapAlignment.center,
-          pinBoxWidth: 35.0,
+          pinBoxWidth: 36.0,
           pinBoxHeight: 41.0,
           defaultBorderColor: Colors.grey[300],
           hasTextBorderColor: Colors.green,
@@ -140,7 +147,12 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   Widget _mobnoEntered() {
-    return Text('+91-12345 67890');
+    return Text('+91-12345 67890',
+        style: TextStyle(
+            color: greytheme300,
+            fontFamily: 'gotham',
+            fontWeight: FontWeight.w600,
+            fontSize: 16));
   }
 
   Widget _submitButton() {
@@ -148,11 +160,11 @@ class _OTPScreenState extends State<OTPScreen> {
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: Color.fromRGBO(34, 180, 91, 0.80),
+        color: greentheme100,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w600),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,

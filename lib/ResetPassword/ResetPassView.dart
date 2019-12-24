@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class ResetPasswordview extends StatefulWidget {
@@ -43,7 +44,7 @@ class _ResetPasswordview extends State<ResetPasswordview> {
 
   Widget mainview() {
     return Container(
-      margin: EdgeInsets.fromLTRB(30, 10, 30, 0),
+      margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,21 +84,25 @@ class _ResetPasswordview extends State<ResetPasswordview> {
                 children: <Widget>[
                   _buildImagelogo(),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Text(
-                    'RESET YOUR PASSWORD',
-                    style: TextStyle(fontFamily: 'gotham-book'),
+                    'Reset Your Password',
+                    style: TextStyle(
+                        fontFamily: 'gotham',
+                        color: greytheme300,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
-                    height: 60,
+                    height: 20,
                   ),
                   _buildTextField(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 78,
                   ),
                   _signinButton(),
                 ],
@@ -131,7 +136,10 @@ class _ResetPasswordview extends State<ResetPasswordview> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key),
+              child: Icon(
+                Icons.vpn_key,
+                color: greentheme100,
+              ),
             ),
           ),
           validator: validatepassword,
@@ -148,7 +156,10 @@ class _ResetPasswordview extends State<ResetPasswordview> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key),
+              child: Icon(
+                Icons.vpn_key,
+                color: greentheme100,
+              ),
             ),
           ),
           validator: validatepassword,
@@ -172,14 +183,15 @@ class _ResetPasswordview extends State<ResetPasswordview> {
 
   Widget _signinButton() {
     return ButtonTheme(
-      minWidth: 350,
-      height: 50,
+      minWidth: 280,
+      height: 54,
       child: RaisedButton(
-        color: Color.fromRGBO(34, 180, 91, 0.80),
+        color: greentheme100,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'gotham'),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
