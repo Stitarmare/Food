@@ -95,15 +95,15 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
             _buidOTPtextinput(),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             _resendOtp(),
             SizedBox(
-              height: 30,
+              height: 25,
             ),
             _submitButton(),
             SizedBox(
-              height: 20,
+              height: 50,
             ),
             _anothernumber()
           ],
@@ -126,7 +126,9 @@ class _OTPScreenState extends State<OTPScreen> {
     return Container(
       alignment: Alignment.center,
       child: Padding(
-        padding: const EdgeInsets.all(40.0),
+        //padding: const EdgeInsets.all(40.0),
+        padding: const EdgeInsets.only(left:40.0,right: 40.0, top: 42),
+
         child: PinCodeTextField(
           wrapAlignment: WrapAlignment.center,
           pinBoxWidth: 36.0,
@@ -187,7 +189,7 @@ class _OTPScreenState extends State<OTPScreen> {
 
   Widget _anothernumber() {
     return LimitedBox(
-      child: Text(KEY_PROVIDE_ANOTHER_NO),
+      child: Text(KEY_PROVIDE_ANOTHER_NO,style: TextStyle(color: greentheme100,fontFamily: 'gotham',fontSize: 16,fontWeight: FontWeight.w600),),
     );
   }
 
@@ -201,8 +203,8 @@ class _OTPScreenState extends State<OTPScreen> {
             style: TextStyle(
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w600,
-                color: greytheme100,
-                fontSize: 16),
+                color: greytheme200,
+                fontSize: 14),
           ),
           SizedBox(
             width: 3,
@@ -214,10 +216,10 @@ class _OTPScreenState extends State<OTPScreen> {
             child: new Text(
               'RESEND',
               style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
+                  color: greytheme200,
+                  fontWeight: FontWeight.w900,
                   fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontSize: 14),
             ),
           )
         ],
