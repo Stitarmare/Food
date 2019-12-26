@@ -68,6 +68,14 @@ flutter:
       - assets/LandingImage/Group1561.png
       - assets/LandingImage/Group1561@2x.png
       - assets/LandingImage/Group1561@3x.png
+      #DineIn
+      - assets/DineInImage/Group1504.png
+      - assets/DineInImage/Group1504@2x.png
+      - assets/DineInImage/Group1504@3x.png
+      #TakeAway
+      - assets/TakeAwayImage/Group1505.png
+      - assets/TakeAwayImage/Group1505@2x.png
+      - assets/TakeAwayImage/Group1505@3x.png
       
       
       
