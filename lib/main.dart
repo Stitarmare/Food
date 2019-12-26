@@ -33,3 +33,10 @@ void main() => runApp(MaterialApp(
       ),
       routes: routes,
     ));
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return null;
+  }
+}

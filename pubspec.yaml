@@ -64,9 +64,14 @@ flutter:
       - assets/PhoneImage/Group_295.png
       - assets/PhoneImage/Group_295@2x.png
       - assets/PhoneImage/Group_295@3x.png
+      #Landing
+      - assets/LandingImage/Group1561.png
+      - assets/LandingImage/Group1561@2x.png
+      - assets/LandingImage/Group1561@3x.png
       
       
-
+      
+     
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

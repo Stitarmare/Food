@@ -5,6 +5,7 @@ const KEY_LAST_NAME = 'Last Name';
 const KEY_EMAIL_ID = 'Email ID';
 const KEY_PASSWORD = 'Password';
 const KEY_MOBILE_NUMBER = 'Mobile Number';
+const KEY_PROVIDE_ANOTHER_NO = 'Provide Another Number';
 const KEY_MOBILE_NUMBER_REQUIRED = 'Mobile Number is Required';
 const KEY_MOBILE_NUMBER_LIMIT = 'Mobile No. must have 10 digits only';
 const KEY_MOBILE_NUMBER_TEXT = 'Mobile No. must be digits';

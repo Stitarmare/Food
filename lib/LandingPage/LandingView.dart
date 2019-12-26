@@ -12,10 +12,27 @@ class _LandingStateView extends State<Landingview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Text('data'),
+        leading: new IconButton(icon: new Icon(Icons.settings), onPressed: () {}
+            // _scaffoldKey.currentState.openDrawer()
+            /// backgroundColor: Colors.blue,
+            // title: Text('data'),
+            ),
       ),
-      body: Text("Welcome TO LANDING PAGE"),
+      body: _getmainView(),
     );
   }
+}
+
+Widget _getmainView() {
+  return LimitedBox(
+    child: Container(
+      child: Column(
+        children: <Widget>[_buildimage()],
+      ),
+    ),
+  );
+}
+
+Widget _buildimage() {
+  return Image.asset('assets/LandingImage/Group1561.png');
 }

@@ -95,9 +95,17 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
             _buidOTPtextinput(),
             SizedBox(
-              height: 50,
+              height: 10,
+            ),
+            _resendOtp(),
+            SizedBox(
+              height: 30,
             ),
             _submitButton(),
+            SizedBox(
+              height: 20,
+            ),
+            _anothernumber()
           ],
         ),
       ),
@@ -164,7 +172,8 @@ class _OTPScreenState extends State<OTPScreen> {
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
-          style: TextStyle(fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w600),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -172,6 +181,46 @@ class _OTPScreenState extends State<OTPScreen> {
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(32.0),
             side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
+      ),
+    );
+  }
+
+  Widget _anothernumber() {
+    return LimitedBox(
+      child: Text(KEY_PROVIDE_ANOTHER_NO),
+    );
+  }
+
+  Widget _resendOtp() {
+    return LimitedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "Didn’t received the code?",
+            style: TextStyle(
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme100,
+                fontSize: 16),
+          ),
+          SizedBox(
+            width: 3,
+          ),
+          new GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/Registerview');
+            },
+            child: new Text(
+              'RESEND',
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 16),
+            ),
+          )
+        ],
       ),
     );
   }

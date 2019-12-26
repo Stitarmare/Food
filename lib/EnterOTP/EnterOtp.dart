@@ -88,17 +88,16 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       style: TextStyle(
-                        fontFamily: 'SegoeUI',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                        color: greytheme200
-                      ),
+                          fontFamily: 'SegoeUI',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: greytheme200),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
                   ),
-                  SizedBox(height:45),
+                  SizedBox(height: 45),
                   AppTextField(
                     keyboardType: TextInputType.phone,
                     icon: Icon(
@@ -160,7 +159,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
-          style: TextStyle(fontSize: 16,fontFamily: 'gotham', fontWeight: FontWeight.w700),
+          style: TextStyle(
+              fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w700),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
