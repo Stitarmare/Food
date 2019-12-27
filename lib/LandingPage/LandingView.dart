@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class Landingview extends StatefulWidget {
   @override
@@ -14,13 +15,21 @@ class _LandingStateView extends State<Landingview> {
       appBar: AppBar(
         actions: <Widget>[
           new IconButton(
-            icon: new Icon(Icons.notifications),
+            icon: new Icon(
+              Icons.notifications,
+              color: greytheme100,
+            ),
             onPressed: () {},
           )
         ],
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: new IconButton(icon: new Icon(Icons.menu), onPressed: () {}
+        leading: new IconButton(
+            icon: new Icon(
+              Icons.menu,
+              color: greytheme100,
+            ),
+            onPressed: () {}
             // _scaffoldKey.currentState.openDrawer()
             /// backgroundColor: Colors.blue,
             // title: Text('data'),
@@ -42,7 +51,7 @@ Widget _getmainView() {
           ),
           _buildMaintext(),
           SizedBox(
-            height: 10,
+            height: 16,
           ),
           _cardoption()
         ],
@@ -73,15 +82,32 @@ Widget _buidtext() {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Hello'),
+        Text(
+          'Hello',
+          style: TextStyle(
+              fontSize: 16,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500,
+              color: greytheme100),
+        ),
         SizedBox(
           height: 10,
         ),
-        Text('George'),
+        Text('George',
+        style: TextStyle(
+              fontSize: 32,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w600,
+              color: greytheme500),),
         SizedBox(
-          height: 10,
+          height: 12,
         ),
-        Text('All your favourites at your fingertip !!')
+        Text('All your favourites at your fingertip !!',
+        style: TextStyle(
+              fontSize: 14,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500,
+              color: greytheme100))
       ],
     ),
   );
@@ -129,7 +155,7 @@ Widget _dineincard() {
               SizedBox(
                 width: 40,
               ),
-              Icon(Icons.navigate_next)
+              Icon(Icons.navigate_next,color: greytheme600,)
             ],
           ),
         ),
@@ -146,11 +172,21 @@ Widget _buildinningtext() {
       SizedBox(
         height: 20,
       ),
-      Text('Dine-in'),
+      Text('Dine-in',
+      style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w600,
+              color: greentheme100)),
       SizedBox(
         height: 15,
       ),
-      Text('Get served in Restaurant'),
+      Text('Get served in Restaurant',
+      style: TextStyle(
+              fontSize: 14,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500,
+              color: greytheme100)),
     ],
   );
 }
@@ -181,7 +217,7 @@ Widget _takeAwaycard() {
               SizedBox(
                 width: 40,
               ),
-              Icon(Icons.navigate_next)
+              Icon(Icons.navigate_next,color: greytheme600,)
             ],
           ),
         ),
@@ -198,11 +234,21 @@ Widget _buildTakeAwaytext() {
       SizedBox(
         height: 20,
       ),
-      Text('Take Away'),
+      Text('Take Away',
+      style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w600,
+              color: greentheme100)),
       SizedBox(
         height: 15,
       ),
-      Text('Get served in Restaurant'),
+      Text('Get served in Restaurant',
+      style: TextStyle(
+              fontSize: 14,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500,
+              color: greytheme100)),
     ],
   );
 }
