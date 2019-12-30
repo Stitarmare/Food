@@ -12,10 +12,10 @@ import './Otp/OtpView.dart';
 import './EnterOTP/EnterOtp.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => Landingview(),
+  '/': (BuildContext context) => MainWidget(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
-  '/Landingview': (BuildContext context) => Landingview(),
+  '/MainWidget': (BuildContext context) => MainWidget(),
   '/Registerview': (BuildContext context) => Registerview(),
   '/ResetPasswordview': (BuildContext context) => ResetPasswordview(),
   '/OTPScreen': (BuildContext context) => OTPScreen(),

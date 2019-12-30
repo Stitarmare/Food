@@ -76,6 +76,15 @@ flutter:
       - assets/TakeAwayImage/Group1505.png
       - assets/TakeAwayImage/Group1505@2x.png
       - assets/TakeAwayImage/Group1505@3x.png
+      #ProfileImage
+      - assets/ProfileImage/MaskGroup15.png
+      - assets/ProfileImage/MaskGroup15@2x.png
+      - assets/ProfileImage/MaskGroup15@3x.png
+      #MenuIcon
+      - assets/MenuIcon/menu.png
+      - assets/MenuIcon/menu@2x.png
+      - assets/MenuIcon/menu@3x.png
+
       
       
       

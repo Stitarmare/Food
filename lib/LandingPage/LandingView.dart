@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/Drawer/drawer.dart';
 
-class Landingview extends StatefulWidget {
+class Landingview extends DrawerContent {
+  Landingview({Key key, this.title});
+  final String title;
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
@@ -24,16 +27,21 @@ class _LandingStateView extends State<Landingview> {
         ],
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: new IconButton(
-            icon: new Icon(
-              Icons.menu,
-              color: greytheme100,
-            ),
-            onPressed: () {}
-            // _scaffoldKey.currentState.openDrawer()
-            /// backgroundColor: Colors.blue,
-            // title: Text('data'),
-            ),
+        // leading: new IconButton(
+        //     icon: new Icon(
+        //       Icons.menu,
+        //       color: greytheme100,
+        //     ),
+        //     onPressed: widget.onMenuPressed
+
+        //     // _scaffoldKey.currentState.openDrawer()
+        //     /// backgroundColor: Colors.blue,
+        //     // title: Text('data'),
+        //     ),
+        leading: IconButton(
+            icon: Image.asset('assets/MenuIcon/menu.png'),
+            onPressed: widget.onMenuPressed,
+          ),
       ),
       body: SingleChildScrollView(child: _getmainView()),
     );
@@ -93,21 +101,23 @@ Widget _buidtext() {
         SizedBox(
           height: 10,
         ),
-        Text('George',
-        style: TextStyle(
+        Text(
+          'George',
+          style: TextStyle(
               fontSize: 32,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w600,
-              color: greytheme500),),
+              color: greytheme500),
+        ),
         SizedBox(
           height: 12,
         ),
         Text('All your favourites at your fingertip !!',
-        style: TextStyle(
-              fontSize: 14,
-              fontFamily: 'gotham',
-              fontWeight: FontWeight.w500,
-              color: greytheme100))
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme100))
       ],
     ),
   );
@@ -155,7 +165,10 @@ Widget _dineincard() {
               SizedBox(
                 width: 40,
               ),
-              Icon(Icons.navigate_next,color: greytheme600,)
+              Icon(
+                Icons.navigate_next,
+                color: greytheme600,
+              )
             ],
           ),
         ),
@@ -173,7 +186,7 @@ Widget _buildinningtext() {
         height: 20,
       ),
       Text('Dine-in',
-      style: TextStyle(
+          style: TextStyle(
               fontSize: 20,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w600,
@@ -182,7 +195,7 @@ Widget _buildinningtext() {
         height: 15,
       ),
       Text('Get served in Restaurant',
-      style: TextStyle(
+          style: TextStyle(
               fontSize: 14,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w500,
@@ -217,7 +230,10 @@ Widget _takeAwaycard() {
               SizedBox(
                 width: 40,
               ),
-              Icon(Icons.navigate_next,color: greytheme600,)
+              Icon(
+                Icons.navigate_next,
+                color: greytheme600,
+              )
             ],
           ),
         ),
@@ -235,7 +251,7 @@ Widget _buildTakeAwaytext() {
         height: 20,
       ),
       Text('Take Away',
-      style: TextStyle(
+          style: TextStyle(
               fontSize: 20,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w600,
@@ -244,11 +260,176 @@ Widget _buildTakeAwaytext() {
         height: 15,
       ),
       Text('Get served in Restaurant',
-      style: TextStyle(
+          style: TextStyle(
               fontSize: 14,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w500,
               color: greytheme100)),
     ],
   );
+}
+
+class MainWidget extends StatefulWidget {
+  MainWidget({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  _MainWidgetState createState() => _MainWidgetState();
+}
+
+class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
+  HiddenDrawerController _drawerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _drawerController = HiddenDrawerController(
+      initialPage: Landingview(
+        title: 'main',
+      ),
+      items: [
+        DrawerItem(
+            text: Text('Home',
+                style: TextStyle(
+                    color: greytheme800,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15)),
+            icon: Icon(Icons.home,size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Home',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text('Settings',
+                style: TextStyle(
+                    color: greytheme800,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15)),
+            icon: Icon(Icons.settings,size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Gallery',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Terms & Conditions',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.description,size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Favorites',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Privacy Policy',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.verified_user,size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Notification',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'About Us',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.info,size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'invite',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Help',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.help, color: greytheme800,size: 20,),
+            page: Landingview(
+              title: 'SETTINGS',
+            ),
+            onPressed: null),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: HiddenDrawer(
+        controller: _drawerController,
+        header: Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 0.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  // height: 75,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   //border: Border.all(color: Colors.red, width: 1)
+                  // ),
+                  // padding: EdgeInsets.only(left: 2.0),
+                  //width: MediaQuery.of(context).size.width * 0.3,
+                  // child: Padding(
+                  //   padding: EdgeInsets.only(left: 5.0),
+                    child: ClipOval(
+                        child: Image.asset(
+                      'assets/ProfileImage/MaskGroup15@3x.png',
+                      width: 70,
+                      height: 70,
+                    )),
+                  ),
+                // ),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 30.0),
+                  child: Text(
+                    'George Thomas',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: greytheme700,
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          // gradient: LinearGradient(
+          //   begin: Alignment.topRight,
+          //   end: Alignment.bottomLeft,
+          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
+          //   // tileMode: TileMode.repeated,
+          // ),
+        ),
+      ),
+    );
+  }
 }
