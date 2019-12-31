@@ -39,9 +39,9 @@ class _LandingStateView extends State<Landingview> {
         //     // title: Text('data'),
         //     ),
         leading: IconButton(
-            icon: Image.asset('assets/MenuIcon/menu.png'),
-            onPressed: widget.onMenuPressed,
-          ),
+          icon: Image.asset('assets/MenuIcon/menu.png'),
+          onPressed: widget.onMenuPressed,
+        ),
       ),
       body: SingleChildScrollView(child: _getmainView()),
     );
@@ -295,7 +295,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     fontFamily: 'gotham',
                     fontWeight: FontWeight.w600,
                     fontSize: 15)),
-            icon: Icon(Icons.home,size: 20, color: greytheme800),
+            icon: Icon(Icons.home, size: 20, color: greytheme800),
             page: Landingview(
               title: 'Home',
             ),
@@ -307,7 +307,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     fontFamily: 'gotham',
                     fontWeight: FontWeight.w600,
                     fontSize: 15)),
-            icon: Icon(Icons.settings,size: 20, color: greytheme800),
+            icon: Icon(Icons.settings, size: 20, color: greytheme800),
             page: Landingview(
               title: 'Gallery',
             ),
@@ -321,7 +321,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
-            icon: Icon(Icons.description,size: 20, color: greytheme800),
+            icon: Icon(Icons.description, size: 20, color: greytheme800),
             page: Landingview(
               title: 'Favorites',
             ),
@@ -335,7 +335,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
-            icon: Icon(Icons.verified_user,size: 20, color: greytheme800),
+            icon: Icon(Icons.verified_user, size: 20, color: greytheme800),
             page: Landingview(
               title: 'Notification',
             ),
@@ -349,7 +349,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
-            icon: Icon(Icons.info,size: 20, color: greytheme800),
+            icon: Icon(Icons.info, size: 20, color: greytheme800),
             page: Landingview(
               title: 'invite',
             ),
@@ -363,7 +363,11 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
-            icon: Icon(Icons.help, color: greytheme800,size: 20,),
+            icon: Icon(
+              Icons.help,
+              color: greytheme800,
+              size: 20,
+            ),
             page: Landingview(
               title: 'SETTINGS',
             ),
@@ -375,24 +379,24 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HiddenDrawer(
-        controller: _drawerController,
-        header: Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 0.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  // height: 75,
-                  // decoration: BoxDecoration(
-                  //   shape: BoxShape.circle,
-                  //   //border: Border.all(color: Colors.red, width: 1)
-                  // ),
-                  // padding: EdgeInsets.only(left: 2.0),
-                  //width: MediaQuery.of(context).size.width * 0.3,
-                  // child: Padding(
-                  //   padding: EdgeInsets.only(left: 5.0),
+      body:  HiddenDrawer(
+          controller: _drawerController,
+          header: Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 0.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    // height: 75,
+                    // decoration: BoxDecoration(
+                    //   shape: BoxShape.circle,
+                    //   //border: Border.all(color: Colors.red, width: 1)
+                    // ),
+                    // padding: EdgeInsets.only(left: 2.0),
+                    //width: MediaQuery.of(context).size.width * 0.3,
+                    // child: Padding(
+                    //   padding: EdgeInsets.only(left: 5.0),
                     child: ClipOval(
                         child: Image.asset(
                       'assets/ProfileImage/MaskGroup15@3x.png',
@@ -400,36 +404,37 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                       height: 70,
                     )),
                   ),
-                // ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    'George Thomas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500),
+                  // ),
+                  SizedBox(
+                    height: 16,
                   ),
-                )
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      'George Thomas',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: greytheme700,
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            // gradient: LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
+            //   // tileMode: TileMode.repeated,
+            // ),
+          ),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // gradient: LinearGradient(
-          //   begin: Alignment.topRight,
-          //   end: Alignment.bottomLeft,
-          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
-          //   // tileMode: TileMode.repeated,
-          // ),
-        ),
-      ),
+      
     );
   }
 }
