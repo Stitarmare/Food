@@ -39,7 +39,6 @@ class DrawerItem extends StatelessWidget {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(left: 16, right: 8),
-
                   // padding: EdgeInsets.only(left: 25, right: 16),
                   child: icon,
                 ),
@@ -218,7 +217,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: animation.value * 16),
+                        padding: EdgeInsets.only(left: animation.value * 10),
                         child: ClipRRect(
                           borderRadius: radiusAnimation.value,
                           child: Container(
