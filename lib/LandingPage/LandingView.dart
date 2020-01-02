@@ -28,6 +28,7 @@ class _LandingStateView extends State<Landingview> {
         ],
         backgroundColor: Colors.white,
         elevation: 0,
+
         leading: new IconButton(
             icon: new Icon(
               Icons.menu,
@@ -38,6 +39,22 @@ class _LandingStateView extends State<Landingview> {
             /// backgroundColor: Colors.blue,
             // title: Text('data'),
             ),
+
+        // leading: new IconButton(
+        //     icon: new Icon(
+        //       Icons.menu,
+        //       color: greytheme100,
+        //     ),
+        //     onPressed: widget.onMenuPressed
+
+        //     // _scaffoldKey.currentState.openDrawer()
+        //     /// backgroundColor: Colors.blue,
+        //     // title: Text('data'),
+        //     ),
+        // leading: IconButton(
+        //   icon: Image.asset('assets/MenuIcon/menu.png'),
+        //   onPressed: widget.onMenuPressed,
+        // ),
       ),
       body: SingleChildScrollView(child: _getmainView()),
     );
@@ -341,6 +358,90 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             title: 'SETTINGS',
           ),
         ),
+        DrawerItem(
+            text: Text('Home',
+                style: TextStyle(
+                    color: greytheme800,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15)),
+            icon: Icon(Icons.home, size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Home',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text('Settings',
+                style: TextStyle(
+                    color: greytheme800,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15)),
+            icon: Icon(Icons.settings, size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Gallery',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Terms & Conditions',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.description, size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Favorites',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Privacy Policy',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.verified_user, size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'Notification',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'About Us',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(Icons.info, size: 20, color: greytheme800),
+            page: Landingview(
+              title: 'invite',
+            ),
+            onPressed: null),
+        DrawerItem(
+            text: Text(
+              'Help',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Icon(
+              Icons.help,
+              color: greytheme800,
+              size: 20,
+            ),
+            page: Landingview(
+              title: 'SETTINGS',
+            ),
+            onPressed: null)
       ],
     );
   }
@@ -352,41 +453,40 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         controller: _drawerController,
         header: Align(
           alignment: Alignment.topLeft,
-          child: Column(
-            children: <Widget>[
-              Container(
-                // height: 75,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.red, width: 5)),
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: ClipOval(
-                    // child: Image(
-                    //   fit: BoxFit.contain,
-                    //   // image: NetworkImage(
-                    //   //   'https://scontent.fktm7-1.fna.fbcdn.net/v/t1.0-9/48405358_683680282028761_2233474687176802304_n.jpg?_nc_cat=111&_nc_oc=AQnJcz3nmJPgqG0Koen6EyPPOQktub5ubjD7KdFTstGLQRNrKupGp3hOZ-twJGEK2fM&_nc_ht=scontent.fktm7-1.fna&oh=caed7075e39bcdcd38b333395161516d&oe=5DD670D5',
-                    //   // ),
-                    // ),
-                    ),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Text(
-                'Siddhartha joshi',
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              )
-            ],
+          child: Padding(
+            padding: EdgeInsets.only(left: 0.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: ClipOval(
+                      child: Image.asset(
+                    'assets/ProfileImage/MaskGroup15@3x.png',
+                    width: 70,
+                    height: 70,
+                  )),
+                ),
+                // ),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 30.0),
+                  child: Text(
+                    'George Thomas',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: greytheme700,
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
-            // tileMode: TileMode.repeated,
-          ),
+          color: Colors.white,
         ),
       ),
     );
