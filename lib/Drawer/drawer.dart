@@ -38,7 +38,9 @@ class DrawerItem extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(left: 25, right: 16),
+                  padding: EdgeInsets.only(left: 16, right: 8),
+
+                  // padding: EdgeInsets.only(left: 25, right: 16),
                   child: icon,
                 ),
                 text

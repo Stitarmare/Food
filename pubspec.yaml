@@ -28,7 +28,8 @@ dependencies:
   # Http 
   http: ^0.12.0+2
   pin_code_text_field: ^1.5.1
-  shared_preferences:
+  #shared_preferences:
+  shared_preferences: ^0.5.6
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,11 @@ flutter:
       - assets/TakeAwayImage/Group1505.png
       - assets/TakeAwayImage/Group1505@2x.png
       - assets/TakeAwayImage/Group1505@3x.png
+      #HotelImages
+      - assets/HotelImages/Image12.png
+      - assets/HotelImages/Image12@2x.png
+      - assets/HotelImages/Image12@3x.png
+
       #ProfileImage
       - assets/ProfileImage/MaskGroup15.png
       - assets/ProfileImage/MaskGroup15@2x.png
@@ -87,6 +93,8 @@ flutter:
       - assets/MenuIcon/menu@3x.png
 
       
+      
+
       
       
      

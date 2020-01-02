@@ -10,9 +10,10 @@ import './SplashScreenPage/Splashscreen.dart';
 
 import './Otp/OtpView.dart';
 import './EnterOTP/EnterOtp.dart';
+import './DineInPage/DineInView.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => MainWidget(),
+  '/': (BuildContext context) => DineInView(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
@@ -20,6 +21,7 @@ var routes = <String, WidgetBuilder>{
   '/ResetPasswordview': (BuildContext context) => ResetPasswordview(),
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
+  '/DineInView': (BuildContext context) => DineInView(),
 };
 
 void main() => runApp(MaterialApp(
