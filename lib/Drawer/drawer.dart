@@ -78,7 +78,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
         setState(() {});
       });
     scaleAnimation =
-        Tween<double>(begin: 1.0, end: 0.86).animate(animationController);
+        Tween<double>(begin: 1.0, end: 0.75).animate(animationController);
     radiusAnimation = BorderRadiusTween(
             begin: BorderRadius.circular(0.0), end: BorderRadius.circular(32))
         .animate(
@@ -193,7 +193,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
             scale: scaleAnimation.value,
             child: Transform.translate(
                 offset: Offset(
-                    MediaQuery.of(context).size.width * 0.66 * animation.value,
+                    MediaQuery.of(context).size.width * 0.65 * animation.value,
                     0.0),
                 child: AbsorbPointer(
                   absorbing: isMenuOpen,

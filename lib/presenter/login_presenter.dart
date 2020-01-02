@@ -1,14 +1,14 @@
-abstract class LoginPresenterInterface {
-  void onSuccessLogin();
-  void onFaieldLogin();
-}
+// abstract class LoginPresenterInterface {
+//   void onSuccessLogin();
+//   void onFaieldLogin();
+// }
 
-class LoginPresenter {
-  LoginPresenterInterface _view;
-  LoginPresenter(this._view);
+// class LoginPresenter {
+//   LoginPresenterInterface _view;
+//   LoginPresenter(this._view);
 
-  void callLogin() {
-    _view.onSuccessLogin();
-  }
+//   void callLogin() {
+//     _view.onSuccessLogin();
+//   }
 
-}
+// }
