@@ -53,10 +53,11 @@ class DrawerItem extends StatelessWidget {
 }
 
 class HiddenDrawer extends StatefulWidget {
-  HiddenDrawer({this.header, this.decoration, this.controller});
+  HiddenDrawer({this.header, this.decoration, this.controller,this.isOpen});
   BoxDecoration decoration;
   Widget header;
   HiddenDrawerController controller;
+  final bool isOpen;
   @override
   _HiddenDrawerState createState() => _HiddenDrawerState();
 }
@@ -118,6 +119,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
 
   openDrawer() {
     animationController.forward();
+    
     setState(() {
       isMenuOpen = true;
     });

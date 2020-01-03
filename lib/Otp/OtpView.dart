@@ -127,9 +127,10 @@ class _OTPScreenState extends State<OTPScreen> {
       alignment: Alignment.center,
       child: Padding(
         //padding: const EdgeInsets.all(40.0),
-        padding: const EdgeInsets.only(left:40.0,right: 40.0, top: 42),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 42),
 
         child: PinCodeTextField(
+          maxLength: 6,
           wrapAlignment: WrapAlignment.center,
           pinBoxWidth: 36.0,
           pinBoxHeight: 41.0,
@@ -141,7 +142,7 @@ class _OTPScreenState extends State<OTPScreen> {
           onDone: (String value) {
             print(value);
           },
-          pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 15.0),
+          pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),
     );
@@ -189,7 +190,17 @@ class _OTPScreenState extends State<OTPScreen> {
 
   Widget _anothernumber() {
     return LimitedBox(
-      child: Text(KEY_PROVIDE_ANOTHER_NO,style: TextStyle(color: greentheme100,fontFamily: 'gotham',fontSize: 16,fontWeight: FontWeight.w600),),
+      child: FlatButton(
+          child: Text(
+        KEY_PROVIDE_ANOTHER_NO,
+        style: TextStyle(
+            color: greentheme100,
+            fontFamily: 'gotham',
+            fontSize: 16,
+            fontWeight: FontWeight.w600),
+      ), onPressed: () {
+        Navigator.pushNamed(context, '/EnterOTPScreen');
+      },),
     );
   }
 
@@ -211,7 +222,33 @@ class _OTPScreenState extends State<OTPScreen> {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/Registerview');
+             // Navigator.pushNamed(context, '/Registerview');
+             return showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                title: const Text("OTP Sent",
+                textAlign: TextAlign.center,style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 22),),
+                content: Text('OTP has been successfully send to your mobile number.',textAlign: TextAlign.center,style: TextStyle(
+                  color: greytheme100,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'gotham',
+                  fontSize: 20),),
+                actions: [
+                 FlatButton(  
+                  child: const Text("OK", style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+        );
             },
             child: new Text(
               'RESEND',

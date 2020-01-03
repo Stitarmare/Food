@@ -1,66 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
-
 class Landingview extends DrawerContent {
-  Landingview({Key key, this.title});
+  Landingview({Key key, this.title,this.isOpen});
   final String title;
-
+  final bool isOpen;
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
   }
 }
-
 class _LandingStateView extends State<Landingview> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Card(
+      elevation: 100.0,
+          child: Scaffold(
       appBar: AppBar(
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(
-              Icons.notifications,
-              color: greytheme100,
-            ),
-            onPressed: () {},
-          )
+      new IconButton(
+        icon: new Icon(
+          Icons.notifications,
+          color: greytheme100,
+        ),
+        onPressed: () {},
+      )
         ],
         backgroundColor: Colors.white,
         elevation: 0,
-
-        leading: new IconButton(
-            icon: new Icon(
-              Icons.menu,
-              color: greytheme100,
-            ),
-            onPressed: widget.onMenuPressed
-            // _scaffoldKey.currentState.openDrawer()
-            /// backgroundColor: Colors.blue,
-            // title: Text('data'),
-            ),
-
         // leading: new IconButton(
         //     icon: new Icon(
         //       Icons.menu,
         //       color: greytheme100,
         //     ),
         //     onPressed: widget.onMenuPressed
-
         //     // _scaffoldKey.currentState.openDrawer()
         //     /// backgroundColor: Colors.blue,
         //     // title: Text('data'),
         //     ),
-        // leading: IconButton(
-        //   icon: Image.asset('assets/MenuIcon/menu.png'),
-        //   onPressed: widget.onMenuPressed,
-        // ),
+        leading: IconButton(
+      icon: Image.asset('assets/MenuIcon/menu.png'),
+      onPressed: widget.onMenuPressed,
+        ),
       ),
       body: SingleChildScrollView(child: _getmainView()),
+      ),
     );
   }
 }
-
 Widget _getmainView() {
   return LimitedBox(
     child: Container(
@@ -80,13 +67,11 @@ Widget _getmainView() {
     ),
   );
 }
-
 Widget _buildimage() {
   return Image.asset(
     'assets/LandingImage/Group1561.png',
   );
 }
-
 Widget _buildMaintext() {
   return Row(
     children: <Widget>[
@@ -97,7 +82,6 @@ Widget _buildMaintext() {
     ],
   );
 }
-
 Widget _buidtext() {
   return LimitedBox(
     child: Column(
@@ -135,7 +119,6 @@ Widget _buidtext() {
     ),
   );
 }
-
 Widget _cardoption() {
   return LimitedBox(
     child: Container(
@@ -151,7 +134,6 @@ Widget _cardoption() {
     ),
   );
 }
-
 Widget _dineincard() {
   return Center(
     child: Card(
@@ -189,7 +171,6 @@ Widget _dineincard() {
     ),
   );
 }
-
 Widget _buildinningtext() {
   return Column(
     //mainAxisAlignment: MainAxisAlignment.start,
@@ -216,7 +197,6 @@ Widget _buildinningtext() {
     ],
   );
 }
-
 Widget _takeAwaycard() {
   return Center(
     child: Card(
@@ -254,7 +234,6 @@ Widget _takeAwaycard() {
     ),
   );
 }
-
 Widget _buildTakeAwaytext() {
   return Column(
     //mainAxisAlignment: MainAxisAlignment.start,
@@ -281,18 +260,14 @@ Widget _buildTakeAwaytext() {
     ],
   );
 }
-
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
-
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
-
   @override
   void initState() {
     super.initState();
@@ -301,63 +276,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         title: 'main',
       ),
       items: [
-        DrawerItem(
-          text: Text('Home', style: TextStyle(color: Colors.white)),
-          icon: Icon(Icons.home, color: Colors.white),
-          page: Landingview(
-            title: 'Home',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Gallery',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.photo_album, color: Colors.white),
-          page: Landingview(
-            title: 'Gallery',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Favorites',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.favorite, color: Colors.white),
-          page: Landingview(
-            title: 'Favorites',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Notification',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.notifications, color: Colors.white),
-          page: Landingview(
-            title: 'Notification',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Invite',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.insert_invitation, color: Colors.white),
-          page: Landingview(
-            title: 'invite',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'SETTINGS',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.settings, color: Colors.white),
-          page: Landingview(
-            title: 'SETTINGS',
-          ),
-        ),
         DrawerItem(
             text: Text('Home',
                 style: TextStyle(
@@ -441,69 +359,69 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'SETTINGS',
             ),
-            onPressed: null)
+            onPressed: null),
       ],
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HiddenDrawer(
-        controller: _drawerController,
-        header: Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 0.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  // height: 75,
-                  // decoration: BoxDecoration(
-                  //   shape: BoxShape.circle,
-                  //   //border: Border.all(color: Colors.red, width: 1)
-                  // ),
-                  // padding: EdgeInsets.only(left: 2.0),
-                  //width: MediaQuery.of(context).size.width * 0.3,
-                  // child: Padding(
-                  //   padding: EdgeInsets.only(left: 5.0),
-                  child: ClipOval(
-                      child: Image.asset(
-                    'assets/ProfileImage/MaskGroup15@3x.png',
-                    width: 70,
-                    height: 70,
-                  )),
-                ),
-                // ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    'George Thomas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500),
+      body:  HiddenDrawer(
+          controller: _drawerController,
+          header: Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(left: 0.0),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    // height: 75,
+                    // decoration: BoxDecoration(
+                    //   shape: BoxShape.circle,
+                    //   //border: Border.all(color: Colors.red, width: 1)
+                    // ),
+                    // padding: EdgeInsets.only(left: 2.0),
+                    //width: MediaQuery.of(context).size.width * 0.3,
+                    // child: Padding(
+                    //   padding: EdgeInsets.only(left: 5.0),
+                    child: ClipOval(
+                        child: Image.asset(
+                      'assets/ProfileImage/MaskGroup15@3x.png',
+                      width: 70,
+                      height: 70,
+                    )),
                   ),
-                )
-              ],
+                  // ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0),
+                    child: Text(
+                      'George Thomas',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: greytheme700,
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            // gradient: LinearGradient(
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomLeft,
+            //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
+            //   // tileMode: TileMode.repeated,
+            // ),
+          ),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // gradient: LinearGradient(
-          //   begin: Alignment.topRight,
-          //   end: Alignment.bottomLeft,
-          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
-          //   // tileMode: TileMode.repeated,
-          // ),
-        ),
-      ),
+      
     );
   }
 }
