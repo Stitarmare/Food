@@ -5,7 +5,6 @@ import 'package:foodzi/Drawer/drawer.dart';
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title});
   final String title;
-
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
@@ -28,18 +27,6 @@ class _LandingStateView extends State<Landingview> {
         ],
         backgroundColor: Colors.white,
         elevation: 0,
-
-        leading: new IconButton(
-            icon: new Icon(
-              Icons.menu,
-              color: greytheme100,
-            ),
-            onPressed: widget.onMenuPressed
-            // _scaffoldKey.currentState.openDrawer()
-            /// backgroundColor: Colors.blue,
-            // title: Text('data'),
-            ),
-
         // leading: new IconButton(
         //     icon: new Icon(
         //       Icons.menu,
@@ -51,10 +38,10 @@ class _LandingStateView extends State<Landingview> {
         //     /// backgroundColor: Colors.blue,
         //     // title: Text('data'),
         //     ),
-        // leading: IconButton(
-        //   icon: Image.asset('assets/MenuIcon/menu.png'),
-        //   onPressed: widget.onMenuPressed,
-        // ),
+        leading: IconButton(
+          icon: Image.asset('assets/MenuIcon/menu.png'),
+          onPressed: widget.onMenuPressed,
+        ),
       ),
       body: SingleChildScrollView(child: _getmainView()),
     );
@@ -302,63 +289,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ),
       items: [
         DrawerItem(
-          text: Text('Home', style: TextStyle(color: Colors.white)),
-          icon: Icon(Icons.home, color: Colors.white),
-          page: Landingview(
-            title: 'Home',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Gallery',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.photo_album, color: Colors.white),
-          page: Landingview(
-            title: 'Gallery',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Favorites',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.favorite, color: Colors.white),
-          page: Landingview(
-            title: 'Favorites',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Notification',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.notifications, color: Colors.white),
-          page: Landingview(
-            title: 'Notification',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'Invite',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.insert_invitation, color: Colors.white),
-          page: Landingview(
-            title: 'invite',
-          ),
-        ),
-        DrawerItem(
-          text: Text(
-            'SETTINGS',
-            style: TextStyle(color: Colors.white),
-          ),
-          icon: Icon(Icons.settings, color: Colors.white),
-          page: Landingview(
-            title: 'SETTINGS',
-          ),
-        ),
-        DrawerItem(
             text: Text('Home',
                 style: TextStyle(
                     color: greytheme800,
@@ -441,7 +371,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'SETTINGS',
             ),
-            onPressed: null)
+            onPressed: null),
       ],
     );
   }
@@ -458,6 +388,15 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 Container(
+                  // height: 75,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   //border: Border.all(color: Colors.red, width: 1)
+                  // ),
+                  // padding: EdgeInsets.only(left: 2.0),
+                  //width: MediaQuery.of(context).size.width * 0.3,
+                  // child: Padding(
+                  //   padding: EdgeInsets.only(left: 5.0),
                   child: ClipOval(
                       child: Image.asset(
                     'assets/ProfileImage/MaskGroup15@3x.png',
@@ -487,6 +426,12 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         ),
         decoration: BoxDecoration(
           color: Colors.white,
+          // gradient: LinearGradient(
+          //   begin: Alignment.topRight,
+          //   end: Alignment.bottomLeft,
+          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
+          //   // tileMode: TileMode.repeated,
+          // ),
         ),
       ),
     );

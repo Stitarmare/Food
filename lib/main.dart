@@ -12,8 +12,11 @@ import './Otp/OtpView.dart';
 import './EnterOTP/EnterOtp.dart';
 import './DineInPage/DineInView.dart';
 
+import './ProfilePage/ProfileScreen.dart';
+import './EditProfile/EditProfileView.dart';
+
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => DineInView(),
+  '/': (BuildContext context) => EditProfileview(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
@@ -22,6 +25,8 @@ var routes = <String, WidgetBuilder>{
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
+  '/ProfileScreen': (BuildContext context) => ProfileScreen(),
+  '/EditProfileview': (BuildContext context) => EditProfileview()
 };
 
 void main() => runApp(MaterialApp(

@@ -29,6 +29,7 @@ dependencies:
   http: ^0.12.0+2
   pin_code_text_field: ^1.5.1
   shared_preferences: ^0.5.6
+  background_app_bar: ^1.0.1 
 
 dev_dependencies:
   flutter_test:
@@ -81,7 +82,6 @@ flutter:
       - assets/HotelImages/Image12.png
       - assets/HotelImages/Image12@2x.png
       - assets/HotelImages/Image12@3x.png
-
       #ProfileImage
       - assets/ProfileImage/MaskGroup15.png
       - assets/ProfileImage/MaskGroup15@2x.png

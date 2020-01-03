@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class DineInView extends StatefulWidget {
@@ -20,21 +22,21 @@ class _DineViewState extends State<DineInView> {
 
 Widget _getMainView() {
   return Container(
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Stack(
-          children: <Widget>[
-            Center(
-              child: Image.asset(
-                'assets/HotelImages/Image12.png',
-                width: 400,
-                fit: BoxFit.cover,
-              ),
-            )
-          ],
-        )
-      ],
+    decoration: new BoxDecoration(
+      image: new DecorationImage(
+        image: new ExactAssetImage('assets/HotelImages/Image12.png'),
+        fit: BoxFit.cover,
+      ),
+    ),
+    child: new BackdropFilter(
+      filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+      child: new Container(
+        decoration: new BoxDecoration(color: Colors.white.withOpacity(0.0)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[],
+        ),
+      ),
     ),
   );
 }
