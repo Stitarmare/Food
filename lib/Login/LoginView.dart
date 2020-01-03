@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/Login/LoginContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+
+import 'LoginPresenter.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -13,13 +16,21 @@ class LoginView extends StatefulWidget {
   }
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginView> implements LoginModelView{
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
 
   bool _validate = false;
+  var loginPresenter;
+  @override
+  void initState() {
+    // TODO: implement initState
+    loginPresenter = LoginPresenter(this);
+    super.initState();
+  }
+
 
   final Map<String, dynamic> _signInData = {
     mobno: null,
@@ -57,8 +68,9 @@ class _LoginViewState extends State<LoginView> {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      _signInFormKey.currentState.save();
-      Navigator.pushNamed(context, '/Landingview');
+      loginPresenter.performLogin("7972223220", "12345678",context);
+      // _signInFormKey.currentState.save();
+      // Navigator.pushNamed(context, '/Landingview');
     } else {
       setState(() {
         _validate = true;
@@ -304,5 +316,17 @@ class _LoginViewState extends State<LoginView> {
         ],
       ),
     );
+  }
+
+  @override
+  void loginFailed() {
+    // TODO: implement loginFailed
+  }
+
+  @override
+  void loginSuccess() {
+    // TODO: implement loginSuccess
+     _signInFormKey.currentState.save();
+      Navigator.pushNamed(context, '/MainWidget');
   }
 }

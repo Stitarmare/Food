@@ -4,17 +4,23 @@ PODS:
   - Flutter (1.0.0)
   - shared_preferences (0.0.1):
     - Flutter
+<<<<<<< HEAD
   - shared_preferences_macos (0.0.1):
     - Flutter
   - shared_preferences_web (0.0.1):
     - Flutter
+=======
+>>>>>>> cf7eea4514df10b110bdc8360c8d6d357d4e2779
 
 DEPENDENCIES:
   - drawerbehavior (from `.symlinks/plugins/drawerbehavior/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+<<<<<<< HEAD
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+=======
+>>>>>>> cf7eea4514df10b110bdc8360c8d6d357d4e2779
 
 EXTERNAL SOURCES:
   drawerbehavior:
@@ -23,17 +29,23 @@ EXTERNAL SOURCES:
     :path: ".symlinks/flutter/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+<<<<<<< HEAD
   shared_preferences_macos:
     :path: ".symlinks/plugins/shared_preferences_macos/ios"
   shared_preferences_web:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
+=======
+>>>>>>> cf7eea4514df10b110bdc8360c8d6d357d4e2779
 
 SPEC CHECKSUMS:
   drawerbehavior: 688832bffec482cabacd8db3248ba582e1c2ea92
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+<<<<<<< HEAD
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+=======
+>>>>>>> cf7eea4514df10b110bdc8360c8d6d357d4e2779
 
 PODFILE CHECKSUM: b6a0a141693093b304368d08511b46cf3d1d0ac5
 

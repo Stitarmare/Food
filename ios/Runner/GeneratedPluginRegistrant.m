@@ -10,8 +10,8 @@
 @import drawerbehavior;
 #endif
 
-#if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
-#import <shared_preferences/FLTSharedPreferencesPlugin.h>
+#if __has_include(<shared_preferences/SharedPreferencesPlugin.h>)
+#import <shared_preferences/SharedPreferencesPlugin.h>
 #else
 @import shared_preferences;
 #endif

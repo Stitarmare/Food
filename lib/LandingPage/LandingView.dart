@@ -3,8 +3,9 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
 class Landingview extends DrawerContent {
-  Landingview({Key key, this.title});
+  Landingview({Key key, this.title, this.isOpen});
   final String title;
+  final bool isOpen;
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
@@ -14,36 +15,38 @@ class Landingview extends DrawerContent {
 class _LandingStateView extends State<Landingview> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          new IconButton(
-            icon: new Icon(
-              Icons.notifications,
-              color: greytheme100,
-            ),
-            onPressed: () {},
-          )
-        ],
-        backgroundColor: Colors.white,
-        elevation: 0,
-        // leading: new IconButton(
-        //     icon: new Icon(
-        //       Icons.menu,
-        //       color: greytheme100,
-        //     ),
-        //     onPressed: widget.onMenuPressed
-
-        //     // _scaffoldKey.currentState.openDrawer()
-        //     /// backgroundColor: Colors.blue,
-        //     // title: Text('data'),
-        //     ),
-        leading: IconButton(
-          icon: Image.asset('assets/MenuIcon/menu.png'),
-          onPressed: widget.onMenuPressed,
+    return Card(
+      elevation: 100.0,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(
+                Icons.notifications,
+                color: greytheme100,
+              ),
+              onPressed: () {},
+            )
+          ],
+          backgroundColor: Colors.white,
+          elevation: 0,
+          // leading: new IconButton(
+          //     icon: new Icon(
+          //       Icons.menu,
+          //       color: greytheme100,
+          //     ),
+          //     onPressed: widget.onMenuPressed
+          //     // _scaffoldKey.currentState.openDrawer()
+          //     /// backgroundColor: Colors.blue,
+          //     // title: Text('data'),
+          //     ),
+          leading: IconButton(
+            icon: Image.asset('assets/MenuIcon/menu.png'),
+            onPressed: widget.onMenuPressed,
+          ),
         ),
+        body: SingleChildScrollView(child: _getmainView()),
       ),
-      body: SingleChildScrollView(child: _getmainView()),
     );
   }
 }
@@ -272,14 +275,12 @@ Widget _buildTakeAwaytext() {
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
-
   @override
   void initState() {
     super.initState();
