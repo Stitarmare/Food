@@ -23,14 +23,6 @@ class _EditProfileState extends State<EditProfileview> {
                   fontSize: 18,
                   fontFamily: 'gotham',
                   fontWeight: FontWeight.w500)),
-          leading: IconButton(
-            color: greytheme700,
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 22,
-            ),
-            onPressed: null,
-          ),
         ),
         body: SingleChildScrollView(
           child: _getmainView(context),
@@ -68,12 +60,7 @@ Widget _getmainView(BuildContext context) {
         SizedBox(
           height: 28,
         ),
-        BoxAppTextField(
-          placeHolderName: 'City',
-        ),
-        SizedBox(
-          height: 28,
-        ),
+        
         BoxAppTextField(
           placeHolderName: 'Country',
         ),
@@ -82,6 +69,12 @@ Widget _getmainView(BuildContext context) {
         ),
         BoxAppTextField(
           placeHolderName: 'State',
+        ),
+        SizedBox(
+          height: 28,
+        ),
+        BoxAppTextField(
+          placeHolderName: 'City',
         ),
         SizedBox(
           height: 28,
@@ -101,8 +94,8 @@ Widget _getmainView(BuildContext context) {
               height: 43,
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(6.0),
-                    ),
+                  borderRadius: new BorderRadius.circular(6.0),
+                ),
                 color: greentheme100,
                 child: Text(
                   'UPDATE',
@@ -123,8 +116,7 @@ Widget _getmainView(BuildContext context) {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(6.0),
-                    side: BorderSide(color: greytheme1100)
-                    ),
+                    side: BorderSide(color: greytheme1100)),
                 child: Text(
                   'CANCEL',
                   style: TextStyle(

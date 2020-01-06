@@ -16,7 +16,7 @@ import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => BottomNavigationBarExample(),
+  '/': (BuildContext context) => ProfileScreen(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
@@ -25,8 +25,7 @@ var routes = <String, WidgetBuilder>{
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
-  '/BottomNavigationBarExample': (BuildContext context) =>
-      BottomNavigationBarExample(),
+  '/ProfileScreen': (BuildContext context) => ProfileScreen(),
   '/EditProfileview': (BuildContext context) => EditProfileview()
 };
 
