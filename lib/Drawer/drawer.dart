@@ -38,7 +38,8 @@ class DrawerItem extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(left: 25, right: 16),
+                  padding: EdgeInsets.only(left: 16, right: 8),
+                  // padding: EdgeInsets.only(left: 25, right: 16),
                   child: icon,
                 ),
                 text
@@ -52,10 +53,11 @@ class DrawerItem extends StatelessWidget {
 }
 
 class HiddenDrawer extends StatefulWidget {
-  HiddenDrawer({this.header, this.decoration, this.controller});
+  HiddenDrawer({this.header, this.decoration, this.controller,this.isOpen});
   BoxDecoration decoration;
   Widget header;
   HiddenDrawerController controller;
+  final bool isOpen;
   @override
   _HiddenDrawerState createState() => _HiddenDrawerState();
 }
@@ -78,7 +80,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
         setState(() {});
       });
     scaleAnimation =
-        Tween<double>(begin: 1.0, end: 0.86).animate(animationController);
+        Tween<double>(begin: 1.0, end: 0.75).animate(animationController);
     radiusAnimation = BorderRadiusTween(
             begin: BorderRadius.circular(0.0), end: BorderRadius.circular(32))
         .animate(
@@ -117,6 +119,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
 
   openDrawer() {
     animationController.forward();
+    
     setState(() {
       isMenuOpen = true;
     });
@@ -193,7 +196,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
             scale: scaleAnimation.value,
             child: Transform.translate(
                 offset: Offset(
-                    MediaQuery.of(context).size.width * 0.66 * animation.value,
+                    MediaQuery.of(context).size.width * 0.65 * animation.value,
                     0.0),
                 child: AbsorbPointer(
                   absorbing: isMenuOpen,
@@ -216,7 +219,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: animation.value * 16),
+                        padding: EdgeInsets.only(left: animation.value * 10),
                         child: ClipRRect(
                           borderRadius: radiusAnimation.value,
                           child: Container(

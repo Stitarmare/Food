@@ -329,4 +329,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView{
      _signInFormKey.currentState.save();
       Navigator.pushNamed(context, '/MainWidget');
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> afa9d5c262f04a53507ec8d07b81e61f6c921cae

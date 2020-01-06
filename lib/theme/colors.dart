@@ -18,9 +18,10 @@ const themeAppAccentColor = Colors.cyan;
 const themeAppSurfaceWhite = const Color(0xFFFFFBFA);
 const themeAppBackgroundWhite = Colors.white;
 
+//Green themes
 const greentheme =  Color.fromRGBO(15, 22, 35, 1);
 const greentheme100 =  Color.fromRGBO(55, 180, 76, 1);
-//grey themes
+//Grey themes
 const greytheme100 =  Color.fromRGBO(170, 170, 170, 1);
 const greytheme200 =  Color.fromRGBO(58, 63, 67, 0.7);
 const greytheme300 =  Color.fromRGBO(51, 51, 51, 0.8);
@@ -29,8 +30,11 @@ const greytheme500 =  Color.fromRGBO(118, 118, 118, 0.8);
 const greytheme600 =  Color.fromRGBO(213, 213, 213, 1);
 const greytheme700 =  Color.fromRGBO(64, 64, 64, 1);
 const greytheme800 =  Color.fromRGBO(170, 170, 170, 0.7);
+const greytheme900 =  Color.fromRGBO(221, 221, 221, 1);
+const greytheme1000 =  Color.fromRGBO(118, 118, 118, 1);
+const greytheme1100 =  Color.fromRGBO(170, 170, 170, 1);
 
-
+//Orange themes
 const orangetheme =  Color.fromRGBO(242, 154, 41, 1);
 
 
