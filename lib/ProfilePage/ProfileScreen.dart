@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,47 +18,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
       //   title: Text('My Profile'),
       //   backgroundColor: Colors.transparent,
       // ),
-      body: SingleChildScrollView(
-        child: Stack(
-          //fit: StackFit.expand,
-          children: <Widget>[
-            Image.asset(
-              'assets/HotelImages/Image12.png',
-              width: MediaQuery.of(context).size.width,
-              height: 180,
-              fit: BoxFit.fitWidth,
-            ),
-            Center(
-              child: ClipRect(
-                // <-- clips to the 200x200 [Container] below
-                child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(
-                    sigmaX: 5.0,
-                    sigmaY: 5.0,
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(0, 400, 0, 0),
-                    alignment: Alignment.topCenter,
-                    // width: 400.0,
-                    // height: 400.0,
-                    child: Text('Hello World'),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: SingleChildScrollView(child: _getMainView()),
     );
   }
 }
 
 Widget _getMainView() {
   return Container(
-      child: Column(
+      child: Stack(
     children: <Widget>[
-      CircleAvatar(
-        child: Image.asset('assets/ProfileImage/MaskGroup15.png'),
+      Image.asset('assets/BlurImage/Group1612.png'),
+      Positioned(
+        child: Text(
+          'My Profile',
+          style: TextStyle(color: Colors.white),
+        ),
+        left: 12,
+        top: 10,
+      ),
+      Positioned(
+        child: ClipOval(
+          child: Image.asset('assets/ProfileImage/MaskGroup15.png'),
+        ),
+        left: 20,
       ),
     ],
   ));

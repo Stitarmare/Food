@@ -90,6 +90,11 @@ flutter:
       - assets/MenuIcon/menu.png
       - assets/MenuIcon/menu@2x.png
       - assets/MenuIcon/menu@3x.png
+      #BlurImages
+      - assets/BlurImage/Group1612.png
+      - assets/BlurImage/Group1612@2x.png
+      - assets/BlurImage/Group1612@3x.png
+
 
       
       
