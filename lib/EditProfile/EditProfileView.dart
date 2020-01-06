@@ -14,6 +14,7 @@ class _EditProfileState extends State<EditProfileview> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           backgroundColor: Colors.white,
           centerTitle: false,
           title: Text("Edit Profile",
@@ -32,12 +33,12 @@ class _EditProfileState extends State<EditProfileview> {
           ),
         ),
         body: SingleChildScrollView(
-          child: _getmainView(),
+          child: _getmainView(context),
         ));
   }
 }
 
-Widget _getmainView() {
+Widget _getmainView(BuildContext context) {
   return Container(
     padding: EdgeInsets.all(30),
     child: Column(
@@ -96,7 +97,7 @@ Widget _getmainView() {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              width: 140,
+              width: MediaQuery.of(context).size.width * 0.39,
               height: 43,
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
@@ -116,7 +117,7 @@ Widget _getmainView() {
             ),
             // SizedBox(width:14,),
             Container(
-              width: 140,
+              width: MediaQuery.of(context).size.width * 0.39,
               height: 43,
               child: RaisedButton(
                 color: Colors.white,
