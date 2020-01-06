@@ -379,62 +379,83 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  HiddenDrawer(
-          controller: _drawerController,
-          header: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 0.0),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    // height: 75,
-                    // decoration: BoxDecoration(
-                    //   shape: BoxShape.circle,
-                    //   //border: Border.all(color: Colors.red, width: 1)
-                    // ),
-                    // padding: EdgeInsets.only(left: 2.0),
-                    //width: MediaQuery.of(context).size.width * 0.3,
-                    // child: Padding(
-                    //   padding: EdgeInsets.only(left: 5.0),
-                    child: ClipOval(
-                        child: Image.asset(
-                      'assets/ProfileImage/MaskGroup15@3x.png',
-                      width: 70,
-                      height: 70,
-                    )),
-                  ),
+      body: HiddenDrawer(
+        controller: _drawerController,
+        header: Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 0.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  // height: 75,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   //border: Border.all(color: Colors.red, width: 1)
                   // ),
-                  SizedBox(
-                    height: 16,
+                  // padding: EdgeInsets.only(left: 2.0),
+                  //width: MediaQuery.of(context).size.width * 0.3,
+                  // child: Padding(
+                  //   padding: EdgeInsets.only(left: 5.0),
+                  // child: ClipOval(
+                  //     child: Image.asset(
+                  //   'assets/ProfileImage/MaskGroup15@3x.png',
+                  //   width: 70,
+                  //   height: 70,
+                  // )
+                  // ),
+                  child: Stack(
+                    alignment:Alignment(-1.5,0.6),
+                    children: <Widget>[
+                      Container(width: MediaQuery.of(context).size.width * 0.6,
+                      alignment: Alignment(-8, 0),
+                        child: Image.asset(
+                          'assets/DrawerUpLayer/Group 1562.png',
+                          // width: MediaQuery.of(context).size.width * 0.6,
+                          // fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      ClipOval(
+                          child: Image.asset(
+                        'assets/ProfileImage/MaskGroup15@3x.png',
+                        width: 70,
+                        height: 70,
+                      )),
+                    ],
+                    overflow: Overflow.visible,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 30.0),
-                    child: Text(
-                      'George Thomas',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: greytheme700,
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                // ),
+                SizedBox(
+                  height: 16,
+                ),
+                Row(
+                                  children:<Widget>[
+                                    SizedBox(width: 25,),
+                                    Text(
+                    'George Thomas',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: greytheme700,
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500),
+                  ),] 
+                )
+              ],
             ),
           ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            // gradient: LinearGradient(
-            //   begin: Alignment.topRight,
-            //   end: Alignment.bottomLeft,
-            //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
-            //   // tileMode: TileMode.repeated,
-            // ),
-          ),
         ),
-      
+        decoration: BoxDecoration(
+          color: Colors.white,
+          // gradient: LinearGradient(
+          //   begin: Alignment.topRight,
+          //   end: Alignment.bottomLeft,
+          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
+          //   // tileMode: TileMode.repeated,
+          // ),
+        ),
+      ),
     );
   }
 }

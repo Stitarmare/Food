@@ -85,6 +85,14 @@ flutter:
       - assets/MenuIcon/menu.png
       - assets/MenuIcon/menu@2x.png
       - assets/MenuIcon/menu@3x.png
+      #DrawerUpLayer
+      - assets/DrawerUpLayer/Group 1562.png
+      - assets/DrawerUpLayer/Group 1562@2x.png
+      - assets/DrawerUpLayer/Group 1562@3x.png
+       #DrawerDownLayer
+      - assets/DrawerDownLayer/Group 1563.png
+      - assets/DrawerDownLayer/Group 1563@2x.png
+      - assets/DrawerDownLayer/Group 1563@3x.png
 
       
       

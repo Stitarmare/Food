@@ -227,7 +227,8 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       )
                     ],
                   ),
-                )),
+                )
+                ),
           )
         ],
       ),
