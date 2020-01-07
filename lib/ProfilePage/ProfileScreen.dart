@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -13,8 +14,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
+    return SafeArea(
+      top: true,
+      bottom: true,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
@@ -42,7 +44,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Text(
                         "My Profile",
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
@@ -75,33 +81,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _getMainView() {
     return Center(
       child: Container(
+          padding: EdgeInsets.only(left: 36, right: 36),
           child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 30,
-          ),
-          Text('George Thomas'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('gthomas45@hotmail.com | +61 9876 5432.'),
-          SizedBox(
-            height: 10,
-          ),
-          Text('600 Creswick Rd, Ballarat Central VIC 3350,Australia'),
-          SizedBox(
-            height: 20,
-          ),
-          Divider(
-            endIndent: 20,
-            indent: 20,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          _profileOptions()
-        ],
-      )),
+            children: <Widget>[
+              SizedBox(
+                height: 53,
+              ),
+              Text(
+                'George Thomas',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: greytheme1200,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Text(
+                'gthomas45@hotmail.com | +61 9876 5432.',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: greytheme1200,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                '600 Creswick Rd, Ballarat Central VIC 3350,Australia',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: greytheme1200,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 27,
+              ),
+              Divider(
+                thickness: 2,
+                endIndent: 72,
+                indent: 72,
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              _profileOptions()
+            ],
+          )),
     );
   }
 
@@ -116,14 +146,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_EDIT_PROFILE,
               style: TextStyle(
-                  // color: greentheme100,
-                  fontWeight: FontWeight.w600,
+                   color: greytheme1200,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontSize: 18),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           new GestureDetector(
             onTap: () {
@@ -132,14 +162,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_CHANGE_PASSWORD,
               style: TextStyle(
-                  // color: greentheme100,
-                  fontWeight: FontWeight.w600,
+                   color: greytheme1200,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontSize: 18),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           new GestureDetector(
             onTap: () {
@@ -148,14 +178,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_SETTINGS,
               style: TextStyle(
-                  // color: greentheme100,
-                  fontWeight: FontWeight.w600,
+                   color: greytheme1200,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontSize: 18),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           new GestureDetector(
             onTap: () {
@@ -164,10 +194,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_HELP,
               style: TextStyle(
-                  // color: greentheme100,
-                  fontWeight: FontWeight.w600,
+                   color: greytheme1200,
+                  fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontSize: 18),
             ),
           ),
         ],
