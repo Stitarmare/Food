@@ -94,6 +94,16 @@ flutter:
       - assets/BlurImage/Group1612.png
       - assets/BlurImage/Group1612@2x.png
       - assets/BlurImage/Group1612@3x.png
+
+      #SignOutImage
+      - assets/SignOutImage/Group 1349.png
+      - assets/SignOutImage/Group 1349@2x.png
+      - assets/SignOutImage/Group 1349@3x.png
+      #DrawerBackgroundImage
+      - assets/DrawerBackgroundImage/Group1649.png
+      - assets/DrawerBackgroundImage/Group1649@2x.png
+      - assets/DrawerBackgroundImage/Group1649@3x.png
+
       #BackGroundImages
       - assets/BackgroundImage/Group1649.png
       - assets/BackgroundImage/Group1649@2x.png
@@ -102,6 +112,7 @@ flutter:
       - assets/SignOutIcon/Group1349.png
       - assets/SignOutIcon/Group1349@2x.png
       - assets/SignOutIcon/Group1349@3x.png
+
         #HomeIcon
       - assets/HomeIcon/home(2).png
       - assets/HomeIcon/home(2)@2x.png
