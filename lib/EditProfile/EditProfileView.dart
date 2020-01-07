@@ -116,7 +116,7 @@ Widget _getmainView(BuildContext context) {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(6.0),
-                    side: BorderSide(color: greytheme1100)),
+                    side: BorderSide(color: greytheme100)),
                 child: Text(
                   'CANCEL',
                   style: TextStyle(

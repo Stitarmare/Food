@@ -380,6 +380,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: HiddenDrawer(
         controller: _drawerController,
         header: Align(
