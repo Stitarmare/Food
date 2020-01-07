@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class DineInView extends StatefulWidget {
   @override
@@ -12,34 +13,53 @@ class _DineViewState extends State<DineInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.orange,
-        onPressed: () {},
-        child: Icon(
-          Icons.alarm,
-          color: Colors.white,
-          size: 30,
+      floatingActionButton: Container(
+        width: 60,
+        height: 60,
+        child: FittedBox(
+                  child: FloatingActionButton(
+            backgroundColor: orangetheme,
+            onPressed: () {},
+            child: Icon(
+              Icons.alarm,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('data'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('data'),
-          )
-        ],
-      ),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(
+            icon: Image.asset('assets/HomeIcon/home(2).png'),
+            title: Text('Home')),
+        BottomNavigationBarItem(
+            icon: Image.asset('assets/OrderIcon/order.png'),
+            title: Text('Order')),
+        BottomNavigationBarItem(
+            icon: Image.asset('assets/NotificationIcon/Path1159.png'),
+            title: Text('Path')),
+        BottomNavigationBarItem(
+            icon: Image.asset('assets/UserIcon/Group3.png'),
+            title: Text('User')),
+      ]),
       appBar: AppBar(
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text('Dine-in', style: TextStyle(color: Colors.black)),
+        title: Padding(
+          padding: const EdgeInsets.only(left:30.0),
+          child: Text(
+            'Dine-in',
+            style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.filter),
+            icon: Image.asset('assets/LevelsIcon/levels.png'),
             onPressed: () {},
           )
         ],
@@ -48,12 +68,17 @@ class _DineViewState extends State<DineInView> {
         itemCount: 20,
         itemBuilder: (_, i) {
           return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+              //side: BorderSide(color: Colors.red)
+            ),
             elevation: 2,
-            margin: const EdgeInsets.symmetric(vertical: 2),
+            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
             color: _selected[i]
                 ? Colors.blue
                 : null, // if current item is selected show blue color
             child: ListTile(
+              contentPadding: EdgeInsets.all(0.0),
               title: _getMainView(
                   "merchantName", "location", "shortdatetime", "rating"),
               onTap: () => setState(
@@ -89,28 +114,106 @@ class _DineViewState extends State<DineInView> {
 Widget _getdetails(
     String merchantName, String location, String shortdatetime, String rating) {
   return Row(
+    mainAxisSize: MainAxisSize.max,
     children: <Widget>[
       Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('That’s Amore'),
+          SizedBox(
+            height: 11.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              'That’s Amore',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontFamily: 'gotham',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: greytheme700),
+            ),
+          ),
           SizedBox(
             height: 14,
           ),
-          Row(
-            children: <Widget>[Icon(Icons.alarm), Text('10:00 am - 10:30 pm')],
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.watch_later,
+                  color: Colors.green,
+                  size: 15,
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  '10:00 am - 10:30 pm',
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: greytheme100),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 13,
           )
         ],
       ),
-      Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(Icons.my_location),
-              Text('1.2 Miles'),
-            ],
-          ),
-          Text('4.5')
-        ],
+      Expanded(
+        child: Container(),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.location_on,
+                  color: greentheme100,
+                  size: 15,
+                ),
+                SizedBox(width: 10,),
+                Text(
+                  '1.2 Miles',
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: greytheme100),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 14,
+            ),
+            Container(  
+              color: greentheme100,
+              width: 30,  
+              height: 16,
+              child: Center(
+                child: Text('4.5',textAlign: TextAlign.center,style: TextStyle(
+                        fontFamily: 'gotham',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+              ),),
+            SizedBox(
+              height: 13,
+            )
+          ],
+        ),
       )
     ],
   );
