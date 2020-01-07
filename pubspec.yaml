@@ -94,6 +94,14 @@ flutter:
       - assets/BlurImage/Group1612.png
       - assets/BlurImage/Group1612@2x.png
       - assets/BlurImage/Group1612@3x.png
+      #SignOutImage
+      - assets/SignOutImage/Group 1349.png
+      - assets/SignOutImage/Group 1349@2x.png
+      - assets/SignOutImage/Group 1349@3x.png
+      #DrawerBackgroundImage
+      - assets/DrawerBackgroundImage/Group1649.png
+      - assets/DrawerBackgroundImage/Group1649@2x.png
+      - assets/DrawerBackgroundImage/Group1649@3x.png
 
 
       

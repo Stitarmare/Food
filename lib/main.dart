@@ -16,11 +16,7 @@ import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
 
 var routes = <String, WidgetBuilder>{
-<<<<<<< HEAD
-  '/': (BuildContext context) => LoginView(),
-=======
-  '/': (BuildContext context) => EditProfileview(),
->>>>>>> afa9d5c262f04a53507ec8d07b81e61f6c921cae
+  '/': (BuildContext context) => MainWidget(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),

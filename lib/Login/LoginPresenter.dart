@@ -16,15 +16,6 @@ class LoginPresenter extends LoginContract {
   void onBackPresed() {}
 
   @override
-<<<<<<< HEAD
-  void performLogin(String mobno, String password, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.loginApi, context,
-        body: {'mobile_number': mobno, 'password': password}).then((value) {
-     if (value['status_code']==200) {
-        mLoginView.loginSuccess();
-     }
-      mLoginView.loginSuccess();
-=======
   void performLogin(String email, String password, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.loginApi, context,
         body: {'mobile_number': email, 'password': password}).then((value) {
@@ -32,7 +23,6 @@ class LoginPresenter extends LoginContract {
      if (value['status_code']==200) {
         mLoginView.loginSuccess();
      }
->>>>>>> afa9d5c262f04a53507ec8d07b81e61f6c921cae
     });
 //ApiCall
     //;

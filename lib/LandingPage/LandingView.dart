@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
@@ -25,21 +26,13 @@ class _LandingStateView extends State<Landingview> {
                 Icons.notifications,
                 color: greytheme100,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder:(context)=> NotificationView() ));
+              },
             )
           ],
           backgroundColor: Colors.white,
           elevation: 0,
-          // leading: new IconButton(
-          //     icon: new Icon(
-          //       Icons.menu,
-          //       color: greytheme100,
-          //     ),
-          //     onPressed: widget.onMenuPressed
-          //     // _scaffoldKey.currentState.openDrawer()
-          //     /// backgroundColor: Colors.blue,
-          //     // title: Text('data'),
-          //     ),
           leading: IconButton(
             icon: Image.asset('assets/MenuIcon/menu.png'),
             onPressed: widget.onMenuPressed,
@@ -379,109 +372,55 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: HiddenDrawer(
-        controller: _drawerController,
-        header: Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 0.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  // height: 75,
-                  // decoration: BoxDecoration(
-                  //   shape: BoxShape.circle,
-                  //   //border: Border.all(color: Colors.red, width: 1)
-                  // ),
-                  // padding: EdgeInsets.only(left: 2.0),
-                  //width: MediaQuery.of(context).size.width * 0.3,
-                  // child: Padding(
-                  //   padding: EdgeInsets.only(left: 5.0),
-<<<<<<< HEAD
-                  // child: ClipOval(
-                  //     child: Image.asset(
-                  //   'assets/ProfileImage/MaskGroup15@3x.png',
-                  //   width: 70,
-                  //   height: 70,
-                  // )
-                  // ),
-                  child: Stack(
-                    alignment:Alignment(-1.5,0.6),
-                    children: <Widget>[
-                      Container(width: MediaQuery.of(context).size.width * 0.6,
-                      alignment: Alignment(-8, 0),
-                        child: Image.asset(
-                          'assets/DrawerUpLayer/Group 1562.png',
-                          // width: MediaQuery.of(context).size.width * 0.6,
-                          // fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                      ClipOval(
-                          child: Image.asset(
-                        'assets/ProfileImage/MaskGroup15@3x.png',
-                        width: 70,
-                        height: 70,
-                      )),
-                    ],
-                    overflow: Overflow.visible,
-                  ),
+    return Stack(
+     children: <Widget>[
+       Align(alignment:Alignment(-1, 1),
+       child: Image.asset("assets/DrawerBackgroundImage/Group1649.png",height: 200,width: 200,)),
+        Scaffold(  
+        body: 
+            HiddenDrawer(
+              controller: _drawerController,
+              header: Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                         child: Align(
+                           alignment: Alignment(-0.85, 2),
+                                child: ClipOval(
+                                child: Image.asset(
+                              'assets/ProfileImage/MaskGroup15@3x.png',
+                              width: 70,
+                              height: 70,
+                            )
+                            ),
+                         ),
+                       
+                    ),
+                       Row(
+                                          children:<Widget>[
+                                            SizedBox(width: 25,),
+                                            Text(
+                            'George Thomas',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: greytheme700,
+                                fontSize: 16,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w500),
+                      ),] 
+                       ),
+                  ],
                 ),
-                // ),
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                                  children:<Widget>[
-                                    SizedBox(width: 25,),
-                                    Text(
-                    'George Thomas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500),
-                  ),] 
-=======
-                  child: ClipOval(
-                      child: Image.asset(
-                    'assets/ProfileImage/MaskGroup15@3x.png',
-                    width: 70,
-                    height: 70,
-                  )),
-                ),
-                // ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    'George Thomas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500),
-                  ),
->>>>>>> afa9d5c262f04a53507ec8d07b81e61f6c921cae
-                )
-              ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
             ),
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // gradient: LinearGradient(
-          //   begin: Alignment.topRight,
-          //   end: Alignment.bottomLeft,
-          //   colors: [Colors.deepPurple[500], Colors.purple[500], Colors.purple],
-          //   // tileMode: TileMode.repeated,
-          // ),
-        ),
+
       ),
+     ],
+     
     );
   }
 }
