@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class HiddenDrawerController {
   HiddenDrawerController({this.items, @required DrawerContent initialPage}) {
@@ -174,9 +175,16 @@ class _HiddenDrawerState extends State<HiddenDrawer>
       child: Stack(
         children: <Widget>[
           Container(
-            decoration: widget.decoration,
+            //decoration: widget.decoration,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage('assets/BackgroundImage/Group1649.png'),fit: BoxFit.fitHeight
+                
+              )
+            ),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 64.0),
+              padding: EdgeInsets.symmetric(vertical: 66.0),
               child: ListView(
                 children: <Widget>[
                   Container(
@@ -187,7 +195,29 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                   ),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: drawerItems())
+                      children: drawerItems()),SizedBox(height: MediaQuery.of(context).size.height*0.22),
+                      DrawerItem(
+            text: Text(
+              'Sign Out',
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15),
+            ),
+            icon: Image.asset('assets/SignOutIcon/Group1349.png'),
+            // page: Landingview(
+            //   title: 'SETTINGS',
+            // ),
+            onPressed: null),
+            Padding(
+              padding: EdgeInsets.only(left: 50, top: 62),
+              child: Text("Vesion 1.2",style: TextStyle(
+                  color: greytheme100,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12),)
+            )
                 ],
               ),
             ),

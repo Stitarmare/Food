@@ -372,6 +372,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Stack(
      children: <Widget>[
        Align(alignment:Alignment(-1, 1),
@@ -411,6 +412,34 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                       ),] 
                        ),
                   ],
+=======
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: HiddenDrawer(
+        controller: _drawerController,
+        header: Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 0.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  // height: 75,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.circle,
+                  //   //border: Border.all(color: Colors.red, width: 1)
+                  // ),
+                  // padding: EdgeInsets.only(left: 2.0),
+                  //width: MediaQuery.of(context).size.width * 0.3,
+                  // child: Padding(
+                  //   padding: EdgeInsets.only(left: 5.0),
+                  child: ClipOval(
+                      child: Image.asset(
+                    'assets/ProfileImage/MaskGroup15@3x.png',
+                    width: 70,
+                    height: 70,
+                  )),
+>>>>>>> 3336538c29f425a934d79577e9b2c0f2c5831a39
                 ),
               ),
               decoration: BoxDecoration(
