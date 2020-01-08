@@ -15,6 +15,7 @@ import './DineInPage/DineInView.dart';
 import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
+import './Notifications/NotificationView.dart';
 
 var routes = <String, WidgetBuilder>{
   
@@ -30,6 +31,7 @@ var routes = <String, WidgetBuilder>{
   '/ProfileScreen': (BuildContext context) => ProfileScreen(),
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
+  '/NotificationView': (BuildContext context) => NotificationView(),
 };
 
 void main() => runApp(MaterialApp(
