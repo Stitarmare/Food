@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class DineInView extends StatefulWidget {
+  String title;
+  DineInView({this.title});
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
@@ -46,6 +48,10 @@ class _DineViewState extends State<DineInView> {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+<<<<<<< HEAD
+        title: Text(widget.title),
+        //Text('Dine-in', style: TextStyle(color: Colors.black)),
+=======
         title: Padding(
           padding: const EdgeInsets.only(left:30.0),
           child: Text(
@@ -57,6 +63,7 @@ class _DineViewState extends State<DineInView> {
                 color: greytheme1200),
           ),
         ),
+>>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
         actions: <Widget>[
           IconButton(
             icon: Image.asset('assets/LevelsIcon/levels.png'),
@@ -217,4 +224,9 @@ Widget _getdetails(
       )
     ],
   );
+}
+
+class MyTabs {
+  final String title;
+  MyTabs({this.title});
 }

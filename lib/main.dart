@@ -14,9 +14,18 @@ import './DineInPage/DineInView.dart';
 
 import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
+import './RestaurantPage/RestaurantView.dart';
 
 var routes = <String, WidgetBuilder>{
+<<<<<<< HEAD
   '/': (BuildContext context) => ProfileScreen(),
+=======
+<<<<<<< HEAD
+  '/': (BuildContext context) => Landingview(),
+=======
+  '/': (BuildContext context) => DineInView(),
+>>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
+>>>>>>> 052567dffd5f160f7f339fa6008c3d0bb9613a1e
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
@@ -26,7 +35,8 @@ var routes = <String, WidgetBuilder>{
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
   '/ProfileScreen': (BuildContext context) => ProfileScreen(),
-  '/EditProfileview': (BuildContext context) => EditProfileview()
+  '/EditProfileview': (BuildContext context) => EditProfileview(),
+  '/RestaurantView': (BuildContext context) => RestaurantView(),
 };
 
 void main() => runApp(MaterialApp(
