@@ -81,7 +81,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
         setState(() {});
       });
     scaleAnimation =
-        Tween<double>(begin: 1.0, end: 0.75).animate(animationController);
+        Tween<double>(begin: 1.0, end: 0.84).animate(animationController);
     radiusAnimation = BorderRadiusTween(
             begin: BorderRadius.circular(0.0), end: BorderRadius.circular(32))
         .animate(
