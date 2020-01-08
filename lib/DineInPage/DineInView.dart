@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DineInView extends StatefulWidget {
+  String title;
+  DineInView({this.title});
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
@@ -36,7 +38,8 @@ class _DineViewState extends State<DineInView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text('Dine-in', style: TextStyle(color: Colors.black)),
+        title: Text(widget.title),
+        //Text('Dine-in', style: TextStyle(color: Colors.black)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.filter),
@@ -114,4 +117,9 @@ Widget _getdetails(
       )
     ],
   );
+}
+
+class MyTabs {
+  final String title;
+  MyTabs({this.title});
 }
