@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:foodzi/DineInPage/DineInView.dart';
+=======
+import 'package:foodzi/Notifications/NotificationView.dart';
+>>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
@@ -29,7 +33,9 @@ class _LandingStateView extends State<Landingview> {
                 Icons.notifications,
                 color: greytheme100,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder:(context)=> NotificationView() ));
+              },
             )
           ],
           backgroundColor: Colors.white,
@@ -393,6 +399,47 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+    return Stack(
+     children: <Widget>[
+       Align(alignment:Alignment(-1, 1),
+       child: Image.asset("assets/DrawerBackgroundImage/Group1649.png",height: 200,width: 200,)),
+        Scaffold(  
+        body: 
+            HiddenDrawer(
+              controller: _drawerController,
+              header: Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                         child: Align(
+                           alignment: Alignment(-0.85, 2),
+                                child: ClipOval(
+                                child: Image.asset(
+                              'assets/ProfileImage/MaskGroup15@3x.png',
+                              width: 70,
+                              height: 70,
+                            )
+                            ),
+                         ),
+                       
+                    ),
+                       Row(
+                                          children:<Widget>[
+                                            SizedBox(width: 25,),
+                                            Text(
+                            'George Thomas',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: greytheme700,
+                                fontSize: 16,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w500),
+                      ),] 
+                       ),
+                  ],
+=======
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: HiddenDrawer(
@@ -410,31 +457,25 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     width: 70,
                     height: 70,
                   )),
+>>>>>>> 3336538c29f425a934d79577e9b2c0f2c5831a39
                 ),
-                // ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.0),
-                  child: Text(
-                    'George Thomas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500),
-                  ),
-                )
-              ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
             ),
+<<<<<<< HEAD
           ),
         ),
         decoration: BoxDecoration(
           color: Colors.white,
         ),
+=======
+
+>>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
       ),
+     ],
+     
     );
   }
 }

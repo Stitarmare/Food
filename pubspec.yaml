@@ -94,6 +94,16 @@ flutter:
       - assets/BlurImage/Group1612.png
       - assets/BlurImage/Group1612@2x.png
       - assets/BlurImage/Group1612@3x.png
+
+      #SignOutImage
+      - assets/SignOutImage/Group 1349.png
+      - assets/SignOutImage/Group 1349@2x.png
+      - assets/SignOutImage/Group 1349@3x.png
+      #DrawerBackgroundImage
+      - assets/DrawerBackgroundImage/Group1649.png
+      - assets/DrawerBackgroundImage/Group1649@2x.png
+      - assets/DrawerBackgroundImage/Group1649@3x.png
+
       #BackGroundImages
       - assets/BackgroundImage/Group1649.png
       - assets/BackgroundImage/Group1649@2x.png
@@ -102,6 +112,31 @@ flutter:
       - assets/SignOutIcon/Group1349.png
       - assets/SignOutIcon/Group1349@2x.png
       - assets/SignOutIcon/Group1349@3x.png
+
+        #HomeIcon
+      - assets/HomeIcon/home(2).png
+      - assets/HomeIcon/home(2)@2x.png
+      - assets/HomeIcon/home(2)@3x.png
+        #NotificationIcon 
+      - assets/NotificationIcon/Path1159.png
+      - assets/NotificationIcon/Path1159@2x.png
+      - assets/NotificationIcon/Path1159@3x.png
+        #OrderIcon
+      - assets/OrderIcon/order.png
+      - assets/OrderIcon/order@2x.png
+      - assets/OrderIcon/order@3x.png
+        #UserIcon
+      - assets/UserIcon/Group3.png
+      - assets/UserIcon/Group3@2x.png
+      - assets/UserIcon/Group3@3x.png
+        #LevelsIcon
+      - assets/LevelsIcon/levels.png
+      - assets/LevelsIcon/levels@2x.png
+      - assets/LevelsIcon/levels@3x.png
+      #ClockIcon
+      - assets/ClockIcon/clock.png
+      - assets/ClockIcon/clock@2x.png
+      - assets/ClockIcon/clock@3x.png
 
 
       

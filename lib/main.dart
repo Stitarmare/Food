@@ -17,7 +17,11 @@ import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 
 var routes = <String, WidgetBuilder>{
+<<<<<<< HEAD
   '/': (BuildContext context) => Landingview(),
+=======
+  '/': (BuildContext context) => DineInView(),
+>>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
