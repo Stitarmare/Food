@@ -19,7 +19,7 @@ class _DineViewState extends State<DineInView> {
         width: 60,
         height: 60,
         child: FittedBox(
-                  child: FloatingActionButton(
+          child: FloatingActionButton(
             backgroundColor: orangetheme,
             onPressed: () {},
             child: Icon(
@@ -48,12 +48,8 @@ class _DineViewState extends State<DineInView> {
         centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-<<<<<<< HEAD
-        title: Text(widget.title),
-        //Text('Dine-in', style: TextStyle(color: Colors.black)),
-=======
         title: Padding(
-          padding: const EdgeInsets.only(left:30.0),
+          padding: const EdgeInsets.only(left: 30.0),
           child: Text(
             'Dine-in',
             style: TextStyle(
@@ -63,7 +59,6 @@ class _DineViewState extends State<DineInView> {
                 color: greytheme1200),
           ),
         ),
->>>>>>> 884e4bcbc1a4476242676f83bd0dc4e723c4c139
         actions: <Widget>[
           IconButton(
             icon: Image.asset('assets/LevelsIcon/levels.png'),
@@ -190,7 +185,9 @@ Widget _getdetails(
                   color: greentheme100,
                   size: 15,
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
                   '1.2 Miles',
                   style: TextStyle(
@@ -204,18 +201,22 @@ Widget _getdetails(
             SizedBox(
               height: 14,
             ),
-            Container(  
+            Container(
               color: greentheme100,
-              width: 30,  
+              width: 30,
               height: 16,
               child: Center(
-                child: Text('4.5',textAlign: TextAlign.center,style: TextStyle(
-                        fontFamily: 'gotham',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-              ),),
+                child: Text(
+                  '4.5',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ),
+            ),
             SizedBox(
               height: 13,
             )
