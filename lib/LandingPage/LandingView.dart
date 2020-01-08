@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
+import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 class Landingview extends DrawerContent {
@@ -26,7 +27,9 @@ class _LandingStateView extends State<Landingview> {
                 Icons.notifications,
                 color: greytheme100,
               ),
-              onPressed: () {},
+              onPressed: () {
+                   Navigator.push(context, MaterialPageRoute(builder:(context)=> NotificationView() ));
+              },
             )
           ],
           backgroundColor: Colors.white,
