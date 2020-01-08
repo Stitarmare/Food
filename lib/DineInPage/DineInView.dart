@@ -20,14 +20,9 @@ class _DineViewState extends State<DineInView> {
         height: 60,
         child: FittedBox(
           child: FloatingActionButton(
-            backgroundColor: orangetheme,
-            onPressed: () {},
-            child: Icon(
-              Icons.alarm,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
+              backgroundColor: orangetheme,
+              onPressed: () {},
+              child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
