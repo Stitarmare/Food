@@ -32,7 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: MediaQuery.of(context).size.width,
               )),
               Container(
-                //color: Colors.blueAccent,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 34, 0, 0),
                   child: Row(
@@ -57,17 +56,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
                 top: MediaQuery.of(context).size.height / 6.8,
-                child: ClipOval(
-                  //radius: 50,
-                  // child: Card(
-                  //   elevation: 10,
-                  child: Image.asset(
-                    'assets/ProfileImage/MaskGroup15.png',
-                    fit: BoxFit.cover,
-                    width: 82.5,
-                    height: 82.5,
-                  ),
-                  // ),
+                child: Stack(
+                  children: <Widget>[
+                    ClipOval(
+                      child: Image.asset(
+                        'assets/ProfileImage/MaskGroup15.png',
+                        fit: BoxFit.cover,
+                        width: 82.5,
+                        height: 82.5,
+                      ),
+                    ),
+                    Positioned(
+                      right: 0.0,
+                      bottom: 5.0,
+                      child: ClipOval(
+                        
+                          child: Container(
+                              width: 22,
+                              height: 22,
+                              color: orangetheme,
+                              child: Icon(Icons.edit,
+                                    size: 16, color: Colors.white), 
+                              ),
+                        
+                      ),
+                    )
+                  ],
                 ),
               ),
             ],
@@ -146,7 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_EDIT_PROFILE,
               style: TextStyle(
-                   color: greytheme1200,
+                  color: greytheme1200,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
                   fontSize: 18),
@@ -162,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_CHANGE_PASSWORD,
               style: TextStyle(
-                   color: greytheme1200,
+                  color: greytheme1200,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
                   fontSize: 18),
@@ -178,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_SETTINGS,
               style: TextStyle(
-                   color: greytheme1200,
+                  color: greytheme1200,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
                   fontSize: 18),
@@ -194,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: new Text(
               KEY_HELP,
               style: TextStyle(
-                   color: greytheme1200,
+                  color: greytheme1200,
                   fontWeight: FontWeight.w500,
                   fontFamily: 'gotham',
                   fontSize: 18),
