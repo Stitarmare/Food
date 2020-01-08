@@ -3,6 +3,7 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
+
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.isOpen});
   final String title;
