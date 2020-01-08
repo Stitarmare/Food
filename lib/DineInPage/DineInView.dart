@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class DineInView extends StatefulWidget {
+  String title;
+  DineInView({this.title});
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
@@ -17,7 +19,7 @@ class _DineViewState extends State<DineInView> {
         width: 60,
         height: 60,
         child: FittedBox(
-                  child: FloatingActionButton(
+          child: FloatingActionButton(
             backgroundColor: orangetheme,
             onPressed: () {},
             child: Icon(
@@ -47,7 +49,7 @@ class _DineViewState extends State<DineInView> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: Padding(
-          padding: const EdgeInsets.only(left:30.0),
+          padding: const EdgeInsets.only(left: 30.0),
           child: Text(
             'Dine-in',
             style: TextStyle(
@@ -183,7 +185,9 @@ Widget _getdetails(
                   color: greentheme100,
                   size: 15,
                 ),
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
                   '1.2 Miles',
                   style: TextStyle(
@@ -197,18 +201,22 @@ Widget _getdetails(
             SizedBox(
               height: 14,
             ),
-            Container(  
+            Container(
               color: greentheme100,
-              width: 30,  
+              width: 30,
               height: 16,
               child: Center(
-                child: Text('4.5',textAlign: TextAlign.center,style: TextStyle(
-                        fontFamily: 'gotham',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-              ),),
+                child: Text(
+                  '4.5',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ),
+            ),
             SizedBox(
               height: 13,
             )
@@ -217,4 +225,9 @@ Widget _getdetails(
       )
     ],
   );
+}
+
+class MyTabs {
+  final String title;
+  MyTabs({this.title});
 }
