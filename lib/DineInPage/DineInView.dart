@@ -51,7 +51,7 @@ class _DineViewState extends State<DineInView> {
         title: Padding(
           padding: const EdgeInsets.only(left: 30.0),
           child: Text(
-            'Dine-in',
+            widget.title,
             style: TextStyle(
                 fontSize: 18,
                 fontFamily: 'gotham',
@@ -225,9 +225,4 @@ Widget _getdetails(
       )
     ],
   );
-}
-
-class MyTabs {
-  final String title;
-  MyTabs({this.title});
 }
