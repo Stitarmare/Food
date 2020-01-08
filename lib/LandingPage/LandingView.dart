@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
-import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
-
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
   String title;
   final Widget body;
-
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
   }
 }
-
 class _LandingStateView extends State<Landingview> {
   //String titleAppBar = "Testing";
   @override
@@ -30,12 +26,7 @@ class _LandingStateView extends State<Landingview> {
                 Icons.notifications,
                 color: greytheme100,
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationView()));
-              },
+              onPressed: () {},
             )
           ],
           backgroundColor: Colors.white,
@@ -49,7 +40,6 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
@@ -69,13 +59,11 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _buildimage() {
     return Image.asset(
       'assets/LandingImage/Group1561.png',
     );
   }
-
   Widget _buildMaintext() {
     return Row(
       children: <Widget>[
@@ -86,7 +74,6 @@ class _LandingStateView extends State<Landingview> {
       ],
     );
   }
-
   Widget _buidtext() {
     return LimitedBox(
       child: Column(
@@ -124,7 +111,6 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _cardoption() {
     return LimitedBox(
       child: Container(
@@ -140,7 +126,6 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _dineincard() {
     return Center(
       child: Card(
@@ -180,7 +165,6 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _buildinningtext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -207,7 +191,6 @@ class _LandingStateView extends State<Landingview> {
       ],
     );
   }
-
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -247,7 +230,6 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
   Widget _buildTakeAwaytext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -274,7 +256,6 @@ class _LandingStateView extends State<Landingview> {
       ],
     );
   }
-
   _goToNextPageTakeAway(BuildContext context) {
     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return DineInView(
@@ -282,7 +263,6 @@ class _LandingStateView extends State<Landingview> {
       );
     }));
   }
-
   _goToNextPageDineIn(BuildContext context) {
     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return DineInView(
@@ -291,14 +271,12 @@ class _LandingStateView extends State<Landingview> {
     }));
   }
 }
-
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title}) : super(key: key);
   final String title;
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
-
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
   @override
@@ -396,7 +374,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ],
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

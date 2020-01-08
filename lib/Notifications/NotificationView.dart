@@ -10,11 +10,7 @@ class NotificationView extends StatefulWidget {
     return _NotificationViewState();
   }
 }
-class ListItem<T>{
-  bool isSelected = false;
-   T data;
-   ListItem(this.data);
-}
+
 
 class _NotificationViewState extends State<NotificationView> {
   
@@ -46,11 +42,13 @@ class _NotificationViewState extends State<NotificationView> {
         ),
         body: _notificationList(context));
   }
+   int _selectedIndex = 0;
+       _onSelected(int index) {
+    setState(() => _selectedIndex = index);
+  }
 
   Widget _notificationList(BuildContext context) {
-    // bool isSelected = false;
-    List<int> _list = List.generate(europeanCountries.length, (i) => i);
-List<bool> _selected = List.generate(europeanCountries.length, (i) => false);
+    
     return ListView.builder(
       itemCount: europeanCountries.length,
       itemBuilder: (BuildContext context, int index) {
@@ -80,20 +78,19 @@ List<bool> _selected = List.generate(europeanCountries.length, (i) => false);
                       ),
                     ),
                     onTap: () {
-                     setState(() {
-                       _selected[index] = !_selected[index];
-                     });
+                     _onSelected(index);
                     },
                   ),
                   decoration: BoxDecoration(
-                    // border: Border.all(),
                     border: Border.all(color: Color.fromRGBO(112, 112, 112, 0.2)),
                     gradient: LinearGradient(
                       stops:[0.015,0.015],
                       colors: [
-                        _selected[index] ? Color.fromRGBO(55, 180, 76, 1):Color.fromRGBO(112, 112, 112, 0.2),
-                        Colors.white
+                       _selectedIndex != null && _selectedIndex == index
+                  ? Color.fromRGBO(55, 180, 76, 1)
+                  : Color.fromRGBO(112, 112, 112, 0.2),Colors.white
                         ]
+                        
                     )
                   ),
                 ), 
