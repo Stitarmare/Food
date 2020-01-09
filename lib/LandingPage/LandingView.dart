@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
+import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
@@ -408,13 +409,21 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             padding: EdgeInsets.only(left: 0.0),
             child: Column(
               children: <Widget>[
-                Container(
-                  child: ClipOval(
-                      child: Image.asset(
-                    'assets/ProfileImage/MaskGroup15@3x.png',
-                    width: 70,
-                    height: 70,
-                  )),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfileScreen()));
+                  },
+                  child: Container(
+                    child: ClipOval(
+                        child: Image.asset(
+                      'assets/ProfileImage/MaskGroup15@3x.png',
+                      width: 70,
+                      height: 70,
+                    )),
+                  ),
                 ),
                 // ),
                 SizedBox(

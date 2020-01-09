@@ -25,34 +25,33 @@ class _DineViewState extends State<DineInView> {
               child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: [
         BottomNavigationBarItem(
             icon: Image.asset('assets/HomeIcon/home(2).png'),
-            title: Text('Home')),
+            title: Text('')),
         BottomNavigationBarItem(
             icon: Image.asset('assets/OrderIcon/order.png'),
-            title: Text('Order')),
+            title: Text('')),
         BottomNavigationBarItem(
             icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-            title: Text('Path')),
+            title: Text('')),
         BottomNavigationBarItem(
             icon: Image.asset('assets/UserIcon/Group3.png'),
-            title: Text('User')),
+            title: Text('')),
       ]),
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 30.0),
-          child: Text(
-            widget.title,
-            style: TextStyle(
-                fontSize: 18,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w500,
-                color: greytheme1200),
-          ),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500,
+              color: greytheme1200),
         ),
         actions: <Widget>[
           IconButton(

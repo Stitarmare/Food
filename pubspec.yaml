@@ -137,6 +137,10 @@ flutter:
       - assets/ClockIcon/clock.png
       - assets/ClockIcon/clock@2x.png
       - assets/ClockIcon/clock@3x.png
+      #BackButtonIcon
+      - assets/BackButtonIcon/Path1621.png
+      - assets/BackButtonIcon/Path1621@2x.png
+      - assets/BackButtonIcon/Path1621@3x.png
 
 
       

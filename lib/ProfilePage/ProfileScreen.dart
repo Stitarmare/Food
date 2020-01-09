@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -14,10 +15,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: true,
-      bottom: true,
-      child: Scaffold(
+    return 
+    // SafeArea(
+      
+      // top: true,
+      // bottom: true,
+      // child: 
+      Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height * 0.2),
@@ -27,19 +31,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Center(
                   child: Image.asset(
                 'assets/BlurImage/Group1612.png',
-                height: 180,
+                height: MediaQuery.of(context).size.height*0.35,
                 fit: BoxFit.fill,
                 width: MediaQuery.of(context).size.width,
               )),
-              Container(
-                child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 34, 0, 0),
+              // Container(
+              //   child: 
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 25,
+                      // SizedBox(
+                      //   width: 6,
+                      // ),
+                      FlatButton(child: Image.asset('assets/BackButtonIcon/Path1621.png'),onPressed: (){
+                        // Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, '/MainWidget');
+                      },),
+                       SizedBox(
+                        width: 10.2,
                       ),
                       Text(
                         "My Profile",
@@ -51,11 +63,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                ),
+                // ),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
-                top: MediaQuery.of(context).size.height / 6.8,
+                top: MediaQuery.of(context).size.height /6,
                 child: Stack(
                   children: <Widget>[
                     ClipOval(
@@ -88,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         body: SingleChildScrollView(child: _getMainView()),
-      ),
+      // ),
     );
   }
 
@@ -155,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, null);
+              Navigator.pushNamed(context, '/EditProfileview');
             },
             child: new Text(
               KEY_EDIT_PROFILE,
@@ -171,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, null);
+              Navigator.pushNamed(context, '/ResetPasswordview');
             },
             child: new Text(
               KEY_CHANGE_PASSWORD,
