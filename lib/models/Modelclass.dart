@@ -6,6 +6,6 @@ class LoginModel {
   LoginModel({this.mobno, this.password});
 
   factory LoginModel.fromMap(Map<String, dynamic> json) {
-    return LoginModel(mobno: json["id"], password: json["title"]);
+    return LoginModel(mobno: json["mobile_number"], password: json["password"]);
   }
 }

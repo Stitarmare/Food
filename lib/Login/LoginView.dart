@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
+
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
@@ -16,7 +17,7 @@ class LoginView extends StatefulWidget {
   }
 }
 
-class _LoginViewState extends State<LoginView> implements LoginModelView{
+class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
 
@@ -30,7 +31,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView{
     loginPresenter = LoginPresenter(this);
     super.initState();
   }
-
 
   final Map<String, dynamic> _signInData = {
     mobno: null,
@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView{
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      loginPresenter.performLogin("7972223220", "12345678",context);
+      loginPresenter.performLogin("7972223220", "12345678", context);
       // _signInFormKey.currentState.save();
       // Navigator.pushNamed(context, '/Landingview');
     } else {
@@ -126,11 +126,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView{
           //height: 100,
         ),
         SizedBox(height: 10),
-        Text('ORDER EASY',style: TextStyle(
+        Text(
+          'ORDER EASY',
+          style: TextStyle(
               fontFamily: 'HelveticaNeue',
               fontSize: 11,
               color: greytheme400,
-              fontWeight: FontWeight.w700,letterSpacing: 1),),
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1),
+        ),
         SizedBox(
           height: 5,
         ),
@@ -326,7 +330,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView{
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
-     _signInFormKey.currentState.save();
-      Navigator.pushNamed(context, '/MainWidget');
+    _signInFormKey.currentState.save();
+    Navigator.pushNamed(context, '/MainWidget');
   }
 }
