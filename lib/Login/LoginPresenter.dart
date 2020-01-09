@@ -16,13 +16,13 @@ class LoginPresenter extends LoginContract {
   void onBackPresed() {}
 
   @override
-  void performLogin(String email, String password, BuildContext context) {
+  void performLogin(String mobno, String password, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.loginApi, context,
-        body: {'mobile_number': email, 'password': password}).then((value) {
-          print(value);
-     if (value['status_code']==200) {
+        body: {'mobile_number': mobno, 'password': password}).then((value) {
+      print(value);
+      if (value['status_code'] == 200) {
         mLoginView.loginSuccess();
-     }
+      }
     });
 //ApiCall
     //;

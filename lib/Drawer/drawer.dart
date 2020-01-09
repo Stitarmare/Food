@@ -195,7 +195,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: drawerItems()),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    //SizedBox(height: 163,),
+                  //SizedBox(height: 163,),
                   DrawerItem(
                       text: Text(
                         KEY_SIGN_OUT,
@@ -211,7 +211,9 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       // ),
                       onPressed: null),
                   Padding(
-                      padding: EdgeInsets.only(left: 50, top: MediaQuery.of(context).size.height * 0.01),
+                      padding: EdgeInsets.only(
+                          left: 50,
+                          top: MediaQuery.of(context).size.height * 0.01),
                       child: Text(
                         "Vesion 1.2",
                         style: TextStyle(
