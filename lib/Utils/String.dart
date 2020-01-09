@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 const KEY_APP_NAME = 'foodZi';
 const KEY_APP_SLOGAN = 'Loading, please wait...';
 const KEY_FIRST_NAME = 'First Name';
@@ -64,3 +66,21 @@ const KEY_YOUR_NEW_PASSWORD = 'Your ' + KEY_NEW_PASSWORD;
 const KEY_CONFIRM_YOUR_PASSWORD = 'Confirm Your Password';
 const KEY_HURAY_PASSWORD_CHANGE_SUCCESSFULLY =
     'Huray! Password Change Successfully!!!';
+
+//Drawer.dart
+const KEY_SIGN_OUT = 'Sign Out';
+
+//EditProfile.dart
+const KEY_STREET = 'Street';
+const KEY_COUNTRY = 'Country';
+const KEY_STATE = 'State';
+const KEY_CITY = 'City';
+const KEY_POSTAL_CODE = 'Postal Code';
+const KEY_UPDATE = 'UPDATE';
+const KEY_CANCEL_UC = 'CANCEL';
+
+
+
+
+
+

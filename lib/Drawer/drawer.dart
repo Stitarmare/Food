@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 
+import 'package:foodzi/Utils/String.dart';
+
 class HiddenDrawerController {
   HiddenDrawerController({this.items, @required DrawerContent initialPage}) {
     this.page = initialPage;
@@ -196,7 +198,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                   //SizedBox(height: 163,),
                   DrawerItem(
                       text: Text(
-                        'Sign Out',
+                        KEY_SIGN_OUT,
                         style: TextStyle(
                             color: greytheme800,
                             fontFamily: 'gotham',

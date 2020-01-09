@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
 
@@ -17,7 +18,7 @@ class _EditProfileState extends State<EditProfileview> {
           elevation: 0.0,
           backgroundColor: Colors.white,
           centerTitle: false,
-          title: Text("Edit Profile",
+          title: Text(KEY_EDIT_PROFILE,
               style: TextStyle(
                   color: greytheme700,
                   fontSize: 18,
@@ -36,51 +37,51 @@ Widget _getmainView(BuildContext context) {
     child: Column(
       children: <Widget>[
         BoxAppTextField(
-          placeHolderName: 'First Name',
+          placeHolderName: KEY_FIRST_NAME,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'Last Name',
+          placeHolderName: KEY_LAST_NAME,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'Mobile Number',
+          placeHolderName: KEY_MOBILE_NUMBER,
           keyboardType: TextInputType.number,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'Street',
+          placeHolderName: KEY_STREET,
         ),
         SizedBox(
           height: 28,
         ),
         
         BoxAppTextField(
-          placeHolderName: 'Country',
+          placeHolderName: KEY_COUNTRY,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'State',
+          placeHolderName: KEY_STATE,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'City',
+          placeHolderName: KEY_CITY,
         ),
         SizedBox(
           height: 28,
         ),
         BoxAppTextField(
-          placeHolderName: 'Postal Code',
+          placeHolderName: KEY_POSTAL_CODE,
           keyboardType: TextInputType.number,
         ),
         SizedBox(
@@ -98,7 +99,7 @@ Widget _getmainView(BuildContext context) {
                 ),
                 color: greentheme100,
                 child: Text(
-                  'UPDATE',
+                  KEY_UPDATE,
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'gotham',
@@ -118,7 +119,7 @@ Widget _getmainView(BuildContext context) {
                     borderRadius: new BorderRadius.circular(6.0),
                     side: BorderSide(color: greytheme100)),
                 child: Text(
-                  'CANCEL',
+                  KEY_CANCEL_UC,
                   style: TextStyle(
                       color: greytheme1000,
                       fontFamily: 'gotham',
