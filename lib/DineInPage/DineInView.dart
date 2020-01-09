@@ -15,32 +15,6 @@ class _DineViewState extends State<DineInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: orangetheme,
-              onPressed: () {},
-              child: Image.asset('assets/ClockIcon/clock.png')),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-        BottomNavigationBarItem(
-            icon: Image.asset('assets/HomeIcon/home(2).png'),
-            title: Text('')),
-        BottomNavigationBarItem(
-            icon: Image.asset('assets/OrderIcon/order.png'),
-            title: Text('')),
-        BottomNavigationBarItem(
-            icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-            title: Text('')),
-        BottomNavigationBarItem(
-            icon: Image.asset('assets/UserIcon/Group3.png'),
-            title: Text('')),
-      ]),
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.transparent,
