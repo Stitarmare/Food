@@ -36,22 +36,22 @@ class ApiBaseHelper {
   ApiBaseHelper._internal();
 
   var _baseUrlString = BaseUrl.getBaseUrl();
-  
-  
 
-   Map<String, String> getHeader(String url) {
+  Map<String, String> getHeader(String url) {
     switch (url) {
       case UrlConstant.loginApi:
+      case UrlConstant.registerApi:
+      case UrlConstant.verifyotp:
         return {
           //HttpHeaders.authorizationHeader: "Barier " + getAuthToken(),
           HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader : "application/json"
+          HttpHeaders.acceptHeader: "application/json"
         };
       default:
         return {
           HttpHeaders.authorizationHeader: "Bearer " + Globle().authKey,
           HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader : "application/json"
+          HttpHeaders.acceptHeader: "application/json"
         };
     }
   }
@@ -91,13 +91,12 @@ class ApiBaseHelper {
         request.files.add(filePart);
       });
       var response = await request.send();
-      
-      http.Response.fromStream(response).then((value){
+
+      http.Response.fromStream(response).then((value) {
         _returnResponse(value);
-      }).catchError((onError){
+      }).catchError((onError) {
         print(onError);
       });
-      
     } on SocketException {
       _showAlert(context);
     }
@@ -125,11 +124,11 @@ class ApiBaseHelper {
       case 200:
       case 201:
         var responseJson = json.decode(response.body.toString());
-        
+
         return responseJson;
       case 400:
         var responseJson = json.decode(response.body.toString());
-        
+
         return responseJson;
       case 401:
       case 403:

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Otp/OtpContractor.dart';
+import 'package:foodzi/Otp/OtpPresenter.dart';
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -6,14 +8,27 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 //import 'package:foodzi/widgets/AppTextfield.dart';
 
 class OTPScreen extends StatefulWidget {
+  String mobno;
+  int value = 0;
+  bool isFromFogetPass = false;
+  OTPScreen({this.mobno, this.value, this.isFromFogetPass});
   @override
   State<StatefulWidget> createState() {
     return _OTPScreenState();
   }
 }
 
-class _OTPScreenState extends State<OTPScreen> {
+class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
+  var otpsave;
+
+  var otppresenter;
   @override
+  void initState() {
+    // TODO: implement initState
+    otppresenter = OtpPresenter(this);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -50,7 +65,14 @@ class _OTPScreenState extends State<OTPScreen> {
   }
 
   void onsubmitButtonClicked() {
-    Navigator.pushNamed(context, '/EnterOTPScreen');
+    // otppresenter.performOTP(widget.mobno, otpsave, context);
+    if (widget.value == 0) {
+      otppresenter.performOTP(widget.mobno, otpsave, context);
+    } else {
+      //forgot password
+    }
+    // otppresenter.
+    // Navigator.pushNamed(context, '/EnterOTPScreen');
   }
 
   Widget _buildmainview() {
@@ -140,6 +162,8 @@ class _OTPScreenState extends State<OTPScreen> {
           pinBoxRadius: 8.0,
           autofocus: false,
           onDone: (String value) {
+            otpsave = value;
+            // otppresenter.performOTP(widget.mobno, value, context);
             print(value);
           },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -191,16 +215,18 @@ class _OTPScreenState extends State<OTPScreen> {
   Widget _anothernumber() {
     return LimitedBox(
       child: FlatButton(
-          child: Text(
-        KEY_PROVIDE_ANOTHER_NO,
-        style: TextStyle(
-            color: greentheme100,
-            fontFamily: 'gotham',
-            fontSize: 16,
-            fontWeight: FontWeight.w600),
-      ), onPressed: () {
-        Navigator.pushNamed(context, '/EnterOTPScreen');
-      },),
+        child: Text(
+          KEY_PROVIDE_ANOTHER_NO,
+          style: TextStyle(
+              color: greentheme100,
+              fontFamily: 'gotham',
+              fontSize: 16,
+              fontWeight: FontWeight.w600),
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, '/EnterOTPScreen');
+        },
+      ),
     );
   }
 
@@ -222,33 +248,43 @@ class _OTPScreenState extends State<OTPScreen> {
           ),
           new GestureDetector(
             onTap: () {
-             // Navigator.pushNamed(context, '/Registerview');
-             return showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-                title: const Text("OTP Sent",
-                textAlign: TextAlign.center,style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 22),),
-                content: Text('OTP has been successfully send to your mobile number.',textAlign: TextAlign.center,style: TextStyle(
-                  color: greytheme100,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 20),),
-                actions: [
-                 FlatButton(  
-                  child: const Text("OK", style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 20),),
-                  onPressed: () => Navigator.pop(context),
+              // Navigator.pushNamed(context, '/Registerview');
+              return showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text(
+                    "OTP Sent",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: greentheme100,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'gotham',
+                        fontSize: 22),
+                  ),
+                  content: Text(
+                    'OTP has been successfully send to your mobile number.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: greytheme100,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'gotham',
+                        fontSize: 20),
+                  ),
+                  actions: [
+                    FlatButton(
+                      child: const Text(
+                        "OK",
+                        style: TextStyle(
+                            color: greentheme100,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'gotham',
+                            fontSize: 20),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-        );
+              );
             },
             child: new Text(
               'RESEND',
@@ -262,5 +298,16 @@ class _OTPScreenState extends State<OTPScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void otpfailed() {
+    // TODO: implement otpfailed
+  }
+
+  @override
+  void otpsuccess() {
+    Navigator.pushNamed(context, '/ResetPasswordview');
+    // TODO: implement otpsuccess
   }
 }

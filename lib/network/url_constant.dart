@@ -3,4 +3,6 @@ class UrlConstant {
   static const loginwithOTP = "api/loginWithOTP";
   static const registerApi = "api/register";
   static const getCustomer = "api/getCustomer";
+  static const verifyotp = "api/verifyOTP";
+  static const resetpassverifyotp = "api/verifyOTPForReset";
 }

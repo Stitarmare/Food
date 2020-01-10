@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/Otp/OtpView.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+
+import 'package:foodzi/RegistrationPage/RegisterPresenter.dart';
+
+import 'RegisterContractor.dart';
 
 class Registerview extends StatefulWidget {
   @override
@@ -13,7 +18,8 @@ class Registerview extends StatefulWidget {
   }
 }
 
-class _RegisterviewState extends State<Registerview> {
+class _RegisterviewState extends State<Registerview>
+    implements RegisterModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
   static String name = Key_USER_NAME;
@@ -27,8 +33,14 @@ class _RegisterviewState extends State<Registerview> {
     enterPass: null,
     name: null,
   };
-
+  var registerPresenter;
   @override
+  void initState() {
+    // TODO: implement initState
+    registerPresenter = RegisterPresenter(this);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
@@ -58,14 +70,17 @@ class _RegisterviewState extends State<Registerview> {
   }
 
   void onSignUpButtonClicked() {
-    if (_signUpFormKey.currentState.validate()) {
-      _signUpFormKey.currentState.save();
-      Navigator.pushNamed(context, '/Landingview');
-    } else {
-      setState(() {
-        _validate = true;
-      });
-    }
+    _goToNextPageDineIn(context);
+
+    // if (_signUpFormKey.currentState.validate()) {
+    //   registerPresenter.performregister(
+    //       _username, _phoneno, _password, context);
+    //   _signUpFormKey.currentState.save();
+    // } else {
+    //   setState(() {
+    //     _validate = true;
+    //   });
+    // }
   }
 
   Widget _buildmainview() {
@@ -114,7 +129,8 @@ class _RegisterviewState extends State<Registerview> {
               fontFamily: 'HelveticaNeue',
               fontSize: 11,
               color: greytheme400,
-              fontWeight: FontWeight.w700,letterSpacing: 1),
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1),
         ),
         SizedBox(
           height: 5,
@@ -130,13 +146,23 @@ class _RegisterviewState extends State<Registerview> {
     );
   }
 
+  var _username = "";
+  var _phoneno = '';
+  var _password = '';
+
   Widget _buildTextField() {
     const pi = 3.14;
     return Column(
       children: <Widget>[
         AppTextField(
+          onChanged: (text) {
+            _username = text;
+          },
           keyboardType: TextInputType.text,
-          icon: Icon(Icons.person,color: greentheme100,),
+          icon: Icon(
+            Icons.person,
+            color: greentheme100,
+          ),
           placeHolderName: Key_USER_NAME,
           validator: validatename,
           onSaved: (String value) {
@@ -147,8 +173,11 @@ class _RegisterviewState extends State<Registerview> {
           height: 15,
         ),
         AppTextField(
+          onChanged: (text) {
+            _phoneno = text;
+          },
           keyboardType: TextInputType.phone,
-          icon: Icon(Icons.call,color: greentheme100),
+          icon: Icon(Icons.call, color: greentheme100),
           placeHolderName: KEY_MOBILE_NUMBER,
           validator: validatemobno,
           onSaved: (String value) {
@@ -157,6 +186,9 @@ class _RegisterviewState extends State<Registerview> {
         ),
         SizedBox(height: 15),
         AppTextField(
+          onChanged: (text) {
+            _password = text;
+          },
           obscureText: true,
           placeHolderName: KEY_ENTER_PASSWORD,
           icon: Transform.rotate(
@@ -164,7 +196,7 @@ class _RegisterviewState extends State<Registerview> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key,color: greentheme100),
+              child: Icon(Icons.vpn_key, color: greentheme100),
             ),
           ),
           validator: validatepassword,
@@ -178,7 +210,7 @@ class _RegisterviewState extends State<Registerview> {
   }
 
   String validatename(String value) {
-    String validCharacters = r'^[a-zA-Z0-9]+$';
+    String validCharacters = r'^[a-zA-Z0-9]';
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
@@ -225,7 +257,8 @@ class _RegisterviewState extends State<Registerview> {
         onPressed: () => onSignUpButtonClicked(),
         child: Text(
           KEY_SIGN_UP,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600,fontFamily: 'gotham'),
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'gotham'),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -243,11 +276,14 @@ class _RegisterviewState extends State<Registerview> {
         //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("Already have an Account?",style: TextStyle(
+          Text(
+            "Already have an Account?",
+            style: TextStyle(
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w600,
                 color: greytheme100,
-                fontSize: 16),),
+                fontSize: 16),
+          ),
           SizedBox(
             width: 3,
           ),
@@ -257,7 +293,7 @@ class _RegisterviewState extends State<Registerview> {
             },
             child: new Text(
               KEY_SIGNIN,
-               style: TextStyle(
+              style: TextStyle(
                   color: greentheme100,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'gotham',
@@ -267,5 +303,23 @@ class _RegisterviewState extends State<Registerview> {
         ],
       ),
     );
+  }
+
+  _goToNextPageDineIn(BuildContext context) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return OTPScreen(mobno: _phoneno);
+    }));
+  }
+
+  @override
+  void registerSuccess() {
+    _signUpFormKey.currentState.save();
+    Navigator.pushNamed(context, '/OTPScreen');
+    // TODO: implement registerSuccess
+  }
+
+  @override
+  void registerfailed() {
+    // TODO: implement registerfailed
   }
 }

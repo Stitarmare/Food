@@ -15,9 +15,11 @@ class AppTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Widget icon;
   final bool autovalidate;
+  final Function(String) onChanged;
   //final Widget inputFormatters;
 
   const AppTextField({
+    this.onChanged,
     this.tfValue,
     this.placeHolderName,
     this.obscureText = false,
@@ -42,6 +44,7 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     TextFormField tf = TextFormField(
+      onChanged: widget.onChanged,
       obscureText: widget.obscureText,
       readOnly: widget.readOnly,
       enableInteractiveSelection: widget.interactiveSel,

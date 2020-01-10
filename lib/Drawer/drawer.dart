@@ -209,7 +209,9 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       // page: Landingview(
                       //   title: 'SETTINGS',
                       // ),
-                      onPressed: null),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/LoginView');
+                      }),
                   Padding(
                       padding: EdgeInsets.only(
                           left: 50,

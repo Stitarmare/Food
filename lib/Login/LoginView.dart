@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/EnterOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+//import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -68,7 +70,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      loginPresenter.performLogin("7972223220", "12345678", context);
+      loginPresenter.performLogin(mobno, enterPass, context);
       // _signInFormKey.currentState.save();
       // Navigator.pushNamed(context, '/Landingview');
     } else {
@@ -215,7 +217,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     }
     return null;
   }
-
+  
   Widget _forgotpassword() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -227,7 +229,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           height: 5,
           child: MaterialButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/ResetPasswordview');
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>EnterOTPScreen(flag: 1,)));
             },
             child: Text(
               KEY_FORGET_PASSWORD,

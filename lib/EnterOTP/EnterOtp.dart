@@ -4,6 +4,8 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class EnterOTPScreen extends StatefulWidget {
+  int flag = 0;
+  EnterOTPScreen({this.flag});
   @override
   State<StatefulWidget> createState() {
     return EnterOTPScreenState();
@@ -59,7 +61,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
   void onsubmitButtonClicked() {
     if (_enterOTPFormKey.currentState.validate()) {
       _enterOTPFormKey.currentState.save();
-      Navigator.pushNamed(context, '/Landingview');
+      Navigator.pushNamed(context, '/OTPScreen');
     } else {
       setState(() {
         _validate = true;

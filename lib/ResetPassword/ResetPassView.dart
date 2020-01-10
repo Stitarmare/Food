@@ -6,6 +6,8 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class ResetPasswordview extends StatefulWidget {
+  // var mobno;
+  // ResetPasswordview(this.mobno);
   @override
   State<StatefulWidget> createState() {
     return _ResetPasswordview();
