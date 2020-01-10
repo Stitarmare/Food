@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
+import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
@@ -6,15 +8,15 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class ResetPasswordview extends StatefulWidget {
-  // var mobno;
-  // ResetPasswordview(this.mobno);
+  var mobno;
+  ResetPasswordview({this.mobno});
   @override
   State<StatefulWidget> createState() {
     return _ResetPasswordview();
   }
 }
 
-class _ResetPasswordview extends State<ResetPasswordview> {
+class _ResetPasswordview extends State<ResetPasswordview>  implements ResetPassModelView{
   static String enterPass = KEY_ENTER_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
@@ -26,6 +28,17 @@ class _ResetPasswordview extends State<ResetPasswordview> {
     enterPass: null,
     enterConfirmPass: null,
   };
+
+  var resetpasswordPresenter;
+  var _password;
+  var _confirmPassword;
+
+   @override
+  void initState() {
+    // TODO: implement initState
+   resetpasswordPresenter = ResetpasswordPresenter(this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +78,9 @@ class _ResetPasswordview extends State<ResetPasswordview> {
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
-      _resetpasswordFormKey.currentState.save();
-      Navigator.pushNamed(context, '/Landingview');
+      resetpasswordPresenter.perfromresetpassword(widget.mobno, _password,  context);
+      //_resetpasswordFormKey.currentState.save();
+      //Navigator.pushNamed(context, '/Landingview');
     } else {
       setState(() {
         _validate = true;
@@ -131,6 +145,9 @@ class _ResetPasswordview extends State<ResetPasswordview> {
     return Column(
       children: <Widget>[
         AppTextField(
+          onChanged: (text) {
+            _password = text;
+          },
           obscureText: true,
           placeHolderName: KEY_ENTER_PASSWORD,
           icon: Transform.rotate(
@@ -151,6 +168,9 @@ class _ResetPasswordview extends State<ResetPasswordview> {
         ),
         SizedBox(height: 15),
         AppTextField(
+          onChanged: (text) {
+            _confirmPassword = text;
+          },
           obscureText: true,
           placeHolderName: KEY_CONFIRM_PASSWORD,
           icon: Transform.rotate(
@@ -203,5 +223,15 @@ class _ResetPasswordview extends State<ResetPasswordview> {
             side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
       ),
     );
+  }
+
+  @override
+  void resetpassfailed() {
+    // TODO: implement resetpassfailed
+  }
+
+  @override
+  void resetpasssuccess() {
+    Navigator.of(context).pushReplacementNamed('/LoginView');
   }
 }

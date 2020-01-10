@@ -42,6 +42,9 @@ class ApiBaseHelper {
       case UrlConstant.loginApi:
       case UrlConstant.registerApi:
       case UrlConstant.verifyotp:
+      case UrlConstant.resetPasswordWithOTP:
+      case UrlConstant.resetpassverifyotp:
+      case UrlConstant.updatePassword:
         return {
           //HttpHeaders.authorizationHeader: "Barier " + getAuthToken(),
           HttpHeaders.contentTypeHeader: "application/json",

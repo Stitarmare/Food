@@ -17,6 +17,25 @@ class OtpPresenter extends OtpContract {
   @override
   void onBackPresed() {}
 
+  void perfromresetpassword(String mobno, BuildContext context) {
+    ApiBaseHelper().post(UrlConstant.resetpassverifyotp, context, body: {
+      'mobile_number': mobno,
+      'device_token': "dsa",
+      'device_type': "1",
+      'user_type': "customer",
+      'otp': '123456',
+    }).then((value) {
+      print(value);
+      if (value['status_code'] == 200) {
+        otpView.getSuccesForForgetPass();
+        } else {
+          otpView.getFailedForForgetPass();
+        }
+    });
+//ApiCall
+    //;
+  }
+
   void performOTP(String mobno, String otp, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.verifyotp, context, body: {
       'otp': otp,

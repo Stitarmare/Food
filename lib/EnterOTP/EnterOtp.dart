@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/EnterOTP/EnterOTPScreenPresenter.dart';
+import 'package:foodzi/Otp/OtpView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -12,7 +14,8 @@ class EnterOTPScreen extends StatefulWidget {
   }
 }
 
-class EnterOTPScreenState extends State<EnterOTPScreen> {
+class EnterOTPScreenState extends State<EnterOTPScreen>
+    implements EnterOTPScreenPresenterView {
   static String mobno = KEY_MOBILE_NUMBER;
 
   final GlobalKey<FormState> _enterOTPFormKey = GlobalKey<FormState>();
@@ -21,6 +24,16 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
   final Map<String, dynamic> _enterOTP = {
     mobno: null,
   };
+  var _mobileNumber;
+
+  var enterOTPScreenPresenter;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    enterOTPScreenPresenter = EnterOTPScreenPresenter(view: this);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +73,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
 
   void onsubmitButtonClicked() {
     if (_enterOTPFormKey.currentState.validate()) {
-      _enterOTPFormKey.currentState.save();
-      Navigator.pushNamed(context, '/OTPScreen');
+      if (widget.flag == 1) {
+        this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
+      } else {
+        _enterOTPFormKey.currentState.save();
+        Navigator.pushNamed(context, '/OTPScreen');
+      }
     } else {
       setState(() {
         _validate = true;
@@ -101,6 +118,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
                   ),
                   SizedBox(height: 45),
                   AppTextField(
+                    onChanged: (text) {
+                      this._mobileNumber = text;
+                    },
                     keyboardType: TextInputType.phone,
                     icon: Icon(
                       Icons.call,
@@ -172,5 +192,15 @@ class EnterOTPScreenState extends State<EnterOTPScreen> {
             side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
       ),
     );
+  }
+
+  @override
+  void onRequestOtpFailed() {
+    // TODO: implement onRequestOtpFailed
+  }
+
+  @override
+  void onRequestOtpSuccess() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>OTPScreen(mobno: _mobileNumber,isFromFogetPass: true,value: 1,)));
   }
 }

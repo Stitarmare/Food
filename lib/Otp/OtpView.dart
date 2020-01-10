@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/Otp/OtpPresenter.dart';
+import 'package:foodzi/ResetPassword/ResetPassView.dart';
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -68,8 +69,8 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     // otppresenter.performOTP(widget.mobno, otpsave, context);
     if (widget.value == 0) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
-    } else {
-      //forgot password
+    } else if (widget.isFromFogetPass == true && widget.value != 0) {
+      otppresenter.perfromresetpassword(widget.mobno,context);
     }
     // otppresenter.
     // Navigator.pushNamed(context, '/EnterOTPScreen');
@@ -309,5 +310,15 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void otpsuccess() {
     Navigator.pushNamed(context, '/ResetPasswordview');
     // TODO: implement otpsuccess
+  }
+
+  @override
+  void getFailedForForgetPass() {
+    // TODO: implement getFailedForForgetPass
+  }
+
+  @override
+  void getSuccesForForgetPass() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ResetPasswordview(mobno: widget.mobno,)));
   }
 }

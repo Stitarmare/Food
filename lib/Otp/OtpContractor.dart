@@ -8,4 +8,6 @@ abstract class OtpContract {
 abstract class OTPModelView {
   void otpsuccess();
   void otpfailed();
+  void getSuccesForForgetPass();
+  void getFailedForForgetPass();
 }

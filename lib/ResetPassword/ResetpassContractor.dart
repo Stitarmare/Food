@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class ResetpassContractor {
-  void perfromresetpassword(String mobno, BuildContext context);
+  void perfromresetpassword(String mobno,String password, BuildContext context);
   void onBackPresed();
 }
 

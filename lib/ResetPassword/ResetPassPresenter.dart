@@ -16,17 +16,19 @@ class ResetpasswordPresenter extends ResetpassContractor {
   @override
   void onBackPresed() {}
 
-  void perfromresetpassword(String mobno, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.resetpassverifyotp, context, body: {
+
+
+  void perfromresetpassword(String mobno,String password, BuildContext context) {
+    ApiBaseHelper().post(UrlConstant.updatePassword, context, body: {
       'mobile_number': mobno,
-      'device_token': "dsa",
-      'device_type': "1",
-      'user_type': "customer",
-      'otp': '123456',
+      'password':EncryptionAES.getData(password),
+      'password_confirmation':EncryptionAES.getData(password)
     }).then((value) {
       print(value);
       if (value['status_code'] == 200) {
         mregisterView.resetpasssuccess();
+      } else {
+        mregisterView.resetpassfailed();
       }
     });
 //ApiCall
