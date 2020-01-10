@@ -18,7 +18,7 @@ import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => SplashScreen(),
+  '/': (BuildContext context) => MainWidget(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
