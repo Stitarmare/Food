@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
+import 'package:foodzi/DineInPage/DineInView.dart';
 // import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
@@ -151,7 +152,8 @@ class _LandingStateView extends State<Landingview> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
+            _goToNextPageDineIn(context);
+            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
             print('Card tapped.');
           },
           child: Container(
@@ -218,7 +220,9 @@ class _LandingStateView extends State<Landingview> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:1)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BottomTabbar(tabValue: 1)));
+            // _goToNextPageTakeAway(context);
             print('Card tapped.');
           },
           child: Container(
@@ -276,21 +280,21 @@ class _LandingStateView extends State<Landingview> {
     );
   }
 
-//   _goToNextPageTakeAway(BuildContext context) {
-//     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//       return DineInView(
-//         title: 'Take Away',
-//       );
-//     }));
-//   }
+  _goToNextPageTakeAway(BuildContext context) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return DineInView(
+        title: 'Take Away',
+      );
+    }));
+  }
 
-//   _goToNextPageDineIn(BuildContext context) {
-//     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-//       return DineInView(
-//         title: 'Dine-in',
-//       );
-//     }));
-//   }
+  _goToNextPageDineIn(BuildContext context) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return DineInView(
+        title: 'Dine-in',
+      );
+    }));
+  }
 }
 
 class MainWidget extends StatefulWidget {
