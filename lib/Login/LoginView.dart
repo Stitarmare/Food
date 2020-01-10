@@ -274,7 +274,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       child: MaterialButton(
         elevation: 0,
         onPressed: () {
-          Navigator.pushNamed(context, '/OTPScreen');
+          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EnterOTPScreen()));
         },
         child: Text(
           KEY_OTP_SIGN_IN,

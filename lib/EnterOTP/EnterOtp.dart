@@ -75,7 +75,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
-      } else {
+      } else if (widget.flag == 2) {
         _enterOTPFormKey.currentState.save();
         Navigator.pushNamed(context, '/OTPScreen');
       }
