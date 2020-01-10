@@ -201,6 +201,21 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void onRequestOtpSuccess() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>OTPScreen(mobno: _mobileNumber,isFromFogetPass: true,value: 1,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => OTPScreen(
+              mobno: _mobileNumber,
+              isFromFogetPass: true,
+              value: 1,
+            )));
+  }
+
+  @override
+  void requestforloginotpfailed() {
+    // TODO: implement requestforloginotpfailed
+  }
+
+  @override
+  void requestforloginotpsuccess() {
+    // TODO: implement requestforloginotpsuccess
   }
 }
