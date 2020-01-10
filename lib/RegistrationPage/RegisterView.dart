@@ -4,6 +4,7 @@ import 'package:foodzi/Otp/OtpView.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -70,17 +71,17 @@ class _RegisterviewState extends State<Registerview>
   }
 
   void onSignUpButtonClicked() {
-    _goToNextPageDineIn(context);
+    if (_signUpFormKey.currentState.validate()) {
+      registerPresenter.performregister(
+          _username, _phoneno, _password, context);
+      // _goToNextPageDineIn(context);
 
-    // if (_signUpFormKey.currentState.validate()) {
-    //   registerPresenter.performregister(
-    //       _username, _phoneno, _password, context);
-    //   _signUpFormKey.currentState.save();
-    // } else {
-    //   setState(() {
-    //     _validate = true;
-    //   });
-    // }
+      _signUpFormKey.currentState.save();
+    } else {
+      setState(() {
+        _validate = true;
+      });
+    }
   }
 
   Widget _buildmainview() {
@@ -214,8 +215,8 @@ class _RegisterviewState extends State<Registerview>
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    } else if (value.length > 10) {
-      return KEY_THIS_SHOULD_BE_ONLY_10_CHAR_LONG;
+    } else if (value.length > 15) {
+      return KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG;
     } else if (!regexp.hasMatch(value)) {
       return Key_SPECIAL_CHAR;
     }
@@ -242,8 +243,8 @@ class _RegisterviewState extends State<Registerview>
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 8) {
-      return KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG;
+    } else if (value.length != 10) {
+      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
     }
     return null;
   }
@@ -314,12 +315,14 @@ class _RegisterviewState extends State<Registerview>
   @override
   void registerSuccess() {
     _signUpFormKey.currentState.save();
-    Navigator.pushNamed(context, '/OTPScreen');
+    _goToNextPageDineIn(context);
+    //Navigator.pushNamed(context, '/OTPScreen');
     // TODO: implement registerSuccess
   }
 
   @override
-  void registerfailed() {
+  void registerfailed(String message) {
+    Constants.showAlert("Incorrect Credentials", message, context);
     // TODO: implement registerfailed
   }
 }

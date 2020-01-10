@@ -38,6 +38,8 @@ class RegisterPresenter extends RegisterContract {
       print(value);
       if (value['status_code'] == 200) {
         mregisterView.registerSuccess();
+      } else {
+        mregisterView.registerfailed(value['message']);
       }
     });
 //ApiCall

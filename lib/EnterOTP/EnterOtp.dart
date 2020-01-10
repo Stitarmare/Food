@@ -76,8 +76,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
       if (widget.flag == 1) {
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
+        this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
-        Navigator.pushNamed(context, '/OTPScreen');
+        // Navigator.pushNamed(context, '/OTPScreen');
       }
     } else {
       setState(() {
@@ -216,6 +217,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void requestforloginotpsuccess() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => OTPScreen(
+              mobno: _mobileNumber,
+              isfromloginotp: false,
+              value: 0,
+            )));
     // TODO: implement requestforloginotpsuccess
   }
 }

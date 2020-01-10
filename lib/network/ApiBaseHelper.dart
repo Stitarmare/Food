@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/network/url_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/globle.dart';
-import 'package:foodzi/Utils/shared_preference.dart';
+//import 'package:foodzi_waiter/util/router.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
@@ -37,25 +38,29 @@ class ApiBaseHelper {
 
   var _baseUrlString = BaseUrl.getBaseUrl();
 
+  String authToken() {
+    if (Globle().authKey != null) {
+      return Globle().authKey;
+    }
+    return "";
+  }
+
   Map<String, String> getHeader(String url) {
     switch (url) {
       case UrlConstant.loginApi:
-      case UrlConstant.registerApi:
-      case UrlConstant.verifyotp:
-      case UrlConstant.resetPasswordWithOTP:
-      case UrlConstant.resetpassverifyotp:
-      case UrlConstant.updatePassword:
         return {
           //HttpHeaders.authorizationHeader: "Barier " + getAuthToken(),
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.acceptHeader: "application/json"
         };
-      default:
+      case UrlConstant.getCustomer:
         return {
-          HttpHeaders.authorizationHeader: "Bearer " + Globle().authKey,
+          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.acceptHeader: "application/json"
         };
+      default:
+        return {HttpHeaders.contentTypeHeader: "application/json"};
     }
   }
 
@@ -63,10 +68,17 @@ class ApiBaseHelper {
     try {
       final response =
           await http.get(_baseUrlString + url, headers: getHeader(url));
-      return _returnResponse(response);
+      return _returnResponse(response, context);
     } on SocketException {
       //throw FetchDataException('No Internet connection');
-      _showAlert(context);
+      _showAlert(
+        context,
+        "Wifi/Internet",
+        "Wifi/Internet not detected. Please activate it.",
+        () {
+          Navigator.of(context).pop();
+        },
+      );
     }
   }
 
@@ -74,9 +86,16 @@ class ApiBaseHelper {
     try {
       final response = await http.post(_baseUrlString + url,
           headers: getHeader(url), body: json.encode(body));
-      return _returnResponse(response);
+      return _returnResponse(response, context);
     } on SocketException {
-      _showAlert(context);
+      _showAlert(
+        context,
+        "Wifi/Internet",
+        "Wifi/Internet not detected. Please activate it.",
+        () {
+          Navigator.of(context).pop();
+        },
+      );
     }
   }
 
@@ -96,33 +115,39 @@ class ApiBaseHelper {
       var response = await request.send();
 
       http.Response.fromStream(response).then((value) {
-        _returnResponse(value);
+        _returnResponse(value, context);
       }).catchError((onError) {
         print(onError);
       });
     } on SocketException {
-      _showAlert(context);
+      _showAlert(
+        context,
+        "Wifi/Internet",
+        "Wifi/Internet not detected. Please activate it.",
+        () {
+          Navigator.of(context).pop();
+        },
+      );
     }
   }
 
-  void _showAlert(BuildContext context) {
+  void _showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Wifi/Internet"),
-              content: Text("Wifi/Internet not detected. Please activate it."),
+              title: Text(title),
+              content: Text(message),
               actions: <Widget>[
                 FlatButton(
                   child: Text("Ok"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: onPressed,
                 )
               ],
             ));
   }
 
-  dynamic _returnResponse(http.Response response) {
+  dynamic _returnResponse(http.Response response, BuildContext context) {
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -134,6 +159,14 @@ class ApiBaseHelper {
 
         return responseJson;
       case 401:
+        var responseJson = json.decode(response.body.toString());
+        var authMOdel = AuthModel.fromMap(responseJson);
+        if (authMOdel.sessionExpired) {
+          _showAlert(context, "Session", authMOdel.message, () {
+            Navigator.of(context).pushReplacementNamed("/");
+          });
+        }
+        break;
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 500:

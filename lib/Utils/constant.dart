@@ -17,4 +17,21 @@ class Constants {
   static isIOS() {
     return io.Platform.isIOS;
   }
+
+  static void showAlert(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(title),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
 }

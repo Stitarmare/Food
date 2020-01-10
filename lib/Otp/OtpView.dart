@@ -11,8 +11,10 @@ import 'package:pin_code_text_field/pin_code_text_field.dart';
 class OTPScreen extends StatefulWidget {
   String mobno;
   int value = 0;
+  bool isfromloginotp = false;
   bool isFromFogetPass = false;
-  OTPScreen({this.mobno, this.value, this.isFromFogetPass});
+  OTPScreen(
+      {this.mobno, this.value, this.isFromFogetPass, this.isfromloginotp});
   @override
   State<StatefulWidget> createState() {
     return _OTPScreenState();
@@ -70,7 +72,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     if (widget.value == 0) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
     } else if (widget.isFromFogetPass == true && widget.value != 0) {
-      otppresenter.perfromresetpassword(widget.mobno,context);
+      otppresenter.perfromresetpassword(widget.mobno, context);
     }
     // otppresenter.
     // Navigator.pushNamed(context, '/EnterOTPScreen');
@@ -177,13 +179,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length != 8) {
-      return KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG;
+      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
     }
     return null;
   }
 
   Widget _mobnoEntered() {
-    return Text('+91-12345 67890',
+    return Text(widget.mobno,
         style: TextStyle(
             color: greytheme300,
             fontFamily: 'gotham',
@@ -308,7 +310,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void otpsuccess() {
-    Navigator.pushNamed(context, '/ResetPasswordview');
+    Navigator.pushNamed(context, '/MainWidget');
     // TODO: implement otpsuccess
   }
 
@@ -319,6 +321,19 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void getSuccesForForgetPass() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_)=>ResetPasswordview(mobno: widget.mobno,)));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => ResetPasswordview(
+              mobno: widget.mobno,
+            )));
+  }
+
+  @override
+  void resendotpfailed() {
+    // TODO: implement resendotpfailed
+  }
+
+  @override
+  void resendotpsuccess() {
+    // TODO: implement resendotpsuccess
   }
 }

@@ -18,10 +18,10 @@ const KEY_SIGN_UP_WITH = KEY_SIGN_UP + ' with';
 const KEY_SIGN_IN_WITH = KEY_SIGN_IN + ' with';
 const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
 const Key_SPECIAL_CHAR = 'This Should Not Contain @ Or Any Special Character';
-const KEY_THIS_SHOULD_BE_ONLY_10_CHAR_LONG =
-    'This should be only 10 characters long.';
-const KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG =
-    'This should not be more than 8 characters';
+const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
+    'This should be only 8 characters long.';
+const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
+    'This should not be more than 10 characters';
 const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';
 const KEY_TERMS_AND_CONDITIONS = 'Terms and conditions';
 const KEY_OK = 'OK';
@@ -78,9 +78,3 @@ const KEY_CITY = 'City';
 const KEY_POSTAL_CODE = 'Postal Code';
 const KEY_UPDATE = 'UPDATE';
 const KEY_CANCEL_UC = 'CANCEL';
-
-
-
-
-
-

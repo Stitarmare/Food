@@ -28,9 +28,9 @@ class OtpPresenter extends OtpContract {
       print(value);
       if (value['status_code'] == 200) {
         otpView.getSuccesForForgetPass();
-        } else {
-          otpView.getFailedForForgetPass();
-        }
+      } else {
+        otpView.getFailedForForgetPass();
+      }
     });
 //ApiCall
     //;
@@ -42,6 +42,23 @@ class OtpPresenter extends OtpContract {
       'device_token': 'gfgfg',
       'user_type': 'customer',
       'device_type': '1',
+      'mobile_number': mobno,
+    }).then((value) {
+      print(value);
+      if (value['status_code'] == 200) {
+        otpView.otpsuccess();
+      }
+    });
+//ApiCall
+    //;
+  }
+
+  void performresendOTP(String mobno, String otp, BuildContext context) {
+    ApiBaseHelper().post(UrlConstant.verifyotp, context, body: {
+      // 'otp': otp,
+      // 'device_token': 'gfgfg',
+      // 'user_type': 'customer',
+      // 'device_type': '1',
       'mobile_number': mobno,
     }).then((value) {
       print(value);

@@ -6,6 +6,7 @@ import 'package:foodzi/Login/LoginContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 //import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -25,6 +26,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
 
+  var mobilenumber = '';
+  var password = '';
   bool _validate = false;
   var loginPresenter;
   @override
@@ -69,8 +72,11 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   void onSignInButtonClicked() {
+    CircularProgressIndicator(
+      backgroundColor: Colors.green,
+    );
     if (_signInFormKey.currentState.validate()) {
-      loginPresenter.performLogin(mobno, enterPass, context);
+      loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
       // Navigator.pushNamed(context, '/Landingview');
     } else {
@@ -156,6 +162,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     return Column(
       children: <Widget>[
         AppTextField(
+          onChanged: (text) {
+            mobilenumber = text;
+          },
           keyboardType: TextInputType.phone,
           icon: Icon(
             Icons.call,
@@ -169,6 +178,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         ),
         SizedBox(height: 15),
         AppTextField(
+          onChanged: (text) {
+            password = text;
+          },
           obscureText: true,
           placeHolderName: KEY_ENTER_PASSWORD,
           icon: Transform.rotate(
@@ -212,12 +224,12 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 8) {
-      return KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG;
+    } else if (value.length != 10) {
+      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
     }
     return null;
   }
-  
+
   Widget _forgotpassword() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -229,7 +241,12 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           height: 5,
           child: MaterialButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>EnterOTPScreen(flag: 1,)));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => EnterOTPScreen(
+                            flag: 1,
+                          )));
             },
             child: Text(
               KEY_FORGET_PASSWORD,
@@ -274,7 +291,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       child: MaterialButton(
         elevation: 0,
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EnterOTPScreen()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => EnterOTPScreen(
+                    flag: 2,
+                  )));
         },
         child: Text(
           KEY_OTP_SIGN_IN,
@@ -325,7 +345,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   @override
-  void loginFailed() {
+  void loginFailed(String message) {
+    Constants.showAlert("Incorrect Login", message, context);
     // TODO: implement loginFailed
   }
 

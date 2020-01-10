@@ -16,7 +16,8 @@ class ResetPasswordview extends StatefulWidget {
   }
 }
 
-class _ResetPasswordview extends State<ResetPasswordview>  implements ResetPassModelView{
+class _ResetPasswordview extends State<ResetPasswordview>
+    implements ResetPassModelView {
   static String enterPass = KEY_ENTER_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
@@ -33,10 +34,10 @@ class _ResetPasswordview extends State<ResetPasswordview>  implements ResetPassM
   var _password;
   var _confirmPassword;
 
-   @override
+  @override
   void initState() {
     // TODO: implement initState
-   resetpasswordPresenter = ResetpasswordPresenter(this);
+    resetpasswordPresenter = ResetpasswordPresenter(this);
     super.initState();
   }
 
@@ -78,7 +79,8 @@ class _ResetPasswordview extends State<ResetPasswordview>  implements ResetPassM
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
-      resetpasswordPresenter.perfromresetpassword(widget.mobno, _password,  context);
+      resetpasswordPresenter.perfromresetpassword(
+          widget.mobno, _password, context);
       //_resetpasswordFormKey.currentState.save();
       //Navigator.pushNamed(context, '/Landingview');
     } else {
@@ -197,8 +199,8 @@ class _ResetPasswordview extends State<ResetPasswordview>  implements ResetPassM
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 8) {
-      return KEY_THIS_SHOULD_BE_8_PLUS_CHAR_LONG;
+    } else if (value.length != 10) {
+      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
     }
     return null;
   }

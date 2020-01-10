@@ -24,12 +24,14 @@ class LoginPresenter extends LoginContract {
 
   void performLogin(String mobno, String password, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.loginApi, context, body: {
-      'mobile_number': "7038190943",
-      'password': "16d7a4fca7442dda3ad93c9a726597e4"
+      'mobile_number': mobno,
+      'password': _encryptValue(password),
     }).then((value) {
       print(value);
       if (value['status_code'] == 200) {
         mLoginView.loginSuccess();
+      } else {
+        mLoginView.loginFailed(value['message']);
       }
     });
 //ApiCall

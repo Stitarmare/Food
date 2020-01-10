@@ -7,5 +7,5 @@ abstract class LoginContract {
 
 abstract class LoginModelView {
   void loginSuccess();
-  void loginFailed();
+  void loginFailed(String message);
 }

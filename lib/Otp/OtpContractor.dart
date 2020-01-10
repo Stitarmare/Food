@@ -10,4 +10,6 @@ abstract class OTPModelView {
   void otpfailed();
   void getSuccesForForgetPass();
   void getFailedForForgetPass();
+  void resendotpsuccess();
+  void resendotpfailed();
 }

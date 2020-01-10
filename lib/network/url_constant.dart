@@ -7,4 +7,5 @@ class UrlConstant {
   static const resetpassverifyotp = "api/verifyOTPForReset";
   static const resetPasswordWithOTP = "api/resetPasswordWithOTP";
   static const updatePassword = "api/updatePassword";
+  static const resendOTP = "api/resendOTP";
 }
