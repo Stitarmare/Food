@@ -31,12 +31,11 @@ class _ResetPasswordview extends State<ResetPasswordview>
   };
 
   var resetpasswordPresenter;
-  var _password;
-  var _confirmPassword;
+  var _password = '';
+  var _confirmPassword = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     resetpasswordPresenter = ResetpasswordPresenter(this);
     super.initState();
   }

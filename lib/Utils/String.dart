@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 const KEY_APP_NAME = 'foodZi';
 const KEY_APP_SLOGAN = 'Loading, please wait...';

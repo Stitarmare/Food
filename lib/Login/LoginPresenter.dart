@@ -4,7 +4,7 @@ import 'package:foodzi/Login/LoginContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-import 'package:foodzi/Utils/globle.dart';
+//import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 
 class LoginPresenter extends LoginContract {
