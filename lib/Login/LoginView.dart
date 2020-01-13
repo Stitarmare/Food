@@ -328,7 +328,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/Registerview');
+              Navigator.pushReplacementNamed(context, '/Registerview');
             },
             child: new Text(
               KEY_SIGNUP,
@@ -354,6 +354,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   void loginSuccess() {
     // TODO: implement loginSuccess
     _signInFormKey.currentState.save();
-    Navigator.pushNamed(context, '/MainWidget');
+    Navigator.pushReplacementNamed(context, '/MainWidget');
   }
 }
