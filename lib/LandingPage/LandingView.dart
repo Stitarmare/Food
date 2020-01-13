@@ -7,6 +7,9 @@ import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
+import 'package:outline_material_icons/outline_material_icons.dart';
+
+
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
   String title;
@@ -29,8 +32,9 @@ class _LandingStateView extends State<Landingview> {
           actions: <Widget>[
             new IconButton(
               icon: new Icon(
-                Icons.notifications,
+                OMIcons.notifications,
                 color: greytheme100,
+                size: 28,
               ),
               onPressed: () {
                 Navigator.push(
@@ -153,12 +157,7 @@ class _LandingStateView extends State<Landingview> {
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             // _goToNextPageDineIn(context);
-<<<<<<< HEAD
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
-=======
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 0)));
->>>>>>> c19605968a1c341a3568039292ca9dc44be7c95f
             print('Card tapped.');
           },
           child: Container(

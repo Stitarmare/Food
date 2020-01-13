@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:foodzi/Models/authmodel.dart';
+import 'package:foodzi/models/authmodel.dart';
+import 'package:foodzi/models/authmodel.dart';
 import 'package:foodzi/network/url_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/globle.dart';
