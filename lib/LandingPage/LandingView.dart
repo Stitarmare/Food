@@ -152,8 +152,8 @@ class _LandingStateView extends State<Landingview> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            _goToNextPageDineIn(context);
-            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
+            // _goToNextPageDineIn(context);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
             print('Card tapped.');
           },
           child: Container(

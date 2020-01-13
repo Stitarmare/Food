@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
-                top: MediaQuery.of(context).size.height /6,
+                top: MediaQuery.of(context).size.height*0.35-141,
                 child: Stack(
                   children: <Widget>[
                     ClipOval(
