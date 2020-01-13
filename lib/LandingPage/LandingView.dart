@@ -153,12 +153,7 @@ class _LandingStateView extends State<Landingview> {
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             // _goToNextPageDineIn(context);
-<<<<<<< HEAD
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
-=======
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 0)));
->>>>>>> c19605968a1c341a3568039292ca9dc44be7c95f
             print('Card tapped.');
           },
           child: Container(

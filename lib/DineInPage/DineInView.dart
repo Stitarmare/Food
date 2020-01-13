@@ -111,10 +111,16 @@ Widget _getdetails(
             padding: const EdgeInsets.only(left: 10.0),
             child: Row(
               children: <Widget>[
-                Icon(
-                  Icons.watch_later,
-                  color: Colors.green,
-                  size: 15,
+                // Icon(
+                //   Icons.watch_later,
+                //   color: Colors.green,
+                //   size: 15,
+                // ),
+                IconButton(
+                  icon: Image.asset('assets/DineInClockIcon/.png',width: 12,height: 14,),
+                  onPressed: (){
+
+                  },
                 ),
                 SizedBox(
                   width: 10.0,
