@@ -183,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/ResetPasswordview');
+              Navigator.pushNamed(context, '/ChangePasswordview');
             },
             child: new Text(
               KEY_CHANGE_PASSWORD,

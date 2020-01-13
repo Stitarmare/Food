@@ -16,6 +16,7 @@ import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
+import 'ChangePassword/ChangePassView.dart';
 
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashScreen(),
@@ -24,6 +25,7 @@ var routes = <String, WidgetBuilder>{
   '/MainWidget': (BuildContext context) => MainWidget(),
   '/Registerview': (BuildContext context) => Registerview(),
   '/ResetPasswordview': (BuildContext context) => ResetPasswordview(),
+  '/ChangePasswordview': (BuildContext context) => ChangePasswordview(),
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
