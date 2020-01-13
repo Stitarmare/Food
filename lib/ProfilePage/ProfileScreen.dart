@@ -15,91 +15,105 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    // SafeArea(
-      
-      // top: true,
-      // bottom: true,
-      // child: 
-      Scaffold(
-        appBar: PreferredSize(
+    return
+        // SafeArea(
+
+        // top: true,
+        // bottom: true,
+        // child:
+        Scaffold(
+      appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height * 0.2),
-          child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              Center(
-                  child: Image.asset(
-                'assets/BlurImage/Group1612.png',
-                height: MediaQuery.of(context).size.height*0.35,
-                fit: BoxFit.fill,
-                width: MediaQuery.of(context).size.width,
-              )),
-              // Container(
-              //   child: 
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(
-                      //   width: 6,
-                      // ),
-                      FlatButton(child: Image.asset('assets/BackButtonIcon/Path1621.png'),onPressed: (){
-                        // Navigator.pop(context);
-                        Navigator.pushReplacementNamed(context, '/MainWidget');
-                      },),
-                       SizedBox(
-                        width: 10.2,
-                      ),
-                      Text(
-                        "My Profile",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontFamily: 'gotham',
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
+          child: Stack(overflow: Overflow.visible, children: <Widget>[
+            Center(
+                child: Image.asset(
+              'assets/BlurImage/Group1612.png',
+              height: MediaQuery.of(context).size.height * 0.35,
+              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+            )),
+            // Container(
+            //   child:
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // SizedBox(
+                  //   width: 6,
+                  // ),
+                  FlatButton(
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    onPressed: () {
+                      // Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, '/MainWidget');
+                    },
                   ),
-                // ),
+                  SizedBox(
+                    width: 10.2,
+                  ),
+                  Text(
+                    "My Profile",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
               ),
-              Positioned(
-                left: MediaQuery.of(context).size.width / 2.5,
-                top: MediaQuery.of(context).size.height*0.35-141,
-                child: Stack(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/ProfileImage/MaskGroup15.png',
-                        fit: BoxFit.cover,
-                        width: 82.5,
-                        height: 82.5,
+              // ),
+            ),
+            Positioned(
+              left: MediaQuery.of(context).size.width / 2.5,
+              top: MediaQuery.of(context).size.height * 0.35 - 141,
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  ClipOval(
+                    child: Image.asset(
+                      'assets/ProfileImage/MaskGroup15.png',
+                      fit: BoxFit.cover,
+                      width: 82.5,
+                      height: 82.5,
+                    ),
+                  ),
+                  Positioned(
+                    right: 0.0,
+                    top: 5.0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        ShowDilogBox();
+                      },
+                      // child: Container(
+                      //   width: 23,
+                      //   height: 23,
+                      //   foregroundDecoration: BoxDecoration(
+                      //     shape: BoxShape.circle,
+                      //     image: DecorationImage(
+                      //       image: AssetImage('assets/DineInImage/Group1504.png')),
+                      //     )
+                      //   ),
+                      child: ClipOval(
+                        child: Container(
+                          width: 22,
+                          height: 22,
+                          color: orangetheme,
+                          child:
+                              Icon(Icons.edit, size: 16, color: Colors.white),
+                        ),
                       ),
                     ),
-                    Positioned(
-                      right: 0.0,
-                      bottom: 5.0,
-                      child: ClipOval(
-                        
-                          child: Container(
-                              width: 22,
-                              height: 22,
-                              color: orangetheme,
-                              child: Icon(Icons.edit,
-                                    size: 16, color: Colors.white), 
-                              ),
-                        
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        body: SingleChildScrollView(child: _getMainView()),
+            ),
+          ])),
+
+      body: SingleChildScrollView(child: _getMainView()),
       // ),
     );
   }
@@ -229,5 +243,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  ShowDilogBox() {
+    return showDialog(
+      
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            title: Text(
+              'Select One',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 22,
+                  color: greentheme100,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w700),
+            ),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  //Camera
+                  print("Camera");
+                },
+                child: ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text(
+                    'Camera',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: greytheme100,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  //Gallery
+                  print("Gallery");
+                },
+                child: ListTile(
+                  leading: Icon(Icons.image),
+                  title: Text(
+                    'Gallery',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: greytheme100,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
