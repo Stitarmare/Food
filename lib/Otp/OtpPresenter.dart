@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/Models/Modelclass.dart';
+import 'package:foodzi/models/Modelclass.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/url_constant.dart';

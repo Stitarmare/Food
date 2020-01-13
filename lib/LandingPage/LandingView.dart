@@ -7,6 +7,8 @@ import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
+import 'package:outline_material_icons/outline_material_icons.dart';
+
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
   String title;
@@ -29,8 +31,9 @@ class _LandingStateView extends State<Landingview> {
           actions: <Widget>[
             new IconButton(
               icon: new Icon(
-                Icons.notifications,
+                OMIcons.notifications,
                 color: greytheme100,
+                size: 28,
               ),
               onPressed: () {
                 Navigator.push(

@@ -30,6 +30,7 @@ dependencies:
   pin_code_text_field: ^1.5.1
   shared_preferences: 
   crypto:
+  outline_material_icons: ^0.1.1
 
 dev_dependencies:
   flutter_test:
