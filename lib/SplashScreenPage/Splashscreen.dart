@@ -29,8 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
             //SizedBox(height: 30),
             Image.asset(
               'assets/SplashScreen/LauncherScreen.png',
-              // width: 900,
-              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.cover,
               // height: 500.0,
             ),
             // SizedBox(height: 100),
