@@ -1,4 +1,4 @@
-import 'package:foodzi/Models/Modelclass.dart';
+import 'package:foodzi/models/Modelclass.dart';
 
 class Globle {
   static final Globle _globle = Globle.internal();

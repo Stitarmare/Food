@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
-// import 'package:foodzi/DineInPage/DineInView.dart';
+
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/Drawer/drawer.dart';
 
+import 'package:foodzi/Drawer/drawer.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class Landingview extends DrawerContent {

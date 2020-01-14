@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  drawerbehavior: ^0.0.4
+  drawerbehavior: ^0.0.8
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -32,6 +32,7 @@ dependencies:
   crypto:
   outline_material_icons: ^0.1.1
   image_picker:
+  path_provider:  
 
 dev_dependencies:
   flutter_test:
@@ -188,3 +189,9 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+module:
+  androidX: true 
+    
+   
+    
