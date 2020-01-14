@@ -3,6 +3,9 @@ import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
 
@@ -12,7 +15,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
-
+  File _image;
+  Future getImage(bool isCamera) async {
+    File image;
+    if (isCamera) {
+      image = await ImagePicker.pickImage(source: ImageSource.camera);
+    } else {
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    }
+    setState(() {
+      _image = image;
+    });
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return
@@ -73,20 +88,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipOval(
-                    child: Image.asset(
-                      'assets/ProfileImage/MaskGroup15.png',
-                      fit: BoxFit.cover,
-                      width: 82.5,
-                      height: 82.5,
-                    ),
-                  ),
+                      child: _image == null 
+                          ? Image.asset(
+                              'assets/ProfileImage/MaskGroup15.png',
+                              fit: BoxFit.cover,
+                              width: 82.5,
+                              height: 82.5,
+                            )
+                          : Image.file(
+                              _image,
+                              fit: BoxFit.cover,
+                              width: 82.5,
+                              height: 82.5,
+                            )),
                   Positioned(
                     right: 0.0,
                     top: 5.0,
                     child: GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        ShowDilogBox();
+                        showDialooxg();
                       },
                       // child: Container(
                       //   width: 23,
@@ -245,9 +266,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  ShowDilogBox() {
+  showDialooxg() {
     return showDialog(
-      
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
@@ -268,7 +288,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SimpleDialogOption(
                 onPressed: () {
                   //Camera
+                  getImage(true);
                   print("Camera");
+                  Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.camera),
@@ -285,7 +307,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SimpleDialogOption(
                 onPressed: () {
                   //Gallery
+                  getImage(false);
                   print("Gallery");
+                  Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.image),
