@@ -14,6 +14,7 @@ class _EditProfileState extends State<EditProfileview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
@@ -61,7 +62,6 @@ Widget _getmainView(BuildContext context) {
         SizedBox(
           height: 28,
         ),
-        
         BoxAppTextField(
           placeHolderName: KEY_COUNTRY,
         ),

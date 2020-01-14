@@ -30,13 +30,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
  
   @override
   Widget build(BuildContext context) {
-    return
-        // SafeArea(
+    // SafeArea(
 
-        // top: true,
-        // bottom: true,
-        // child:
-        Scaffold(
+    // top: true,
+    // bottom: true,
+    // child:
+    return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height * 0.2),

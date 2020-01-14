@@ -4,6 +4,7 @@ import 'package:foodzi/DineInPage/DineInView.dart';
 // import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 
@@ -109,7 +110,7 @@ class _LandingStateView extends State<Landingview> {
             height: 10,
           ),
           Text(
-            'George',
+            Globle().loginModel.data.firstName ?? '',
             style: TextStyle(
                 fontSize: 32,
                 fontFamily: 'gotham',
@@ -441,7 +442,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    'George Thomas',
+                    '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         color: greytheme700,

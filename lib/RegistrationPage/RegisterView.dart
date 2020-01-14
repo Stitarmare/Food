@@ -308,7 +308,10 @@ class _RegisterviewState extends State<Registerview>
 
   _goToNextPageDineIn(BuildContext context) {
     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return OTPScreen(mobno: _phoneno);
+      return OTPScreen(
+        mobno: _phoneno,
+        value: 0,
+      );
     }));
   }
 
