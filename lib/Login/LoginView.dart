@@ -25,7 +25,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String enterPass = KEY_ENTER_PASSWORD;
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
-
+  var name;
   var mobilenumber = '';
   var password = '';
   bool _validate = false;

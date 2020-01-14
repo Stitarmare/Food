@@ -1,3 +1,5 @@
+import 'package:foodzi/Models/Modelclass.dart';
+
 class Globle {
   static final Globle _globle = Globle.internal();
 
@@ -6,6 +8,6 @@ class Globle {
   }
 
   Globle.internal();
-
+  var loginModel;
   var authKey;
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './Utils/String.dart';
 
@@ -19,7 +20,7 @@ import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => RestaurantView(),
+  '/': (BuildContext context) => SplashScreen(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
