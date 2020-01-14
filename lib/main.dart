@@ -20,7 +20,7 @@ import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
 
 var routes = <String, WidgetBuilder>{
-  '/': (BuildContext context) => MainWidget(),
+  '/': (BuildContext context) => SplashScreen(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
