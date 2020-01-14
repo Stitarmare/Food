@@ -27,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _image = image;
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     // SafeArea(
@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipOval(
-                      child: _image == null 
+                      child: _image == null
                           ? Image.asset(
                               'assets/ProfileImage/MaskGroup15.png',
                               fit: BoxFit.cover,

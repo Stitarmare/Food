@@ -31,9 +31,8 @@ dependencies:
   shared_preferences: 
   crypto:
   outline_material_icons: ^0.1.1
-  # Camera and Gallery
-  image_picker: ^0.6.3
-
+  image_picker:
+  path_provider:  
 
 dev_dependencies:
   flutter_test:
