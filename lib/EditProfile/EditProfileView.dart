@@ -12,8 +12,12 @@ class EditProfileview extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfileview> {
   static List<CountryModel> _dropdownItems = new List();
+  static List<StateModel> _dropdownItemsState = new List();
+  static List<CityModel> _dropdownItemsCity = new List();
   final formKey = new GlobalKey<FormState>();
   CountryModel _dropdownValue;
+  StateModel _dropdownStateValue;
+  CityModel _dropdownCityValue;
   String _errorText;
   @override
   void initState() {
@@ -22,6 +26,10 @@ class _EditProfileState extends State<EditProfileview> {
     setState(() {
       _dropdownItems.add(CountryModel(country: 'India', countryCode: '+91'));
       _dropdownItems.add(CountryModel(country: 'USA', countryCode: '+1'));
+      _dropdownItemsState.add(StateModel(state: 'MH'));
+      _dropdownItemsState.add(StateModel(state: 'UP'));
+      _dropdownItemsCity.add(CityModel(city: 'Mumbai'));
+      _dropdownItemsCity.add(CityModel(city: 'Navi Mumbai'));
       //_dropdownValue = _dropdownItems[0];
     });
   }
@@ -79,15 +87,17 @@ class _EditProfileState extends State<EditProfileview> {
           SizedBox(
             height: 28,
           ),
-          BoxAppTextField(
-            placeHolderName: KEY_STATE,
-          ),
+          // BoxAppTextField(
+          //   placeHolderName: KEY_STATE,
+          // ),
+          _buildState(),
           SizedBox(
             height: 28,
           ),
-          BoxAppTextField(
-            placeHolderName: KEY_CITY,
-          ),
+          // BoxAppTextField(
+          //   placeHolderName: KEY_CITY,
+          // ),
+          _buildCity(),
           SizedBox(
             height: 28,
           ),
@@ -207,6 +217,126 @@ class _EditProfileState extends State<EditProfileview> {
       },
     );
   }
+    Widget _buildState() {
+    return FormField(
+      builder: (FormFieldState state) {
+        return DropdownButtonHideUnderline(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              new InputDecorator(
+                decoration: InputDecoration(
+                  
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                  focusedBorder: OutlineInputBorder(
+                    
+                    borderSide: BorderSide(color: greentheme100, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: greytheme900, width: 2)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6.0)),
+                  filled: false,
+                  hintText: 'Choose State',
+                  prefixIcon: Icon(
+                    Icons.pin_drop,
+                    size: 20,
+                    color: greytheme1000,
+                  ),
+                  labelText:
+                      _dropdownStateValue == null ? 'Where are you from' : 'From',
+                  errorText: _errorText,
+                  labelStyle: TextStyle(
+                      color: greytheme1000,
+                      fontSize: 16,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w500),
+                ),
+                isEmpty: _dropdownStateValue == null,
+                child: new DropdownButton<StateModel>(
+                  value: _dropdownStateValue,
+                  isDense: true,
+                  onChanged: (StateModel newValue) {
+                    print('value change');
+                    print(newValue);
+                    setState(() {
+                      _dropdownStateValue = newValue;
+                    });
+                  },
+                  items: _dropdownItemsState.map((StateModel value) {
+                    return DropdownMenuItem<StateModel>(
+                      value: value,
+                      child: Text(value.state),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+    Widget _buildCity() {
+    return FormField(
+      builder: (FormFieldState state) {
+        return DropdownButtonHideUnderline(
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              new InputDecorator(
+                decoration: InputDecoration(
+                  
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                  focusedBorder: OutlineInputBorder(
+                    
+                    borderSide: BorderSide(color: greentheme100, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: greytheme900, width: 2)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(6.0)),
+                  filled: false,
+                  hintText: 'Choose Country',
+                  prefixIcon: Icon(
+                    Icons.location_city,
+                    size: 20,
+                    color: greytheme1000,
+                  ),
+                  labelText:
+                      _dropdownCityValue == null ? 'Where are you from' : 'From',
+                  errorText: _errorText,
+                  labelStyle: TextStyle(
+                      color: greytheme1000,
+                      fontSize: 16,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w500),
+                ),
+                isEmpty: _dropdownCityValue == null,
+                child: new DropdownButton<CityModel>(
+                  value: _dropdownCityValue,
+                  isDense: true,
+                  onChanged: (CityModel newValue) {
+                    print('value change');
+                    print(newValue);
+                    setState(() {
+                      _dropdownCityValue = newValue;
+                    });
+                  },
+                  items: _dropdownItemsCity.map((CityModel value) {
+                    return DropdownMenuItem<CityModel>(
+                      value: value,
+                      child: Text(value.city),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
 
 class CountryModel {
@@ -218,3 +348,17 @@ class CountryModel {
     this.countryCode,
   });
 }
+class StateModel {
+  String state = '';
+  StateModel({
+    this.state,
+
+  });
+}
+class CityModel {
+  String city = '';
+  CityModel({
+    this.city,
+  });
+}
+
