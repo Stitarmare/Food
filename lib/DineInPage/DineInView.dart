@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 
+import 'package:outline_material_icons/outline_material_icons.dart';
+
+
 class DineInView extends StatefulWidget {
   String title;
   DineInView({this.title});
@@ -44,9 +47,9 @@ class _DineViewState extends State<DineInView> {
             ),
             elevation: 2,
             margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-            color: _selected[i]
-                ? Colors.blue
-                : null, // if current item is selected show blue color
+            // color: _selected[i]
+            //     ? Colors.blue
+            //     : null, // if current item is selected show blue color
             child: ListTile(
               contentPadding: EdgeInsets.all(0.0),
               title: _getMainView(
@@ -111,16 +114,10 @@ Widget _getdetails(
             padding: const EdgeInsets.only(left: 10.0),
             child: Row(
               children: <Widget>[
-                // Icon(
-                //   Icons.watch_later,
-                //   color: Colors.green,
-                //   size: 15,
-                // ),
-                IconButton(
-                  icon: Image.asset('assets/DineInClockIcon/.png',width: 12,height: 14,),
-                  onPressed: (){
-
-                  },
+                Icon(
+                  OMIcons.accessTime,
+                  color: Colors.green,
+                  size: 15,
                 ),
                 SizedBox(
                   width: 10.0,

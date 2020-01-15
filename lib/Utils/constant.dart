@@ -34,4 +34,6 @@ class Constants {
               ],
             ));
   }
+
+  static void buttoncollection(String title) {}
 }

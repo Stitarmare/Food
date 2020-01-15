@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
+import 'package:foodzi/models/Modelclass.dart';
+import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-import 'package:foodzi/Utils/globle.dart';
+//import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 
 class LoginPresenter extends LoginContract {
@@ -29,6 +31,10 @@ class LoginPresenter extends LoginContract {
     }).then((value) {
       print(value);
       if (value['status_code'] == 200) {
+        var loginModel = LoginModel.fromJson(value);
+
+        Globle().loginModel = loginModel;
+
         mLoginView.loginSuccess();
       } else {
         mLoginView.loginFailed(value['message']);

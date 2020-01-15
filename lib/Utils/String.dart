@@ -1,4 +1,4 @@
-import 'dart:ffi';
+//import 'dart:ffi';
 
 const KEY_APP_NAME = 'foodZi';
 const KEY_APP_SLOGAN = 'Loading, please wait...';
@@ -13,6 +13,8 @@ const KEY_MOBILE_NUMBER_REQUIRED = 'Mobile Number is Required';
 const KEY_MOBILE_NUMBER_LIMIT = 'Mobile No. must have 10 digits only';
 const KEY_MOBILE_NUMBER_TEXT = 'Mobile No. must be digits';
 const KEY_ENTER_PASSWORD = 'Enter Password';
+const KEY_ENTER_OLD_PASSWORD = 'Enter Old Password';
+const KEY_ENTER_NEW_PASSWORD = 'Enter New Password';
 const KEY_CONFIRM_PASSWORD = 'Confirm Password';
 const KEY_SIGN_UP_WITH = KEY_SIGN_UP + ' with';
 const KEY_SIGN_IN_WITH = KEY_SIGN_IN + ' with';

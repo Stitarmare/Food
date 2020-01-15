@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
-// import 'package:foodzi/DineInPage/DineInView.dart';
+
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
+
 import 'package:foodzi/Drawer/drawer.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
@@ -29,8 +32,9 @@ class _LandingStateView extends State<Landingview> {
           actions: <Widget>[
             new IconButton(
               icon: new Icon(
-                Icons.notifications,
+                OMIcons.notifications,
                 color: greytheme100,
+                size: 28,
               ),
               onPressed: () {
                 Navigator.push(
@@ -106,7 +110,7 @@ class _LandingStateView extends State<Landingview> {
             height: 10,
           ),
           Text(
-            'George',
+            Globle().loginModel.data.firstName ?? '',
             style: TextStyle(
                 fontSize: 32,
                 fontFamily: 'gotham',
@@ -153,7 +157,8 @@ class _LandingStateView extends State<Landingview> {
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             // _goToNextPageDineIn(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>BottomTabbar(tabValue:0)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BottomTabbar(tabValue: 0)));
             print('Card tapped.');
           },
           child: Container(
@@ -280,21 +285,21 @@ class _LandingStateView extends State<Landingview> {
     );
   }
 
-  _goToNextPageTakeAway(BuildContext context) {
-    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return DineInView(
-        title: 'Take Away',
-      );
-    }));
-  }
+  // _goToNextPageTakeAway(BuildContext context) {
+  //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+  //     return DineInView(
+  //       title: 'Take Away',
+  //     );
+  //   }));
+  // }
 
-  _goToNextPageDineIn(BuildContext context) {
-    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return DineInView(
-        title: 'Dine-in',
-      );
-    }));
-  }
+  // _goToNextPageDineIn(BuildContext context) {
+  //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+  //     return DineInView(
+  //       title: 'Dine-in',
+  //     );
+  //   }));
+  // }
 }
 
 class MainWidget extends StatefulWidget {
@@ -437,7 +442,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Padding(
                   padding: EdgeInsets.only(left: 30.0),
                   child: Text(
-                    'George Thomas',
+                    '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         color: greytheme700,

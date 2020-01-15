@@ -3,6 +3,9 @@ import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
 
@@ -12,94 +15,125 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
+  File _image;
+  Future getImage(bool isCamera) async {
+    File image;
+    if (isCamera) {
+      image = await ImagePicker.pickImage(source: ImageSource.camera);
+    } else {
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    }
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return 
     // SafeArea(
-      
-      // top: true,
-      // bottom: true,
-      // child: 
-      Scaffold(
-        appBar: PreferredSize(
+
+    // top: true,
+    // bottom: true,
+    // child:
+    return Scaffold(
+      appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height * 0.2),
-          child: Stack(
-            overflow: Overflow.visible,
-            children: <Widget>[
-              Center(
-                  child: Image.asset(
-                'assets/BlurImage/Group1612.png',
-                height: MediaQuery.of(context).size.height*0.35,
-                fit: BoxFit.fill,
-                width: MediaQuery.of(context).size.width,
-              )),
-              // Container(
-              //   child: 
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(
-                      //   width: 6,
-                      // ),
-                      FlatButton(child: Image.asset('assets/BackButtonIcon/Path1621.png'),onPressed: (){
-                        // Navigator.pop(context);
-                        Navigator.pushReplacementNamed(context, '/MainWidget');
-                      },),
-                       SizedBox(
-                        width: 10.2,
-                      ),
-                      Text(
-                        "My Profile",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontFamily: 'gotham',
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
+          child: Stack(overflow: Overflow.visible, children: <Widget>[
+            Center(
+                child: Image.asset(
+              'assets/BlurImage/Group1612.png',
+              height: MediaQuery.of(context).size.height * 0.35,
+              fit: BoxFit.fill,
+              width: MediaQuery.of(context).size.width,
+            )),
+            // Container(
+            //   child:
+            Container(
+              margin: EdgeInsets.fromLTRB(0, 14, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // SizedBox(
+                  //   width: 6,
+                  // ),
+                  FlatButton(
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    onPressed: () {
+                      // Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, '/MainWidget');
+                    },
                   ),
-                // ),
+                  SizedBox(
+                    width: 10.2,
+                  ),
+                  Text(
+                    "My Profile",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
               ),
-              Positioned(
-                left: MediaQuery.of(context).size.width / 2.5,
-                top: MediaQuery.of(context).size.height*0.35-141,
-                child: Stack(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/ProfileImage/MaskGroup15.png',
-                        fit: BoxFit.cover,
-                        width: 82.5,
-                        height: 82.5,
+              // ),
+            ),
+            Positioned(
+              left: MediaQuery.of(context).size.width / 2.5,
+              top: MediaQuery.of(context).size.height * 0.35 - 141,
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  ClipOval(
+                      child: _image == null
+                          ? Image.asset(
+                              'assets/ProfileImage/MaskGroup15.png',
+                              fit: BoxFit.cover,
+                              width: 82.5,
+                              height: 82.5,
+                            )
+                          : Image.file(
+                              _image,
+                              fit: BoxFit.cover,
+                              width: 82.5,
+                              height: 82.5,
+                            )),
+                  Positioned(
+                    right: 0.0,
+                    top: 5.0,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        showDialooxg();
+                      },
+                      // child: Container(
+                      //   width: 23,
+                      //   height: 23,
+                      //   foregroundDecoration: BoxDecoration(
+                      //     shape: BoxShape.circle,
+                      //     image: DecorationImage(
+                      //       image: AssetImage('assets/DineInImage/Group1504.png')),
+                      //     )
+                      //   ),
+                      child: ClipOval(
+                        child: Container(
+                          width: 22,
+                          height: 22,
+                          color: orangetheme,
+                          child:
+                              Icon(Icons.edit, size: 16, color: Colors.white),
+                        ),
                       ),
                     ),
-                    Positioned(
-                      right: 0.0,
-                      bottom: 5.0,
-                      child: ClipOval(
-                        
-                          child: Container(
-                              width: 22,
-                              height: 22,
-                              color: orangetheme,
-                              child: Icon(Icons.edit,
-                                    size: 16, color: Colors.white), 
-                              ),
-                        
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        body: SingleChildScrollView(child: _getMainView()),
+            ),
+          ])),
+
+      body: SingleChildScrollView(child: _getMainView()),
       // ),
     );
   }
@@ -183,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/ResetPasswordview');
+              Navigator.pushNamed(context, '/ChangePasswordview');
             },
             child: new Text(
               KEY_CHANGE_PASSWORD,
@@ -229,5 +263,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  showDialooxg() {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            title: Text(
+              'Select One',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 22,
+                  color: greentheme100,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w700),
+            ),
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  //Camera
+                  getImage(true);
+                  print("Camera");
+                  Navigator.pop(context);
+                },
+                child: ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text(
+                    'Camera',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: greytheme100,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  //Gallery
+                  getImage(false);
+                  print("Gallery");
+                  Navigator.pop(context);
+                },
+                child: ListTile(
+                  leading: Icon(Icons.image),
+                  title: Text(
+                    'Gallery',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: greytheme100,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

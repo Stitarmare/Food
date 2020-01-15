@@ -1,43 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
-import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
+//import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
+//import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
-class ResetPasswordview extends StatefulWidget {
+class ChangePasswordview extends StatefulWidget {
   var mobno;
-  ResetPasswordview({this.mobno});
+  ChangePasswordview({this.mobno});
   @override
   State<StatefulWidget> createState() {
-    return _ResetPasswordview();
+    return _ChangePasswordview();
   }
 }
 
-class _ResetPasswordview extends State<ResetPasswordview>
-    implements ResetPassModelView {
-  static String enterPass = KEY_ENTER_PASSWORD;
+class _ChangePasswordview extends State<ChangePasswordview>
+     {
+  static String enterOldPass = KEY_ENTER_OLD_PASSWORD;
+  static String enterNewPass = KEY_ENTER_NEW_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
   final GlobalKey<FormState> _resetpasswordFormKey = GlobalKey<FormState>();
 
   bool _validate = false;
 
-  final Map<String, dynamic> _signInData = {
-    enterPass: null,
-    enterConfirmPass: null,
-  };
+  // final Map<String, dynamic> _signInData = {
+  //   enterOldPass:null,
+  //   enterNewPass: null,
+  //   enterConfirmPass: null,
+  // };
 
   var resetpasswordPresenter;
-  var _password = '';
-  var _confirmPassword = '';
+  var _password;
+  var _confirmPassword;
 
   @override
   void initState() {
-    resetpasswordPresenter = ResetpasswordPresenter(this);
-    super.initState();
+    // TODO: implement initState
+    // resetpasswordPresenter = ResetpasswordPresenter(this);
+    // super.initState();
   }
 
   @override
@@ -77,16 +80,17 @@ class _ResetPasswordview extends State<ResetPasswordview>
   }
 
   void onsubmitButtonClicked() {
-    if (_resetpasswordFormKey.currentState.validate()) {
-      resetpasswordPresenter.perfromresetpassword(
-          widget.mobno, _password, context);
-      //_resetpasswordFormKey.currentState.save();
-      //Navigator.pushNamed(context, '/Landingview');
-    } else {
-      setState(() {
-        _validate = true;
-      });
-    }
+    // if (_resetpasswordFormKey.currentState.validate()) {
+    //   //resetpasswordPresenter.perfromresetpassword(
+    //       //widget.mobno, _password, context);
+    //   //_resetpasswordFormKey.currentState.save();
+    //   //Navigator.pushNamed(context, '/Landingview');
+    // } else {
+    //   setState(() {
+    //     _validate = true;
+    //   });
+    // }
+    
   }
 
   Widget _buildmainview() {
@@ -104,7 +108,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
                     height: 15,
                   ),
                   Text(
-                    'Reset Your Password',
+                    'Change Your Password',
                     style: TextStyle(
                         fontFamily: 'gotham',
                         color: greytheme300,
@@ -121,7 +125,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
                   SizedBox(
                     height: 78,
                   ),
-                  _signinButton(),
+                  _submitButton(),
                 ],
               ),
             ),
@@ -150,7 +154,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
             _password = text;
           },
           obscureText: true,
-          placeHolderName: KEY_ENTER_PASSWORD,
+          placeHolderName: KEY_ENTER_OLD_PASSWORD,
           icon: Transform.rotate(
             angle: 360 * pi / 95,
             child: Transform(
@@ -164,7 +168,30 @@ class _ResetPasswordview extends State<ResetPasswordview>
           ),
           validator: validatepassword,
           onSaved: (String value) {
-            _signInData[enterPass] = value;
+            //_signInData[enterPass] = value;
+          },
+        ),
+        SizedBox(height: 15),
+        AppTextField(
+          onChanged: (text) {
+            _password = text;
+          },
+          obscureText: true,
+          placeHolderName: KEY_ENTER_NEW_PASSWORD,
+          icon: Transform.rotate(
+            angle: 360 * pi / 95,
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: Icon(
+                Icons.vpn_key,
+                color: greentheme100,
+              ),
+            ),
+          ),
+          validator: validatepassword,
+          onSaved: (String value) {
+            //_signInData[enterPass] = value;
           },
         ),
         SizedBox(height: 15),
@@ -187,8 +214,8 @@ class _ResetPasswordview extends State<ResetPasswordview>
           ),
           validator: validatepassword,
           onSaved: (String value) {
-            _signInData[enterPass] = value;
-            print('Details are : $_signInData');
+            // _signInData[enterPass] = value;
+            // print('Details are : $_signInData');
           },
         ),
       ],
@@ -204,13 +231,13 @@ class _ResetPasswordview extends State<ResetPasswordview>
     return null;
   }
 
-  Widget _signinButton() {
+  Widget _submitButton() {
     return ButtonTheme(
       minWidth: 280,
       height: 54,
       child: RaisedButton(
         color: greentheme100,
-        onPressed: () => onsubmitButtonClicked(),
+        onPressed: () => Navigator.pushNamed(context, '/MainWidget'),
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
@@ -226,13 +253,13 @@ class _ResetPasswordview extends State<ResetPasswordview>
     );
   }
 
-  @override
-  void resetpassfailed() {
-    // TODO: implement resetpassfailed
-  }
+  // @override
+  // void resetpassfailed() {
+  //   // TODO: implement resetpassfailed
+  // }
 
-  @override
-  void resetpasssuccess() {
-    Navigator.of(context).pushReplacementNamed('/LoginView');
-  }
+  // @override
+  // void resetpasssuccess() {
+  //   Navigator.of(context).pushReplacementNamed('/LoginView');
+  // }
 }
