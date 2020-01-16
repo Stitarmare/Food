@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
-
+import 'package:foodzi/widgets/MenuItemDropDown.dart';
 class RestaurantView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -9,7 +9,9 @@ class RestaurantView extends StatefulWidget {
 }
 
 class _RestaurantViewState extends State<RestaurantView> {
+  final GlobalKey _menuKey = new GlobalKey();
   bool _switchvalue = false;
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +100,13 @@ class _RestaurantViewState extends State<RestaurantView> {
       ),
     );
   }
+  
+ 
+// void _select(Item item){
+//   setState(() {
+    
+//   });
+// }
 
   Widget _getOptionsformenu() {
     return Row(
@@ -114,12 +123,20 @@ class _RestaurantViewState extends State<RestaurantView> {
           value: this._switchvalue,
         ),
         SizedBox(
-          width: 150,
+          width:180,
         ),
         SizedBox(
           child: new OutlineButton(
-              child: new Text("Menu"),
-              onPressed: null,
+              child: Text("Menu"),
+              onPressed: (){
+                // dynamic state = _menuKey.currentState;
+                // state.showButtonMenu();
+                showDialog(
+                  context: context,
+                  builder: (_)=> MenuItem(),
+                  barrierDismissible: true
+                );
+              },
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(12.0))),
           height: 30,
@@ -128,6 +145,36 @@ class _RestaurantViewState extends State<RestaurantView> {
       ],
     );
   }
+
+//   Widget _dropdownMenuItem(){
+//     return Container(
+//       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+//       child: DropdownButton<Item>(
+//                onChanged: (Item value) {
+//                 setState(() {
+//                   selectedMenu = value; 
+//                 });
+//               },
+//               value: selectedMenu,
+//               isExpanded: false,
+//               items: _menu
+//                   .map((Item menu){
+//                     return DropdownMenuItem(
+//                       child: ListTile(leading: Text(menu.itemName),trailing: Text(menu.itemCount),),
+//                       value: menu,
+//                     );
+//                   }).toList()
+//     ));
+
+//   }
+// }
+
+}
+
+class Item{
+  String itemName;
+  String itemCount;
+  Item({this.itemName,this.itemCount});
 }
 
 // import 'package:flutter/material.dart';
