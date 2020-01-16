@@ -250,11 +250,10 @@ class _RestaurantViewState extends State<RestaurantView> {
                                 "data",
                                 maxLines: 1,
                                 style: TextStyle(
-                                    //fontFamily: FontNames.gotham,
                                     fontSize: 13,
-                                    fontStyle: FontStyle.normal,
+                                    fontFamily: 'gotham',
                                     fontWeight: FontWeight.w600,
-                                    color: Color.fromRGBO(64, 64, 64, 1)),
+                                    color: greytheme700),
                               ),
                               SizedBox(
                                 height: 5,
@@ -263,12 +262,11 @@ class _RestaurantViewState extends State<RestaurantView> {
                                 "data",
                                 maxLines: 2,
                                 style: TextStyle(
-                                    //fontFamily: FontNames.gotham,
                                     fontSize: 10,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.normal,
-                                    color: Color.fromRGBO(64, 64, 64, 1)),
-                              )
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1000),
+                              ),
                             ]),
                       )),
                       Container(
