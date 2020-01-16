@@ -1,31 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
+//import 'package:foodzi/DineInPage/DineInView.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/theme/colors.dart';
 
-class BottomTabbar extends StatefulWidget {
-  int tabValue = 0;
-  BottomTabbar({this.tabValue});
+class BottomTabbarHome extends StatefulWidget {
+  BottomTabbarHome();
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabbarState();
+    return _BottomTabbarHomeState();
   }
 }
 
-class _BottomTabbarState extends State<BottomTabbar> {
+class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   int currentTabIndex = 0;
-  List<Widget> tabsDineIn = [
-    DineInView(
-      title: 'Dine In',
-    ),
-    ResetPasswordview(),
-    NotificationView(),
-    ProfileScreen()
-  ];
-  List<Widget> tabsTakeAway = [
-    DineInView(title: 'Take Away'),
+  List<Widget> tabsHome = [
+    RestaurantView(),
     ResetPasswordview(),
     NotificationView(),
     ProfileScreen()
@@ -44,16 +36,16 @@ class _BottomTabbarState extends State<BottomTabbar> {
         height: 60,
         child: FittedBox(
           child: FloatingActionButton(
-              backgroundColor: orangetheme,
+              backgroundColor: redtheme,
               onPressed: () {},
               child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
-      body: widget.tabValue == 0
-          ? tabsDineIn[currentTabIndex]
-          : tabsTakeAway[currentTabIndex],
+      body: 
+           tabsHome[currentTabIndex],
+          
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: orangetheme,
+        
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,

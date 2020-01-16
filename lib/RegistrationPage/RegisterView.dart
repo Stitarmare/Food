@@ -215,8 +215,8 @@ class _RegisterviewState extends State<Registerview>
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    } else if (value.length > 15) {
-      return KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG;
+    } else if (value.length > 20) {
+      return KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG;
     } else if (!regexp.hasMatch(value)) {
       return Key_SPECIAL_CHAR;
     }

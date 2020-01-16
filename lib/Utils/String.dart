@@ -10,8 +10,11 @@ const KEY_EDIT_PROFILE = 'Edit Profile';
 const KEY_MOBILE_NUMBER = 'Mobile Number';
 const KEY_PROVIDE_ANOTHER_NO = 'Provide Another Number';
 const KEY_MOBILE_NUMBER_REQUIRED = 'Mobile Number is Required';
+const KEY_PINCODE_NUMBER_REQUIRED = 'Postal Code is Required';
 const KEY_MOBILE_NUMBER_LIMIT = 'Mobile No. must have 10 digits only';
+const KEY_PIN_NUMBER_LIMIT = 'Postal Code must have 6 digits only';
 const KEY_MOBILE_NUMBER_TEXT = 'Mobile No. must be digits';
+const KEY_PIN_NUMBER_TEXT = 'Postal Code must be digits';
 const KEY_ENTER_PASSWORD = 'Enter Password';
 const KEY_ENTER_OLD_PASSWORD = 'Enter Old Password';
 const KEY_ENTER_NEW_PASSWORD = 'Enter New Password';
@@ -22,6 +25,8 @@ const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
 const Key_SPECIAL_CHAR = 'This Should Not Contain @ Or Any Special Character';
 const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
     'This should be only 8 characters long.';
+const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
+    'This should be only 20 characters long.';
 const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
     'This should not be more than 10 characters';
 const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';

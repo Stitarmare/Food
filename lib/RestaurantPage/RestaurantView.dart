@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+
 class RestaurantView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
