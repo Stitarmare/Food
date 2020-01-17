@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BottomSheet.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-
 
 class DineInView extends StatefulWidget {
   String title;
@@ -55,23 +55,29 @@ class _DineViewState extends State<DineInView> {
         itemCount: 20,
         itemBuilder: (_, i) {
           return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              //side: BorderSide(color: Colors.red)
-            ),
-            elevation: 2,
-            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-            // color: _selected[i]
-            //     ? Colors.blue
-            //     : null, // if current item is selected show blue color
-            child: ListTile(
-              contentPadding: EdgeInsets.all(0.0),
-              title: _getMainView(
-                  "merchantName", "location", "shortdatetime", "rating"),
-              onTap: () => setState(
-                  () => _selected[i] = !_selected[i]), // reverse bool value
-            ),
-          );
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                //side: BorderSide(color: Colors.red)
+              ),
+              elevation: 2,
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+              // color: _selected[i]
+              //     ? Colors.blue
+              //     : null, // if current item is selected show blue color
+              child: ListTile(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: _getMainView(
+                      "merchantName", "location", "shortdatetime", "rating"),
+                  onTap: () {
+                     Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BottomTabbarHome()));
+                    setState(() {
+                      _selected[i] = !_selected[i];
+                    }
+                        // reverse bool value
+                        );
+                  }));
+                  
         },
       ),
     );
