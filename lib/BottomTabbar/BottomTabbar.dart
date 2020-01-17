@@ -3,6 +3,7 @@ import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class BottomTabbar extends StatefulWidget {
@@ -20,7 +21,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
     DineInView(
       title: 'Dine In',
     ),
-    ResetPasswordview(),
+    RestaurantView(),
     NotificationView(),
     ProfileScreen()
   ];
