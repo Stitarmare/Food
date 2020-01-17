@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
-<<<<<<< HEAD
-import 'package:foodzi/widgets/MenuItemDropDown.dart';
-=======
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
->>>>>>> a99697964e067772ead01e88d63c8117f12c8ee2
 class RestaurantView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -196,7 +193,13 @@ class _RestaurantViewState extends State<RestaurantView> {
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
                   ),
-                  onPressed: null,
+                  onPressed: (){
+                    showDialog(
+                      context: context,
+                      builder: (_)=>MenuItem(),
+                      barrierDismissible: true
+                    );
+                  },
                   borderSide: BorderSide(color: greentheme100),
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -217,43 +220,6 @@ class _RestaurantViewState extends State<RestaurantView> {
 //   });
 // }
 
-<<<<<<< HEAD
-  Widget _getOptionsformenu() {
-    return Row(
-      children: <Widget>[
-        SizedBox(width: 20),
-        Text('veg only'),
-        Switch(
-          activeColor: Colors.red,
-          onChanged: (bool value) {
-            setState(() {
-              this._switchvalue = value;
-            });
-          },
-          value: this._switchvalue,
-        ),
-        SizedBox(
-          width:180,
-        ),
-        SizedBox(
-          child: new OutlineButton(
-              child: Text("Menu"),
-              onPressed: (){
-                // dynamic state = _menuKey.currentState;
-                // state.showButtonMenu();
-                showDialog(
-                  context: context,
-                  builder: (_)=> MenuItem(),
-                  barrierDismissible: true
-                );
-              },
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(12.0))),
-          height: 30,
-          width: 80,
-        )
-      ],
-=======
   Widget _menuItemList() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -378,7 +344,6 @@ class _RestaurantViewState extends State<RestaurantView> {
           ),
         );
       }, childCount: 7),
->>>>>>> a99697964e067772ead01e88d63c8117f12c8ee2
     );
   }
 
@@ -407,11 +372,11 @@ class _RestaurantViewState extends State<RestaurantView> {
 
 }
 
-class Item{
-  String itemName;
-  String itemCount;
-  Item({this.itemName,this.itemCount});
-}
+// class Item{
+//   String itemName;
+//   String itemCount;
+//   Item({this.itemName,this.itemCount});
+// }
 
 // import 'package:flutter/material.dart';
 // import 'package:foodzi/Utils/String.dart';

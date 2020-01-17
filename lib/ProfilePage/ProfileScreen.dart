@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -16,12 +17,17 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
   File _image;
+
+  
+  
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
       image = await ImagePicker.pickImage(source: ImageSource.camera);
+      
     } else {
       image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
     }
     setState(() {
       _image = image;
@@ -112,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       //   width: 23,
                       //   height: 23,
                       //   foregroundDecoration: BoxDecoration(
-                      //     shape: BoxShape.circle,
+                      //     shape: BoxShape.circle,`
                       //     image: DecorationImage(
                       //       image: AssetImage('assets/DineInImage/Group1504.png')),
                       //     )
