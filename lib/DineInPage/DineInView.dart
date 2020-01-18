@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/theme/colors.dart';
-
+import 'package:foodzi/widgets/BottomSheet.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
@@ -35,10 +36,15 @@ class _DineViewState extends State<DineInView> {
           IconButton(
             icon: Image.asset('assets/LevelsIcon/levels.png'),
             onPressed: () {
-              this
-                  ._scaffoldKey
-                  .currentState
-                  .showBottomSheet((ctx) => _buildBottomSheet(ctx));
+              showDialog(
+                  context: context,
+                  builder: (_) => MenuItem(),
+                  barrierDismissible: true);
+
+              //               this
+              //   ._scaffoldKey
+              // .currentState
+              // .showBottomSheet((ctx) => _buildBottomSheet(ctx));
             },
           )
         ],
@@ -47,59 +53,64 @@ class _DineViewState extends State<DineInView> {
         itemCount: 20,
         itemBuilder: (_, i) {
           return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              //side: BorderSide(color: Colors.red)
-            ),
-            elevation: 2,
-            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-            // color: _selected[i]
-            //     ? Colors.blue
-            //     : null, // if current item is selected show blue color
-            child: ListTile(
-              contentPadding: EdgeInsets.all(0.0),
-              title: _getMainView(
-                  "merchantName", "location", "shortdatetime", "rating"),
-              onTap: () => setState(
-                  () => _selected[i] = !_selected[i]), // reverse bool value
-            ),
-          );
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+                //side: BorderSide(color: Colors.red)
+              ),
+              elevation: 2,
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+              // color: _selected[i]
+              //     ? Colors.blue
+              //     : null, // if current item is selected show blue color
+              child: ListTile(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: _getMainView(
+                      "merchantName", "location", "shortdatetime", "rating"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BottomTabbarHome()));
+                    setState(() {
+                      _selected[i] = !_selected[i];
+                    }
+                        // reverse bool value
+                        );
+                  }));
         },
       ),
     );
   }
 
-  Container _buildBottomSheet(BuildContext context) {
-    return Container(
-      height: 300,
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue, width: 2.0),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ListView(
-        children: <Widget>[
-          ListTile(title: Text('Bottom sheet')),
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              icon: Icon(Icons.attach_money),
-              labelText: 'Enter an integer',
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: RaisedButton.icon(
-              icon: Icon(Icons.save),
-              label: Text('Save and close'),
-              onPressed: () => Navigator.pop(context),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+//   Container _buildBottomSheet(BuildContext context) {
+// return Container(
+// height: 182,
+// padding: EdgeInsets.all(8.0),
+// decoration: BoxDecoration(
+// border: Border.all(color: Colors.black, width: 2.0),
+// borderRadius: BorderRadius.circular(8.0),
+// ),
+// child: ListView(
+// children: <Widget>[
+// ListTile(title: Text('Bottom sheet')),
+// TextField(
+// keyboardType: TextInputType.number,
+// decoration: InputDecoration(
+// border: OutlineInputBorder(),
+// icon: Icon(Icons.attach_money),
+// labelText: 'Enter an integer',
+// ),
+// ),
+// Container(
+// alignment: Alignment.center,
+// child: RaisedButton.icon(
+// icon: Icon(Icons.save),
+// label: Text('Save and close'),
+// onPressed: () => Navigator.pop(context),
+// ),
+// )
+// ],
+// ),
+// );
+// }
 
   Widget _getMainView(String merchantName, String location,
       String shortdatetime, String rating) {
