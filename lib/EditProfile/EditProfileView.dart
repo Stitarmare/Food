@@ -21,7 +21,6 @@ class _EditProfileState extends State<EditProfileview> {
   String _errorText;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _dropdownItems.add(CountryModel(country: 'India', countryCode: '+91'));
@@ -166,10 +165,8 @@ class _EditProfileState extends State<EditProfileview> {
             children: <Widget>[
               new InputDecorator(
                 decoration: InputDecoration(
-                  
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                   focusedBorder: OutlineInputBorder(
-                    
                     borderSide: BorderSide(color: greentheme100, width: 2),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -217,7 +214,8 @@ class _EditProfileState extends State<EditProfileview> {
       },
     );
   }
-    Widget _buildState() {
+
+  Widget _buildState() {
     return FormField(
       builder: (FormFieldState state) {
         return DropdownButtonHideUnderline(
@@ -226,10 +224,8 @@ class _EditProfileState extends State<EditProfileview> {
             children: <Widget>[
               new InputDecorator(
                 decoration: InputDecoration(
-                  
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                   focusedBorder: OutlineInputBorder(
-                    
                     borderSide: BorderSide(color: greentheme100, width: 2),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -243,8 +239,9 @@ class _EditProfileState extends State<EditProfileview> {
                     size: 20,
                     color: greytheme1000,
                   ),
-                  labelText:
-                      _dropdownStateValue == null ? 'Where are you from' : 'From',
+                  labelText: _dropdownStateValue == null
+                      ? 'Where are you from'
+                      : 'From',
                   errorText: _errorText,
                   labelStyle: TextStyle(
                       color: greytheme1000,
@@ -277,7 +274,8 @@ class _EditProfileState extends State<EditProfileview> {
       },
     );
   }
-    Widget _buildCity() {
+
+  Widget _buildCity() {
     return FormField(
       builder: (FormFieldState state) {
         return DropdownButtonHideUnderline(
@@ -286,10 +284,8 @@ class _EditProfileState extends State<EditProfileview> {
             children: <Widget>[
               new InputDecorator(
                 decoration: InputDecoration(
-                  
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
                   focusedBorder: OutlineInputBorder(
-                    
                     borderSide: BorderSide(color: greentheme100, width: 2),
                   ),
                   enabledBorder: OutlineInputBorder(
@@ -303,8 +299,9 @@ class _EditProfileState extends State<EditProfileview> {
                     size: 20,
                     color: greytheme1000,
                   ),
-                  labelText:
-                      _dropdownCityValue == null ? 'Where are you from' : 'From',
+                  labelText: _dropdownCityValue == null
+                      ? 'Where are you from'
+                      : 'From',
                   errorText: _errorText,
                   labelStyle: TextStyle(
                       color: greytheme1000,
@@ -348,17 +345,17 @@ class CountryModel {
     this.countryCode,
   });
 }
+
 class StateModel {
   String state = '';
   StateModel({
     this.state,
-
   });
 }
+
 class CityModel {
   String city = '';
   CityModel({
     this.city,
   });
 }
-

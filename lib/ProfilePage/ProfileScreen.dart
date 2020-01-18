@@ -5,6 +5,7 @@ import 'package:foodzi/theme/colors.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -16,6 +17,12 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
   File _image;
+  // Path path;
+  Future getDir() async {
+    Directory appDir = await getApplicationDocumentsDirectory();
+    print(appDir.path);
+  }
+
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
