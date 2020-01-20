@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/BottomSheet.dart';
+
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
@@ -16,6 +16,7 @@ class DineInView extends StatefulWidget {
 class _DineViewState extends State<DineInView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<bool> _selected = List.generate(20, (i) => false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +37,136 @@ class _DineViewState extends State<DineInView> {
           IconButton(
             icon: Image.asset('assets/LevelsIcon/levels.png'),
             onPressed: () {
-              showDialog(
+              showModalBottomSheet(
                   context: context,
-                  builder: (_) => BottomSheetItem(),
-                  barrierDismissible: true);
+               shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0),topRight: Radius.circular(25.0))
+               ),
+                  builder: (BuildContext context) {
+                    return Stack(
+                      children: <Widget>[
+                        // Align(
+                        //   alignment: Alignment.topRight,
+                        //   child: ,
+                        // ),
+                        Container(
+                      height: MediaQuery.of(context).size.height*0.3,
+                      
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only( top: 10),
+                            child: 
+                            Text(
+                              'Sorted By',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 28,
+                              ),
+                              OutlineButton(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
+                                  child: Text(
+                                    'Distance',
+                                    style: TextStyle(
+                                        fontSize: 14, color: greytheme500),
+                                  ),
+                                ),
+                                onPressed: (){},
+
+                              ),
+                             
+                              SizedBox(
+                                width: 10,
+                              ),
+                              OutlineButton(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
+                                  child: Text(
+                                    'Ratings 4+',
+                                    style: TextStyle(
+                                        fontSize: 14, color: greytheme500),
+                                  ),
+                                ),
+                                onPressed: (){},
+
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                           Padding(
+                            padding: EdgeInsets.only(left: 8, top: 10),
+                            child: Text(
+                              'Filter By',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 28,
+                              ),
+                              OutlineButton(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
+                                  child: Text(
+                                    'Distance',
+                                    style: TextStyle(
+                                        fontSize: 14, color: greytheme500),
+                                  ),
+                                ),
+                                onPressed: (){},
+
+                              ),
+                             
+                              SizedBox(
+                                width: 10,
+                              ),
+                              OutlineButton(
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
+                                  child: Text(
+                                    'Ratings 4+',
+                                    style: TextStyle(
+                                        fontSize: 14, color: greytheme500),
+                                  ),
+                                ),
+                                onPressed: (){},
+
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    )
+                      ],
+                    );
+                  });
+              // showDialog(
+              //     context: context,
+              //     builder: (_) =>Dismissible(
+              //       child: BottomSheetItem(),
+              //       key: Key(bottomItem),
+              //     ),
+              //     barrierDismissible: true);
 
               //               this
               //   ._scaffoldKey
