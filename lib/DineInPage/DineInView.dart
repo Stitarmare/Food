@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/theme/colors.dart';
-
+import 'package:foodzi/widgets/BottomSheet.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
@@ -14,10 +14,12 @@ class DineInView extends StatefulWidget {
 }
 
 class _DineViewState extends State<DineInView> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<bool> _selected = List.generate(20, (i) => false);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: this._scaffoldKey,
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.transparent,
@@ -33,7 +35,19 @@ class _DineViewState extends State<DineInView> {
         actions: <Widget>[
           IconButton(
             icon: Image.asset('assets/LevelsIcon/levels.png'),
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                      context: context,
+                      builder: (_)=>MenuItem(),
+                      barrierDismissible: true
+              );
+
+  //               this
+  //   ._scaffoldKey
+  // .currentState
+  // .showBottomSheet((ctx) => _buildBottomSheet(ctx));
+
+            },
           )
         ],
       ),
@@ -68,6 +82,38 @@ class _DineViewState extends State<DineInView> {
       ),
     );
   }
+
+//   Container _buildBottomSheet(BuildContext context) {
+// return Container(
+// height: 182,
+// padding: EdgeInsets.all(8.0),
+// decoration: BoxDecoration(
+// border: Border.all(color: Colors.black, width: 2.0),
+// borderRadius: BorderRadius.circular(8.0),
+// ),
+// child: ListView(
+// children: <Widget>[
+// ListTile(title: Text('Bottom sheet')),
+// TextField(
+// keyboardType: TextInputType.number,
+// decoration: InputDecoration(
+// border: OutlineInputBorder(),
+// icon: Icon(Icons.attach_money),
+// labelText: 'Enter an integer',
+// ),
+// ),
+// Container(
+// alignment: Alignment.center,
+// child: RaisedButton.icon(
+// icon: Icon(Icons.save),
+// label: Text('Save and close'),
+// onPressed: () => Navigator.pop(context),
+// ),
+// )
+// ],
+// ),
+// );
+// }
 
   Widget _getMainView(String merchantName, String location,
       String shortdatetime, String rating) {
