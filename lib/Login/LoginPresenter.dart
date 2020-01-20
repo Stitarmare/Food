@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
-import 'package:foodzi/models/Modelclass.dart';
+import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/network/ApiBaseHelper.dart';

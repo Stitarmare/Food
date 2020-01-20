@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -18,16 +19,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
   File _image;
 
-  
-  
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
       image = await ImagePicker.pickImage(source: ImageSource.camera);
-      
     } else {
       image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
     }
     setState(() {
       _image = image;

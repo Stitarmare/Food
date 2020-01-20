@@ -1,31 +1,33 @@
-import 'dart:async';
-
 import 'dart:convert';
 
-class LoginModel {
+class OtpVerifyModel {
   String status;
-  String token;
   int statusCode;
+  String message;
+  String token;
   Data data;
 
-  LoginModel({
+  OtpVerifyModel({
     this.status,
-    this.token,
     this.statusCode,
+    this.message,
+    this.token,
     this.data,
   });
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory OtpVerifyModel.fromJson(Map<String, dynamic> json) => OtpVerifyModel(
         status: json["status"],
-        token: json["token"],
         statusCode: json["status_code"],
+        message: json["message"],
+        token: json["token"],
         data: Data.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "token": token,
         "status_code": statusCode,
+        "message": message,
+        "token": token,
         "data": data.toJson(),
       };
 }
@@ -45,7 +47,7 @@ class Data {
   dynamic emailVerifiedAt;
   DateTime createdAt;
   DateTime updatedAt;
-  String colourCode;
+  dynamic deletedAt;
 
   Data({
     this.id,
@@ -62,7 +64,7 @@ class Data {
     this.emailVerifiedAt,
     this.createdAt,
     this.updatedAt,
-    this.colourCode,
+    this.deletedAt,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -80,7 +82,7 @@ class Data {
         emailVerifiedAt: json["email_verified_at"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-//colourCode: json["colour_code"],
+        deletedAt: json["deleted_at"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,53 +100,6 @@ class Data {
         "email_verified_at": emailVerifiedAt,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-//"colour_code": colourCode,
+        "deleted_at": deletedAt,
       };
-}
-
-class RegisterModel {
-  String first_name;
-  String password;
-  String mobno;
-  String device_token;
-  String device_type;
-  String user_type;
-  String last_name;
-
-  RegisterModel(
-      {this.mobno,
-      this.password,
-      this.first_name,
-      this.device_token,
-      this.device_type,
-      this.last_name,
-      this.user_type});
-
-  factory RegisterModel.fromMap(Map<String, dynamic> json) {
-    return RegisterModel(
-        mobno: json["mobile_number"],
-        password: json["password"],
-        first_name: json['first_name']);
-  }
-}
-
-class Otpviewmodel {
-  String mobile_number;
-  String otp;
-  String device_token;
-  String user_type;
-  String device_type;
-
-  Otpviewmodel({
-    this.user_type,
-    this.device_type,
-    this.device_token,
-    this.mobile_number,
-  });
-
-  factory Otpviewmodel.fromMap(Map<String, dynamic> json) {
-    return Otpviewmodel(
-      mobile_number: json["mobile_number"],
-    );
-  }
 }
