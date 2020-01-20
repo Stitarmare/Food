@@ -34,7 +34,7 @@ class LoginPresenter extends LoginContract {
         var loginModel = LoginModel.fromJson(value);
 
         Globle().loginModel = loginModel;
-
+        Globle().authKey = loginModel.token;
         mLoginView.loginSuccess();
       } else {
         mLoginView.loginFailed(value['message']);
