@@ -19,7 +19,7 @@ class RestaurantView extends StatefulWidget {
 class _RestaurantViewState extends State<RestaurantView> {
   final GlobalKey _menuKey = new GlobalKey();
   bool _switchvalue = false;
-  bool isselected=false;
+  bool isselected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,39 +190,36 @@ class _RestaurantViewState extends State<RestaurantView> {
             ),
             SizedBox(
               child: OutlineButton(
-                 
                   child: Text(
-                    "Menu", 
+                    "Menu",
                     style: TextStyle(
                         fontSize: 12,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w500,
-                        // color: (isselected) ? redtheme :greytheme100
-                        color: redtheme
-                        ),
+                        color: (isselected) ? redtheme : greytheme100),
                   ),
-                  //borderSide: (isselected) ? BorderSide(color:redtheme):BorderSide(color: greytheme100),
-                  borderSide: BorderSide(color:redtheme),
-                  onPressed: () {
-                    setState(() {
-                     if(isselected == false){
-                       isselected = true;
-                       
-                     }
-                     else{
-                       isselected = false;
-                     }
-
+                  borderSide: (isselected)
+                      ? BorderSide(color: redtheme)
+                      : BorderSide(color: greytheme100),
+                  //borderSide: BorderSide(color:redtheme),
+                  onPressed:
+                      () async {
+                        setState(() {
+                           if (isselected == false) {
+                          isselected = true;
+                        } else {
+                          isselected = false;
+                        }
+                        });
+                        var abc = await showDialog(
+                            context: context,
+                            builder: (_) => MenuItem(),
+                            barrierDismissible: true);
+                            setState(() {
+                     isselected = false;
                     });
-                    showDialog(
-                        context: context,
-                        builder: (_) => MenuItem(),
-                        barrierDismissible: true);
-                  },
-                  
-                  
+                      },
                   shape: new RoundedRectangleBorder(
-                    
                     borderRadius: new BorderRadius.circular(12.0),
                   )),
               height: 22,
@@ -233,8 +230,6 @@ class _RestaurantViewState extends State<RestaurantView> {
       ),
     );
   }
-
-
 
   Widget _menuItemList() {
     return SliverGrid(
@@ -362,9 +357,6 @@ class _RestaurantViewState extends State<RestaurantView> {
       }, childCount: 7),
     );
   }
-
-
-
 }
 
 class Item {
@@ -372,4 +364,3 @@ class Item {
   String itemCount;
   Item({this.itemName, this.itemCount});
 }
-

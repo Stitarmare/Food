@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
-import 'package:foodzi/models/Modelclass.dart';
+import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -34,7 +34,7 @@ class LoginPresenter extends LoginContract {
         var loginModel = LoginModel.fromJson(value);
 
         Globle().loginModel = loginModel;
-
+        Globle().authKey = loginModel.token;
         mLoginView.loginSuccess();
       } else {
         mLoginView.loginFailed(value['message']);

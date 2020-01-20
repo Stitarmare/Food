@@ -18,10 +18,12 @@ import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
+//import './demofile.dart';
 
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashScreen(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
+  //'/MyHomePage': (BuildContext context) => MyHomePage(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
   '/Registerview': (BuildContext context) => Registerview(),

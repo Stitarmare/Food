@@ -37,16 +37,14 @@ class _DineViewState extends State<DineInView> {
             icon: Image.asset('assets/LevelsIcon/levels.png'),
             onPressed: () {
               showDialog(
-                      context: context,
-                      builder: (_) => BottomSheetItem(),
-                      barrierDismissible: true
-              );
+                  context: context,
+                  builder: (_) => BottomSheetItem(),
+                  barrierDismissible: true);
 
-  //               this
-  //   ._scaffoldKey
-  // .currentState
-  // .showBottomSheet((ctx) => _buildBottomSheet(ctx));
-
+              //               this
+              //   ._scaffoldKey
+              // .currentState
+              // .showBottomSheet((ctx) => _buildBottomSheet(ctx));
             },
           )
         ],
@@ -69,15 +67,14 @@ class _DineViewState extends State<DineInView> {
                   title: _getMainView(
                       "merchantName", "location", "shortdatetime", "rating"),
                   onTap: () {
-                     Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbarHome()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BottomTabbarHome()));
                     setState(() {
                       _selected[i] = !_selected[i];
                     }
                         // reverse bool value
                         );
                   }));
-                  
         },
       ),
     );
@@ -134,110 +131,54 @@ class _DineViewState extends State<DineInView> {
       ],
     );
   }
-}
 
-Widget _getdetails(
-    String merchantName, String location, String shortdatetime, String rating) {
-  return Row(
-    mainAxisSize: MainAxisSize.max,
-    children: <Widget>[
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 11.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(
-              'That’s Amore',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: 'gotham',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: greytheme700),
-            ),
-          ),
-          SizedBox(
-            height: 14,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  OMIcons.accessTime,
-                  color: Colors.green,
-                  size: 15,
-                ),
-                SizedBox(
-                  width: 10.0,
-                ),
-                Text(
-                  '10:00 am - 10:30 pm',
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme100),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 13,
-          )
-        ],
-      ),
-      Expanded(
-        child: Container(),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(right: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+  Widget _getdetails(String merchantName, String location, String shortdatetime,
+      String rating) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 10.0,
+              height: 11.0,
             ),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.location_on,
-                  color: greentheme100,
-                  size: 15,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  '1.2 Miles',
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme100),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(
+                'That’s Amore',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'gotham',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: greytheme700),
+              ),
             ),
             SizedBox(
               height: 14,
             ),
-            Container(
-              color: greentheme100,
-              width: 30,
-              height: 16,
-              child: Center(
-                child: Text(
-                  '4.5',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    OMIcons.accessTime,
+                    color: Colors.green,
+                    size: 15,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Text(
+                    '10:00 am - 10:30 pm',
+                    style: TextStyle(
+                        fontFamily: 'gotham',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme100),
+                  )
+                ],
               ),
             ),
             SizedBox(
@@ -245,7 +186,63 @@ Widget _getdetails(
             )
           ],
         ),
-      )
-    ],
-  );
+        Expanded(
+          child: Container(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
+              ),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.location_on,
+                    color: greentheme100,
+                    size: 15,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '1.2 Miles',
+                    style: TextStyle(
+                        fontFamily: 'gotham',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme100),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 14,
+              ),
+              Container(
+                color: greentheme100,
+                width: 30,
+                height: 16,
+                child: Center(
+                  child: Text(
+                    '4.5',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'gotham',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 13,
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
 }
