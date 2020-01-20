@@ -1,7 +1,7 @@
 import 'dart:js';
 
 import 'package:flutter/material.dart';
-import 'package:foodzi/models/EditCountryModel.dart';
+import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/url_constant.dart';
 

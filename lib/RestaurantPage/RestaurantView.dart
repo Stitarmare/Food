@@ -202,21 +202,23 @@ class _RestaurantViewState extends State<RestaurantView> {
                       ? BorderSide(color: redtheme)
                       : BorderSide(color: greytheme100),
                   //borderSide: BorderSide(color:redtheme),
-                  onPressed: () async {
-                    setState(
-                      () {
-                        if (isselected == false) {
+                  onPressed:
+                      () async {
+                        setState(() {
+                           if (isselected == false) {
                           isselected = true;
                         } else {
                           isselected = false;
                         }
-                        showDialog(
+                        });
+                        var abc = await showDialog(
                             context: context,
                             builder: (_) => MenuItem(),
                             barrierDismissible: true);
+                            setState(() {
+                     isselected = false;
+                    });
                       },
-                    );
-                  },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
                   )),
