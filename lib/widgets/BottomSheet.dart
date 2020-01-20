@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
-class MenuItem extends StatefulWidget {
+class BottomSheetItem extends StatefulWidget {
       @override
-      State<StatefulWidget> createState() => MenuItemState();
+      State<StatefulWidget> createState() => BottomSheetItemState();
     }
 
-    class MenuItemState extends State<MenuItem>
+    class BottomSheetItemState extends State<BottomSheetItem>
         with SingleTickerProviderStateMixin {
       AnimationController controller;
       Animation<double> scaleAnimation;
-  //      List<Item> _menu = <Item>[
-  //    Item(itemName: 'All',itemCount: '102'),
-  //    Item(itemName: 'Breakfast',itemCount: '10'),
-  //    Item(itemName: 'Lunch',itemCount: '23'),
-  //    Item(itemName: 'Dinner',itemCount: '25'),
-  //    Item(itemName: 'Deserts',itemCount: '8'),
-  //    Item(itemName: 'Specials',itemCount: '3'),
-  //    Item(itemName: 'Halal',itemCount: '11'),
-  //    Item(itemName: 'Drinks',itemCount: '28'),
-  // ];
-  // // Item selectedMenu;
-  // int _selectedMenu = 0;
-
+ 
       @override
       void initState() {
         super.initState();
@@ -36,12 +24,7 @@ class MenuItem extends StatefulWidget {
 
         controller.forward();
       }
-      // _onSelected(index){
-      //   setState(() {
-      //   _selectedMenu = index;
-      //   });
-      // }
-
+    
       @override
       Widget build(BuildContext context) {
         return Container(

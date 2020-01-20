@@ -38,7 +38,7 @@ class _DineViewState extends State<DineInView> {
             onPressed: () {
               showDialog(
                       context: context,
-                      builder: (_)=>MenuItem(),
+                      builder: (_) => BottomSheetItem(),
                       barrierDismissible: true
               );
 
