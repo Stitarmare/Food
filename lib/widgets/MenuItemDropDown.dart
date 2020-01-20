@@ -58,7 +58,7 @@ class MenuItemState extends State<MenuItem>
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.3,
                   right: 13,
-                  top: 0),
+                  top: MediaQuery.of(context).size.height * 0.22),
               padding: EdgeInsets.all(15.0),
               height: 320,
               width: 260,

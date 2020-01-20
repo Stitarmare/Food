@@ -54,7 +54,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
           ? tabsDineIn[currentTabIndex]
           : tabsTakeAway[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: orangetheme,
+          selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
