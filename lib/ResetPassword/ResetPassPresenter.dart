@@ -24,11 +24,11 @@ class ResetpasswordPresenter extends ResetpassContractor {
       'password_confirmation': EncryptionAES.getData(password)
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        mregisterView.resetpasssuccess();
-      } else {
-        mregisterView.resetpassfailed();
-      }
+      // if (value['status_code'] == 200) {
+      //   mregisterView.resetpasssuccess();
+      // } else {
+      //   mregisterView.resetpassfailed();
+      // }
     });
 //ApiCall
     //;

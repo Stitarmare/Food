@@ -7,6 +7,7 @@ import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 //import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -29,6 +30,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var mobilenumber = '';
   var password = '';
   bool _validate = false;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
   var loginPresenter;
   @override
   void initState() {
@@ -72,10 +75,12 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   void onSignInButtonClicked() {
-    CircularProgressIndicator(
-      backgroundColor: Colors.green,
-    );
+    // CircularProgressIndicator(
+    //   backgroundColor: Colors.green,
+    // );
+    
     if (_signInFormKey.currentState.validate()) {
+       Dialogs.showLoadingDialog(context, _keyLoader, "");
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
       // Navigator.pushNamed(context, '/Landingview');
@@ -345,15 +350,17 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   @override
-  void loginFailed(String message) {
-    Constants.showAlert("Incorrect Login", message, context);
+  void loginFailed() {
     // TODO: implement loginFailed
+    print("pop f close");
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
     _signInFormKey.currentState.save();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');
   }
 }

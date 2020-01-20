@@ -4,6 +4,7 @@ import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/network/ApiBaseHelper.dart';
+import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 //import 'package:foodzi/Utils/globle.dart';
@@ -25,20 +26,36 @@ class LoginPresenter extends LoginContract {
   }
 
   void performLogin(String mobno, String password, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.loginApi, context, body: {
+    ApiBaseHelper().post<LoginModel>(UrlConstant.loginApi, context, body: {
       'mobile_number': mobno,
       'password': _encryptValue(password),
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        var loginModel = LoginModel.fromJson(value);
-
-        Globle().loginModel = loginModel;
-        Globle().authKey = loginModel.token;
-        mLoginView.loginSuccess();
-      } else {
-        mLoginView.loginFailed(value['message']);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Login success");
+          print(value.model);
+          //var loginmodel = LoginModel.fromJson(value);
+          Globle().loginModel = value.model;
+          Globle().authKey = value.model.token;
+          mLoginView.loginSuccess();
+          break;
+        case SuccessType.failed:
+          print("failed");
+          mLoginView.loginFailed();
+          break;
       }
+      // if (value['status_code'] == 200) {
+      //   var loginModel = LoginModel.fromJson(value);
+
+      //   Globle().loginModel = loginModel;
+      //   Globle().authKey = loginModel.token;
+      //   mLoginView.loginSuccess();
+      // } else {
+      //   mLoginView.loginFailed(value['message']);
+      // }
+    }).catchError((error) {
+      print(error);
     });
 //ApiCall
     //;
