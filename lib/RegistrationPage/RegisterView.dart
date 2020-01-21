@@ -324,8 +324,9 @@ class _RegisterviewState extends State<Registerview>
   }
 
   @override
-  void registerfailed(String message) {
-    Constants.showAlert("Incorrect Credentials", message, context);
+  void registerfailed() {
+    print("Registration Failed");
+   // Constants.showAlert("Incorrect Credentials", context);
     // TODO: implement registerfailed
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 
 import 'package:foodzi/Otp/OtpContractor.dart';
@@ -20,7 +21,8 @@ class OtpPresenter extends OtpContract {
   void onBackPresed() {}
 
   void perfromresetpassword(String mobno, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.resetpassverifyotp, context, body: {
+    ApiBaseHelper()
+        .post<OtpVerifyModel>(UrlConstant.resetpassverifyotp, context, body: {
       'mobile_number': mobno,
       'device_token': "dsa",
       'device_type': "1",
@@ -65,7 +67,7 @@ class OtpPresenter extends OtpContract {
           print("success");
           print(value.model);
           Globle().loginModel = value.model;
-          Globle().authKey = value.model;
+          Globle().authKey = value.model.token;
           otpView.otpsuccess();
           break;
         case SuccessType.failed:
