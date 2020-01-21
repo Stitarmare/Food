@@ -207,7 +207,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
               isFromFogetPass: false,
-              value: 1,
+              value: 0,
             )));
   }
 
