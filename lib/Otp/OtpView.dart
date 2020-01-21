@@ -69,9 +69,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   void onsubmitButtonClicked() {
     //  otppresenter.performOTP(widget.mobno, otpsave, context);
-    if (widget.value == 0) {
+    if (widget.value == 0 && otpsave != null) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
-    } else if (widget.isFromFogetPass == true && widget.value != 0) {
+    } else if (widget.isFromFogetPass == true && widget.value != 0 && otpsave != null) {
       otppresenter.perfromresetpassword(widget.mobno, context);
     }
     // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
