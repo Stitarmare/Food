@@ -36,11 +36,11 @@ class RegisterPresenter extends RegisterContract {
       'last_name': lastName
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        mregisterView.registerSuccess();
-      } else {
-        mregisterView.registerfailed(value['message']);
-      }
+      // if (value['status_code'] == 200) {
+      //   mregisterView.registerSuccess();
+      // } else {
+      //   mregisterView.registerfailed(value['message']);
+      // }
     });
 //ApiCall
     //;
