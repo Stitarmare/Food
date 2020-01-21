@@ -68,14 +68,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   void onsubmitButtonClicked() {
-     otppresenter.performOTP(widget.mobno, otpsave, context);
+    otppresenter.performOTP(widget.mobno, otpsave, context);
     if (widget.value == 0) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
     } else if (widget.isFromFogetPass == true && widget.value != 0) {
       otppresenter.perfromresetpassword(widget.mobno, context);
     }
-     otppresenter.
-     Navigator.pushNamed(context, '/EnterOTPScreen');
+    otppresenter.Navigator.pushNamed(context, '/EnterOTPScreen');
   }
 
   Widget _buildmainview() {
@@ -334,6 +333,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void resendotpsuccess() {
+    Navigator.pushReplacementNamed(context, '/OTPScreen');
     // TODO: implement resendotpsuccess
   }
 }

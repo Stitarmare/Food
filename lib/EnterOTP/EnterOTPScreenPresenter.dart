@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/url_constant.dart';
 
@@ -15,7 +16,7 @@ class EnterOTPScreenPresenter {
   EnterOTPScreenPresenter({this.view});
 
   requestforloginOTP(String mobileno, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.loginwithOTP, context,
+    ApiBaseHelper().post<LoginWithOtpModel>(UrlConstant.loginwithOTP, context,
         body: {"mobile_number": mobileno}).then((value) {
       print(value);
       // if (value['status_code'] == 200) {
