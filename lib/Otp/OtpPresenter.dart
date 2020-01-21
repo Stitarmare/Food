@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 
 import 'package:foodzi/Otp/OtpContractor.dart';
@@ -22,7 +23,7 @@ class OtpPresenter extends OtpContract {
 
   void perfromresetpassword(String mobno, BuildContext context) {
     ApiBaseHelper()
-        .post<OtpVerifyModel>(UrlConstant.resetpassverifyotp, context, body: {
+        .post<ErrorModel>(UrlConstant.resetpassverifyotp, context, body: {
       'mobile_number': mobno,
       'device_token': "dsa",
       'device_type': "1",

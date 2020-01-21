@@ -206,8 +206,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
-              isFromFogetPass: false,
-              value: 0,
+              isFromFogetPass: true,
+              value: 1,
             )));
   }
 
@@ -219,12 +219,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void requestforloginotpsuccess() {
     Navigator.pushReplacementNamed(context, '/MainWidget');
-    // Navigator.of(context).push(MaterialPageRoute(
-    //     builder: (_) => OTPScreen(
-    //           mobno: _mobileNumber,
-    //           isfromloginotp: false,
-    //           value: 0,
-    //         )));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => OTPScreen(
+              mobno: _mobileNumber,
+              isfromloginotp: true,
+              value: 0,
+            )));
     // TODO: implement requestforloginotpsuccess
   }
 }

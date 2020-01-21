@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterOTP/EnterOtpContractor.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -49,17 +50,29 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
   @override
   void onBackPresed() {}
 
-  // requestForOTP(String mobileNumber, BuildContext context) {
-  //   ApiBaseHelper().post(UrlConstant.resetPasswordWithOTP, context,
-  //       body: {"mobile_number": mobileNumber}).then((value) {
-  //     print(value);
-  //     // if (value['status_code'] == 200) {
-  //     //   view.onRequestOtpSuccess();
-  //     // } else {
-  //     //   view.onRequestOtpFailed();
-  //     // }
-  //   }).catchError((error) {
-  //     view.onRequestOtpFailed();
-  //   });
-  // }
+  requestForOTP(String mobileNumber, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.resetPasswordWithOTP, context,
+        body: {"mobile_number": mobileNumber}).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Success");
+          print(value.model);
+          enterotpview.onRequestOtpSuccess();
+          break;
+        case SuccessType.failed:
+          print("Failed");
+          enterotpview.onRequestOtpFailed();
+          break;
+      }
+      // if (value['status_code'] == 200) {
+      //   view.onRequestOtpSuccess();
+      // } else {
+      //   view.onRequestOtpFailed();
+      // }
+    }).catchError((error) {
+      print(error);
+      // view.onRequestOtpFailed();
+    });
+  }
 }
