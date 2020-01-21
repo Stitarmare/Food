@@ -75,15 +75,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   void onSignInButtonClicked() {
-    // CircularProgressIndicator(
-    //   backgroundColor: Colors.green,
-    // );
-    
     if (_signInFormKey.currentState.validate()) {
-       Dialogs.showLoadingDialog(context, _keyLoader, "");
+      Dialogs.showLoadingDialog(context, _keyLoader, "");
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
-      // Navigator.pushNamed(context, '/Landingview');
     } else {
       setState(() {
         _validate = true;
@@ -240,7 +235,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        //SizedBox(width: 170),
         ButtonTheme(
           minWidth: 8,
           height: 5,
@@ -317,7 +311,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   Widget _signupbutton() {
     return LimitedBox(
       child: Row(
-        //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
