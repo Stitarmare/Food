@@ -41,11 +41,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
               child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
-      body: 
-           tabsHome[currentTabIndex],
-          
+      body: tabsHome[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
-        
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
