@@ -52,7 +52,7 @@ class OtpPresenter extends OtpContract {
   }
 
   void performOTP(String mobno, String otp, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.verifyotp, context, body: {
+    ApiBaseHelper().post<LoginModel>(UrlConstant.verifyotp, context, body: {
       'otp': otp,
       'device_token': 'gfgfg',
       'user_type': 'customer',
@@ -64,7 +64,8 @@ class OtpPresenter extends OtpContract {
         case SuccessType.success:
           print("success");
           print(value.model);
-          //Globle().loginModel = LoginModel.fromJson();
+          Globle().loginModel = value.model;
+          Globle().authKey = value.model;
           otpView.otpsuccess();
           break;
         case SuccessType.failed:
