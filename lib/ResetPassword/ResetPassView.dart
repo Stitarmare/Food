@@ -237,6 +237,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
   }
   showDialogBox(BuildContext context) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (_) => AlertDialog(
       title: const Text(
