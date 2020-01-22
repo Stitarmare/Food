@@ -58,11 +58,11 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
         case SuccessType.success:
           print("Success");
           print(value.model);
-          enterotpview.onRequestOtpSuccess();
+          enterotpview.requestforloginotpsuccess();
           break;
         case SuccessType.failed:
           print("Failed");
-          enterotpview.onRequestOtpFailed();
+          enterotpview.requestforloginotpfailed();
           break;
       }
       // if (value['status_code'] == 200) {
