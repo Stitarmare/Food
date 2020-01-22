@@ -16,13 +16,12 @@ class ChangePasswordview extends StatefulWidget {
   }
 }
 
-class _ChangePasswordview extends State<ChangePasswordview>
-     {
+class _ChangePasswordview extends State<ChangePasswordview> {
   static String enterOldPass = KEY_ENTER_OLD_PASSWORD;
   static String enterNewPass = KEY_ENTER_NEW_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
-  final GlobalKey<FormState> _resetpasswordFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _changepasswordFormKey = GlobalKey<FormState>();
 
   bool _validate = false;
 
@@ -33,7 +32,8 @@ class _ChangePasswordview extends State<ChangePasswordview>
   // };
 
   var resetpasswordPresenter;
-  var _password;
+  var _oldPassword;
+  var _newPassword;
   var _confirmPassword;
 
   @override
@@ -90,7 +90,6 @@ class _ChangePasswordview extends State<ChangePasswordview>
     //     _validate = true;
     //   });
     // }
-    
   }
 
   Widget _buildmainview() {
@@ -99,7 +98,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
         child: Column(
           children: <Widget>[
             Form(
-              key: _resetpasswordFormKey,
+              key: _changepasswordFormKey,
               autovalidate: _validate,
               child: Column(
                 children: <Widget>[
@@ -151,7 +150,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
       children: <Widget>[
         AppTextField(
           onChanged: (text) {
-            _password = text;
+            _oldPassword = text;
           },
           obscureText: true,
           placeHolderName: KEY_ENTER_OLD_PASSWORD,
@@ -174,7 +173,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
         SizedBox(height: 15),
         AppTextField(
           onChanged: (text) {
-            _password = text;
+            _newPassword = text;
           },
           obscureText: true,
           placeHolderName: KEY_ENTER_NEW_PASSWORD,
@@ -212,7 +211,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
               ),
             ),
           ),
-          validator: validatepassword,
+          validator: validatConfirmPassword,
           onSaved: (String value) {
             // _signInData[enterPass] = value;
             // print('Details are : $_signInData');
@@ -225,9 +224,20 @@ class _ChangePasswordview extends State<ChangePasswordview>
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 10) {
-      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
+    } else if (value.length < 8) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
+    return null;
+  }
+
+  String validatConfirmPassword(String value) {
+    // if (value == _newPassword) {
+      if (value.length == 0) {
+        return KEY_PASSWORD_REQUIRED;
+      } else if (value.length < 8) {
+        return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+      }
+    // }
     return null;
   }
 
@@ -237,7 +247,19 @@ class _ChangePasswordview extends State<ChangePasswordview>
       height: 54,
       child: RaisedButton(
         color: greentheme100,
-        onPressed: () => Navigator.pushNamed(context, '/MainWidget'),
+        onPressed: () {
+          if (_changepasswordFormKey.currentState.validate()) {
+             showDialogBox(context);
+            //resetpasswordPresenter.perfromresetpassword(
+            //widget.mobno, _password, context);
+            //_resetpasswordFormKey.currentState.save();
+            //Navigator.pushNamed(context, '/Landingview');
+          } else {
+            setState(() {
+              _validate = true;
+            });
+          }
+        },
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
@@ -262,4 +284,49 @@ class _ChangePasswordview extends State<ChangePasswordview>
   // void resetpasssuccess() {
   //   Navigator.of(context).pushReplacementNamed('/LoginView');
   // }
+    showDialogBox(BuildContext context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Change Password",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greentheme100,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'gotham',
+              fontSize: 22),
+        ),
+        content: Text(
+          _newPassword == _confirmPassword
+              ? 'Your password has been successfully change. '
+              : 'Password does not match with confirm password.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greytheme100,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'gotham',
+              fontSize: 20),
+        ),
+        actions: [
+          FlatButton(
+            child: const Text(
+              "OK",
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              _newPassword == _confirmPassword
+                  ? Navigator.of(context).pushReplacementNamed('/MainWidget')
+                  : Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

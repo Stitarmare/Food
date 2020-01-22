@@ -185,7 +185,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
               ),
             ),
           ),
-          validator: validatepassword,
+          validator: validatConfirmPassword,
           onSaved: (String value) {
             _signInData[enterPass] = value;
             print('Details are : $_signInData');
@@ -198,19 +198,20 @@ class _ResetPasswordview extends State<ResetPasswordview>
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 10) {
-      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
+    } else if (value.length < 8) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }
-    String validatConfirmPassword(String value) {
-      if(value == _password){
- if (value.length == 0) {
-      return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 10) {
-      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
+
+  String validatConfirmPassword(String value) {
+    // if (value ==_password) {
+      if (value.length == 0) {
+        return KEY_PASSWORD_REQUIRED;
+      } else if (value.length < 8) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
-      }
+    // }
     return null;
   }
 
@@ -235,48 +236,52 @@ class _ResetPasswordview extends State<ResetPasswordview>
       ),
     );
   }
+
   showDialogBox(BuildContext context) {
-  return showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (_) => AlertDialog(
-      title: const Text(
-        "Reset Password",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: greentheme100,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'gotham',
-            fontSize: 22),
-      ),
-      content: Text(_password == _confirmPassword ?
-        'Your password has been successfully reset. ':'Password does not match with confirm password.',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: greytheme100,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'gotham',
-            fontSize: 20),
-      ),
-      actions: [
-        FlatButton(
-          child: const Text(
-            "OK",
-            style: TextStyle(
-                color: greentheme100,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'gotham',
-                fontSize: 20),
-          ),
-          onPressed: () {
-            _password == _confirmPassword ?
-            Navigator.of(context).pushReplacementNamed('/LoginView'):Navigator.pop(context);
-          },
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Reset Password",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greentheme100,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'gotham',
+              fontSize: 22),
         ),
-      ],
-    ),
-  );
-}
+        content: Text(
+          _password == _confirmPassword
+              ? 'Your password has been successfully reset. '
+              : 'Password does not match with confirm password.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greytheme100,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'gotham',
+              fontSize: 20),
+        ),
+        actions: [
+          FlatButton(
+            child: const Text(
+              "OK",
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              _password == _confirmPassword
+                  ? Navigator.of(context).pushReplacementNamed('/LoginView')
+                  : Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void resetpassfailed() {
@@ -289,5 +294,3 @@ class _ResetPasswordview extends State<ResetPasswordview>
     // Navigator.of(context).pushReplacementNamed('/LoginView');
   }
 }
-
-
