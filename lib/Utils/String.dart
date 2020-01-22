@@ -28,7 +28,9 @@ const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
 const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
     'This should be only 20 characters long.';
 const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
-    'This should not be more than 10 characters';
+    'This should be more than 10 characters';
+const KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG =
+    'This should be minimum 8 characters';
 const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';
 const KEY_TERMS_AND_CONDITIONS = 'Terms and conditions';
 const KEY_OK = 'OK';
