@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
+import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 import 'package:foodzi/Utils/globle.dart';
@@ -19,7 +22,8 @@ class OtpPresenter extends OtpContract {
   void onBackPresed() {}
 
   void perfromresetpassword(String mobno, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.resetpassverifyotp, context, body: {
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.resetpassverifyotp, context, body: {
       'mobile_number': mobno,
       'device_token': "dsa",
       'device_type': "1",
@@ -27,18 +31,31 @@ class OtpPresenter extends OtpContract {
       'otp': '123456',
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        otpView.getSuccesForForgetPass();
-      } else {
-        otpView.getFailedForForgetPass();
+      switch (value.result) {
+        case SuccessType.success:
+          print("Success");
+          print(value.model);
+          otpView.getSuccesForForgetPass();
+          break;
+        case SuccessType.failed:
+          print("Failed");
+          otpView.getFailedForForgetPass();
+          break;
       }
+      // if (value['status_code'] == 200) {
+      //   otpView.getSuccesForForgetPass();
+      // } else {
+      //   otpView.getFailedForForgetPass();
+      // }
+    }).catchError((error) {
+      print(error);
     });
 //ApiCall
     //;
   }
 
   void performOTP(String mobno, String otp, BuildContext context) {
-    ApiBaseHelper().post(UrlConstant.verifyotp, context, body: {
+    ApiBaseHelper().post<LoginModel>(UrlConstant.verifyotp, context, body: {
       'otp': otp,
       'device_token': 'gfgfg',
       'user_type': 'customer',
@@ -46,11 +63,26 @@ class OtpPresenter extends OtpContract {
       'mobile_number': mobno,
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        Globle().loginModel = LoginModel.fromJson(value);
-
-        otpView.otpsuccess();
+      switch (value.result) {
+        case SuccessType.success:
+          print("success");
+          print(value.model);
+          Globle().loginModel = value.model;
+          Globle().authKey = value.model.token;
+          otpView.otpsuccess();
+          break;
+        case SuccessType.failed:
+          print("failed");
+          otpView.otpfailed();
+          break;
       }
+      // if (value['status_code'] == 200) {
+      //   Globle().loginModel = LoginModel.fromJson(value);
+
+      //   otpView.otpsuccess();
+      // }
+    }).catchError((error) {
+      print(error);
     });
 //ApiCall
     //;
@@ -65,9 +97,22 @@ class OtpPresenter extends OtpContract {
       'mobile_number': mobno,
     }).then((value) {
       print(value);
-      if (value['status_code'] == 200) {
-        otpView.otpsuccess();
+      switch (value.result) {
+        case SuccessType.success:
+          print("success");
+          print(value.model);
+          otpView.otpsuccess();
+          break;
+        case SuccessType.failed:
+          print("failed");
+          otpView.otpfailed();
+          break;
       }
+      // if (value['status_code'] == 200) {
+      //   otpView.otpsuccess();
+      // }
+    }).catchError((error) {
+      print(error);
     });
 //ApiCall
     //;

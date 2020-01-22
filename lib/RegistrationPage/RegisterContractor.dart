@@ -8,5 +8,5 @@ abstract class RegisterContract {
 
 abstract class RegisterModelView {
   void registerSuccess();
-  void registerfailed(String message);
+  void registerfailed();
 }

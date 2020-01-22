@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterOTP/EnterOTPScreenPresenter.dart';
+import 'package:foodzi/EnterOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -15,7 +16,7 @@ class EnterOTPScreen extends StatefulWidget {
 }
 
 class EnterOTPScreenState extends State<EnterOTPScreen>
-    implements EnterOTPScreenPresenterView {
+    implements EnterOTPModelView {
   static String mobno = KEY_MOBILE_NUMBER;
 
   final GlobalKey<FormState> _enterOTPFormKey = GlobalKey<FormState>();
@@ -31,7 +32,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void initState() {
     // TODO: implement initState
 
-    enterOTPScreenPresenter = EnterOTPScreenPresenter(view: this);
+    enterOTPScreenPresenter = EnterOTPScreenPresenter(this);
     super.initState();
   }
 
@@ -205,8 +206,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
-              isFromFogetPass: true,
-              value: 1,
+              isFromFogetPass: false,
+              value: 0,
             )));
   }
 
@@ -217,11 +218,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void requestforloginotpsuccess() {
+    //Navigator.pushReplacementNamed(context, '/MainWidget');
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
-              isfromloginotp: false,
-              value: 0,
+              isFromFogetPass: true,
+              value: 1,
             )));
     // TODO: implement requestforloginotpsuccess
   }

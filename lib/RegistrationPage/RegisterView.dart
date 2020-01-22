@@ -243,8 +243,8 @@ class _RegisterviewState extends State<Registerview>
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 10) {
-      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
+    } else if (value.length < 8 ) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }
@@ -324,8 +324,9 @@ class _RegisterviewState extends State<Registerview>
   }
 
   @override
-  void registerfailed(String message) {
-    Constants.showAlert("Incorrect Credentials", message, context);
+  void registerfailed() {
+    print("Registration Failed");
+   // Constants.showAlert("Incorrect Credentials", context);
     // TODO: implement registerfailed
   }
 }

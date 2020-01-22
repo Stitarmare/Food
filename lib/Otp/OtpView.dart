@@ -68,14 +68,16 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   void onsubmitButtonClicked() {
-    // otppresenter.performOTP(widget.mobno, otpsave, context);
-    if (widget.value == 0) {
+    //  otppresenter.performOTP(widget.mobno, otpsave, context);
+    if (widget.value == 0 && otpsave != null) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
-    } else if (widget.isFromFogetPass == true && widget.value != 0) {
+    } else if (widget.isFromFogetPass == true && widget.value != 0 && otpsave != null) {
       otppresenter.perfromresetpassword(widget.mobno, context);
     }
-    // otppresenter.
-    // Navigator.pushNamed(context, '/EnterOTPScreen');
+    // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
+    //     otp
+    // }
+    // otppresenter.Navigator.pushNamed(context, '/EnterOTPScreen');
   }
 
   Widget _buildmainview() {
@@ -166,22 +168,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           autofocus: false,
           onDone: (String value) {
             otpsave = value;
-            // otppresenter.performOTP(widget.mobno, value, context);
+            //otppresenter.performOTP(widget.mobno, value, context);
             print(value);
           },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),
     );
-  }
-
-  String validatepassword(String value) {
-    if (value.length == 0) {
-      return KEY_PASSWORD_REQUIRED;
-    } else if (value.length != 8) {
-      return KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG;
-    }
-    return null;
   }
 
   Widget _mobnoEntered() {
@@ -334,6 +327,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void resendotpsuccess() {
+    Navigator.pushReplacementNamed(context, '/OTPScreen');
     // TODO: implement resendotpsuccess
+  }
+
+  @override
+  void loginwithotpfailed() {
+    // TODO: implement loginwithotpfailed
+  }
+
+  @override
+  void loginwithotpsuccess() {
+    Navigator.pushNamed(context, '/MainWidget');
+    // TODO: implement loginwithotpsuccess
   }
 }
