@@ -6,7 +6,6 @@ import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
-//import 'package:foodzi/widgets/AppTextfield.dart';
 
 class OTPScreen extends StatefulWidget {
   String mobno;
@@ -71,7 +70,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     //  otppresenter.performOTP(widget.mobno, otpsave, context);
     if (widget.value == 0 && otpsave != null) {
       otppresenter.performOTP(widget.mobno, otpsave, context);
-    } else if (widget.isFromFogetPass == true && widget.value != 0 && otpsave != null) {
+    } else if (widget.isFromFogetPass == true &&
+        widget.value != 0 &&
+        otpsave != null) {
       otppresenter.perfromresetpassword(widget.mobno, context);
     }
     // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
