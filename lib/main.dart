@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+// import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import './Utils/String.dart';
 
 import './Login/LoginView.dart';
@@ -36,6 +38,7 @@ var routes = <String, WidgetBuilder>{
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
   '/NotificationView': (BuildContext context) => NotificationView(),
+  '/BottomTabbarHome': (BuildContext context)=>BottomTabbarHome(),
 };
 
 void main() => runApp(MaterialApp(

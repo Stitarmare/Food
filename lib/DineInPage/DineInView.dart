@@ -16,166 +16,199 @@ class DineInView extends StatefulWidget {
 class _DineViewState extends State<DineInView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<bool> _selected = List.generate(20, (i) => false);
+  List<BottomItemButton> optionSortBy = [
+    BottomItemButton(title: "Distance", id: 1, isSelected: false),
+    BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
+  ];
+
+  List<BottomItemButton> optionFilterBy = [
+    BottomItemButton(title: "Cuisine", id: 1, isSelected: false),
+    BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: this._scaffoldKey,
       appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text(
-          widget.title,
-          style: TextStyle(
-              fontSize: 18,
-              fontFamily: 'gotham',
-              fontWeight: FontWeight.w500,
-              color: greytheme1200),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Image.asset('assets/LevelsIcon/levels.png'),
-            onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(25.0),topRight: Radius.circular(25.0))
-               ),
-                  builder: (BuildContext context) {
-                    return Stack(
-                      children: <Widget>[
-                        // Align(
-                        //   alignment: Alignment.topRight,
-                        //   child: ,
-                        // ),
-                        Container(
-                      height: MediaQuery.of(context).size.height*0.3,
-                      
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only( top: 10),
-                            child: 
-                            Text(
-                              'Sorted By',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700),
+          centerTitle: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: Text(
+            widget.title,
+            style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Image.asset('assets/LevelsIcon/levels.png'),
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(18.0),
+                            topRight: Radius.circular(18.0))),
+                    builder: (context) {
+                      return StatefulBuilder(builder: (BuildContext context,
+                          StateSetter setBottomState /*You can rename this!*/) {
+                        void setSelectedSortItem(
+                            BottomItemButton bottomItem, List bottomList) {
+                          for (int i = 0; i < bottomList.length; i++) {
+                            bottomList[i].isSelected = false;
+                          }
+
+                          final tile = bottomList.firstWhere(
+                              (item) => item.id == bottomItem.id,
+                              orElse: null);
+                          if (tile != null) {
+                            setBottomState(() => tile.isSelected = true);
+                          }
+                        }
+
+                        Widget _bottomSheetItem(
+                            BottomItemButton item, List bottomList) {
+                          return Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: SizedBox(
+                              height: 29,
+                              child: FlatButton(
+                                color: item.isSelected
+                                    ? greentheme100
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      10.0,
+                                    ),
+                                    side: BorderSide(
+                                      color: item.isSelected
+                                          ? greentheme100
+                                          : greytheme600,
+                                    )),
+                                onPressed: () =>
+                                    setSelectedSortItem(item, bottomList),
+                                child: Text(
+                                  item.title,
+                                  style: TextStyle(
+                                      fontFamily: 'gotham',
+                                      color: item.isSelected
+                                          ? Colors.white
+                                          : greytheme1000,
+                                      fontSize: 14),
+                                ),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
+                          );
+                        }
+
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: Stack(
                             children: <Widget>[
-                              SizedBox(
-                                width: 28,
+                              Positioned(
+                                right: 47,
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.3 -
+                                        38,
+                                child: FloatingActionButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: IconTheme(
+                                        data:
+                                            IconThemeData(color: greentheme200),
+                                        child: Icon(
+                                          Icons.check,
+                                          size: 45,
+                                          color: Colors.white,
+                                        ))),
                               ),
-                              OutlineButton(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
-                                  child: Text(
-                                    'Distance',
-                                    style: TextStyle(
-                                        fontSize: 14, color: greytheme500),
-                                  ),
+                              Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 20, left: 28),
+                                        child: Text(
+                                          'Sorted By',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: greytheme700),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 28),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: optionSortBy
+                                              .map((itemSort) =>
+                                                  _bottomSheetItem(
+                                                      itemSort, optionSortBy))
+                                              .toList()),
+                                    ),
+                                    SizedBox(
+                                      height: 10.5,
+                                    ),
+                                    Divider(),
+                                    Align(
+                                      // padding: EdgeInsets.only(left: 8, top: 10),
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8.5, left: 28),
+                                        child: Text(
+                                          'Filter By',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: greytheme700),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(left: 28),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: optionFilterBy
+                                                .map((itemFilter) =>
+                                                    _bottomSheetItem(itemFilter,
+                                                        optionFilterBy))
+                                                .toList())),
+                                    SizedBox(
+                                      height: 20,
+                                    )
+                                  ],
                                 ),
-                                onPressed: (){},
-
-                              ),
-                             
-                              SizedBox(
-                                width: 10,
-                              ),
-                              OutlineButton(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
-                                  child: Text(
-                                    'Ratings 4+',
-                                    style: TextStyle(
-                                        fontSize: 14, color: greytheme500),
-                                  ),
-                                ),
-                                onPressed: (){},
-
-                              ),
+                              )
                             ],
+                            overflow: Overflow.visible,
                           ),
-                          Divider(),
-                           Padding(
-                            padding: EdgeInsets.only(left: 8, top: 10),
-                            child: Text(
-                              'Filter By',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: 28,
-                              ),
-                              OutlineButton(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
-                                  child: Text(
-                                    'Distance',
-                                    style: TextStyle(
-                                        fontSize: 14, color: greytheme500),
-                                  ),
-                                ),
-                                onPressed: (){},
-
-                              ),
-                             
-                              SizedBox(
-                                width: 10,
-                              ),
-                              OutlineButton(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20, 9, 20, 9),
-                                  child: Text(
-                                    'Ratings 4+',
-                                    style: TextStyle(
-                                        fontSize: 14, color: greytheme500),
-                                  ),
-                                ),
-                                onPressed: (){},
-
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    )
-                      ],
-                    );
-                  });
-              // showDialog(
-              //     context: context,
-              //     builder: (_) =>Dismissible(
-              //       child: BottomSheetItem(),
-              //       key: Key(bottomItem),
-              //     ),
-              //     barrierDismissible: true);
-
-              //               this
-              //   ._scaffoldKey
-              // .currentState
-              // .showBottomSheet((ctx) => _buildBottomSheet(ctx));
-            },
-          )
-        ],
-      ),
+                        );
+                      });
+                    });
+              },
+            )
+          ]),
       body: ListView.builder(
         itemCount: 20,
         itemBuilder: (_, i) {
@@ -206,38 +239,6 @@ class _DineViewState extends State<DineInView> {
       ),
     );
   }
-
-//   Container _buildBottomSheet(BuildContext context) {
-// return Container(
-// height: 182,
-// padding: EdgeInsets.all(8.0),
-// decoration: BoxDecoration(
-// border: Border.all(color: Colors.black, width: 2.0),
-// borderRadius: BorderRadius.circular(8.0),
-// ),
-// child: ListView(
-// children: <Widget>[
-// ListTile(title: Text('Bottom sheet')),
-// TextField(
-// keyboardType: TextInputType.number,
-// decoration: InputDecoration(
-// border: OutlineInputBorder(),
-// icon: Icon(Icons.attach_money),
-// labelText: 'Enter an integer',
-// ),
-// ),
-// Container(
-// alignment: Alignment.center,
-// child: RaisedButton.icon(
-// icon: Icon(Icons.save),
-// label: Text('Save and close'),
-// onPressed: () => Navigator.pop(context),
-// ),
-// )
-// ],
-// ),
-// );
-// }
 
   Widget _getMainView(String merchantName, String location,
       String shortdatetime, String rating) {
@@ -372,4 +373,11 @@ class _DineViewState extends State<DineInView> {
       ],
     );
   }
+}
+
+class BottomItemButton {
+  String title;
+  bool isSelected;
+  int id;
+  BottomItemButton({this.title, this.isSelected, this.id});
 }
