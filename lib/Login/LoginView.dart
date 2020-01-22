@@ -224,7 +224,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length < 8) {
+    } else if (value.length < 8 ) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
