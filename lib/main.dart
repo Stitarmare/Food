@@ -37,7 +37,11 @@ var routes = <String, WidgetBuilder>{
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
   '/NotificationView': (BuildContext context) => NotificationView(),
+<<<<<<< HEAD
   '/MyOrders': (BuildContext context) => MyOrders(),
+=======
+  '/BottomTabbarHome': (BuildContext context)=>BottomTabbarHome(),
+>>>>>>> c18c40dd5e28a8421cae5d45028ed33970e8ff7d
 };
 
 void main() => runApp(MaterialApp(

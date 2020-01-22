@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/DailogBox.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class NotificationView extends StatefulWidget {
   NotificationView({Key key}) : super(key: key);
@@ -85,8 +86,9 @@ class _NotificationViewState extends State<NotificationView> {
                       color: Color.fromRGBO(152, 152, 152, 1)),
                 ),
               ),
-              onTap: () {
+              onTap: () async{
                 _onSelected(index);
+                await Dailogs.notification_1(context);
               },
             ),
             decoration: BoxDecoration(
@@ -96,7 +98,7 @@ class _NotificationViewState extends State<NotificationView> {
                   0.015
                 ], colors: [
                   _selectedIndex != null && _selectedIndex == index
-                      ? Color.fromRGBO(55, 180, 76, 1)
+                      ? greentheme100
                       : Color.fromRGBO(112, 112, 112, 0.2),
                   Colors.white
                 ])),
