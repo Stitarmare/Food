@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/DailogBox.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class NotificationView extends StatefulWidget {
   NotificationView({Key key}) : super(key: key);
@@ -28,25 +29,26 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Colors.white,
-          centerTitle: false,
+          //centerTitle: false,
           title: Text("Notifications",
               style: TextStyle(
                   color: Color.fromRGBO(51, 51, 51, 1),
                   fontSize: 18,
                   fontFamily: 'gotham',
                   fontWeight: FontWeight.w500)),
-          leading: IconButton(
-            color: Color.fromRGBO(51, 51, 51, 1),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 22,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   color: Color.fromRGBO(51, 51, 51, 1),
+          //   icon: Icon(
+          //     Icons.arrow_back_ios,
+          //     size: 22,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
         ),
         body: _notificationList(context));
   }
@@ -84,8 +86,9 @@ class _NotificationViewState extends State<NotificationView> {
                       color: Color.fromRGBO(152, 152, 152, 1)),
                 ),
               ),
-              onTap: () {
+              onTap: () async{
                 _onSelected(index);
+                await Dailogs.notification_1(context);
               },
             ),
             decoration: BoxDecoration(
@@ -95,7 +98,7 @@ class _NotificationViewState extends State<NotificationView> {
                   0.015
                 ], colors: [
                   _selectedIndex != null && _selectedIndex == index
-                      ? Color.fromRGBO(55, 180, 76, 1)
+                      ? greentheme100
                       : Color.fromRGBO(112, 112, 112, 0.2),
                   Colors.white
                 ])),

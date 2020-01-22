@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
+import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbar extends StatefulWidget {
   int tabValue = 0;
@@ -21,13 +23,13 @@ class _BottomTabbarState extends State<BottomTabbar> {
     DineInView(
       title: 'Dine In',
     ),
-    RestaurantView(),
+    MyOrders(),
     NotificationView(),
     ProfileScreen()
   ];
   List<Widget> tabsTakeAway = [
     DineInView(title: 'Take Away'),
-    ResetPasswordview(),
+   MyOrders(),
     NotificationView(),
     ProfileScreen()
   ];
@@ -54,22 +56,64 @@ class _BottomTabbarState extends State<BottomTabbar> {
           ? tabsDineIn[currentTabIndex]
           : tabsTakeAway[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: orangetheme,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          //selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                icon: Image.asset('assets/HomeIcon/home(2).png'),
+                //icon: Image.asset('assets/HomeIcon/home(2).png'),
+                icon: Icon(
+                  OMIcons.home,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.home,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon: Image.asset('assets/OrderIcon/order.png'),
+                //icon: Image.asset('assets/OrderIcon/order.png'),
+                icon: Icon(
+                  OMIcons.assignment,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.assignment,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon: Image.asset('assets/NotificationIcon/Path1159.png'),
+                //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
+                icon: Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.notifications,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon: Image.asset('assets/UserIcon/Group3.png'),
+                //icon: Image.asset('assets/UserIcon/Group3.png'),
+                icon: Icon(
+                  OMIcons.personOutline,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.person,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 title: Text('')),
           ]),
     );
