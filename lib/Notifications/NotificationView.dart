@@ -28,25 +28,26 @@ class _NotificationViewState extends State<NotificationView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Colors.white,
-          centerTitle: false,
+          //centerTitle: false,
           title: Text("Notifications",
               style: TextStyle(
                   color: Color.fromRGBO(51, 51, 51, 1),
                   fontSize: 18,
                   fontFamily: 'gotham',
                   fontWeight: FontWeight.w500)),
-          leading: IconButton(
-            color: Color.fromRGBO(51, 51, 51, 1),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 22,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   color: Color.fromRGBO(51, 51, 51, 1),
+          //   icon: Icon(
+          //     Icons.arrow_back_ios,
+          //     size: 22,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
         ),
         body: _notificationList(context));
   }

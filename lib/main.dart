@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/MyOrders/MyOrders.dart';
 import './Utils/String.dart';
 
 import './Login/LoginView.dart';
@@ -36,6 +37,7 @@ var routes = <String, WidgetBuilder>{
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
   '/NotificationView': (BuildContext context) => NotificationView(),
+  '/MyOrders': (BuildContext context) => MyOrders(),
 };
 
 void main() => runApp(MaterialApp(
