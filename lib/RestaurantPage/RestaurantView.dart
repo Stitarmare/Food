@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
+import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
+import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -16,10 +19,40 @@ class RestaurantView extends StatefulWidget {
   }
 }
 
-class _RestaurantViewState extends State<RestaurantView> {
+class _RestaurantViewState extends State<RestaurantView>
+    implements RestaurantModelView {
+  // RestaurantPresenter restaurantPresenter;
+  // List<RestaurantList> _restaurantList;
+  // int page = 1;
   final GlobalKey _menuKey = new GlobalKey();
+  ScrollController _controller = ScrollController();
   bool _switchvalue = false;
   bool isselected = false;
+  @override
+  // void initState() {
+  //   _detectScrollPosition();
+  //   restaurantPresenter = RestaurantPresenter(this);
+  //   restaurantPresenter.getrestaurantspage(
+  //       "18.579622", "73.738691", "", "", page, context);
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
+
+  // _detectScrollPosition() {
+  //   _controller.addListener(() {
+  //     if (_controller.position.atEdge) {
+  //       if (_controller.position.pixels == 0) {
+  //         print("Top");
+  //       } else {
+  //         restaurantPresenter.getrestaurantspage(
+  //             "18.579622", "73.738691", "", "", page, context);
+
+  //         print("Bottom");
+  //       }
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +70,7 @@ class _RestaurantViewState extends State<RestaurantView> {
         ],
       ),
       body: CustomScrollView(
+        controller: _controller,
         slivers: <Widget>[
           _getmainviewTableno(),
           SliverToBoxAdapter(
@@ -202,23 +236,22 @@ class _RestaurantViewState extends State<RestaurantView> {
                       ? BorderSide(color: redtheme)
                       : BorderSide(color: greytheme100),
                   //borderSide: BorderSide(color:redtheme),
-                  onPressed:
-                      () async {
-                        setState(() {
-                           if (isselected == false) {
-                          isselected = true;
-                        } else {
-                          isselected = false;
-                        }
-                        });
-                        var abc = await showDialog(
-                            context: context,
-                            builder: (_) => MenuItem(),
-                            barrierDismissible: true);
-                            setState(() {
-                     isselected = false;
+                  onPressed: () async {
+                    setState(() {
+                      if (isselected == false) {
+                        isselected = true;
+                      } else {
+                        isselected = false;
+                      }
                     });
-                      },
+                    var abc = await showDialog(
+                        context: context,
+                        builder: (_) => MenuItem(),
+                        barrierDismissible: true);
+                    setState(() {
+                      isselected = false;
+                    });
+                  },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
                   )),
@@ -357,10 +390,32 @@ class _RestaurantViewState extends State<RestaurantView> {
       }, childCount: 7),
     );
   }
+
+  @override
+  void restaurantfailed() {
+    // TODO: implement restaurantfailed
+  }
+
+  @override
+  void restaurantsuccess(List<RestaurantList> restlist) {
+    // if (restlist.length == 0) {
+    //   return;
+    // }
+
+    // setState(() {
+    //   if (_restaurantList == null) {
+    //     _restaurantList = restlist;
+    //   } else {
+    //     _restaurantList.addAll(restlist);
+    //   }
+    //   page++;
+    // });
+    // TODO: implement restaurantsuccess
+  }
 }
 
-class Item {
-  String itemName;
-  String itemCount;
-  Item({this.itemName, this.itemCount});
-}
+// class Item {
+//   String itemName;
+//   String itemCount;
+//   Item({this.itemName, this.itemCount});
+// }

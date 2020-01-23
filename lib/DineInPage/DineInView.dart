@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/DineInPage/DineInContractor.dart';
+import 'package:foodzi/DineInPage/DineInPresenter.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/theme/colors.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -13,8 +16,14 @@ class DineInView extends StatefulWidget {
   }
 }
 
-class _DineViewState extends State<DineInView> {
+class _DineViewState extends State<DineInView>
+    implements DineInRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  ScrollController _controller = ScrollController();
+  DineInRestaurantPresenter dinerestaurantPresenter;
+  List<RestaurantList> _restaurantList;
+  int page = 1;
+
   List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(title: "Distance", id: 1, isSelected: false),
@@ -27,6 +36,30 @@ class _DineViewState extends State<DineInView> {
   ];
 
   @override
+  void initState() {
+    _detectScrollPosition();
+    dinerestaurantPresenter = DineInRestaurantPresenter(this);
+    dinerestaurantPresenter.getrestaurantspage(
+        "18.579622", "73.738691", "", "", page, context);
+    // TODO: implement initState
+    super.initState();
+  }
+
+  _detectScrollPosition() {
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        if (_controller.position.pixels == 0) {
+          print("Top");
+        } else {
+          dinerestaurantPresenter.getrestaurantspage(
+              "18.579622", "73.738691", "", "", page, context);
+
+          print("Bottom");
+        }
+      }
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       key: this._scaffoldKey,
@@ -372,6 +405,28 @@ class _DineViewState extends State<DineInView> {
         )
       ],
     );
+  }
+
+  @override
+  void restaurantfailed() {
+    // TODO: implement restaurantfailed
+  }
+
+  @override
+  void restaurantsuccess(List<RestaurantList> restlist) {
+    if (restlist.length == 0) {
+      return;
+    }
+
+    setState(() {
+      if (_restaurantList == null) {
+        _restaurantList = restlist;
+      } else {
+        _restaurantList.addAll(restlist);
+      }
+      page++;
+    });
+    // TODO: implement restaurantsuccess
   }
 }
 
