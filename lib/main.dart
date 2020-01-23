@@ -11,7 +11,7 @@ import './ResetPassword/ResetPassView.dart';
 import './SplashScreenPage/Splashscreen.dart';
 
 import './Otp/OtpView.dart';
-import './EnterOTP/EnterOtp.dart';
+import './EnterMobileNoOTP/EnterOtp.dart';
 import './DineInPage/DineInView.dart';
 
 import './ProfilePage/ProfileScreen.dart';

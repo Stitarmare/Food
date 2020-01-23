@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/EnterOTP/EnterOtpContractor.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';

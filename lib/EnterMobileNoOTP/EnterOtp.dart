@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/EnterOTP/EnterOTPScreenPresenter.dart';
-import 'package:foodzi/EnterOTP/EnterOtpContractor.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -20,6 +21,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   static String mobno = KEY_MOBILE_NUMBER;
 
   final GlobalKey<FormState> _enterOTPFormKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
 
   bool _validate = false;
   final Map<String, dynamic> _enterOTP = {
@@ -75,8 +78,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void onsubmitButtonClicked() {
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
+        Dialogs.showLoadingDialog(context, _keyLoader, "");
+
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
+        Dialogs.showLoadingDialog(context, _keyLoader, "");
+
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
         // Navigator.pushNamed(context, '/OTPScreen');
@@ -199,10 +206,13 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void onRequestOtpFailed() {
     // TODO: implement onRequestOtpFailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void onRequestOtpSuccess() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
@@ -213,12 +223,15 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void requestforloginotpfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     // TODO: implement requestforloginotpfailed
   }
 
   @override
   void requestforloginotpsuccess() {
     //Navigator.pushReplacementNamed(context, '/MainWidget');
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
