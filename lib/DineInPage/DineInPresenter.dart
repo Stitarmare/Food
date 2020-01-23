@@ -8,8 +8,9 @@ import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class DineInRestaurantPresenter extends DineInRestaurantListContractor {
-  DineInRestaurantPresenter(_restaurantViewState, {this.restaurantModelView});
-  RestaurantModelView restaurantModelView;
+  DineInRestaurantListModelView restaurantModelView;
+
+  DineInRestaurantPresenter(this.restaurantModelView);
   @override
   void getrestaurantspage(String latitude, String longitude, String sort_by,
       String search_by, int page, BuildContext context) {

@@ -243,7 +243,11 @@ class ApiBaseHelper {
           HttpHeaders.acceptHeader: "application/json"
         };
       default:
-        return {HttpHeaders.contentTypeHeader: "application/json"};
+        return {
+          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.acceptHeader: "application/json"
+        };
     }
   }
 
@@ -390,7 +394,7 @@ class ApiBaseHelper {
       default:
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
-        var responseJson = json.decode(response.body.toString());
+        //var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error",

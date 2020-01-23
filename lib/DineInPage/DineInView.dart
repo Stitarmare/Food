@@ -24,7 +24,7 @@ class _DineViewState extends State<DineInView>
   List<RestaurantList> _restaurantList;
   int page = 1;
 
-  List<bool> _selected = List.generate(20, (i) => false);
+  //List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(title: "Distance", id: 1, isSelected: false),
     BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
@@ -243,7 +243,8 @@ class _DineViewState extends State<DineInView>
             )
           ]),
       body: ListView.builder(
-        itemCount: 20,
+        controller: _controller,
+        itemCount: _getint(),
         itemBuilder: (_, i) {
           return Card(
               shape: RoundedRectangleBorder(
@@ -258,12 +259,16 @@ class _DineViewState extends State<DineInView>
               child: ListTile(
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
-                      "merchantName", "location", "shortdatetime", "rating"),
+                      _restaurantList[i].restName,
+                      _restaurantList[i].longitude,
+                      _restaurantList[i].openingTime,
+                      _restaurantList[i].closingTime,
+                      _restaurantList[i].averageRating.toString()),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome()));
                     setState(() {
-                      _selected[i] = !_selected[i];
+                      // _selected[i] = !_selected[i];
                     }
                         // reverse bool value
                         );
@@ -273,8 +278,15 @@ class _DineViewState extends State<DineInView>
     );
   }
 
+  int _getint() {
+    if (_restaurantList != null) {
+      return _restaurantList.length;
+    }
+    return 0;
+  }
+
   Widget _getMainView(String merchantName, String location,
-      String shortdatetime, String rating) {
+      String shortdatetime, String cLosingtime, String rating) {
     return Column(
       children: <Widget>[
         Card(
@@ -288,13 +300,13 @@ class _DineViewState extends State<DineInView>
             ),
           ),
         ),
-        _getdetails(merchantName, location, shortdatetime, rating)
+        _getdetails(merchantName, location, shortdatetime, cLosingtime, rating)
       ],
     );
   }
 
   Widget _getdetails(String merchantName, String location, String shortdatetime,
-      String rating) {
+      String cLosingtime, String rating) {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
@@ -307,7 +319,7 @@ class _DineViewState extends State<DineInView>
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Text(
-                'That’s Amore',
+                merchantName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     fontFamily: 'gotham',
@@ -332,7 +344,7 @@ class _DineViewState extends State<DineInView>
                     width: 10.0,
                   ),
                   Text(
-                    '10:00 am - 10:30 pm',
+                    "${shortdatetime} - ${cLosingtime}",
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontSize: 12,
@@ -387,7 +399,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    '4.5',
+                    rating,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'gotham',
@@ -414,6 +426,8 @@ class _DineViewState extends State<DineInView>
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
+    // TODO: implement restaurantsuccess
+
     if (restlist.length == 0) {
       return;
     }
@@ -426,7 +440,6 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-    // TODO: implement restaurantsuccess
   }
 }
 
