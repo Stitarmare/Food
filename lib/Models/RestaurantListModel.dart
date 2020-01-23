@@ -106,7 +106,7 @@ class RestaurantList {
         updatedAt: DateTime.parse(json["updated_at"]),
         distance: json["distance"],
         averageRating: json["average_rating"],
-        isFavourite: json["is_favourite"],
+        //isFavourite: json["is_favourite"],
         reviews:
             List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
         favourite: List<dynamic>.from(json["favourite"].map((x) => x)),
