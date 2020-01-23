@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodzi/EnterOTP/EnterOtp.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 
 import 'dart:math' as math;

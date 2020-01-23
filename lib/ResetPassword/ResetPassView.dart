@@ -4,6 +4,7 @@ import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -22,7 +23,8 @@ class _ResetPasswordview extends State<ResetPasswordview>
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
   final GlobalKey<FormState> _resetpasswordFormKey = GlobalKey<FormState>();
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
   bool _validate = false;
 
   final Map<String, dynamic> _signInData = {
@@ -78,6 +80,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
+       Dialogs.showLoadingDialog(context, _keyLoader, "");
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
       //_resetpasswordFormKey.currentState.save();
@@ -286,10 +289,14 @@ class _ResetPasswordview extends State<ResetPasswordview>
   @override
   void resetpassfailed() {
     // TODO: implement resetpassfailed
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
   }
 
   @override
   void resetpasssuccess() {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     showDialogBox(context);
     // Navigator.of(context).pushReplacementNamed('/LoginView');
   }

@@ -5,6 +5,7 @@ import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
@@ -26,6 +27,8 @@ class _RegisterviewState extends State<Registerview>
   static String name = Key_USER_NAME;
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
 
   bool _validate = false;
 
@@ -72,6 +75,7 @@ class _RegisterviewState extends State<Registerview>
 
   void onSignUpButtonClicked() {
     if (_signUpFormKey.currentState.validate()) {
+      Dialogs.showLoadingDialog(context, _keyLoader, "");
       registerPresenter.performregister(
           _username, _phoneno, _password, context);
       // _goToNextPageDineIn(context);
@@ -243,7 +247,7 @@ class _RegisterviewState extends State<Registerview>
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length < 8 ) {
+    } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
@@ -318,6 +322,7 @@ class _RegisterviewState extends State<Registerview>
   @override
   void registerSuccess() {
     _signUpFormKey.currentState.save();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     _goToNextPageDineIn(context);
     //Navigator.pushNamed(context, '/OTPScreen');
     // TODO: implement registerSuccess
@@ -325,8 +330,9 @@ class _RegisterviewState extends State<Registerview>
 
   @override
   void registerfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     print("Registration Failed");
-   // Constants.showAlert("Incorrect Credentials", context);
+    // Constants.showAlert("Incorrect Credentials", context);
     // TODO: implement registerfailed
   }
 }

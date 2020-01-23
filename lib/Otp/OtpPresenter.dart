@@ -21,14 +21,14 @@ class OtpPresenter extends OtpContract {
   @override
   void onBackPresed() {}
 
-  void perfromresetpassword(String mobno, BuildContext context) {
+  void perfromresetpassword(String mobno,String otp, BuildContext context) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.resetpassverifyotp, context, body: {
       'mobile_number': mobno,
       'device_token': "dsa",
       'device_type': "1",
       'user_type': "customer",
-      'otp': '123456',
+      'otp': otp,
     }).then((value) {
       print(value);
       switch (value.result) {
