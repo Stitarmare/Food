@@ -9,5 +9,8 @@ class UrlConstant {
   static const updatePassword = "api/updatePassword";
   static const resendOTP = "api/resendOTP";
   static const editCountry = "api/getCountry";
+  static const editState = "api/getStates";
+  static const editCityField = "api/getCities";
   static const restaurantListApi = "api/getRestaurantList";
+  static const updateProfile = "api/editCustomerProfile";
 }

@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/theme/colors.dart';
 
-class NotificationView extends StatefulWidget {
-  NotificationView({Key key}) : super(key: key);
+class BottomNotificationView extends StatefulWidget {
+  BottomNotificationView({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _NotificationViewState();
+    return _BottomNotificationViewState();
   }
 }
 
-class _NotificationViewState extends State<NotificationView> {
+class _BottomNotificationViewState extends State<BottomNotificationView> {
   final europeanCountries = [
     'Albania Does anyone know how to implement a selection of the elements located inside a ListView Class in Flutter. All elements present in my list are constructed as',
     'Andorra',
@@ -27,30 +27,23 @@ class _NotificationViewState extends State<NotificationView> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-          //centerTitle: false,
-          title: Text("Notifications",
-              style: TextStyle(
-                  color: Color.fromRGBO(51, 51, 51, 1),
-                  fontSize: 18,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500)),
-          leading: IconButton(
-            color: Color.fromRGBO(51, 51, 51, 1),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 22,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+    return WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0.0,
+            backgroundColor: Colors.white,
+            //centerTitle: false,
+            title: Text("Notifications",
+                style: TextStyle(
+                    color: Color.fromRGBO(51, 51, 51, 1),
+                    fontSize: 18,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w500)),
           ),
-        ),
-        body: _notificationList(context));
+          body: _notificationList(context)),
+    );
   }
 
   int _selectedIndex = 0;
