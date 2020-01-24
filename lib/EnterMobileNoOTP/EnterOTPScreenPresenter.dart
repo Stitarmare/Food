@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -30,6 +33,8 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
         case SuccessType.success:
           print("Success");
           print(value.model);
+          var userloginotp = json.encode(value.model);
+          Preference.setPersistData(userloginotp, PreferenceKeys.User_data);
           enterotpview.onRequestOtpSuccess();
           break;
         case SuccessType.failed:

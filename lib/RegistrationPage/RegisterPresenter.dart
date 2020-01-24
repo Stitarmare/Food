@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/registermodel.dart';
@@ -39,10 +41,13 @@ class RegisterPresenter extends RegisterContract {
       'last_name': lastName
     }).then((value) {
       print(value);
-       switch (value.result) {
+      switch (value.result) {
         case SuccessType.success:
           print("Register success");
           print(value.model);
+          // var registeruserdata = json.encode(value.model);
+          // Preference.setPersistData<String>(
+          //     registeruserdata, PreferenceKeys.Sign_UP_With_User_Data);
           mregisterView.registerSuccess();
           break;
         case SuccessType.failed:
@@ -55,7 +60,7 @@ class RegisterPresenter extends RegisterContract {
       // } else {
       //   mregisterView.registerfailed(value['message']);
       // }
-    }).catchError((error){
+    }).catchError((error) {
       print(error);
     });
 //ApiCall

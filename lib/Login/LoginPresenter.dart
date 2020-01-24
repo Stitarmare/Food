@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 import 'package:foodzi/Models/loginmodel.dart';
@@ -9,6 +11,7 @@ import 'package:foodzi/network/url_constant.dart';
 
 //import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPresenter extends LoginContract {
   LoginModelView mLoginView;
@@ -36,6 +39,8 @@ class LoginPresenter extends LoginContract {
           print("Login success");
           print(value.model);
           //var loginmodel = LoginModel.fromJson(value);
+          var userdata = json.encode(value.model);
+          Preference.setPersistData<String>(userdata, PreferenceKeys.User_data);
           Globle().loginModel = value.model;
           Globle().authKey = value.model.token;
           mLoginView.loginSuccess();

@@ -224,7 +224,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length < 8 ) {
+    } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
@@ -346,14 +346,14 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   void loginFailed() {
     // TODO: implement loginFailed
     print("pop f close");
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
     _signInFormKey.currentState.save();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');
   }
 }

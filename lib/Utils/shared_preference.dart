@@ -5,6 +5,11 @@ import 'package:crypto/crypto.dart' as crypto;
 
 class PreferenceKeys {
   static final AUTH_KEY = "AUTH_KEY";
+  static const User_data = 'USER_DATA';
+  // static const Sign_UP_With_User_Data = 'Sign_In_With_User_Data';
+  // static const Sign_IN_With_OTP = "Sign_IN_With_OTP";
+  // static const ResetOtp = "ResetOtp";
+
 }
 
 class Preference {
@@ -15,20 +20,37 @@ class Preference {
     _sharedPreferences.commit();
   }
 
-  static Future<dynamic> getPrefValue<T>(String key) async {
+  static setPersistData<T>(T value, String key) async {
     SharedPreferences _sharedPreferences;
     _sharedPreferences = await SharedPreferences.getInstance();
     if (T == String) {
-      return _sharedPreferences.getString(key);
+      _sharedPreferences.setString(key, value as String);
     }
     if (T == int) {
-      return _sharedPreferences.getInt(key);
+      _sharedPreferences.setInt(key, value as int);
     }
     if (T == bool) {
-      return _sharedPreferences.getBool(key);
+      _sharedPreferences.setBool(key, value as bool);
     }
     if (T == double) {
-      return _sharedPreferences.getDouble(key);
+      _sharedPreferences.setDouble(key, value as double);
+    }
+  }
+
+  static Future<T> getPrefValue<T>(String key) async {
+    SharedPreferences _sharedPreferences;
+    _sharedPreferences = await SharedPreferences.getInstance();
+    if (T == String) {
+      return _sharedPreferences.getString(key) as T;
+    }
+    if (T == int) {
+      return _sharedPreferences.getInt(key) as T;
+    }
+    if (T == bool) {
+      return _sharedPreferences.getBool(key) as T;
+    }
+    if (T == double) {
+      return _sharedPreferences.getDouble(key) as T;
     }
   }
 
