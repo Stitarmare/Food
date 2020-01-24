@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'dart:async';
+
+import 'package:foodzi/network/ApiBaseHelper.dart';
 //import '../Utils/String.dart';
 
 //import '../Utils/WebServiceHandler.dart';
@@ -14,8 +17,11 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       Duration(seconds: 2),
-      () => Navigator.pushReplacementNamed(context, '/LoginView'),
-      // () => WebServiceHandler.isUserAlreadyLogin() ? Navigator.pushReplacementNamed(context, '/HomePage') : Navigator.pushReplacementNamed(context, '/SignIn'),
+      //() => Navigator.pushReplacementNamed(context, '/LoginView'),
+
+      () => ApiBaseHelper.isUserAlreadyLogin()
+          ? Navigator.pushReplacementNamed(context, '/MainWidget')
+          : Navigator.pushReplacementNamed(context, '/LoginView'),
     );
   }
 

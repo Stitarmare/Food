@@ -285,7 +285,7 @@ class _DineViewState extends State<DineInView>
     return 0;
   }
 
-  Widget _getMainView(String merchantName, String location,
+  Widget _getMainView(String merchantName, String distance,
       String shortdatetime, String cLosingtime, String rating) {
     return Column(
       children: <Widget>[
@@ -300,12 +300,12 @@ class _DineViewState extends State<DineInView>
             ),
           ),
         ),
-        _getdetails(merchantName, location, shortdatetime, cLosingtime, rating)
+        _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
       ],
     );
   }
 
-  Widget _getdetails(String merchantName, String location, String shortdatetime,
+  Widget _getdetails(String merchantName, String distance, String shortdatetime,
       String cLosingtime, String rating) {
     return Row(
       mainAxisSize: MainAxisSize.max,
@@ -381,7 +381,7 @@ class _DineViewState extends State<DineInView>
                     width: 10,
                   ),
                   Text(
-                    '1.2 Miles',
+                    '${distance} km',
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontSize: 12,

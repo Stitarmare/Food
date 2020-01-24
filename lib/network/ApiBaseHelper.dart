@@ -217,6 +217,14 @@ class ApiBaseHelper {
     return _apiBaseHelper;
   }
 
+  static bool isUserAlreadyLogin() {
+    if (Globle().authKey != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   ApiBaseHelper._internal();
 
   var _baseUrlString = BaseUrl.getBaseUrl();
