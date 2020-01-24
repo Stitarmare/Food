@@ -3,7 +3,7 @@ import 'dart:convert';
 class EditStateModel {
     String status;
     int statusCode;
-    List<Datum> data;
+    List<StateList> data;
 
     EditStateModel({
         this.status,
@@ -14,7 +14,7 @@ class EditStateModel {
     factory EditStateModel.fromJson(Map<String, dynamic> json) => EditStateModel(
         status: json["status"],
         statusCode: json["status_code"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<StateList>.from(json["data"].map((x) => StateList.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,7 +24,7 @@ class EditStateModel {
     };
 }
 
-class Datum {
+class StateList {
     int id;
     String name;
     String countryCode;
@@ -36,7 +36,7 @@ class Datum {
     DateTime createdAt;
     DateTime updatedAt;
 
-    Datum({
+    StateList({
         this.id,
         this.name,
         this.countryCode,
@@ -49,7 +49,7 @@ class Datum {
         this.updatedAt,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory StateList.fromJson(Map<String, dynamic> json) => StateList(
         id: json["id"],
         name: json["name"],
         countryCode: json["country_code"],

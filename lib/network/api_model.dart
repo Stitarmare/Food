@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:foodzi/Models/EditCityModel.dart';
+import 'package:foodzi/Models/EditCountryModel.dart';
+import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -38,10 +41,19 @@ class GenericModel<T> {
       case ResendOtpModel:
         return ResendOtpModel.fromJson(json) as T;
 
-        break;
       case RestaurantListModel:
         return RestaurantListModel.fromJson(json) as T;
 
+      case EditCountryModel:
+        return EditCountryModel.fromJson(json) as T;
+
+      case EditStateModel:
+        return EditStateModel.fromJson(json) as T;
+
+      case EditCityModel:
+        return EditCityModel.fromJson(json) as T;
+        break;
+        
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;
       default:

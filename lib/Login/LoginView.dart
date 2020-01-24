@@ -346,14 +346,14 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   void loginFailed() {
     // TODO: implement loginFailed
     print("pop f close");
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
     _signInFormKey.currentState.save();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');
   }
 }

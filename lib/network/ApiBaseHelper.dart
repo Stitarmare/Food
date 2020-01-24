@@ -355,7 +355,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         var responseJson = json.decode(response.body.toString());
         var errorModel = ErrorModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error", errorModel.message, () {
             Navigator.of(context).pop();
           });
@@ -368,7 +368,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Session", errorModel.message, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -382,7 +382,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error", "Could not access", () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -396,7 +396,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         //var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error",
               'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
               () {
