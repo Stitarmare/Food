@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
-
 
 class EditProfileview extends StatefulWidget {
   @override
@@ -61,12 +61,9 @@ class _EditProfileState extends State<EditProfileview> {
       child: Form(
         key: _editprofileFormKey,
         autovalidate: _validate,
-              child: Column(
+        child: Column(
           children: <Widget>[
-            
-              
-              BoxAppTextField(
-             
+            BoxAppTextField(
               placeHolderName: KEY_FIRST_NAME,
               validator: validatename,
             ),
@@ -74,7 +71,6 @@ class _EditProfileState extends State<EditProfileview> {
               height: 28,
             ),
             BoxAppTextField(
-              
               placeHolderName: KEY_LAST_NAME,
               validator: validatename,
             ),
@@ -82,7 +78,6 @@ class _EditProfileState extends State<EditProfileview> {
               height: 28,
             ),
             BoxAppTextField(
-             
               placeHolderName: KEY_MOBILE_NUMBER,
               keyboardType: TextInputType.number,
               validator: validatemobno,
@@ -91,7 +86,6 @@ class _EditProfileState extends State<EditProfileview> {
               height: 28,
             ),
             BoxAppTextField(
-              
               placeHolderName: KEY_STREET,
               validator: validateStreetname,
             ),
@@ -117,7 +111,6 @@ class _EditProfileState extends State<EditProfileview> {
               height: 28,
             ),
             BoxAppTextField(
-              
               placeHolderName: KEY_POSTAL_CODE,
               keyboardType: TextInputType.number,
               validator: validatePinCode,
@@ -177,7 +170,6 @@ class _EditProfileState extends State<EditProfileview> {
                 )
               ],
             )
-            
           ],
         ),
       ),

@@ -13,11 +13,10 @@ abstract class EditProfilePresenterInterface {
   void citySuccess();
   void cityFailed();
 }
+
 class EditProfilePresenter {
   EditProfilePresenterInterface view;
   EditProfilePresenter({this.view});
 
-  editCountryApi(BuildContext context) {
-    
-  }
+  editCountryApi(BuildContext context) {}
 }
