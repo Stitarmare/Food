@@ -4,7 +4,7 @@ import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 
 abstract class EditProfileContract {
-  void performUpdate(BuildContext context);
+  void performUpdate(String fname,String lname,String address,int countryId,int stateId,int cityId,String postalCode,BuildContext context);
   void editCountry(BuildContext context);
   void editState(BuildContext context);
   void editCity(String stateId,BuildContext context);
@@ -18,4 +18,6 @@ abstract class EditProfileModelView {
   void editStateFailed();
   void editCitySuccess(List<CityList> stateList);
   void editCityFailed();
+  void profileUpdateSuccess();
+  void profileUpdateFailed();
 }

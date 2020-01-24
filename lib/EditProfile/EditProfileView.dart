@@ -5,6 +5,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
@@ -18,6 +19,8 @@ class EditProfileview extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfileview>
     implements EditProfileModelView {
+       final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
   List<CountryList> _dropdownItemsCountry = [];
   List<StateList> _dropdownItemsState = [];
   List<CityList> _dropdownItemsCity = [];
@@ -31,7 +34,14 @@ class _EditProfileState extends State<EditProfileview>
   String _dropdownStateValue;
   String _dropdownCityValue;
   String _errorText;
-  var stateId;
+  //var stateId;
+  var firstName = '';
+  var lastName = '';
+  var streetAddress = '';
+  var countryID;
+  var stateID;
+  var cityID;
+  var pinCode;
   EditProfilePresenter editprofilepresenter;
   @override
   void initState() {
@@ -39,7 +49,6 @@ class _EditProfileState extends State<EditProfileview>
     editprofilepresenter = EditProfilePresenter(this);
     editprofilepresenter.editCountry(context);
     editprofilepresenter.editState(context);
-
     // setState(() {
     //   editprofilepresenter.editCountry(context);
     //   editprofilepresenter.editState(context);
@@ -78,6 +87,18 @@ class _EditProfileState extends State<EditProfileview>
         ));
   }
 
+  void updateButtonClicked() {
+    if (_editprofileFormKey.currentState.validate()) {
+      print("Validation Successful");
+      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      editprofilepresenter..performUpdate(firstName, lastName, streetAddress, countryID, stateID, cityID, pinCode, context);
+    } else {
+      setState(() {
+        _validate = true;
+      });
+    }
+  }
+
   Widget _getmainView(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(30),
@@ -87,6 +108,9 @@ class _EditProfileState extends State<EditProfileview>
         child: Column(
           children: <Widget>[
             BoxAppTextField(
+              onChanged: (text){
+                firstName = text;
+              },
               placeHolderName: KEY_FIRST_NAME,
               validator: validatename,
             ),
@@ -94,6 +118,9 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
+              onChanged: (text){
+                lastName = text;
+              },
               placeHolderName: KEY_LAST_NAME,
               validator: validatename,
             ),
@@ -109,6 +136,9 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
+               onChanged: (text){
+                streetAddress = text;
+              },
               placeHolderName: KEY_STREET,
               validator: validateStreetname,
             ),
@@ -134,6 +164,9 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
+              onChanged: (text){
+                pinCode = text;
+              },
               placeHolderName: KEY_POSTAL_CODE,
               keyboardType: TextInputType.number,
               validator: validatePinCode,
@@ -160,15 +193,7 @@ class _EditProfileState extends State<EditProfileview>
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
                     ),
-                    onPressed: () {
-                      if (_editprofileFormKey.currentState.validate()) {
-                        print("Validation Successful");
-                      } else {
-                        setState(() {
-                          _validate = true;
-                        });
-                      }
-                    },
+                    onPressed: () => updateButtonClicked(),
                   ),
                 ),
                 // SizedBox(width:14,),
@@ -275,8 +300,19 @@ class _EditProfileState extends State<EditProfileview>
         }).toList(),
         onChanged: (newValue) {
           // do other stuff with _category
-          setState(() => _dropdownCountryValue = newValue);
-        },
+          setState(() {
+            _dropdownCountryValue = newValue;
+            _dropdownItemsCountry.forEach((value) {
+              if (value.name.toUpperCase() ==
+                  newValue.toString().toUpperCase()) {
+                print(value.id);
+                countryID = value.id;
+              }
+          });
+          });
+          },
+        
+ 
         value: _dropdownCountryValue,
         // decoration: InputDecoration(
         //   border: OutlineInputBorder(
@@ -397,11 +433,11 @@ class _EditProfileState extends State<EditProfileview>
               if (value.name.toUpperCase() ==
                   newValue.toString().toUpperCase()) {
                 print(value.id);
-                stateId = value.id;
+                stateID = value.id;
               }
             });
 
-            editprofilepresenter.editCity(stateId.toString(), context);
+            editprofilepresenter.editCity(stateID.toString(), context);
           });
         },
         value: _dropdownStateValue,
@@ -516,8 +552,16 @@ class _EditProfileState extends State<EditProfileview>
               ));
         }).toList(),
         onChanged: (newValue) {
-          // do other stuff with _category
-          setState(() => _dropdownCityValue = newValue);
+           setState(() {
+            _dropdownCityValue = newValue;
+            _dropdownItemsCity.forEach((value) {
+              if (value.name.toUpperCase() ==
+                  newValue.toString().toUpperCase()) {
+                print(value.id);
+                cityID = value.id;
+              }
+          });
+          });
         },
         value: _dropdownCityValue,
 
@@ -669,6 +713,17 @@ class _EditProfileState extends State<EditProfileview>
       _dropdownItemsState.addAll(stateList);
     });
     // TODO: implement editStateSuccess
+  }
+
+  @override
+  void profileUpdateFailed() {
+    // TODO: implement profileUpdateFailed
+  }
+
+  @override
+  void profileUpdateSuccess() {
+    // TODO: implement profileUpdateSuccess
+    Navigator.pushNamed(context, '/MainWidget');
   }
 }
 
