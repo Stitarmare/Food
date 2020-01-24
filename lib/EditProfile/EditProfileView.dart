@@ -97,14 +97,14 @@ class _EditProfileState extends State<EditProfileview>
               placeHolderName: KEY_LAST_NAME,
               validator: validatename,
             ),
-            SizedBox(
-              height: 28,
-            ),
-            BoxAppTextField(
-              placeHolderName: KEY_MOBILE_NUMBER,
-              keyboardType: TextInputType.number,
-              validator: validatemobno,
-            ),
+            // SizedBox(
+            //   height: 28,
+            // ),
+            // BoxAppTextField(
+            //   placeHolderName: KEY_MOBILE_NUMBER,
+            //   keyboardType: TextInputType.number,
+            //   validator: validatemobno,
+            // ),
             SizedBox(
               height: 28,
             ),
