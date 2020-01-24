@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
+import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
@@ -24,14 +26,14 @@ class _BottomTabbarState extends State<BottomTabbar> {
       title: 'Dine In',
     ),
     MyOrders(),
-    NotificationView(),
-    ProfileScreen()
+    BottomNotificationView(),
+   BottomProfileScreen()
   ];
   List<Widget> tabsTakeAway = [
     DineInView(title: 'Take Away'),
    MyOrders(),
-    NotificationView(),
-    ProfileScreen()
+    BottomNotificationView(),
+    BottomProfileScreen()
   ];
   onTapIndex(int index) {
     setState(() {

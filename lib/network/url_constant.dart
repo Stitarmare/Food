@@ -12,4 +12,5 @@ class UrlConstant {
   static const editState = "api/getStates";
   static const editCityField = "api/getCities";
   static const restaurantListApi = "api/getRestaurantList";
+  static const updateProfile = "api/editCustomerProfile";
 }

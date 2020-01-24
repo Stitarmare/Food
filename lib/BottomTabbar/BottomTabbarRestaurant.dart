@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
+import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 //import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -22,8 +24,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   List<Widget> tabsHome = [
     RestaurantView(),
     MyOrders(),
-    NotificationView(),
-    ProfileScreen()
+    BottomNotificationView(),
+    BottomProfileScreen()
   ];
   onTapIndex(int index) {
     setState(() {
