@@ -25,7 +25,9 @@ const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
 const Key_SPECIAL_CHAR = 'This Should Not Contain @ Or Any Special Character';
 const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
     'This should be only 8 characters long.';
-const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
+const KEY_THIS_SHOULD_BE_ONLY_30_CHAR_LONG =
+    'This should be only 30 characters long.';
+    const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
     'This should be only 20 characters long.';
 const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
     'This should be more than 10 characters';
