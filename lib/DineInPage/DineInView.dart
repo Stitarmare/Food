@@ -316,21 +316,24 @@ class _DineViewState extends State<DineInView>
             SizedBox(
               height: 11.0,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                merchantName,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: greytheme700),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text( 
+                  merchantName,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
               ),
             ),
             SizedBox(
               height: 14,
-            ),
+            ), 
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Row(
@@ -356,7 +359,13 @@ class _DineViewState extends State<DineInView>
             ),
             SizedBox(
               height: 13,
-            )
+            ),
+            // ConstrainedBox(
+            //   constraints: new BoxConstraints(
+            //     minHeight: 0.0,
+            //     maxHeight: 13.0,
+            //   ),
+            // ),
           ],
         ),
         Expanded(

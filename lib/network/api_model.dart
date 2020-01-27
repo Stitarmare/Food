@@ -9,6 +9,7 @@ import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
+import 'package:foodzi/Models/UpdateprofileModel.dart';
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
@@ -53,7 +54,11 @@ class GenericModel<T> {
       case EditCityModel:
         return EditCityModel.fromJson(json) as T;
         break;
-        
+
+      case UpdateProfileModel:
+        return UpdateProfileModel.fromJson(json) as T;
+        break;
+
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;
       default:
