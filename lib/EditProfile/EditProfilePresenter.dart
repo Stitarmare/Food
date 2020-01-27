@@ -5,6 +5,7 @@ import 'package:foodzi/EditProfile/EditProfileContractor.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
+import 'package:foodzi/Models/UpdateprofileModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -96,7 +97,7 @@ class EditProfilePresenter extends EditProfileContract{
   @override
   void performUpdate(String fname,String lname,String address,int countryId,int stateId,int cityId,String postalCode,BuildContext context) {
     // TODO: implement performUpdate
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.updateProfile, context, body: {
+    ApiBaseHelper().post<UpdateProfileModel>(UrlConstant.updateProfile, context, body: {
       'first_name': fname,
       'last_name': lname,
       'address_line_1': address,

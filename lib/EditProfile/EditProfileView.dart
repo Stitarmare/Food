@@ -4,8 +4,10 @@ import 'package:foodzi/EditProfile/EditProfilePresenter.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
+import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
@@ -723,6 +725,7 @@ class _EditProfileState extends State<EditProfileview>
   @override
   void profileUpdateSuccess() {
     // TODO: implement profileUpdateSuccess
+      Globle().loginModel = 
     Navigator.pushNamed(context, '/MainWidget');
   }
 }
