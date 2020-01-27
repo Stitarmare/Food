@@ -7,6 +7,8 @@ import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
 import 'package:foodzi/Models/error_model.dart';
+import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -111,6 +113,7 @@ class EditProfilePresenter extends EditProfileContract{
         case SuccessType.success:
           print("Update Successfully");
           print(value.model);
+           //Globle().loginModel = LoginModel.fromJson(value.model.data);
           view.profileUpdateSuccess();
           break;
         case SuccessType.failed:
