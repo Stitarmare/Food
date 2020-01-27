@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'dart:convert';
 
+import 'package:foodzi/Models/UpdateprofileModel.dart';
+
 class LoginModel {
   String status;
   String token;
@@ -46,6 +48,7 @@ class Data {
   DateTime createdAt;
   DateTime updatedAt;
   String colourCode;
+  UserDetails userDetails;
 
   Data({
     this.id,
@@ -63,6 +66,7 @@ class Data {
     this.createdAt,
     this.updatedAt,
     this.colourCode,
+    this.userDetails,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -80,6 +84,7 @@ class Data {
         emailVerifiedAt: json["email_verified_at"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        userDetails: UserDetails.fromJson(json["user_details"]),
 //colourCode: json["colour_code"],
       );
 
@@ -98,6 +103,7 @@ class Data {
         "email_verified_at": emailVerifiedAt,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "user_details": userDetails.toJson(),
 //"colour_code": colourCode,
       };
 }

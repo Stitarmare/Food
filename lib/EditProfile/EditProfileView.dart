@@ -725,7 +725,7 @@ class _EditProfileState extends State<EditProfileview>
   @override
   void profileUpdateSuccess() {
     // TODO: implement profileUpdateSuccess
-      Globle().loginModel = 
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushNamed(context, '/MainWidget');
   }
 }
