@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -18,7 +19,7 @@ class BottomProfileScreen extends StatefulWidget {
 class _BottomProfileScreenState extends State<BottomProfileScreen> {
   //int _currentTabIndex = 0;
   File _image;
-
+  bool isempty = false;
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
@@ -40,7 +41,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
     // child:
     return WillPopScope(
       onWillPop: () async => false,
-          child: Scaffold(
+      child: Scaffold(
         appBar: PreferredSize(
             preferredSize: Size(MediaQuery.of(context).size.width,
                 MediaQuery.of(context).size.height * 0.2),
@@ -55,7 +56,8 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
               // Container(
               //   child:
               Container(
-                margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.1, 50, 0, 0),
+                margin: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.4, 40, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +65,6 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                     Text(
                       "My Profile",
                       style: TextStyle(
-                        
                           fontSize: 18,
                           color: Colors.white,
                           fontFamily: 'gotham',
@@ -142,7 +143,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                 height: 53,
               ),
               Text(
-                'George Thomas',
+                '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                 style: TextStyle(
                     fontSize: 16,
                     color: greytheme1200,
@@ -153,7 +154,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                 height: 14,
               ),
               Text(
-                'gthomas45@hotmail.com | +61 9876 5432.',
+                "${Globle().loginModel.data.mobileNumber}",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
@@ -164,7 +165,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                 height: 15,
               ),
               Text(
-                '600 Creswick Rd, Ballarat Central VIC 3350,Australia',
+                isempty ? " " : "N.A ",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,

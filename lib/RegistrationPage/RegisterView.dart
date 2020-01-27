@@ -77,7 +77,7 @@ class _RegisterviewState extends State<Registerview>
     if (_signUpFormKey.currentState.validate()) {
       Dialogs.showLoadingDialog(context, _keyLoader, "");
       registerPresenter.performregister(
-          _username, _phoneno, _password, context);
+          _firstname, _lastname, _phoneno, _password, context);
       // _goToNextPageDineIn(context);
 
       _signUpFormKey.currentState.save();
@@ -151,7 +151,8 @@ class _RegisterviewState extends State<Registerview>
     );
   }
 
-  var _username = "";
+  var _firstname = "";
+  var _lastname = "";
   var _phoneno = '';
   var _password = '';
 
@@ -161,14 +162,32 @@ class _RegisterviewState extends State<Registerview>
       children: <Widget>[
         AppTextField(
           onChanged: (text) {
-            _username = text;
+            _firstname = text;
           },
           keyboardType: TextInputType.text,
           icon: Icon(
             Icons.person,
             color: greentheme100,
           ),
-          placeHolderName: Key_USER_NAME,
+          placeHolderName: KEY_FIRST_NAME,
+          validator: validatename,
+          onSaved: (String value) {
+            _signUpData[name] = value;
+          },
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        AppTextField(
+          onChanged: (text) {
+            _lastname = text;
+          },
+          keyboardType: TextInputType.text,
+          icon: Icon(
+            Icons.person,
+            color: greentheme100,
+          ),
+          placeHolderName: KEY_LAST_NAME,
           validator: validatename,
           onSaved: (String value) {
             _signUpData[name] = value;
@@ -322,7 +341,7 @@ class _RegisterviewState extends State<Registerview>
   @override
   void registerSuccess() {
     _signUpFormKey.currentState.save();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _goToNextPageDineIn(context);
     //Navigator.pushNamed(context, '/OTPScreen');
     // TODO: implement registerSuccess
@@ -330,7 +349,7 @@ class _RegisterviewState extends State<Registerview>
 
   @override
   void registerfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     print("Registration Failed");
     // Constants.showAlert("Incorrect Credentials", context);
     // TODO: implement registerfailed

@@ -32,7 +32,8 @@ dependencies:
   crypto:
   outline_material_icons: ^0.1.1
   image_picker:
-  path_provider:  
+  path_provider: 
+  geolocator: ^5.2.0 
 
 dev_dependencies:
   flutter_test:

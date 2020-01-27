@@ -28,13 +28,13 @@ class _BottomNotificationViewState extends State<BottomNotificationView> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-          onWillPop: () async => false,
-          child: Scaffold(
+      onWillPop: () async => false,
+      child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.white,
-            //centerTitle: false,
+            centerTitle: true,
             title: Text("Notifications",
                 style: TextStyle(
                     color: Color.fromRGBO(51, 51, 51, 1),
@@ -79,7 +79,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView> {
                       color: Color.fromRGBO(152, 152, 152, 1)),
                 ),
               ),
-              onTap: () async{
+              onTap: () async {
                 _onSelected(index);
                 await Dailogs.notification_1(context);
               },

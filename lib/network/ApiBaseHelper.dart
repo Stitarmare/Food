@@ -209,6 +209,19 @@ class BaseUrl {
         return "";
     }
   }
+
+  static String getBaseUrlImages() {
+    switch (environment) {
+      case Environment.PRODUCTION:
+        return "";
+      case Environment.DEVLOPMENT:
+        return "http://foodzi.php-dev.in/storage/";
+      case Environment.LOCAL:
+        return "https://jsonplaceholder.typicode.com/";
+      default:
+        return "";
+    }
+  }
 }
 
 class ApiBaseHelper {

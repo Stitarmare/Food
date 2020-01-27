@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -18,7 +19,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //int _currentTabIndex = 0;
   File _image;
-
+  bool isempty = false;
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
@@ -151,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 53,
               ),
               Text(
-                'George Thomas',
+                '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                 style: TextStyle(
                     fontSize: 16,
                     color: greytheme1200,
@@ -162,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 14,
               ),
               Text(
-                'gthomas45@hotmail.com | +61 9876 5432.',
+                "${Globle().loginModel.data.mobileNumber}",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
@@ -173,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 15,
               ),
               Text(
-                '600 Creswick Rd, Ballarat Central VIC 3350,Australia',
+                isempty ? " " : "N.A ",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,

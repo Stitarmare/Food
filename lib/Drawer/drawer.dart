@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 import 'package:foodzi/Utils/String.dart';
@@ -210,6 +211,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       //   title: 'SETTINGS',
                       // ),
                       onPressed: () {
+                        Preference.removeAllPref();
                         Navigator.pushReplacementNamed(context, '/LoginView');
                       }),
                   Padding(
