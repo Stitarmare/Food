@@ -17,6 +17,8 @@ class BoxAppTextField extends StatefulWidget {
   final Widget icon;
   final bool autovalidate;
   final Function(String) onChanged;
+  final FocusNode focusNode;
+
   //final Widget inputFormatters;
 
   const BoxAppTextField({
@@ -34,6 +36,7 @@ class BoxAppTextField extends StatefulWidget {
     this.keyboardType,
     this.icon,
     this.autovalidate = false,
+    this.focusNode,
     // this.inputFormatters,
   });
 
@@ -72,6 +75,7 @@ class _AppTextFieldState extends State<BoxAppTextField> {
       validator: widget.validator,
       onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
+      focusNode: widget.focusNode,
       // inputFormatters: [
       //   new LengthLimitingTextInputFormatter(10),
       // ],

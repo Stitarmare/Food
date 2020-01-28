@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
@@ -15,11 +17,9 @@ class ProfileScreenPresenter extends ProfileScreenContractor {
   ProfileScreenPresenter(this.view);
   
   @override
-  void updateProfileImage(String profileImgUrl, BuildContext context) {
+  void updateProfileImage(File profileImgUrl, BuildContext context) {
     // TODO: implement updateProfileImage
-    ApiBaseHelper().imageUpload<UpdateProfileModel>(UrlConstant.updateProfileImage, context,imageBody:{
-      "profile_image":profileImgUrl
-    }).then((value){
+    ApiBaseHelper().imageUpload<UpdateProfileModel>(UrlConstant.updateProfileImage, context,key: "profile_image",imageBody:profileImgUrl ).then((value){
       print(value);
       switch (value.result) {
         case SuccessType.success:

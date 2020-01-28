@@ -11,6 +11,8 @@ import 'package:foodzi/Utils/globle.dart';
 
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:keyboard_actions/keyboard_actions_config.dart';
 
 class EditProfileview extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class _EditProfileState extends State<EditProfileview>
     implements EditProfileModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
+  final FocusNode _nodeText1 = FocusNode();
   List<CountryList> _dropdownItemsCountry = [];
   List<StateList> _dropdownItemsState = [];
   List<CityList> _dropdownItemsCity = [];
@@ -84,8 +87,11 @@ class _EditProfileState extends State<EditProfileview>
                   fontFamily: 'gotham',
                   fontWeight: FontWeight.w500)),
         ),
-        body: SingleChildScrollView(
-          child: _getmainView(context),
+        body: KeyboardActions(
+          config: _buildConfig(context),
+                  child: SingleChildScrollView(
+            child: _getmainView(context),
+          ),
         ));
   }
 
@@ -171,6 +177,7 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 pinCode = text;
               },
+              focusNode: _nodeText1,
               placeHolderName: KEY_POSTAL_CODE,
               keyboardType: TextInputType.number,
               validator: validatePinCode,
@@ -773,6 +780,23 @@ class _EditProfileState extends State<EditProfileview>
   void profileUpdateSuccess() {
     // TODO: implement profileUpdateSuccess
     showDialogBox(context);
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: false,
+      actions: [
+        KeyboardAction(
+          focusNode: _nodeText1,
+          closeWidget: Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text("Done"),
+          ),
+        ),
+      ],
+    );
   }
 }
 
