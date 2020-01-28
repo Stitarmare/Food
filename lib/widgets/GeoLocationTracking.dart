@@ -1,18 +1,25 @@
 import 'dart:async';
+//import 'dart:html';
 
 import 'package:geolocator/geolocator.dart';
 
 class GeoLocationTracking {
-  Future<void> _load() async {
+  static Future<Position> load() async {
     await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     Position position = await Geolocator()
         .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+
     var geolocator = Geolocator();
     var locationOptions =
         LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
+    print(geolocationStatus.value);
+    // switch (geolocationStatus.value) {
+
+    // }
 
     StreamSubscription<Position> positionStream = geolocator
         .getPositionStream(locationOptions)
@@ -22,11 +29,12 @@ class GeoLocationTracking {
           : position.latitude.toString() +
               ', ' +
               position.longitude.toString());
+      //if(Po)
     });
   }
 
-  @override
-  Future<void> _loadingPositionTrack() async {
+  //@override
+  static Future<void> loadingPositionTrack() async {
     Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
     GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();

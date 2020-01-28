@@ -4,6 +4,7 @@ import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -102,6 +103,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
                 children: <Widget>[
                   ClipOval(
                       child: _image == null
+                      //Globle().loginModel.data.userDetails.profileImage == null
                           ? Image.asset(
                               'assets/ProfileImage/MaskGroup15.png',
                               fit: BoxFit.cover,
@@ -109,7 +111,8 @@ profileScreenPresenter.updateProfileImage(_image, context);
                               height: 82.5,
                             )
                           : Image.file(
-                              _image,
+                            _image,
+                              //BaseUrl.getBaseUrlImages()+'${Globle().loginModel.data.userDetails.profileImage},',
                               fit: BoxFit.cover,
                               width: 82.5,
                               height: 82.5,
@@ -348,6 +351,6 @@ profileScreenPresenter.updateProfileImage(_image, context);
 
   @override
   void profileImageUpdateSuccess() {
-    
+
   }
 }

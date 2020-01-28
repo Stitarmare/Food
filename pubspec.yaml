@@ -33,7 +33,10 @@ dependencies:
   outline_material_icons: ^0.1.1
   image_picker:
   path_provider: 
+  keyboard_actions: ^3.1.2
   geolocator: ^5.2.0 
+  keyboard_actions: ^3.1.2
+  cached_network_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -145,6 +148,8 @@ flutter:
       - assets/BackButtonIcon/Path1621.png
       - assets/BackButtonIcon/Path1621@2x.png
       - assets/BackButtonIcon/Path1621@3x.png
+      #PlaceholderImage
+      - assets/PlaceholderImage/placeholder.png
 
 
       

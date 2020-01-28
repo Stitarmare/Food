@@ -25,6 +25,11 @@ class Constants {
               title: Text(title),
               content: Text(message),
               actions: <Widget>[
+                Divider(
+                  endIndent: 15,
+                  indent: 15,
+                  color: Colors.black,
+                ),
                 FlatButton(
                   child: Text("Ok"),
                   onPressed: () {
