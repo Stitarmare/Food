@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
+import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 //import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -10,7 +12,10 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
-  BottomTabbarHome();
+  String title;
+
+  BottomTabbarHome({this.title});
+
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -18,17 +23,32 @@ class BottomTabbarHome extends StatefulWidget {
 }
 
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
+  var title;
   int currentTabIndex = 0;
   List<Widget> tabsHome = [
     RestaurantView(),
     MyOrders(),
-    NotificationView(),
-    ProfileScreen()
+    BottomNotificationView(),
+    BottomProfileScreen()
   ];
   onTapIndex(int index) {
     setState(() {
       currentTabIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.title != null) {
+      setState(() {
+        tabsHome.setAll(0, [
+          RestaurantView(
+            title: widget.title,
+          )
+        ]);
+      });
+    }
   }
 
   @override

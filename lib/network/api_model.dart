@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:foodzi/Models/EditCityModel.dart';
+import 'package:foodzi/Models/EditCountryModel.dart';
+import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -6,6 +9,7 @@ import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
+import 'package:foodzi/Models/UpdateprofileModel.dart';
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
@@ -38,9 +42,22 @@ class GenericModel<T> {
       case ResendOtpModel:
         return ResendOtpModel.fromJson(json) as T;
 
-        break;
       case RestaurantListModel:
         return RestaurantListModel.fromJson(json) as T;
+
+      case EditCountryModel:
+        return EditCountryModel.fromJson(json) as T;
+
+      case EditStateModel:
+        return EditStateModel.fromJson(json) as T;
+
+      case EditCityModel:
+        return EditCityModel.fromJson(json) as T;
+        break;
+
+      case UpdateProfileModel:
+        return UpdateProfileModel.fromJson(json) as T;
+        break;
 
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;

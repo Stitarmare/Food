@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/registermodel.dart';
@@ -24,25 +26,29 @@ class RegisterPresenter extends RegisterContract {
     return EncryptionAES.getData(value);
   }
 
-  void performregister(
-      String first_name, String mobno, String password, BuildContext context) {
-    var data = first_name.split(" ");
-    var firstName = data[0];
-    var lastName = data[1];
+  void performregister(String first_name, String lastname, String mobno,
+      String password, BuildContext context) {
+    // var data = first_name.split(" ");
+    // var firstName = data[0];
+    // var lastName = data[1];
     ApiBaseHelper().post<ErrorModel>(UrlConstant.registerApi, context, body: {
-      'first_name': firstName,
+      'first_name': first_name,
+      'last_name': lastname,
       'mobile_number': mobno,
       'password': _encryptValue(password),
       'device_token': "dsa",
       'device_type': "1",
       'user_type': "customer",
-      'last_name': lastName
+      //'last_name': lastName
     }).then((value) {
       print(value);
-       switch (value.result) {
+      switch (value.result) {
         case SuccessType.success:
           print("Register success");
           print(value.model);
+          // var registeruserdata = json.encode(value.model);
+          // Preference.setPersistData<String>(
+          //     registeruserdata, PreferenceKeys.Sign_UP_With_User_Data);
           mregisterView.registerSuccess();
           break;
         case SuccessType.failed:
@@ -55,7 +61,7 @@ class RegisterPresenter extends RegisterContract {
       // } else {
       //   mregisterView.registerfailed(value['message']);
       // }
-    }).catchError((error){
+    }).catchError((error) {
       print(error);
     });
 //ApiCall

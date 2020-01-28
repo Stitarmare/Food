@@ -3,7 +3,12 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
+import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -23,10 +28,16 @@ class _DineViewState extends State<DineInView>
   DineInRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
 
   //List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
-    BottomItemButton(title: "Distance", id: 1, isSelected: false),
+    BottomItemButton(
+      title: "Distance",
+      id: 1,
+      isSelected: false,
+    ),
     BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
   ];
 
@@ -37,12 +48,48 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
+    locator();
     _detectScrollPosition();
+    GeoLocationTracking.load();
+    // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
-    dinerestaurantPresenter.getrestaurantspage(
-        "18.579622", "73.738691", "", "", page, context);
+
     // TODO: implement initState
     super.initState();
+  }
+
+  locator() async {
+    GeolocationStatus geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+    print(geolocationStatus);
+    switch (geolocationStatus) {
+      case GeolocationStatus.denied:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.disabled:
+        Constants.showAlert(
+            "Access Denied", "Please Allow The Loaction Services On", context);
+        break;
+      case GeolocationStatus.granted:
+        Dialogs.showLoadingDialog(
+            context, _keyLoader, "Loading....Please Wait");
+
+        dinerestaurantPresenter.getrestaurantspage(
+            "18.579622", "73.738691", "", "", page, context);
+        GeoLocationTracking.load();
+        GeoLocationTracking.loadingPositionTrack();
+
+        //Dialogs.showLoadingDialog(context, _keyLoader, "");
+        break;
+      case GeolocationStatus.restricted:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.unknown:
+      default:
+        break;
+    }
   }
 
   _detectScrollPosition() {
@@ -259,14 +306,18 @@ class _DineViewState extends State<DineInView>
               child: ListTile(
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
-                      _restaurantList[i].restName,
-                      _restaurantList[i].longitude,
-                      _restaurantList[i].openingTime,
-                      _restaurantList[i].closingTime,
-                      _restaurantList[i].averageRating.toString()),
+                    _restaurantList[i].restName,
+                    _restaurantList[i].longitude,
+                    _restaurantList[i].openingTime,
+                    _restaurantList[i].closingTime,
+                    _restaurantList[i].averageRating.toString(),
+                    _restaurantList[i].coverImage,
+                  ),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome()));
+                        builder: (context) => BottomTabbarHome(
+                              title: "${_restaurantList[i].restName}",
+                            )));
                     setState(() {
                       // _selected[i] = !_selected[i];
                     }
@@ -285,8 +336,13 @@ class _DineViewState extends State<DineInView>
     return 0;
   }
 
-  Widget _getMainView(String merchantName, String distance,
-      String shortdatetime, String cLosingtime, String rating) {
+  Widget _getMainView(
+      String merchantName,
+      String distance,
+      String shortdatetime,
+      String cLosingtime,
+      String rating,
+      String imageurl) {
     return Column(
       children: <Widget>[
         Card(
@@ -295,7 +351,7 @@ class _DineViewState extends State<DineInView>
             width: MediaQuery.of(context).size.width,
             decoration: new BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/HotelImages/Image12.png'),
+                  image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
                   fit: BoxFit.fitWidth),
             ),
           ),
@@ -316,16 +372,19 @@ class _DineViewState extends State<DineInView>
             SizedBox(
               height: 11.0,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                merchantName,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: greytheme700),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  merchantName,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
               ),
             ),
             SizedBox(
@@ -356,7 +415,13 @@ class _DineViewState extends State<DineInView>
             ),
             SizedBox(
               height: 13,
-            )
+            ),
+            // ConstrainedBox(
+            //   constraints: new BoxConstraints(
+            //     minHeight: 0.0,
+            //     maxHeight: 13.0,
+            //   ),
+            // ),
           ],
         ),
         Expanded(
@@ -440,6 +505,7 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

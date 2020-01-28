@@ -16,9 +16,11 @@ class BoxAppTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final Widget icon;
   final bool autovalidate;
+  final Function(String) onChanged;
   //final Widget inputFormatters;
 
   const BoxAppTextField({
+    this.onChanged,
     this.tfValue,
     this.placeHolderName,
     this.obscureText = false,
@@ -43,20 +45,22 @@ class _AppTextFieldState extends State<BoxAppTextField> {
   @override
   Widget build(BuildContext context) {
     TextFormField tf = TextFormField(
+      onChanged: widget.onChanged,
       obscureText: widget.obscureText,
       readOnly: widget.readOnly,
       enableInteractiveSelection: widget.interactiveSel,
       initialValue: widget.tfValue,
       decoration: new InputDecoration(
-        contentPadding: EdgeInsets.all(12.0),
+          contentPadding: EdgeInsets.all(12.0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: greentheme100, width: 2),
           ),
           labelText: widget.placeHolderName,
-          labelStyle: TextStyle(color: greytheme1000,
-                  fontSize: 16,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(
+              color: greytheme1000,
+              fontSize: 16,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w500),
           // prefixText: widget.prefixText,
           prefixIcon: widget.icon,
           // hintText: widget.hintText,

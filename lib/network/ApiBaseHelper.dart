@@ -209,6 +209,19 @@ class BaseUrl {
         return "";
     }
   }
+
+  static String getBaseUrlImages() {
+    switch (environment) {
+      case Environment.PRODUCTION:
+        return "";
+      case Environment.DEVLOPMENT:
+        return "http://foodzi.php-dev.in/storage/";
+      case Environment.LOCAL:
+        return "https://jsonplaceholder.typicode.com/";
+      default:
+        return "";
+    }
+  }
 }
 
 class ApiBaseHelper {
@@ -249,6 +262,12 @@ class ApiBaseHelper {
           HttpHeaders.authorizationHeader: "Bearer " + authToken(),
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.acceptHeader: "application/json"
+        };
+        case UrlConstant.updateProfileImage:
+        return {
+          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.acceptHeader: "multipart/form-data"
         };
       default:
         return {
@@ -299,26 +318,28 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      Map<String, String> body, Map<String, String> imageBody) async {
+      {Map<String, String> body, Map<String, String> imageBody}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
-      body.forEach((key, value) {
-        request.fields[key] = value;
-      });
+      request.headers.addAll(getHeader(url));
+      if (body != null) {
+        body.forEach((key, value) {
+          request.fields[key] = value;
+        });
+      }
+
       imageBody.forEach((key, value) {
         var filePart = new http.MultipartFile.fromString(key, value,
             filename: '$key.jpeg', contentType: new MediaType('image', 'jpeg'));
         request.files.add(filePart);
       });
-      var response = await request.send();
+      var res =  await request.send();
+      var myRes = await http.Response.fromStream(res);
+      
+      return _returnResponse<T>(myRes, context);
+      
 
-      http.Response.fromStream(response).then((value) {
-        return _returnResponse<T>(value, context);
-      }).catchError((onError) {
-        print(onError);
-        return errorResponce<T>();
-      });
     } on SocketException {
       _showAlert(
         context,
@@ -363,7 +384,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         var responseJson = json.decode(response.body.toString());
         var errorModel = ErrorModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error", errorModel.message, () {
             Navigator.of(context).pop();
           });
@@ -376,7 +397,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Session", errorModel.message, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -390,7 +411,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error", "Could not access", () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -404,7 +425,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         //var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 100), () {
+        Future.delayed(const Duration(milliseconds: 200), () {
           _showAlert(context, "Error",
               'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
               () {
