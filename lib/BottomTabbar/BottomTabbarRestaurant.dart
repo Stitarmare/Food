@@ -8,13 +8,14 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
-  String title;
-
-  BottomTabbarHome({this.title});
+int tabvalue;
+String title;
+  BottomTabbarHome({this.tabvalue, String title});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,6 +32,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     BottomNotificationView(),
     BottomProfileScreen()
   ];
+    List<Widget> tabsTakeAway = [
+    RestaurantTAView(),
+    MyOrders(),
+    BottomNotificationView(),
+    BottomProfileScreen()
+  ];
   onTapIndex(int index) {
     setState(() {
       currentTabIndex = index;
@@ -42,8 +49,19 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     // TODO: implement initState
     if (widget.title != null) {
       setState(() {
+        
         tabsHome.setAll(0, [
           RestaurantView(
+            title: widget.title,
+          )
+        ]);
+      });
+    }
+       if (widget.title != null) {
+      setState(() {
+        
+        tabsTakeAway.setAll(0, [
+          RestaurantTAView(
             title: widget.title,
           )
         ]);
@@ -64,7 +82,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
               child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
-      body: tabsHome[currentTabIndex],
+      body: widget.tabvalue == 0
+          ? tabsHome[currentTabIndex]
+          : tabsTakeAway[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,

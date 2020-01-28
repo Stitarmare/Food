@@ -7,6 +7,7 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
+import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -22,15 +23,13 @@ class BottomTabbar extends StatefulWidget {
 class _BottomTabbarState extends State<BottomTabbar> {
   int currentTabIndex = 0;
   List<Widget> tabsDineIn = [
-    DineInView(
-      title: 'Dine In',
-    ),
+    DineInView(),
     MyOrders(),
     BottomNotificationView(),
    BottomProfileScreen()
   ];
   List<Widget> tabsTakeAway = [
-    DineInView(title: 'Take Away'),
+   TakeAwayView(),
    MyOrders(),
     BottomNotificationView(),
     BottomProfileScreen()
