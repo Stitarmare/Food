@@ -26,7 +26,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   final GlobalKey<FormState> _enterOTPFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
-    final FocusNode _nodeText1 = FocusNode();
+  final FocusNode _nodeText1 = FocusNode();
 
   bool _validate = false;
   final Map<String, dynamic> _enterOTP = {
@@ -43,7 +43,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +56,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
         body: Center(
           child: KeyboardActions(
             config: _buildConfig(context),
-                      child: SingleChildScrollView(
+            child: SingleChildScrollView(
               child: mainview(),
             ),
           ),
         ));
   }
-
 
   Widget mainview() {
     return Container(
@@ -108,61 +106,61 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     return LimitedBox(
       // child: KeyboardActions(
       //   config: _buildConfig(context),
-              child: Container(
-          child: Column(
-            children: <Widget>[
-              Form(
-                key: _enterOTPFormKey,
-                autovalidate: _validate,
-                child: Column(
-                  children: <Widget>[
-                    _buildImagelogo(),
-                    SizedBox(
-                      height: 40,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Form(
+              key: _enterOTPFormKey,
+              autovalidate: _validate,
+              child: Column(
+                children: <Widget>[
+                  _buildImagelogo(),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: Text(
+                      KEY_GET_OTP_ENTER_NO,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      style: TextStyle(
+                          fontFamily: 'SegoeUI',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: greytheme200),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                      child: Text(
-                        KEY_GET_OTP_ENTER_NO,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: TextStyle(
-                            fontFamily: 'SegoeUI',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            color: greytheme200),
-                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
+                  ),
+                  SizedBox(height: 45),
+                  AppTextField(
+                    onChanged: (text) {
+                      this._mobileNumber = text;
+                    },
+                    keyboardType: TextInputType.phone,
+                    focusNode: _nodeText1,
+                    icon: Icon(
+                      Icons.call,
+                      color: greentheme100,
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
-                    ),
-                    SizedBox(height: 45),
-                    AppTextField(
-                      onChanged: (text) {
-                        this._mobileNumber = text;
-                      },
-                      keyboardType: TextInputType.phone,
-                      focusNode: _nodeText1,
-                      icon: Icon(
-                        Icons.call,
-                        color: greentheme100,
-                      ),
-                      placeHolderName: KEY_MOBILE_NUMBER,
-                      validator: validatemobno,
-                      onSaved: (String value) {
-                        _enterOTP[mobno] = value;
-                      },
-                    ),
-                    SizedBox(
-                      height: 90,
-                    ),
-                    _submitButtonClicked(),
-                  ],
-                ),
+                    placeHolderName: KEY_MOBILE_NUMBER,
+                    validator: validatemobno,
+                    onSaved: (String value) {
+                      _enterOTP[mobno] = value;
+                    },
+                  ),
+                  SizedBox(
+                    height: 90,
+                  ),
+                  _submitButtonClicked(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
       // ),
     );
   }
@@ -253,12 +251,13 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             )));
     // TODO: implement requestforloginotpsuccess
   }
+
   KeyboardActionsConfig _buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
       keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [      
+      nextFocus: false,
+      actions: [
         KeyboardAction(
           focusNode: _nodeText1,
           closeWidget: Padding(
@@ -266,11 +265,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             child: Text("Done"),
           ),
         ),
-      
       ],
     );
+  }
 }
-    }
-
-
-

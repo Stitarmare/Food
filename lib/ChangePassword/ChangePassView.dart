@@ -1,46 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/ChangePassword/ChangePasswordContractor.dart';
+import 'package:foodzi/ChangePassword/ChangePasswordPresenter.dart';
 //import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 //import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 
 class ChangePasswordview extends StatefulWidget {
-  var mobno;
-  ChangePasswordview({this.mobno});
   @override
   State<StatefulWidget> createState() {
     return _ChangePasswordview();
   }
 }
 
-class _ChangePasswordview extends State<ChangePasswordview> {
+class _ChangePasswordview extends State<ChangePasswordview>
+    implements ChangePasswordModelView {
   static String enterOldPass = KEY_ENTER_OLD_PASSWORD;
   static String enterNewPass = KEY_ENTER_NEW_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
 
   final GlobalKey<FormState> _changepasswordFormKey = GlobalKey<FormState>();
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  Dialogs dialogs = Dialogs();
   bool _validate = false;
 
-  // final Map<String, dynamic> _signInData = {
-  //   enterOldPass:null,
-  //   enterNewPass: null,
-  //   enterConfirmPass: null,
-  // };
+  final Map<String, dynamic> _changePassData = {
+    enterOldPass:null,
+    enterNewPass: null,
+    enterConfirmPass: null,
+  };
 
-  var resetpasswordPresenter;
-  var _oldPassword;
-  var _newPassword;
-  var _confirmPassword;
+  var changepasswordPresenter;
+  var _oldPassword = '';
+  var _newPassword = '';
+  var _confirmPassword = '';
 
   @override
   void initState() {
     // TODO: implement initState
-    // resetpasswordPresenter = ResetpasswordPresenter(this);
-    // super.initState();
+    changepasswordPresenter = ChangePasswordPresenter(this);
+    super.initState();
   }
 
   @override
@@ -80,16 +83,15 @@ class _ChangePasswordview extends State<ChangePasswordview> {
   }
 
   void onsubmitButtonClicked() {
-    // if (_resetpasswordFormKey.currentState.validate()) {
-    //   //resetpasswordPresenter.perfromresetpassword(
-    //       //widget.mobno, _password, context);
-    //   //_resetpasswordFormKey.currentState.save();
-    //   //Navigator.pushNamed(context, '/Landingview');
-    // } else {
-    //   setState(() {
-    //     _validate = true;
-    //   });
-    // }
+    if (_changepasswordFormKey.currentState.validate()) {
+      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      changepasswordPresenter.performChangePassword(
+          _oldPassword, _newPassword, _confirmPassword, context);
+    } else {
+      setState(() {
+        _validate = true;
+      });
+    }
   }
 
   Widget _buildmainview() {
@@ -167,7 +169,8 @@ class _ChangePasswordview extends State<ChangePasswordview> {
           ),
           validator: validatepassword,
           onSaved: (String value) {
-            //_signInData[enterPass] = value;
+            print(value);
+           _changePassData[enterOldPass] = value;
           },
         ),
         SizedBox(height: 15),
@@ -190,7 +193,8 @@ class _ChangePasswordview extends State<ChangePasswordview> {
           ),
           validator: validatepassword,
           onSaved: (String value) {
-            //_signInData[enterPass] = value;
+            print(value);
+            _changePassData[enterNewPass] = value;
           },
         ),
         SizedBox(height: 15),
@@ -213,6 +217,8 @@ class _ChangePasswordview extends State<ChangePasswordview> {
           ),
           validator: validatConfirmPassword,
           onSaved: (String value) {
+            print(value);
+            _changePassData[enterConfirmPass] = value;
             // _signInData[enterPass] = value;
             // print('Details are : $_signInData');
           },
@@ -232,11 +238,11 @@ class _ChangePasswordview extends State<ChangePasswordview> {
 
   String validatConfirmPassword(String value) {
     // if (value == _newPassword) {
-      if (value.length == 0) {
-        return KEY_PASSWORD_REQUIRED;
-      } else if (value.length < 8) {
-        return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
-      }
+    if (value.length == 0) {
+      return KEY_PASSWORD_REQUIRED;
+    } else if (value.length < 8) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    }
     // }
     return null;
   }
@@ -247,19 +253,7 @@ class _ChangePasswordview extends State<ChangePasswordview> {
       height: 54,
       child: RaisedButton(
         color: greentheme100,
-        onPressed: () {
-          if (_changepasswordFormKey.currentState.validate()) {
-             showDialogBox(context);
-            //resetpasswordPresenter.perfromresetpassword(
-            //widget.mobno, _password, context);
-            //_resetpasswordFormKey.currentState.save();
-            //Navigator.pushNamed(context, '/Landingview');
-          } else {
-            setState(() {
-              _validate = true;
-            });
-          }
-        },
+        onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
@@ -275,16 +269,7 @@ class _ChangePasswordview extends State<ChangePasswordview> {
     );
   }
 
-  // @override
-  // void resetpassfailed() {
-  //   // TODO: implement resetpassfailed
-  // }
-
-  // @override
-  // void resetpasssuccess() {
-  //   Navigator.of(context).pushReplacementNamed('/LoginView');
-  // }
-    showDialogBox(BuildContext context) {
+  showDialogBox(BuildContext context) {
     return showDialog(
       barrierDismissible: false,
       context: context,
@@ -328,5 +313,18 @@ class _ChangePasswordview extends State<ChangePasswordview> {
         ],
       ),
     );
+  }
+
+  @override
+  void changePasswordfailed() {
+    // TODO: implement changePassowrdfailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void changePasswordsuccess() {
+    // TODO: implement changePassowrdsuccess
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    showDialogBox(context);
   }
 }
