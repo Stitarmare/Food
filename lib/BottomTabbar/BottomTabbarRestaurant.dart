@@ -12,7 +12,10 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
-  BottomTabbarHome();
+  String title;
+
+  BottomTabbarHome({this.title});
+
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -20,6 +23,7 @@ class BottomTabbarHome extends StatefulWidget {
 }
 
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
+  var title;
   int currentTabIndex = 0;
   List<Widget> tabsHome = [
     RestaurantView(),
@@ -31,6 +35,20 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     setState(() {
       currentTabIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.title != null) {
+      setState(() {
+        tabsHome.setAll(0, [
+          RestaurantView(
+            title: widget.title,
+          )
+        ]);
+      });
+    }
   }
 
   @override

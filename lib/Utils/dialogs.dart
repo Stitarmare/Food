@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 class Dialogs {
- 
-
   static Future<void> showLoadingDialog(
-      BuildContext context, GlobalKey key,String text) async {
+      BuildContext context, GlobalKey key, String text) async {
     return showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -18,13 +15,20 @@ class Dialogs {
                   children: <Widget>[
                     Center(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10,),
-                        text != "" ? Text(text ?? "",style: TextStyle(color: Colors.blueAccent),) : Container()
-                      ]),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            text != ""
+                                ? Text(
+                                    text ?? "",
+                                    style: TextStyle(color: Colors.blueAccent),
+                                  )
+                                : Container()
+                          ]),
                     )
                   ]));
         });
