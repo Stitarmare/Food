@@ -334,14 +334,12 @@ class ApiBaseHelper {
             filename: '$key.jpeg', contentType: new MediaType('image', 'jpeg'));
         request.files.add(filePart);
       });
-      await request.send().then((stremRes){
-        http.Response.fromStream(stremRes).then((value) {
-        return _returnResponse<T>(value, context);
-      }).catchError((onError) {
-        print(onError);
-        return errorResponce<T>();
-      });
-      });
+      var res =  await request.send();
+      var myRes = await http.Response.fromStream(res);
+      
+      return _returnResponse<T>(myRes, context);
+      
+
     } on SocketException {
       _showAlert(
         context,
