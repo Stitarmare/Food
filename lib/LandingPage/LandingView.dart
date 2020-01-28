@@ -5,11 +5,15 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 
 
 import 'package:foodzi/Drawer/drawer.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
@@ -433,7 +437,14 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                       'assets/ProfileImage/MaskGroup15@3x.png',
                       width: 70,
                       height: 70,
-                    )),
+                    )
+                    // child: CachedNetworkImage(
+                    //   imageUrl: BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',
+                    //   placeholder: (context, url)=> CircularProgressIndicator(),
+                    //   errorWidget: (context, url, error) => Icon(Icons.error),
+                    // ),
+                  //child: Image.network(BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',width: 70,height: 70,),
+                    ),
                   ),
                 ),
                 // ),
