@@ -10,6 +10,17 @@ class Constants {
     return MediaQuery.of(context).size.height;
   }
 
+  static getSafeAreaHeight(BuildContext context) {
+    var padding = MediaQuery.of(context).padding;
+    return getScreenHeight(context) - padding.top - padding.bottom;
+  }
+
+  static getSafeAreaHeightWOStatusBar(BuildContext context) {
+    var padding = MediaQuery.of(context).padding;
+// height without status bar
+    return getScreenHeight(context) - padding.top;
+  }
+
   static isAndroid() {
     return io.Platform.isAndroid;
   }

@@ -23,6 +23,8 @@ import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
+
+import 'package:foodzi/HotelInfoView/HotelInfoView.dart';
 //import './demofile.dart';
 
 var routes = <String, WidgetBuilder>{
@@ -45,7 +47,9 @@ var routes = <String, WidgetBuilder>{
   '/NotificationView': (BuildContext context) => NotificationView(),
   '/MyOrders': (BuildContext context) => MyOrders(),
   '/BottomProfileScreen': (BuildContext context) => BottomProfileScreen(),
-  '/BottomNotificationView': (BuildContext context) => BottomNotificationView()
+  '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
+  '/HotelInfoView':(BuildContext context)=> HotelInfoView()
+
 };
 
 void main() => runApp(MaterialApp(
