@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenM
     setState(() {
       _image = image;
     });
-profileScreenPresenter.updateProfileImage(_image.uri.toString(), context);
+profileScreenPresenter.updateProfileImage(_image, context);
   }
 @override
   void initState() {

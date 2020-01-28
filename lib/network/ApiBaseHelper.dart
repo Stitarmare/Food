@@ -318,7 +318,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      {Map<String, String> body, Map<String, String> imageBody}) async {
+      {Map<String, String> body,String key, File imageBody}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
@@ -328,12 +328,13 @@ class ApiBaseHelper {
           request.fields[key] = value;
         });
       }
-
-      imageBody.forEach((key, value) {
-        var filePart = new http.MultipartFile.fromString(key, value,
-            filename: '$key.jpeg', contentType: new MediaType('image', 'jpeg'));
+      var filePart = new http.MultipartFile.fromBytes(
+      key,
+      (await imageBody.readAsBytes()).buffer.asUint8List(),
+      filename: '$key.jpg', // use the real name if available, or omit
+      contentType: MediaType('image', 'jpg'),
+    );
         request.files.add(filePart);
-      });
       var res =  await request.send();
       var myRes = await http.Response.fromStream(res);
       
