@@ -21,7 +21,7 @@ class EditProfileview extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfileview>
     implements EditProfileModelView {
-       final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
   List<CountryList> _dropdownItemsCountry = [];
   List<StateList> _dropdownItemsState = [];
@@ -93,7 +93,9 @@ class _EditProfileState extends State<EditProfileview>
     if (_editprofileFormKey.currentState.validate()) {
       print("Validation Successful");
       Dialogs.showLoadingDialog(context, _keyLoader, "");
-      editprofilepresenter..performUpdate(firstName, lastName, streetAddress, countryID, stateID, cityID, pinCode, context);
+      editprofilepresenter
+        ..performUpdate(firstName, lastName, streetAddress, countryID, stateID,
+            cityID, pinCode, context);
     } else {
       setState(() {
         _validate = true;
@@ -110,7 +112,7 @@ class _EditProfileState extends State<EditProfileview>
         child: Column(
           children: <Widget>[
             BoxAppTextField(
-              onChanged: (text){
+              onChanged: (text) {
                 firstName = text;
               },
               placeHolderName: KEY_FIRST_NAME,
@@ -120,7 +122,7 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
-              onChanged: (text){
+              onChanged: (text) {
                 lastName = text;
               },
               placeHolderName: KEY_LAST_NAME,
@@ -138,7 +140,7 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
-               onChanged: (text){
+              onChanged: (text) {
                 streetAddress = text;
               },
               placeHolderName: KEY_STREET,
@@ -166,7 +168,7 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
-              onChanged: (text){
+              onChanged: (text) {
                 pinCode = text;
               },
               placeHolderName: KEY_POSTAL_CODE,
@@ -215,7 +217,9 @@ class _EditProfileState extends State<EditProfileview>
                           fontSize: 18,
                           fontWeight: FontWeight.w500),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 )
               ],
@@ -310,11 +314,10 @@ class _EditProfileState extends State<EditProfileview>
                 print(value.id);
                 countryID = value.id;
               }
+            });
           });
-          });
-          },
-        
- 
+        },
+
         value: _dropdownCountryValue,
         // decoration: InputDecoration(
         //   border: OutlineInputBorder(
@@ -554,7 +557,7 @@ class _EditProfileState extends State<EditProfileview>
               ));
         }).toList(),
         onChanged: (newValue) {
-           setState(() {
+          setState(() {
             _dropdownCityValue = newValue;
             _dropdownItemsCity.forEach((value) {
               if (value.name.toUpperCase() ==
@@ -562,7 +565,7 @@ class _EditProfileState extends State<EditProfileview>
                 print(value.id);
                 cityID = value.id;
               }
-          });
+            });
           });
         },
         value: _dropdownCityValue,
@@ -635,8 +638,8 @@ class _EditProfileState extends State<EditProfileview>
   String validateStreetname(String value) {
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    } else if (value.length > 20) {
-      return KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG;
+    } else if (value.length > 30) {
+      return KEY_THIS_SHOULD_BE_ONLY_30_CHAR_LONG;
     }
     return null;
   }
@@ -652,6 +655,50 @@ class _EditProfileState extends State<EditProfileview>
       return KEY_PIN_NUMBER_LIMIT;
     }
     return null;
+  }
+
+  showDialogBox(BuildContext context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Edit Profile",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greentheme100,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'gotham',
+              fontSize: 22),
+        ),
+        content: Text(
+          'Your account details has been successfully updated. ',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greytheme100,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'gotham',
+              fontSize: 20),
+        ),
+        actions: [
+          FlatButton(
+            child: const Text(
+              "OK",
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                  .pop();
+              Navigator.pushNamed(context, '/MainWidget');
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -725,8 +772,7 @@ class _EditProfileState extends State<EditProfileview>
   @override
   void profileUpdateSuccess() {
     // TODO: implement profileUpdateSuccess
-      Globle().loginModel = 
-    Navigator.pushNamed(context, '/MainWidget');
+    showDialogBox(context);
   }
 }
 

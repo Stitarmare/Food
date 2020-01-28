@@ -263,6 +263,12 @@ class ApiBaseHelper {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.acceptHeader: "application/json"
         };
+        case UrlConstant.updateProfileImage:
+        return {
+          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.acceptHeader: "multipart/form-data"
+        };
       default:
         return {
           HttpHeaders.authorizationHeader: "Bearer " + authToken(),
@@ -312,26 +318,28 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      Map<String, String> body, Map<String, String> imageBody) async {
+      {Map<String, String> body, Map<String, String> imageBody}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
-      body.forEach((key, value) {
-        request.fields[key] = value;
-      });
+      request.headers.addAll(getHeader(url));
+      if (body != null) {
+        body.forEach((key, value) {
+          request.fields[key] = value;
+        });
+      }
+
       imageBody.forEach((key, value) {
         var filePart = new http.MultipartFile.fromString(key, value,
             filename: '$key.jpeg', contentType: new MediaType('image', 'jpeg'));
         request.files.add(filePart);
       });
-      var response = await request.send();
+      var res =  await request.send();
+      var myRes = await http.Response.fromStream(res);
+      
+      return _returnResponse<T>(myRes, context);
+      
 
-      http.Response.fromStream(response).then((value) {
-        return _returnResponse<T>(value, context);
-      }).catchError((onError) {
-        print(onError);
-        return errorResponce<T>();
-      });
     } on SocketException {
       _showAlert(
         context,

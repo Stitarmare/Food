@@ -9,6 +9,6 @@ class Globle {
   }
 
   Globle.internal();
-  var loginModel;
+  LoginModel loginModel;
   var authKey;
 }

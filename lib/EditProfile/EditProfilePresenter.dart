@@ -1,4 +1,4 @@
-
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:foodzi/EditProfile/EditProfileContractor.dart';
@@ -9,24 +9,26 @@ import 'package:foodzi/Models/UpdateprofileModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-
-class EditProfilePresenter extends EditProfileContract{
+class EditProfilePresenter extends EditProfileContract {
   EditProfileModelView view;
+
+  
   EditProfilePresenter(this.view);
 
   @override
   void editCity(String stateId, BuildContext context) {
     // TODO: implement editCity
-        //  ApiBaseHelper().post<EditCityModel>(
-        // UrlConstant.editCityField, context,body: {
-        //   "state_id": stateId
-        // })
-        ApiBaseHelper().post<EditCityModel>(UrlConstant.editCityField, context,body: {"state_id": stateId})
-        .then((value) {
+    //  ApiBaseHelper().post<EditCityModel>(
+    // UrlConstant.editCityField, context,body: {
+    //   "state_id": stateId
+    // })
+    ApiBaseHelper().post<EditCityModel>(UrlConstant.editCityField, context,
+        body: {"state_id": stateId}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -49,8 +51,9 @@ class EditProfilePresenter extends EditProfileContract{
   @override
   void editCountry(BuildContext context) {
     // TODO: implement editCountry
-     ApiBaseHelper().post<EditCountryModel>(
-        UrlConstant.editCountry, context).then((value) {
+    ApiBaseHelper()
+        .post<EditCountryModel>(UrlConstant.editCountry, context)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -72,8 +75,9 @@ class EditProfilePresenter extends EditProfileContract{
 
   @override
   void editState(BuildContext context) {
-       ApiBaseHelper().post<EditStateModel>(
-        UrlConstant.editState, context).then((value) {
+    ApiBaseHelper()
+        .post<EditStateModel>(UrlConstant.editState, context)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -97,9 +101,11 @@ class EditProfilePresenter extends EditProfileContract{
   }
 
   @override
-  void performUpdate(String fname,String lname,String address,int countryId,int stateId,int cityId,String postalCode,BuildContext context) {
+  void performUpdate(String fname, String lname, String address, int countryId,
+      int stateId, int cityId, String postalCode, BuildContext context) {
     // TODO: implement performUpdate
-    ApiBaseHelper().post<UpdateProfileModel>(UrlConstant.updateProfile, context, body: {
+    ApiBaseHelper()
+        .post<UpdateProfileModel>(UrlConstant.updateProfile, context, body: {
       'first_name': fname,
       'last_name': lname,
       'address_line_1': address,
@@ -112,8 +118,12 @@ class EditProfilePresenter extends EditProfileContract{
       switch (value.result) {
         case SuccessType.success:
           print("Update Successfully");
-          print(value.model);
-           //Globle().loginModel = LoginModel.fromJson(value.model.data);
+          print(value.model.data);
+          Globle().loginModel.data = value.model.data;
+          var userdata = json.encode(Globle().loginModel);
+          Preference.setPersistData<String>(userdata, PreferenceKeys.User_data);
+          //Globle().loginModel.data = value.model;
+          //Globle().loginModel = LoginModel.fromJson(value.model.data);
           view.profileUpdateSuccess();
           break;
         case SuccessType.failed:
@@ -130,4 +140,6 @@ class EditProfilePresenter extends EditProfileContract{
       print(error);
     });
   }
+
+
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
+import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
+import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -16,8 +18,9 @@ class ProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
+  ProfileScreenPresenter profileScreenPresenter;
   File _image;
   bool isempty = false;
   Future getImage(bool isCamera) async {
@@ -30,8 +33,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _image = image;
     });
+profileScreenPresenter.updateProfileImage(_image.uri.toString(), context);
   }
+@override
+  void initState() {
+    // TODO: implement initState
+    profileScreenPresenter = ProfileScreenPresenter(this);
 
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     // SafeArea(
@@ -174,12 +184,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 15,
               ),
               Text(
-                isempty ? " " : "N.A ",
+                "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}" ?? "N.A.",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
                     fontFamily: 'gotham',
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -329,5 +339,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           );
         });
+  }
+
+  @override
+  void profileImageUpdateFailed() {
+    // TODO: implement profileImageUpdateFailed
+  }
+
+  @override
+  void profileImageUpdateSuccess() {
+    
   }
 }
