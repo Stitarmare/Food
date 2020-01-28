@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
-
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
@@ -12,7 +10,6 @@ import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 class ProfileScreenPresenter extends ProfileScreenContractor {
   ProfileScreenModelView view;
-
   
   ProfileScreenPresenter(this.view);
   
@@ -37,15 +34,12 @@ class ProfileScreenPresenter extends ProfileScreenContractor {
       }
       // if (value['status_code'] == 200) {
       //   Globle().loginModel = LoginModel.fromJson(value);
-
       //   otpView.otpsuccess();
       // }
     }).catchError((error) {
       print(error);
     });
-
   }
-
   @override
   void onBackPresed() {
     // TODO: implement onBackPresed

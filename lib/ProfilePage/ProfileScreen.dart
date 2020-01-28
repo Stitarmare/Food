@@ -7,18 +7,14 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
-
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
-
 class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
@@ -40,13 +36,11 @@ profileScreenPresenter.updateProfileImage(_image, context);
   void initState() {
     // TODO: implement initState
     profileScreenPresenter = ProfileScreenPresenter(this);
-
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     // SafeArea(
-
     // top: true,
     // bottom: true,
     // child:
@@ -149,12 +143,10 @@ profileScreenPresenter.updateProfileImage(_image, context);
               ),
             ),
           ])),
-
       body: SingleChildScrollView(child: _getMainView()),
       // ),
     );
   }
-
   Widget _getMainView() {
     return Center(
       child: Container(
@@ -211,7 +203,6 @@ profileScreenPresenter.updateProfileImage(_image, context);
           )),
     );
   }
-
   Widget _profileOptions() {
     return Container(
       child: Column(
@@ -281,7 +272,6 @@ profileScreenPresenter.updateProfileImage(_image, context);
       ),
     );
   }
-
   showDialooxg() {
     return showDialog(
         context: context,
@@ -343,14 +333,11 @@ profileScreenPresenter.updateProfileImage(_image, context);
           );
         });
   }
-
   @override
   void profileImageUpdateFailed() {
     // TODO: implement profileImageUpdateFailed
   }
-
   @override
   void profileImageUpdateSuccess() {
-
   }
 }

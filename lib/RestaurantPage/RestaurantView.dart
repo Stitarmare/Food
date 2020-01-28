@@ -67,7 +67,9 @@ class _RestaurantViewState extends State<RestaurantView>
               Icons.info_outline,
               color: greytheme100,
             ),
-            onPressed: () {},
+            onPressed: () {
+               Navigator.pushNamed(context, '/HotelInfoView');
+            },
           )
         ],
       ),

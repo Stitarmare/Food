@@ -5,13 +5,13 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 
-class WaitersHotelInfoView extends StatefulWidget {
-  WaitersHotelInfoView({Key key}) : super(key: key);
+class HotelInfoView extends StatefulWidget {
+  HotelInfoView({Key key}) : super(key: key);
 
-  _WaitersHotelInfoViewState createState() => _WaitersHotelInfoViewState();
+  _HotelInfoViewState createState() => _HotelInfoViewState();
 }
 
-class _WaitersHotelInfoViewState extends State<WaitersHotelInfoView> {
+class _HotelInfoViewState extends State<HotelInfoView> {
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -309,8 +309,10 @@ class _WaitersHotelInfoViewState extends State<WaitersHotelInfoView> {
               top: 21.0,
               child: FlatButton(
                 child:
-                    Image.asset('lib/assets/images/BackButtonImg/Path1621.png'),
-                onPressed: () {},
+                    Image.asset('assets/BackButtonIcon/Path1621.png'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
             Positioned(
@@ -512,7 +514,7 @@ class _WaitersHotelInfoViewState extends State<WaitersHotelInfoView> {
                                     ),
                                     child: ClipOval(
                                       child: Image.asset(
-                                        'lib/assets/images/ProfileImage/MaskGroup15.png',
+                                        'assets/ProfileImage/MaskGroup15.png',
                                         height: 45,
                                         width: 45,
                                       ),
