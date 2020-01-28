@@ -13,6 +13,8 @@ import 'package:foodzi/widgets/MenuItemDropDown.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 
 class RestaurantView extends StatefulWidget {
+  String title;
+  RestaurantView({this.title});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -128,7 +130,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     width: 20,
                   ),
                   Text(
-                    'That’s Amore',
+                    widget.title,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
