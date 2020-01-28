@@ -8,18 +8,18 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
+
 class ProfileScreenPresenter extends ProfileScreenContractor {
   ProfileScreenModelView view;
 
-  
   ProfileScreenPresenter(this.view);
-  
+
   @override
   void updateProfileImage(String profileImgUrl, BuildContext context) {
     // TODO: implement updateProfileImage
-    ApiBaseHelper().imageUpload<UpdateProfileModel>(UrlConstant.updateProfileImage, context,imageBody:{
-      "profile_image":profileImgUrl
-    }).then((value){
+    ApiBaseHelper().imageUpload<UpdateProfileModel>(
+        UrlConstant.updateProfileImage, context,
+        imageBody: {"profile_image": profileImgUrl}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -43,10 +43,10 @@ class ProfileScreenPresenter extends ProfileScreenContractor {
     }).catchError((error) {
       print(error);
     });
-
   }
 
   @override
   void onBackPresed() {
     // TODO: implement onBackPresed
-  }}
+  }
+}

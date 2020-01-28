@@ -36,7 +36,6 @@ class _RestaurantViewState extends State<RestaurantView>
   //   restaurantPresenter = RestaurantPresenter(this);
   //   restaurantPresenter.getrestaurantspage(
   //       "18.579622", "73.738691", "", "", page, context);
-  //   // TODO: implement initState
   //   super.initState();
   // }
 
