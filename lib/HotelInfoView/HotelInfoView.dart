@@ -5,6 +5,8 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 
+enum DailogAction{yes,abort}
+
 class HotelInfoView extends StatefulWidget {
   HotelInfoView({Key key}) : super(key: key);
 
@@ -31,6 +33,158 @@ class _HotelInfoViewState extends State<HotelInfoView> {
   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
   'https://cdn.zeplin.io/5dfb22e292f6309743a8ab68/assets/7B28074D-A1D5-4B3F-8685-F3647C459940.png'
 ];
+
+int _rating = 0;
+  TextEditingController _controller;
+
+  void rate(int rating) {
+    //Other actions based on rating such as api calls.
+    setState(() {
+      _rating = rating;
+    });
+  }
+
+  Future<DailogAction> reviewPopup(
+    BuildContext context,
+  ) async {
+    await showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Container(
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                height: 311,
+                width: 284,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 35,
+                    ),
+                    Center(
+                      child: Text(
+                        'Write Review',
+                        style: TextStyle(
+                            fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 27,
+                    ),
+                    //Rating for Reviews
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 1 ? Color.fromRGBO(237, 29, 37, 1) : Color.fromRGBO(237, 237, 237, 1),
+                            ),
+                            onTap: () => rate(1),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 2 ? Color.fromRGBO(237, 29, 37, 1) : Color.fromRGBO(237, 237, 237, 1),
+                            ),
+                            onTap: () => rate(2),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 3 ? Color.fromRGBO(237, 29, 37, 1) : Color.fromRGBO(237, 237, 237, 1),
+                            ),
+                            onTap: () => rate(3),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 4 ? Color.fromRGBO(237, 29, 37, 1) : Color.fromRGBO(237, 237, 237, 1),
+                            ),
+                            onTap: () => rate(4),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 5 ? Color.fromRGBO(237, 29, 37, 1) : Color.fromRGBO(237, 237, 237, 1),
+                            ),
+                            onTap: () => rate(5),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 37,right: 27),
+                        height: 75,
+                        
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(color: Color.fromRGBO(213, 213, 213, 1))),
+                            // color: Color.fromRGBO(213, 213, 213, 1)),
+                        padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
+                        child: TextFormField(
+                          maxLines: 3,
+                          controller: _controller,
+                         
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 36,
+                    ),
+                    Center(
+                        child: RaisedButton(
+                      color: Color.fromRGBO(239, 29, 37, 1),
+                      shape: RoundedRectangleBorder(
+                          // side: BorderSide(
+                          //     color: Color.fromRGBO(170, 170, 170, 1)),
+                          borderRadius: BorderRadius.circular(5)),
+                      onPressed: () {},
+
+                      child: Text(
+                        'SUBMIT',
+                        style: TextStyle(
+                          color: Color.fromRGBO(255,255,255,1),
+                          fontSize: 18,
+                        ),
+                      ),
+                    )
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
   
@@ -42,6 +196,7 @@ class _HotelInfoViewState extends State<HotelInfoView> {
 
     return result;
   }
+  
     Widget image_carousel = new Stack(
                   children: <Widget>[
                     Container(
@@ -143,14 +298,22 @@ class _HotelInfoViewState extends State<HotelInfoView> {
                           ),
                         ),
                       ),
+                       Expanded(
+              child: SizedBox(
+                width: 60,
+              ),
+              flex: 2,
+            ),
                       Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: FlatButton(
                           child: ClipOval(
                             child: Image.asset(
-                                'lib/assets/images/WaiterHotelNextBtn/next(2).png'),
+                                'assets/NavigateButton/next(2).png'),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            //Show Map
+                          },
                         ),
                       ),
                     ]),
@@ -478,6 +641,9 @@ class _HotelInfoViewState extends State<HotelInfoView> {
                         // decorationStyle: TextDecorationStyle.solid,
                         )),
               ),
+              onTap: ()async{
+                await reviewPopup(context);
+              },
             ),
           ],
         ),
