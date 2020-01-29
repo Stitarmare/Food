@@ -345,7 +345,7 @@ class _DineViewState extends State<DineInView>
       children: <Widget>[
         Card(
           child: Container(
-            height: 118,
+            height: 150,
             width: MediaQuery.of(context).size.width,
             decoration: new BoxDecoration(
               image: DecorationImage(
