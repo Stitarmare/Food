@@ -13,8 +13,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
-
-
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
@@ -316,8 +314,7 @@ class _DineViewState extends State<DineInView>
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
-                          title: "${_restaurantList[i].restName}",
-                              tabvalue: 0,
+                              title: "${_restaurantList[i].restName}",
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];

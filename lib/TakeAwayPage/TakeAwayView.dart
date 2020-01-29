@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayContractor.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -313,9 +314,8 @@ class _DineViewState extends State<TakeAwayView>
                   ),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome(
+                        builder: (context) => TakeAwayBottombar(
                               title: "${_restaurantList[i].restName}",
-                              tabvalue: 1,
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];

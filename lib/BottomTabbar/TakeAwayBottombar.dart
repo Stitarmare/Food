@@ -3,28 +3,28 @@ import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 //import 'package:foodzi/DineInPage/DineInView.dart';
-import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-class BottomTabbarHome extends StatefulWidget {
+class TakeAwayBottombar extends StatefulWidget {
   String title;
-  BottomTabbarHome({this.title});
+  TakeAwayBottombar({this.title});
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabbarHomeState();
+    return _TakeAwayBottombarState();
   }
 }
 
-class _BottomTabbarHomeState extends State<BottomTabbarHome> {
+class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   var title;
   int currentTabIndex = 0;
   List<Widget> tabsHome = [
-    RestaurantView(),
+    RestaurantTAView(),
     MyOrders(),
     BottomNotificationView(),
     BottomProfileScreen()
@@ -41,7 +41,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     if (widget.title != null) {
       setState(() {
         tabsHome.setAll(0, [
-          RestaurantView(
+          RestaurantTAView(
             title: widget.title,
           )
         ]);

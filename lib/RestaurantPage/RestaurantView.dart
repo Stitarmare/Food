@@ -23,9 +23,9 @@ class RestaurantView extends StatefulWidget {
 
 class _RestaurantViewState extends State<RestaurantView>
     implements RestaurantModelView {
-  // RestaurantPresenter restaurantPresenter;
-  // List<RestaurantList> _restaurantList;
-  // int page = 1;
+  RestaurantPresenter restaurantPresenter;
+  List<RestaurantList> _restaurantList;
+  int page = 1;
   final GlobalKey _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
   bool _switchvalue = false;
@@ -67,7 +67,7 @@ class _RestaurantViewState extends State<RestaurantView>
               color: greytheme100,
             ),
             onPressed: () {
-               Navigator.pushNamed(context, '/HotelInfoView');
+              Navigator.pushNamed(context, '/HotelInfoView');
             },
           )
         ],
@@ -401,18 +401,18 @@ class _RestaurantViewState extends State<RestaurantView>
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
-    // if (restlist.length == 0) {
-    //   return;
-    // }
+    if (restlist.length == 0) {
+      return;
+    }
 
-    // setState(() {
-    //   if (_restaurantList == null) {
-    //     _restaurantList = restlist;
-    //   } else {
-    //     _restaurantList.addAll(restlist);
-    //   }
-    //   page++;
-    // });
+    setState(() {
+      if (_restaurantList == null) {
+        _restaurantList = restlist;
+      } else {
+        _restaurantList.addAll(restlist);
+      }
+      page++;
+    });
     // TODO: implement restaurantsuccess
   }
 }
