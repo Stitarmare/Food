@@ -35,7 +35,6 @@ dependencies:
   path_provider: 
   keyboard_actions: ^3.1.2
   geolocator: ^5.2.0 
-  keyboard_actions: ^3.1.2
   cached_network_image: ^2.0.0
 
 dev_dependencies:
@@ -150,6 +149,10 @@ flutter:
       - assets/BackButtonIcon/Path1621@3x.png
       #PlaceholderImage
       - assets/PlaceholderImage/placeholder.png
+      #Navigate Button
+      - assets/NavigateButton/next(2).png
+      - assets/NavigateButton/next(2)@2x.png
+      - assets/NavigateButton/next(2)@3x.png
 
 
       
