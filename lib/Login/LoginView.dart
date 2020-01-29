@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
@@ -97,6 +98,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               child: Column(
                 children: <Widget>[
                   _buildImagelogo(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _countrycode(),
                   SizedBox(
                     height: 60,
                   ),
@@ -228,6 +233,23 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
+  }
+
+  Widget _countrycode() {
+    return new Center(
+      child: CountryCodePicker(
+        onChanged: print,
+        // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+        initialSelection: 'IT',
+        favorite: ['+39', 'FR'],
+        // optional. Shows only country name and flag
+        showCountryOnly: false,
+        // optional. Shows only country name and flag when popup is closed.
+        showOnlyCountryWhenClosed: false,
+        // optional. aligns the flag and the Text left
+        alignLeft: false,
+      ),
+    );
   }
 
   Widget _forgotpassword() {
