@@ -11,7 +11,7 @@ class RestaurantItemsModel {
   int statusCode;
   int page;
   int totalPages;
-  List<Datum> data;
+  List<RestaurantMenuItem> data;
 
   RestaurantItemsModel({
     this.status,
@@ -27,7 +27,8 @@ class RestaurantItemsModel {
         statusCode: json["status_code"],
         page: json["page"],
         totalPages: json["totalPages"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<RestaurantMenuItem>.from(
+            json["data"].map((x) => RestaurantMenuItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,7 +40,7 @@ class RestaurantItemsModel {
       };
 }
 
-class Datum {
+class RestaurantMenuItem {
   int id;
   String itemName;
   String itemDescription;
@@ -56,7 +57,7 @@ class Datum {
   dynamic category;
   dynamic sizePrize;
 
-  Datum({
+  RestaurantMenuItem({
     this.id,
     this.itemName,
     this.itemDescription,
@@ -74,7 +75,8 @@ class Datum {
     this.sizePrize,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory RestaurantMenuItem.fromJson(Map<String, dynamic> json) =>
+      RestaurantMenuItem(
         id: json["id"],
         itemName: json["item_name"],
         itemDescription: json["item_description"],

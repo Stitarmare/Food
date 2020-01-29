@@ -4,6 +4,7 @@ import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Models/registermodel.dart';
@@ -58,6 +59,9 @@ class GenericModel<T> {
       case UpdateProfileModel:
         return UpdateProfileModel.fromJson(json) as T;
         break;
+
+      case RestaurantItemsModel:
+        return RestaurantItemsModel.fromJson(json) as T;
 
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;

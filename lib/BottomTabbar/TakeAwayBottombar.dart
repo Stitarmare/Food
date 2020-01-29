@@ -1,36 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
+//import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
-import 'package:foodzi/RestaurantPage/RestaurantView.dart';
-import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
+import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-class BottomTabbar extends StatefulWidget {
-  int tabValue = 0;
-  BottomTabbar({this.tabValue});
+class TakeAwayBottombar extends StatefulWidget {
+  String title;
+  TakeAwayBottombar({this.title});
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabbarState();
+    return _TakeAwayBottombarState();
   }
 }
 
-class _BottomTabbarState extends State<BottomTabbar> {
+class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
+  var title;
   int currentTabIndex = 0;
-  List<Widget> tabsDineIn = [
-    DineInView(),
+  List<Widget> tabsHome = [
+    RestaurantTAView(),
     MyOrders(),
-    BottomNotificationView(),
-   BottomProfileScreen()
-  ];
-  List<Widget> tabsTakeAway = [
-   TakeAwayView(),
-   MyOrders(),
     BottomNotificationView(),
     BottomProfileScreen()
   ];
@@ -41,6 +36,20 @@ class _BottomTabbarState extends State<BottomTabbar> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    if (widget.title != null) {
+      setState(() {
+        tabsHome.setAll(0, [
+          RestaurantTAView(
+            title: widget.title,
+          )
+        ]);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
@@ -48,18 +57,16 @@ class _BottomTabbarState extends State<BottomTabbar> {
         height: 60,
         child: FittedBox(
           child: FloatingActionButton(
-              backgroundColor: orangetheme,
+              backgroundColor: redtheme,
               onPressed: () {},
               child: Image.asset('assets/ClockIcon/clock.png')),
         ),
       ),
-      body: widget.tabValue == 0
-          ? tabsDineIn[currentTabIndex]
-          : tabsTakeAway[currentTabIndex],
+      body: tabsHome[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          //selectedItemColor: orangetheme,
+          //selectedItemColor: redtheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
@@ -73,7 +80,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.home,
-                  color: orangetheme,
+                  color: redtheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -86,7 +93,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.assignment,
-                  color: orangetheme,
+                  color: redtheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -99,7 +106,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.notifications,
-                  color: orangetheme,
+                  color: redtheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -112,7 +119,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.person,
-                  color: orangetheme,
+                  color: redtheme,
                   size: 30,
                 ),
                 title: Text('')),

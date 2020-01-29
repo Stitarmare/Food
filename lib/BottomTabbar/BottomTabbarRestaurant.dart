@@ -13,9 +13,7 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
-
   BottomTabbarHome({this.title});
-
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
