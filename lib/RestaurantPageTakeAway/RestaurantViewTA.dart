@@ -12,16 +12,16 @@ import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 
-class RestaurantView extends StatefulWidget {
+class RestaurantTAView extends StatefulWidget {
   String title;
-  RestaurantView({this.title});
+  RestaurantTAView({this.title});
   @override
   State<StatefulWidget> createState() {
-    return _RestaurantViewState();
+    return _RestaurantTAViewState();
   }
 }
 
-class _RestaurantViewState extends State<RestaurantView>
+class _RestaurantTAViewState extends State<RestaurantTAView>
     implements RestaurantModelView {
   // RestaurantPresenter restaurantPresenter;
   // List<RestaurantList> _restaurantList;
@@ -36,6 +36,7 @@ class _RestaurantViewState extends State<RestaurantView>
   //   restaurantPresenter = RestaurantPresenter(this);
   //   restaurantPresenter.getrestaurantspage(
   //       "18.579622", "73.738691", "", "", page, context);
+  //   // TODO: implement initState
   //   super.initState();
   // }
 
@@ -66,9 +67,7 @@ class _RestaurantViewState extends State<RestaurantView>
               Icons.info_outline,
               color: greytheme100,
             ),
-            onPressed: () {
-               Navigator.pushNamed(context, '/HotelInfoView');
-            },
+            onPressed: () {},
           )
         ],
       ),
@@ -156,7 +155,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,

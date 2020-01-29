@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
+import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import './Utils/String.dart';
 
 import './Login/LoginView.dart';
@@ -21,6 +23,8 @@ import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
+
+import 'package:foodzi/HotelInfoView/HotelInfoView.dart';
 //import './demofile.dart';
 
 var routes = <String, WidgetBuilder>{
@@ -35,13 +39,17 @@ var routes = <String, WidgetBuilder>{
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
+   '/TakeAwayView': (BuildContext context) => TakeAwayView(),
   '/ProfileScreen': (BuildContext context) => ProfileScreen(),
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
+  '/RestaurantTAView': (BuildContext context) => RestaurantTAView(),
   '/NotificationView': (BuildContext context) => NotificationView(),
   '/MyOrders': (BuildContext context) => MyOrders(),
   '/BottomProfileScreen': (BuildContext context) => BottomProfileScreen(),
-  '/BottomNotificationView': (BuildContext context) => BottomNotificationView()
+  '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
+  '/HotelInfoView':(BuildContext context)=> HotelInfoView()
+
 };
 
 void main() => runApp(MaterialApp(

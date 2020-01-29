@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
-import 'package:foodzi/DineInPage/DineInContractor.dart';
-import 'package:foodzi/DineInPage/DineInPresenter.dart';
+import 'package:foodzi/TakeAwayPage/TakeAwayContractor.dart';
+import 'package:foodzi/TakeAwayPage/TakeAwayPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -12,20 +12,18 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-class DineInView extends StatefulWidget {
-
-
+class TakeAwayView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
   }
 }
 
-class _DineViewState extends State<DineInView>
-    implements DineInRestaurantListModelView {
+class _DineViewState extends State<TakeAwayView>
+    implements TakeAwayRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
-  DineInRestaurantPresenter dinerestaurantPresenter;
+  TakeAwayRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -52,7 +50,7 @@ class _DineViewState extends State<DineInView>
     _detectScrollPosition();
     GeoLocationTracking.load();
     // GeoLocationTracking.loadingPositionTrack();
-    dinerestaurantPresenter = DineInRestaurantPresenter(this);
+    dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
 
     // TODO: implement initState
     super.initState();
@@ -115,7 +113,7 @@ class _DineViewState extends State<DineInView>
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           title: Text(
-            "Dine In",
+            "Take Away",
             style: TextStyle(
                 fontSize: 18,
                 fontFamily: 'gotham',
@@ -316,8 +314,8 @@ class _DineViewState extends State<DineInView>
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
-                          title: "${_restaurantList[i].restName}",
-                              tabvalue: 0,
+                              title: "${_restaurantList[i].restName}",
+                              tabvalue: 1,
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];
