@@ -17,4 +17,6 @@ class UrlConstant {
   static const restaurantItems = "api/getMenuList";
   static const updateProfileImage = "api/updateProfileImage";
   static const restaurantInfo = "/api/getRestaurantInfo";
+  static const getReviewApi = "/api/getRestaurantReviews";
+  static const writeReviewApi = "/api/writeReview";
 }

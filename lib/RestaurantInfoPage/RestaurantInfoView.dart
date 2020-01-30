@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
+import 'package:foodzi/models/GetRestaurantReview.dart';
+import 'package:foodzi/models/WriteRestaurantReview.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -24,6 +26,7 @@ class RestaurantInfoView extends StatefulWidget {
 class _RestaurantInfoViewState extends State<RestaurantInfoView> implements RestaurantInfoModelView{
   RestaurantInfoPresenter restaurantIdInfoPresenter;
    RestaurantInfoData _restaurantInfoData;
+   GetRestaurantReviewModel _getReviewData;
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -31,6 +34,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView> implements Rest
     MenuCategoryButton(title: "Indian", id: 3, isSelected: false),
     MenuCategoryButton(title: "Chinese", id: 4, isSelected: false),
   ];
+
+  
 
   bool isRestaurantViewed = true;
   bool isReview = false;
@@ -49,6 +54,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView> implements Rest
 void initState() { 
   restaurantIdInfoPresenter = RestaurantInfoPresenter(restaurantInfoModelView:this);
   _getRestaurantInfo();
+  _getRestaurantReview();
   super.initState();
   
 }
@@ -57,8 +63,19 @@ _getRestaurantInfo(){
   restaurantIdInfoPresenter.getRestaurantInfoPage(context,widget.rest_Id);
 }
 
+_getRestaurantReview(){
+  restaurantIdInfoPresenter.getRestaurantReview(context, widget.rest_Id);
+}
+
+// _writeRestaurantReview(){
+//   restaurantIdInfoPresenter.writeRestaurantReview(context, widget.rest_Id, _controller.toString(), 3);
+// }
+
+
+
 int _rating = 0;
-  TextEditingController _controller;
+  // TextEditingController _controller;
+  final _controller = TextEditingController();
 
   void rate(int rating) {
     //Other actions based on rating such as api calls.
@@ -189,7 +206,10 @@ int _rating = 0;
                           // side: BorderSide(
                           //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(5)),
-                      onPressed: () {},
+                      onPressed: () {
+                     restaurantIdInfoPresenter.writeRestaurantReview(context, widget.rest_Id,_controller.text, 3);
+
+                      },
 
                       child: Text(
                         'SUBMIT',
@@ -320,7 +340,7 @@ int _rating = 0;
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
                           // 'Via in Arcione 115, 00187 Rome Italy',
-                          _restaurantInfoData.addressLine1 + _restaurantInfoData.addressLine2 + _restaurantInfoData.addressLine3,
+                          _restaurantInfoData.addressLine1 +""+ _restaurantInfoData.addressLine2 +""+ _restaurantInfoData.addressLine3,
                           style: TextStyle(
                             color: greytheme100,
                             fontSize: 14,
@@ -908,6 +928,30 @@ int _rating = 0;
       // _restInfoData = restInfoData;
     });
     // TODO: implement restaurantInfoSuccess
+  }
+
+  @override
+  void getReviewFailed() {
+    // TODO: implement getReviewFailed
+  }
+
+  @override
+  void getReviewSuccess(GetRestaurantReviewModel getReviewList) {
+    // TODO: implement getReviewSuccess
+    setState(() {
+      _getReviewData = getReviewList;
+      print(_getReviewData.getReview);
+    });
+  }
+
+  @override
+  void writeReviewFailed() {
+    // TODO: implement writeReviewFailed
+  }
+
+  @override
+  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
+    // TODO: implement writeReviewSuccess
   }
 }
 
