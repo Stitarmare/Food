@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/models/GetRestaurantReview.dart';
 import 'package:foodzi/models/WriteRestaurantReview.dart';
@@ -11,7 +12,7 @@ import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
-import 'package:foodzi/models/RestaurantInfoModel.dart';
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 enum DailogAction{yes,abort}
 

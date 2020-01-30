@@ -301,14 +301,16 @@ class _RegisterviewState extends State<Registerview>
     return null;
   }
 
-String validatecountrycode(String value) {
-  String pattern = r'(^[0-9]*$)';
- RegExp regExp = RegExp(pattern);
+  String validatecountrycode(String value) {
+    String pattern = r'(^[0-9]*$)';
+    RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_COUNTRYCODE_REQUIRED;
-    } else if (!regExp.hasMatch(value)) {
-      return KEY_COUNTRY_CODE_TEXT;
-    } else if (value.length > 4 ) {
+    } else if (!value.startsWith('+')) {
+      if (!regExp.hasMatch(value)) {
+        return KEY_COUNTRY_CODE_TEXT;
+      }
+    } else if (value.length > 4) {
       return KEY_COUNTRY_CODE_LIMIT;
     }
     return null;
