@@ -81,9 +81,9 @@ class UserDetails {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         profileImage: json["profile_image"],
-        country: Country.fromJson(json["country"]),
-        state: State.fromJson(json["state"]),
-        city: City.fromJson(json["city"]),
+        country: json["country"] != null ? Country.fromJson(json["country"]) : null,
+        state: json["state"] != null ? State.fromJson(json["state"]) : null,
+        city: json["city"] != null ? City.fromJson(json["city"]) : null, 
     );
 
     Map<String, dynamic> toJson() => {
@@ -99,9 +99,9 @@ class UserDetails {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "profile_image": profileImage,
-        "country": country.toJson(),
-        "state": state.toJson(),
-        "city": city.toJson(),
+        "country": country != null ? country.toJson() : null,
+        "state": state != null ? state.toJson() : null,
+        "city": city != null ? city.toJson() : null,
     };
 }
 
