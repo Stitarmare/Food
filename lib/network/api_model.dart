@@ -4,6 +4,7 @@ import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/loginmodel.dart';
@@ -11,7 +12,7 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
-import 'package:foodzi/models/RestaurantInfoModel.dart';
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';

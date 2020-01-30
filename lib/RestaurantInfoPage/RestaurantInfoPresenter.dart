@@ -1,4 +1,5 @@
-import 'package:foodzi/models/RestaurantInfoModel.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 import 'package:foodzi/network/url_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
