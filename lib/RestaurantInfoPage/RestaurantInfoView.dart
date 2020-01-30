@@ -15,12 +15,14 @@ enum DailogAction{yes,abort}
 class RestaurantInfoView extends StatefulWidget {
   // RestaurantInfoView({Key key}) : super(key: key);
   RestaurantInfoView({this.rest_Id});
+ 
   int rest_Id;
   _RestaurantInfoViewState createState() => _RestaurantInfoViewState();
 }
 
 class _RestaurantInfoViewState extends State<RestaurantInfoView> implements RestaurantInfoModelView{
   RestaurantInfoPresenter restaurantIdInfoPresenter;
+   RestaurantInfoData _restaurantInfoData;
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -44,6 +46,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView> implements Rest
 @override
 void initState() { 
   restaurantIdInfoPresenter = RestaurantInfoPresenter(this);
+  _getRestaurantInfo();
   super.initState();
   
 }
@@ -890,7 +893,13 @@ int _rating = 0;
   }
 
   @override
-  void restaurantInfoSuccess(List<RestaurantInfoData> restInfoList) {
+  void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+    setState(() {
+      _restaurantInfoData = restInfoData;
+      print(_restaurantInfoData);
+      // _restaurantInfoData = restInfoData;
+      // _restInfoData = restInfoData;
+    });
     // TODO: implement restaurantInfoSuccess
   }
 }

@@ -315,7 +315,7 @@ class _DineViewState extends State<DineInView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: "${_restaurantList[i].restName}",
-                              rest_Id:i,
+                              rest_Id:_restaurantList[i].id,
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];

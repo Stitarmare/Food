@@ -7,6 +7,6 @@ void onBackPresed();
 }
 
 abstract class RestaurantInfoModelView{
-  void restaurantInfoSuccess(List<RestaurantInfoData> restInfoList);
+  void restaurantInfoSuccess(RestaurantInfoData restInfoList);
   void restaurantInfoFailed();
 }
