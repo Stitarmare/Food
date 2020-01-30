@@ -624,24 +624,6 @@ class _EditProfileState extends State<EditProfileview>
     }
     return null;
   }
-
-  String validatemobno(String value) {
-    String pattern = r'(^[0-9]*$)';
-    RegExp regExp = RegExp(pattern);
-    if (value.length == 0) {
-      return KEY_MOBILE_NUMBER_REQUIRED;
-    } else if (!regExp.hasMatch(value)) {
-      return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length != 10) {
-      return KEY_MOBILE_NUMBER_LIMIT;
-    }
-    // if(value.trim().length <= 0){
-    if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    }
-    return null;
-  }
-
   String validateStreetname(String value) {
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;

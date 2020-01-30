@@ -18,9 +18,11 @@ class AppTextField extends StatefulWidget {
   final bool autovalidate;
   final Function(String) onChanged;
   final FocusNode focusNode;
+  final String initialvalue;
   //final Widget inputFormatters;
 
   const AppTextField({
+    this.initialvalue,
     this.onChanged,
     this.tfValue,
     this.placeHolderName,

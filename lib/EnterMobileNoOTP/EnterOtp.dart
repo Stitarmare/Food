@@ -33,7 +33,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     mobno: null,
   };
   var _mobileNumber;
-
+  var countrycode = '';
   var enterOTPScreenPresenter;
   @override
   void initState() {
@@ -135,22 +135,69 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
                   ),
                   SizedBox(height: 45),
-                  AppTextField(
-                    onChanged: (text) {
-                      this._mobileNumber = text;
-                    },
-                    keyboardType: TextInputType.phone,
-                    focusNode: _nodeText1,
-                    icon: Icon(
-                      Icons.call,
-                      color: greentheme100,
+                  Row(children: <Widget>[
+                    Expanded(
+                      flex: 2,
+                      child: AppTextField(
+                        icon: Icon(
+                          Icons.language,
+                          color: greentheme100,
+                        ),
+                        keyboardType: TextInputType.phone,
+                        placeHolderName: "Code",
+                        onChanged: (text) {
+                          //  countrycoder = text;
+                          if (text.contains('+')) {
+                            countrycode = text;
+                          } else {
+                            countrycode = "+" + text;
+                          }
+                        },
+                        validator: validatecountrycode,
+                      ),
                     ),
-                    placeHolderName: KEY_MOBILE_NUMBER,
-                    validator: validatemobno,
-                    onSaved: (String value) {
-                      _enterOTP[mobno] = value;
-                    },
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: AppTextField(
+                        onChanged: (text) {
+                          this._mobileNumber = countrycode + text;
+                          ;
+                        },
+                        keyboardType: TextInputType.phone,
+                        focusNode: _nodeText1,
+                        icon: Icon(
+                          Icons.call,
+                          color: greentheme100,
+                        ),
+                        placeHolderName: KEY_MOBILE_NUMBER,
+                        validator: validatemobno,
+                        onSaved: (String value) {
+                          _enterOTP[mobno] = countrycode + value;
+                        },
+                      ),
+                    ),
+                    //         Expanded(
+                    //   flex: 5,
+                    //   child: AppTextField(
+                    //     onChanged: (text) {
+                    //       mobilenumber = countrycode + text;
+                    //     },
+                    //     keyboardType: TextInputType.phone,
+                    //     icon: Icon(
+                    //       Icons.call,
+                    //       color: greentheme100,
+                    //     ),
+                    //     placeHolderName: KEY_MOBILE_NUMBER,
+                    //     validator: validatemobno,
+                    //     onSaved: (String value) {
+                    //       _signInData[mobno] = countrycode+value;
+                    //     },
+                    //   ),
+                    // ),
+                  ]),
                   SizedBox(
                     height: 90,
                   ),
@@ -182,12 +229,25 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length != 10) {
+    } else if (value.length > 13 ) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+    }
+    return null;
+  }
+
+String validatecountrycode(String value) {
+  String pattern = r'(^[0-9]*$)';
+ RegExp regExp = RegExp(pattern);
+    if (value.length == 0) {
+      return KEY_COUNTRYCODE_REQUIRED;
+    } else if (!regExp.hasMatch(value)) {
+      return KEY_COUNTRY_CODE_TEXT;
+    } else if (value.length > 4 ) {
+      return KEY_COUNTRY_CODE_LIMIT;
     }
     return null;
   }
