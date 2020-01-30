@@ -35,12 +35,8 @@ dependencies:
   path_provider: 
   geolocator: ^5.2.0
   keyboard_actions: ^3.1.2
-<<<<<<< HEAD
-  geolocator: ^5.2.0 
-=======
  
 
->>>>>>> 34952604b739e3bdacffcf98b2bfa6b907775333
   cached_network_image: ^2.0.0
 
 dev_dependencies:

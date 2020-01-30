@@ -13,7 +13,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
-  BottomTabbarHome({this.title});
+  int rest_Id;
+  BottomTabbarHome({this.title,this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -43,6 +44,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(0, [
           RestaurantView(
             title: widget.title,
+            rest_Id:widget.rest_Id,
           )
         ]);
       });

@@ -4,6 +4,7 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
@@ -14,7 +15,8 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 
 class RestaurantView extends StatefulWidget {
   String title;
-  RestaurantView({this.title});
+  int rest_Id;
+  RestaurantView({this.title,this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -67,7 +69,14 @@ class _RestaurantViewState extends State<RestaurantView>
               color: greytheme100,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/HotelInfoView');
+              // Navigator.pushNamed(context, '/RestaurantInfoView');
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(builder: context)=>RestaurantInfoView(rest_Id: widget.rest_Id,));
+               Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RestaurantInfoView(
+                              // title: "${_restaurantList[i].restName}",
+                              rest_Id:widget.rest_Id,
+                            )));
             },
           )
         ],

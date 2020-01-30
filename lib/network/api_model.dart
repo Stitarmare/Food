@@ -11,6 +11,7 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
+import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
@@ -65,6 +66,10 @@ class GenericModel<T> {
 
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;
+
+      case RestaurantInfoModel:
+        return RestaurantInfoModel.fromJson(json) as T;
+
       default:
         break;
     }
