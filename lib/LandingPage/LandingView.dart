@@ -391,6 +391,17 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ],
     );
   }
+    profilePic() {
+    String imageUrl = '';
+    if (Globle().loginModel.data.userDetails != null) {
+      imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
+          ? BaseUrl.getBaseUrlImages() +
+              '${Globle().loginModel.data.userDetails.profileImage}'
+          : null;
+      return imageUrl;
+    }
+    return imageUrl;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -412,11 +423,18 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   },
                   child: Container(
                     child: ClipOval(
-                        child: Image.asset(
-                      'assets/ProfileImage/MaskGroup15@3x.png',
-                      width: 70,
-                      height: 70,
-                    )
+                       child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/PlaceholderImage/placeholder.png',
+                      image: profilePic(),
+                        fit: BoxFit.cover,
+                      width: 82.5,
+                      height: 82.5,
+                    ),
+                    //     child: Image.asset(
+                    //   'assets/ProfileImage/MaskGroup15@3x.png',
+                    //   width: 70,
+                    //   height: 70,
+                    // )
                     // child: CachedNetworkImage(
                     //   imageUrl: BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',
                     //   placeholder: (context, url)=> CircularProgressIndicator(),

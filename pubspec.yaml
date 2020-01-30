@@ -38,6 +38,7 @@ dependencies:
  
   cached_network_image: ^2.0.0
   country_code_picker: ^1.2.3
+  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:
