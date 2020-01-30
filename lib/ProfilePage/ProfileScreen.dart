@@ -10,12 +10,15 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
-class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenModelView {
+
+class _ProfileScreenState extends State<ProfileScreen>
+    implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
   File _image;
@@ -30,14 +33,16 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenM
     setState(() {
       _image = image;
     });
-profileScreenPresenter.updateProfileImage(_image, context);
+    profileScreenPresenter.updateProfileImage(_image, context);
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     profileScreenPresenter = ProfileScreenPresenter(this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     // SafeArea(
@@ -97,7 +102,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
                 children: <Widget>[
                   ClipOval(
                       child: _image == null
-                      //Globle().loginModel.data.userDetails.profileImage == null
+                          //Globle().loginModel.data.userDetails.profileImage == null
                           ? Image.asset(
                               'assets/ProfileImage/MaskGroup15.png',
                               fit: BoxFit.cover,
@@ -105,7 +110,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
                               height: 82.5,
                             )
                           : Image.file(
-                            _image,
+                              _image,
                               //BaseUrl.getBaseUrlImages()+'${Globle().loginModel.data.userDetails.profileImage},',
                               fit: BoxFit.cover,
                               width: 82.5,
@@ -147,6 +152,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
       // ),
     );
   }
+
   Widget _getMainView() {
     return Center(
       child: Container(
@@ -179,7 +185,9 @@ profileScreenPresenter.updateProfileImage(_image, context);
                 height: 15,
               ),
               Text(
-                "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}" ?? "N.A.",
+                (Globle().loginModel.data.userDetails != null )
+                    ? "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}"
+                    : "N.A.",
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
@@ -203,6 +211,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
           )),
     );
   }
+
   Widget _profileOptions() {
     return Container(
       child: Column(
@@ -272,6 +281,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
       ),
     );
   }
+
   showDialooxg() {
     return showDialog(
         context: context,
@@ -333,11 +343,11 @@ profileScreenPresenter.updateProfileImage(_image, context);
           );
         });
   }
+
   @override
   void profileImageUpdateFailed() {
     // TODO: implement profileImageUpdateFailed
   }
   @override
-  void profileImageUpdateSuccess() {
-  }
+  void profileImageUpdateSuccess() {}
 }
