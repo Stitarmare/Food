@@ -26,6 +26,8 @@ class _DineViewState extends State<DineInView>
   DineInRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
+  String sortedBy = '';
+  String filteredBy = '';
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
 
@@ -74,7 +76,7 @@ class _DineViewState extends State<DineInView>
             context, _keyLoader, "Loading....Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
-            "18.579622", "73.738691", "", "", page, context);
+            "18.579622", "73.738691", sortedBy, filteredBy, page, context);
         GeoLocationTracking.load();
         GeoLocationTracking.loadingPositionTrack();
 
@@ -143,7 +145,15 @@ class _DineViewState extends State<DineInView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(() => tile.isSelected = true);
+                            setBottomState(() {
+                              tile.isSelected = true;
+                              if (bottomList == optionSortBy) {
+                                sortedBy = bottomItem.title;
+                              }
+                              if (bottomList == optionFilterBy) {
+                                filteredBy = bottomItem.title;
+                              }
+                            });
                           }
                         }
 
@@ -193,6 +203,14 @@ class _DineViewState extends State<DineInView>
                                         38,
                                 child: FloatingActionButton(
                                     onPressed: () {
+                                      dinerestaurantPresenter
+                                          .getrestaurantspage(
+                                              "18.579622",
+                                              "73.738691",
+                                              sortedBy,
+                                              filteredBy,
+                                              page,
+                                              context);
                                       Navigator.pop(context);
                                     },
                                     child: IconTheme(
