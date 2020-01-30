@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
@@ -34,18 +35,19 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView> implements Rest
   bool isRestaurantViewed = true;
   bool isReview = false;
   var _current;
-  final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-  'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
-  'https://cdn.zeplin.io/5dfb22e292f6309743a8ab68/assets/7B28074D-A1D5-4B3F-8685-F3647C459940.png'
-];
+//   final List<String> imgList = [
+//   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+//   'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+//   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+//   'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
+//   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+//   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
+//   'https://cdn.zeplin.io/5dfb22e292f6309743a8ab68/assets/7B28074D-A1D5-4B3F-8685-F3647C459940.png'
+// ];
+// final List<Gallary> imgList = _restaurantInfoData.gallary;
 @override
 void initState() { 
-  restaurantIdInfoPresenter = RestaurantInfoPresenter(this);
+  restaurantIdInfoPresenter = RestaurantInfoPresenter(restaurantInfoModelView:this);
   _getRestaurantInfo();
   super.initState();
   
@@ -235,7 +237,7 @@ int _rating = 0;
                         viewportFraction: 1.0,
                         aspectRatio: 16 / 9,
                         height: Constants.getSafeAreaHeight(context) * 0.35,
-                        items: imgList.map((src) {
+                        items: _restaurantInfoData.gallary.map((src) {
                           return Builder(
                             builder: (BuildContext context) {
                               return Container(
@@ -245,7 +247,7 @@ int _rating = 0;
                                   decoration:
                                       BoxDecoration(color: Colors.grey[300]),
                                   child: CachedNetworkImage(
-                                    imageUrl: src,
+                                    imageUrl: BaseUrl.getBaseUrlImages()+src.imagePath,
                                     fit: BoxFit.cover,
                                     //  placeholder: (context, url) => CircularProgressIndicator(),
                                   )
@@ -266,7 +268,7 @@ int _rating = 0;
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: map<Widget>(
-                          imgList,
+                           _restaurantInfoData.gallary,
                           (index, url) {
                             return Container(
                               width: 8.0,
@@ -301,7 +303,7 @@ int _rating = 0;
                     left: 20,
                   ),
                   child: Text(
-                    'WIMPY',
+                    _restaurantInfoData.restName,
                     style: TextStyle(
                         color: greytheme700,
                         // color: Colors.red,
@@ -317,7 +319,8 @@ int _rating = 0;
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
-                          'Via in Arcione 115, 00187 Rome Italy',
+                          // 'Via in Arcione 115, 00187 Rome Italy',
+                          _restaurantInfoData.addressLine1 + _restaurantInfoData.addressLine2 + _restaurantInfoData.addressLine3,
                           style: TextStyle(
                             color: greytheme100,
                             fontSize: 14,
@@ -393,7 +396,8 @@ int _rating = 0;
                             padding: const EdgeInsets.only(
                                 left: 4, top: 2, bottom: 2),
                             child: Text(
-                              '4.5',
+                              // '_restaurantInfoData.averageRating.toString()',
+                              _restaurantInfoData.averageRating== null? '0':_restaurantInfoData.averageRating.toString(),
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 10,
@@ -407,8 +411,10 @@ int _rating = 0;
                     SizedBox(
                       width: 12,
                     ),
-                    Text(
-                      '(2000+ Reviews)',
+                    Text('(${_restaurantInfoData.reviewsCount.toString()}+ Reviews)',
+                      // _restaurantInfoData.reviewsCount.toString(),
+                      // "($_restaurantInfoData.reviewsCount.toString())",
+                      // _restaurantInfoData.reviewsCount.toString(),
                       style: TextStyle(
                           fontSize: 11,
                           fontFamily: 'gotham',
@@ -454,7 +460,7 @@ int _rating = 0;
                             padding: EdgeInsets.only(
                                 right: 7, top: 6, bottom: 5, left: 7),
                             child: Text(
-                              '+61 9876 5432',
+                              _restaurantInfoData.contactNumber,
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 14,
@@ -603,7 +609,7 @@ int _rating = 0;
         Container(
             // height: 150,
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: _restaurantInfoData.schedule.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
@@ -617,7 +623,7 @@ int _rating = 0;
                             Padding(
                               padding: const EdgeInsets.only(left: 24),
                               child: Text(
-                                'Monday',
+                                _restaurantInfoData.schedule[index].dayOfWeek,
                                 style: TextStyle(
                                     fontSize: 12, color: greytheme1000),
                               ),
@@ -630,7 +636,7 @@ int _rating = 0;
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 24),
-                              child: Text('08:00 am - 10:00 pm',
+                              child: Text('${_restaurantInfoData.schedule[index].fromTime} - ${_restaurantInfoData.schedule[index].toTime}',
                                   style: TextStyle(
                                       fontSize: 12, color: greytheme1000)),
                             ),
@@ -896,7 +902,8 @@ int _rating = 0;
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
     setState(() {
       _restaurantInfoData = restInfoData;
-      print(_restaurantInfoData);
+      print(_restaurantInfoData.restName);
+      print(_restaurantInfoData.schedule);
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });

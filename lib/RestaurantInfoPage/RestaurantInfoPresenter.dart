@@ -7,7 +7,7 @@ import 'package:foodzi/network/url_constant.dart';
 import 'package:foodzi/network/api_model.dart';
 
 class RestaurantInfoPresenter extends RestaurantInfoContractor {
-  RestaurantInfoPresenter(_restaurantInfoViewState, {this.restaurantInfoModelView});
+  RestaurantInfoPresenter({this.restaurantInfoModelView});
   RestaurantInfoModelView restaurantInfoModelView;
   @override
   void getRestaurantInfoPage(BuildContext context, int rest_id) {

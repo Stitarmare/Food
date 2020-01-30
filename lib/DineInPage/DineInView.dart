@@ -143,7 +143,10 @@ class _DineViewState extends State<DineInView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(() => tile.isSelected = true);
+                            setBottomState(() {
+                              tile.isSelected = true;
+
+                            });
                           }
                         }
 
@@ -315,7 +318,7 @@ class _DineViewState extends State<DineInView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: "${_restaurantList[i].restName}",
-                              rest_Id:_restaurantList[i].id,
+                              rest_Id: _restaurantList[i].id,
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];
