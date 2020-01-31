@@ -12,13 +12,9 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
-<<<<<<< HEAD
-import 'package:foodzi/models/RestaurantInfoModel.dart';
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 import 'package:foodzi/models/GetRestaurantReview.dart';
 import 'package:foodzi/models/WriteRestaurantReview.dart';
-=======
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
->>>>>>> 728988086e94a6588f16be72735050100a0e6b98
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';

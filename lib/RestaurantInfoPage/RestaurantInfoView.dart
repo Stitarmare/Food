@@ -11,6 +11,8 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
 
@@ -323,15 +325,22 @@ int _rating = 0;
                   padding: EdgeInsets.only(
                     left: 20,
                   ),
-                  child: Text(
-                    _restaurantInfoData.restName,
-                    style: TextStyle(
-                        color: greytheme700,
+                  // child: Text(
+                  //   _restaurantInfoData.restName,
+                  //   style: TextStyle(
+                  //       color: greytheme700,
+                  //       // color: Colors.red,
+                  //       fontFamily: 'gotham',
+                  //       fontWeight: FontWeight.w500,
+                  //       fontSize: 16),
+                  // ),
+                  child: AutoSizeText(_restaurantInfoData.restName,maxLines: 2,maxFontSize: 16,style: TextStyle(
+                    color: greytheme700,
                         // color: Colors.red,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
-                  ),
+                        fontSize: 16
+                  ),),
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -339,7 +348,7 @@ int _rating = 0;
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: Text(
+                        child: AutoSizeText(
                           // 'Via in Arcione 115, 00187 Rome Italy',
                           _restaurantInfoData.addressLine1 +""+ _restaurantInfoData.addressLine2 +""+ _restaurantInfoData.addressLine3,
                           style: TextStyle(
@@ -347,6 +356,9 @@ int _rating = 0;
                             fontSize: 14,
                             fontFamily: 'gotham',
                           ),
+                          maxFontSize: 14,
+                          maxLines: 2,
+                          // overflow: Overflow.visible,
                         ),
                       ),
                        Expanded(
@@ -941,7 +953,7 @@ int _rating = 0;
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
-      print(_getReviewData.getReview);
+      print(_getReviewData.data);
     });
   }
 
