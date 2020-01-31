@@ -47,8 +47,8 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
     ApiBaseHelper().post<GetRestaurantReviewModel>(
         UrlConstant.getReviewApi, context,
         body: {"rest_id": rest_id}).then((value) {
-          print(value);
-            switch (value.result) {
+      print(value);
+      switch (value.result) {
         case SuccessType.success:
           print("Restaurant success");
           print(value.model);
@@ -60,23 +60,23 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
           restaurantInfoModelView.restaurantInfoFailed();
           break;
       }
-        }).catchError((error){
-          print(error);
-        });
+    }).catchError((error) {
+      print(error);
+    });
   }
 
   @override
   void writeRestaurantReview(
       BuildContext context, int rest_id, String description, int rating) {
     // TODO: implement writeRestaurantReview
-     ApiBaseHelper().post<WriteRestaurantReviewModel>(
-        UrlConstant.writeReviewApi, context,
-        body: {"rest_id": rest_id,
-        "description":description,
-        "rating":rating
-        }).then((value) {
-          print(value);
-            switch (value.result) {
+    ApiBaseHelper().post<WriteRestaurantReviewModel>(
+        UrlConstant.writeReviewApi, context, body: {
+      "rest_id": rest_id,
+      "description": description,
+      "rating": rating
+    }).then((value) {
+      print(value);
+      switch (value.result) {
         case SuccessType.success:
           print("Restaurant review success");
           print(value.model);
@@ -88,11 +88,11 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
           restaurantInfoModelView.restaurantInfoFailed();
           break;
       }
-        }).catchError((error){
-          print(error);
-        });
+    }).catchError((error) {
+      print(error);
+    });
   }
-  
+
   @override
   void onBackPresed() {
     // TODO: implement onBackPresed

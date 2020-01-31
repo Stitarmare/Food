@@ -24,10 +24,12 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
+  // static String countrycode = "";
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
   var mobilenumber = '';
+  var countrycoder = '';
   var password = '';
   var countrycode = '';
   bool _validate = false;
