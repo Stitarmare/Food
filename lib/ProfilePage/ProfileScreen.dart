@@ -10,12 +10,17 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:transparent_image/transparent_image.dart';
+
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
-class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenModelView {
+
+class _ProfileScreenState extends State<ProfileScreen>
+    implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
   File _image;
@@ -30,14 +35,18 @@ class _ProfileScreenState extends State<ProfileScreen> implements ProfileScreenM
     setState(() {
       _image = image;
     });
-profileScreenPresenter.updateProfileImage(_image, context);
+    if (image != null) {
+      profileScreenPresenter.updateProfileImage(_image, context);
+    }
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     profileScreenPresenter = ProfileScreenPresenter(this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     // SafeArea(
@@ -96,21 +105,36 @@ profileScreenPresenter.updateProfileImage(_image, context);
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipOval(
-                      child: _image == null
-                      //Globle().loginModel.data.userDetails.profileImage == null
-                          ? Image.asset(
-                              'assets/ProfileImage/MaskGroup15.png',
-                              fit: BoxFit.cover,
-                              width: 82.5,
-                              height: 82.5,
-                            )
-                          : Image.file(
-                            _image,
-                              //BaseUrl.getBaseUrlImages()+'${Globle().loginModel.data.userDetails.profileImage},',
-                              fit: BoxFit.cover,
-                              width: 82.5,
-                              height: 82.5,
-                            )),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/PlaceholderImage/placeholder.png',
+                      image: profilePic(),
+                        fit: BoxFit.cover,
+                      width: 82.5,
+                      height: 82.5,
+                    ),
+                    //  Image.network(
+                    //       profilePic(),
+                    //   fit: BoxFit.cover,
+                    //   width: 82.5,
+                    //   height: 82.5,
+                    // ),
+                    // child: _image == null
+                    //     //Globle().loginModel.data.userDetails.profileImage == null
+                    //     ? Image.asset(
+                    //         'assets/ProfileImage/MaskGroup15.png',
+                    //         fit: BoxFit.cover,
+                    //         width: 82.5,
+                    //         height: 82.5,
+                    //       )
+
+                    //     : Image.file(
+                    //         _image,
+                    //         //BaseUrl.getBaseUrlImages()+'${Globle().loginModel.data.userDetails.profileImage},',
+                    //         fit: BoxFit.cover,
+                    //         width: 82.5,
+                    //         height: 82.5,
+                    //       )
+                  ),
                   Positioned(
                     right: 0.0,
                     top: 5.0,
@@ -147,6 +171,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
       // ),
     );
   }
+
   Widget _getMainView() {
     return Center(
       child: Container(
@@ -179,7 +204,10 @@ profileScreenPresenter.updateProfileImage(_image, context);
                 height: 15,
               ),
               Text(
-                "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}" ?? "N.A.",
+                // (Globle().loginModel.data.userDetails != null )
+                //     ? "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}"
+                //     : "N.A.",
+                address(),
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
@@ -203,6 +231,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
           )),
     );
   }
+
   Widget _profileOptions() {
     return Container(
       child: Column(
@@ -272,6 +301,7 @@ profileScreenPresenter.updateProfileImage(_image, context);
       ),
     );
   }
+
   showDialooxg() {
     return showDialog(
         context: context,
@@ -333,11 +363,42 @@ profileScreenPresenter.updateProfileImage(_image, context);
           );
         });
   }
+
+  address() {
+    String userAddress = "N.A.";
+    String address1 = "N.A..";
+    String address2 = "N.A.";
+    if (Globle().loginModel.data.userDetails != null) {
+      if (Globle().loginModel.data.userDetails.country != null) {
+        if (Globle().loginModel.data.userDetails.country.name != null) {
+          address1 = Globle().loginModel.data.userDetails.country.name;
+        }
+      }
+      address2 = (Globle().loginModel.data.userDetails.addressLine1 != null)
+          ? Globle().loginModel.data.userDetails.addressLine1
+          : "N.A.";
+      userAddress = "$address1 | $address2";
+      return userAddress;
+    }
+    return userAddress;
+  }
+
+  profilePic() {
+    String imageUrl = '';
+    if (Globle().loginModel.data.userDetails != null) {
+      imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
+          ? BaseUrl.getBaseUrlImages() +
+              '${Globle().loginModel.data.userDetails.profileImage}'
+          : null;
+      return imageUrl;
+    }
+    return imageUrl;
+  }
+
   @override
   void profileImageUpdateFailed() {
     // TODO: implement profileImageUpdateFailed
   }
   @override
-  void profileImageUpdateSuccess() {
-  }
+  void profileImageUpdateSuccess() {}
 }

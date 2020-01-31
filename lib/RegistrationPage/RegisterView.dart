@@ -31,6 +31,7 @@ class _RegisterviewState extends State<Registerview>
   Dialogs dialogs = Dialogs();
 
   bool _validate = false;
+  var countrycode = '';
 
   final Map<String, dynamic> _signUpData = {
     mobno: null,
@@ -196,18 +197,46 @@ class _RegisterviewState extends State<Registerview>
         SizedBox(
           height: 15,
         ),
-        AppTextField(
-          onChanged: (text) {
-            _phoneno = text;
-          },
-          keyboardType: TextInputType.phone,
-          icon: Icon(Icons.call, color: greentheme100),
-          placeHolderName: KEY_MOBILE_NUMBER,
-          validator: validatemobno,
-          onSaved: (String value) {
-            _signUpData[mobno] = value;
-          },
-        ),
+        Row(children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: AppTextField(
+              icon: Icon(
+                Icons.language,
+                color: greentheme100,
+              ),
+              keyboardType: TextInputType.phone,
+              placeHolderName: "Code",
+              onChanged: (text) {
+                //  countrycoder = text;
+                if (text.contains('+')) {
+                  countrycode = text;
+                } else {
+                  countrycode = "+" + text;
+                }
+              },
+              validator: validatecountrycode,
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            flex: 5,
+            child: AppTextField(
+              onChanged: (text) {
+                _phoneno = countrycode + text;
+              },
+              keyboardType: TextInputType.phone,
+              icon: Icon(Icons.call, color: greentheme100),
+              placeHolderName: KEY_MOBILE_NUMBER,
+              validator: validatemobno,
+              onSaved: (String value) {
+                _signUpData[mobno] = countrycode + value;
+              },
+            ),
+          )
+        ]),
         SizedBox(height: 15),
         AppTextField(
           onChanged: (text) {
@@ -253,7 +282,7 @@ class _RegisterviewState extends State<Registerview>
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length != 10) {
+    } else if (value.length > 13 ) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     // if(value.trim().length <= 0){
@@ -268,6 +297,21 @@ class _RegisterviewState extends State<Registerview>
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    }
+    return null;
+  }
+
+  String validatecountrycode(String value) {
+    String pattern = r'(^[0-9]*$)';
+    RegExp regExp = RegExp(pattern);
+    if (value.length == 0) {
+      return KEY_COUNTRYCODE_REQUIRED;
+    } else if (!value.startsWith('+')) {
+      if (!regExp.hasMatch(value)) {
+        return KEY_COUNTRY_CODE_TEXT;
+      }
+    } else if (value.length > 4) {
+      return KEY_COUNTRY_CODE_LIMIT;
     }
     return null;
   }

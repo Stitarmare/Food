@@ -31,6 +31,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var mobilenumber = '';
   var countrycoder = '';
   var password = '';
+  var countrycode = '';
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
@@ -168,27 +169,31 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             Expanded(
               flex: 2,
               child: AppTextField(
+                icon: Icon(
+                  Icons.language,
+                  color: greentheme100,
+                ),
+                keyboardType: TextInputType.phone,
+                placeHolderName: "Code",
                 onChanged: (text) {
                   //  countrycoder = text;
                   if (text.contains('+')) {
-                    countrycoder = text;
+                    countrycode = text;
                   } else {
-                    countrycoder = "+" + text;
+                    countrycode = "+" + text;
                   }
                 },
-                icon: Icon(Icons.flag),
-                keyboardType: TextInputType.phone,
-                placeHolderName: "Code",
+                validator: validatecountrycode,
               ),
             ),
             SizedBox(
               width: 10,
             ),
             Expanded(
-              flex: 4,
+              flex: 5,
               child: AppTextField(
                 onChanged: (text) {
-                  mobilenumber = text;
+                  mobilenumber = countrycode + text;
                 },
                 keyboardType: TextInputType.phone,
                 icon: Icon(
@@ -198,7 +203,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 placeHolderName: KEY_MOBILE_NUMBER,
                 validator: validatemobno,
                 onSaved: (String value) {
-                  _signInData[mobno] = value;
+                  _signInData[mobno] = countrycode + value;
                 },
               ),
             ),
@@ -239,12 +244,27 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length != 10) {
+    } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+    }
+    return null;
+  }
+
+  String validatecountrycode(String value) {
+    String pattern = r'(^[0-9]*$)';
+    RegExp regExp = RegExp(pattern);
+    if (value.length == 0) {
+      return KEY_COUNTRYCODE_REQUIRED;
+    } else if (!value.startsWith('+')) {
+      if (!regExp.hasMatch(value)) {
+        return KEY_COUNTRY_CODE_TEXT;
+      }
+    } else if (value.length > 4) {
+      return KEY_COUNTRY_CODE_LIMIT;
     }
     return null;
   }

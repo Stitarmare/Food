@@ -67,7 +67,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               Icons.info_outline,
               color: greytheme100,
             ),
-            onPressed: () {},
+            onPressed: () {
+               Navigator.pushNamed(context, '/HotelInfoView');
+            },
           )
         ],
       ),
@@ -129,14 +131,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   SizedBox(
                     width: 20,
                   ),
-                  Text(
-                    widget.title,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme700),
+                 Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Text(
+                      widget.title,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme700),
+                    ),
                   ),
                 ],
               ),
