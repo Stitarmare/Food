@@ -89,7 +89,7 @@ class _EditProfileState extends State<EditProfileview>
         ),
         body: KeyboardActions(
           config: _buildConfig(context),
-                  child: SingleChildScrollView(
+          child: SingleChildScrollView(
             child: _getmainView(context),
           ),
         ));
@@ -624,6 +624,7 @@ class _EditProfileState extends State<EditProfileview>
     }
     return null;
   }
+
   String validateStreetname(String value) {
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
@@ -682,7 +683,7 @@ class _EditProfileState extends State<EditProfileview>
             onPressed: () {
               Navigator.of(_keyLoader.currentContext, rootNavigator: true)
                   .pop();
-              Navigator.pushNamed(context, '/MainWidget');
+              Navigator.pushReplacementNamed(context, '/MainWidget');
             },
           ),
         ],

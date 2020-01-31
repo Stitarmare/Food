@@ -263,7 +263,7 @@ class ApiBaseHelper {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.acceptHeader: "application/json"
         };
-        case UrlConstant.updateProfileImage:
+      case UrlConstant.updateProfileImage:
         return {
           HttpHeaders.authorizationHeader: "Bearer " + authToken(),
           HttpHeaders.contentTypeHeader: "application/json",
@@ -318,7 +318,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      {Map<String, String> body,String key, File imageBody}) async {
+      {Map<String, String> body, String key, File imageBody}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
@@ -329,18 +329,16 @@ class ApiBaseHelper {
         });
       }
       var filePart = new http.MultipartFile.fromBytes(
-      key,
-      (await imageBody.readAsBytes()).buffer.asUint8List(),
-      filename: '$key.jpg', // use the real name if available, or omit
-      contentType: MediaType('image', 'jpg'),
-    );
-        request.files.add(filePart);
-      var res =  await request.send();
+        key,
+        (await imageBody.readAsBytes()).buffer.asUint8List(),
+        filename: '$key.jpg', // use the real name if available, or omit
+        contentType: MediaType('image', 'jpg'),
+      );
+      request.files.add(filePart);
+      var res = await request.send();
       var myRes = await http.Response.fromStream(res);
-      
-      return _returnResponse<T>(myRes, context);
-      
 
+      return _returnResponse<T>(myRes, context);
     } on SocketException {
       _showAlert(
         context,
@@ -368,6 +366,13 @@ class ApiBaseHelper {
                 )
               ],
             ));
+  }
+
+  void showSnackBar(BuildContext context, String message) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: Duration(milliseconds: 500),
+    ));
   }
 
   APIModel _returnResponse<T>(http.Response response, BuildContext context) {
