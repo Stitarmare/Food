@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -81,19 +82,14 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                   overflow: Overflow.visible,
                   children: <Widget>[
                     ClipOval(
-                        child: _image == null
-                            ? Image.asset(
-                                'assets/ProfileImage/MaskGroup15.png',
-                                fit: BoxFit.cover,
-                                width: 82.5,
-                                height: 82.5,
-                              )
-                            : Image.file(
-                                _image,
-                                fit: BoxFit.cover,
-                                width: 82.5,
-                                height: 82.5,
-                              )),
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/PlaceholderImage/placeholder.png',
+                        image: profilePic(),
+                        fit: BoxFit.cover,
+                        width: 82.5,
+                        height: 82.5,
+                      ),
+                    ),
                     Positioned(
                       right: 0.0,
                       top: 5.0,
@@ -165,7 +161,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                 height: 15,
               ),
               Text(
-                isempty ? " " : "N.A ",
+                address(),
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
@@ -320,5 +316,35 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
             ],
           );
         });
+  }
+  address() {
+    String userAddress = "N.A.";
+    String address1 = "N.A..";
+    String address2 = "N.A.";
+    if (Globle().loginModel.data.userDetails != null) {
+      if (Globle().loginModel.data.userDetails.country != null) {
+        if (Globle().loginModel.data.userDetails.country.name != null) {
+          address1 = Globle().loginModel.data.userDetails.country.name;
+        }
+      }
+      address2 = (Globle().loginModel.data.userDetails.addressLine1 != null)
+          ? Globle().loginModel.data.userDetails.addressLine1
+          : "N.A.";
+      userAddress = "$address1 | $address2";
+      return userAddress;
+    }
+    return userAddress;
+  }
+
+  profilePic() {
+    String imageUrl = '';
+    if (Globle().loginModel.data.userDetails != null) {
+      imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
+          ? BaseUrl.getBaseUrlImages() +
+              '${Globle().loginModel.data.userDetails.profileImage}'
+          : null;
+      return imageUrl;
+    }
+    return imageUrl;
   }
 }
