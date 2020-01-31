@@ -52,12 +52,9 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
-   
-   
-    
 // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
-     _getLocation();
+    _getLocation();
     _detectScrollPosition();
 
 // TODO: implement initState
@@ -65,22 +62,22 @@ class _DineViewState extends State<DineInView>
   }
 
   _getLocation() async {
-    var strim = await GeoLocationTracking.load(context,_controllerPosition);
-    _controllerPosition.stream.listen((position){
+    var strim = await GeoLocationTracking.load(context, _controllerPosition);
+    _controllerPosition.stream.listen((position) {
       print(position);
       _position = position;
       if (_position != null) {
-      dinerestaurantPresenter
-                                          .getrestaurantspage(
-                                              _position.latitude.toString(),
-                                              _position.longitude.toString(),
-                                              sortedBy,
-                                              filteredBy,
-                                              page,
-                                              context);
-    }
+        dinerestaurantPresenter.getrestaurantspage(
+            // _position.latitude.toString(),
+            // _position.longitude.toString(),
+            "18.579622",
+            "73.738691",
+            sortedBy,
+            filteredBy,
+            page,
+            context);
+      }
     });
-    
   }
 
   _detectScrollPosition() {
@@ -89,14 +86,8 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          dinerestaurantPresenter
-                                          .getrestaurantspage(
-                                              "18.579622",
-                                              "73.738691",
-                                              sortedBy,
-                                              filteredBy,
-                                              page,
-                                              context);
+          dinerestaurantPresenter.getrestaurantspage(
+              "18.579622", "73.738691", sortedBy, filteredBy, page, context);
 
           print("Bottom");
         }
