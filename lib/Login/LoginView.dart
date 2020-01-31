@@ -24,10 +24,12 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
+  static String countrycode = "";
 
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
   var mobilenumber = '';
+  var countrycoder = '';
   var password = '';
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -166,6 +168,14 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             Expanded(
               flex: 2,
               child: AppTextField(
+                onChanged: (text) {
+                  //  countrycoder = text;
+                  if (text.contains('+')) {
+                    countrycoder = text;
+                  } else {
+                    countrycoder = "+" + text;
+                  }
+                },
                 icon: Icon(Icons.flag),
                 keyboardType: TextInputType.phone,
                 placeHolderName: "Code",
