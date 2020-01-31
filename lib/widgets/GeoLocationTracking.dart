@@ -1,27 +1,19 @@
 import 'dart:async';
 //import 'dart:html';
 
+import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GeoLocationTracking {
-  static Future<Position> load() async {
-    await Geolocator()
+  static Future<Position> load(BuildContext context) async {
+    try {
+      await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-    Position position = await Geolocator()
-        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-
     var geolocator = Geolocator();
     var locationOptions =
         LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-    print(geolocationStatus.value);
-    // switch (geolocationStatus.value) {
-
-    // }
-
-    StreamSubscription<Position> positionStream = geolocator
+    geolocator
         .getPositionStream(locationOptions)
         .listen((Position position) {
       print(position == null
@@ -30,7 +22,35 @@ class GeoLocationTracking {
               ', ' +
               position.longitude.toString());
       //if(Po)
+      return position;
     });
+    } on Exception {
+      GeolocationStatus geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+    print(geolocationStatus);
+    switch (geolocationStatus) {
+      case GeolocationStatus.denied:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.disabled:
+        Constants.showAlert(
+            "Access Denied", "Please Allow The Loaction Services On", context);
+        break;
+      case GeolocationStatus.granted:
+        
+        //Dialogs.showLoadingDialog(context, _keyLoader, "");
+        break;
+      case GeolocationStatus.restricted:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.unknown:
+      default:
+        break;
+    }
+    }
+    
   }
 
   //@override
