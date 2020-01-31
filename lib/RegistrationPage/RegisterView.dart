@@ -306,12 +306,12 @@ class _RegisterviewState extends State<Registerview>
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_COUNTRYCODE_REQUIRED;
+    } else if (value.length > 4) {
+      return KEY_COUNTRY_CODE_LIMIT;
     } else if (!value.startsWith('+')) {
       if (!regExp.hasMatch(value)) {
         return KEY_COUNTRY_CODE_TEXT;
       }
-    } else if (value.length > 4) {
-      return KEY_COUNTRY_CODE_LIMIT;
     }
     return null;
   }
