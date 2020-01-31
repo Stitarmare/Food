@@ -4,6 +4,7 @@ import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/loginmodel.dart';
@@ -11,6 +12,13 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
+<<<<<<< HEAD
+import 'package:foodzi/models/RestaurantInfoModel.dart';
+import 'package:foodzi/models/GetRestaurantReview.dart';
+import 'package:foodzi/models/WriteRestaurantReview.dart';
+=======
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
+>>>>>>> 728988086e94a6588f16be72735050100a0e6b98
 
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
@@ -65,6 +73,18 @@ class GenericModel<T> {
 
       case ErrorModel:
         return ErrorModel.fromMap(json) as T;
+
+      case RestaurantInfoModel:
+        return RestaurantInfoModel.fromJson(json) as T;
+      
+      case GetRestaurantReviewModel:
+        return GetRestaurantReviewModel.fromJson(json) as T;
+
+      case WriteRestaurantReviewModel:
+        return WriteRestaurantReviewModel.fromJson(json) as T;
+
+
+
       default:
         break;
     }
