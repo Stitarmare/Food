@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
@@ -12,9 +12,12 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
 
-import 'package:foodzi/Models/authmodel.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
+import 'package:foodzi/models/GetRestaurantReview.dart';
+import 'package:foodzi/models/WriteRestaurantReview.dart';
+
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
 
 enum SuccessType { success, failed }
@@ -70,6 +73,14 @@ class GenericModel<T> {
 
       case RestaurantInfoModel:
         return RestaurantInfoModel.fromJson(json) as T;
+      
+      case GetRestaurantReviewModel:
+        return GetRestaurantReviewModel.fromJson(json) as T;
+
+      case WriteRestaurantReviewModel:
+        return WriteRestaurantReviewModel.fromJson(json) as T;
+
+
 
       default:
         break;

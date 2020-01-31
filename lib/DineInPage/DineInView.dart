@@ -30,8 +30,9 @@ class _DineViewState extends State<DineInView>
   String filteredBy = '';
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
+  Position _position;
 
-  //List<bool> _selected = List.generate(20, (i) => false);
+//List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
       title: "Distance",
@@ -48,47 +49,27 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
-    locator();
+    _getLocation();
     _detectScrollPosition();
-    GeoLocationTracking.load();
-    // GeoLocationTracking.loadingPositionTrack();
+    
+// GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
 
-    // TODO: implement initState
+// TODO: implement initState
     super.initState();
   }
 
-  locator() async {
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-    print(geolocationStatus);
-    switch (geolocationStatus) {
-      case GeolocationStatus.denied:
-        Constants.showAlert("Access Denied",
-            "Please Allow The Loaction Service Enabled To Get Info", context);
-        break;
-      case GeolocationStatus.disabled:
-        Constants.showAlert(
-            "Access Denied", "Please Allow The Loaction Services On", context);
-        break;
-      case GeolocationStatus.granted:
-        Dialogs.showLoadingDialog(
-            context, _keyLoader, "Loading....Please Wait");
-
-        dinerestaurantPresenter.getrestaurantspage(
-            "18.579622", "73.738691", sortedBy, filteredBy, page, context);
-        GeoLocationTracking.load();
-        GeoLocationTracking.loadingPositionTrack();
-
-        //Dialogs.showLoadingDialog(context, _keyLoader, "");
-        break;
-      case GeolocationStatus.restricted:
-        Constants.showAlert("Access Denied",
-            "Please Allow The Loaction Service Enabled To Get Info", context);
-        break;
-      case GeolocationStatus.unknown:
-      default:
-        break;
+  _getLocation() async {
+    _position = await GeoLocationTracking.load(context);
+    if (_position != null) {
+      dinerestaurantPresenter
+                                          .getrestaurantspage(
+                                              _position.latitude.toString(),
+                                              _position.longitude.toString(),
+                                              sortedBy,
+                                              filteredBy,
+                                              page,
+                                              context);
     }
   }
 
@@ -98,8 +79,14 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          dinerestaurantPresenter.getrestaurantspage(
-              "18.579622", "73.738691", "", "", page, context);
+          dinerestaurantPresenter
+                                          .getrestaurantspage(
+                                              "18.579622",
+                                              "73.738691",
+                                              sortedBy,
+                                              filteredBy,
+                                              page,
+                                              context);
 
           print("Bottom");
         }
@@ -261,7 +248,7 @@ class _DineViewState extends State<DineInView>
                                     ),
                                     Divider(),
                                     Align(
-                                      // padding: EdgeInsets.only(left: 8, top: 10),
+// padding: EdgeInsets.only(left: 8, top: 10),
                                       alignment: Alignment.topLeft,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
@@ -312,13 +299,13 @@ class _DineViewState extends State<DineInView>
           return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0),
-                //side: BorderSide(color: Colors.red)
+//side: BorderSide(color: Colors.red)
               ),
               elevation: 2,
               margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-              // color: _selected[i]
-              //     ? Colors.blue
-              //     : null, // if current item is selected show blue color
+// color: _selected[i]
+// ? Colors.blue
+// : null, // if current item is selected show blue color
               child: ListTile(
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
@@ -336,9 +323,9 @@ class _DineViewState extends State<DineInView>
                               rest_Id: _restaurantList[i].id,
                             )));
                     setState(() {
-                      // _selected[i] = !_selected[i];
+// selected[i] = !selected[i];
                     }
-                        // reverse bool value
+// reverse bool value
                         );
                   }));
         },
@@ -433,12 +420,12 @@ class _DineViewState extends State<DineInView>
             SizedBox(
               height: 13,
             ),
-            // ConstrainedBox(
-            //   constraints: new BoxConstraints(
-            //     minHeight: 0.0,
-            //     maxHeight: 13.0,
-            //   ),
-            // ),
+// ConstrainedBox(
+// constraints: new BoxConstraints(
+// minHeight: 0.0,
+// maxHeight: 13.0,
+// ),
+// ),
           ],
         ),
         Expanded(
@@ -503,12 +490,12 @@ class _DineViewState extends State<DineInView>
 
   @override
   void restaurantfailed() {
-    // TODO: implement restaurantfailed
+// TODO: implement restaurantfailed
   }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
-    // TODO: implement restaurantsuccess
+// TODO: implement restaurantsuccess
 
     if (restlist.length == 0) {
       return;
