@@ -10,6 +10,8 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
 
@@ -323,8 +325,19 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                   padding: EdgeInsets.only(
                     left: 20,
                   ),
-                  child: Text(
+                  // child: Text(
+                  //   _restaurantInfoData.restName,
+                  //   style: TextStyle(
+                  //       color: greytheme700,
+                  //       // color: Colors.red,
+                  //       fontFamily: 'gotham',
+                  //       fontWeight: FontWeight.w500,
+                  //       fontSize: 16),
+                  // ),
+                  child: AutoSizeText(
                     _restaurantInfoData.restName,
+                    maxLines: 2,
+                    maxFontSize: 16,
                     style: TextStyle(
                         color: greytheme700,
                         // color: Colors.red,
@@ -339,7 +352,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: Text(
+                        child: AutoSizeText(
                           // 'Via in Arcione 115, 00187 Rome Italy',
                           _restaurantInfoData.addressLine1 +
                               "" +
@@ -351,6 +364,9 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                             fontSize: 14,
                             fontFamily: 'gotham',
                           ),
+                          maxFontSize: 14,
+                          maxLines: 2,
+                          // overflow: Overflow.visible,
                         ),
                       ),
                       Expanded(
@@ -940,7 +956,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
-      //  print(_getReviewData.data);
+      print(_getReviewData.data);
     });
   }
 
