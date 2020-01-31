@@ -4,6 +4,10 @@ import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
+import 'package:foodzi/Utils/dialogs.dart';
+// import 'package:foodzi/models/GetRestaurantReview.dart';
+// import 'package:foodzi/models/RestaurantInfoModel.dart';
+// import 'package:foodzi/models/WriteRestaurantReview.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -27,9 +31,11 @@ class RestaurantInfoView extends StatefulWidget {
 
 class _RestaurantInfoViewState extends State<RestaurantInfoView>
     implements RestaurantInfoModelView {
+  Dialogs dialogs = Dialogs();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
   RestaurantInfoData _restaurantInfoData;
   GetRestaurantReviewModel _getReviewData;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -352,39 +358,51 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: AutoSizeText(
-                          // 'Via in Arcione 115, 00187 Rome Italy',
-                          _restaurantInfoData.addressLine1 +
-                              "" +
-                              _restaurantInfoData.addressLine2 +
-                              "" +
-                              _restaurantInfoData.addressLine3,
-                          style: TextStyle(
-                            color: greytheme100,
-                            fontSize: 14,
-                            fontFamily: 'gotham',
+                        child: SizedBox(
+                          height: 30,
+                          width: 260,
+                          child: AutoSizeText(
+                            // 'Via in Arcione 115, 00187 Rome Italy',
+                            _restaurantInfoData.addressLine1 +
+                                " " +
+                                _restaurantInfoData.addressLine2 +
+                                " " +
+                                _restaurantInfoData.addressLine3,
+                            style: TextStyle(
+                              color: greytheme100,
+                              // fontSize: 14,
+                              fontFamily: 'gotham',
+                            ),
+                            // minFontSize: 8,
+                            maxFontSize: 14,
+                            maxLines: 2,
+
+                            // overflow: Overflow.visible,
+                            // overflow: Overflow.visible,
                           ),
-                          maxFontSize: 14,
-                          maxLines: 2,
-                          // overflow: Overflow.visible,
                         ),
                       ),
                       Expanded(
                         child: SizedBox(
-                          width: 60,
+                          width: 10,
                         ),
-                        flex: 2,
+                        flex: 1,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: FlatButton(
-                          child: ClipOval(
-                            child: Image.asset(
-                                'assets/NavigateButton/next(2).png'),
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: FlatButton(
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/NavigateButton/next(2).png',
+                                width: 14,
+                              ),
+                            ),
+                            onPressed: () {
+                              //Show Map
+                            },
                           ),
-                          onPressed: () {
-                            //Show Map
-                          },
                         ),
                       ),
                     ]),
@@ -416,7 +434,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       width: 20,
                     ),
                     Container(
-                      width: 39,
+                      width: 49,
                       height: 18,
                       // color: Colors.black,
                       decoration: BoxDecoration(
@@ -536,29 +554,32 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           overflow: Overflow.visible,
           children: <Widget>[
             Positioned(left: 0, right: 0, top: 0, child: image_carousel),
-            Container(
-                margin: EdgeInsets.fromLTRB(0, 21, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Image.asset('assets/BackButtonIcon/Path1621.png'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Container(
+                  // margin: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FlatButton(
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 520,
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 420,
-                      ),
-                      flex: 2,
-                    ),
-                  ],
-                )
+                    flex: 2,
+                  ),
+                ],
+              )
 
-                // )
-                ),
+                  // )
+                  ),
+            ),
             // Positioned(
             //   left: 3.0,
             //   top: 21.0,
@@ -747,7 +768,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           Container(
               height: MediaQuery.of(context).size.height * 0.35,
               child: ListView.builder(
-                itemCount: 5,
+                itemCount: _restaurantInfoData.reviews.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -936,6 +957,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+    Dialogs.showLoadingDialog(context, _keyLoader, "");
+
     setState(() {
       _restaurantInfoData = restInfoData;
       print(_restaurantInfoData.restName);
@@ -943,6 +966,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 

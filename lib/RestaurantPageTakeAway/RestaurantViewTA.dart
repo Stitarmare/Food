@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
+import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -14,7 +15,8 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 
 class RestaurantTAView extends StatefulWidget {
   String title;
-  RestaurantTAView({this.title});
+  int rest_Id;
+  RestaurantTAView({this.title,this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -68,7 +70,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               color: greytheme100,
             ),
             onPressed: () {
-               Navigator.pushNamed(context, '/HotelInfoView');
+              //  Navigator.pushNamed(context, '/HotelInfoView');
+              Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RestaurantInfoView(
+                              // title: "${_restaurantList[i].restName}",
+                              rest_Id:widget.rest_Id,
+                            )));
             },
           )
         ],

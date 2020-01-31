@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
     } else {

@@ -70,6 +70,8 @@ class _DineViewState extends State<DineInView>
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
+            //"18.579622",
+            //"73.738691",
             sortedBy,
             filteredBy,
             page,

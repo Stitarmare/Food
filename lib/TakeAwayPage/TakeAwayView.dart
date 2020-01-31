@@ -316,6 +316,7 @@ class _DineViewState extends State<TakeAwayView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TakeAwayBottombar(
                               title: "${_restaurantList[i].restName}",
+                              rest_Id: _restaurantList[i].id,
                             )));
                     setState(() {
                       // _selected[i] = !_selected[i];
