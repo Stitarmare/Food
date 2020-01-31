@@ -13,7 +13,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class TakeAwayBottombar extends StatefulWidget {
   String title;
-  TakeAwayBottombar({this.title});
+  int rest_Id;
+  TakeAwayBottombar({this.title,this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _TakeAwayBottombarState();
@@ -43,6 +44,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
         tabsHome.setAll(0, [
           RestaurantTAView(
             title: widget.title,
+            rest_Id:widget.rest_Id,
           )
         ]);
       });

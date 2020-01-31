@@ -49,11 +49,13 @@ class RestaurantInfoData {
     int userId;
     DateTime createdAt;
     DateTime updatedAt;
-    int averageRating;
+    String status;
+    dynamic deletedAt;
+    String averageRating;
     int reviewsCount;
-    List<Review> reviews;
+    List<dynamic> reviews;
     List<Schedule> schedule;
-    List<Category> category;
+    List<dynamic> category;
     List<Gallary> gallary;
 
     RestaurantInfoData({
@@ -77,6 +79,8 @@ class RestaurantInfoData {
         this.userId,
         this.createdAt,
         this.updatedAt,
+        this.status,
+        this.deletedAt,
         this.averageRating,
         this.reviewsCount,
         this.reviews,
@@ -106,11 +110,13 @@ class RestaurantInfoData {
         userId: json["user_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        status: json["status"],
+        deletedAt: json["deleted_at"],
         averageRating: json["average_rating"],
         reviewsCount: json["reviews_count"],
-        reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
+        reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
         schedule: List<Schedule>.from(json["schedule"].map((x) => Schedule.fromJson(x))),
-        category: List<Category>.from(json["category"].map((x) => Category.fromJson(x))),
+        category: List<dynamic>.from(json["category"].map((x) => x)),
         gallary: List<Gallary>.from(json["gallary"].map((x) => Gallary.fromJson(x))),
     );
 
@@ -135,48 +141,14 @@ class RestaurantInfoData {
         "user_id": userId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "status": status,
+        "deleted_at": deletedAt,
         "average_rating": averageRating,
         "reviews_count": reviewsCount,
-        "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
+        "reviews": List<dynamic>.from(reviews.map((x) => x)),
         "schedule": List<dynamic>.from(schedule.map((x) => x.toJson())),
-        "category": List<dynamic>.from(category.map((x) => x.toJson())),
+        "category": List<dynamic>.from(category.map((x) => x)),
         "gallary": List<dynamic>.from(gallary.map((x) => x.toJson())),
-    };
-}
-
-class Category {
-    int id;
-    int workstationId;
-    String name;
-    int restId;
-    dynamic createdAt;
-    dynamic updatedAt;
-
-    Category({
-        this.id,
-        this.workstationId,
-        this.name,
-        this.restId,
-        this.createdAt,
-        this.updatedAt,
-    });
-
-    factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        workstationId: json["workstation_id"],
-        name: json["name"],
-        restId: json["rest_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "workstation_id": workstationId,
-        "name": name,
-        "rest_id": restId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
     };
 }
 
@@ -209,46 +181,6 @@ class Gallary {
         "image_path": imagePath,
         "created_at": createdAt,
         "updated_at": updatedAt,
-    };
-}
-
-class Review {
-    int id;
-    int userId;
-    int restId;
-    String description;
-    int rating;
-    DateTime createdAt;
-    DateTime updatedAt;
-
-    Review({
-        this.id,
-        this.userId,
-        this.restId,
-        this.description,
-        this.rating,
-        this.createdAt,
-        this.updatedAt,
-    });
-
-    factory Review.fromJson(Map<String, dynamic> json) => Review(
-        id: json["id"],
-        userId: json["user_id"],
-        restId: json["rest_id"],
-        description: json["description"],
-        rating: json["rating"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "user_id": userId,
-        "rest_id": restId,
-        "description": description,
-        "rating": rating,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
     };
 }
 

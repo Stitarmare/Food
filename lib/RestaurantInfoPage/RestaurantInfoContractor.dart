@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-// <<<<<<< HEAD
+import 'package:foodzi/Models/GetRestaurantReview.dart';
+
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
-import 'package:foodzi/models/GetRestaurantReview.dart';
-import 'package:foodzi/models/WriteRestaurantReview.dart';
+import 'package:foodzi/Models/WriteRestaurantReview.dart';
+// import 'package:foodzi/models/GetRestaurantReview.dart';
+// import 'package:foodzi/models/RestaurantInfoModel.dart';
+// import 'package:foodzi/models/WriteRestaurantReview.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 
-import 'package:foodzi/models/GetRestaurantReview.dart';
-import 'package:foodzi/Models/RestaurantInfoModel.dart';
-import 'package:foodzi/models/WriteRestaurantReview.dart';
+// import 'package:foodzi/models/GetRestaurantReview.dart';
+// import 'package:foodzi/Models/RestaurantInfoModel.dart';
+// import 'package:foodzi/models/WriteRestaurantReview.dart';
 
-import 'package:foodzi/Models/RestaurantInfoModel.dart';
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
+// import 'package:foodzi/Models/RestaurantInfoModel.dart';
+// import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 
 abstract class RestaurantInfoContractor{
@@ -22,7 +25,7 @@ void onBackPresed();
 }
 
 abstract class RestaurantInfoModelView{
-  void restaurantInfoSuccess(RestaurantInfoData restInfoList);
+  void restaurantInfoSuccess(RestaurantInfoData restInfoData);
   void getReviewSuccess(GetRestaurantReviewModel getReviewList);
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview);
   void restaurantInfoFailed();
