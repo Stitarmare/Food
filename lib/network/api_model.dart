@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
@@ -12,11 +12,16 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
+<<<<<<< HEAD
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
+=======
+
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
+>>>>>>> 49216ef9af1b5c6a7d13751dcd5354e04a820d29
 import 'package:foodzi/models/GetRestaurantReview.dart';
 import 'package:foodzi/models/WriteRestaurantReview.dart';
 
-import 'package:foodzi/Models/authmodel.dart';
+//import 'package:foodzi/models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
 
 enum SuccessType { success, failed }

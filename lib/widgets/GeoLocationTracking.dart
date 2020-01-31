@@ -1,36 +1,53 @@
 import 'dart:async';
 //import 'dart:html';
 
+import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GeoLocationTracking {
-  static Future<Position> load() async {
-    await Geolocator()
+  static Future<Stream<Position>> load(BuildContext context,StreamController<Position> controller) async {
+    try {
+     var postion = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-
-    Position position = await Geolocator()
-        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-
-    var geolocator = Geolocator();
-    var locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-    GeolocationStatus geolocationStatus =
+        print(postion);
+    controller.add(postion);
+    // var geolocator = Geolocator();
+    // var locationOptions =
+    //     LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+    // var value = geolocator
+    //     .getPositionStream(locationOptions);
+    // value.listen((position){
+    //   controller.add(position);
+    // });
+      
+    } on Exception {
+      GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
-    print(geolocationStatus.value);
-    // switch (geolocationStatus.value) {
-
-    // }
-
-    StreamSubscription<Position> positionStream = geolocator
-        .getPositionStream(locationOptions)
-        .listen((Position position) {
-      print(position == null
-          ? 'Unknown'
-          : position.latitude.toString() +
-              ', ' +
-              position.longitude.toString());
-      //if(Po)
-    });
+    print(geolocationStatus);
+    switch (geolocationStatus) {
+      case GeolocationStatus.denied:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.disabled:
+        Constants.showAlert(
+            "Access Denied", "Please Allow The Loaction Services On", context);
+        break;
+      case GeolocationStatus.granted:
+        
+        //Dialogs.showLoadingDialog(context, _keyLoader, "");
+        break;
+      case GeolocationStatus.restricted:
+        Constants.showAlert("Access Denied",
+            "Please Allow The Loaction Service Enabled To Get Info", context);
+        break;
+      case GeolocationStatus.unknown:
+      default:
+        break;
+    }
+    }
+    
   }
 
   //@override

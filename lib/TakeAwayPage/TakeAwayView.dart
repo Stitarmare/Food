@@ -49,7 +49,7 @@ class _DineViewState extends State<TakeAwayView>
   void initState() {
     locator();
     _detectScrollPosition();
-    GeoLocationTracking.load();
+    //GeoLocationTracking.load();
     // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
 
@@ -76,7 +76,7 @@ class _DineViewState extends State<TakeAwayView>
 
         dinerestaurantPresenter.getrestaurantspage(
             "18.579622", "73.738691", "", "", page, context);
-        GeoLocationTracking.load();
+       // GeoLocationTracking.load();
         GeoLocationTracking.loadingPositionTrack();
 
         //Dialogs.showLoadingDialog(context, _keyLoader, "");
