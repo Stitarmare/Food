@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
@@ -31,6 +33,7 @@ class _DineViewState extends State<DineInView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   Dialogs dialogs = Dialogs();
   Position _position;
+  StreamController<Position> _controllerPosition = new StreamController();
 
 //List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
@@ -49,19 +52,24 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
-    _getLocation();
-    _detectScrollPosition();
+   
+   
     
 // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
+     _getLocation();
+    _detectScrollPosition();
 
 // TODO: implement initState
     super.initState();
   }
 
   _getLocation() async {
-    _position = await GeoLocationTracking.load(context);
-    if (_position != null) {
+    var strim = await GeoLocationTracking.load(context,_controllerPosition);
+    _controllerPosition.stream.listen((position){
+      print(position);
+      _position = position;
+      if (_position != null) {
       dinerestaurantPresenter
                                           .getrestaurantspage(
                                               _position.latitude.toString(),
@@ -71,6 +79,8 @@ class _DineViewState extends State<DineInView>
                                               page,
                                               context);
     }
+    });
+    
   }
 
   _detectScrollPosition() {

@@ -6,24 +6,21 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:geolocator/geolocator.dart';
 
 class GeoLocationTracking {
-  static Future<Position> load(BuildContext context) async {
+  static Future<Stream<Position>> load(BuildContext context,StreamController<Position> controller) async {
     try {
-      await Geolocator()
+     var postion = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    var geolocator = Geolocator();
-    var locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
-    geolocator
-        .getPositionStream(locationOptions)
-        .listen((Position position) {
-      print(position == null
-          ? 'Unknown'
-          : position.latitude.toString() +
-              ', ' +
-              position.longitude.toString());
-      //if(Po)
-      return position;
-    });
+        print(postion);
+    controller.add(postion);
+    // var geolocator = Geolocator();
+    // var locationOptions =
+    //     LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
+    // var value = geolocator
+    //     .getPositionStream(locationOptions);
+    // value.listen((position){
+    //   controller.add(position);
+    // });
+      
     } on Exception {
       GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
