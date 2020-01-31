@@ -41,7 +41,7 @@ abstract class RestaurantInfoContractor {
 
 abstract class RestaurantInfoModelView{
   void restaurantInfoSuccess(RestaurantInfoData restInfoData);
-  void getReviewSuccess(GetRestaurantReviewModel getReviewList);
+  void getReviewSuccess(RestaurantReviewData getReviewList);
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview);
   void restaurantInfoFailed();
   void getReviewFailed();

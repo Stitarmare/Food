@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
@@ -32,7 +33,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     implements RestaurantInfoModelView {
   RestaurantInfoPresenter restaurantIdInfoPresenter;
   RestaurantInfoData _restaurantInfoData;
-  GetRestaurantReviewModel _getReviewData;
+  RestaurantReviewData _getReviewData;
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -412,9 +413,9 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
-                    itemCount: menuOptionItem.length,
+                    itemCount: _restaurantInfoData.category.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return menuButton(menuOptionItem[index]);
+                      return menuButton(_restaurantInfoData.category[index]);
                     },
                   ),
                 ),
@@ -606,14 +607,15 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     );
   }
 
-  Widget menuButton(MenuCategoryButton item) {
+  Widget menuButton(Categories item) {
     return Container(
       margin: EdgeInsets.only(right: 10),
       child: RaisedButton(
         child: Padding(
           padding: const EdgeInsets.all(4),
           child: Text(
-            item.title,
+            item.name,
+            // item.title,
             style: TextStyle(
               fontFamily: 'gotham',
               fontSize: 10,
@@ -763,7 +765,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           Container(
               height: MediaQuery.of(context).size.height * 0.35,
               child: ListView.builder(
-                itemCount: _restaurantInfoData.reviews.length,
+                // itemCount: _restaurantInfoData.reviews.length,
+                itemCount: _getReviewData.reviews.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -788,7 +791,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                       padding: const EdgeInsets.only(
                                           left: 18, top: 10),
                                       child: ClipOval(
-                                        child: Image.asset(
+                                        child: 
+                      //                    CachedNetworkImage(
+                      //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
+                      //   fit: BoxFit.cover,
+                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                      // )
+                                        Image.asset(
                                           'assets/ProfileImage/MaskGroup15.png',
                                           height: 45,
                                           width: 45,
@@ -802,7 +811,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 18, top: 16.5),
-                                      child: Text('George Thomas',
+                                      child: Text(_getReviewData.reviews[index].user.firstName+" "+_getReviewData.reviews[index].user.lastName,
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: greytheme1000,
@@ -836,7 +845,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 4, top: 2, bottom: 2),
                                               child: Text(
-                                                '4.5',
+                                                _getReviewData.reviews[index].rating.toString(),
                                                 style: TextStyle(
                                                     fontFamily: 'gotham',
                                                     fontSize: 10,
@@ -856,7 +865,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                           padding: const EdgeInsets.only(
                                               left: 18, top: 10),
                                           child: ExpandableText(
-                                            'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
+                                            _getReviewData.reviews[index].description
+                                            // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
                                             // maxLines: 5,)
                                           ),
                                         )),
@@ -968,11 +978,11 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void getReviewSuccess(GetRestaurantReviewModel getReviewList) {
+  void getReviewSuccess(RestaurantReviewData getReviewList) {
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
-      print(_getReviewData.data);
+      print(_getReviewData.reviews);
     });
   }
 
