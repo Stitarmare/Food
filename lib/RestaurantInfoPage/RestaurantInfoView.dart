@@ -198,7 +198,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       child: Container(
                         margin: EdgeInsets.only(left: 37, right: 27),
                         height: 75,
-
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
@@ -206,6 +205,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                         // color: Color.fromRGBO(213, 213, 213, 1)),
                         padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
                         child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Write Review.",
+                            hintStyle: TextStyle(
+                                fontFamily: 'gotham',
+                                color: greytheme300,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
                           maxLines: 3,
                           controller: _controller,
                         ),
@@ -973,6 +980,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+    
     setState(() {
       if (restInfoData == null) {
         // Dialogs.showLoadingDialog(context, _keyLoader, "");
