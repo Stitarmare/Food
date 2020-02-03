@@ -4,6 +4,7 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/Utils/String.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -24,7 +25,7 @@ class RestaurantTAView extends StatefulWidget {
 }
 
 class _RestaurantTAViewState extends State<RestaurantTAView>
-    implements RestaurantModelView {
+    implements RestaurantTAModelView {
   // RestaurantPresenter restaurantPresenter;
   // List<RestaurantList> _restaurantList;
   // int page = 1;

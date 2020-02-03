@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
@@ -79,7 +80,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         // title: "${_restaurantList[i].restName}",
                         rest_Id: widget.rest_Id,
                       )));
-              
+
             },
           )
         ],
@@ -431,10 +432,20 @@ class _RestaurantViewState extends State<RestaurantView>
     });
     // TODO: implement restaurantsuccess
   }
+
+  @override
+  void getMenuListfailed() {
+    // TODO: implement getMenuListfailed
+  }
+
+  @override
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
+    // TODO: implement getMenuListsuccess
+  }
 }
 
-// class Item {
-//   String itemName;
-//   String itemCount;
-//   Item({this.itemName, this.itemCount});
-// }
+class Item {
+  String itemName;
+  String itemCount;
+  Item({this.itemName, this.itemCount});
+}

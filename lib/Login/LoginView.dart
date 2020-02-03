@@ -2,31 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
-
 import 'dart:math' as math;
-
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
-import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
-
 import 'LoginPresenter.dart';
-
 class LoginView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _LoginViewState();
   }
 }
-
 class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
   // static String countrycode = "";
-
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
   var mobilenumber = '';
@@ -43,12 +36,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     loginPresenter = LoginPresenter(this);
     super.initState();
   }
-
   final Map<String, dynamic> _signInData = {
     mobno: null,
     enterPass: null,
   };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +49,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     ));
   }
-
   Widget mainview() {
     return Container(
       margin: EdgeInsets.fromLTRB(30, 50, 30, 0),
@@ -69,7 +59,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     );
   }
-
   Widget _buildStackView() {
     return Stack(
       children: <Widget>[
@@ -77,9 +66,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ],
     );
   }
-
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
     } else {
@@ -88,7 +77,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       });
     }
   }
-
   Widget _buildmainview() {
     return LimitedBox(
       child: Container(
@@ -128,7 +116,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     );
   }
-
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
@@ -159,7 +146,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ],
     );
   }
-
   Widget _buildTextField() {
     const pi = 3.14;
     return Column(
@@ -236,7 +222,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ],
     );
   }
-
   String validatemobno(String value) {
     String pattern = r'(^[0-9]*$)';
     RegExp regExp = RegExp(pattern);
@@ -253,7 +238,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     }
     return null;
   }
-
   String validatecountrycode(String value) {
     String pattern = r'(^[0-9]*$)';
     RegExp regExp = RegExp(pattern);
@@ -268,7 +252,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     }
     return null;
   }
-
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
@@ -277,7 +260,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     }
     return null;
   }
-
   Widget _forgotpassword() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -308,7 +290,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ],
     );
   }
-
   Widget _signinButton() {
     return ButtonTheme(
       minWidth: 280,
@@ -330,7 +311,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     );
   }
-
   Widget _otptext() {
     return ButtonTheme(
       minWidth: 8,
@@ -355,7 +335,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     );
   }
-
   Widget _signupbutton() {
     return LimitedBox(
       child: Row(
@@ -389,18 +368,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       ),
     );
   }
-
   @override
   void loginFailed() {
     // TODO: implement loginFailed
     print("pop f close");
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
-
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
-    ApiBaseHelper().showSnackBar(context, "Logged In SuccessFuly");
     _signInFormKey.currentState.save();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');
