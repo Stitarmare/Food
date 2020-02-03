@@ -28,7 +28,7 @@ class _RegisterviewState extends State<Registerview>
 
   final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
 
   bool _validate = false;
   var countrycode = '';
@@ -76,7 +76,7 @@ class _RegisterviewState extends State<Registerview>
 
   void onSignUpButtonClicked() {
     if (_signUpFormKey.currentState.validate()) {
-      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, context);
       // _goToNextPageDineIn(context);
@@ -282,7 +282,7 @@ class _RegisterviewState extends State<Registerview>
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length > 13 ) {
+    } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     // if(value.trim().length <= 0){

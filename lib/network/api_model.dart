@@ -77,8 +77,8 @@ class GenericModel<T> {
       case RestaurantInfoModel:
         return RestaurantInfoModel.fromJson(json) as T;
 
-      case GetRestaurantReviewModel:
-        return GetRestaurantReviewModel.fromJson(json) as T;
+      case GetRestaurantReview:
+        return GetRestaurantReview.fromJson(json) as T;
 
       case WriteRestaurantReviewModel:
         return WriteRestaurantReviewModel.fromJson(json) as T;

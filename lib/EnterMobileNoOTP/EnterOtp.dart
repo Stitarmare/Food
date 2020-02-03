@@ -25,7 +25,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   final GlobalKey<FormState> _enterOTPFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   final FocusNode _nodeText1 = FocusNode();
 
   bool _validate = false;
@@ -85,11 +85,11 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void onsubmitButtonClicked() {
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
-        Dialogs.showLoadingDialog(context, _keyLoader, "");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
 
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
-        Dialogs.showLoadingDialog(context, _keyLoader, "");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
 
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
@@ -229,7 +229,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length > 13 ) {
+    } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     // if(value.trim().length <= 0){

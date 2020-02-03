@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Dialogs {
+class DialogsIndicator {
   static Future<void> showLoadingDialog(
       BuildContext context, GlobalKey key, String text) async {
     return showDialog<void>(

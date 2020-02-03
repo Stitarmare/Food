@@ -31,7 +31,7 @@ class _DineViewState extends State<DineInView>
   String sortedBy = '';
   String filteredBy = '';
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
 
@@ -67,6 +67,9 @@ class _DineViewState extends State<DineInView>
       print(position);
       _position = position;
       if (_position != null) {
+        DialogsIndicator.showLoadingDialog(
+            context, _keyLoader, "Loading....Please Wait");
+
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),

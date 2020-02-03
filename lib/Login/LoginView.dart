@@ -35,7 +35,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var countrycode = '';
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   var loginPresenter;
   @override
   void initState() {
@@ -80,7 +80,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
     } else {

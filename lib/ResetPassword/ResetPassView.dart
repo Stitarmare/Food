@@ -24,7 +24,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   final GlobalKey<FormState> _resetpasswordFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   bool _validate = false;
 
   final Map<String, dynamic> _signInData = {
@@ -80,7 +80,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
-       Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
       //_resetpasswordFormKey.currentState.save();
@@ -209,9 +209,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   String validatConfirmPassword(String value) {
     // if (value ==_password) {
-      if (value.length == 0) {
-        return KEY_PASSWORD_REQUIRED;
-      } else if (value.length < 8) {
+    if (value.length == 0) {
+      return KEY_PASSWORD_REQUIRED;
+    } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     // }
@@ -289,13 +289,12 @@ class _ResetPasswordview extends State<ResetPasswordview>
   @override
   void resetpassfailed() {
     // TODO: implement resetpassfailed
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void resetpasssuccess() {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     showDialogBox(context);
     // Navigator.of(context).pushReplacementNamed('/LoginView');

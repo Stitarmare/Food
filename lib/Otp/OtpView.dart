@@ -4,6 +4,7 @@ import 'package:foodzi/Otp/OtpPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
@@ -24,13 +25,17 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   var otpsave;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   var otppresenter;
+  String mobileNo;
   @override
   void initState() {
     // TODO: implement initState
     otppresenter = OtpPresenter(this);
     super.initState();
+    setState(() {
+      mobileNo = widget.mobno;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -77,7 +82,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         widget.value != 0 &&
         otpsave != null) {
       //Dialogs.showLoadingDialog(context, _keyLoader, "");
-      otppresenter.perfromresetpassword(widget.mobno,otpsave, context);
+      otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
     }
     // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
     //     otp
@@ -183,7 +188,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Widget _mobnoEntered() {
-    return Text(widget.mobno,
+    return Text(mobileNo,
         style: TextStyle(
             color: greytheme300,
             fontFamily: 'gotham',
@@ -249,43 +254,45 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           ),
           new GestureDetector(
             onTap: () {
+              otppresenter.resendOTP(widget.mobno, context);
+
               // Navigator.pushNamed(context, '/Registerview');
-              return showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  title: const Text(
-                    "OTP Sent",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: greentheme100,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'gotham',
-                        fontSize: 22),
-                  ),
-                  content: Text(
-                    'OTP has been successfully send to your mobile number.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: greytheme100,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'gotham',
-                        fontSize: 20),
-                  ),
-                  actions: [
-                    FlatButton(
-                      child: const Text(
-                        "OK",
-                        style: TextStyle(
-                            color: greentheme100,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'gotham',
-                            fontSize: 20),
-                      ),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-              );
+              // return showDialog(
+              //   context: context,
+              //   builder: (_) => AlertDialog(
+              //     title: const Text(
+              //       "OTP Sent",
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(
+              //           color: greentheme100,
+              //           fontWeight: FontWeight.w600,
+              //           fontFamily: 'gotham',
+              //           fontSize: 22),
+              //     ),
+              //     content: Text(
+              //       'OTP has been successfully send to your mobile number.',
+              //       textAlign: TextAlign.center,
+              //       style: TextStyle(
+              //           color: greytheme100,
+              //           fontWeight: FontWeight.w500,
+              //           fontFamily: 'gotham',
+              //           fontSize: 20),
+              //     ),
+              //     actions: [
+              //       FlatButton(
+              //         child: const Text(
+              //           "OK",
+              //           style: TextStyle(
+              //               color: greentheme100,
+              //               fontWeight: FontWeight.w600,
+              //               fontFamily: 'gotham',
+              //               fontSize: 20),
+              //         ),
+              //         onPressed: () => Navigator.of(context).pop(),
+              //       ),
+              //     ],
+              //   ),
+              // );
             },
             child: new Text(
               'RESEND',
@@ -303,16 +310,16 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void otpfailed() {
-        //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     // TODO: implement otpfailed
   }
 
   @override
   void otpsuccess() {
-        //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
-    Navigator.pushNamed(context, '/MainWidget');
+    Navigator.pushReplacementNamed(context, '/MainWidget');
     // TODO: implement otpsuccess
   }
 
@@ -340,9 +347,10 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   @override
-  void resendotpsuccess() {
+  void resendotpsuccess(message) {
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Navigator.pushReplacementNamed(context, '/OTPScreen');
+    //Navigator.pushReplacementNamed(context, '/OTPScreen');
+    Constants.showAlert("Resend OTP", message, context);
     // TODO: implement resendotpsuccess
   }
 

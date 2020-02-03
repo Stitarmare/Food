@@ -55,7 +55,7 @@ class RestaurantInfoData {
     int reviewsCount;
     List<dynamic> reviews;
     List<Schedule> schedule;
-    List<dynamic> category;
+    List<Categories> category;
     List<Gallary> gallary;
 
     RestaurantInfoData({
@@ -116,7 +116,7 @@ class RestaurantInfoData {
         reviewsCount: json["reviews_count"],
         reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
         schedule: List<Schedule>.from(json["schedule"].map((x) => Schedule.fromJson(x))),
-        category: List<dynamic>.from(json["category"].map((x) => x)),
+        category: List<Categories>.from(json["category"].map((x) => Categories.fromJson(x))),
         gallary: List<Gallary>.from(json["gallary"].map((x) => Gallary.fromJson(x))),
     );
 
@@ -150,6 +150,27 @@ class RestaurantInfoData {
         "category": List<dynamic>.from(category.map((x) => x)),
         "gallary": List<dynamic>.from(gallary.map((x) => x.toJson())),
     };
+}
+class Categories{
+  int id;
+  int workstation_id;
+  String name;
+  int rest_id;
+
+  Categories({
+    this.id,
+    this.name,
+    this.workstation_id,
+    this.rest_id,
+  });
+  factory Categories.fromJson(Map<String, dynamic> json){
+    return Categories(
+      id: json["id"],
+      name:json["name"],
+      workstation_id:json["workstation_id"],
+      rest_id:json["rest_id"],
+    );
+  }
 }
 
 class Gallary {

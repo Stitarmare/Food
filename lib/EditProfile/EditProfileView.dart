@@ -24,7 +24,7 @@ class EditProfileview extends StatefulWidget {
 class _EditProfileState extends State<EditProfileview>
     implements EditProfileModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   final FocusNode _nodeText1 = FocusNode();
   List<CountryList> _dropdownItemsCountry = [];
   List<StateList> _dropdownItemsState = [];
@@ -98,7 +98,7 @@ class _EditProfileState extends State<EditProfileview>
   void updateButtonClicked() {
     if (_editprofileFormKey.currentState.validate()) {
       print("Validation Successful");
-      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       editprofilepresenter
         ..performUpdate(firstName, lastName, streetAddress, countryID, stateID,
             cityID, pinCode, context);

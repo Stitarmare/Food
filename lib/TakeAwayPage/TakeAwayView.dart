@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
@@ -28,8 +30,11 @@ class _DineViewState extends State<TakeAwayView>
   List<RestaurantList> _restaurantList;
   int page = 1;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
-
+  DialogsIndicator dialogs = DialogsIndicator();
+  StreamController<Position> _controllerPosition = new StreamController();
+  Position _position;
+  String sortedBy = '';
+  String filteredBy = '';
   //List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
@@ -58,37 +63,25 @@ class _DineViewState extends State<TakeAwayView>
   }
 
   locator() async {
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
-    print(geolocationStatus);
-    switch (geolocationStatus) {
-      case GeolocationStatus.denied:
-        Constants.showAlert("Access Denied",
-            "Please Allow The Loaction Service Enabled To Get Info", context);
-        break;
-      case GeolocationStatus.disabled:
-        Constants.showAlert(
-            "Access Denied", "Please Allow The Loaction Services On", context);
-        break;
-      case GeolocationStatus.granted:
-        Dialogs.showLoadingDialog(
+    var strim = await GeoLocationTracking.load(context, _controllerPosition);
+    _controllerPosition.stream.listen((position) {
+      print(position);
+      _position = position;
+      if (_position != null) {
+        DialogsIndicator.showLoadingDialog(
             context, _keyLoader, "Loading....Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
-            "18.579622", "73.738691", "", "", page, context);
-       // GeoLocationTracking.load();
-        GeoLocationTracking.loadingPositionTrack();
-
-        //Dialogs.showLoadingDialog(context, _keyLoader, "");
-        break;
-      case GeolocationStatus.restricted:
-        Constants.showAlert("Access Denied",
-            "Please Allow The Loaction Service Enabled To Get Info", context);
-        break;
-      case GeolocationStatus.unknown:
-      default:
-        break;
-    }
+            _position.latitude.toString(),
+            _position.longitude.toString(),
+            //"18.579622",
+            //"73.738691",
+            sortedBy,
+            filteredBy,
+            page,
+            context);
+      }
+    });
   }
 
   _detectScrollPosition() {

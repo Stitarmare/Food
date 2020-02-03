@@ -44,15 +44,14 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
   @override
   void getRestaurantReview(BuildContext context, int rest_id) {
     // TODO: implement getRestaurantReview
-    ApiBaseHelper().post<GetRestaurantReviewModel>(
-        UrlConstant.getReviewApi, context,
+    ApiBaseHelper().post<GetRestaurantReview>(UrlConstant.getReviewApi, context,
         body: {"rest_id": rest_id}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
           print("Restaurant success");
           print(value.model);
-          restaurantInfoModelView.getReviewSuccess(value.model);
+          restaurantInfoModelView.getReviewSuccess(value.model.data);
           // restaurantInfoModelView.restaurantInfoSuccess(value.model.data);
           break;
         case SuccessType.failed:

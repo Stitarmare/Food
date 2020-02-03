@@ -114,9 +114,6 @@ class OtpPresenter extends OtpContract {
           otpView.otpfailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   otpView.otpsuccess();
-      // }
     }).catchError((error) {
       print(error);
     });
@@ -127,6 +124,30 @@ class OtpPresenter extends OtpContract {
   @override
   void verifyotp(String mobno, BuildContext context) {
     // TODO: implement verifyotp
+  }
+
+  void resendOTP(String mobno, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.resendOTP, context, body: {
+      'mobile_number': mobno,
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("success");
+          print(value.model);
+          var message = value.model.message;
+          otpView.resendotpsuccess(message);
+          break;
+        case SuccessType.failed:
+          print("failed");
+          otpView.resendotpfailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+//ApiCall
+    //;
   }
 }
 

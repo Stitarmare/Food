@@ -25,11 +25,11 @@ class _ChangePasswordview extends State<ChangePasswordview>
 
   final GlobalKey<FormState> _changepasswordFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  Dialogs dialogs = Dialogs();
+  DialogsIndicator dialogs = DialogsIndicator();
   bool _validate = false;
 
   final Map<String, dynamic> _changePassData = {
-    enterOldPass:null,
+    enterOldPass: null,
     enterNewPass: null,
     enterConfirmPass: null,
   };
@@ -84,7 +84,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
 
   void onsubmitButtonClicked() {
     if (_changepasswordFormKey.currentState.validate()) {
-      Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       changepasswordPresenter.performChangePassword(
           _oldPassword, _newPassword, _confirmPassword, context);
     } else {
@@ -170,7 +170,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
           validator: validatepassword,
           onSaved: (String value) {
             print(value);
-           _changePassData[enterOldPass] = value;
+            _changePassData[enterOldPass] = value;
           },
         ),
         SizedBox(height: 15),
