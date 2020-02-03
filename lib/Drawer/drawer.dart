@@ -219,7 +219,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                           left: 50,
                           top: MediaQuery.of(context).size.height * 0.01),
                       child: Text(
-                        "Vesion 1.2",
+                        "Version 1.2",
                         style: TextStyle(
                             color: greytheme100,
                             fontFamily: 'gotham',

@@ -73,11 +73,13 @@ class _RestaurantViewState extends State<RestaurantView>
               // Navigator.pushNamed(context, '/RestaurantInfoView');
               // Navigator.of(context).push(
               //   MaterialPageRoute(builder: context)=>RestaurantInfoView(rest_Id: widget.rest_Id,));
+
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => RestaurantInfoView(
                         // title: "${_restaurantList[i].restName}",
                         rest_Id: widget.rest_Id,
                       )));
+              
             },
           )
         ],
@@ -306,7 +308,8 @@ class _RestaurantViewState extends State<RestaurantView>
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0),
+                         // bottomLeft: Radius.circular(10.0),
+                          //bottomRight: Radius.circular(10.0),
                         ),
                         child: Align(
                           alignment: Alignment.bottomRight,

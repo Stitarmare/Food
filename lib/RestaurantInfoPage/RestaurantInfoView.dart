@@ -196,7 +196,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       child: Container(
                         margin: EdgeInsets.only(left: 37, right: 27),
                         height: 75,
-
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
@@ -204,6 +203,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                         // color: Color.fromRGBO(213, 213, 213, 1)),
                         padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
                         child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: "Write Review.",
+                            hintStyle: TextStyle(
+                                fontFamily: 'gotham',
+                                color: greytheme300,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
                           maxLines: 3,
                           controller: _controller,
                         ),
@@ -388,12 +395,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       ),
                       Expanded(
                         flex: 2,
-                                              child: Padding(
+                        child: Padding(
                           padding: EdgeInsets.only(right: 10),
                           child: FlatButton(
                             child: ClipOval(
                               child: Image.asset(
-                                  'assets/NavigateButton/next(2).png',width: 14,),
+                                'assets/NavigateButton/next(2).png',
+                                width: 14,
+                              ),
                             ),
                             onPressed: () {
                               //Show Map
@@ -552,26 +561,26 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             Positioned(left: 0, right: 0, top: 0, child: image_carousel),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                          child: Container(
+              child: Container(
                   // margin: EdgeInsets.fromLTRB(0, 21, 0, 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      FlatButton(
-                        child: Image.asset('assets/BackButtonIcon/Path1621.png'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          width: 520,
-                        ),
-                        flex: 2,
-                      ),
-                    ],
-                  )
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FlatButton(
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 520,
+                    ),
+                    flex: 2,
+                  ),
+                ],
+              )
 
                   // )
                   ),
@@ -791,13 +800,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                       padding: const EdgeInsets.only(
                                           left: 18, top: 10),
                                       child: ClipOval(
-                                        child: 
-                      //                    CachedNetworkImage(
-                      //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
-                      //   fit: BoxFit.cover,
-                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                      // )
-                                        Image.asset(
+                                        child:
+                                            //                    CachedNetworkImage(
+                                            //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
+                                            //   fit: BoxFit.cover,
+                                            //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                                            // )
+                                            Image.asset(
                                           'assets/ProfileImage/MaskGroup15.png',
                                           height: 45,
                                           width: 45,
@@ -811,7 +820,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 18, top: 16.5),
-                                      child: Text(_getReviewData.reviews[index].user.firstName+" "+_getReviewData.reviews[index].user.lastName,
+                                      child: Text(
+                                          _getReviewData.reviews[index].user
+                                                  .firstName +
+                                              " " +
+                                              _getReviewData
+                                                  .reviews[index].user.lastName,
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: greytheme1000,
@@ -845,7 +859,9 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 4, top: 2, bottom: 2),
                                               child: Text(
-                                                _getReviewData.reviews[index].rating.toString(),
+                                                _getReviewData
+                                                    .reviews[index].rating
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontFamily: 'gotham',
                                                     fontSize: 10,
@@ -864,11 +880,11 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               left: 18, top: 10),
-                                          child: ExpandableText(
-                                            _getReviewData.reviews[index].description
-                                            // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
-                                            // maxLines: 5,)
-                                          ),
+                                          child: ExpandableText(_getReviewData
+                                                  .reviews[index].description
+                                              // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
+                                              // maxLines: 5,)
+                                              ),
                                         )),
                                     SizedBox(
                                       height: 10,
@@ -962,6 +978,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+    
     setState(() {
       _restaurantInfoData = restInfoData;
       print(_restaurantInfoData.restName);

@@ -304,7 +304,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0),
+                          //bottomLeft: Radius.circular(10.0),
+                          //bottomRight: Radius.circular(10.0),
                         ),
                         child: Align(
                           alignment: Alignment.bottomRight,
