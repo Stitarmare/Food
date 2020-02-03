@@ -7,6 +7,7 @@ import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
+import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -345,7 +346,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             ]),
                       )),
                       Container(
-                        height: MediaQuery.of(context).size.width * 0.09,
+                        height: MediaQuery.of(context).size.width * 0.04,
                         child: Row(
                           children: <Widget>[
                             Container(
@@ -371,26 +372,63 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: redtheme,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                    )),
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                child: Center(
-                                  child: Text(
-                                    "+ ADD",
-                                    style: TextStyle(
-                                        //fontFamily: FontNames.gotham,
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
+                        //   new GestureDetector(
+                        //         onTap: (){
+                        //             print("button is Pressed");
+                        //            Navigator.of(context).push(MaterialPageRoute(
+                        // builder: (context) => AddItemPageView()
+                        //     )
+                        //     );
+                        //         },
+                              //  child: 
+                               Expanded(
+                        //       child: GestureDetector(
+                        //         onTap: (){
+                        //             print("button is Pressed");
+                        //            Navigator.of(context).push(MaterialPageRoute(
+                        // builder: (context) => AddItemPageView()
+                        //     )
+                        //     );
+                        //         },
+                                 child: FlatButton(
+                                   onPressed: (){
+                                        print("button is Pressed");
+                                         Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddItemPageView()
+                            )
+                            );
+                                   },
+                                        child: Container(
+                                      decoration: BoxDecoration(
+                                          color: redtheme,
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(12.0),
+                                          )),
+                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      child: Center(
+                        //             child:FlatButton(
+                        //               onPressed: (){
+                        //                 print("button is Pressed");
+                        //                  Navigator.of(context).push(MaterialPageRoute(
+                        // builder: (context) => AddItemPageView()
+                        //     )
+                        //     );
+                        //               },
+                                        child: Text(
+                                          "+ ADD",
+                                          style: TextStyle(
+                                              //fontFamily: FontNames.gotham,
+                                              fontSize: 14,
+                                              fontStyle: FontStyle.normal,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
+                                        ),
+                                      // )
+                                      ),
+                                    ),
+                                 ),
+                                // ),
+                              // ),
                             )
                           ],
                         ),

@@ -722,6 +722,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   Widget ReviewList(BuildContext context) {
+    if(_getReviewData.reviews.length == 0){
+      return Center(child: Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Text('No Reviews'),
+      ),);
+    }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

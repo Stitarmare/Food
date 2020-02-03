@@ -41,10 +41,6 @@ dependencies:
   transparent_image: ^1.0.0
   auto_size_text: ^2.1.0
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 454eb18748d20cea7efdef71ca626e2006a2e6c7
 dev_dependencies:
   flutter_test:
     sdk: flutter
