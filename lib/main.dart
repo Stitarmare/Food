@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -49,7 +50,8 @@ var routes = <String, WidgetBuilder>{
   '/MyOrders': (BuildContext context) => MyOrders(),
   '/BottomProfileScreen': (BuildContext context) => BottomProfileScreen(),
   '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
-  '/RestaurantInfoView':(BuildContext context)=> RestaurantInfoView()
+  '/RestaurantInfoView':(BuildContext context)=> RestaurantInfoView(),
+  '/AddItemPageView':(BuildContext context) => AddItemPageView()
 
 };
 
