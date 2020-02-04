@@ -472,7 +472,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    rating,
+                    (rating!= null) ? '4.5': rating,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'gotham',

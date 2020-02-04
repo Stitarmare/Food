@@ -2,17 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
-
 import 'dart:math' as math;
-
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
-import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
-
 import 'LoginPresenter.dart';
 
 class LoginView extends StatefulWidget {
@@ -26,7 +22,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
   // static String countrycode = "";
-
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
   var mobilenumber = '';
@@ -48,7 +43,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     mobno: null,
     enterPass: null,
   };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +74,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       loginPresenter.performLogin(mobilenumber, password, context);
       // _signInFormKey.currentState.save();
     } else {
@@ -400,7 +395,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
-    // ApiBaseHelper().showSnackBar(context, "Logged In SuccessFuly");
     _signInFormKey.currentState.save();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');

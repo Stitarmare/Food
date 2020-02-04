@@ -443,8 +443,8 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 }
 
-// class Item {
-//   String itemName;
-//   String itemCount;
-//   Item({this.itemName, this.itemCount});
-// }
+class Item {
+  String itemName;
+  String itemCount;
+  Item({this.itemName, this.itemCount});
+}
