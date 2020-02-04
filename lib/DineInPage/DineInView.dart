@@ -27,6 +27,7 @@ class _DineViewState extends State<DineInView>
   ScrollController _controller = ScrollController();
   DineInRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
+
   int page = 1;
   String sortedBy = '';
   String filteredBy = '';
@@ -67,8 +68,7 @@ class _DineViewState extends State<DineInView>
       print(position);
       _position = position;
       if (_position != null) {
-        DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, "Loading....Please Wait");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
@@ -90,8 +90,12 @@ class _DineViewState extends State<DineInView>
           print("Top");
         } else {
           dinerestaurantPresenter.getrestaurantspage(
-              "18.579622", "73.738691", sortedBy, filteredBy, page, context);
-
+              _position.latitude.toString(),
+              _position.longitude.toString(),
+              sortedBy,
+              filteredBy,
+              page,
+              context);
           print("Bottom");
         }
       }
@@ -303,13 +307,9 @@ class _DineViewState extends State<DineInView>
           return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0),
-//side: BorderSide(color: Colors.red)
               ),
               elevation: 2,
               margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-// color: _selected[i]
-// ? Colors.blue
-// : null, // if current item is selected show blue color
               child: ListTile(
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(

@@ -400,7 +400,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   @override
   void loginSuccess() {
     // TODO: implement loginSuccess
-    ApiBaseHelper().showSnackBar(context, "Logged In SuccessFuly");
+    // ApiBaseHelper().showSnackBar(context, "Logged In SuccessFuly");
     _signInFormKey.currentState.save();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');

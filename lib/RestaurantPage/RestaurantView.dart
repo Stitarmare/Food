@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
@@ -27,35 +28,34 @@ class RestaurantView extends StatefulWidget {
 class _RestaurantViewState extends State<RestaurantView>
     implements RestaurantModelView {
   RestaurantPresenter restaurantPresenter;
-  List<RestaurantList> _restaurantList;
+
+  List<RestaurantMenuItem> _restaurantList;
   int page = 1;
-  final GlobalKey _menuKey = new GlobalKey();
+  int restId = 1;
+  final GlobalKey<State> _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
   bool _switchvalue = false;
   bool isselected = false;
   @override
-  // void initState() {
-  //   _detectScrollPosition();
-  //   restaurantPresenter = RestaurantPresenter(this);
-  //   restaurantPresenter.getrestaurantspage(
-  //       "18.579622", "73.738691", "", "", page, context);
-  //   super.initState();
-  // }
+  void initState() {
+    _detectScrollPosition();
+    restaurantPresenter = RestaurantPresenter(this);
+    restaurantPresenter.getMenuList(widget.rest_Id, context);
+    super.initState();
+  }
 
-  // _detectScrollPosition() {
-  //   _controller.addListener(() {
-  //     if (_controller.position.atEdge) {
-  //       if (_controller.position.pixels == 0) {
-  //         print("Top");
-  //       } else {
-  //         restaurantPresenter.getrestaurantspage(
-  //             "18.579622", "73.738691", "", "", page, context);
-
-  //         print("Bottom");
-  //       }
-  //     }
-  //   });
-  // }
+  _detectScrollPosition() {
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        if (_controller.position.pixels == 0) {
+          print("Top");
+        } else {
+          restaurantPresenter.getMenuList(widget.rest_Id, context);
+          print("Bottom");
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,6 @@ class _RestaurantViewState extends State<RestaurantView>
                         // title: "${_restaurantList[i].restName}",
                         rest_Id: widget.rest_Id,
                       )));
-              
             },
           )
         ],
@@ -308,7 +307,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
-                         // bottomLeft: Radius.circular(10.0),
+                          // bottomLeft: Radius.circular(10.0),
                           //bottomRight: Radius.circular(10.0),
                         ),
                         child: Align(
@@ -327,6 +326,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             children: <Widget>[
                               Text(
                                 "data",
+                                // "${_restaurantList[index].itemName}",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -416,7 +416,7 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) {
+  void restaurantsuccess(List<RestaurantMenuItem> restlist) {
     if (restlist.length == 0) {
       return;
     }
@@ -430,6 +430,16 @@ class _RestaurantViewState extends State<RestaurantView>
       page++;
     });
     // TODO: implement restaurantsuccess
+  }
+
+  @override
+  void getMenuListfailed() {
+    // TODO: implement getMenuListfailed
+  }
+
+  @override
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
+    // TODO: implement getMenuListsuccess
   }
 }
 

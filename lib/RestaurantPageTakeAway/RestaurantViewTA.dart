@@ -4,6 +4,7 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/Utils/String.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -16,7 +17,7 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 class RestaurantTAView extends StatefulWidget {
   String title;
   int rest_Id;
-  RestaurantTAView({this.title,this.rest_Id});
+  RestaurantTAView({this.title, this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -24,7 +25,7 @@ class RestaurantTAView extends StatefulWidget {
 }
 
 class _RestaurantTAViewState extends State<RestaurantTAView>
-    implements RestaurantModelView {
+    implements RestaurantTAModelView {
   // RestaurantPresenter restaurantPresenter;
   // List<RestaurantList> _restaurantList;
   // int page = 1;
@@ -72,10 +73,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             onPressed: () {
               //  Navigator.pushNamed(context, '/HotelInfoView');
               Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RestaurantInfoView(
-                              // title: "${_restaurantList[i].restName}",
-                              rest_Id:widget.rest_Id,
-                            )));
+                  builder: (context) => RestaurantInfoView(
+                        // title: "${_restaurantList[i].restName}",
+                        rest_Id: widget.rest_Id,
+                      )));
             },
           )
         ],
@@ -138,7 +139,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   SizedBox(
                     width: 20,
                   ),
-                 Container(
+                  Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
                       widget.title,
