@@ -18,17 +18,18 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class TakeAwayView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _DineViewState();
+    return _TakeAwayViewState();
   }
 }
 
-class _DineViewState extends State<TakeAwayView>
+class _TakeAwayViewState extends State<TakeAwayView>
     implements TakeAwayRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
   TakeAwayRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
+  
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   StreamController<Position> _controllerPosition = new StreamController();

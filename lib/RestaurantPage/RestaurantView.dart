@@ -309,16 +309,28 @@ class _RestaurantViewState extends State<RestaurantView>
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
-                            // bottomLeft: Radius.circular(10.0),
-                            //bottomRight: Radius.circular(10.0),
                           ),
                           child: Align(
                             alignment: Alignment.bottomRight,
                             heightFactor: 1,
+                            // child: Container(
+                            //   //height: 150,
+                            //   //width: MediaQuery.of(context).size.width,
+                            //   decoration: new BoxDecoration(
+                            //     image: DecorationImage(
+                            //         image: NetworkImage(
+                            //           BaseUrl.getBaseUrlImages() +
+                            //               '${_restaurantList[index].itemImage}',
+                            //         ),
+                            //         fit: BoxFit.fitHeight),
+                            //   ),
+                            // ),
                             child: Image.network(
                               BaseUrl.getBaseUrlImages() +
                                   '${_restaurantList[index].itemImage}',
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fitWidth,
+                              width:double.infinity,
+                              height: 100,
                             ),
                           ),
                         ),
@@ -343,7 +355,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 height: 5,
                               ),
                               Text(
-                                "data",
+                                "${_restaurantList[index].itemDescription}" ?? " ",
                                 maxLines: 2,
                                 style: TextStyle(
                                     fontSize: 10,
@@ -370,7 +382,8 @@ class _RestaurantViewState extends State<RestaurantView>
                               width: MediaQuery.of(context).size.width * 0.2,
                               child: Center(
                                 child: Text(
-                                  "\$ 12",
+                                  '\$ ${_restaurantList[index].price}' ??
+                                 "",
                                   style: TextStyle(
                                       //fontFamily: FontNames.gotham,
                                       fontSize: 14,
