@@ -321,7 +321,7 @@ class _DineViewState extends State<DineInView>
                     _restaurantList[i].coverImage,
                   ),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: "${_restaurantList[i].restName}",
                               rest_Id: _restaurantList[i].id,
