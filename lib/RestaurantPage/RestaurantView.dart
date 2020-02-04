@@ -325,8 +325,8 @@ class _RestaurantViewState extends State<RestaurantView>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Text(
-                                "data",
-                                // "${_restaurantList[index].itemName}",
+                                // "data",
+                                "${_restaurantList[index].itemName}",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -411,28 +411,6 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   @override
-  void restaurantfailed() {
-    // TODO: implement restaurantfailed
-  }
-
-  @override
-  void restaurantsuccess(List<RestaurantMenuItem> restlist) {
-    if (restlist.length == 0) {
-      return;
-    }
-
-    setState(() {
-      if (_restaurantList == null) {
-        _restaurantList = restlist;
-      } else {
-        _restaurantList.addAll(restlist);
-      }
-      page++;
-    });
-    // TODO: implement restaurantsuccess
-  }
-
-  @override
   void getMenuListfailed() {
     // TODO: implement getMenuListfailed
   }
@@ -440,11 +418,23 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
     // TODO: implement getMenuListsuccess
+    if (menulist.length == 0) {
+      return;
+    }
+
+    setState(() {
+      if (_restaurantList == null) {
+        _restaurantList = menulist;
+      } else {
+        _restaurantList.addAll(menulist);
+      }
+      page++;
+    });
   }
 }
 
-class Item {
-  String itemName;
-  String itemCount;
-  Item({this.itemName, this.itemCount});
-}
+// class Item {
+//   String itemName;
+//   String itemCount;
+//   Item({this.itemName, this.itemCount});
+// }

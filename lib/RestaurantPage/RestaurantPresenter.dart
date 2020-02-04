@@ -8,8 +8,10 @@ import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class RestaurantPresenter extends RestaurantContractor {
-  RestaurantPresenter(_restaurantViewState, {this.restaurantModelView});
-  RestaurantModelView restaurantModelView;
+  RestaurantModelView restaurantView;
+  RestaurantPresenter(RestaurantModelView restaurantModelView) {
+    this.restaurantView = restaurantModelView;
+  }
 
   @override
   void onBackPresed() {
@@ -27,11 +29,11 @@ class RestaurantPresenter extends RestaurantContractor {
         case SuccessType.success:
           print("Restaurant get Menu success");
           print(value.model);
-          restaurantModelView.getMenuListsuccess(value.model.data);
+          restaurantView.getMenuListsuccess(value.model.data);
           break;
         case SuccessType.failed:
           print("Restaurant get Menu failed");
-          restaurantModelView.getMenuListfailed();
+          restaurantView.getMenuListfailed();
           break;
       }
     }).catchError((error) {

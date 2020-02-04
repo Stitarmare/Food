@@ -26,6 +26,8 @@ import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
 
+import './OrderConfirmation/OrderConfirmationView.dart';
+
 //import 'package:foodzi/HotelInfoView/HotelInfoView.dart';
 //import './demofile.dart';
 
@@ -41,7 +43,7 @@ var routes = <String, WidgetBuilder>{
   '/OTPScreen': (BuildContext context) => OTPScreen(),
   '/EnterOTPScreen': (BuildContext context) => EnterOTPScreen(),
   '/DineInView': (BuildContext context) => DineInView(),
-   '/TakeAwayView': (BuildContext context) => TakeAwayView(),
+  '/TakeAwayView': (BuildContext context) => TakeAwayView(),
   '/ProfileScreen': (BuildContext context) => ProfileScreen(),
   '/EditProfileview': (BuildContext context) => EditProfileview(),
   '/RestaurantView': (BuildContext context) => RestaurantView(),
@@ -50,9 +52,9 @@ var routes = <String, WidgetBuilder>{
   '/MyOrders': (BuildContext context) => MyOrders(),
   '/BottomProfileScreen': (BuildContext context) => BottomProfileScreen(),
   '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
-  '/RestaurantInfoView':(BuildContext context)=> RestaurantInfoView(),
-  '/AddItemPageView':(BuildContext context) => AddItemPageView()
-
+  '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
+  '/AddItemPageView': (BuildContext context) => AddItemPageView(),
+  '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView()
 };
 
 void main() => runApp(MaterialApp(
