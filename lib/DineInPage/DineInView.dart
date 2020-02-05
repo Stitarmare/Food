@@ -144,11 +144,20 @@ class _DineViewState extends State<DineInView>
                               tile.isSelected = true;
                               if (bottomList == optionSortBy) {
                                 sortedBy = bottomItem.title;
+                                if (bottomItem.title == "Distance") {
+                                  _restaurantList.replaceRange(
+                                      0, bottomList.length, _restaurantList);
+                                  print('Distance selected');
+                                } else {
+                                  print('popularity');
+                                }
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings") {
-                                  print('object');
+                                  print('rating Selected');
+                                } else {
+                                  print('favourite selected');
                                 }
                               }
                             });
