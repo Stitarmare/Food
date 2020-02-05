@@ -16,6 +16,7 @@ import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:foodzi/widgets/RatingDailog.dart';
 
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
@@ -89,164 +90,164 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     });
   }
 
-  Future<DailogAction> reviewPopup(
-    BuildContext context,
-  ) async {
-    await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Container(
-            child: Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                height: 311,
-                width: 284,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Center(
-                      child: Text(
-                        'Write Review',
-                        style: TextStyle(
-                            fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 27,
-                    ),
-                    //Rating for Reviews
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          new GestureDetector(
-                            child: new Icon(
-                              Icons.star,
-                              size: 20,
-                              color: _rating >= 1
-                                  ? Color.fromRGBO(237, 29, 37, 1)
-                                  : Color.fromRGBO(237, 237, 237, 1),
-                            ),
-                            onTap: () => rate(1),
-                          ),
-                          SizedBox(
-                            width: 11,
-                          ),
-                          new GestureDetector(
-                            child: new Icon(
-                              Icons.star,
-                              size: 20,
-                              color: _rating >= 2
-                                  ? Color.fromRGBO(237, 29, 37, 1)
-                                  : Color.fromRGBO(237, 237, 237, 1),
-                            ),
-                            onTap: () => rate(2),
-                          ),
-                          SizedBox(
-                            width: 11,
-                          ),
-                          new GestureDetector(
-                            child: new Icon(
-                              Icons.star,
-                              size: 20,
-                              color: _rating >= 3
-                                  ? Color.fromRGBO(237, 29, 37, 1)
-                                  : Color.fromRGBO(237, 237, 237, 1),
-                            ),
-                            onTap: () => rate(3),
-                          ),
-                          SizedBox(
-                            width: 11,
-                          ),
-                          new GestureDetector(
-                            child: new Icon(
-                              Icons.star,
-                              size: 20,
-                              color: _rating >= 4
-                                  ? Color.fromRGBO(237, 29, 37, 1)
-                                  : Color.fromRGBO(237, 237, 237, 1),
-                            ),
-                            onTap: () => rate(4),
-                          ),
-                          SizedBox(
-                            width: 11,
-                          ),
-                          new GestureDetector(
-                            child: new Icon(
-                              Icons.star,
-                              size: 20,
-                              color: _rating >= 5
-                                  ? Color.fromRGBO(237, 29, 37, 1)
-                                  : Color.fromRGBO(237, 237, 237, 1),
-                            ),
-                            onTap: () => rate(5),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 37, right: 27),
-                        height: 75,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: Color.fromRGBO(213, 213, 213, 1))),
-                        // color: Color.fromRGBO(213, 213, 213, 1)),
-                        padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: "Write Review.",
-                            hintStyle: TextStyle(
-                                fontFamily: 'gotham',
-                                color: greytheme300,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          maxLines: 3,
-                          controller: _controller,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 36,
-                    ),
-                    Center(
-                        child: RaisedButton(
-                      color: Color.fromRGBO(239, 29, 37, 1),
-                      shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
-                          borderRadius: BorderRadius.circular(5)),
-                      onPressed: () {
-                        restaurantIdInfoPresenter.writeRestaurantReview(
-                            context, widget.rest_Id, _controller.text, 3);
-                      },
-                      child: Text(
-                        'SUBMIT',
-                        style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          fontSize: 18,
-                        ),
-                      ),
-                    ))
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
-  }
+  // Future<DailogAction> reviewPopup(
+  //   BuildContext context,
+  // ) async {
+  //   await showDialog(
+  //       context: context,
+  //       barrierDismissible: true,
+  //       builder: (BuildContext context) {
+  //         return Container(
+  //           child: Dialog(
+  //             shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(10)),
+  //             child: Container(
+  //               height: 311,
+  //               width: 284,
+  //               decoration:
+  //                   BoxDecoration(borderRadius: BorderRadius.circular(20)),
+  //               child: Column(
+  //                 children: <Widget>[
+  //                   SizedBox(
+  //                     height: 35,
+  //                   ),
+  //                   Center(
+  //                     child: Text(
+  //                       'Write Review',
+  //                       style: TextStyle(
+  //                           fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 27,
+  //                   ),
+  //                   //Rating for Reviews
+  //                   Container(
+  //                     child: Row(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       children: <Widget>[
+  //                         new GestureDetector(
+  //                           child: new Icon(
+  //                             Icons.star,
+  //                             size: 20,
+  //                             color: _rating >= 1
+  //                                 ? Color.fromRGBO(237, 29, 37, 1)
+  //                                 : Color.fromRGBO(237, 237, 237, 1),
+  //                           ),
+  //                           onTap: () => rate(1),
+  //                         ),
+  //                         SizedBox(
+  //                           width: 11,
+  //                         ),
+  //                         new GestureDetector(
+  //                           child: new Icon(
+  //                             Icons.star,
+  //                             size: 20,
+  //                             color: _rating >= 2
+  //                                 ? Color.fromRGBO(237, 29, 37, 1)
+  //                                 : Color.fromRGBO(237, 237, 237, 1),
+  //                           ),
+  //                           onTap: () => rate(2),
+  //                         ),
+  //                         SizedBox(
+  //                           width: 11,
+  //                         ),
+  //                         new GestureDetector(
+  //                           child: new Icon(
+  //                             Icons.star,
+  //                             size: 20,
+  //                             color: _rating >= 3
+  //                                 ? Color.fromRGBO(237, 29, 37, 1)
+  //                                 : Color.fromRGBO(237, 237, 237, 1),
+  //                           ),
+  //                           onTap: () => rate(3),
+  //                         ),
+  //                         SizedBox(
+  //                           width: 11,
+  //                         ),
+  //                         new GestureDetector(
+  //                           child: new Icon(
+  //                             Icons.star,
+  //                             size: 20,
+  //                             color: _rating >= 4
+  //                                 ? Color.fromRGBO(237, 29, 37, 1)
+  //                                 : Color.fromRGBO(237, 237, 237, 1),
+  //                           ),
+  //                           onTap: () => rate(4),
+  //                         ),
+  //                         SizedBox(
+  //                           width: 11,
+  //                         ),
+  //                         new GestureDetector(
+  //                           child: new Icon(
+  //                             Icons.star,
+  //                             size: 20,
+  //                             color: _rating >= 5
+  //                                 ? Color.fromRGBO(237, 29, 37, 1)
+  //                                 : Color.fromRGBO(237, 237, 237, 1),
+  //                           ),
+  //                           onTap: () => rate(5),
+  //                         )
+  //                       ],
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 24,
+  //                   ),
+  //                   Center(
+  //                     child: Container(
+  //                       margin: EdgeInsets.only(left: 37, right: 27),
+  //                       height: 75,
+  //                       decoration: BoxDecoration(
+  //                           borderRadius: BorderRadius.circular(15),
+  //                           border: Border.all(
+  //                               color: Color.fromRGBO(213, 213, 213, 1))),
+  //                       // color: Color.fromRGBO(213, 213, 213, 1)),
+  //                       padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
+  //                       child: TextFormField(
+  //                         decoration: InputDecoration(
+  //                           hintText: "Write Review.",
+  //                           hintStyle: TextStyle(
+  //                               fontFamily: 'gotham',
+  //                               color: greytheme300,
+  //                               fontSize: 12,
+  //                               fontWeight: FontWeight.w500),
+  //                         ),
+  //                         maxLines: 3,
+  //                         controller: _controller,
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: 36,
+  //                   ),
+  //                   Center(
+  //                       child: RaisedButton(
+  //                     color: Color.fromRGBO(239, 29, 37, 1),
+  //                     shape: RoundedRectangleBorder(
+  //                         // side: BorderSide(
+  //                         //     color: Color.fromRGBO(170, 170, 170, 1)),
+  //                         borderRadius: BorderRadius.circular(5)),
+  //                     onPressed: () {
+  //                       restaurantIdInfoPresenter.writeRestaurantReview(
+  //                           context, widget.rest_Id, _controller.text, 3);
+  //                     },
+  //                     child: Text(
+  //                       'SUBMIT',
+  //                       style: TextStyle(
+  //                         color: Color.fromRGBO(255, 255, 255, 1),
+  //                         fontSize: 18,
+  //                       ),
+  //                     ),
+  //                   ))
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -722,12 +723,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   Widget ReviewList(BuildContext context) {
-    if(_getReviewData.reviews.length == 0){
-      return Center(child: Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Text('No Reviews'),
-      ),);
-    }
+    // if(_getReviewData.reviews.length == 0){
+    //   return Center(child: Padding(
+    //     padding: const EdgeInsets.only(top: 30),
+    //     child: Text('No Reviews'),
+    //   ),);
+    // }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -769,8 +770,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           // decorationStyle: TextDecorationStyle.solid,
                           )),
                 ),
-                onTap: () async {
-                  await reviewPopup(context);
+                onTap: ()  {
+                  showDialog(
+                    context: context,
+                    child: MyDialogRating()
+
+                  );
+                  // await reviewPopup(context);
                 },
               ),
             ],

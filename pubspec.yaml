@@ -40,6 +40,8 @@ dependencies:
   country_code_picker: ^1.2.3
   transparent_image: ^1.0.0
   auto_size_text: ^2.1.0
+  flutter_counter: ^1.0.3
+  # flui: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -157,6 +159,7 @@ flutter:
       - assets/NavigateButton/next(2).png
       - assets/NavigateButton/next(2)@2x.png
       - assets/NavigateButton/next(2)@3x.png
+    
 
 
       

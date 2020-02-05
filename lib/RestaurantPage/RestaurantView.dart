@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
@@ -376,22 +377,31 @@ class _RestaurantViewState extends State<RestaurantView>
                               ),
                             ),
                             Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: redtheme,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                    )),
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                child: Center(
-                                  child: Text(
-                                    "+ ADD",
-                                    style: TextStyle(
-                                        //fontFamily: FontNames.gotham,
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                              child: new GestureDetector(
+                                onTap: (){
+                                      print("button is Pressed");
+                                   Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddItemPageView()
+                            )
+                            );
+                                },
+                                                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: redtheme,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(12.0),
+                                      )),
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  child: Center(
+                                    child: Text(
+                                      "+ ADD",
+                                      style: TextStyle(
+                                          //fontFamily: FontNames.gotham,
+                                          fontSize: 14,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
