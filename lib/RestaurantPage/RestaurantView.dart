@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+=======
+import 'package:foodzi/Models/RestaurantItemsList.dart';
+>>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -28,35 +33,34 @@ class RestaurantView extends StatefulWidget {
 class _RestaurantViewState extends State<RestaurantView>
     implements RestaurantModelView {
   RestaurantPresenter restaurantPresenter;
-  List<RestaurantList> _restaurantList;
+
+  List<RestaurantMenuItem> _restaurantList;
   int page = 1;
-  final GlobalKey _menuKey = new GlobalKey();
+  int restId;
+  final GlobalKey<State> _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
   bool _switchvalue = false;
   bool isselected = false;
   @override
-  // void initState() {
-  //   _detectScrollPosition();
-  //   restaurantPresenter = RestaurantPresenter(this);
-  //   restaurantPresenter.getrestaurantspage(
-  //       "18.579622", "73.738691", "", "", page, context);
-  //   super.initState();
-  // }
+  void initState() {
+    _detectScrollPosition();
+    restaurantPresenter = RestaurantPresenter(this);
+    restaurantPresenter.getMenuList(widget.rest_Id, context);
+    super.initState();
+  }
 
-  // _detectScrollPosition() {
-  //   _controller.addListener(() {
-  //     if (_controller.position.atEdge) {
-  //       if (_controller.position.pixels == 0) {
-  //         print("Top");
-  //       } else {
-  //         restaurantPresenter.getrestaurantspage(
-  //             "18.579622", "73.738691", "", "", page, context);
-
-  //         print("Bottom");
-  //       }
-  //     }
-  //   });
-  // }
+  _detectScrollPosition() {
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        if (_controller.position.pixels == 0) {
+          print("Top");
+        } else {
+          restaurantPresenter.getMenuList(widget.rest_Id, context);
+          print("Bottom");
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +84,6 @@ class _RestaurantViewState extends State<RestaurantView>
                         // title: "${_restaurantList[i].restName}",
                         rest_Id: widget.rest_Id,
                       )));
-              
             },
           )
         ],
@@ -305,18 +308,35 @@ class _RestaurantViewState extends State<RestaurantView>
                   ),
                   child: Column(
                     children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                         // bottomLeft: Radius.circular(10.0),
-                          //bottomRight: Radius.circular(10.0),
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          heightFactor: 1,
-                          child: Image.network(
-                              "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
+                      LimitedBox(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                          ),
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            heightFactor: 1,
+                            // child: Container(
+                            //   //height: 150,
+                            //   //width: MediaQuery.of(context).size.width,
+                            //   decoration: new BoxDecoration(
+                            //     image: DecorationImage(
+                            //         image: NetworkImage(
+                            //           BaseUrl.getBaseUrlImages() +
+                            //               '${_restaurantList[index].itemImage}',
+                            //         ),
+                            //         fit: BoxFit.fitHeight),
+                            //   ),
+                            // ),
+                            child: Image.network(
+                              BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                              fit: BoxFit.fitWidth,
+                              width:double.infinity,
+                              height: 100,
+                            ),
+                          ),
                         ),
                       ),
                       Expanded(
@@ -327,7 +347,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Text(
-                                "data",
+                                "${_restaurantList[index].itemName}" ?? " ",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -339,7 +359,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 height: 5,
                               ),
                               Text(
-                                "data",
+                                "${_restaurantList[index].itemDescription}" ?? " ",
                                 maxLines: 2,
                                 style: TextStyle(
                                     fontSize: 10,
@@ -366,7 +386,8 @@ class _RestaurantViewState extends State<RestaurantView>
                               width: MediaQuery.of(context).size.width * 0.2,
                               child: Center(
                                 child: Text(
-                                  "\$ 12",
+                                  '\$ ${_restaurantList[index].price}' ??
+                                 "",
                                   style: TextStyle(
                                       //fontFamily: FontNames.gotham,
                                       fontSize: 14,
@@ -416,30 +437,37 @@ class _RestaurantViewState extends State<RestaurantView>
             },
           ),
         );
-      }, childCount: 7),
+      }, childCount: _getint()),
     );
   }
 
-  @override
-  void restaurantfailed() {
-    // TODO: implement restaurantfailed
+  int _getint() {
+    if (_restaurantList != null) {
+      return _restaurantList.length;
+    }
+    return 0;
   }
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) {
-    if (restlist.length == 0) {
+  void getMenuListfailed() {
+    // TODO: implement getMenuListfailed
+  }
+
+  @override
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
+    // TODO: implement getMenuListsuccess
+    if (menulist.length == 0) {
       return;
     }
 
     setState(() {
       if (_restaurantList == null) {
-        _restaurantList = restlist;
+        _restaurantList = menulist;
       } else {
-        _restaurantList.addAll(restlist);
+        _restaurantList.addAll(menulist);
       }
       page++;
     });
-    // TODO: implement restaurantsuccess
   }
 }
 

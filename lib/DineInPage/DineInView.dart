@@ -27,6 +27,7 @@ class _DineViewState extends State<DineInView>
   ScrollController _controller = ScrollController();
   DineInRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
+
   int page = 1;
   String sortedBy = '';
   String filteredBy = '';
@@ -42,11 +43,11 @@ class _DineViewState extends State<DineInView>
       id: 1,
       isSelected: false,
     ),
-    BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
+    BottomItemButton(title: "Popularity", id: 2, isSelected: false),
   ];
 
   List<BottomItemButton> optionFilterBy = [
-    BottomItemButton(title: "Cuisine", id: 1, isSelected: false),
+    BottomItemButton(title: "Ratings", id: 1, isSelected: false),
     BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
   ];
 
@@ -67,8 +68,7 @@ class _DineViewState extends State<DineInView>
       print(position);
       _position = position;
       if (_position != null) {
-        DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, "Loading....Please Wait");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
@@ -90,8 +90,12 @@ class _DineViewState extends State<DineInView>
           print("Top");
         } else {
           dinerestaurantPresenter.getrestaurantspage(
-              "18.579622", "73.738691", sortedBy, filteredBy, page, context);
-
+              _position.latitude.toString(),
+              _position.longitude.toString(),
+              sortedBy,
+              filteredBy,
+              page,
+              context);
           print("Bottom");
         }
       }
@@ -143,6 +147,9 @@ class _DineViewState extends State<DineInView>
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
+                                if (bottomItem.title == "Ratings") {
+                                  print('object');
+                                }
                               }
                             });
                           }
@@ -196,8 +203,8 @@ class _DineViewState extends State<DineInView>
                                     onPressed: () {
                                       dinerestaurantPresenter
                                           .getrestaurantspage(
-                                              "18.579622",
-                                              "73.738691",
+                                              _position.latitude.toString(),
+                                              _position.longitude.toString(),
                                               sortedBy,
                                               filteredBy,
                                               page,
@@ -303,13 +310,9 @@ class _DineViewState extends State<DineInView>
           return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0),
-//side: BorderSide(color: Colors.red)
               ),
               elevation: 2,
               margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-// color: _selected[i]
-// ? Colors.blue
-// : null, // if current item is selected show blue color
               child: ListTile(
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
@@ -321,7 +324,7 @@ class _DineViewState extends State<DineInView>
                     _restaurantList[i].coverImage,
                   ),
                   onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: "${_restaurantList[i].restName}",
                               rest_Id: _restaurantList[i].id,
@@ -472,7 +475,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    rating,
+                    (rating != null) ? '4.5' : rating,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'gotham',
@@ -488,6 +491,84 @@ class _DineViewState extends State<DineInView>
             ],
           ),
         )
+      ],
+    );
+  }
+
+  showDialogBox(BuildContext context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Select Ratings",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greentheme100,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'gotham',
+              fontSize: 22),
+        ),
+        content: Container(
+            child: ConstrainedBox(
+          constraints: BoxConstraints.expand(),
+          child: _stepperCount(),
+        )),
+        actions: [
+          FlatButton(
+            child: const Text(
+              "OK",
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                  .pop();
+              Navigator.pushReplacementNamed(context, '/MainWidget');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _stepperCount() {
+    int currentStep = 0;
+    return Stepper(
+      currentStep: currentStep,
+      type: StepperType.horizontal,
+      steps: <Step>[
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 0),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 1),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 2),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 3),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 4),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 5),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 6),
       ],
     );
   }

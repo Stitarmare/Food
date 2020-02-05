@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
+import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 
 import 'package:foodzi/widgets/MenuItemDropDown.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
@@ -17,7 +21,7 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 class RestaurantTAView extends StatefulWidget {
   String title;
   int rest_Id;
-  RestaurantTAView({this.title,this.rest_Id});
+  RestaurantTAView({this.title, this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -25,38 +29,35 @@ class RestaurantTAView extends StatefulWidget {
 }
 
 class _RestaurantTAViewState extends State<RestaurantTAView>
-    implements RestaurantModelView {
-  // RestaurantPresenter restaurantPresenter;
-  // List<RestaurantList> _restaurantList;
-  // int page = 1;
+    implements RestaurantTAModelView {
+  RestaurantTAPresenter restaurantPresenter;
+  List<RestaurantMenuItem> _restaurantList;
+  int page = 1;
   final GlobalKey _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
   bool _switchvalue = false;
   bool isselected = false;
   @override
-  // void initState() {
-  //   _detectScrollPosition();
-  //   restaurantPresenter = RestaurantPresenter(this);
-  //   restaurantPresenter.getrestaurantspage(
-  //       "18.579622", "73.738691", "", "", page, context);
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  void initState() {
+    _detectScrollPosition();
+    restaurantPresenter = RestaurantTAPresenter(this);
+    restaurantPresenter.getMenuList(widget.rest_Id, context);
+    // TODO: implement initState
+    super.initState();
+  }
 
-  // _detectScrollPosition() {
-  //   _controller.addListener(() {
-  //     if (_controller.position.atEdge) {
-  //       if (_controller.position.pixels == 0) {
-  //         print("Top");
-  //       } else {
-  //         restaurantPresenter.getrestaurantspage(
-  //             "18.579622", "73.738691", "", "", page, context);
-
-  //         print("Bottom");
-  //       }
-  //     }
-  //   });
-  // }
+  _detectScrollPosition() {
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        if (_controller.position.pixels == 0) {
+          print("Top");
+        } else {
+          restaurantPresenter.getMenuList(widget.rest_Id, context);
+          print("Bottom");
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +74,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             onPressed: () {
               //  Navigator.pushNamed(context, '/HotelInfoView');
               Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RestaurantInfoView(
-                              // title: "${_restaurantList[i].restName}",
-                              rest_Id:widget.rest_Id,
-                            )));
+                  builder: (context) => RestaurantInfoView(
+                        // title: "${_restaurantList[i].restName}",
+                        rest_Id: widget.rest_Id,
+                      )));
             },
           )
         ],
@@ -139,7 +140,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   SizedBox(
                     width: 20,
                   ),
-                 Container(
+                  Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
                       widget.title,
@@ -310,11 +311,18 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                          // bottomLeft: Radius.circular(10.0),
                           //bottomRight: Radius.circular(10.0),
                         ),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          heightFactor: 1,
-                          child: Image.network(
-                              "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
+                        // child: Align(
+                        //   alignment: Alignment.bottomRight,
+                        //   heightFactor: 1,
+                        //   child: Image.network(
+                        //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
+                        // ),
+                        child: Image.network(
+                          BaseUrl.getBaseUrlImages() +
+                              '${_restaurantList[index].itemImage}',
+                          fit: BoxFit.fitWidth,
+                          width: double.infinity,
+                          height: 100,
                         ),
                       ),
                       Expanded(
@@ -325,7 +333,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Text(
-                                "data",
+                                "${_restaurantList[index].itemName}" ?? " ",
                                 maxLines: 1,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -337,7 +345,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 height: 5,
                               ),
                               Text(
-                                "data",
+                                "${_restaurantList[index].itemDescription}" ??
+                                    " ",
                                 maxLines: 2,
                                 style: TextStyle(
                                     fontSize: 10,
@@ -364,7 +373,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               width: MediaQuery.of(context).size.width * 0.2,
                               child: Center(
                                 child: Text(
-                                  "\$ 12",
+                                  '\$ ${_restaurantList[index].price}' ?? "",
                                   style: TextStyle(
                                       //fontFamily: FontNames.gotham,
                                       fontSize: 14,
@@ -374,6 +383,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                               ),
                             ),
+<<<<<<< HEAD
                             Expanded(
                               child: new GestureDetector(
                                 onTap: (){
@@ -400,10 +410,86 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white),
                                     ),
+=======
+                              Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: redtheme,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(12.0),
+                                    )),
+                                width: MediaQuery.of(context).size.width * 0.1,
+                                child: Center(
+                                  child: Text(
+                                    "+ ADD",
+                                    style: TextStyle(
+                                        //fontFamily: FontNames.gotham,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+>>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
                                   ),
                                 ),
                               ),
                             )
+                            //   new GestureDetector(
+                            //         onTap: (){
+                            //             print("button is Pressed");
+                            //            Navigator.of(context).push(MaterialPageRoute(
+                            // builder: (context) => AddItemPageView()
+                            //     )
+                            //     );
+                            //         },
+                            //  child:
+                            // Expanded(
+                            //   //       child: GestureDetector(
+                            //   //         onTap: (){
+                            //   //             print("button is Pressed");
+                            //   //            Navigator.of(context).push(MaterialPageRoute(
+                            //   // builder: (context) => AddItemPageView()
+                            //   //     )
+                            //   //     );
+                            //   //         },
+                            //   child: FlatButton(
+                            //     onPressed: () {
+                            //       print("button is Pressed");
+                            //       Navigator.of(context).push(MaterialPageRoute(
+                            //           builder: (context) => AddItemPageView()));
+                            //     },
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //           color: redtheme,
+                            //           borderRadius: BorderRadius.only(
+                            //             bottomRight: Radius.circular(12.0),
+                            //           )),
+                            //       width:
+                            //           MediaQuery.of(context).size.width * 0.1,
+                            //       child: Center(
+                            //         //             child:FlatButton(
+                            //         //               onPressed: (){
+                            //         //                 print("button is Pressed");
+                            //         //                  Navigator.of(context).push(MaterialPageRoute(
+                            //         // builder: (context) => AddItemPageView()
+                            //         //     )
+                            //         //     );
+                            //         //               },
+                            //         child: Text(
+                            //           "+ ADD",
+                            //           style: TextStyle(
+                            //               //fontFamily: FontNames.gotham,
+                            //               fontSize: 14,
+                            //               fontStyle: FontStyle.normal,
+                            //               fontWeight: FontWeight.w600,
+                            //               color: Colors.white),
+                            //         ),
+                            //         // )
+                            //       ),
+                            //     ),
+                            //   ),
+                            //   // ),
+                            //   // ),
+                            // )
                           ],
                         ),
                       ),
@@ -414,11 +500,20 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             },
           ),
         );
-      }, childCount: 7),
+      }, childCount: _getint()),
     );
   }
 
+<<<<<<< HEAD
     
+=======
+  int _getint() {
+    if (_restaurantList != null) {
+      return _restaurantList.length;
+    }
+    return 0;
+  }
+>>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
 
   @override
   void restaurantfailed() {
@@ -440,6 +535,27 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     //   page++;
     // });
     // TODO: implement restaurantsuccess
+  }
+  @override
+  void getMenuListfailed() {
+    // TODO: implement getMenuListfailed
+  }
+
+  @override
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
+    // TODO: implement getMenuListsuccess
+    if (menulist.length == 0) {
+      return;
+    }
+
+    setState(() {
+      if (_restaurantList == null) {
+        _restaurantList = menulist;
+      } else {
+        _restaurantList.addAll(menulist);
+      }
+      page++;
+    });
   }
 }
 

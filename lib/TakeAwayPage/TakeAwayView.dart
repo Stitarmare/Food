@@ -18,17 +18,18 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class TakeAwayView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _DineViewState();
+    return _TakeAwayViewState();
   }
 }
 
-class _DineViewState extends State<TakeAwayView>
+class _TakeAwayViewState extends State<TakeAwayView>
     implements TakeAwayRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
   TakeAwayRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
+
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   StreamController<Position> _controllerPosition = new StreamController();
@@ -42,11 +43,11 @@ class _DineViewState extends State<TakeAwayView>
       id: 1,
       isSelected: false,
     ),
-    BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
+    BottomItemButton(title: "Popularity", id: 2, isSelected: false),
   ];
 
   List<BottomItemButton> optionFilterBy = [
-    BottomItemButton(title: "Cuisine", id: 1, isSelected: false),
+    BottomItemButton(title: "Ratings", id: 1, isSelected: false),
     BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
   ];
 
@@ -69,7 +70,7 @@ class _DineViewState extends State<TakeAwayView>
       _position = position;
       if (_position != null) {
         DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, "Loading....Please Wait");
+            context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),

@@ -992,7 +992,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
-    
     setState(() {
       if (restInfoData == null) {
         // Dialogs.showLoadingDialog(context, _keyLoader, "");

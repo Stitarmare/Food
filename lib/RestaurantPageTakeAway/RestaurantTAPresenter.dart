@@ -1,4 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
@@ -8,42 +9,32 @@ import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class RestaurantTAPresenter extends RestaurantTAContractor {
-  RestaurantTAPresenter(_restaurantViewState, {this.restaurantModelView});
-  RestaurantTAModelView restaurantModelView;
+RestaurantTAModelView restaurantView;
+  RestaurantTAPresenter(RestaurantTAModelView restaurantModelView) {
+    this.restaurantView = restaurantModelView;
+  }
+  
   @override
-  void getrestaurantspage(String latitude, String longitude, String sort_by,
-      String search_by, int page, BuildContext context) {
-    ApiBaseHelper().post<RestaurantListModel>(
-        UrlConstant.restaurantListApi, context,
-        body: {
-          "latitude": latitude,
-          "longitude": longitude,
-          "sort_by": sort_by,
-          "search_by": search_by,
-          "page": page
-        }).then((value) {
+  void getMenuList(int restId, BuildContext context) {
+    // TODO: implement getMenuList
+    ApiBaseHelper().post<RestaurantItemsModel>(
+        UrlConstant.getMenuListApi, context,
+        body: {"rest_id": restId}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Restaurant success");
+          print("Restaurant get Menu success");
           print(value.model);
-          restaurantModelView.restaurantsuccess(value.model.data);
+          restaurantView.getMenuListsuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Restaurant failed");
-          restaurantModelView.restaurantfailed();
+          print("Restaurant get Menu failed");
+          restaurantView.getMenuListfailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   mregisterView.registerSuccess();
-      // } else {
-      //   mregisterView.registerfailed(value['message']);
-      // }
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
