@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginView.dart';
 
@@ -300,6 +301,7 @@ class ApiBaseHelper {
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
       {Map body, T model}) async {
+    Dio dio = new Dio();
     try {
       final response = await http.post(_baseUrlString + url,
           headers: getHeader(url), body: json.encode(body));
@@ -319,6 +321,8 @@ class ApiBaseHelper {
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
       {Map<String, String> body, String key, File imageBody}) async {
+    Dio dio = new Dio();
+
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
