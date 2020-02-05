@@ -383,34 +383,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                               ),
                             ),
-<<<<<<< HEAD
-                            Expanded(
-                              child: new GestureDetector(
-                                onTap: (){
-                                      print("button is Pressed");
-                                   Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddItemPageView()
-                            )
-                            );
-                                },
-                                                              child: Container(
-                                  decoration: BoxDecoration(
-                                      color: redtheme,
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(12.0),
-                                      )),
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  child: Center(
-                                    child: Text(
-                                      "+ ADD",
-                                      style: TextStyle(
-                                          //fontFamily: FontNames.gotham,
-                                          fontSize: 14,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
-                                    ),
-=======
                               Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
@@ -428,7 +400,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.white),
->>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
                                   ),
                                 ),
                               ),
@@ -504,16 +475,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     );
   }
 
-<<<<<<< HEAD
-    
-=======
   int _getint() {
     if (_restaurantList != null) {
       return _restaurantList.length;
     }
     return 0;
   }
->>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
 
   @override
   void restaurantfailed() {

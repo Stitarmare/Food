@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
-=======
 import 'package:foodzi/Models/RestaurantItemsList.dart';
->>>>>>> ee9527c26843da72be01b0e7240d22e9a69c8cb9
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
