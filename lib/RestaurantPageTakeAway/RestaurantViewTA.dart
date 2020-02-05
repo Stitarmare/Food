@@ -384,22 +384,31 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               ),
                             ),
                               Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: redtheme,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                    )),
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                child: Center(
-                                  child: Text(
-                                    "+ ADD",
-                                    style: TextStyle(
-                                        //fontFamily: FontNames.gotham,
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                              child: GestureDetector(
+                                onTap:   (){
+                                      print("button is Pressed");
+                                   Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddItemPageView()
+                            )
+                            );
+                                },
+                                                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: redtheme,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(12.0),
+                                      )),
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  child: Center(
+                                    child: Text(
+                                      "+ ADD",
+                                      style: TextStyle(
+                                          //fontFamily: FontNames.gotham,
+                                          fontSize: 14,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
