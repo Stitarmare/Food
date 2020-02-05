@@ -70,7 +70,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       _position = position;
       if (_position != null) {
         DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, "Loading....Please Wait");
+            context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),

@@ -9,37 +9,74 @@ class AddItemPageSecond extends StatefulWidget {
 
 class _AddItemPageSecondState extends State<AddItemPageSecond> {
   ScrollController _controller = ScrollController();
+  List<bool> isSelected;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 2, min: 0, max: 10, step: 1);
   @override
+  void initState() {
+    // TODO: implement initState
+    isSelected = [true, false];
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: CustomScrollView(
-        controller: _controller,
-        slivers: <Widget>[
-          _getmainviewTableno(),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 12,
+    return SafeArea(
+      left: false,
+      right: false,
+      top: false,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: CustomScrollView(
+          controller: _controller,
+          slivers: <Widget>[
+            _getmainviewTableno(),
+            SliverToBoxAdapter(
+              child: Container(
+                child: SizedBox(
+                  height: 12,
+                ),
               ),
             ),
-          ),
-          _menuItemDetail(),
-          // _getOptionsformenu(context),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 15,
+            _menuItemDetail(),
+            // _getOptionsformenu(context),
+            SliverToBoxAdapter(
+              child: Container(
+                child: SizedBox(
+                  height: 15,
+                ),
               ),
             ),
+            // _menuItemList()
+          ],
+        ),
+        bottomNavigationBar: Container(
+          //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+          width: MediaQuery.of(context).size.width,
+          height: 54,
+          child: RaisedButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.0),
+                topRight: Radius.circular(12.0),
+              ),
+            ),
+            child: Text(
+              'ADD \$ 24',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white),
+            ),
+            color: redtheme,
+            onPressed: () {},
           ),
-          // _menuItemList()
-        ],
+        ),
       ),
     );
   }
@@ -138,10 +175,13 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
       child: Container(
         // margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
+              margin: EdgeInsets.fromLTRB(26, 10, 0, 0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Image.asset(
                     'assets/SplashScreen/LauncherScreen.png',
@@ -162,23 +202,29 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                         fontWeight: FontWeight.w600,
                         color: greytheme700),
                   ),
+                  SizedBox(
+                    height: 12,
+                  ),
                   Text(
                     "Lorem Epsom is simply dummy text",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 14,
                         fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme700),
+                        fontWeight: FontWeight.w400,
+                        color: greytheme1000),
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             Divider(
               thickness: 2,
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(25, 10, 25, 0),
+              margin: EdgeInsets.fromLTRB(25, 28, 25, 24),
               child: Row(
                 children: <Widget>[
                   Text(
@@ -190,10 +236,85 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                         fontWeight: FontWeight.w600,
                         color: greytheme700),
                   ),
-
                 ],
               ),
-            )
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            Container(
+              //margin: EdgeInsets.fromLTRB(25, 10, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(width: 28),
+                  Text(
+                    'Dressing',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600,
+                        color: greytheme700),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Container(
+                    height: 28,
+                    child: ToggleButtons(
+                      borderColor: greytheme1300,
+                      fillColor: redtheme,
+                      borderWidth: 2,
+                      selectedBorderColor: Colors.transparent,
+                      selectedColor: Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                      children: <Widget>[
+                        Container(
+                          width: 85,
+                          child: Text(
+                            'On side',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w400,
+                                color: (isSelected[0] == true)
+                                    ? Colors.white
+                                    : greytheme700),
+                          ),
+                        ),
+                        Container(
+                          width: 85,
+                          child: Text(
+                            'On top',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w400,
+                                color: (isSelected[1] == false)
+                                    ? greytheme700
+                                    : Colors.white),
+                          ),
+                        ),
+                      ],
+                      onPressed: (int index) {
+                        setState(() {
+                          for (int i = 0; i < isSelected.length; i++) {
+                            if (i == index) {
+                              isSelected[i] = true;
+                            } else {
+                              isSelected[i] = false;
+                            }
+                          }
+                        });
+                      },
+                      isSelected: isSelected,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
