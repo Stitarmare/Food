@@ -11,6 +11,7 @@ import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:foodzi/widgets/SliderPopUp.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -50,6 +51,12 @@ class _DineViewState extends State<DineInView>
     BottomItemButton(title: "Ratings", id: 1, isSelected: false),
     BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
   ];
+
+  // double _fontSize = 0.5;
+
+  // double _slider2Val = 50.0;
+
+  var sliderValue = 0.0;
 
   @override
   void initState() {
@@ -149,6 +156,11 @@ class _DineViewState extends State<DineInView>
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings") {
                                   print('object');
+                                  //ShowDialogBox
+                                  // showDialogBox(context);
+                                  showDialog(
+                                      context: context,
+                                      child: new SliderDialog());
                                 }
                               }
                             });
@@ -495,45 +507,6 @@ class _DineViewState extends State<DineInView>
     );
   }
 
-  showDialogBox(BuildContext context) {
-    return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          "Select Ratings",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greentheme100,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'gotham',
-              fontSize: 22),
-        ),
-        content: Container(
-            child: ConstrainedBox(
-          constraints: BoxConstraints.expand(),
-          child: _stepperCount(),
-        )),
-        actions: [
-          FlatButton(
-            child: const Text(
-              "OK",
-              style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 20),
-            ),
-            onPressed: () {
-              Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-                  .pop();
-              Navigator.pushReplacementNamed(context, '/MainWidget');
-            },
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _stepperCount() {
     int currentStep = 0;
