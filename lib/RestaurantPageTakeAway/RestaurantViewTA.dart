@@ -280,6 +280,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     );
   }
 
+  
+
   Widget _menuItemList() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -306,7 +308,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
-                          //bottomLeft: Radius.circular(10.0),
+                         // bottomLeft: Radius.circular(10.0),
                           //bottomRight: Radius.circular(10.0),
                         ),
                         // child: Align(
@@ -382,22 +384,31 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               ),
                             ),
                               Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: redtheme,
-                                    borderRadius: BorderRadius.only(
-                                      bottomRight: Radius.circular(12.0),
-                                    )),
-                                width: MediaQuery.of(context).size.width * 0.1,
-                                child: Center(
-                                  child: Text(
-                                    "+ ADD",
-                                    style: TextStyle(
-                                        //fontFamily: FontNames.gotham,
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                              child: GestureDetector(
+                                onTap:   (){
+                                      print("button is Pressed");
+                                   Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddItemPageView()
+                            )
+                            );
+                                },
+                                                              child: Container(
+                                  decoration: BoxDecoration(
+                                      color: redtheme,
+                                      borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(12.0),
+                                      )),
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  child: Center(
+                                    child: Text(
+                                      "+ ADD",
+                                      style: TextStyle(
+                                          //fontFamily: FontNames.gotham,
+                                          fontSize: 14,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -524,8 +535,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 }
 
-// class Item {
-//   String itemName;
-//   String itemCount;
-//   Item({this.itemName, this.itemCount});
-// }
+
+class Item {
+  String itemName;
+  String itemCount;
+  Item({this.itemName, this.itemCount});
+}
