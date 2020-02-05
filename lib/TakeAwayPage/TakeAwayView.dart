@@ -29,7 +29,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   TakeAwayRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   int page = 1;
-  
+
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   StreamController<Position> _controllerPosition = new StreamController();
@@ -43,11 +43,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
       id: 1,
       isSelected: false,
     ),
-    BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
+    BottomItemButton(title: "Popularity", id: 2, isSelected: false),
   ];
 
   List<BottomItemButton> optionFilterBy = [
-    BottomItemButton(title: "Cuisine", id: 1, isSelected: false),
+    BottomItemButton(title: "Ratings", id: 1, isSelected: false),
     BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
   ];
 

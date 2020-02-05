@@ -30,6 +30,7 @@ dependencies:
   pin_code_text_field: ^1.5.1
   shared_preferences: 
   crypto:
+
   outline_material_icons: ^0.1.1
   image_picker:
   path_provider: 
@@ -40,6 +41,8 @@ dependencies:
   country_code_picker: ^1.2.3
   transparent_image: ^1.0.0
   auto_size_text: ^2.1.0
+
+  dio: ^3.0.8
   
 
 dev_dependencies:

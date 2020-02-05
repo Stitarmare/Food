@@ -43,11 +43,11 @@ class _DineViewState extends State<DineInView>
       id: 1,
       isSelected: false,
     ),
-    BottomItemButton(title: "Ratings 4+", id: 2, isSelected: false),
+    BottomItemButton(title: "Popularity", id: 2, isSelected: false),
   ];
 
   List<BottomItemButton> optionFilterBy = [
-    BottomItemButton(title: "Cuisine", id: 1, isSelected: false),
+    BottomItemButton(title: "Ratings", id: 1, isSelected: false),
     BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
   ];
 
@@ -147,6 +147,9 @@ class _DineViewState extends State<DineInView>
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
+                                if (bottomItem.title == "Ratings") {
+                                  print('object');
+                                }
                               }
                             });
                           }
@@ -200,8 +203,8 @@ class _DineViewState extends State<DineInView>
                                     onPressed: () {
                                       dinerestaurantPresenter
                                           .getrestaurantspage(
-                                              "18.579622",
-                                              "73.738691",
+                                              _position.latitude.toString(),
+                                              _position.longitude.toString(),
                                               sortedBy,
                                               filteredBy,
                                               page,
@@ -472,7 +475,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    (rating!= null) ? '4.5': rating,
+                    (rating != null) ? '4.5' : rating,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'gotham',
@@ -488,6 +491,84 @@ class _DineViewState extends State<DineInView>
             ],
           ),
         )
+      ],
+    );
+  }
+
+  showDialogBox(BuildContext context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          "Select Ratings",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: greentheme100,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'gotham',
+              fontSize: 22),
+        ),
+        content: Container(
+            child: ConstrainedBox(
+          constraints: BoxConstraints.expand(),
+          child: _stepperCount(),
+        )),
+        actions: [
+          FlatButton(
+            child: const Text(
+              "OK",
+              style: TextStyle(
+                  color: greentheme100,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'gotham',
+                  fontSize: 20),
+            ),
+            onPressed: () {
+              Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                  .pop();
+              Navigator.pushReplacementNamed(context, '/MainWidget');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _stepperCount() {
+    int currentStep = 0;
+    return Stepper(
+      currentStep: currentStep,
+      type: StepperType.horizontal,
+      steps: <Step>[
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 0),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 1),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 2),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 3),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 4),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 5),
+        Step(
+            content: Text('conent'),
+            title: Text('title'),
+            isActive: currentStep == 6),
       ],
     );
   }
