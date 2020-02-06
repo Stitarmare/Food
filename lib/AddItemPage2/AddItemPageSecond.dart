@@ -70,7 +70,7 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
               style: TextStyle(
                   fontSize: 16,
                   fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white),
             ),
             color: redtheme,
@@ -187,7 +187,7 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                     'assets/SplashScreen/LauncherScreen.png',
                     //width: 300,
                     height: 180,
-                    //fit: BoxFit.cover,
+                    // fit: BoxFit.cover,
                     // height: 500.0,
                   ),
                   SizedBox(
@@ -224,18 +224,73 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
               thickness: 2,
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(25, 28, 25, 24),
+              margin: EdgeInsets.fromLTRB(25, 22, 25, 22),
               child: Row(
                 children: <Widget>[
                   Text(
                     'Quantity:',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: greytheme700),
                   ),
+                  SizedBox(width: 30,),
+                  Row(children: <Widget>[
+                    InkWell(
+                      onTap: () {},
+                      //splashColor: Colors.redAccent.shade200,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: redtheme,
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('2',  style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      //splashColor: Colors.redAccent.shade200,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: redtheme,
+                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ])
                 ],
               ),
             ),
@@ -243,7 +298,7 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
               thickness: 2,
             ),
             Container(
-              //margin: EdgeInsets.fromLTRB(25, 10, 0, 10),
+              margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
               child: Row(
                 children: <Widget>[
                   SizedBox(width: 28),
@@ -251,16 +306,16 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                     'Dressing',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: greytheme700),
                   ),
                   SizedBox(
-                    width: 15,
+                    width: 34,
                   ),
                   Container(
-                    height: 28,
+                    height: 36,
                     child: ToggleButtons(
                       borderColor: greytheme1300,
                       fillColor: redtheme,
@@ -277,7 +332,7 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'gotham',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: (isSelected[0] == true)
                                     ? Colors.white
                                     : greytheme700),
@@ -291,7 +346,7 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                             style: TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'gotham',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: (isSelected[1] == false)
                                     ? greytheme700
                                     : Colors.white),

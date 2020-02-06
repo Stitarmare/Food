@@ -31,10 +31,10 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     RadioButtonOptions(index: 4, title: 'Item 4'),
   ];
   List<CheckBoxOptions> _checkBoxOptions = [
-    CheckBoxOptions(id: 1, title: 'Item 1', price: 12.0,isChecked: false),
-    CheckBoxOptions(id: 2, title: 'Item 2', price: 12.0,isChecked: false),
-    CheckBoxOptions(id: 3, title: 'Item 3', price: 12.0,isChecked: false),
-    CheckBoxOptions(id: 4, title: 'Item 4', price: 12.0,isChecked: false),
+    CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20",isChecked: false),
+    CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20",isChecked: false),
+    CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20",isChecked: false),
+    CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20",isChecked: false),
   ];
 
    void _onValueChange(String value) {
@@ -324,35 +324,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
               ))
           .toList(),
     );
-    // return SingleChildScrollView(
-    //   controller: controller,
-    //   child: Column(
-
-    //   ),
-    // ),
-
-    // return Container(
-    //   height: 150,
-    //   width: MediaQuery.of(context).size.width,
-    //   child: Wrap(
-    //     //direction: Axis.vertical,
-    //     runSpacing: 5,
-    //     //spacing: 10,
-    //     children:_radioOptions.map((radionBtn) =>RadioListTile(
-    //                 title: Text("${radionBtn.title}"),
-    //                 groupValue: id,
-    //                 value: radionBtn.index,
-    //                 dense: true,
-    //                 activeColor: Color.fromRGBO(239, 29, 37, 1),
-    //                 onChanged: (val) {
-    //                   setState(() {
-    //                     radioItem = radionBtn.title ;
-    //                     id = radionBtn.index;
-    //                   });
-    //                 },
-    //               )).toList(),
-    //   ),
-    // );
   }
 
   _getCheckBoxOptions() {
@@ -367,7 +338,22 @@ class _AddItemPageViewState extends State<AddItemPageView> {
                              checkBtn.isChecked = val;
                             });
                           },
-                          title: Text(checkBtn.title,style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
+                          title:Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                               Text(checkBtn.title,style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
+                                Expanded(
+                child: SizedBox(
+                  width: 100,
+                ),
+                flex: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 40),
+                child: Text(checkBtn.price.toString(),style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
+              ),
+                            ],
+                          )
                         )
                         ).toList(),
             // children: <Widget>[
@@ -440,7 +426,8 @@ class _AddItemPageViewState extends State<AddItemPageView> {
 class CheckBoxOptions {
   int id;
   String title;
-  double price;
+  String price;
+  // double price;
   bool isChecked;
   CheckBoxOptions({this.id, this.title, this.price,this.isChecked});
 }
