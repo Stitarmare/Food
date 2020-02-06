@@ -682,7 +682,7 @@ class _EditProfileState extends State<EditProfileview>
             ),
             onPressed: () {
               Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-                  .pop();
+                 .pop();
               Navigator.pushReplacementNamed(context, '/MainWidget');
             },
           ),

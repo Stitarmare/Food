@@ -45,13 +45,17 @@ dependencies:
   # flui: ^0.8.0
 
   dio: ^3.0.8
-  
+  google_maps_flutter: ^0.5.22+1
+  flutter_launcher_icons: "^0.7.3"
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-
+#APPICON 
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/Appicon/appicon.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -163,11 +167,7 @@ flutter:
       - assets/NavigateButton/next(2).png
       - assets/NavigateButton/next(2)@2x.png
       - assets/NavigateButton/next(2)@3x.png
-      #VegIcon
-      - assets/VegIcon/Group1661.png
-      - assets/VegIcon/Group1661@2x.png
-      - assets/VegIcon/Group1661@3x.png
-    
+      
 
 
       

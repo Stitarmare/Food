@@ -11,6 +11,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
+import 'package:foodzi/widgets/SliderPopUp.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -69,8 +70,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       print(position);
       _position = position;
       if (_position != null) {
-        DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, "Please Wait");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
@@ -138,7 +138,30 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(() => tile.isSelected = true);
+                            setBottomState(() {
+                              tile.isSelected = true;
+                              if (bottomList == optionSortBy) {
+                                sortedBy = bottomItem.title;
+                                if (bottomItem.title == "Distance") {
+                                  _restaurantList.replaceRange(
+                                      0, bottomList.length, _restaurantList);
+                                  print('Distance selected');
+                                } else {
+                                  print('popularity');
+                                }
+                              }
+                              if (bottomList == optionFilterBy) {
+                                filteredBy = bottomItem.title;
+                                if (bottomItem.title == "Ratings") {
+                                  print('object');
+                                  //ShowDialogBox
+                                  // showDialogBox(context);
+                                  showDialog(
+                                      context: context,
+                                      child: new SliderDialog());
+                                }
+                              }
+                            });
                           }
                         }
 

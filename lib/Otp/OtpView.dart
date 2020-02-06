@@ -76,12 +76,12 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void onsubmitButtonClicked() {
     //  otppresenter.performOTP(widget.mobno, otpsave, context);
     if (widget.value == 0 && otpsave != null) {
-      //Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       otppresenter.performOTP(widget.mobno, otpsave, context);
     } else if (widget.isFromFogetPass == true &&
         widget.value != 0 &&
         otpsave != null) {
-      //Dialogs.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
     }
     // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
@@ -254,6 +254,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           ),
           new GestureDetector(
             onTap: () {
+              DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
               otppresenter.resendOTP(widget.mobno, context);
 
               // Navigator.pushNamed(context, '/Registerview');
@@ -310,14 +311,14 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void otpfailed() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     // TODO: implement otpfailed
   }
 
   @override
   void otpsuccess() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     Navigator.pushReplacementNamed(context, '/MainWidget');
     // TODO: implement otpsuccess
@@ -325,14 +326,14 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void getFailedForForgetPass() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     // TODO: implement getFailedForForgetPass
   }
 
   @override
   void getSuccesForForgetPass() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => ResetPasswordview(
@@ -342,13 +343,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void resendotpfailed() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement resendotpfailed
   }
 
   @override
   void resendotpsuccess(message) {
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     //Navigator.pushReplacementNamed(context, '/OTPScreen');
     Constants.showAlert("Resend OTP", message, context);
     // TODO: implement resendotpsuccess
