@@ -19,8 +19,10 @@ class GeoLocationTracking {
       print(geolocationStatus);
       switch (geolocationStatus) {
         case GeolocationStatus.denied:
-          Constants.showAlert("Access Denied",
-              "Please Allow The Loaction Service Enabled To Get Info", context);
+          Constants.showAlert(
+              "Access Denied",
+              "Please enable location services to show you nearby restaurants and hotels",
+              context);
           break;
         case GeolocationStatus.disabled:
           Constants.showAlert("Access Denied",
