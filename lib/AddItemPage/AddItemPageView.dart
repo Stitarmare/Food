@@ -61,13 +61,14 @@ class _AddItemPageViewState extends State<AddItemPageView> {
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: (){
+              Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
-              showDialog(
-                context: context,
-                child: new RadioDialog(
-                  onValueChange: _onValueChange,
-                  initialValue: _selectedId,
-                ));
+              // showDialog(
+              //   context: context,
+              //   child: new RadioDialog(
+              //     onValueChange: _onValueChange,
+              //     initialValue: _selectedId,
+              //   ));
             },
             child: Container(
               height: 54,
@@ -422,7 +423,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     // )
   }
 }
-
+// OrderConfirmationView
 class CheckBoxOptions {
   int id;
   String title;
