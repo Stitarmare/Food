@@ -280,8 +280,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     );
   }
 
-  
-
   Widget _menuItemList() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -308,7 +306,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
-                         // bottomLeft: Radius.circular(10.0),
+                          // bottomLeft: Radius.circular(10.0),
                           //bottomRight: Radius.circular(10.0),
                         ),
                         // child: Align(
@@ -383,22 +381,26 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                               ),
                             ),
-                              Expanded(
+                            Expanded(
                               child: GestureDetector(
-                                onTap:   (){
-                                      print("button is Pressed");
-                                   Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddItemPageView()
-                            )
-                            );
+                                onTap: () {
+                                  print("button is Pressed");
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddItemPageView(
+                                            title:
+                                                '${_restaurantList[index].itemName}',
+                                            description:
+                                                '${_restaurantList[index].itemDescription}',
+                                          )));
                                 },
-                                                              child: Container(
+                                child: Container(
                                   decoration: BoxDecoration(
                                       color: redtheme,
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(12.0),
                                       )),
-                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
                                   child: Center(
                                     child: Text(
                                       "+ ADD",
@@ -534,7 +536,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     });
   }
 }
-
 
 class Item {
   String itemName;

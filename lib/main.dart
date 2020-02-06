@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPage2/AddItemPageSecond.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -29,13 +30,9 @@ import 'ChangePassword/ChangePassView.dart';
 
 import './OrderConfirmation/OrderConfirmationView.dart';
 
-//import 'package:foodzi/HotelInfoView/HotelInfoView.dart';
-//import './demofile.dart';
-
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashScreen(),
   '/SplashScreen': (BuildContext context) => SplashScreen(),
-  //'/MyHomePage': (BuildContext context) => MyHomePage(),
   '/LoginView': (BuildContext context) => LoginView(),
   '/MainWidget': (BuildContext context) => MainWidget(),
   '/Registerview': (BuildContext context) => Registerview(),
@@ -56,7 +53,8 @@ var routes = <String, WidgetBuilder>{
   '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
-  '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView()
+  '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
+  '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView()
 };
 
 void main() => runApp(MaterialApp(

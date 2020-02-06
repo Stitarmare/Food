@@ -51,5 +51,58 @@ class Constants {
             ));
   }
 
+  static Widget steppercount(int text) {
+    Row(children: <Widget>[
+      InkWell(
+        onTap: () {
+          text++;
+        },
+        splashColor: Colors.redAccent.shade200,
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Icon(
+              Icons.remove,
+              color: Colors.redAccent,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(text.toString()),
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      InkWell(
+        onTap: () {
+          text--;
+        },
+        splashColor: Colors.lightBlue,
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Icon(
+              Icons.add,
+              color: Colors.green,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+
   static void buttoncollection(String title) {}
 }

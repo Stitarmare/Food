@@ -330,7 +330,7 @@ class _RestaurantViewState extends State<RestaurantView>
                               BaseUrl.getBaseUrlImages() +
                                   '${_restaurantList[index].itemImage}',
                               fit: BoxFit.fitWidth,
-                              width:double.infinity,
+                              width: double.infinity,
                               height: 100,
                             ),
                           ),
@@ -356,7 +356,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                 height: 5,
                               ),
                               Text(
-                                "${_restaurantList[index].itemDescription}" ?? " ",
+                                "${_restaurantList[index].itemDescription}" ??
+                                    " ",
                                 maxLines: 2,
                                 style: TextStyle(
                                     fontSize: 10,
@@ -383,8 +384,7 @@ class _RestaurantViewState extends State<RestaurantView>
                               width: MediaQuery.of(context).size.width * 0.2,
                               child: Center(
                                 child: Text(
-                                  '\$ ${_restaurantList[index].price}' ??
-                                 "",
+                                  '\$ ${_restaurantList[index].price}' ?? "",
                                   style: TextStyle(
                                       //fontFamily: FontNames.gotham,
                                       fontSize: 14,
@@ -396,20 +396,24 @@ class _RestaurantViewState extends State<RestaurantView>
                             ),
                             Expanded(
                               child: new GestureDetector(
-                                onTap: (){
-                                      print("button is Pressed");
-                                   Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddItemPageView()
-                            )
-                            );
+                                onTap: () {
+                                  print("button is Pressed");
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddItemPageView(
+                                            title:
+                                                '${_restaurantList[index].itemName}',
+                                            description:
+                                                '${_restaurantList[index].itemDescription}',
+                                          )));
                                 },
-                                                              child: Container(
+                                child: Container(
                                   decoration: BoxDecoration(
                                       color: redtheme,
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(12.0),
                                       )),
-                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
                                   child: Center(
                                     child: Text(
                                       "+ ADD",
