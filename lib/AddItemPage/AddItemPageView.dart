@@ -441,6 +441,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
   }
 }
 
+// OrderConfirmationView
 class CheckBoxOptions {
   int id;
   String title;

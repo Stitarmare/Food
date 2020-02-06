@@ -74,26 +74,7 @@ class RadioDialogState extends State<RadioDialog> {
                     ),
                     
                     Column(
-                      // padding: EdgeInsets.only(left: 20,right: 10),
                       children: 
-                        // _texts.map((text) => CheckboxListTile(
-                        //   activeColor: Color.fromRGBO(237, 29, 37, 1),
-                        //   value: _isChecked,
-                        //   onChanged: (val){
-                        //     setState(() {
-                        //       _isChecked = val;
-                        //     });
-                        //   },
-                        //   title: Text(text,style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
-                        // )
-                        // ).toList(),
-                        // _texts.map((text)=> RadioListTile(
-                        //   title: Text(text),
-                        //   value: text,
-                        //   onChanged: (val){
-                        //     se
-                        //   },
-                        // ))
                           bList.map((data) => RadioListTile(
                   title: Text(data.name,style: TextStyle(fontSize: 15,color: greytheme700,fontFamily: 'gotham'),),
                   groupValue: id,
@@ -116,7 +97,9 @@ class RadioDialogState extends State<RadioDialog> {
                           // side: BorderSide(
                           //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(5)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                        child: Text(
                         'CONFIRM',
                         style: TextStyle(
