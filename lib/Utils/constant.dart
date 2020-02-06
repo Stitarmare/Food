@@ -51,7 +51,7 @@ class Constants {
             ));
   }
 
-  static void steppercount(int text) {
+  static Widget steppercount(int text) {
     Row(children: <Widget>[
       InkWell(
         onTap: () {

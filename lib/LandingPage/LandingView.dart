@@ -264,7 +264,7 @@ class _LandingStateView extends State<Landingview> {
         SizedBox(
           height: 15,
         ),
-        Text('Get served in Restaurant',
+        Text('Get you food packed',
             style: TextStyle(
                 fontSize: 14,
                 fontFamily: 'gotham',

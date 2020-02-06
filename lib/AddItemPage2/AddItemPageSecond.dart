@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class AddItemPageSecond extends StatefulWidget {
@@ -10,6 +11,8 @@ class AddItemPageSecond extends StatefulWidget {
 class _AddItemPageSecondState extends State<AddItemPageSecond> {
   ScrollController _controller = ScrollController();
   List<bool> isSelected;
+
+  int count = 1;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 2, min: 0, max: 10, step: 1);
   @override
@@ -236,61 +239,65 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   ),
-                  SizedBox(width: 30,),
-                  Row(children: <Widget>[
-                    InkWell(
-                      onTap: () {},
-                      //splashColor: Colors.redAccent.shade200,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: redtheme,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.remove,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('2',  style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700),),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      //splashColor: Colors.redAccent.shade200,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: redtheme,
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ])
+                  SizedBox(
+                    width: 30,
+                  ),
+                  steppercount(),
+                  // Row(children: <Widget>[
+                  //   InkWell(
+                  //     onTap: () {},
+                  //     //splashColor: Colors.redAccent.shade200,
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         color: redtheme,
+                  //           borderRadius: BorderRadius.all(Radius.circular(4))),
+                  //       alignment: Alignment.center,
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(6.0),
+                  //         child: Icon(
+                  //           Icons.remove,
+                  //           color: Colors.white,
+                  //           size: 20,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   SizedBox(
+                  //     width: 4,
+                  //   ),
+                  //   Card(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //       child: Text('2',  style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontFamily: 'gotham',
+                  //       fontWeight: FontWeight.w500,
+                  //       color: greytheme700),),
+                  //     ),
+                  //   ),
+                  //   SizedBox(
+                  //     width: 4,
+                  //   ),
+                  //   InkWell(
+                  //     onTap: () {},
+                  //     //splashColor: Colors.redAccent.shade200,
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         color: redtheme,
+                  //           borderRadius: BorderRadius.all(Radius.circular(4))),
+                  //       alignment: Alignment.center,
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(6.0),
+                  //         child: Icon(
+                  //           Icons.add,
+                  //           color: Colors.white,
+                  //           size: 20,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ]
+                  // )
                 ],
               ),
             ),
@@ -374,5 +381,76 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
         ),
       ),
     );
+  }
+
+  Widget steppercount() {
+    return Row(children: <Widget>[
+      InkWell(
+        onTap: () {
+          if (count > 1) {
+            setState(() {
+              --count;
+              print(count);
+            });
+          }
+        },
+        splashColor: Colors.redAccent.shade200,
+        child: Container(
+          decoration: BoxDecoration(
+              color: redtheme,
+              borderRadius: BorderRadius.all(Radius.circular(4))),
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Icon(
+              Icons.remove,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(count.toString(),style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),),
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      InkWell(
+        onTap: () {
+          if (count < 10) {
+            setState(() {
+              ++count;
+              print(count);
+            });
+          }
+        },
+        splashColor: Colors.lightBlue,
+        child: Container(
+          decoration: BoxDecoration(
+              color: redtheme,
+              borderRadius: BorderRadius.all(Radius.circular(4))),
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    ]);
   }
 }
