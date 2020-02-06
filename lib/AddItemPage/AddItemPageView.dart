@@ -8,14 +8,18 @@ import 'package:foodzi/widgets/RadioDailog.dart';
 // import 'package:flui/flui.dart';
 
 class AddItemPageView extends StatefulWidget {
-  AddItemPageView({Key key}) : super(key: key);
+  String title;
+  String description;
+
+  AddItemPageView({this.title, this.description});
+  //AddItemPageView({Key key}) : super(key: key);
 
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
 class _AddItemPageViewState extends State<AddItemPageView> {
   ScrollController _controller = ScrollController();
- 
+
   // double _defaultValue = 1;
   int id = 1;
   String radioItem;
@@ -31,13 +35,13 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     RadioButtonOptions(index: 4, title: 'Item 4'),
   ];
   List<CheckBoxOptions> _checkBoxOptions = [
-    CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20",isChecked: false),
-    CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20",isChecked: false),
-    CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20",isChecked: false),
-    CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20",isChecked: false),
+    CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20", isChecked: false),
+    CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20", isChecked: false),
+    CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20", isChecked: false),
+    CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20", isChecked: false),
   ];
 
-   void _onValueChange(String value) {
+  void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
     });
@@ -60,25 +64,32 @@ class _AddItemPageViewState extends State<AddItemPageView> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               // print("button is pressed");
               showDialog(
-                context: context,
-                child: new RadioDialog(
-                  onValueChange: _onValueChange,
-                  initialValue: _selectedId,
-                ));
+                  context: context,
+                  child: new RadioDialog(
+                    onValueChange: _onValueChange,
+                    initialValue: _selectedId,
+                  ));
             },
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                color: redtheme,
-                  borderRadius:
-                      BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15))),
+                  color: redtheme,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15))),
               // color: redtheme,
               child: Center(
-                child: Text('ADD \$24',
-                style: TextStyle(fontFamily: 'gotham',fontWeight: FontWeight.w600,fontSize: 16,color: Colors.white),),
+                child: Text(
+                  'ADD \$24',
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
               ),
             ),
           ),
@@ -179,7 +190,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
             Padding(
               padding: EdgeInsets.only(top: 25, left: 26),
               child: Text(
-                'Chicken Cordon',
+                widget.title,
                 style: TextStyle(
                     fontFamily: 'gotham',
                     fontSize: 16,
@@ -191,7 +202,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
             Padding(
               padding: EdgeInsets.only(left: 26, top: 12),
               child: Text(
-                'Lorem Epsom is simply dummy text',
+                widget.description,
                 style: TextStyle(
                     fontFamily: 'gotham',
                     fontSize: 16,
@@ -327,45 +338,52 @@ class _AddItemPageViewState extends State<AddItemPageView> {
   }
 
   _getCheckBoxOptions() {
-     return Column(
-            children:  
-                        _checkBoxOptions.map((checkBtn) => CheckboxListTile(
-                          activeColor: redtheme,
-                          value: checkBtn.isChecked,
-                          controlAffinity: ListTileControlAffinity.leading,
-                          onChanged: (val){
-                            setState(() {
-                             checkBtn.isChecked = val;
-                            });
-                          },
-                          title:Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                               Text(checkBtn.title,style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
-                                Expanded(
-                child: SizedBox(
-                  width: 100,
-                ),
-                flex: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 40),
-                child: Text(checkBtn.price.toString(),style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
-              ),
-                            ],
-                          )
-                        )
-                        ).toList(),
-            // children: <Widget>[
-            //   new CheckboxListTile(
-            //     title: Text(_checkBoxOptions[index].title),
-            //     activeColor: redtheme,
-            //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
-            //     // value: _checkBoxOptions[index] ,
+    return Column(
+      children: _checkBoxOptions
+          .map((checkBtn) => CheckboxListTile(
+              activeColor: redtheme,
+              value: checkBtn.isChecked,
+              controlAffinity: ListTileControlAffinity.leading,
+              onChanged: (val) {
+                setState(() {
+                  checkBtn.isChecked = val;
+                });
+              },
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    checkBtn.title,
+                    style: TextStyle(
+                        fontSize: 13, color: Color.fromRGBO(64, 64, 64, 1)),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 100,
+                    ),
+                    flex: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 40),
+                    child: Text(
+                      checkBtn.price.toString(),
+                      style: TextStyle(
+                          fontSize: 13, color: Color.fromRGBO(64, 64, 64, 1)),
+                    ),
+                  ),
+                ],
+              )))
+          .toList(),
+      // children: <Widget>[
+      //   new CheckboxListTile(
+      //     title: Text(_checkBoxOptions[index].title),
+      //     activeColor: redtheme,
+      //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
+      //     // value: _checkBoxOptions[index] ,
 
-            //   )
-            // ],
-          );
+      //   )
+      // ],
+    );
     // return new ListView.builder(
     //   itemCount: _checkBoxOptions.length,
     //   itemExtent: 20,
@@ -373,7 +391,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     //     return Container(
     //       padding: new EdgeInsets.all(10.0),
     //       child: new Column(
-    //         children:  
+    //         children:
     //                     _checkBoxOptions.map((text) => CheckboxListTile(
     //                       activeColor: Color.fromRGBO(237, 29, 37, 1),
     //                       value: _isChecked,
@@ -418,7 +436,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     //           // ],
     //           // ),
     //     );
-      // },
+    // },
     // )
   }
 }
@@ -429,7 +447,7 @@ class CheckBoxOptions {
   String price;
   // double price;
   bool isChecked;
-  CheckBoxOptions({this.id, this.title, this.price,this.isChecked});
+  CheckBoxOptions({this.id, this.title, this.price, this.isChecked});
 }
 
 class RadioButtonOptions {
