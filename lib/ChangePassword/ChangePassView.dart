@@ -242,8 +242,9 @@ class _ChangePasswordview extends State<ChangePasswordview>
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    } else if (value != _newPassword) {
+      return 'Password does not match with confirm password.';
     }
-    // }
     return null;
   }
 
@@ -284,9 +285,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
               fontSize: 22),
         ),
         content: Text(
-          _newPassword == _confirmPassword
-              ? 'Your password has been successfully change. '
-              : 'Password does not match with confirm password.',
+          'Your password has been successfully change. ',
+          // _newPassword == _confirmPassword
+          //     ? 'Your password has been successfully change. '
+          //     : 'Password does not match with confirm password.',
           textAlign: TextAlign.center,
           style: TextStyle(
               color: greytheme100,
@@ -305,9 +307,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
                   fontSize: 20),
             ),
             onPressed: () {
-              _newPassword == _confirmPassword
-                  ? Navigator.of(context).pushReplacementNamed('/MainWidget')
-                  : Navigator.pop(context);
+              // _newPassword == _confirmPassword
+              //     ? Navigator.of(context).pushReplacementNamed('/MainWidget')
+              //     : Navigator.pop(context);
+              Navigator.of(context).pushReplacementNamed('/MainWidget');
             },
           ),
         ],
