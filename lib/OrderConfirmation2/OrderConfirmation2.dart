@@ -4,24 +4,23 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class OrderConfirmationView extends StatefulWidget {
-  OrderConfirmationView({Key key}): super (key:key);
+class OrderConfirmation2View extends StatefulWidget {
+  OrderConfirmation2View({Key key}): super (key:key);
   @override
   State<StatefulWidget> createState() {
-    return _OrderConfirmationViewState();
+    return _OrderConfirmation2ViewState();
   }
 }
 
-class _OrderConfirmationViewState extends State<OrderConfirmationView> {
+class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
    ScrollController _controller = ScrollController();
     String _selectedId;
-     int count = 0;
+     int count = 1;
     void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
     });
   }
-
   Widget steppercount() {
     return Container(
       height: 24,
@@ -83,6 +82,7 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
     );
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -126,12 +126,16 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
                     color: redtheme,
                     fontWeight: FontWeight.w600
                   ),), onPressed: () {
-                    // Navigator.pop(context);
-                                  Navigator.pushNamed(context, '/OrderConfirmation2View');
-
+                    Navigator.pop(context);
                   },
                 ),),
-                GestureDetector(
+               Row(
+                 mainAxisSize: MainAxisSize.max,
+                 mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 crossAxisAlignment: CrossAxisAlignment.start,
+                 children: <Widget>[
+                    GestureDetector(
               onTap: (){
                 // Navigator.pushNamed(context, '/OrderConfirmationView');
                 // print("button is pressed");
@@ -144,17 +148,51 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
               },
               child: Container(
                 height: 54,
+                width: (MediaQuery.of(context).size.width/2)-15,
                 decoration: BoxDecoration(
                   color: redtheme,
                     borderRadius:
                         BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15))),
                 // color: redtheme,
                 child: Center(
-                  child: Text('PLACE ORDER',
+                  // padding: EdgeInsets.only(),
+                  child: Text('MAKE PAYMENT',
                   style: TextStyle(fontFamily: 'gotham',fontWeight: FontWeight.w600,fontSize: 16,color: Colors.white),),
                 ),
               ),
             ),
+            SizedBox(width: 15,),
+                  GestureDetector(
+              onTap: (){
+                // Navigator.pushNamed(context, '/OrderConfirmationView');
+                // print("button is pressed");
+                showDialog(
+                  context: context,
+                  child: new RadioDialog(
+                    onValueChange: _onValueChange,
+                    initialValue: _selectedId,
+                  ));
+              },
+              child: Container(
+                height: 54,
+                width: (MediaQuery.of(context).size.width/2)-15,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(15),topRight: Radius.circular(15)),
+                        // border: Border(top: BorderSide(color: greytheme1000,width: 3),left: BorderSide(color: greytheme1000, width: 3),)
+                        // border:greytheme100,
+                        ),
+                // color: redtheme,
+                child: Center(
+                    child: Text('PLACE ORDER',
+                    style: TextStyle(fontFamily: 'gotham',fontWeight: FontWeight.w600,fontSize: 16,color: greytheme1000),),
+                
+                ),
+              ),
+            ),
+                 ],
+               )
               ],
             )
           ),
@@ -248,7 +286,7 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
     );
   }
 
-  Widget _getAddedListItem(){
+   Widget _getAddedListItem(){
     return Expanded(
               child: ListView.builder(
           itemCount: 8,

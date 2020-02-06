@@ -384,73 +384,63 @@ class _AddItemPageSecondState extends State<AddItemPageSecond> {
   }
 
   Widget steppercount() {
-    return Row(children: <Widget>[
-      InkWell(
-        onTap: () {
-          if (count > 1) {
-            setState(() {
-              --count;
-              print(count);
-            });
-          }
-        },
-        splashColor: Colors.redAccent.shade200,
-        child: Container(
-          decoration: BoxDecoration(
-              color: redtheme,
-              borderRadius: BorderRadius.all(Radius.circular(4))),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Icon(
-              Icons.remove,
-              color: Colors.white,
-              size: 20,
-            ),
+    return Container(
+      height: 24,
+      width: 92,
+      child: Row(children: <Widget>[
+        InkWell(
+          onTap: () {
+            if (count > 0) {
+              setState(() {
+                --count;
+                print(count);
+              });
+            }
+          },
+          splashColor: Colors.redAccent.shade200,
+          child: Container(
+            decoration: BoxDecoration(
+                color: redtheme,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+              child: Icon(
+                Icons.remove,
+                color: Colors.white,
+                size: 24,
+              ),
           ),
         ),
-      ),
-      SizedBox(
-        width: 4,
-      ),
-      Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(count.toString(),style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700),),
-        ),
-      ),
-      SizedBox(
-        width: 4,
-      ),
-      InkWell(
-        onTap: () {
-          if (count < 10) {
-            setState(() {
-              ++count;
-              print(count);
-            });
-          }
-        },
-        splashColor: Colors.lightBlue,
-        child: Container(
-          decoration: BoxDecoration(
-              color: redtheme,
-              borderRadius: BorderRadius.all(Radius.circular(4))),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
-            ),
+           Padding(
+            padding: const EdgeInsets.only(left: 13,right: 13),
+            child: Text(count.toString(),style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme700),),
+          ),
+        InkWell(
+          onTap: () {
+            if (count < 10) {
+              setState(() {
+                ++count;
+                print(count);
+              });
+            }
+          },
+          splashColor: Colors.lightBlue,
+          child: Container(
+            decoration: BoxDecoration(
+                color: redtheme,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 24,
+              ),
           ),
         ),
-      ),
-    ]);
+      ]),
+    );
   }
 }
