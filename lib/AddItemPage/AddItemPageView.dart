@@ -22,6 +22,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
 
   // double _defaultValue = 1;
   int id = 1;
+  int count = 1;
   String radioItem;
   String _selectedId;
 
@@ -46,6 +47,67 @@ class _AddItemPageViewState extends State<AddItemPageView> {
       _selectedId = value;
     });
   }
+   Widget steppercount() {
+    return Container(
+      height: 24,
+      width: 92,
+      child: Row(children: <Widget>[
+        InkWell(
+          onTap: () {
+            if (count > 0) {
+              setState(() {
+                --count;
+                print(count);
+              });
+            }
+          },
+          splashColor: Colors.redAccent.shade200,
+          child: Container(
+            decoration: BoxDecoration(
+                color: redtheme,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+              child: Icon(
+                Icons.remove,
+                color: Colors.white,
+                size: 24,
+              ),
+          ),
+        ),
+           Padding(
+            padding: const EdgeInsets.only(left: 13,right: 13),
+            child: Text(count.toString(),style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme700),),
+          ),
+        InkWell(
+          onTap: () {
+            if (count < 10) {
+              setState(() {
+                ++count;
+                print(count);
+              });
+            }
+          },
+          splashColor: Colors.lightBlue,
+          child: Container(
+            decoration: BoxDecoration(
+                color: redtheme,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 24,
+              ),
+          ),
+        ),
+      ]),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +126,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-<<<<<<< HEAD
             onTap: (){
               Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -74,16 +135,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
               //     onValueChange: _onValueChange,
               //     initialValue: _selectedId,
               //   ));
-=======
-            onTap: () {
-              // print("button is pressed");
-              showDialog(
-                  context: context,
-                  child: new RadioDialog(
-                    onValueChange: _onValueChange,
-                    initialValue: _selectedId,
-                  ));
->>>>>>> 357de7b7e8b90b672f5004c1fdb3e45607613ee9
             },
             child: Container(
               height: 54,
@@ -248,6 +299,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
                 SizedBox(
                   width: 40,
                 ),
+                steppercount()
                 // Container(
 
                 // )

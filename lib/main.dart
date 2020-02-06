@@ -29,6 +29,7 @@ import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
 
 import './OrderConfirmation/OrderConfirmationView.dart';
+import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
 
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashScreen(),
@@ -54,6 +55,7 @@ var routes = <String, WidgetBuilder>{
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
   '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
+    '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView()
 };
 
