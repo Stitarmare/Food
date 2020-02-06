@@ -389,7 +389,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +
               '${Globle().loginModel.data.userDetails.profileImage}'
-          : null;
+          : 'assets/PlaceholderImage/placeholder.png';
       return imageUrl;
     }
     return imageUrl;

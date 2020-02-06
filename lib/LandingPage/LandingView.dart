@@ -9,6 +9,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
   String title;
@@ -18,6 +19,7 @@ class Landingview extends DrawerContent {
     return _LandingStateView();
   }
 }
+
 class _LandingStateView extends State<Landingview> {
   //String titleAppBar = "Testing";
   @override
@@ -53,6 +55,7 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
@@ -72,11 +75,13 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _buildimage() {
     return Image.asset(
       'assets/LandingImage/Group1561.png',
     );
   }
+
   Widget _buildMaintext() {
     return Row(
       children: <Widget>[
@@ -87,6 +92,7 @@ class _LandingStateView extends State<Landingview> {
       ],
     );
   }
+
   Widget _buidtext() {
     return LimitedBox(
       child: Column(
@@ -124,6 +130,7 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _cardoption() {
     return LimitedBox(
       child: Container(
@@ -139,6 +146,7 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _dineincard() {
     return Center(
       child: Card(
@@ -180,6 +188,7 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _buildinningtext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -206,6 +215,7 @@ class _LandingStateView extends State<Landingview> {
       ],
     );
   }
+
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -247,6 +257,7 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
+
   Widget _buildTakeAwaytext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -288,12 +299,14 @@ class _LandingStateView extends State<Landingview> {
   //   }));
   // }
 }
+
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title}) : super(key: key);
   final String title;
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
+
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
   @override
@@ -391,17 +404,19 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ],
     );
   }
-    profilePic() {
+
+  profilePic() {
     String imageUrl = '';
     if (Globle().loginModel.data.userDetails != null) {
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +
               '${Globle().loginModel.data.userDetails.profileImage}'
-          : null;
+          : 'assets/PlaceholderImage/placeholder.png';
       return imageUrl;
     }
     return imageUrl;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -423,24 +438,24 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   },
                   child: Container(
                     child: ClipOval(
-                       child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/PlaceholderImage/placeholder.png',
-                      image: profilePic(),
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/PlaceholderImage/placeholder.png',
+                        image: profilePic(),
                         fit: BoxFit.cover,
-                      width: 82.5,
-                      height: 82.5,
-                    ),
-                    //     child: Image.asset(
-                    //   'assets/ProfileImage/MaskGroup15@3x.png',
-                    //   width: 70,
-                    //   height: 70,
-                    // )
-                    // child: CachedNetworkImage(
-                    //   imageUrl: BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',
-                    //   placeholder: (context, url)=> CircularProgressIndicator(),
-                    //   errorWidget: (context, url, error) => Icon(Icons.error),
-                    // ),
-                  //child: Image.network(BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',width: 70,height: 70,),
+                        width: 82.5,
+                        height: 82.5,
+                      ),
+                      //     child: Image.asset(
+                      //   'assets/ProfileImage/MaskGroup15@3x.png',
+                      //   width: 70,
+                      //   height: 70,
+                      // )
+                      // child: CachedNetworkImage(
+                      //   imageUrl: BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',
+                      //   placeholder: (context, url)=> CircularProgressIndicator(),
+                      //   errorWidget: (context, url, error) => Icon(Icons.error),
+                      // ),
+                      //child: Image.network(BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',width: 70,height: 70,),
                     ),
                   ),
                 ),

@@ -279,13 +279,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void onRequestOtpFailed() {
     // TODO: implement onRequestOtpFailed
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void onRequestOtpSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
