@@ -54,7 +54,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 0) {
+            if (count > 1) {
               setState(() {
                 --count;
                 print(count);
