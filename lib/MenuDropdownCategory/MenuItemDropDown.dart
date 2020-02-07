@@ -43,7 +43,6 @@ class MenuItemState extends State<MenuItem>
       _selectedMenu = index;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,6 +80,7 @@ class MenuItemState extends State<MenuItem>
                     trailing: Text(_menu[index].itemCount),
                     onTap: () {
                       _onSelected(index);
+                      
                     },
                   );
                 },

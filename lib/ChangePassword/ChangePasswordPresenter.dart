@@ -36,6 +36,8 @@ class ChangePasswordPresenter extends ChangePasswordContractor {
          changePassView.changePasswordfailed();
           break;
       }
+    }).catchError((error) {
+      print(error);
     });
 //ApiCall
     //;

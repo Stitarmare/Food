@@ -1,20 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
-import 'package:foodzi/Utils/loaderclass.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 
-import 'package:foodzi/widgets/MenuItemDropDown.dart';
+//import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/MenuItemDropDown.dart';
+//import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 
@@ -37,13 +38,17 @@ class _RestaurantViewState extends State<RestaurantView>
   int restId;
   final GlobalKey<State> _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
+
+  String menutype;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
-    restaurantPresenter.getMenuList(widget.rest_Id, context);
+    restaurantPresenter.getMenuList(widget.rest_Id, context, menu: menutype);
     super.initState();
   }
 
@@ -53,7 +58,8 @@ class _RestaurantViewState extends State<RestaurantView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          restaurantPresenter.getMenuList(widget.rest_Id, context);
+          restaurantPresenter.getMenuList(widget.rest_Id, context,
+              menu: menutype);
           print("Bottom");
         }
       }
@@ -232,9 +238,26 @@ class _RestaurantViewState extends State<RestaurantView>
               child: CupertinoSwitch(
                 activeColor: redtheme,
                 onChanged: (bool value) {
+                  //  DialogsIndicator.showLoadingDialog(
+                  //      context, _keyLoader, "Loading");
                   setState(() {
-                    ColorLoader2();
                     this._switchvalue = value;
+                    // menutype = (this._switchvalue == true) ? 'veg':
+                    // null;
+                    // print(menutype);
+                    // restaurantPresenter.getMenuList(
+                    //     widget.rest_Id, context,menu:menutype);
+                    if (this._switchvalue) {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      menutype = 'veg';
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          menu: menutype);
+                    } else {
+                      menutype = null;
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          menu: menutype);
+                    }
                   });
                 },
                 value: this._switchvalue,
@@ -459,19 +482,43 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
     // TODO: implement getMenuListsuccess
+
     if (menulist.length == 0) {
       return;
     }
-
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
       } else {
+        _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
       }
       page++;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
+//   void _onLoading() {
+//   showDialog(
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (BuildContext context) {
+//       return Dialog(
+//         child: new Row(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             new CircularProgressIndicator(),
+//             new Text("Loading"),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+//   new Future.delayed(new Duration(seconds: 2), () {
+//     Navigator.pop(context); //pop dialog
+//     print('Loading');
+//    // _login();
+//   });
+// }
 }
 
 // class Item {

@@ -56,7 +56,7 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
           break;
         case SuccessType.failed:
           print("Restaurant failed");
-          restaurantInfoModelView.restaurantInfoFailed();
+          restaurantInfoModelView.getReviewFailed();
           break;
       }
     }).catchError((error) {
@@ -77,14 +77,14 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Restaurant review success");
+          print("Restaurant  write review success");
           print(value.model);
           restaurantInfoModelView.writeReviewSuccess(value.model);
           // restaurantInfoModelView.restaurantInfoSuccess(value.model.data);
           break;
         case SuccessType.failed:
           print("Restaurant failed");
-          restaurantInfoModelView.restaurantInfoFailed();
+          restaurantInfoModelView.writeReviewFailed();
           break;
       }
     }).catchError((error) {

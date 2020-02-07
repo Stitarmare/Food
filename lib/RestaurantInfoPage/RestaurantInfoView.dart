@@ -17,7 +17,8 @@ import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:foodzi/widgets/RatingDailog.dart';
+import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
+// import 'package:foodzi/widgets/RatingDailog.dart';
 
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
@@ -771,7 +772,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           )),
                 ),
                 onTap: () {
-                  showDialog(context: context, child: MyDialogRating());
+                  showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      child: MyDialogRating(
+                        rest_id: widget.rest_Id,
+                      ));
                   // await reviewPopup(context);
                 },
               ),
@@ -1025,6 +1031,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
     // TODO: implement writeReviewSuccess
+    print('Review Success');
   }
 }
 
