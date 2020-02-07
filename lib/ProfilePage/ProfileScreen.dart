@@ -3,6 +3,7 @@ import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -11,7 +12,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -23,6 +23,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   File _image;
   bool isempty = false;
   Future getImage(bool isCamera) async {
@@ -108,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/PlaceholderImage/placeholder.png',
                       image: profilePic(),
-                        fit: BoxFit.cover,
+                      fit: BoxFit.cover,
                       width: 82.5,
                       height: 82.5,
                     ),
@@ -142,6 +144,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
                         showDialooxg();
+                        //  DialogsIndicator.showLoadingDialog(
+                        // context, _keyLoader, "Loading");
                       },
                       // child: Container(
                       //   width: 23,
@@ -400,5 +404,11 @@ class _ProfileScreenState extends State<ProfileScreen>
     // TODO: implement profileImageUpdateFailed
   }
   @override
-  void profileImageUpdateSuccess() {}
+  void profileImageUpdateSuccess() {
+    //  DialogsIndicator.showLoadingDialog(
+    //                   context, _keyLoader, "Loading");
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //   SnackBar(content: Text("Profile updated successfully."));
+    // }
+  }
 }
