@@ -54,7 +54,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 0) {
+            if (count > 1) {
               setState(() {
                 --count;
                 print(count);
@@ -126,7 +126,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-<<<<<<< HEAD
             onTap: (){
               Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -136,16 +135,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
               //     onValueChange: _onValueChange,
               //     initialValue: _selectedId,
               //   ));
-=======
-            onTap: () {
-              // print("button is pressed");
-              showDialog(
-                  context: context,
-                  child: new RadioDialog(
-                    onValueChange: _onValueChange,
-                    initialValue: _selectedId,
-                  ));
->>>>>>> bd0915a338ce124757589414aa299c30ef61baea
             },
             child: Container(
               height: 54,

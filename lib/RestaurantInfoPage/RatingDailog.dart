@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetRestaurantReview.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
+import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/theme/colors.dart';
+//import 'package:rating_bar/rating_bar.dart';
+import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
+import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 
 class MyDialogRating extends StatefulWidget {
-  const MyDialogRating({this.onValueChange, this.initialValue});
+  const MyDialogRating({this.onValueChange, this.initialValue,this.rest_id});
 
   final String initialValue;
   final void Function(String) onValueChange;
+  final int rest_id;
 
   @override
   State createState() => new MyDialogRatingState();
 }
-class MyDialogRatingState extends State<MyDialogRating> {
+class MyDialogRatingState extends State<MyDialogRating> implements RestaurantInfoModelView{
  int _rating = 0;
   // TextEditingController _controller;
+   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
 
   void rate(int rating) {
     //Other actions based on rating such as api calls.
     setState(() {
-      _rating = rating;
+      if (_rating == rating){
+        _rating--;
+      }else{
+        _rating = rating;
+      }
     });
   }
   @override
@@ -48,7 +60,7 @@ class MyDialogRatingState extends State<MyDialogRating> {
                     SizedBox(
                       height: 20,
                     ),
-                    //Rating for Reviews
+                    // Rating for Reviews
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -119,6 +131,17 @@ class MyDialogRatingState extends State<MyDialogRating> {
                         ],
                       ),
                     ),
+  //                     RatingBar(
+  //   onRatingChanged: (rating) => setState(() => _rating = rating),
+  //   filledIcon: Icons.star,
+  //   emptyIcon: Icons.star_border,
+  //   halfFilledIcon: Icons.star_half,
+  //   isHalfAllowed: false,
+  //   filledColor: Colors.green,
+  //   emptyColor: Colors.redAccent,
+  //   halfFilledColor: Colors.amberAccent, 
+  //   size: 20,
+  // ),
                     SizedBox(
                       height: 20
                     ),
@@ -158,6 +181,7 @@ class MyDialogRatingState extends State<MyDialogRating> {
                       onPressed: () {
                         // restaurantIdInfoPresenter.writeRestaurantReview(
                         //     context, widget.rest_Id, _controller.text, 3);
+                        restaurantReviewPresenter.writeRestaurantReview(context, widget.rest_id, _controller.value.text, _rating);
                         print(_rating);
                         print(_controller.value.text);
                         //Write Review API Call
@@ -175,5 +199,35 @@ class MyDialogRatingState extends State<MyDialogRating> {
               ),
       ]
     );
+  }
+
+  @override
+  void getReviewFailed() {
+    // TODO: implement getReviewFailed
+  }
+
+  @override
+  void getReviewSuccess(RestaurantReviewData getReviewList) {
+    // TODO: implement getReviewSuccess
+  }
+
+  @override
+  void restaurantInfoFailed() {
+    // TODO: implement restaurantInfoFailed
+  }
+
+  @override
+  void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+    // TODO: implement restaurantInfoSuccess
+  }
+
+  @override
+  void writeReviewFailed() {
+    // TODO: implement writeReviewFailed
+  }
+
+  @override
+  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
+    // TODO: implement writeReviewSuccess
   }
 }

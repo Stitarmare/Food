@@ -28,7 +28,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 0) {
+            if (count > 1) {
               setState(() {
                 --count;
                 print(count);
