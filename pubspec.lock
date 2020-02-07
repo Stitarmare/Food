@@ -151,13 +151,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  google_maps_flutter:
-    dependency: "direct main"
-    description:
-      name: google_maps_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.22+1"
   http:
     dependency: "direct main"
     description:
@@ -200,6 +193,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4+1"
+  map_launcher:
+    dependency: "direct main"
+    description:
+      name: map_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2"
   matcher:
     dependency: transitive
     description:
@@ -389,4 +389,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
+  flutter: ">=1.12.13 <2.0.0"

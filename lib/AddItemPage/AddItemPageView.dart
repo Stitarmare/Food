@@ -47,7 +47,8 @@ class _AddItemPageViewState extends State<AddItemPageView> {
       _selectedId = value;
     });
   }
-   Widget steppercount() {
+
+  Widget steppercount() {
     return Container(
       height: 24,
       width: 92,
@@ -67,21 +68,24 @@ class _AddItemPageViewState extends State<AddItemPageView> {
                 color: redtheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
-              child: Icon(
-                Icons.remove,
-                color: Colors.white,
-                size: 24,
-              ),
+            child: Icon(
+              Icons.remove,
+              color: Colors.white,
+              size: 24,
+            ),
           ),
         ),
-           Padding(
-            padding: const EdgeInsets.only(left: 13,right: 13),
-            child: Text(count.toString(),style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),),
+        Padding(
+          padding: const EdgeInsets.only(left: 13, right: 13),
+          child: Text(
+            count.toString(),
+            style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme700),
           ),
+        ),
         InkWell(
           onTap: () {
             if (count < 10) {
@@ -97,17 +101,16 @@ class _AddItemPageViewState extends State<AddItemPageView> {
                 color: redtheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 24,
-              ),
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 24,
+            ),
           ),
         ),
       ]),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,17 +129,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-<<<<<<< HEAD
-            onTap: (){
-              Navigator.pushNamed(context, '/OrderConfirmationView');
-              // print("button is pressed");
-              // showDialog(
-              //   context: context,
-              //   child: new RadioDialog(
-              //     onValueChange: _onValueChange,
-              //     initialValue: _selectedId,
-              //   ));
-=======
             onTap: () {
               // print("button is pressed");
               showDialog(
@@ -145,7 +137,6 @@ class _AddItemPageViewState extends State<AddItemPageView> {
                     onValueChange: _onValueChange,
                     initialValue: _selectedId,
                   ));
->>>>>>> bd0915a338ce124757589414aa299c30ef61baea
             },
             child: Container(
               height: 54,

@@ -7,6 +7,7 @@ import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
+import 'package:foodzi/Utils/loaderclass.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 
@@ -232,6 +233,7 @@ class _RestaurantViewState extends State<RestaurantView>
                 activeColor: redtheme,
                 onChanged: (bool value) {
                   setState(() {
+                    ColorLoader2();
                     this._switchvalue = value;
                   });
                 },

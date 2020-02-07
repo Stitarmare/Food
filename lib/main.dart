@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPage2/AddItemPageSecond.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
+import 'package:foodzi/GoogleMapView/Gmapview.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -55,8 +56,9 @@ var routes = <String, WidgetBuilder>{
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
   '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
-    '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
-  '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView()
+  '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
+  '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
+  '/Gmapview': (BuildContext context) => Gmapview()
 };
 
 void main() => runApp(MaterialApp(

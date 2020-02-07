@@ -22,12 +22,6 @@
 @import google_api_availability;
 #endif
 
-#if __has_include(<google_maps_flutter/FLTGoogleMapsPlugin.h>)
-#import <google_maps_flutter/FLTGoogleMapsPlugin.h>
-#else
-@import google_maps_flutter;
-#endif
-
 #if __has_include(<image_picker/FLTImagePickerPlugin.h>)
 #import <image_picker/FLTImagePickerPlugin.h>
 #else
@@ -38,6 +32,12 @@
 #import <location_permissions/LocationPermissionsPlugin.h>
 #else
 @import location_permissions;
+#endif
+
+#if __has_include(<map_launcher/MapLauncherPlugin.h>)
+#import <map_launcher/MapLauncherPlugin.h>
+#else
+@import map_launcher;
 #endif
 
 #if __has_include(<path_provider/FLTPathProviderPlugin.h>)
@@ -64,9 +64,9 @@
   [DrawerbehaviorPlugin registerWithRegistrar:[registry registrarForPlugin:@"DrawerbehaviorPlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [GoogleApiAvailabilityPlugin registerWithRegistrar:[registry registrarForPlugin:@"GoogleApiAvailabilityPlugin"]];
-  [FLTGoogleMapsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTGoogleMapsPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [LocationPermissionsPlugin registerWithRegistrar:[registry registrarForPlugin:@"LocationPermissionsPlugin"]];
+  [MapLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"MapLauncherPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
