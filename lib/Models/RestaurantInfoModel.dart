@@ -1,95 +1,99 @@
 import 'dart:convert';
 
-RestaurantInfoModel restaurantInfoModelFromJson(String str) => RestaurantInfoModel.fromJson(json.decode(str));
+RestaurantInfoModel restaurantInfoModelFromJson(String str) =>
+    RestaurantInfoModel.fromJson(json.decode(str));
 
-String restaurantInfoModelToJson(RestaurantInfoModel data) => json.encode(data.toJson());
+String restaurantInfoModelToJson(RestaurantInfoModel data) =>
+    json.encode(data.toJson());
 
 class RestaurantInfoModel {
-    String status;
-    int statusCode;
-    RestaurantInfoData data;
+  String status;
+  int statusCode;
+  RestaurantInfoData data;
 
-    RestaurantInfoModel({
-        this.status,
-        this.statusCode,
-        this.data,
-    });
+  RestaurantInfoModel({
+    this.status,
+    this.statusCode,
+    this.data,
+  });
 
-    factory RestaurantInfoModel.fromJson(Map<String, dynamic> json) => RestaurantInfoModel(
+  factory RestaurantInfoModel.fromJson(Map<String, dynamic> json) =>
+      RestaurantInfoModel(
         status: json["status"],
         statusCode: json["status_code"],
         data: RestaurantInfoData.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
         "data": data.toJson(),
-    };
+      };
 }
 
 class RestaurantInfoData {
-    int id;
-    String restName;
-    String addressLine1;
-    String addressLine2;
-    String addressLine3;
-    String contactNumber;
-    String coverImage;
-    String logo;
-    String currency;
-    String latitude;
-    String longitude;
-    String openingTime;
-    String closingTime;
-    String colourCode;
-    int countryId;
-    int stateId;
-    int cityId;
-    int userId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String status;
-    dynamic deletedAt;
-    String averageRating;
-    int reviewsCount;
-    List<dynamic> reviews;
-    List<Schedule> schedule;
-    List<Categories> category;
-    List<Gallary> gallary;
+  int id;
+  String restName;
+  String addressLine1;
+  String addressLine2;
+  String addressLine3;
+  String contactNumber;
+  String coverImage;
+  String logo;
+  String currency;
+  String latitude;
+  String longitude;
+  String openingTime;
+  String closingTime;
+  String colourCode;
+  int countryId;
+  int stateId;
+  int cityId;
+  int userId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String status;
+  dynamic deletedAt;
+  String averageRating;
+  int reviewsCount;
+  List<dynamic> reviews;
+  List<Schedule> schedule;
+  List<Categories> category;
+  List<Gallary> gallary;
 
-    RestaurantInfoData({
-        this.id,
-        this.restName,
-        this.addressLine1,
-        this.addressLine2,
-        this.addressLine3,
-        this.contactNumber,
-        this.coverImage,
-        this.logo,
-        this.currency,
-        this.latitude,
-        this.longitude,
-        this.openingTime,
-        this.closingTime,
-        this.colourCode,
-        this.countryId,
-        this.stateId,
-        this.cityId,
-        this.userId,
-        this.createdAt,
-        this.updatedAt,
-        this.status,
-        this.deletedAt,
-        this.averageRating,
-        this.reviewsCount,
-        this.reviews,
-        this.schedule,
-        this.category,
-        this.gallary,
-    });
+  RestaurantInfoData({
+    this.id,
+    this.restName,
+    this.addressLine1,
+    this.addressLine2,
+    this.addressLine3,
+    this.contactNumber,
+    this.coverImage,
+    this.logo,
+    this.currency,
+    this.latitude,
+    this.longitude,
+    this.openingTime,
+    this.closingTime,
+    this.colourCode,
+    this.countryId,
+    this.stateId,
+    this.cityId,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+    this.deletedAt,
+    this.averageRating,
+    this.reviewsCount,
+    this.reviews,
+    this.schedule,
+    this.category,
+    this.gallary,
+  });
 
-    factory RestaurantInfoData.fromJson(Map<String, dynamic> json) => RestaurantInfoData(
+  factory RestaurantInfoData.fromJson(Map<String, dynamic> json) =>
+      RestaurantInfoData(
         id: json["id"],
         restName: json["rest_name"],
         addressLine1: json["address_line_1"],
@@ -115,12 +119,15 @@ class RestaurantInfoData {
         averageRating: json["average_rating"],
         reviewsCount: json["reviews_count"],
         reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
-        schedule: List<Schedule>.from(json["schedule"].map((x) => Schedule.fromJson(x))),
-        category: List<Categories>.from(json["category"].map((x) => Categories.fromJson(x))),
-        gallary: List<Gallary>.from(json["gallary"].map((x) => Gallary.fromJson(x))),
-    );
+        schedule: List<Schedule>.from(
+            json["schedule"].map((x) => Schedule.fromJson(x))),
+        category: List<Categories>.from(
+            json["category"].map((x) => Categories.fromJson(x))),
+        gallary:
+            List<Gallary>.from(json["gallary"].map((x) => Gallary.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "rest_name": restName,
         "address_line_1": addressLine1,
@@ -149,9 +156,10 @@ class RestaurantInfoData {
         "schedule": List<dynamic>.from(schedule.map((x) => x.toJson())),
         "category": List<dynamic>.from(category.map((x) => x)),
         "gallary": List<dynamic>.from(gallary.map((x) => x.toJson())),
-    };
+      };
 }
-class Categories{
+
+class Categories {
   int id;
   int workstation_id;
   String name;
@@ -163,68 +171,68 @@ class Categories{
     this.workstation_id,
     this.rest_id,
   });
-  factory Categories.fromJson(Map<String, dynamic> json){
+  factory Categories.fromJson(Map<String, dynamic> json) {
     return Categories(
       id: json["id"],
-      name:json["name"],
-      workstation_id:json["workstation_id"],
-      rest_id:json["rest_id"],
+      name: json["name"],
+      workstation_id: json["workstation_id"],
+      rest_id: json["rest_id"],
     );
   }
 }
 
 class Gallary {
-    int id;
-    int restId;
-    String imagePath;
-    dynamic createdAt;
-    dynamic updatedAt;
+  int id;
+  int restId;
+  String imagePath;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-    Gallary({
-        this.id,
-        this.restId,
-        this.imagePath,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Gallary({
+    this.id,
+    this.restId,
+    this.imagePath,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    factory Gallary.fromJson(Map<String, dynamic> json) => Gallary(
+  factory Gallary.fromJson(Map<String, dynamic> json) => Gallary(
         id: json["id"],
         restId: json["rest_id"],
         imagePath: json["image_path"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "rest_id": restId,
         "image_path": imagePath,
         "created_at": createdAt,
         "updated_at": updatedAt,
-    };
+      };
 }
 
 class Schedule {
-    int id;
-    String dayOfWeek;
-    String fromTime;
-    String toTime;
-    int restId;
-    DateTime createdAt;
-    DateTime updatedAt;
+  int id;
+  String dayOfWeek;
+  String fromTime;
+  String toTime;
+  int restId;
+  DateTime createdAt;
+  DateTime updatedAt;
 
-    Schedule({
-        this.id,
-        this.dayOfWeek,
-        this.fromTime,
-        this.toTime,
-        this.restId,
-        this.createdAt,
-        this.updatedAt,
-    });
+  Schedule({
+    this.id,
+    this.dayOfWeek,
+    this.fromTime,
+    this.toTime,
+    this.restId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
+  factory Schedule.fromJson(Map<String, dynamic> json) => Schedule(
         id: json["id"],
         dayOfWeek: json["day_of_week"],
         fromTime: json["from_time"],
@@ -232,9 +240,9 @@ class Schedule {
         restId: json["rest_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "day_of_week": dayOfWeek,
         "from_time": fromTime,
@@ -242,5 +250,5 @@ class Schedule {
         "rest_id": restId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-    };
+      };
 }

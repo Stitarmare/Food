@@ -56,7 +56,7 @@ class _DineViewState extends State<DineInView>
 
   // double _slider2Val = 50.0;
 
-  var sliderValue = 0.0;
+  var sliderValue;
 
   @override
   void initState() {
@@ -152,16 +152,19 @@ class _DineViewState extends State<DineInView>
                               if (bottomList == optionSortBy) {
                                 sortedBy = bottomItem.title;
                                 if (bottomItem.title == "Distance") {
-                                  _restaurantList.replaceRange(
-                                      0, bottomList.length, _restaurantList);
                                   print('Distance selected');
+                                  sortedBy = "distance";
                                 } else {
                                   print('popularity');
+                                  sortedBy = "rating";
                                 }
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings") {
+                                  filteredBy = "rating${SliderDialog(
+                                    onValueChange: sliderValue,
+                                  )}";
                                   print('object');
                                   //ShowDialogBox
                                   // showDialogBox(context);
@@ -169,6 +172,9 @@ class _DineViewState extends State<DineInView>
                                       context: context,
                                       child: new SliderDialog());
                                 }
+                              } else {
+                                print('Favourites only');
+                                filteredBy = "favourite";
                               }
                             });
                           }
