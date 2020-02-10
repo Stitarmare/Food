@@ -63,7 +63,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantInfo() {
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.rest_Id);
   }
 
@@ -122,6 +122,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
+<<<<<<< HEAD
                       child: isInfoLoaded ? 
                       Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
                       // CachedNetworkImage(
@@ -130,6 +131,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       //   //  placeholder: (context, url) => CircularProgressIndicator(),
                       // ) 
                       : Image.asset(src.imagePath)
+=======
+                      child: isInfoLoaded ? Image.network(
+                        BaseUrl.getBaseUrlImages() + src.imagePath,
+                        fit: BoxFit.cover,
+                        //  placeholder: (context, url) => CircularProgressIndicator(),
+                      ) : Image.asset(src.imagePath)
+>>>>>>> b8964d44b04fb145d7ec184c24c6d1107e07c7b3
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,
@@ -868,7 +876,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 
@@ -901,17 +909,18 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.restName != null) {
       return _restaurantInfoData.restName;
     }
+    return "";
     }
     
     return "";
   }
   String getAddressText() {
     if (_restaurantInfoData != null) {
-        return _restaurantInfoData.addressLine1 +
+        return _restaurantInfoData.addressLine1 ?? "" +
                                 " " +
-                                _restaurantInfoData.addressLine2 +
+                                _restaurantInfoData.addressLine2 ?? "" +
                                 " " +
-                                _restaurantInfoData.addressLine3;
+                                _restaurantInfoData.addressLine3 ?? "";
     }
     return "";
     // 'Via in Arcione 115, 00187 Rome Italy',
@@ -929,7 +938,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.averageRating != null) {
         return _restaurantInfoData.averageRating.toString();
       }
-      
+      return "0";
     }
     return "0";
   }
@@ -938,9 +947,9 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.reviewsCount != null) {
-        return _restaurantInfoData.reviews.toString();
+        return _restaurantInfoData.reviewsCount.toString();
       }
-      
+      return "0";
     }
     return "0";
   }
@@ -952,7 +961,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.contactNumber != null) {
         return _restaurantInfoData.contactNumber.toString();
       }
-      
+      return "0";
     }
     return "0";
   }
