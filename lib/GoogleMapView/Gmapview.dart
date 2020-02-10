@@ -12,7 +12,9 @@ class Gmapview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: mapview(),
+      body: Container(
+        child: mapview(),
+      ),
     );
   }
 
