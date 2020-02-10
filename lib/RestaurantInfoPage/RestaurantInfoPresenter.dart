@@ -80,7 +80,7 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
           print("Restaurant  write review success");
           print(value.model);
           restaurantInfoModelView.writeReviewSuccess(value.model);
-          // restaurantInfoModelView.restaurantInfoSuccess(value.model.data);
+          //restaurantInfoModelView.writeReviewSuccess();
           break;
         case SuccessType.failed:
           print("Restaurant failed");
