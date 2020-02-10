@@ -17,7 +17,8 @@ class MyDialogRating extends StatefulWidget {
   @override
   State createState() => new MyDialogRatingState();
 }
-class MyDialogRatingState extends State<MyDialogRating> implements RestaurantInfoModelView{
+class MyDialogRatingState extends State<MyDialogRating> 
+implements RestaurantInfoModelView{
  int _rating = 0;
   // TextEditingController _controller;
    RestaurantInfoPresenter restaurantReviewPresenter;
@@ -33,6 +34,14 @@ class MyDialogRatingState extends State<MyDialogRating> implements RestaurantInf
       }
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+     restaurantReviewPresenter = RestaurantInfoPresenter(restaurantInfoModelView: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

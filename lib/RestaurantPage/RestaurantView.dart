@@ -87,8 +87,7 @@ class _RestaurantViewState extends State<RestaurantView>
 
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => RestaurantInfoView(
-                        // title: "${_restaurantList[i].restName}",
-                        rest_Id: widget.rest_Id,
+                          rest_Id: widget.rest_Id,
                       )));
             },
           )

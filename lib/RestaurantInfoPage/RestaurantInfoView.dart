@@ -27,9 +27,10 @@ enum DailogAction { yes, abort }
 
 class RestaurantInfoView extends StatefulWidget {
   // RestaurantInfoView({Key key}) : super(key: key);
+  int rest_Id;
   RestaurantInfoView({this.rest_Id});
 
-  int rest_Id;
+  
   _RestaurantInfoViewState createState() => _RestaurantInfoViewState();
 }
 
@@ -50,6 +51,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   bool isRestaurantViewed = true;
   bool isReview = false;
   var _current;
+  var isInfoLoaded = false;
+  List<Gallary> gallaryImages = [Gallary(id: 0,imagePath: "assets/MenuIcon/menu.png",createdAt: "",restId: 0,updatedAt: "")];
   @override
   void initState() {
     restaurantIdInfoPresenter =
@@ -82,164 +85,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     });
   }
 
-  // Future<DailogAction> reviewPopup(
-  //   BuildContext context,
-  // ) async {
-  //   await showDialog(
-  //       context: context,
-  //       barrierDismissible: true,
-  //       builder: (BuildContext context) {
-  //         return Container(
-  //           child: Dialog(
-  //             shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(10)),
-  //             child: Container(
-  //               height: 311,
-  //               width: 284,
-  //               decoration:
-  //                   BoxDecoration(borderRadius: BorderRadius.circular(20)),
-  //               child: Column(
-  //                 children: <Widget>[
-  //                   SizedBox(
-  //                     height: 35,
-  //                   ),
-  //                   Center(
-  //                     child: Text(
-  //                       'Write Review',
-  //                       style: TextStyle(
-  //                           fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 27,
-  //                   ),
-  //                   //Rating for Reviews
-  //                   Container(
-  //                     child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       mainAxisSize: MainAxisSize.min,
-  //                       children: <Widget>[
-  //                         new GestureDetector(
-  //                           child: new Icon(
-  //                             Icons.star,
-  //                             size: 20,
-  //                             color: _rating >= 1
-  //                                 ? Color.fromRGBO(237, 29, 37, 1)
-  //                                 : Color.fromRGBO(237, 237, 237, 1),
-  //                           ),
-  //                           onTap: () => rate(1),
-  //                         ),
-  //                         SizedBox(
-  //                           width: 11,
-  //                         ),
-  //                         new GestureDetector(
-  //                           child: new Icon(
-  //                             Icons.star,
-  //                             size: 20,
-  //                             color: _rating >= 2
-  //                                 ? Color.fromRGBO(237, 29, 37, 1)
-  //                                 : Color.fromRGBO(237, 237, 237, 1),
-  //                           ),
-  //                           onTap: () => rate(2),
-  //                         ),
-  //                         SizedBox(
-  //                           width: 11,
-  //                         ),
-  //                         new GestureDetector(
-  //                           child: new Icon(
-  //                             Icons.star,
-  //                             size: 20,
-  //                             color: _rating >= 3
-  //                                 ? Color.fromRGBO(237, 29, 37, 1)
-  //                                 : Color.fromRGBO(237, 237, 237, 1),
-  //                           ),
-  //                           onTap: () => rate(3),
-  //                         ),
-  //                         SizedBox(
-  //                           width: 11,
-  //                         ),
-  //                         new GestureDetector(
-  //                           child: new Icon(
-  //                             Icons.star,
-  //                             size: 20,
-  //                             color: _rating >= 4
-  //                                 ? Color.fromRGBO(237, 29, 37, 1)
-  //                                 : Color.fromRGBO(237, 237, 237, 1),
-  //                           ),
-  //                           onTap: () => rate(4),
-  //                         ),
-  //                         SizedBox(
-  //                           width: 11,
-  //                         ),
-  //                         new GestureDetector(
-  //                           child: new Icon(
-  //                             Icons.star,
-  //                             size: 20,
-  //                             color: _rating >= 5
-  //                                 ? Color.fromRGBO(237, 29, 37, 1)
-  //                                 : Color.fromRGBO(237, 237, 237, 1),
-  //                           ),
-  //                           onTap: () => rate(5),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 24,
-  //                   ),
-  //                   Center(
-  //                     child: Container(
-  //                       margin: EdgeInsets.only(left: 37, right: 27),
-  //                       height: 75,
-  //                       decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(15),
-  //                           border: Border.all(
-  //                               color: Color.fromRGBO(213, 213, 213, 1))),
-  //                       // color: Color.fromRGBO(213, 213, 213, 1)),
-  //                       padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-  //                       child: TextFormField(
-  //                         decoration: InputDecoration(
-  //                           hintText: "Write Review.",
-  //                           hintStyle: TextStyle(
-  //                               fontFamily: 'gotham',
-  //                               color: greytheme300,
-  //                               fontSize: 12,
-  //                               fontWeight: FontWeight.w500),
-  //                         ),
-  //                         maxLines: 3,
-  //                         controller: _controller,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 36,
-  //                   ),
-  //                   Center(
-  //                       child: RaisedButton(
-  //                     color: Color.fromRGBO(239, 29, 37, 1),
-  //                     shape: RoundedRectangleBorder(
-  //                         // side: BorderSide(
-  //                         //     color: Color.fromRGBO(170, 170, 170, 1)),
-  //                         borderRadius: BorderRadius.circular(5)),
-  //                     onPressed: () {
-  //                       restaurantIdInfoPresenter.writeRestaurantReview(
-  //                           context, widget.rest_Id, _controller.text, 3);
-  //                     },
-  //                     child: Text(
-  //                       'SUBMIT',
-  //                       style: TextStyle(
-  //                         color: Color.fromRGBO(255, 255, 255, 1),
-  //                         fontSize: 18,
-  //                       ),
-  //                     ),
-  //                   ))
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +96,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
       return result;
     }
-
+    
     Widget image_carousel = new Stack(
       children: <Widget>[
         Container(
@@ -269,18 +114,18 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             viewportFraction: 1.0,
             aspectRatio: 16 / 9,
             height: Constants.getSafeAreaHeight(context) * 0.35,
-            items: _restaurantInfoData.gallary.map((src) {
+            items: gallaryImages.map((src) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: CachedNetworkImage(
+                      child: isInfoLoaded ? CachedNetworkImage(
                         imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
                         fit: BoxFit.cover,
                         //  placeholder: (context, url) => CircularProgressIndicator(),
-                      )
+                      ) : Image.asset(src.imagePath)
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,
@@ -298,7 +143,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: map<Widget>(
-              _restaurantInfoData.gallary,
+              gallaryImages,
               (index, url) {
                 return Container(
                   width: 8.0,
@@ -341,7 +186,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                   //       fontSize: 16),
                   // ),
                   child: AutoSizeText(
-                    _restaurantInfoData.restName,
+                    getRestName(),
                     maxLines: 2,
                     maxFontSize: 16,
                     style: TextStyle(
@@ -363,11 +208,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           width: 260,
                           child: AutoSizeText(
                             // 'Via in Arcione 115, 00187 Rome Italy',
-                            _restaurantInfoData.addressLine1 +
-                                " " +
-                                _restaurantInfoData.addressLine2 +
-                                " " +
-                                _restaurantInfoData.addressLine3,
+                            getAddressText(),
                             style: TextStyle(
                               color: greytheme100,
                               // fontSize: 14,
@@ -406,7 +247,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                             _restaurantInfoData.latitude),
                                         longtitude: double.parse(
                                             _restaurantInfoData.longitude),
-                                        title: _restaurantInfoData.restName,
+                                        title: getRestName(),
                                         description:
                                             _restaurantInfoData.addressLine1,
                                       ))); //Show Map
@@ -426,7 +267,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
-                    itemCount: _restaurantInfoData.category.length,
+                    itemCount: getCategoryLength(),
                     itemBuilder: (BuildContext context, int index) {
                       return menuButton(_restaurantInfoData.category[index]);
                     },
@@ -465,10 +306,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                 left: 4, top: 2, bottom: 2),
                             child: Text(
                               // '_restaurantInfoData.averageRating.toString()',
-                              _restaurantInfoData.averageRating == null
-                                  ? '0'
-                                  : _restaurantInfoData.averageRating
-                                      .toString(),
+                             getAverageRating(),
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 10,
@@ -483,7 +321,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       width: 12,
                     ),
                     Text(
-                      '(${_restaurantInfoData.reviewsCount.toString()}+ Reviews)',
+                      '(${getReviewsCount()}+ Reviews)',
                       // _restaurantInfoData.reviewsCount.toString(),
                       // "($_restaurantInfoData.reviewsCount.toString())",
                       // _restaurantInfoData.reviewsCount.toString(),
@@ -531,8 +369,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           Padding(
                             padding: EdgeInsets.only(
                                 right: 7, top: 6, bottom: 5, left: 7),
-                            child: Text(
-                              _restaurantInfoData.contactNumber,
+                            child: Text(getContactNumber(),
+                              // _restaurantInfoData.contactNumber,
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 14,
@@ -674,7 +512,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           Container(
               // height: 150,
               child: ListView.builder(
-            itemCount: _restaurantInfoData.schedule.length,
+            itemCount: getScheduleLength(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return Container(
@@ -997,15 +835,19 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     setState(() {
       if (restInfoData == null) {
         // Dialogs.showLoadingDialog(context, _keyLoader, "");
-        CircularProgressIndicator();
+        //CircularProgressIndicator();
       }
       _restaurantInfoData = restInfoData;
-      print(_restaurantInfoData.restName);
-      print(_restaurantInfoData.schedule);
+      if (_restaurantInfoData.gallary != null && _restaurantInfoData.gallary.length>0){
+        gallaryImages = _restaurantInfoData.gallary;
+        isInfoLoaded = true;
+      }
+      //print(_restaurantInfoData.restName);
+     // print(_restaurantInfoData.schedule);
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 
@@ -1033,6 +875,75 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     // TODO: implement writeReviewSuccess
     print('Review Success');
   }
+  String getRestName() {
+    if (_restaurantInfoData != null) {
+      if (_restaurantInfoData.restName != null) {
+      return _restaurantInfoData.restName;
+    }
+    }
+    
+    return "";
+  }
+  String getAddressText() {
+    if (_restaurantInfoData != null) {
+        return _restaurantInfoData.addressLine1 +
+                                " " +
+                                _restaurantInfoData.addressLine2 +
+                                " " +
+                                _restaurantInfoData.addressLine3;
+    }
+    return "";
+    // 'Via in Arcione 115, 00187 Rome Italy',
+                            
+  }
+  int getCategoryLength(){
+    if (_restaurantInfoData != null) {
+      return _restaurantInfoData.category.length;
+    }
+    return 0;
+  }
+  String getAverageRating() 
+  {
+    if (_restaurantInfoData != null) {
+      if (_restaurantInfoData.averageRating != null) {
+        return _restaurantInfoData.averageRating.toString();
+      }
+      
+    }
+    return "0";
+  }
+  
+  String getReviewsCount() 
+  {
+    if (_restaurantInfoData != null) {
+      if (_restaurantInfoData.reviewsCount != null) {
+        return _restaurantInfoData.reviews.toString();
+      }
+      
+    }
+    return "0";
+  }
+
+
+  String getContactNumber() 
+  {
+    if (_restaurantInfoData != null) {
+      if (_restaurantInfoData.contactNumber != null) {
+        return _restaurantInfoData.contactNumber.toString();
+      }
+      
+    }
+    return "0";
+  }
+
+
+  int getScheduleLength(){
+    if (_restaurantInfoData != null) {
+      return _restaurantInfoData.schedule.length;
+    }
+    return 0;
+  }
+  
 }
 
 class MenuCategoryButton {
