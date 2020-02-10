@@ -122,11 +122,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: isInfoLoaded ? CachedNetworkImage(
-                        imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                        fit: BoxFit.cover,
-                        //  placeholder: (context, url) => CircularProgressIndicator(),
-                      ) : Image.asset(src.imagePath)
+                      child: isInfoLoaded ? 
+                      Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
+                      // CachedNetworkImage(
+                      //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                      //   fit: BoxFit.cover,
+                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                      // ) 
+                      : Image.asset(src.imagePath)
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,
@@ -610,13 +613,25 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           // decorationStyle: TextDecorationStyle.solid,
                           )),
                 ),
-                onTap: () {
-                  showDialog(
+                onTap: () async{
+                  var dailogValue = await showDialog(
                       context: context,
                       barrierDismissible: true,
                       child: MyDialogRating(
                         rest_id: widget.rest_Id,
-                      ));
+                      )
+
+                      );
+                      setState(() {
+                        print("success");
+                        if (dailogValue != null){
+                          if(dailogValue == true){
+                            _getRestaurantReview();
+                          }
+                        }
+                      });
+                      
+
                   // await reviewPopup(context);
                 },
               ),
@@ -626,11 +641,16 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           SizedBox(
             height: 10,
           ),
+   getRestaurantReviewLength()
+           ==0 ? Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('No Reviews'),
+          ),):
           Container(
               height: MediaQuery.of(context).size.height * 0.35,
               child: ListView.builder(
                 // itemCount: _restaurantInfoData.reviews.length,
-                itemCount: _getReviewData.reviews.length,
+                itemCount: getRestaurantReviewLength(),
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
@@ -944,6 +964,15 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     }
     return 0;
   }
+  int getRestaurantReviewLength(){
+    if (_getReviewData != null) {
+      return _getReviewData.reviews.length;
+    }
+    return 0;
+  }
+  
+
+  
   
 }
 
