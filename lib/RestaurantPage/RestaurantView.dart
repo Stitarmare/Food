@@ -44,6 +44,8 @@ class _RestaurantViewState extends State<RestaurantView>
   bool isselected = false;
 
   String menutype;
+
+  int restaurantId;
   @override
   void initState() {
     _detectScrollPosition();
@@ -219,6 +221,7 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   Widget _getOptionsformenu(BuildContext context) {
+    restaurantId = widget.rest_Id;
     return SliverToBoxAdapter(
       child: Container(
         child: Row(
@@ -290,7 +293,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     });
                     var abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(),
+                        builder: (_) => MenuItem(restaurantId: widget.rest_Id,),
                         barrierDismissible: true);
                     setState(() {
                       isselected = false;
