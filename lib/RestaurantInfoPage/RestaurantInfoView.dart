@@ -63,6 +63,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantInfo() {
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.rest_Id);
   }
 
@@ -847,7 +848,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 
