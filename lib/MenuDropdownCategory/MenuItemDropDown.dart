@@ -5,7 +5,7 @@ import 'package:foodzi/Models/CategoryListModel.dart';
 
 class MenuItem extends StatefulWidget {
   var restaurantId;
- MenuItem({ this.restaurantId});
+  MenuItem({this.restaurantId});
   @override
   State<StatefulWidget> createState() => MenuItemState();
 }
@@ -28,21 +28,19 @@ class MenuItemState extends State<MenuItem>
   // Item selectedMenu;
   int _selectedMenu = 0;
   int rest_Id;
- 
+
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
-
-  
 
   @override
   void initState() {
     super.initState();
-menudropdownPresenter = MenuDropdpwnPresenter(this);
+    menudropdownPresenter = MenuDropdpwnPresenter(this);
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-        menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
+    menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
 
     controller.addListener(() {
       setState(() {});
@@ -91,7 +89,7 @@ menudropdownPresenter = MenuDropdpwnPresenter(this);
                             : Color.fromRGBO(118, 118, 118, 1),
                       ),
                     ),
-                    trailing: Text(_categorydata[index].name),
+                    trailing: Text(_categorydata[index].menuCount.toString()),
                     onTap: () {
                       _onSelected(index);
                     },

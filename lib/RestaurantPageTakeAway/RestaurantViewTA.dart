@@ -9,6 +9,7 @@ import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -36,8 +37,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   int page = 1;
   final GlobalKey _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
+  String menutype;
   @override
   void initState() {
     _detectScrollPosition();
@@ -231,6 +235,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 onChanged: (bool value) {
                   setState(() {
                     this._switchvalue = value;
+                    if (this._switchvalue) {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      menutype = 'veg';
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          menu: menutype);
+                    } else {
+                      menutype = null;
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          menu: menutype);
+                    }
                   });
                 },
                 value: this._switchvalue,
@@ -263,7 +278,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     });
                     var abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(),
+                        builder: (_) => MenuItem(
+                              restaurantId: widget.rest_Id,
+                            ),
                         barrierDismissible: true);
                     setState(() {
                       isselected = false;
@@ -531,15 +548,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       if (_restaurantList == null) {
         _restaurantList = menulist;
       } else {
+         _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
       }
       page++;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop(); 
   }
 }
 
-class Item {
-  String itemName;
-  String itemCount;
-  Item({this.itemName, this.itemCount});
-}
+// class Item {
+//   String itemName;
+//   String itemCount;
+//   Item({this.itemName, this.itemCount});
+// }
