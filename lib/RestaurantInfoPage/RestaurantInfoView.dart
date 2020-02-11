@@ -23,7 +23,7 @@ import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
 
-enum DailogAction { yes, abort }
+//enum DailogAction { yes, abort }
 
 class RestaurantInfoView extends StatefulWidget {
   // RestaurantInfoView({Key key}) : super(key: key);
@@ -39,7 +39,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   DialogsIndicator dialogs = DialogsIndicator();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
   RestaurantInfoData _restaurantInfoData;
-  RestaurantReviewData _getReviewData;
+  List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -58,7 +58,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
-    _getRestaurantReview();
+    
     super.initState();
   }
 
@@ -122,7 +122,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-<<<<<<< HEAD
                       child: isInfoLoaded ? 
                       Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
                       // CachedNetworkImage(
@@ -131,13 +130,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       //   //  placeholder: (context, url) => CircularProgressIndicator(),
                       // ) 
                       : Image.asset(src.imagePath)
-=======
-                      child: isInfoLoaded ? Image.network(
-                        BaseUrl.getBaseUrlImages() + src.imagePath,
-                        fit: BoxFit.cover,
-                        //  placeholder: (context, url) => CircularProgressIndicator(),
-                      ) : Image.asset(src.imagePath)
->>>>>>> b8964d44b04fb145d7ec184c24c6d1107e07c7b3
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,
@@ -177,7 +169,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     Widget hotelInfo = new Container(
         height: MediaQuery.of(context).size.height * 0.68 + 23,
         child: SingleChildScrollView(
-          child: Column(
+          child:
+           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -322,7 +315,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 10,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
                           )
@@ -401,7 +394,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
               ]),
         ));
     return Scaffold(
-      body: Container(
+      body: _restaurantInfoData == null? Container(): Container(
         // height: Constants.getSafeAreaHeight(context) * 0.35,
         //             width: Constants.getScreenWidth(context),
         width: MediaQuery.of(context).size.width,
@@ -521,7 +514,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           SizedBox(
             height: 5,
           ),
-          Container(
+          getScheduleLength() ==0? Center(
+            child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Not Schedule Yet'),
+          ),
+          ):Container(
               // height: 150,
               child: ListView.builder(
             itemCount: getScheduleLength(),
@@ -655,7 +653,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             child: Text('No Reviews'),
           ),):
           Container(
-              height: MediaQuery.of(context).size.height * 0.35,
+              // height: MediaQuery.of(context).size.height * 0.35,
               child: ListView.builder(
                 // itemCount: _restaurantInfoData.reviews.length,
                 itemCount: getRestaurantReviewLength(),
@@ -704,11 +702,11 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                       padding: const EdgeInsets.only(
                                           left: 18, top: 16.5),
                                       child: Text(
-                                          _getReviewData.reviews[index].user
-                                                  .firstName +
+                                          // _getReviewData.reviews[index].user
+                                          //         .firstName +
+                                          _getReviewData[index].user.firstName +
                                               " " +
-                                              _getReviewData
-                                                  .reviews[index].user.lastName,
+                                               _getReviewData[index].user.lastName,
                                           style: TextStyle(
                                               fontSize: 13,
                                               color: greytheme1000,
@@ -742,13 +740,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 4, top: 2, bottom: 2),
                                               child: Text(
-                                                _getReviewData
-                                                    .reviews[index].rating
+                                                _getReviewData[index].rating
+                                                // _getReviewData
+                                                //     .reviews[index].rating
                                                     .toString(),
                                                 style: TextStyle(
                                                     fontFamily: 'gotham',
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
                                                     color: Colors.white),
                                               ),
                                             )
@@ -763,8 +762,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               left: 18, top: 10),
-                                          child: ExpandableText(_getReviewData
-                                                  .reviews[index].description
+                                          child: ExpandableText(_getReviewData[index].description
                                               // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
                                               // maxLines: 5,)
                                               ),
@@ -876,6 +874,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
+    _getRestaurantReview();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
@@ -886,11 +885,11 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void getReviewSuccess(RestaurantReviewData getReviewList) {
+  void getReviewSuccess( List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
-      print(_getReviewData.reviews);
+      print(_getReviewData);
     });
   }
 
@@ -975,7 +974,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
   int getRestaurantReviewLength(){
     if (_getReviewData != null) {
-      return _getReviewData.reviews.length;
+      return _getReviewData.length;
     }
     return 0;
   }

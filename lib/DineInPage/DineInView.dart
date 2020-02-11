@@ -12,7 +12,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
@@ -342,7 +342,7 @@ class _DineViewState extends State<DineInView>
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
                     _restaurantList[i].restName,
-                    _restaurantList[i].longitude,
+                    _restaurantList[i].distance,
                     _restaurantList[i].openingTime,
                     _restaurantList[i].closingTime,
                     _restaurantList[i].averageRating.toString(),
@@ -481,6 +481,17 @@ class _DineViewState extends State<DineInView>
                   SizedBox(
                     width: 10,
                   ),
+                  // SizedBox(width: 60,
+                  //                     child: AutoSizeText('${distance} km',
+                  //   maxLines: 1,
+                  //   maxFontSize: 12,
+                  //   minFontSize: 10,
+                  //     style: TextStyle(
+                  //         fontFamily: 'gotham',
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: greytheme100),),
+                  // )
                   Text(
                     '${distance} km',
                     style: TextStyle(

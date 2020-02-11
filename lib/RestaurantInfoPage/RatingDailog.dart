@@ -3,6 +3,8 @@ import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:toast/toast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:rating_bar/rating_bar.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
@@ -180,17 +182,30 @@ class MyDialogRatingState extends State<MyDialogRating>
                   onPressed: () {
                     // restaurantIdInfoPresenter.writeRestaurantReview(
                     //     context, widget.rest_Id, _controller.text, 3);
+                    // if (_rating != 0) {
+                    //   _controller.value.text == null
+                    //       ? restaurantReviewPresenter.writeRestaurantReview(
+                    //           context, widget.rest_id, " ", _rating)
+                    //       : restaurantReviewPresenter.writeRestaurantReview(
+                    //           context,
+                    //           widget.rest_id,
+                    //           _controller.value.text,
+                    //           _rating);
+                    // }else{
+                    //      Navigator.pop(context, false);
+                    // }
+
                     if (_rating != 0) {
-                      _controller.value.text == null
-                          ? restaurantReviewPresenter.writeRestaurantReview(
-                              context, widget.rest_id, " ", _rating)
-                          : restaurantReviewPresenter.writeRestaurantReview(
+                      _controller.value.text == "" ? Toast.show("Add Review", context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM): restaurantReviewPresenter.writeRestaurantReview(
                               context,
                               widget.rest_id,
                               _controller.value.text,
                               _rating);
                     }else{
-                         Navigator.pop(context, false);
+                     Toast.show("Add Review & Ratings", context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM);
+                        //  Navigator.pop(context, false);
                     }
 
                     
@@ -218,7 +233,7 @@ class MyDialogRatingState extends State<MyDialogRating>
   }
 
   @override
-  void getReviewSuccess(RestaurantReviewData getReviewList) {
+  void getReviewSuccess( List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
   }
 
@@ -241,6 +256,12 @@ class MyDialogRatingState extends State<MyDialogRating>
   @override
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
     // TODO: implement writeReviewSuccess
+    //  Fluttertoast.showToast(
+    //       msg: 'Review Submitted',
+    //       toastLength: Toast.LENGTH_SHORT,
+    //     );
+    Toast.show("Review Submitted", context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM,);
     Navigator.pop(context,true);
     
   }
