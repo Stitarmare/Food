@@ -92,7 +92,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
           print("Top");
         } else {
           dinerestaurantPresenter.getrestaurantspage(
-              "18.579622", "73.738691", "", "", page, context);
+              _position.latitude.toString(),
+              _position.longitude.toString(),
+              "",
+              "",
+              page,
+              context);
 
           print("Bottom");
         }
@@ -323,7 +328,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
                     _restaurantList[i].restName,
-                    _restaurantList[i].longitude,
+                    _restaurantList[i].distance,
                     _restaurantList[i].openingTime,
                     _restaurantList[i].closingTime,
                     _restaurantList[i].averageRating.toString(),

@@ -3,6 +3,7 @@ package io.flutter.plugins;
 import io.flutter.plugin.common.PluginRegistry;
 import com.infideap.drawerbehavior.DrawerbehaviorPlugin;
 import io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin;
+import com.flutter_webview_plugin.FlutterWebviewPlugin;
 import com.baseflow.geolocator.GeolocatorPlugin;
 import com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin;
 import io.flutter.plugins.imagepicker.ImagePickerPlugin;
@@ -22,6 +23,7 @@ public final class GeneratedPluginRegistrant {
     }
     DrawerbehaviorPlugin.registerWith(registry.registrarFor("com.infideap.drawerbehavior.DrawerbehaviorPlugin"));
     FlutterAndroidLifecyclePlugin.registerWith(registry.registrarFor("io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin"));
+    FlutterWebviewPlugin.registerWith(registry.registrarFor("com.flutter_webview_plugin.FlutterWebviewPlugin"));
     GeolocatorPlugin.registerWith(registry.registrarFor("com.baseflow.geolocator.GeolocatorPlugin"));
     GoogleApiAvailabilityPlugin.registerWith(registry.registrarFor("com.baseflow.googleapiavailability.GoogleApiAvailabilityPlugin"));
     ImagePickerPlugin.registerWith(registry.registrarFor("io.flutter.plugins.imagepicker.ImagePickerPlugin"));

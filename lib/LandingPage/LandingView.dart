@@ -9,6 +9,8 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
 
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
@@ -328,7 +330,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Home',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
         DrawerItem(
             text: Text('Settings',
                 style: TextStyle(
@@ -340,7 +344,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Gallery',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
         DrawerItem(
             text: Text(
               'Terms & Conditions',
@@ -354,7 +360,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Favorites',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
         DrawerItem(
             text: Text(
               'Privacy Policy',
@@ -368,7 +376,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Notification',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
         DrawerItem(
             text: Text(
               'About Us',
@@ -382,7 +392,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'invite',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
         DrawerItem(
             text: Text(
               'Help',
@@ -400,7 +412,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'SETTINGS',
             ),
-            onPressed: null),
+            onPressed: () { 
+                _opennewpage();                               
+              }),
       ],
     );
   }
@@ -484,5 +498,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+    void _opennewpage() {
+    Navigator.of(context).pushNamed('/webview');
   }
 }

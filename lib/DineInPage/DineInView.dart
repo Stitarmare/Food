@@ -162,9 +162,7 @@ class _DineViewState extends State<DineInView>
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings") {
-                                  filteredBy = "rating${SliderDialog(
-                                    onValueChange: sliderValue,
-                                  )}";
+                                  filteredBy = "rating";
                                   print('object');
                                   //ShowDialogBox
                                   // showDialogBox(context);

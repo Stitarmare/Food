@@ -92,6 +92,7 @@ class MenuItemState extends State<MenuItem>
                     trailing: Text(_categorydata[index].menuCount.toString()),
                     onTap: () {
                       _onSelected(index);
+                      Navigator.pop(context);
                     },
                   );
                 },

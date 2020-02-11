@@ -10,6 +10,12 @@
 @import drawerbehavior;
 #endif
 
+#if __has_include(<flutter_webview_plugin/FlutterWebviewPlugin.h>)
+#import <flutter_webview_plugin/FlutterWebviewPlugin.h>
+#else
+@import flutter_webview_plugin;
+#endif
+
 #if __has_include(<geolocator/GeolocatorPlugin.h>)
 #import <geolocator/GeolocatorPlugin.h>
 #else
@@ -62,6 +68,7 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [DrawerbehaviorPlugin registerWithRegistrar:[registry registrarForPlugin:@"DrawerbehaviorPlugin"]];
+  [FlutterWebviewPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebviewPlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [GoogleApiAvailabilityPlugin registerWithRegistrar:[registry registrarForPlugin:@"GoogleApiAvailabilityPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
