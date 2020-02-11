@@ -1,55 +1,62 @@
 import 'dart:convert';
 
-CategoryListModel categoryListModelFromJson(String str) => CategoryListModel.fromJson(json.decode(str));
+CategoryListModel categoryListModelFromJson(String str) =>
+    CategoryListModel.fromJson(json.decode(str));
 
-String categoryListModelToJson(CategoryListModel data) => json.encode(data.toJson());
+String categoryListModelToJson(CategoryListModel data) =>
+    json.encode(data.toJson());
 
 class CategoryListModel {
-    String status;
-    int statusCode;
-    List<CategoryItems> data;
+  String status;
+  int statusCode;
+  List<CategoryItems> data;
+  int all_count;
 
-    CategoryListModel({
-        this.status,
-        this.statusCode,
-        this.data,
-    });
+  CategoryListModel({
+    this.status,
+    this.statusCode,
+    this.data,
+    this.all_count,
+  });
 
-    factory CategoryListModel.fromJson(Map<String, dynamic> json) => CategoryListModel(
-        status: json["status"],
-        statusCode: json["status_code"],
-        data: List<CategoryItems>.from(json["data"].map((x) => CategoryItems.fromJson(x))),
-    );
+  factory CategoryListModel.fromJson(Map<String, dynamic> json) =>
+      CategoryListModel(
+          status: json["status"],
+          statusCode: json["status_code"],
+          data: List<CategoryItems>.from(
+              json["data"].map((x) => CategoryItems.fromJson(x))),
+          all_count: json["all_count"]);
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    };
+        "all_count": all_count
+      };
 }
 
 class CategoryItems {
-    int id;
-    int workstationId;
-    String name;
-    int restId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    int menuCount;
-    List<Item> items;
+  int id;
+  int workstationId;
+  String name;
+  int restId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int menuCount;
+  List<Item> items;
 
-    CategoryItems({
-        this.id,
-        this.workstationId,
-        this.name,
-        this.restId,
-        this.createdAt,
-        this.updatedAt,
-        this.menuCount,
-        this.items,
-    });
+  CategoryItems({
+    this.id,
+    this.workstationId,
+    this.name,
+    this.restId,
+    this.createdAt,
+    this.updatedAt,
+    this.menuCount,
+    this.items,
+  });
 
-    factory CategoryItems.fromJson(Map<String, dynamic> json) => CategoryItems(
+  factory CategoryItems.fromJson(Map<String, dynamic> json) => CategoryItems(
         id: json["id"],
         workstationId: json["workstation_id"],
         name: json["name"],
@@ -58,9 +65,9 @@ class CategoryItems {
         updatedAt: DateTime.parse(json["updated_at"]),
         menuCount: json["menu_count"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "workstation_id": workstationId,
         "name": name,
@@ -69,43 +76,43 @@ class CategoryItems {
         "updated_at": updatedAt.toIso8601String(),
         "menu_count": menuCount,
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
-    };
+      };
 }
 
 class Item {
-    int id;
-    String itemName;
-    String price;
-    String itemDescription;
-    int workstationId;
-    int restId;
-    String menuType;
-    String availability;
-    String defaultPreparationTime;
-    String itemCode;
-    String itemImage;
-    DateTime createdAt;
-    DateTime updatedAt;
-    Pivot pivot;
+  int id;
+  String itemName;
+  String price;
+  String itemDescription;
+  int workstationId;
+  int restId;
+  String menuType;
+  String availability;
+  String defaultPreparationTime;
+  String itemCode;
+  String itemImage;
+  DateTime createdAt;
+  DateTime updatedAt;
+  Pivot pivot;
 
-    Item({
-        this.id,
-        this.itemName,
-        this.price,
-        this.itemDescription,
-        this.workstationId,
-        this.restId,
-        this.menuType,
-        this.availability,
-        this.defaultPreparationTime,
-        this.itemCode,
-        this.itemImage,
-        this.createdAt,
-        this.updatedAt,
-        this.pivot,
-    });
+  Item({
+    this.id,
+    this.itemName,
+    this.price,
+    this.itemDescription,
+    this.workstationId,
+    this.restId,
+    this.menuType,
+    this.availability,
+    this.defaultPreparationTime,
+    this.itemCode,
+    this.itemImage,
+    this.createdAt,
+    this.updatedAt,
+    this.pivot,
+  });
 
-    factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
         itemName: json["item_name"],
         price: json["price"],
@@ -120,9 +127,9 @@ class Item {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         pivot: Pivot.fromJson(json["pivot"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "item_name": itemName,
         "price": price,
@@ -137,25 +144,25 @@ class Item {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "pivot": pivot.toJson(),
-    };
+      };
 }
 
 class Pivot {
-    int categoryId;
-    int itemId;
+  int categoryId;
+  int itemId;
 
-    Pivot({
-        this.categoryId,
-        this.itemId,
-    });
+  Pivot({
+    this.categoryId,
+    this.itemId,
+  });
 
-    factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
         categoryId: json["category_id"],
         itemId: json["item_id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "category_id": categoryId,
         "item_id": itemId,
-    };
+      };
 }
