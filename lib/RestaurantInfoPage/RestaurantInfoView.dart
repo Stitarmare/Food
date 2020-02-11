@@ -122,7 +122,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-<<<<<<< HEAD
                       child: isInfoLoaded ? 
                       Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
                       // CachedNetworkImage(
@@ -131,13 +130,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       //   //  placeholder: (context, url) => CircularProgressIndicator(),
                       // ) 
                       : Image.asset(src.imagePath)
-=======
-                      child: isInfoLoaded ? Image.network(
-                        BaseUrl.getBaseUrlImages() + src.imagePath,
-                        fit: BoxFit.cover,
-                        //  placeholder: (context, url) => CircularProgressIndicator(),
-                      ) : Image.asset(src.imagePath)
->>>>>>> b8964d44b04fb145d7ec184c24c6d1107e07c7b3
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,

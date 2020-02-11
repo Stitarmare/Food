@@ -48,6 +48,7 @@ dependencies:
   #google_maps_flutter: ^0.5.22+1
   map_launcher: ^0.4.2
   flutter_launcher_icons: "^0.7.3"
+  flutter_webview_plugin: ^0.3.10+1
 
 dev_dependencies:
   flutter_test:

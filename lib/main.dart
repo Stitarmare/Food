@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPage2/AddItemPageSecond.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
@@ -58,7 +59,13 @@ var routes = <String, WidgetBuilder>{
   '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
-  '/Gmapview': (BuildContext context) => Gmapview()
+  '/Gmapview': (BuildContext context) => Gmapview(),
+  "/webview": (_) => WebviewScaffold(
+        url: "https://google.co.in",
+        appBar: new AppBar(
+          title: new Text("Widget webview"),
+        ),
+      ),
 };
 
 void main() => runApp(MaterialApp(
