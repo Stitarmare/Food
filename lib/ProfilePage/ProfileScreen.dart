@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
@@ -18,6 +19,8 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _ProfileScreenState();
 }
+
+
 
 class _ProfileScreenState extends State<ProfileScreen>
     implements ProfileScreenModelView {
@@ -107,19 +110,38 @@ class _ProfileScreenState extends State<ProfileScreen>
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipOval(
-                    child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/PlaceholderImage/placeholder.png',
-                      image: profilePic(),
+                    child:
+                        //  FadeInImage.assetNetwork(
+                        //   placeholder: 'assets/PlaceholderImage/placeholder.png',
+                        //   image: profilePic(),
+                        //   fit: BoxFit.cover,
+                        //   width: 82.5,
+                        //   height: 82.5,
+                        // ),
+                        //     Image.network(profilePic(),
+                        //         fit: BoxFit.cover,
+                        //         width: 82.5,
+                        //         height: 82.5, loadingBuilder: (BuildContext context,
+                        //             Widget child, ImageChunkEvent loadingProgress) {
+                        //   if (loadingProgress == null || profilePic() == null) return child;
+                        //   return Center(
+                        //     child: CircularProgressIndicator(
+                        //       value: loadingProgress.expectedTotalBytes != null
+                        //           ? loadingProgress.cumulativeBytesLoaded /
+                        //               loadingProgress.expectedTotalBytes
+                        //           : null,
+                        //     ),
+                        //   );
+                        // }),
+                        CachedNetworkImage(
+                      imageUrl: profilePic(),
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                       fit: BoxFit.cover,
                       width: 82.5,
                       height: 82.5,
                     ),
-                    //  Image.network(
-                    //       profilePic(),
-                    //   fit: BoxFit.cover,
-                    //   width: 82.5,
-                    //   height: 82.5,
-                    // ),
                     // child: _image == null
                     //     //Globle().loginModel.data.userDetails.profileImage == null
                     //     ? Image.asset(
@@ -405,6 +427,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
   @override
   void profileImageUpdateSuccess() {
+    CircularProgressIndicator();
     //  DialogsIndicator.showLoadingDialog(
     //                   context, _keyLoader, "Loading");
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();

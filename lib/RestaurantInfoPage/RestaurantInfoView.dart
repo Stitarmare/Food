@@ -70,7 +70,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantInfo() {
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.rest_Id);
   }
 
@@ -125,22 +125,27 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                      height: Constants.getSafeAreaHeight(context) * 0.35,
-                      width: Constants.getScreenWidth(context),
-                      decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: isInfoLoaded
-                          ? CachedNetworkImage(
-                              imageUrl:
-                                  BaseUrl.getBaseUrlImages() + src.imagePath,
-                              fit: BoxFit.cover,
-                              //  placeholder: (context, url) => CircularProgressIndicator(),
-                            )
-                          : Image.asset(src.imagePath)
-                      // Image.network(
-                      //   src,
-                      //   fit: BoxFit.cover,
-                      //   )
-                      );
+                    height: Constants.getSafeAreaHeight(context) * 0.35,
+                    width: Constants.getScreenWidth(context),
+                    decoration: BoxDecoration(color: Colors.grey[300]),
+                    child: isInfoLoaded
+                        ? CachedNetworkImage(
+                            imageUrl:
+                                BaseUrl.getBaseUrlImages() + src.imagePath,
+                            fit: BoxFit.cover,
+                            //  placeholder: (context, url) => CircularProgressIndicator(),
+                          )
+                        : Image.asset(src.imagePath),
+                    // child: isInfoLoaded ? Image.network(
+                    //   BaseUrl.getBaseUrlImages() + src.imagePath,
+                    //   fit: BoxFit.cover,
+                    //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                    // ) : Image.asset(src.imagePath)
+                    // Image.network(
+                    //   src,
+                    //   fit: BoxFit.cover,
+                    //   )
+                  );
                 },
               );
             }).toList(),
@@ -635,13 +640,22 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           // decorationStyle: TextDecorationStyle.solid,
                           )),
                 ),
-                onTap: () {
-                  showDialog(
+                onTap: () async {
+                  var dailogValue = await showDialog(
                       context: context,
                       barrierDismissible: true,
                       child: MyDialogRating(
                         rest_id: widget.rest_Id,
                       ));
+                  setState(() {
+                    print("success");
+                    if (dailogValue != null) {
+                      if (dailogValue == true) {
+                        _getRestaurantReview();
+                      }
+                    }
+                  });
+
                   // await reviewPopup(context);
                 },
               ),
@@ -651,139 +665,155 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           SizedBox(
             height: 10,
           ),
-          Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: ListView.builder(
-                // itemCount: _restaurantInfoData.reviews.length,
-                itemCount: _getReviewData.reviews.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      // height: 105,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 18, top: 10),
-                                      child: ClipOval(
-                                        child:
-                                            //                    CachedNetworkImage(
-                                            //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
-                                            //   fit: BoxFit.cover,
-                                            //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                                            // )
-                                            Image.asset(
-                                          'assets/ProfileImage/MaskGroup15.png',
-                                          height: 45,
-                                          width: 45,
-                                        ),
-                                      )),
-                                ),
-                                Column(
+          getRestaurantReviewLength() == 0
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('No Reviews'),
+                  ),
+                )
+              : Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: ListView.builder(
+                    // itemCount: _restaurantInfoData.reviews.length,
+                    itemCount: getRestaurantReviewLength(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          // height: 105,
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 18, top: 16.5),
-                                      child: Text(
-                                          _getReviewData.reviews[index].user
-                                                  .firstName +
-                                              " " +
-                                              _getReviewData
-                                                  .reviews[index].user.lastName,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: greytheme1000,
-                                              fontFamily: 'gotham',
-                                              fontWeight: FontWeight.w700)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 18, top: 8),
-                                      child: Container(
-                                        width: 39,
-                                        height: 18,
-                                        // color: Colors.black,
-                                        decoration: BoxDecoration(
-                                            color: greytheme700,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(4))),
-
-                                        child: Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4),
-                                              child: Icon(
-                                                Icons.star,
-                                                size: 10,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4, top: 2, bottom: 2),
-                                              child: Text(
-                                                _getReviewData
-                                                    .reviews[index].rating
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontFamily: 'gotham',
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.white),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.8,
-                                        child: Padding(
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
                                           padding: const EdgeInsets.only(
                                               left: 18, top: 10),
-                                          child: ExpandableText(_getReviewData
-                                                  .reviews[index].description
-                                              // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
-                                              // maxLines: 5,)
-                                              ),
-                                        )),
-                                    SizedBox(
-                                      height: 10,
+                                          child: ClipOval(
+                                            child:
+                                                //                    CachedNetworkImage(
+                                                //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
+                                                //   fit: BoxFit.cover,
+                                                //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                                                // )
+                                                Image.asset(
+                                              'assets/ProfileImage/MaskGroup15.png',
+                                              height: 45,
+                                              width: 45,
+                                            ),
+                                          )),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 18, top: 16.5),
+                                          child: Text(
+                                              _getReviewData.reviews[index].user
+                                                      .firstName +
+                                                  " " +
+                                                  _getReviewData.reviews[index]
+                                                      .user.lastName,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: greytheme1000,
+                                                  fontFamily: 'gotham',
+                                                  fontWeight: FontWeight.w700)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 18, top: 8),
+                                          child: Container(
+                                            width: 39,
+                                            height: 18,
+                                            // color: Colors.black,
+                                            decoration: BoxDecoration(
+                                                color: greytheme700,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(4))),
+
+                                            child: Row(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 4),
+                                                  child: Icon(
+                                                    Icons.star,
+                                                    size: 10,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 4,
+                                                          top: 2,
+                                                          bottom: 2),
+                                                  child: Text(
+                                                    _getReviewData
+                                                        .reviews[index].rating
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontFamily: 'gotham',
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.8,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 18, top: 10),
+                                              child: ExpandableText(
+                                                  _getReviewData.reviews[index]
+                                                      .description
+                                                  // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
+                                                  // maxLines: 5,)
+                                                  ),
+                                            )),
+                                        SizedBox(
+                                          height: 10,
+                                        )
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            ),
-                          ),
-                          Divider(
-                            height: 2,
-                            color: Colors.grey,
-                            indent: 20.0,
-                            endIndent: 20.0,
-                          )
-                        ],
-                      ));
-                },
-              ))
+                                ),
+                              ),
+                              Divider(
+                                height: 2,
+                                color: Colors.grey,
+                                indent: 20.0,
+                                endIndent: 20.0,
+                              )
+                            ],
+                          ));
+                    },
+                  ))
         ],
       ),
     );
@@ -874,7 +904,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 
@@ -908,6 +938,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.restName != null) {
         return _restaurantInfoData.restName;
       }
+      return "";
     }
 
     return "";
@@ -915,11 +946,10 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   String getAddressText() {
     if (_restaurantInfoData != null) {
-      return _restaurantInfoData.addressLine1 +
-          " " +
-          _restaurantInfoData.addressLine2 +
-          " " +
-          _restaurantInfoData.addressLine3;
+      return _restaurantInfoData.addressLine1 ??
+          "" + " " + _restaurantInfoData.addressLine2 ??
+          "" + " " + _restaurantInfoData.addressLine3 ??
+          "";
     }
     return "";
     // 'Via in Arcione 115, 00187 Rome Italy',
@@ -937,6 +967,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.averageRating != null) {
         return _restaurantInfoData.averageRating.toString();
       }
+      return "0";
     }
     return "0";
   }
@@ -944,8 +975,9 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   String getReviewsCount() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.reviewsCount != null) {
-        return _restaurantInfoData.reviews.toString();
+        return _restaurantInfoData.reviewsCount.toString();
       }
+      return "0";
     }
     return "0";
   }
@@ -955,6 +987,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.contactNumber != null) {
         return _restaurantInfoData.contactNumber.toString();
       }
+      return "0";
     }
     return "0";
   }
@@ -962,6 +995,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   int getScheduleLength() {
     if (_restaurantInfoData != null) {
       return _restaurantInfoData.schedule.length;
+    }
+    return 0;
+  }
+
+  int getRestaurantReviewLength() {
+    if (_getReviewData != null) {
+      return _getReviewData.reviews.length;
     }
     return 0;
   }

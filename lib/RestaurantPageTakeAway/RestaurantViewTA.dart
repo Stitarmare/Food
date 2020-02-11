@@ -242,6 +242,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
                     } else {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);

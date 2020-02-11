@@ -24,7 +24,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
   Widget steppercount() {
     return Container(
       height: 24,
-      width: 92,
+      width: 150,
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {

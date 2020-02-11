@@ -50,6 +50,7 @@ class _RestaurantViewState extends State<RestaurantView>
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     restaurantPresenter.getMenuList(widget.rest_Id, context, menu: menutype);
     super.initState();
   }
@@ -60,6 +61,7 @@ class _RestaurantViewState extends State<RestaurantView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
+          //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
           restaurantPresenter.getMenuList(widget.rest_Id, context,
               menu: menutype);
           print("Bottom");
@@ -256,6 +258,8 @@ class _RestaurantViewState extends State<RestaurantView>
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
                     } else {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
@@ -292,7 +296,9 @@ class _RestaurantViewState extends State<RestaurantView>
                     });
                     var abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(restaurantId: widget.rest_Id,),
+                        builder: (_) => MenuItem(
+                              restaurantId: widget.rest_Id,
+                            ),
                         barrierDismissible: true);
                     setState(() {
                       isselected = false;
