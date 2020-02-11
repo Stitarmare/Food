@@ -22,7 +22,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
 
-enum DailogAction { yes, abort }
+//enum DailogAction { yes, abort }
 
 class RestaurantInfoView extends StatefulWidget {
   int rest_Id;
@@ -36,8 +36,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   DialogsIndicator dialogs = DialogsIndicator();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
   RestaurantInfoData _restaurantInfoData;
-  RestaurantReviewData _getReviewData;
-
+  List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -63,7 +62,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
-    _getRestaurantReview();
+    
     super.initState();
   }
 
@@ -123,27 +122,22 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    height: Constants.getSafeAreaHeight(context) * 0.35,
-                    width: Constants.getScreenWidth(context),
-                    decoration: BoxDecoration(color: Colors.grey[300]),
-                    child: isInfoLoaded
-                        ? CachedNetworkImage(
-                            imageUrl:
-                                BaseUrl.getBaseUrlImages() + src.imagePath,
-                            fit: BoxFit.cover,
-                            //  placeholder: (context, url) => CircularProgressIndicator(),
-                          )
-                        : Image.asset(src.imagePath),
-                    // child: isInfoLoaded ? Image.network(
-                    //   BaseUrl.getBaseUrlImages() + src.imagePath,
-                    //   fit: BoxFit.cover,
-                    //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                    // ) : Image.asset(src.imagePath)
-                    // Image.network(
-                    //   src,
-                    //   fit: BoxFit.cover,
-                    //   )
-                  );
+                      height: Constants.getSafeAreaHeight(context) * 0.35,
+                      width: Constants.getScreenWidth(context),
+                      decoration: BoxDecoration(color: Colors.grey[300]),
+                      child: isInfoLoaded ? 
+                      Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
+                      // CachedNetworkImage(
+                      //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                      //   fit: BoxFit.cover,
+                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                      // ) 
+                      : Image.asset(src.imagePath)
+                      // Image.network(
+                      //   src,
+                      //   fit: BoxFit.cover,
+                      //   )
+                      );
                 },
               );
             }).toList(),
@@ -178,7 +172,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     Widget hotelInfo = new Container(
         height: MediaQuery.of(context).size.height * 0.68 + 23,
         child: SingleChildScrollView(
-          child: Column(
+          child:
+           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -260,25 +255,25 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                         ),
                       ),
                     ]),
+                // SizedBox(
+                //   height: 5,
+                // ),
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   margin: EdgeInsets.only(left: 20),
+                //   height: 20,
+                //   child: new ListView.builder(
+                //     scrollDirection: Axis.horizontal,
+                //     shrinkWrap: true,
+                //     physics: const ClampingScrollPhysics(),
+                //     itemCount: getCategoryLength(),
+                //     itemBuilder: (BuildContext context, int index) {
+                //       return menuButton(_restaurantInfoData.category[index]);
+                //     },
+                //   ),
+                // ),
                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 20),
-                  height: 20,
-                  child: new ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    itemCount: getCategoryLength(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return menuButton(_restaurantInfoData.category[index]);
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 14,
+                  height: 8,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -314,7 +309,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 10,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
                           )
@@ -394,7 +389,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
               ]),
         ));
     return Scaffold(
-      body: Container(
+      body: _restaurantInfoData == null? Container(): Container(
         // height: Constants.getSafeAreaHeight(context) * 0.35,
         //             width: Constants.getScreenWidth(context),
         width: MediaQuery.of(context).size.width,
@@ -526,7 +521,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           SizedBox(
             height: 5,
           ),
-          Container(
+          getScheduleLength() ==0? Center(
+            child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Not Schedule Yet'),
+          ),
+          ):Container(
               // height: 150,
               child: ListView.builder(
             itemCount: getScheduleLength(),
@@ -579,12 +579,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   Widget ReviewList(BuildContext context) {
-    // if(_getReviewData.reviews.length == 0){
-    //   return Center(child: Padding(
-    //     padding: const EdgeInsets.only(top: 30),
-    //     child: Text('No Reviews'),
-    //   ),);
-    // }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -648,58 +642,57 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             ],
           ),
           // ),
-          SizedBox(
-            height: 10,
-          ),
-          getRestaurantReviewLength() == 0
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('No Reviews'),
-                  ),
-                )
-              : Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: ListView.builder(
-                    // itemCount: _restaurantInfoData.reviews.length,
-                    itemCount: getRestaurantReviewLength(),
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                          // height: 105,
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18, top: 10),
-                                          child: ClipOval(
-                                            child:
-                                                //                    CachedNetworkImage(
-                                                //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
-                                                //   fit: BoxFit.cover,
-                                                //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                                                // )
-                                                Image.asset(
-                                              'assets/ProfileImage/MaskGroup15.png',
-                                              height: 45,
-                                              width: 45,
-                                            ),
-                                          )),
-                                    ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+   getRestaurantReviewLength()
+           ==0 ? Center(child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('No Reviews'),
+          ),):
+          Container(
+              // height: MediaQuery.of(context).size.height * 0.35,
+              child: ListView.builder(
+                // itemCount: _restaurantInfoData.reviews.length,
+                itemCount: getRestaurantReviewLength(),
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      // height: 105,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 18, top: 10),
+                                      child: ClipOval(
+                                        child:
+                                            //                    CachedNetworkImage(
+                                            //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
+                                            //   fit: BoxFit.cover,
+                                            //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                                            // )
+                                            Image.asset(
+                                          'assets/ProfileImage/MaskGroup15.png',
+                                          height: 45,
+                                          width: 45,
+                                        ),
+                                      )),
+                                ),
+                               
                                     Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -710,10 +703,10 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                           padding: const EdgeInsets.only(
                                               left: 18, top: 16.5),
                                           child: Text(
-                                              _getReviewData.reviews[index].user
+                                              _getReviewData[index].user
                                                       .firstName +
                                                   " " +
-                                                  _getReviewData.reviews[index]
+                                                  _getReviewData[index]
                                                       .user.lastName,
                                               style: TextStyle(
                                                   fontSize: 13,
@@ -745,59 +738,62 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                                     color: Colors.white,
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4,
-                                                          top: 2,
-                                                          bottom: 2),
-                                                  child: Text(
-                                                    _getReviewData
-                                                        .reviews[index].rating
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontFamily: 'gotham',
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.white),
-                                                  ),
-                                                )
+                                                 Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4, top: 2, bottom: 2),
+                                              child: Text(
+                                                _getReviewData[index].rating
+                                                // _getReviewData
+                                                //     .reviews[index].rating
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontFamily: 'gotham',
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white),
+                                              ),
+                                            )
                                               ],
                                             ),
                                           ),
                                         ),
-                                        Container(
+                                          Container(
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
                                                 0.8,
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 18, top: 10),
-                                              child: ExpandableText(
-                                                  _getReviewData.reviews[index]
-                                                      .description
-                                                  // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
-                                                  // maxLines: 5,)
-                                                  ),
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        )
-                                      ],
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 18, top: 10),
+                                          child: ExpandableText(_getReviewData[index].description
+                                              // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
+                                              // maxLines: 5,)
+                                              ),
+                                        )),
+                                    SizedBox(
+                                      height: 10,
                                     )
                                   ],
                                 ),
+                             // ),
+                             
+                          //   ],
+                          // )
+                              ]
+                              )
                               ),
-                              Divider(
+
+ Divider(
                                 height: 2,
                                 color: Colors.grey,
                                 indent: 20.0,
                                 endIndent: 20.0,
                               )
-                            ],
-                          ));
+
+
+
+                              ]
+                              ));
                     },
                   ))
         ],
@@ -890,6 +886,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
+    _getRestaurantReview();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
@@ -900,11 +897,11 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void getReviewSuccess(RestaurantReviewData getReviewList) {
+  void getReviewSuccess( List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
-      print(_getReviewData.reviews);
+      print(_getReviewData);
     });
   }
 
@@ -987,7 +984,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
   int getRestaurantReviewLength() {
     if (_getReviewData != null) {
-      return _getReviewData.reviews.length;
+      return _getReviewData.length;
     }
     return 0;
   }
