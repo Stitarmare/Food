@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
+import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 // import 'package:flutter_counter/flutter_counter.dart';
@@ -17,8 +20,24 @@ class AddItemPageView extends StatefulWidget {
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
-class _AddItemPageViewState extends State<AddItemPageView> {
+class _AddItemPageViewState extends State<AddItemPageView>
+    implements AddItemPageModelView {
+  int item_id;
+  int rest_id;
+
+  AddItemPagepresenter addItemPagepresenter;
+  List<AddItemModelList> _additemlist;
   ScrollController _controller = ScrollController();
+
+  @override
+  void initState() {
+// GeoLocationTracking.loadingPositionTrack();
+    addItemPagepresenter = AddItemPagepresenter(this);
+
+    addItemPagepresenter.performAddItem(item_id, rest_id, context);
+// TODO: implement initState
+    super.initState();
+  }
 
   // double _defaultValue = 1;
   int id = 1;
@@ -30,10 +49,10 @@ class _AddItemPageViewState extends State<AddItemPageView> {
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
 
   List<RadioButtonOptions> _radioOptions = [
-    RadioButtonOptions(index: 1, title: 'Item 1'),
-    RadioButtonOptions(index: 2, title: 'Item 2'),
-    RadioButtonOptions(index: 3, title: 'Item 3'),
-    RadioButtonOptions(index: 4, title: 'Item 4'),
+    // RadioButtonOptions(index: 1, title: 'Item 1'),
+    // RadioButtonOptions(index: 2, title: 'Item 2'),
+    // RadioButtonOptions(index: 3, title: 'Item 3'),
+    // RadioButtonOptions(index: 4, title: 'Item 4'),
   ];
   List<CheckBoxOptions> _checkBoxOptions = [
     CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20", isChecked: false),
@@ -379,6 +398,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
   }
 
   _getRadioOptions() {
+    int i;
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -387,7 +407,7 @@ class _AddItemPageViewState extends State<AddItemPageView> {
           .map((radionBtn) => Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: RadioListTile(
-                  title: Text("${radionBtn.title}"),
+                  title: Text("${_additemlist[i].itemName}"),
                   groupValue: id,
                   value: radionBtn.index,
                   dense: true,
@@ -505,6 +525,16 @@ class _AddItemPageViewState extends State<AddItemPageView> {
     //     );
     // },
     // )
+  }
+
+  @override
+  void addItemfailed() {
+    // TODO: implement addItemfailed
+  }
+
+  @override
+  void addItemsuccess(List<AddItemModelList> _additemlist) {
+    // TODO: implement addItemsuccess
   }
 }
 

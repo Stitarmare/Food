@@ -18,6 +18,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
+import 'package:map_launcher/map_launcher.dart';
 // import 'package:foodzi/widgets/RatingDailog.dart';
 
 // import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
@@ -30,7 +31,6 @@ class RestaurantInfoView extends StatefulWidget {
   int rest_Id;
   RestaurantInfoView({this.rest_Id});
 
-  
   _RestaurantInfoViewState createState() => _RestaurantInfoViewState();
 }
 
@@ -52,7 +52,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   bool isReview = false;
   var _current;
   var isInfoLoaded = false;
-  List<Gallary> gallaryImages = [Gallary(id: 0,imagePath: "assets/MenuIcon/menu.png",createdAt: "",restId: 0,updatedAt: "")];
+  List<Gallary> gallaryImages = [
+    Gallary(
+        id: 0,
+        imagePath: "assets/MenuIcon/menu.png",
+        createdAt: "",
+        restId: 0,
+        updatedAt: "")
+  ];
   @override
   void initState() {
     restaurantIdInfoPresenter =
@@ -86,7 +93,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     List<T> map<T>(List list, Function handler) {
@@ -97,7 +103,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
 
       return result;
     }
-    
+
     Widget image_carousel = new Stack(
       children: <Widget>[
         Container(
@@ -122,11 +128,14 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: isInfoLoaded ? CachedNetworkImage(
-                        imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                        fit: BoxFit.cover,
-                        //  placeholder: (context, url) => CircularProgressIndicator(),
-                      ) : Image.asset(src.imagePath)
+                      child: isInfoLoaded
+                          ? CachedNetworkImage(
+                              imageUrl:
+                                  BaseUrl.getBaseUrlImages() + src.imagePath,
+                              fit: BoxFit.cover,
+                              //  placeholder: (context, url) => CircularProgressIndicator(),
+                            )
+                          : Image.asset(src.imagePath)
                       // Image.network(
                       //   src,
                       //   fit: BoxFit.cover,
@@ -243,15 +252,18 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                             ),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Gmapview(
-                                        latitude: double.parse(
-                                            _restaurantInfoData.latitude),
-                                        longtitude: double.parse(
-                                            _restaurantInfoData.longitude),
-                                        title: getRestName(),
-                                        description:
-                                            _restaurantInfoData.addressLine1,
-                                      ))); //Show Map
+                                builder: (context) => mapview(),
+
+                                // Gmapview(
+                                //       latitude: double.parse(
+                                //           _restaurantInfoData.latitude),
+                                //       longtitude: double.parse(
+                                //           _restaurantInfoData.longitude),
+                                //       title: getRestName(),
+                                //       description:
+                                //           _restaurantInfoData.addressLine1,
+                                //     )
+                              )); //Show Map
                             },
                           ),
                         ),
@@ -307,7 +319,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                 left: 4, top: 2, bottom: 2),
                             child: Text(
                               // '_restaurantInfoData.averageRating.toString()',
-                             getAverageRating(),
+                              getAverageRating(),
                               style: TextStyle(
                                   fontFamily: 'gotham',
                                   fontSize: 10,
@@ -370,7 +382,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                           Padding(
                             padding: EdgeInsets.only(
                                 right: 7, top: 6, bottom: 5, left: 7),
-                            child: Text(getContactNumber(),
+                            child: Text(
+                              getContactNumber(),
                               // _restaurantInfoData.contactNumber,
                               style: TextStyle(
                                   fontFamily: 'gotham',
@@ -457,6 +470,18 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
         ),
       ),
     );
+  }
+
+  mapview() async {
+    final availableMaps = await MapLauncher.installedMaps;
+    print(
+        availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+
+    await availableMaps.first.showMarker(
+        coords: Coords(double.parse(_restaurantInfoData.latitude),
+            double.parse(_restaurantInfoData.longitude)),
+        title: _restaurantInfoData.restName,
+        description: _restaurantInfoData.addressLine1);
   }
 
   Widget menuButton(Categories item) {
@@ -839,12 +864,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
         //CircularProgressIndicator();
       }
       _restaurantInfoData = restInfoData;
-      if (_restaurantInfoData.gallary != null && _restaurantInfoData.gallary.length>0){
+      if (_restaurantInfoData.gallary != null &&
+          _restaurantInfoData.gallary.length > 0) {
         gallaryImages = _restaurantInfoData.gallary;
         isInfoLoaded = true;
       }
       //print(_restaurantInfoData.restName);
-     // print(_restaurantInfoData.schedule);
+      // print(_restaurantInfoData.schedule);
       // _restaurantInfoData = restInfoData;
       // _restInfoData = restInfoData;
     });
@@ -876,75 +902,69 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     // TODO: implement writeReviewSuccess
     print('Review Success');
   }
+
   String getRestName() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.restName != null) {
-      return _restaurantInfoData.restName;
+        return _restaurantInfoData.restName;
+      }
     }
-    }
-    
+
     return "";
   }
+
   String getAddressText() {
     if (_restaurantInfoData != null) {
-        return _restaurantInfoData.addressLine1 +
-                                " " +
-                                _restaurantInfoData.addressLine2 +
-                                " " +
-                                _restaurantInfoData.addressLine3;
+      return _restaurantInfoData.addressLine1 +
+          " " +
+          _restaurantInfoData.addressLine2 +
+          " " +
+          _restaurantInfoData.addressLine3;
     }
     return "";
     // 'Via in Arcione 115, 00187 Rome Italy',
-                            
   }
-  int getCategoryLength(){
+
+  int getCategoryLength() {
     if (_restaurantInfoData != null) {
       return _restaurantInfoData.category.length;
     }
     return 0;
   }
-  String getAverageRating() 
-  {
+
+  String getAverageRating() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.averageRating != null) {
         return _restaurantInfoData.averageRating.toString();
       }
-      
     }
     return "0";
   }
-  
-  String getReviewsCount() 
-  {
+
+  String getReviewsCount() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.reviewsCount != null) {
         return _restaurantInfoData.reviews.toString();
       }
-      
     }
     return "0";
   }
 
-
-  String getContactNumber() 
-  {
+  String getContactNumber() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.contactNumber != null) {
         return _restaurantInfoData.contactNumber.toString();
       }
-      
     }
     return "0";
   }
 
-
-  int getScheduleLength(){
+  int getScheduleLength() {
     if (_restaurantInfoData != null) {
       return _restaurantInfoData.schedule.length;
     }
     return 0;
   }
-  
 }
 
 class MenuCategoryButton {
