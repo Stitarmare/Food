@@ -12,6 +12,7 @@ import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
+import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -371,11 +372,13 @@ class _TakeAwayViewState extends State<TakeAwayView>
           child: Container(
             height: 150,
             width: MediaQuery.of(context).size.width,
-            decoration: new BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
-                  fit: BoxFit.fitWidth),
-            ),
+            // decoration: new BoxDecoration(
+            //   image: DecorationImage(
+            //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
+            //       fit: BoxFit.fitWidth),
+            // ),
+            child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
+                fit: BoxFit.fitWidth),
           ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)

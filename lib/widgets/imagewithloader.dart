@@ -7,7 +7,9 @@ class ImageWithLoader extends StatefulWidget {
   double radiusValue;
   String placeholder;
   String url;
-  ImageWithLoader(this.url,{this.placeholder,this.height,this.width,this.radiusValue});
+  BoxFit fit;
+  ImageWithLoader(this.url,
+      {this.placeholder, this.height, this.width, this.radiusValue, this.fit});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -20,36 +22,41 @@ class ImageWithLoaderState extends State<ImageWithLoader> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return ClipRRect(
-          clipBehavior: Clip.hardEdge,
-	borderRadius: BorderRadius.circular(widget.radiusValue ?? 0),
-                  child: FutureBuilder(
-    // Paste your image URL inside the htt.get method as a parameter
-    future: http.get(widget.url ?? ""),
-    builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
-      switch (snapshot.connectionState) {
+      clipBehavior: Clip.hardEdge,
+      borderRadius: BorderRadius.circular(widget.radiusValue ?? 0),
+      child: FutureBuilder(
+        // Paste your image URL inside the htt.get method as a parameter
+        future: http.get(widget.url ?? ""),
+        builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
-              return Image.asset(widget.placeholder ?? "",
-                height: widget.height ?? double.infinity,
-                width: widget.width ?? double.infinity,
-                );
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return CircularProgressIndicator();
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return Image.asset(widget.placeholder ?? "",
-                height: widget.height ?? double.infinity,
-                width: widget.width ?? double.infinity,
-                );
-              // when we get the data from the http call, we give the bodyBytes to Image.memory for showing the image
-              return Image.memory(snapshot.data.bodyBytes,fit: BoxFit.cover,
+              return Image.asset(
+                widget.placeholder ?? "",
                 height: widget.height ?? double.infinity,
                 width: widget.width ?? double.infinity,
               );
-      }
-      return null; // unreachable
-    },
-  ),
-        );
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return Container(
+                  child: Center(child: CircularProgressIndicator()));
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return Image.asset(
+                  widget.placeholder ?? "",
+                  height: widget.height ?? double.infinity,
+                  width: widget.width ?? double.infinity,
+                );
+              // when we get the data from the http call, we give the bodyBytes to Image.memory for showing the image
+              return Image.memory(
+                snapshot.data.bodyBytes,
+                fit: BoxFit.cover,
+                height: widget.height ?? double.infinity,
+                width: widget.width ?? double.infinity,
+              );
+          }
+          return null; // unreachable
+        },
+      ),
+    );
   }
 }

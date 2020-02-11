@@ -18,6 +18,7 @@ import 'package:foodzi/theme/colors.dart';
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/widgets/imagewithloader.dart';
 
 class RestaurantView extends StatefulWidget {
   String title;
@@ -89,7 +90,7 @@ class _RestaurantViewState extends State<RestaurantView>
 
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => RestaurantInfoView(
-                          rest_Id: widget.rest_Id,
+                        rest_Id: widget.rest_Id,
                       )));
             },
           )
@@ -359,13 +360,21 @@ class _RestaurantViewState extends State<RestaurantView>
                             //         fit: BoxFit.fitHeight),
                             //   ),
                             // ),
-                            child: Image.network(
+                            child: ImageWithLoader(
                               BaseUrl.getBaseUrlImages() +
                                   '${_restaurantList[index].itemImage}',
                               fit: BoxFit.fitWidth,
                               width: double.infinity,
                               height: 100,
                             ),
+
+                            // child: Image.network(
+                            //   BaseUrl.getBaseUrlImages() +
+                            //       '${_restaurantList[index].itemImage}',
+                            //   fit: BoxFit.fitWidth,
+                            //   width: double.infinity,
+                            //   height: 100,
+                            // ),
                           ),
                         ),
                       ),
