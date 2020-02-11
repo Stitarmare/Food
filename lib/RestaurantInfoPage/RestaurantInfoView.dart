@@ -1,33 +1,30 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:foodzi/GoogleMapView/Gmapview.dart';
+
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
+
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
+
 import 'package:foodzi/Utils/dialogs.dart';
-// import 'package:foodzi/models/GetRestaurantReview.dart';
-// import 'package:foodzi/models/RestaurantInfoModel.dart';
-// import 'package:foodzi/models/WriteRestaurantReview.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
+
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
-// import 'package:foodzi/widgets/RatingDailog.dart';
-
-// import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
 
 enum DailogAction { yes, abort }
 
 class RestaurantInfoView extends StatefulWidget {
-  // RestaurantInfoView({Key key}) : super(key: key);
   int rest_Id;
   RestaurantInfoView({this.rest_Id});
 
@@ -40,6 +37,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   RestaurantInfoPresenter restaurantIdInfoPresenter;
   RestaurantInfoData _restaurantInfoData;
   RestaurantReviewData _getReviewData;
+
   bool isExpanded = false;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -256,19 +254,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                               ),
                             ),
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => mapview(),
-
-                                // Gmapview(
-                                //       latitude: double.parse(
-                                //           _restaurantInfoData.latitude),
-                                //       longtitude: double.parse(
-                                //           _restaurantInfoData.longitude),
-                                //       title: getRestName(),
-                                //       description:
-                                //           _restaurantInfoData.addressLine1,
-                                //     )
-                              )); //Show Map
+                              mapview();
                             },
                           ),
                         ),

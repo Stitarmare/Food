@@ -162,9 +162,7 @@ class _DineViewState extends State<DineInView>
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings") {
-                                  filteredBy = "rating${SliderDialog(
-                                    onValueChange: sliderValue,
-                                  )}";
+                                  filteredBy = "rating";
                                   print('object');
                                   //ShowDialogBox
                                   // showDialogBox(context);
@@ -342,7 +340,7 @@ class _DineViewState extends State<DineInView>
                   contentPadding: EdgeInsets.all(0.0),
                   title: _getMainView(
                     _restaurantList[i].restName,
-                    _restaurantList[i].longitude,
+                    _restaurantList[i].distance,
                     _restaurantList[i].openingTime,
                     _restaurantList[i].closingTime,
                     _restaurantList[i].averageRating.toString(),
