@@ -84,7 +84,7 @@ class User {
     int id;
     String firstName;
     String lastName;
-    dynamic userDetails;
+    UserDetails userDetails;
 
     User({
         this.id,
@@ -97,13 +97,37 @@ class User {
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        userDetails: json["user_details"],
+         userDetails: UserDetails.fromJson(json["user_details"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "first_name": firstName,
         "last_name": lastName,
-        "user_details": userDetails,
+       "user": userDetails.toJson(),
     };
+}
+class UserDetails{
+  int id;
+  String profileImage;
+  int userId;
+
+   UserDetails({
+     this.id,
+     this.profileImage,
+     this.userId
+   });
+   
+   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
+        id: json["id"],
+        profileImage: json["profile_image"],
+        userId: json["user_id"],
+      );
+
+      Map<String, dynamic> toJson() => {
+        "id": id,
+        "profile_image": profileImage,
+        "user_id": userId,
+    };
+     
 }

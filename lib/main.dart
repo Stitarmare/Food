@@ -71,7 +71,9 @@ var routes = <String, WidgetBuilder>{
       ),
 };
 
-void main() => runApp(MaterialApp(
+void main() { 
+  set();
+  runApp(MaterialApp(
       title: KEY_APP_NAME,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -82,6 +84,7 @@ void main() => runApp(MaterialApp(
       ),
       routes: routes,
     ));
+}
 
 class MyApp extends StatelessWidget {
   @override

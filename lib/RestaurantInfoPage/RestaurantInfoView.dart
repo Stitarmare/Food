@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 
@@ -19,19 +19,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 //enum DailogAction { yes, abort }
+class CallService{
+  void call(String number)=>launch("tel:$number");
+}
+GetIt locator = GetIt();
+
+void set(){
+  locator.registerSingleton(CallService());
+}
 
 class RestaurantInfoView extends StatefulWidget {
   int rest_Id;
   RestaurantInfoView({this.rest_Id});
 
-  _RestaurantInfoViewState createState() => _RestaurantInfoViewState();
+  RestaurantInfoViewState createState() => RestaurantInfoViewState();
 }
 
-class _RestaurantInfoViewState extends State<RestaurantInfoView>
+class RestaurantInfoViewState extends State<RestaurantInfoView>
     implements RestaurantInfoModelView {
   DialogsIndicator dialogs = DialogsIndicator();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
@@ -44,6 +54,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     MenuCategoryButton(title: "Indian", id: 3, isSelected: false),
     MenuCategoryButton(title: "Chinese", id: 4, isSelected: false),
   ];
+  
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   bool isRestaurantViewed = true;
   bool isReview = false;
@@ -57,6 +68,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
         restId: 0,
         updatedAt: "")
   ];
+  final CallService _service = locator<CallService>();
+
   @override
   void initState() {
     restaurantIdInfoPresenter =
@@ -67,7 +80,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantInfo() {
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.rest_Id);
   }
 
@@ -125,18 +139,34 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: isInfoLoaded ? 
-                      Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
-                      // CachedNetworkImage(
-                      //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                      //   fit: BoxFit.cover,
-                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                      // ) 
-                      : Image.asset(src.imagePath)
-                      // Image.network(
-                      //   src,
-                      //   fit: BoxFit.cover,
-                      //   )
+                      // child: isInfoLoaded ? 
+                      // Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
+                      // // CachedNetworkImage(
+                      // //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                      // //   fit: BoxFit.cover,
+                      // //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                      // // ) 
+                      // : Image.asset(src.imagePath)
+                      // // Image.network(
+                      // //   src,
+                      // //   fit: BoxFit.cover,
+                      // //   )
+                      child: isInfoLoaded
+                          ? ImageWithLoader(
+                              BaseUrl.getBaseUrlImages() + src.imagePath,
+                              fit:  BoxFit.cover,
+                            )
+                          //  Image.network(
+                          //     BaseUrl.getBaseUrlImages() + src.imagePath,
+                          //     fit: BoxFit.cover,
+                          //   )
+                            
+                          // CachedNetworkImage(
+                          //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                          //   fit: BoxFit.cover,
+                          //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                          // )
+                          : Image.asset(src.imagePath)
                       );
                 },
               );
@@ -341,43 +371,48 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                     SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      height: 33,
-                      width: 157,
-                      decoration: BoxDecoration(
-                          color: redtheme,
-                          borderRadius: BorderRadius.all(Radius.circular(6))),
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                              width: 32.5,
-                              child: Padding(
-                                padding: EdgeInsets.only(),
-                                child: Icon(
-                                  Icons.phone,
-                                  size: 16,
-                                  color: Colors.white,
-                                ),
-                              )),
-                          // Divider(thickness: 5,color: Colors.white,),
-                          VerticalDivider(
-                            thickness: 2,
-                            width: 1,
-                            color: Colors.white,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                right: 7, top: 6, bottom: 5, left: 7),
-                            child: Text(
-                              getContactNumber(),
-                              // _restaurantInfoData.contactNumber,
-                              style: TextStyle(
-                                  fontFamily: 'gotham',
-                                  fontSize: 14,
-                                  color: Colors.white),
+                    GestureDetector(
+                       onTap: (){
+                          _service.call(getContactNumber());
+                        },
+                           child: Container(
+                        height: 33,
+                        width: 157,
+                        decoration: BoxDecoration(
+                            color: redtheme,
+                            borderRadius: BorderRadius.all(Radius.circular(6))),
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                                width: 32.5,
+                                child: Padding(
+                                  padding: EdgeInsets.only(),
+                                  child: Icon(
+                                    Icons.phone,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                            // Divider(thickness: 5,color: Colors.white,),
+                            VerticalDivider(
+                              thickness: 2,
+                              width: 1,
+                              color: Colors.white,
                             ),
-                          )
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  right: 7, top: 6, bottom: 5, left: 7),
+                              child: Text(
+                                getContactNumber(),
+                                // _restaurantInfoData.contactNumber,
+                                style: TextStyle(
+                                    fontFamily: 'gotham',
+                                    fontSize: 14,
+                                    color: Colors.white),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -404,13 +439,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Container(
-                  // margin: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                   margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   FlatButton(
-                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png',color: Colors.black,),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -523,7 +558,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
           ),
           getScheduleLength() ==0? Center(
             child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
             child: Text('Not Schedule Yet'),
           ),
           ):Container(
@@ -642,10 +677,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             ],
           ),
           // ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-   getRestaurantReviewLength()
+          //
+          getRestaurantReviewLength()
            ==0 ? Center(child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('No Reviews'),
@@ -665,6 +698,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(
+
                             height: 5,
                           ),
                           Container(
@@ -685,11 +719,12 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                             //   fit: BoxFit.cover,
                                             //   //  placeholder: (context, url) => CircularProgressIndicator(),
                                             // )
-                                            Image.asset(
-                                          'assets/ProfileImage/MaskGroup15.png',
-                                          height: 45,
-                                          width: 45,
-                                        ),
+                                        //     Image.asset(
+                                        //   'assets/ProfileImage/MaskGroup15.png',
+                                        //   height: 45,
+                                        //   width: 45,
+                                        // ),
+                                        Image.network(BaseUrl.getBaseUrlImages() + getProfileImage(index),height: 45,width: 45,)
                                       )),
                                 ),
                                
@@ -771,6 +806,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                               ),
                                         )),
                                     SizedBox(
+
                                       height: 10,
                                     )
                                   ],
@@ -862,7 +898,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       ),
     );
   }
-
   @override
   void restaurantInfoFailed() {
     // TODO: implement restaurantInfoFailed
@@ -887,7 +922,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       // _restInfoData = restInfoData;
     });
     _getRestaurantReview();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement restaurantInfoSuccess
   }
 
@@ -964,6 +999,22 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     }
     return "0";
   }
+// _getReviewData[index].user.userDetails.profileImage
+  String getProfileImage(int index){
+    if(_getReviewData !=null){
+      if(_getReviewData[index].user!=null){
+        if(_getReviewData[index].user.userDetails!=null){
+          if(_getReviewData[index].user.userDetails.profileImage!=null){
+            return _getReviewData[index].user.userDetails.profileImage;
+          }
+          return " ";
+        }
+        return " ";
+      }
+      return " ";
+    }
+    return " ";
+  }
 
   String getContactNumber() {
     if (_restaurantInfoData != null) {
@@ -988,6 +1039,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
     }
     return 0;
   }
+
+  
 }
 
 class MenuCategoryButton {
