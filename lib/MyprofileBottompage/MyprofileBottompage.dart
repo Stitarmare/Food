@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
+import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
+import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/ClipOvalImageLoader.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'dart:io';
@@ -17,10 +21,15 @@ class BottomProfileScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _BottomProfileScreenState();
 }
 
-class _BottomProfileScreenState extends State<BottomProfileScreen> {
+class _BottomProfileScreenState extends State<BottomProfileScreen>
+    implements ProfileScreenModelView {
   //int _currentTabIndex = 0;
+  ProfileScreenPresenter profileScreenPresenter;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   File _image;
   bool isempty = false;
+  String imageURL = "";
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
@@ -31,6 +40,16 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
     setState(() {
       _image = image;
     });
+    if (image != null) {
+      profileScreenPresenter.updateProfileImage(_image, context);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    profileScreenPresenter = ProfileScreenPresenter(this);
+    super.initState();
   }
 
   @override
@@ -82,13 +101,18 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
                   overflow: Overflow.visible,
                   children: <Widget>[
                     ClipOval(
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/PlaceholderImage/placeholder.png',
-                        image: profilePic(),
-                        fit: BoxFit.cover,
-                        width: 82.5,
-                        height: 82.5,
+                      child: ClipOvalImageWithLoader(
+                        profilePic(),
+                        width: 83,
+                        height: 83,
                       ),
+                      //  FadeInImage.assetNetwork(
+                      //   placeholder: 'assets/PlaceholderImage/placeholder.png',
+                      //   image: profilePic(),
+                      //   fit: BoxFit.cover,
+                      //   width: 82.5,
+                      //   height: 82.5,
+                      // ),
                     ),
                     Positioned(
                       right: 0.0,
@@ -317,6 +341,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
           );
         });
   }
+
   address() {
     String userAddress = "N.A.";
     String address1 = "N.A..";
@@ -346,5 +371,19 @@ class _BottomProfileScreenState extends State<BottomProfileScreen> {
       return imageUrl;
     }
     return imageUrl;
+  }
+
+  @override
+  void profileImageUpdateFailed() {
+    // TODO: implement profileImageUpdateFailed
+  }
+
+  @override
+  void profileImageUpdateSuccess() {
+    // TODO: implement profileImageUpdateSuccess
+     setState(() {
+      imageURL = BaseUrl.getBaseUrlImages() +
+          '${Globle().loginModel.data.userDetails.profileImage}';
+    });
   }
 }

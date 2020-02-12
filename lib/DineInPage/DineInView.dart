@@ -10,6 +10,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
+import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -383,11 +384,12 @@ class _DineViewState extends State<DineInView>
           child: Container(
             height: 150,
             width: MediaQuery.of(context).size.width,
-            decoration: new BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
-                  fit: BoxFit.fitWidth),
-            ),
+            // decoration: new BoxDecoration(
+            //   image: DecorationImage(
+            //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
+            //       fit: BoxFit.fitWidth),
+            // ),
+            child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',fit: BoxFit.fitWidth),
           ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)

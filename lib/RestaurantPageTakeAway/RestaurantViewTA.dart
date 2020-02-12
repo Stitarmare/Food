@@ -19,6 +19,7 @@ import 'package:foodzi/theme/colors.dart';
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/widgets/imagewithloader.dart';
 
 class RestaurantTAView extends StatefulWidget {
   String title;
@@ -335,13 +336,20 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         //   child: Image.network(
                         //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
                         // ),
-                        child: Image.network(
-                          BaseUrl.getBaseUrlImages() +
-                              '${_restaurantList[index].itemImage}',
-                          fit: BoxFit.fitWidth,
-                          width: double.infinity,
-                          height: 100,
-                        ),
+                          child: ImageWithLoader(
+                              BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                              fit: BoxFit.fitWidth,
+                              width: double.infinity,
+                              height: 100,
+                            ),
+                        // child: Image.network(
+                        //   BaseUrl.getBaseUrlImages() +
+                        //       '${_restaurantList[index].itemImage}',
+                        //   fit: BoxFit.fitWidth,
+                        //   width: double.infinity,
+                        //   height: 100,
+                        // ),
                       ),
                       Expanded(
                           child: Padding(
