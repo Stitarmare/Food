@@ -59,7 +59,7 @@ class _DineViewState extends State<DineInView>
 
   var sliderValue;
 
-  int sliderval;
+  var sliderval;
 
   @override
   void initState() {
@@ -169,8 +169,7 @@ class _DineViewState extends State<DineInView>
                                    sliderval  = await showDialog(
                                       context: context,
                                       child: new SliderDialog());
-                                      var rate = sliderval.toInt();
-                                  filteredBy =  "rating${rate.toString()}+" ;
+                                  filteredBy =  "rating${sliderval.toString()}+" ;
                                   print(sliderValue.toString());
                                   //ShowDialogBox
                                   // showDialogBox(context);
