@@ -89,7 +89,10 @@ class MenuItemState extends State<MenuItem>
                             : Color.fromRGBO(118, 118, 118, 1),
                       ),
                     ),
-                    trailing: Text(_categorydata[index].menuCount.toString()),
+                    trailing: Text(
+                        _categorydata[index].menuCount.toString() == null
+                            ? "0"
+                            : _categorydata[index].menuCount.toString()),
                     onTap: () {
                       _onSelected(index);
                       Navigator.pop(context);
