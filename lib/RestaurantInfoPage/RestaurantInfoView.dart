@@ -38,10 +38,10 @@ class RestaurantInfoView extends StatefulWidget {
   int rest_Id;
   RestaurantInfoView({this.rest_Id});
 
-  _RestaurantInfoViewState createState() => _RestaurantInfoViewState();
+  RestaurantInfoViewState createState() => RestaurantInfoViewState();
 }
 
-class _RestaurantInfoViewState extends State<RestaurantInfoView>
+class RestaurantInfoViewState extends State<RestaurantInfoView>
     implements RestaurantInfoModelView {
   DialogsIndicator dialogs = DialogsIndicator();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
@@ -439,13 +439,13 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Container(
-                  // margin: EdgeInsets.fromLTRB(0, 21, 0, 0),
+                   margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   FlatButton(
-                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    child: Image.asset('assets/BackButtonIcon/Path1621.png',color: Colors.black,),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -677,10 +677,8 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
             ],
           ),
           // ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-   getRestaurantReviewLength()
+          //
+          getRestaurantReviewLength()
            ==0 ? Center(child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('No Reviews'),
@@ -700,6 +698,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(
+
                             height: 5,
                           ),
                           Container(
@@ -807,6 +806,7 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                                               ),
                                         )),
                                     SizedBox(
+
                                       height: 10,
                                     )
                                   ],
@@ -898,7 +898,6 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
       ),
     );
   }
-
   @override
   void restaurantInfoFailed() {
     // TODO: implement restaurantInfoFailed

@@ -121,8 +121,13 @@ class RestaurantInfoData {
         reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
         schedule: List<Schedule>.from(
             json["schedule"].map((x) => Schedule.fromJson(x))),
-        category: json["category"]!=null?List<Categories>.from(
-            json["category"].map((x) => Categories.fromJson(x))):null,
+        // category: List<Categories>.from(
+        //     json["category"].map((x) => Categories.fromJson(x))),
+        category: json["category"] != null
+            ? List<Categories>.from(
+                json["category"].map((x) => Categories.fromJson(x)))
+            : null,
+
         gallary:
             List<Gallary>.from(json["gallary"].map((x) => Gallary.fromJson(x))),
       );
@@ -154,7 +159,10 @@ class RestaurantInfoData {
         "reviews_count": reviewsCount,
         "reviews": List<dynamic>.from(reviews.map((x) => x)),
         "schedule": List<dynamic>.from(schedule.map((x) => x.toJson())),
-        "category":category!=null? List<dynamic>.from(category.map((x) => x)):null,
+        //"category": List<dynamic>.from(category.map((x) => x)),
+        "category": category != null
+            ? List<dynamic>.from(category.map((x) => x))
+            : null,
         "gallary": List<dynamic>.from(gallary.map((x) => x.toJson())),
       };
 }

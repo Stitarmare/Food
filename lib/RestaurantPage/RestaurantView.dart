@@ -8,6 +8,7 @@ import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
@@ -115,7 +116,29 @@ class _RestaurantViewState extends State<RestaurantView>
               ),
             ),
           ),
-          _menuItemList()
+          (_restaurantList != null)
+              ? _menuItemList()
+              : SliverToBoxAdapter(
+                  child: Center(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.25,
+                        ),
+                        Text(
+                          'No items found.',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
         ],
       ),
     );
@@ -253,14 +276,24 @@ class _RestaurantViewState extends State<RestaurantView>
                     // restaurantPresenter.getMenuList(
                     //     widget.rest_Id, context,menu:menutype);
                     if (this._switchvalue) {
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
+                      if (_restaurantList != null) {
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "Loading");
+                      } else {
+                        Constants.showAlert(
+                            "No Records", "No items found.", context);
+                      }
                       menutype = 'veg';
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
                     } else {
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
+                      if (_restaurantList != null) {
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "Loading");
+                      } else {
+                        Constants.showAlert(
+                            "No Records", "No items found.", context);
+                      }
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
@@ -360,21 +393,21 @@ class _RestaurantViewState extends State<RestaurantView>
                             //         fit: BoxFit.fitHeight),
                             //   ),
                             // ),
-                            child: ImageWithLoader(
-                              BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
-                              fit: BoxFit.fitWidth,
-                              width: double.infinity,
-                              height: 100,
-                            ),
-
-                            // child: Image.network(
+                            // child: ImageWithLoader(
                             //   BaseUrl.getBaseUrlImages() +
                             //       '${_restaurantList[index].itemImage}',
                             //   fit: BoxFit.fitWidth,
                             //   width: double.infinity,
                             //   height: 100,
                             // ),
+
+                            child: Image.network(
+                              BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                              fit: BoxFit.fitWidth,
+                              width: double.infinity,
+                              height: 100,
+                            ),
                           ),
                         ),
                       ),
@@ -494,6 +527,7 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   void getMenuListfailed() {
     // TODO: implement getMenuListfailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

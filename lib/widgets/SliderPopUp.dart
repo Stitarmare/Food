@@ -99,7 +99,7 @@ class SliderDialogState extends State<SliderDialog> {
                   onPressed: () {
                     // Use the second argument of Navigator.pop(...) to pass
                     // back a result to the page that opened the dialog
-                    Navigator.of(context).pop(sliderValue);
+                    Navigator.pop(context,sliderValue.toString());
                   },
                   child: Text(
                     'DONE',
