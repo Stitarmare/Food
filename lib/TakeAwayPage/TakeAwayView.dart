@@ -136,6 +136,15 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     builder: (context) {
                       return StatefulBuilder(builder: (BuildContext context,
                           StateSetter setBottomState /*You can rename this!*/) {
+                         Future<double> getRatingValue() async {
+                              var val  = await showDialog(
+                                      context: context,
+                                      child: new SliderDialog());
+
+                                    
+                              return double.parse(val.toString());
+                              
+                            }   
                         void setSelectedSortItem(
                             BottomItemButton bottomItem, List bottomList) {
                           for (int i = 0; i < bottomList.length; i++) {
@@ -146,7 +155,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(() async {
+                            setBottomState(()  {
                               tile.isSelected = true;
                               if (bottomList == optionSortBy) {
                                 sortedBy = bottomItem.title;
@@ -161,16 +170,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
                                 if (bottomItem.title == "Ratings")  {
-                                   sliderval  = await showDialog(
-                                      context: context,
-                                      child: new SliderDialog());
-                                  filteredBy =  "rating${sliderval.toString()}+" ;
-                                  print(sliderValue.toString());
+                                   getRatingValue().then((onValue){
+                                     filteredBy =  "rating${onValue.toString()}+" ;
+                                     print(sliderValue.toString());
+                                   });
+                                  
                                   //ShowDialogBox
                                   // showDialogBox(context);
                            
                                 }
-                              } else {
+                              }  else {
                                 print('Favourites only');
                                 filteredBy = "favourite";
                               }
