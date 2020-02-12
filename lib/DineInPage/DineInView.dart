@@ -59,10 +59,13 @@ class _DineViewState extends State<DineInView>
 
   var sliderValue;
 
+  int sliderval;
+
   @override
   void initState() {
 // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
+
     _getLocation();
     _detectScrollPosition();
 
@@ -148,7 +151,7 @@ class _DineViewState extends State<DineInView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(() {
+                            setBottomState(() async {
                               tile.isSelected = true;
                               if (bottomList == optionSortBy) {
                                 sortedBy = bottomItem.title;
@@ -162,14 +165,16 @@ class _DineViewState extends State<DineInView>
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
-                                if (bottomItem.title == "Ratings") {
-                                  filteredBy = "rating";
-                                  print('object');
-                                  //ShowDialogBox
-                                  // showDialogBox(context);
-                                  showDialog(
+                                if (bottomItem.title == "Ratings")  {
+                                   sliderval  = await showDialog(
                                       context: context,
                                       child: new SliderDialog());
+                                      var rate = sliderval.toInt();
+                                  filteredBy =  "rating${rate.toString()}+" ;
+                                  print(sliderValue.toString());
+                                  //ShowDialogBox
+                                  // showDialogBox(context);
+                           
                                 }
                               } else {
                                 print('Favourites only');
@@ -225,6 +230,18 @@ class _DineViewState extends State<DineInView>
                                         38,
                                 child: FloatingActionButton(
                                     onPressed: () {
+                                      // dinerestaurantPresenter
+                                      //     .getrestaurantspage(
+                                      //         _position.latitude.toString(),
+                                      //         _position.longitude.toString(),
+                                      //         sortedBy,
+                                      //         filteredBy,
+                                      //         page,
+                                      //         context);
+                                      Navigator.pop(context);
+                                      DialogsIndicator.showLoadingDialog(
+                                          context, _keyLoader, "Please Wait");
+
                                       dinerestaurantPresenter
                                           .getrestaurantspage(
                                               _position.latitude.toString(),
@@ -233,7 +250,14 @@ class _DineViewState extends State<DineInView>
                                               filteredBy,
                                               page,
                                               context);
-                                      Navigator.pop(context);
+                                      // if (_restaurantList.length != null) {
+                                      //
+                                      // } else {
+                                      //   Navigator.of(_keyLoader.currentContext,
+                                      //       rootNavigator: true);
+                                      // }
+
+                                      //     .pop();
                                     },
                                     child: IconTheme(
                                         data:
@@ -327,7 +351,33 @@ class _DineViewState extends State<DineInView>
               },
             )
           ]),
-      body: ListView.builder(
+      body: (_restaurantList != null )?
+      restaurantsInfo() :Container(
+                    child: 
+                        Center(
+                          child: Text(
+                            'No restaurants found.',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w500,
+                                color: greytheme700),
+                          ),
+                        ),
+                     
+                  ),
+    );
+  }
+
+  int _getint() {
+    if (_restaurantList != null) {
+      return _restaurantList.length;
+    }
+    return 0;
+  }
+Widget restaurantsInfo(){
+  return ListView.builder(
         controller: _controller,
         itemCount: _getint(),
         itemBuilder: (_, i) {
@@ -360,17 +410,8 @@ class _DineViewState extends State<DineInView>
                         );
                   }));
         },
-      ),
-    );
-  }
-
-  int _getint() {
-    if (_restaurantList != null) {
-      return _restaurantList.length;
-    }
-    return 0;
-  }
-
+      );
+}
   Widget _getMainView(
       String merchantName,
       String distance,
@@ -389,7 +430,8 @@ class _DineViewState extends State<DineInView>
             //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
             //       fit: BoxFit.fitWidth),
             // ),
-            child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',fit: BoxFit.fitWidth),
+            child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
+                fit: BoxFit.fitWidth),
           ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
@@ -539,8 +581,11 @@ class _DineViewState extends State<DineInView>
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
 // TODO: implement restaurantsuccess
-
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
+      setState(() {
+         _restaurantList = null;
+      });
       return;
     }
 
@@ -552,7 +597,6 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 
