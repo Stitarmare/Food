@@ -4,12 +4,6 @@
 
 #import "GeneratedPluginRegistrant.h"
 
-#if __has_include(<drawerbehavior/DrawerbehaviorPlugin.h>)
-#import <drawerbehavior/DrawerbehaviorPlugin.h>
-#else
-@import drawerbehavior;
-#endif
-
 #if __has_include(<flutter_webview_plugin/FlutterWebviewPlugin.h>)
 #import <flutter_webview_plugin/FlutterWebviewPlugin.h>
 #else
@@ -67,7 +61,6 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
-  [DrawerbehaviorPlugin registerWithRegistrar:[registry registrarForPlugin:@"DrawerbehaviorPlugin"]];
   [FlutterWebviewPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterWebviewPlugin"]];
   [GeolocatorPlugin registerWithRegistrar:[registry registrarForPlugin:@"GeolocatorPlugin"]];
   [GoogleApiAvailabilityPlugin registerWithRegistrar:[registry registrarForPlugin:@"GoogleApiAvailabilityPlugin"]];

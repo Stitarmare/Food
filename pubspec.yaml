@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  drawerbehavior: ^0.0.8
+  #drawerbehavior: ^0.0.8
   carousel_slider:
 
   # The following adds the Cupertino Icons font to your application.
