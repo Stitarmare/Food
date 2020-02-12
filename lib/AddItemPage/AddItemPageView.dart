@@ -323,30 +323,7 @@ List<bool> isSelected;
                   width: 40,
                 ),
                 steppercount()
-                // Container(
-
-                // )
-                // Counter(
-                //   initialValue: _defaultValue,
-                //   minValue: 0,
-                //   maxValue: 10,
-                //   step: 0.5,
-                //   decimalPlaces: 1,
-                //   buttonSize: 15,
-                //   color: redtheme,
-                //   onChanged: (value) {
-                //     // get the latest value from here
-                //     setState(() {
-                //       _defaultValue = value;
-                //     });
-                //   },
-                // ),
-                // FLCountStepper(
-                //     controller: _stepperController,
-                //     disabled: true, // default is false
-                //     disableInput: true,
-                //     actionColor: redtheme, // default is true
-                //     onChanged: (value) {})
+       
               ],
             ),
             SizedBox(
