@@ -150,8 +150,8 @@ List<bool> isSelected;
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/OrderConfirmationView');
-              // print("button is pressed");
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
+              print("button is pressed");
               // showDialog(
               //   context: context,
               //   child: new RadioDialog(

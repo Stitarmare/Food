@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 
@@ -139,18 +139,34 @@ class _RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      child: isInfoLoaded ? 
-                      Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
-                      // CachedNetworkImage(
-                      //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                      //   fit: BoxFit.cover,
-                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                      // ) 
-                      : Image.asset(src.imagePath)
-                      // Image.network(
-                      //   src,
-                      //   fit: BoxFit.cover,
-                      //   )
+                      // child: isInfoLoaded ? 
+                      // Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
+                      // // CachedNetworkImage(
+                      // //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                      // //   fit: BoxFit.cover,
+                      // //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                      // // ) 
+                      // : Image.asset(src.imagePath)
+                      // // Image.network(
+                      // //   src,
+                      // //   fit: BoxFit.cover,
+                      // //   )
+                      child: isInfoLoaded
+                          ? ImageWithLoader(
+                              BaseUrl.getBaseUrlImages() + src.imagePath,
+                              fit:  BoxFit.cover,
+                            )
+                          //  Image.network(
+                          //     BaseUrl.getBaseUrlImages() + src.imagePath,
+                          //     fit: BoxFit.cover,
+                          //   )
+                            
+                          // CachedNetworkImage(
+                          //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                          //   fit: BoxFit.cover,
+                          //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                          // )
+                          : Image.asset(src.imagePath)
                       );
                 },
               );
