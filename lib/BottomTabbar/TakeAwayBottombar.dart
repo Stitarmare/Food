@@ -54,14 +54,44 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: Container(
+      //   width: 60,
+      //   height: 60,
+      //   child: FittedBox(
+      //     child: FloatingActionButton(
+      //         backgroundColor: redtheme,
+      //         onPressed: () {},
+      //         child: Image.asset('assets/ClockIcon/clock.png')),
+      //   ),
+      // ),
       floatingActionButton: Container(
         width: 60,
-        height: 60,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: redtheme,
-              onPressed: () {},
-              child: Image.asset('assets/ClockIcon/clock.png')),
+        height: 120,
+        child: Column(
+          children: <Widget>[
+             FittedBox(
+            child: FloatingActionButton(
+                backgroundColor: orangetheme,
+                onPressed: () {
+                  print("1");
+                },
+                heroTag: "btnBuzzer",
+                child: Image.asset('assets/ClockIcon/clock.png')),
+          ),
+          SizedBox(height: 5,),
+          FittedBox(
+            child: FloatingActionButton(
+                backgroundColor: orangetheme,
+                onPressed: () {
+                  print("2");
+                                Navigator.pushNamed(context, '/OrderConfirmationView');
+
+                },
+                heroTag: "btnAddCart",
+                child: Icon(Icons.add_shopping_cart,color: Colors.white,)),
+          ),
+          ],
+                  
         ),
       ),
       body: tabsHome[currentTabIndex],
