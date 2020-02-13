@@ -443,7 +443,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Center(
-                    child: Text("Please wait while getting Restaurant Info!",textAlign: TextAlign.center,style: TextStyle(
+                    child: Text("Please wait, fetching Restaurant Info!",textAlign: TextAlign.center,style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w500,

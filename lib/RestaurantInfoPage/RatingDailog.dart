@@ -199,13 +199,17 @@ class MyDialogRatingState extends State<MyDialogRating>
                     // }
 
                     if (_rating != 0) {
-                      _controller.value.text == "" ? Toast.show("Add Review", context, duration: Toast.LENGTH_SHORT, 
-                      gravity:  Toast.BOTTOM): restaurantReviewPresenter.writeRestaurantReview(
+                     if( _controller.value.text == ""){ Toast.show("Add Review", context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM);}
+                      else{
+                         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                         restaurantReviewPresenter.writeRestaurantReview(
                               context,
                               widget.rest_id,
                               _controller.value.text,
                               _rating);
-                               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                              
+                      }
                     }else{
                      Toast.show("Add Review & Ratings", context, duration: Toast.LENGTH_SHORT, 
                       gravity:  Toast.BOTTOM);
