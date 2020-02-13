@@ -10,5 +10,6 @@ class Globle {
 
   Globle.internal();
   LoginModel loginModel;
+  String colorscode;
   var authKey;
 }

@@ -10,6 +10,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 //import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 
@@ -212,7 +213,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -264,7 +265,7 @@ class _RestaurantViewState extends State<RestaurantView>
             Transform.scale(
               scale: 0.7,
               child: CupertinoSwitch(
-                activeColor: redtheme,
+                activeColor: getColorByHex(Globle().colorscode),
                 onChanged: (bool value) {
                   //  DialogsIndicator.showLoadingDialog(
                   //      context, _keyLoader, "Loading");
@@ -314,10 +315,12 @@ class _RestaurantViewState extends State<RestaurantView>
                         fontSize: 12,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w500,
-                        color: (isselected) ? redtheme : greytheme100),
+                        color: (isselected)
+                            ? getColorByHex(Globle().colorscode)
+                            : greytheme100),
                   ),
                   borderSide: (isselected)
-                      ? BorderSide(color: redtheme)
+                      ? BorderSide(color: getColorByHex(Globle().colorscode))
                       : BorderSide(color: greytheme100),
                   //borderSide: BorderSide(color:redtheme),
                   onPressed: () async {
@@ -483,7 +486,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: redtheme,
+                                      color: getColorByHex(Globle().colorscode),
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(12.0),
                                       )),

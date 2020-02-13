@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
@@ -25,12 +26,13 @@ import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 //enum DailogAction { yes, abort }
-class CallService{
-  void call(String number)=>launch("tel:$number");
+class CallService {
+  void call(String number) => launch("tel:$number");
 }
+
 GetIt locator = GetIt();
 
-void set(){
+void set() {
   locator.registerSingleton(CallService());
 }
 
@@ -54,7 +56,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     MenuCategoryButton(title: "Indian", id: 3, isSelected: false),
     MenuCategoryButton(title: "Chinese", id: 4, isSelected: false),
   ];
-  
+
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   bool isRestaurantViewed = true;
   bool isReview = false;
@@ -67,13 +69,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         createdAt: "",
         restId: 0,
         updatedAt: ""),
-        Gallary(
+    Gallary(
         id: 0,
         imagePath: "assets/HotelImages/Image12.png",
         createdAt: "",
         restId: 0,
         updatedAt: ""),
-        Gallary(
+    Gallary(
         id: 0,
         imagePath: "assets/HotelImages/MaskGroup20.png",
         createdAt: "",
@@ -88,7 +90,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    
+
     super.initState();
   }
 
@@ -152,13 +154,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      // child: isInfoLoaded ? 
+                      // child: isInfoLoaded ?
                       // Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
                       // // CachedNetworkImage(
                       // //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
                       // //   fit: BoxFit.cover,
                       // //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                      // // ) 
+                      // // )
                       // : Image.asset(src.imagePath)
                       // // Image.network(
                       // //   src,
@@ -167,20 +169,22 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       child: isInfoLoaded
                           ? ImageWithLoader(
                               BaseUrl.getBaseUrlImages() + src.imagePath,
-                              fit:  BoxFit.cover,
+                              fit: BoxFit.cover,
                             )
                           //  Image.network(
                           //     BaseUrl.getBaseUrlImages() + src.imagePath,
                           //     fit: BoxFit.cover,
                           //   )
-                            
+
                           // CachedNetworkImage(
                           //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
                           //   fit: BoxFit.cover,
                           //   //  placeholder: (context, url) => CircularProgressIndicator(),
                           // )
-                          : Image.asset(src.imagePath,fit: BoxFit.cover,)
-                      );
+                          : Image.asset(
+                              src.imagePath,
+                              fit: BoxFit.cover,
+                            ));
                 },
               );
             }).toList(),
@@ -215,8 +219,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     Widget hotelInfo = new Container(
         height: MediaQuery.of(context).size.height * 0.68 + 23,
         child: SingleChildScrollView(
-          child:
-           Column(
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -288,6 +291,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             child: ClipOval(
                               child: Image.asset(
                                 'assets/NavigateButton/next(2).png',
+                                color: getColorByHex(Globle().colorscode),
                                 width: 14,
                               ),
                             ),
@@ -385,14 +389,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       width: 20,
                     ),
                     GestureDetector(
-                       onTap: (){
-                          _service.call(getContactNumber());
-                        },
-                           child: Container(
+                      onTap: () {
+                        _service.call(getContactNumber());
+                      },
+                      child: Container(
                         height: 33,
                         width: 157,
                         decoration: BoxDecoration(
-                            color: redtheme,
+                            color: getColorByHex(Globle().colorscode),
                             borderRadius: BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           children: <Widget>[
@@ -437,87 +441,96 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ]),
         ));
     return Scaffold(
-      body: _restaurantInfoData == null? Container(
-        child: Column(
+      body: _restaurantInfoData == null
+          ? Container(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Center(
-                    child: Text("Please wait while getting Restaurant Info!",textAlign: TextAlign.center,style: TextStyle(
-                fontSize: 12,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w500,
-                color: greytheme1200),),
+                    child: Text(
+                      "Please wait while getting Restaurant Info!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500,
+                          color: greytheme1200),
+                    ),
                   ),
                   CircularProgressIndicator()
                 ],
               ),
-      ): Container(
-        // height: Constants.getSafeAreaHeight(context) * 0.35,
-        //             width: Constants.getScreenWidth(context),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          fit: StackFit.passthrough,
-          alignment: AlignmentDirectional.topStart,
-          // fit: StackFit.expand,
-          overflow: Overflow.visible,
-          children: <Widget>[
-            Positioned(left: 0, right: 0, top: 0, child: image_carousel),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Container(
-                   margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  FlatButton(
-                    child: Image.asset('assets/BackButtonIcon/Path1621.png',color: Colors.black,),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: 520,
-                    ),
-                    flex: 2,
-                  ),
-                ],
-              )
-
-                  // )
-                  ),
-            ),
-            // Positioned(
-            //   left: 3.0,
-            //   top: 21.0,
-            //   child: FlatButton(
-            //     child:
-            //         Image.asset('assets/BackButtonIcon/Path1621.png'),
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //   ),
-            // ),
-            Positioned(
-              top: Constants.getSafeAreaHeight(context) * 0.3,
-              left: 0,
-              child: Container(
-                decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(40.0),
-                        topRight: const Radius.circular(40.0))),
-                height: Constants.getSafeAreaHeight(context) * 0.7,
-                width: Constants.getScreenWidth(context),
-                child: hotelInfo,
-              ),
             )
-          ],
-        ),
-      ),
+          : Container(
+              // height: Constants.getSafeAreaHeight(context) * 0.35,
+              //             width: Constants.getScreenWidth(context),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Stack(
+                fit: StackFit.passthrough,
+                alignment: AlignmentDirectional.topStart,
+                // fit: StackFit.expand,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Positioned(left: 0, right: 0, top: 0, child: image_carousel),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Container(
+                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            FlatButton(
+                              child: Image.asset(
+                                'assets/BackButtonIcon/Path1621.png',
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                width: 520,
+                              ),
+                              flex: 2,
+                            ),
+                          ],
+                        )
+
+                        // )
+                        ),
+                  ),
+                  // Positioned(
+                  //   left: 3.0,
+                  //   top: 21.0,
+                  //   child: FlatButton(
+                  //     child:
+                  //         Image.asset('assets/BackButtonIcon/Path1621.png'),
+                  //     onPressed: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //   ),
+                  // ),
+                  Positioned(
+                    top: Constants.getSafeAreaHeight(context) * 0.3,
+                    left: 0,
+                    child: Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(40.0),
+                              topRight: const Radius.circular(40.0))),
+                      height: Constants.getSafeAreaHeight(context) * 0.7,
+                      width: Constants.getScreenWidth(context),
+                      child: hotelInfo,
+                    ),
+                  )
+                ],
+              ),
+            ),
     );
   }
 
@@ -584,58 +597,61 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           SizedBox(
             height: 5,
           ),
-          getScheduleLength() ==0? Center(
-            child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
-            child: Text('Not Schedule Yet'),
-          ),
-          ):Container(
-              // height: 150,
-              child: ListView.builder(
-            itemCount: getScheduleLength(),
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                  height: 30.5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24),
-                            child: Text(
-                              _restaurantInfoData.schedule[index].dayOfWeek,
-                              style:
-                                  TextStyle(fontSize: 12, color: greytheme1000),
+          getScheduleLength() == 0
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
+                    child: Text('Not Schedule Yet'),
+                  ),
+                )
+              : Container(
+                  // height: 150,
+                  child: ListView.builder(
+                  itemCount: getScheduleLength(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        height: 30.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 24),
+                                  child: Text(
+                                    _restaurantInfoData
+                                        .schedule[index].dayOfWeek,
+                                    style: TextStyle(
+                                        fontSize: 12, color: greytheme1000),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    width: 120,
+                                  ),
+                                  flex: 2,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 24),
+                                  child: Text(
+                                      '${_restaurantInfoData.schedule[index].fromTime} - ${_restaurantInfoData.schedule[index].toTime}',
+                                      style: TextStyle(
+                                          fontSize: 12, color: greytheme1000)),
+                                ),
+                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              width: 120,
-                            ),
-                            flex: 2,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 24),
-                            child: Text(
-                                '${_restaurantInfoData.schedule[index].fromTime} - ${_restaurantInfoData.schedule[index].toTime}',
-                                style: TextStyle(
-                                    fontSize: 12, color: greytheme1000)),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        height: 2,
-                        color: Colors.grey,
-                        indent: 20.0,
-                        endIndent: 20.0,
-                      )
-                    ],
-                  ));
-            },
-          ))
+                            Divider(
+                              height: 2,
+                              color: Colors.grey,
+                              indent: 20.0,
+                              endIndent: 20.0,
+                            )
+                          ],
+                        ));
+                  },
+                ))
         ],
       ),
     );
@@ -677,7 +693,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           fontFamily: 'gotham',
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           decoration: TextDecoration.underline,
                           decorationThickness: 5.0
                           // decorationStyle: TextDecorationStyle.solid,
@@ -706,160 +722,174 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           ),
           // ),
           //
-          getRestaurantReviewLength()
-           ==0 ? Center(child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('No Reviews'),
-          ),):
-          Container(
-              // height: MediaQuery.of(context).size.height * 0.35,
-              child: ListView.builder(
-                // itemCount: _restaurantInfoData.reviews.length,
-                itemCount: getRestaurantReviewLength(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      // height: 105,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-
-                            height: 5,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 18, top: 10),
-                                      child: ClipOval(
-                                        child:
-                                            //                    CachedNetworkImage(
-                                            //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
-                                            //   fit: BoxFit.cover,
-                                            //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                                            // )
-                                        //     Image.asset(
-                                        //   'assets/ProfileImage/MaskGroup15.png',
-                                        //   height: 45,
-                                        //   width: 45,
-                                        // ),
-                                        Image.network(BaseUrl.getBaseUrlImages() + getProfileImage(index),height: 45,width: 45,)
-                                      )),
-                                ),
-                               
-                                    Column(
+          getRestaurantReviewLength() == 0
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('No Reviews'),
+                  ),
+                )
+              : Container(
+                  // height: MediaQuery.of(context).size.height * 0.35,
+                  child: ListView.builder(
+                  // itemCount: _restaurantInfoData.reviews.length,
+                  itemCount: getRestaurantReviewLength(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                        // height: 105,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18, top: 16.5),
-                                          child: Text(
-                                              _getReviewData[index].user
-                                                      .firstName +
-                                                  " " +
-                                                  _getReviewData[index]
-                                                      .user.lastName,
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: greytheme1000,
-                                                  fontFamily: 'gotham',
-                                                  fontWeight: FontWeight.w700)),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 18, top: 10),
+                                              child: ClipOval(
+                                                  child:
+                                                      //                    CachedNetworkImage(
+                                                      //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
+                                                      //   fit: BoxFit.cover,
+                                                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                                                      // )
+                                                      //     Image.asset(
+                                                      //   'assets/ProfileImage/MaskGroup15.png',
+                                                      //   height: 45,
+                                                      //   width: 45,
+                                                      // ),
+                                                      Image.network(
+                                                BaseUrl.getBaseUrlImages() +
+                                                    getProfileImage(index),
+                                                height: 45,
+                                                width: 45,
+                                              ))),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18, top: 8),
-                                          child: Container(
-                                            width: 39,
-                                            height: 18,
-                                            // color: Colors.black,
-                                            decoration: BoxDecoration(
-                                                color: greytheme700,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4))),
 
-                                            child: Row(
-                                              children: <Widget>[
-                                                Padding(
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 18, top: 16.5),
+                                              child: Text(
+                                                  _getReviewData[index]
+                                                          .user
+                                                          .firstName +
+                                                      " " +
+                                                      _getReviewData[index]
+                                                          .user
+                                                          .lastName,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: greytheme1000,
+                                                      fontFamily: 'gotham',
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 18, top: 8),
+                                              child: Container(
+                                                width: 39,
+                                                height: 18,
+                                                // color: Colors.black,
+                                                decoration: BoxDecoration(
+                                                    color: greytheme700,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                4))),
+
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 4),
+                                                      child: Icon(
+                                                        Icons.star,
+                                                        size: 10,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 4,
+                                                              top: 2,
+                                                              bottom: 2),
+                                                      child: Text(
+                                                        _getReviewData[index]
+                                                            .rating
+                                                            // _getReviewData
+                                                            //     .reviews[index].rating
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'gotham',
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.8,
+                                                child: Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          left: 4),
-                                                  child: Icon(
-                                                    Icons.star,
-                                                    size: 10,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                 Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4, top: 2, bottom: 2),
-                                              child: Text(
-                                                _getReviewData[index].rating
-                                                // _getReviewData
-                                                //     .reviews[index].rating
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontFamily: 'gotham',
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white),
-                                              ),
+                                                          left: 18, top: 10),
+                                                  child: ExpandableText(
+                                                      _getReviewData[index]
+                                                          .description
+                                                      // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
+                                                      // maxLines: 5,)
+                                                      ),
+                                                )),
+                                            SizedBox(
+                                              height: 10,
                                             )
-                                              ],
-                                            ),
-                                          ),
+                                          ],
                                         ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.8,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18, top: 10),
-                                          child: ExpandableText(_getReviewData[index].description
-                                              // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
-                                              // maxLines: 5,)
-                                              ),
-                                        )),
-                                    SizedBox(
+                                        // ),
 
-                                      height: 10,
-                                    )
-                                  ],
-                                ),
-                             // ),
-                             
-                          //   ],
-                          // )
-                              ]
-                              )
-                              ),
-
- Divider(
+                                        //   ],
+                                        // )
+                                      ])),
+                              Divider(
                                 height: 2,
                                 color: Colors.grey,
                                 indent: 20.0,
                                 endIndent: 20.0,
                               )
-
-
-
-                              ]
-                              ));
-                    },
-                  ))
+                            ]));
+                  },
+                ))
         ],
       ),
     );
@@ -894,9 +924,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     )
                   ],
                   indicator: UnderlineTabIndicator(
-                      borderSide: BorderSide(color: redtheme, width: 2),
+                      borderSide: BorderSide(
+                          color: getColorByHex(Globle().colorscode), width: 2),
                       insets: EdgeInsets.symmetric(horizontal: 30)),
-                  labelColor: redtheme,
+                  labelColor: getColorByHex(Globle().colorscode),
                   unselectedLabelColor: greytheme1000,
                   onTap: (index) {
                     switch (index) {
@@ -926,6 +957,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       ),
     );
   }
+
   @override
   void restaurantInfoFailed() {
     // TODO: implement restaurantInfoFailed
@@ -960,7 +992,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void getReviewSuccess( List<RestaurantReviewList> getReviewList) {
+  void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
     setState(() {
       _getReviewData = getReviewList;
@@ -1027,12 +1059,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     }
     return "0";
   }
+
 // _getReviewData[index].user.userDetails.profileImage
-  String getProfileImage(int index){
-    if(_getReviewData !=null){
-      if(_getReviewData[index].user!=null){
-        if(_getReviewData[index].user.userDetails!=null){
-          if(_getReviewData[index].user.userDetails.profileImage!=null){
+  String getProfileImage(int index) {
+    if (_getReviewData != null) {
+      if (_getReviewData[index].user != null) {
+        if (_getReviewData[index].user.userDetails != null) {
+          if (_getReviewData[index].user.userDetails.profileImage != null) {
             return _getReviewData[index].user.userDetails.profileImage;
           }
           return " ";
@@ -1067,8 +1100,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     }
     return 0;
   }
-
-  
 }
 
 class MenuCategoryButton {

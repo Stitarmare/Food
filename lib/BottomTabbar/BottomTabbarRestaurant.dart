@@ -8,13 +8,14 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
   int rest_Id;
-  BottomTabbarHome({this.title,this.rest_Id});
+  BottomTabbarHome({this.title, this.rest_Id});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -44,7 +45,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(0, [
           RestaurantView(
             title: widget.title,
-            rest_Id:widget.rest_Id,
+            rest_Id: widget.rest_Id,
           )
         ]);
       });
@@ -64,34 +65,34 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       //         child: Image.asset('assets/ClockIcon/clock.png')),
       //   ),
       // ),
-       floatingActionButton: Container(
+      floatingActionButton: Container(
         width: 60,
         height: 120,
         child: Column(
           children: <Widget>[
-             FittedBox(
-            child: FloatingActionButton(
-                backgroundColor: orangetheme,
-                onPressed: () {
-                  print("1");
-                },
-                heroTag: "btnBuzzer",
-                child: Image.asset('assets/ClockIcon/clock.png')),
-          ),
-          SizedBox(height: 5,),
-          FittedBox(
-            child: FloatingActionButton(
-                backgroundColor: orangetheme,
-                onPressed: () {
-                  print("2");
-                                // Navigator.pushNamed(context, '/OrderConfirmationView');
-
-                },
-                heroTag: "btnAddCart",
-                child: Icon(Icons.shopping_cart,color: Colors.white)),
-          ),
+            FittedBox(
+              child: FloatingActionButton(
+                  backgroundColor: getColorByHex(Globle().colorscode),
+                  onPressed: () {
+                    print("1");
+                  },
+                  heroTag: "btnBuzzer",
+                  child: Image.asset('assets/ClockIcon/clock.png')),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            FittedBox(
+              child: FloatingActionButton(
+                  backgroundColor: getColorByHex(Globle().colorscode),
+                  onPressed: () {
+                    print("2");
+                    // Navigator.pushNamed(context, '/OrderConfirmationView');
+                  },
+                  heroTag: "btnAddCart",
+                  child: Icon(Icons.shopping_cart, color: Colors.white)),
+            ),
           ],
-                  
         ),
       ),
       body: tabsHome[currentTabIndex],

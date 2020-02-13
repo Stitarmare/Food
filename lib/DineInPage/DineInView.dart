@@ -7,6 +7,7 @@ import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
@@ -374,11 +375,15 @@ class _DineViewState extends State<DineInView>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Center(
-                    child: Text("Please wait while getting your current location!",textAlign: TextAlign.center,style: TextStyle(
-                fontSize: 15,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w500,
-                color: greytheme1200),),
+                    child: Text(
+                      "Please wait while getting your current location!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500,
+                          color: greytheme1200),
+                    ),
                   ),
                   CircularProgressIndicator()
                 ],
@@ -431,6 +436,7 @@ class _DineViewState extends State<DineInView>
                   _restaurantList[i].coverImage,
                 ),
                 onTap: () {
+                  Globle().colorscode = _restaurantList[i].colourCode;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => BottomTabbarHome(
                             title: "${_restaurantList[i].restName}",

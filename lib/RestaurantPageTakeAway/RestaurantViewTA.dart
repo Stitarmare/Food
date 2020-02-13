@@ -11,6 +11,7 @@ import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
@@ -108,7 +109,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               ),
             ),
           ),
-         (_restaurantList != null)
+          (_restaurantList != null)
               ? _menuItemList()
               : SliverToBoxAdapter(
                   child: Center(
@@ -192,7 +193,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 children: <Widget>[
                   // SizedBox(
                   //   width: 26,
-                  // ),
+                  // ),Œ
                   // Image.asset('assets/DineInImage/Group1504.png'),
                   SizedBox(
                     width: 20,
@@ -204,7 +205,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -255,26 +256,28 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             Transform.scale(
               scale: 0.7,
               child: CupertinoSwitch(
-                activeColor: redtheme,
+                activeColor: getColorByHex(Globle().colorscode),
                 onChanged: (bool value) {
                   setState(() {
                     this._switchvalue = value;
                     if (this._switchvalue) {
-                       if (_restaurantList != null) {
+                      if (_restaurantList != null) {
                         DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      }else{
-                        Constants.showAlert("No Records", "No items found.", context);
+                      } else {
+                        Constants.showAlert(
+                            "No Records", "No items found.", context);
                       }
                       menutype = 'veg';
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
                           menu: menutype);
                     } else {
-                       if (_restaurantList != null) {
+                      if (_restaurantList != null) {
                         DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      }else{
-                        Constants.showAlert("No Records", "No items found.", context);
+                      } else {
+                        Constants.showAlert(
+                            "No Records", "No items found.", context);
                       }
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
@@ -296,10 +299,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         fontSize: 12,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w500,
-                        color: (isselected) ? redtheme : greytheme100),
+                        color: (isselected)
+                            ? getColorByHex(Globle().colorscode)
+                            : greytheme100),
                   ),
                   borderSide: (isselected)
-                      ? BorderSide(color: redtheme)
+                      ? BorderSide(color: getColorByHex(Globle().colorscode))
                       : BorderSide(color: greytheme100),
                   //borderSide: BorderSide(color:redtheme),
                   onPressed: () async {
@@ -367,13 +372,13 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         //   child: Image.network(
                         //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
                         // ),
-                          // child: ImageWithLoader(
-                          //     BaseUrl.getBaseUrlImages() +
-                          //         '${_restaurantList[index].itemImage}',
-                          //     fit: BoxFit.fitWidth,
-                          //     width: double.infinity,
-                          //     height: 100,
-                          //   ),
+                        // child: ImageWithLoader(
+                        //     BaseUrl.getBaseUrlImages() +
+                        //         '${_restaurantList[index].itemImage}',
+                        //     fit: BoxFit.fitWidth,
+                        //     width: double.infinity,
+                        //     height: 100,
+                        //   ),
                         child: Image.network(
                           BaseUrl.getBaseUrlImages() +
                               '${_restaurantList[index].itemImage}',
@@ -576,7 +581,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   @override
   void getMenuListfailed() {
     // TODO: implement getMenuListfailed
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop(); 
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -590,12 +595,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       if (_restaurantList == null) {
         _restaurantList = menulist;
       } else {
-         _restaurantList.removeRange(0, (_restaurantList.length));
+        _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop(); 
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

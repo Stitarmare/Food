@@ -24,7 +24,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     implements AddItemPageModelView {
   int item_id;
   int rest_id;
-List<bool> isSelected;
+  List<bool> isSelected;
   AddItemPagepresenter addItemPagepresenter;
   List<AddItemModelList> _additemlist;
   ScrollController _controller = ScrollController();
@@ -32,11 +32,11 @@ List<bool> isSelected;
   @override
   void initState() {
 // GeoLocationTracking.loadingPositionTrack();
-   // addItemPagepresenter = AddItemPagepresenter(this);
+    // addItemPagepresenter = AddItemPagepresenter(this);
 
-  //  addItemPagepresenter.performAddItem(item_id, rest_id, context);
+    //  addItemPagepresenter.performAddItem(item_id, rest_id, context);
 // TODO: implement initState
- isSelected = [true, false];
+    isSelected = [true, false];
     super.initState();
   }
 
@@ -66,6 +66,23 @@ List<bool> isSelected;
     setState(() {
       _selectedId = value;
     });
+  }
+
+  List<Widget> _getListings() {
+    // <<<<< Note this change for the return type
+    List listings = new List<Widget>();
+    int i = 0;
+    for (i = 0; i < 5; i++) {
+      listings.add(
+        new RadioListTile<String>(
+          title: const Text('Lafayette'),
+          value: "c",
+          groupValue: "x",
+          onChanged: (_) {},
+        ),
+      );
+    }
+    return listings;
   }
 
   Widget steppercount() {
@@ -323,7 +340,6 @@ List<bool> isSelected;
                   width: 40,
                 ),
                 steppercount()
-       
               ],
             ),
             SizedBox(
@@ -374,7 +390,8 @@ List<bool> isSelected;
             ),
             Divider(
               thickness: 2,
-            ),SizedBox(
+            ),
+            SizedBox(
               height: 10,
             ),
             Container(
@@ -396,95 +413,92 @@ List<bool> isSelected;
                   ),
                   togglebutton(),
                 ],
-                  
               ),
             ),
           ],
         ),
       ),
     );
-  
   }
-Widget togglebutton(){
-  return Container(
-                    height: 36,
-                    child: ToggleButtons(
-                      borderColor: greytheme1300,
-                      fillColor: redtheme,
-                      borderWidth: 2,
-                      selectedBorderColor: Colors.transparent,
-                      selectedColor: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                      children: <Widget>[
-                        Container(
-                          width: 85,
-                          child: Text(
-                            'On side',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'gotham',
-                                fontWeight: FontWeight.w500,
-                                color: (isSelected[0] == true)
-                                    ? Colors.white
-                                    : greytheme700),
-                          ),
-                        ),
-                        Container(
-                          width: 85,
-                          child: Text(
-                            'On top',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'gotham',
-                                fontWeight: FontWeight.w500,
-                                color: (isSelected[1] == false)
-                                    ? greytheme700
-                                    : Colors.white),
-                          ),
-                        ),
-                      ],
-                      onPressed: (int index) {
-                        setState(() {
-                          for (int i = 0; i < isSelected.length; i++) {
-                            if (i == index) {
-                              isSelected[i] = true;
-                            } else {
-                              isSelected[i] = false;
-                            }
-                          }
-                        });
-                      },
-                      isSelected: isSelected,
-                    ),
-                  );
-}
+
+  Widget togglebutton() {
+    return Container(
+      height: 36,
+      child: ToggleButtons(
+        borderColor: greytheme1300,
+        fillColor: redtheme,
+        borderWidth: 2,
+        selectedBorderColor: Colors.transparent,
+        selectedColor: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        children: <Widget>[
+          Container(
+            width: 85,
+            child: Text(
+              'On side',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
+            ),
+          ),
+          Container(
+            width: 85,
+            child: Text(
+              'On top',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color:
+                      (isSelected[1] == false) ? greytheme700 : Colors.white),
+            ),
+          ),
+        ],
+        onPressed: (int index) {
+          setState(() {
+            for (int i = 0; i < isSelected.length; i++) {
+              if (i == index) {
+                isSelected[i] = true;
+              } else {
+                isSelected[i] = false;
+              }
+            }
+          });
+        },
+        isSelected: isSelected,
+      ),
+    );
+  }
+
   _getRadioOptions() {
     int i;
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       // crossAxisAlignment: CrossAxisAlignment.baseline,
-      children: _radioOptions
-          .map((radionBtn) => Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: RadioListTile(
-                  title: Text("${_additemlist[i].itemName}" ?? ""),
-                  groupValue: id,
-                  value: radionBtn.index,
-                  dense: true,
-                  activeColor: redtheme,
-                  onChanged: (val) {
-                    setState(() {
-                      radioItem = radionBtn.title;
-                      id = radionBtn.index;
-                    });
-                  },
-                ),
-              ))
-          .toList(),
+      children: _getListings(),
+      // .map((radionBtn) => Padding(
+      //       padding: const EdgeInsets.only(top: 5),
+      //       child: RadioListTile(
+      //         title: Text("${_additemlist[i].itemName}" ?? ""),
+      //         groupValue: id,
+      //         value: radionBtn.index,
+      //         dense: true,
+      //         activeColor: redtheme,
+      //         onChanged: (val) {
+      //           setState(() {
+      //             radioItem = radionBtn.title;
+      //             id = radionBtn.index;
+      //           });
+      //         },
+      //       ),
     );
+    // .toList(),
+    //);
   }
 
   _getCheckBoxOptions() {
