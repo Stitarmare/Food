@@ -63,7 +63,19 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   List<Gallary> gallaryImages = [
     Gallary(
         id: 0,
-        imagePath: "assets/MenuIcon/menu.png",
+        imagePath: "assets/HotelImages/Image31.png",
+        createdAt: "",
+        restId: 0,
+        updatedAt: ""),
+        Gallary(
+        id: 0,
+        imagePath: "assets/HotelImages/Image12.png",
+        createdAt: "",
+        restId: 0,
+        updatedAt: ""),
+        Gallary(
+        id: 0,
+        imagePath: "assets/HotelImages/MaskGroup20.png",
         createdAt: "",
         restId: 0,
         updatedAt: "")
@@ -75,6 +87,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     
     super.initState();
   }
@@ -166,7 +179,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           //   fit: BoxFit.cover,
                           //   //  placeholder: (context, url) => CircularProgressIndicator(),
                           // )
-                          : Image.asset(src.imagePath)
+                          : Image.asset(src.imagePath,fit: BoxFit.cover,)
                       );
                 },
               );
@@ -424,7 +437,22 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ]),
         ));
     return Scaffold(
-      body: _restaurantInfoData == null? Container(): Container(
+      body: _restaurantInfoData == null? Container(
+        child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: Text("Please wait while getting Restaurant Info!",textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 12,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),),
+                  ),
+                  CircularProgressIndicator()
+                ],
+              ),
+      ): Container(
         // height: Constants.getSafeAreaHeight(context) * 0.35,
         //             width: Constants.getScreenWidth(context),
         width: MediaQuery.of(context).size.width,

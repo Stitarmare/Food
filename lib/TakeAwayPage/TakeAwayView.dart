@@ -35,6 +35,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   StreamController<Position> _controllerPosition = new StreamController();
+   bool getttingLocation = false;
   Position _position;
   String sortedBy = '';
   String filteredBy = '';
@@ -68,11 +69,17 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   locator() async {
+     setState(() {
+      getttingLocation = false;
+    });
     var strim = await GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) {
       print(position);
       _position = position;
       if (_position != null) {
+         setState(() {
+          getttingLocation = true;
+        });
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
@@ -84,6 +91,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
             filteredBy,
             page,
             context);
+      }else{
+         setState(() {
+          getttingLocation = false;
+        });
       }
     });
   }
@@ -241,7 +252,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                       //         filteredBy,
                                       //         page,
                                       //         context);
-                                      Navigator.pop(context);
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                       DialogsIndicator.showLoadingDialog(
                                           context, _keyLoader, "Please Wait");
 
@@ -354,22 +366,36 @@ class _TakeAwayViewState extends State<TakeAwayView>
               },
             )
           ]),
-      body:(_restaurantList != null )?
-      restaurantsInfo() :Container(
-                    child: 
-                        Center(
-                          child: Text(
-                            'No restaurants found.',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontFamily: 'gotham',
-                                fontWeight: FontWeight.w500,
-                                color: greytheme700),
-                          ),
-                        ),
-                     
-                  ), 
+      body: getttingLocation == false
+          ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("Please wait while getting your current location!",textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),),
+                  CircularProgressIndicator()
+                ],
+              ),
+            )
+          : (_restaurantList != null)
+              ? restaurantsInfo()
+              : Container(
+                  child: Center(
+                    child: Text(
+                      'No restaurants found.',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700),
+                    ),
+                  ),
+                ), 
     );
   }
 
