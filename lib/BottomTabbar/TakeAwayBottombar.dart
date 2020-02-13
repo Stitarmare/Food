@@ -84,11 +84,11 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 backgroundColor: orangetheme,
                 onPressed: () {
                   print("2");
-                                Navigator.pushNamed(context, '/OrderConfirmationView');
+                                Navigator.pushNamed(context, '/MyCart');
 
                 },
                 heroTag: "btnAddCart",
-                child: Icon(Icons.add_shopping_cart,color: Colors.white,)),
+                child: Icon(Icons.shopping_cart,color: Colors.white,)),
           ),
           ],
                   

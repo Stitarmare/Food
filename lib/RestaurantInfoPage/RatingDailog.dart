@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
@@ -16,6 +17,7 @@ class MyDialogRating extends StatefulWidget {
   final void Function(String) onValueChange;
   final int rest_id;
 
+
   @override
   State createState() => new MyDialogRatingState();
 }
@@ -23,6 +25,7 @@ class MyDialogRating extends StatefulWidget {
 class MyDialogRatingState extends State<MyDialogRating>
     implements RestaurantInfoModelView {
   int _rating = 0;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   // TextEditingController _controller;
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
@@ -202,6 +205,7 @@ class MyDialogRatingState extends State<MyDialogRating>
                               widget.rest_id,
                               _controller.value.text,
                               _rating);
+                               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                     }else{
                      Toast.show("Add Review & Ratings", context, duration: Toast.LENGTH_SHORT, 
                       gravity:  Toast.BOTTOM);
@@ -260,6 +264,7 @@ class MyDialogRatingState extends State<MyDialogRating>
     //       msg: 'Review Submitted',
     //       toastLength: Toast.LENGTH_SHORT,
     //     );
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Toast.show("Review Submitted", context, duration: Toast.LENGTH_SHORT, 
                       gravity:  Toast.BOTTOM,);
     Navigator.pop(context,true);

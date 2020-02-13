@@ -88,7 +88,7 @@ class _NotificationViewState extends State<NotificationView> {
               ),
               onTap: () async{
                 _onSelected(index);
-                await Dailogs.notification_1(context);
+                await DailogBox.notification_1(context);
               },
             ),
             decoration: BoxDecoration(

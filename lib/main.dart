@@ -33,7 +33,8 @@ import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
 
-import './OrderConfirmation/OrderConfirmationView.dart';
+// import './OrderConfirmation/OrderConfirmationView.dart';
+import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
 
 var routes = <String, WidgetBuilder>{
@@ -59,7 +60,8 @@ var routes = <String, WidgetBuilder>{
   '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
-  '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
+  '/MyCart':(BuildContext context)=> MyCartView(),
+  // '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
   

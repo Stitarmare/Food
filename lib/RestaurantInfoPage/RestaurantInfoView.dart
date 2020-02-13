@@ -355,7 +355,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       // "($_restaurantInfoData.reviewsCount.toString())",
                       // _restaurantInfoData.reviewsCount.toString(),
                       style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 13,
                           fontFamily: 'gotham',
                           color: greytheme100),
                     )
@@ -559,7 +559,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           getScheduleLength() ==0? Center(
             child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
-            child: Text('Not Schedule Yet'),
+            child: Text('No Schedule Available'),
           ),
           ):Container(
               // height: 150,
