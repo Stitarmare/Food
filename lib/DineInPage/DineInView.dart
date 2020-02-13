@@ -83,9 +83,9 @@ class _DineViewState extends State<DineInView>
       print(position);
       _position = position;
       if (_position != null) {
-         setState(() {
-      getttingLocation = true;
-    });
+        setState(() {
+          getttingLocation = true;
+        });
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
@@ -96,10 +96,9 @@ class _DineViewState extends State<DineInView>
             page,
             context);
       } else {
-         setState(() {
-      getttingLocation = false;
-    });
-       
+        setState(() {
+          getttingLocation = false;
+        });
       }
     });
   }
@@ -151,15 +150,13 @@ class _DineViewState extends State<DineInView>
                     builder: (context) {
                       return StatefulBuilder(builder: (BuildContext context,
                           StateSetter setBottomState /*You can rename this!*/) {
-                           Future<double> getRatingValue() async {
-                              var val  = await showDialog(
-                                      context: context,
-                                      child: new SliderDialog());
+                        Future<double> getRatingValue() async {
+                          var val = await showDialog(
+                              context: context, child: new SliderDialog());
 
-                                    
-                              return double.parse(val.toString());
-                              
-                            }
+                          return double.parse(val.toString());
+                        }
+
                         void setSelectedSortItem(
                             BottomItemButton bottomItem, List bottomList) {
                           for (int i = 0; i < bottomList.length; i++) {
@@ -170,7 +167,7 @@ class _DineViewState extends State<DineInView>
                               (item) => item.id == bottomItem.id,
                               orElse: null);
                           if (tile != null) {
-                            setBottomState(()  {
+                            setBottomState(() {
                               tile.isSelected = true;
                               if (bottomList == optionSortBy) {
                                 sortedBy = bottomItem.title;
@@ -184,15 +181,15 @@ class _DineViewState extends State<DineInView>
                               }
                               if (bottomList == optionFilterBy) {
                                 filteredBy = bottomItem.title;
-                                if (bottomItem.title == "Ratings")  {
-                                   getRatingValue().then((onValue){
-                                     filteredBy =  "rating${onValue.toString()}+" ;
-                                     print(sliderValue.toString());
-                                   });
-                                  
+                                if (bottomItem.title == "Ratings") {
+                                  getRatingValue().then((onValue) {
+                                    filteredBy = "rating${onValue.toString()}+";
+                                    print(sliderValue.toString());
+                                  });
+
                                   //ShowDialogBox
                                   // showDialogBox(context);
-                           
+
                                 }
                               } else {
                                 print('Favourites only');
@@ -256,7 +253,8 @@ class _DineViewState extends State<DineInView>
                                       //         filteredBy,
                                       //         page,
                                       //         context);
-                                      Navigator.of(context,rootNavigator: true).pop();
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                       DialogsIndicator.showLoadingDialog(
                                           context, _keyLoader, "Please Wait");
 
@@ -369,26 +367,36 @@ class _DineViewState extends State<DineInView>
               },
             )
           ]),
-      body: getttingLocation == false ? Container(
-        child: Center(
-          child:Text("Please wait while getting your current location!"),
-        ),
-      ) :  (_restaurantList != null )?
-      restaurantsInfo() :Container(
-                    child: 
-                        Center(
-                          child: Text(
-                            'No restaurants found.',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontFamily: 'gotham',
-                                fontWeight: FontWeight.w500,
-                                color: greytheme700),
-                          ),
-                        ),
-                     
+      body: getttingLocation == false
+          ? Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("Please wait while getting your current location!",textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),),
+                  CircularProgressIndicator()
+                ],
+              ),
+            )
+          : (_restaurantList != null)
+              ? restaurantsInfo()
+              : Container(
+                  child: Center(
+                    child: Text(
+                      'No restaurants found.',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700),
+                    ),
                   ),
+                ),
     );
   }
 
@@ -398,42 +406,44 @@ class _DineViewState extends State<DineInView>
     }
     return 0;
   }
-Widget restaurantsInfo(){
-  return ListView.builder(
-        controller: _controller,
-        itemCount: _getint(),
-        itemBuilder: (_, i) {
-          return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
-              elevation: 2,
-              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-              child: ListTile(
-                  contentPadding: EdgeInsets.all(0.0),
-                  title: _getMainView(
-                    _restaurantList[i].restName,
-                    _restaurantList[i].distance,
-                    _restaurantList[i].openingTime,
-                    _restaurantList[i].closingTime,
-                    _restaurantList[i].averageRating.toString(),
-                    _restaurantList[i].coverImage,
-                  ),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome(
-                              title: "${_restaurantList[i].restName}",
-                              rest_Id: _restaurantList[i].id,
-                            )));
-                    setState(() {
+
+  Widget restaurantsInfo() {
+    return ListView.builder(
+      controller: _controller,
+      itemCount: _getint(),
+      itemBuilder: (_, i) {
+        return Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+            ),
+            elevation: 2,
+            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+            child: ListTile(
+                contentPadding: EdgeInsets.all(0.0),
+                title: _getMainView(
+                  _restaurantList[i].restName,
+                  _restaurantList[i].distance,
+                  _restaurantList[i].openingTime,
+                  _restaurantList[i].closingTime,
+                  _restaurantList[i].averageRating.toString(),
+                  _restaurantList[i].coverImage,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BottomTabbarHome(
+                            title: "${_restaurantList[i].restName}",
+                            rest_Id: _restaurantList[i].id,
+                          )));
+                  setState(() {
 // selected[i] = !selected[i];
-                    }
+                  }
 // reverse bool value
-                        );
-                  }));
-        },
-      );
-}
+                      );
+                }));
+      },
+    );
+  }
+
   Widget _getMainView(
       String merchantName,
       String distance,
@@ -606,7 +616,7 @@ Widget restaurantsInfo(){
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
-         _restaurantList = null;
+        _restaurantList = null;
       });
       return;
     }
