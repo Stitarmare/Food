@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class OrderConfirmationView extends StatefulWidget {
-  OrderConfirmationView({Key key}): super (key:key);
+class MyCartView extends StatefulWidget {
+  MyCartView({Key key}): super (key:key);
   @override
   State<StatefulWidget> createState() {
-    return _OrderConfirmationViewState();
+    return _MyCartViewtate();
   }
 }
 
-class _OrderConfirmationViewState extends State<OrderConfirmationView> {
+class _MyCartViewtate extends State<MyCartView> {
    ScrollController _controller = ScrollController();
+   final _textController = TextEditingController();
+   
     String _selectedId;
      int count = 0;
     void _onValueChange(String value) {
@@ -85,14 +89,200 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
 
   @override
   Widget build(BuildContext context) {
+    addTablePopUp(BuildContext context)  {
+    return  showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Container(
+            child: Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Container(
+                height: 236,
+                width: 284,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text(
+                        'Add a Table Number',
+                        style: TextStyle(
+                            fontSize: 20, color: Color.fromRGBO(64, 64, 64, 1)),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    // Center(
+                    //   child: TextFormField(
+                    //     keyboardType: TextInputType.number,
+                    //     autofocus: true,
+                    //     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                    //   )
+                    // ), 
+                       Center(
+                  child: Container(
+                    // margin: EdgeInsets.only(left: 37, right: 27),
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: greytheme600)),
+                    // color: Color.fromRGBO(213, 213, 213, 1)),
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      autofocus: true,
+                      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                      maxLines: 1,
+                      controller: _textController,
+                    ),
+                  ),
+                ),
+                    SizedBox(
+                      height: 35,
+                    ),
+                    Center(
+                      child:      RaisedButton(
+                          color: redtheme,
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: redtheme
+                                  ),
+                              borderRadius: BorderRadius.circular(5)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
+                            child: Text(
+                              'SUBMIT',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+    
+    Widget _getmainviewTableno() {
+    return 
+    // SliverToBoxAdapter(
+    //   child:
+      Container(
+        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(
+              //       width: 20,
+              //     ),
+                  Container(
+                    // width: MediaQuery.of(context).size.width * 0.8,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12,bottom: 6,left: 20),
+                      child: Text(
+                        'Wimpy',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700),
+                      ),
+                    ),
+                  ),
+              //   ],
+              // ),
+              Divider(
+                thickness: 2,
+                //endIndent: 10,
+                //indent: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  // SizedBox(
+                  //   width: 26,
+                  // ),
+                  // Image.asset('assets/DineInImage/Group1504.png'),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Dine-in',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600,
+                        color: redtheme),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(width: 20),
+                  GestureDetector(
+                    onTap: () {
+                      //  await DailogBox.addTablePopUp(context);
+                      addTablePopUp(context);
+                    },
+                       child: Text(
+                      'Add Table Number',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme100),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          ),
+        ),
+      // ),
+    );
+  }
+    
     return SafeArea(
       left: true,
       top: true,
       right: true,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+          title: Text('My Cart'),
+          
+          backgroundColor: Colors.white,
+          elevation: 5,
         ),
         body: Column(
           children: <Widget>[
@@ -162,91 +352,9 @@ class _OrderConfirmationViewState extends State<OrderConfirmationView> {
       ),
     );
   }
-   Widget _getmainviewTableno() {
-    return 
-    // SliverToBoxAdapter(
-    //   child:
-      Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(
-              //       width: 20,
-              //     ),
-                  Container(
-                    // width: MediaQuery.of(context).size.width * 0.8,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 12,bottom: 6,left: 20),
-                      child: Text(
-                        'Wimpy',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'gotham',
-                            fontWeight: FontWeight.w600,
-                            color: greytheme700),
-                      ),
-                    ),
-                  ),
-              //   ],
-              // ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Dine-in',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: redtheme),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              )
-            ],
-          ),
-        ),
-      // ),
-    );
-  }
+   
+
+  
 
   Widget _getAddedListItem(){
     return Expanded(

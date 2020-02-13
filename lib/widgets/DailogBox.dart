@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 enum DailogAction { yes, abort }
 
-class Dailogs{
-static Future<DailogAction> notification_1(
+class DailogBox {
+  static Future<DailogAction> notification_1(
     BuildContext context,
   ) async {
     final action = await showDialog(
@@ -16,7 +17,7 @@ static Future<DailogAction> notification_1(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-                 height: 336,
+                height: 336,
                 width: 284,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
@@ -158,39 +159,6 @@ static Future<DailogAction> notification_1(
         });
     return (action != null) ? action : DailogAction.abort;
   }
- 
- static Future addTablePopUp(BuildContext context)async{
-   return await showDialog(
-     context: context,
-     barrierDismissible: true,
-     builder: (BuildContext context){
-       return Container(
-         child: Dialog(
-           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-           child: Container(
-             height: 336,
-             width: 284,
-             decoration: BoxDecoration(
-               borderRadius: BorderRadius.circular(20.0),
-               
-             ),
-             child: Column(
-               children: <Widget>[
-                 SizedBox(
-                   height: 20,
-                 ),
-                 Center(
-                   child: Text('Add a Table Number',style: TextStyle(
-                            fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),),
-                 )
-               ],
-             ),
-           ),
-         ),
-       );
-     }
-   );
- }
 
-
+  
 }

@@ -63,7 +63,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 backgroundColor: orangetheme,
                 onPressed: () {
                   print("2");
-                                // Navigator.pushNamed(context, '/OrderConfirmationView');
+                                Navigator.pushNamed(context, '/MyCart');
 
                 },
                 heroTag: "btnAddCart",

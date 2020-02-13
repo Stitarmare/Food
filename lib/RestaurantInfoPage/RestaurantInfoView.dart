@@ -372,7 +372,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       // "($_restaurantInfoData.reviewsCount.toString())",
                       // _restaurantInfoData.reviewsCount.toString(),
                       style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 13,
                           fontFamily: 'gotham',
                           color: greytheme100),
                     )
@@ -449,7 +449,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Please wait while getting Restaurant Info!",
+                      "Please wait, fetching Restaurant Info!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 12,
@@ -601,7 +601,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ? Center(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
-                    child: Text('Not Schedule Yet'),
+                    child: Text('No Schedule Available'),
                   ),
                 )
               : Container(
