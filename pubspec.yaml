@@ -108,6 +108,8 @@ flutter:
       - assets/HotelImages/Image12.png
       - assets/HotelImages/Image12@2x.png
       - assets/HotelImages/Image12@3x.png
+      - assets/HotelImages/MaskGroup20.png
+      - assets/HotelImages/Image31.png
       #ProfileImage
       - assets/ProfileImage/MaskGroup15.png
       - assets/ProfileImage/MaskGroup15@2x.png
