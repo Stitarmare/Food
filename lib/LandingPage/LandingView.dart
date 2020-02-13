@@ -4,9 +4,11 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/main.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
+import 'package:foodzi/widgets/WebView.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -303,14 +305,19 @@ class _LandingStateView extends State<Landingview> {
 }
 
 class MainWidget extends StatefulWidget {
-  MainWidget({Key key, this.title}) : super(key: key);
+  MainWidget({Key key, this.title,this.appbarTitle}) : super(key: key);
   final String title;
+  String appbarTitle;
+  
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
+
+  
+
   @override
   void initState() {
     super.initState();
@@ -331,6 +338,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'Home',
             ),
             onPressed: () { 
+              widget.appbarTitle = 'Home';
                 _opennewpage();                               
               }),
         DrawerItem(
@@ -345,6 +353,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'Gallery',
             ),
             onPressed: () { 
+               widget.appbarTitle = 'Settings';
                 _opennewpage();                               
               }),
         DrawerItem(
@@ -361,6 +370,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'Favorites',
             ),
             onPressed: () { 
+               widget.appbarTitle = 'Favorites';
                 _opennewpage();                               
               }),
         DrawerItem(
@@ -377,6 +387,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'Notification',
             ),
             onPressed: () { 
+               widget.appbarTitle = 'Privacy Policy';
                 _opennewpage();                               
               }),
         DrawerItem(
@@ -393,6 +404,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'invite',
             ),
             onPressed: () { 
+              widget.appbarTitle = 'About Us';
                 _opennewpage();                               
               }),
         DrawerItem(
@@ -413,6 +425,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: 'SETTINGS',
             ),
             onPressed: () { 
+              widget.appbarTitle = "Help";
                 _opennewpage();                               
               }),
       ],
@@ -500,6 +513,11 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     );
   }
     void _opennewpage() {
-    Navigator.of(context).pushNamed('/webview');
+    //Navigator.of(context).pushNamed('/webview');
+    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WebViewPage(title: widget.appbarTitle,)));
+    
   }
 }

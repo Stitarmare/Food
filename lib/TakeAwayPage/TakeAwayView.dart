@@ -428,7 +428,7 @@ Widget restaurantsInfo(){
                   ),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome(
+                        builder: (context) => TakeAwayBottombar(
                               title: "${_restaurantList[i].restName}",
                               rest_Id: _restaurantList[i].id,
                             )));
