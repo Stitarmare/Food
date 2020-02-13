@@ -35,6 +35,7 @@ class _DineViewState extends State<DineInView>
   String filteredBy = '';
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
+  bool getttingLocation = false;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
 
@@ -74,22 +75,31 @@ class _DineViewState extends State<DineInView>
   }
 
   _getLocation() async {
+    setState(() {
+      getttingLocation = false;
+    });
     var strim = await GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) {
       print(position);
       _position = position;
       if (_position != null) {
+         setState(() {
+      getttingLocation = true;
+    });
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            //"18.579622",
-            //"73.738691",
             sortedBy,
             filteredBy,
             page,
             context);
+      } else {
+         setState(() {
+      getttingLocation = false;
+    });
+       
       }
     });
   }
@@ -246,7 +256,7 @@ class _DineViewState extends State<DineInView>
                                       //         filteredBy,
                                       //         page,
                                       //         context);
-                                      Navigator.pop(context);
+                                      Navigator.of(context,rootNavigator: true).pop();
                                       DialogsIndicator.showLoadingDialog(
                                           context, _keyLoader, "Please Wait");
 
@@ -359,7 +369,11 @@ class _DineViewState extends State<DineInView>
               },
             )
           ]),
-      body: (_restaurantList != null )?
+      body: getttingLocation == false ? Container(
+        child: Center(
+          child:Text("Please wait while getting your current location!"),
+        ),
+      ) :  (_restaurantList != null )?
       restaurantsInfo() :Container(
                     child: 
                         Center(
