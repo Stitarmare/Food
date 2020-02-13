@@ -92,28 +92,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   heroTag: "btnAddCart",
                   child: Icon(Icons.shopping_cart, color: Colors.white)),
             ),
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: orangetheme,
-                  onPressed: () {
-                    print("1");
-                  },
-                  heroTag: "btnBuzzer",
-                  child: Image.asset('assets/ClockIcon/clock.png')),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: orangetheme,
-                  onPressed: () {
-                    print("2");
-                    Navigator.pushNamed(context, '/MyCart');
-                  },
-                  heroTag: "btnAddCart",
-                  child: Icon(Icons.shopping_cart, color: Colors.white)),
-            ),
+            //
           ],
         ),
       ),

@@ -8,6 +8,7 @@ import 'package:foodzi/TakeAwayPage/TakeAwayPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
@@ -371,7 +372,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Please wait while getting your current location!",
+                    "Please wait, while Fetching your current location!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
@@ -430,6 +431,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   _restaurantList[i].coverImage,
                 ),
                 onTap: () {
+                  Globle().colorscode = _restaurantList[i].colourCode;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => TakeAwayBottombar(
                             title: "${_restaurantList[i].restName}",
