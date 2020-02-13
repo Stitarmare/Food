@@ -14,6 +14,8 @@ import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
+import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/WebView.dart';
 import './Utils/String.dart';
 
 import './Login/LoginView.dart';
@@ -64,15 +66,20 @@ var routes = <String, WidgetBuilder>{
   // '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
-  
-  "/webview": (_) => WebviewScaffold(
-        url: "https://google.co.in",
-        appBar: new AppBar(
-          title: new Text("Widget webview"),
-        ),
-      ),
+   '/webview': (BuildContext context) => WebViewPage(),
+  // "/webview": (_) => WebviewScaffold(
+  //       url: "https://google.co.in",
+  //       appBar: new AppBar(
+  //         backgroundColor: Colors.transparent,
+  //         title: new Text("",style: TextStyle(
+  //               fontSize: 18,
+  //               fontFamily: 'gotham',
+  //               fontWeight: FontWeight.w500,
+  //               color: greytheme1200),),
+  //          elevation: 0.0,
+  //       ),
+  //     ),
 };
-
 void main() { 
   set();
   runApp(MaterialApp(
