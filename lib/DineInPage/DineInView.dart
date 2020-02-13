@@ -373,11 +373,13 @@ class _DineViewState extends State<DineInView>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("Please wait while getting your current location!",textAlign: TextAlign.center,style: TextStyle(
+                  Center(
+                    child: Text("Please wait while getting your current location!",textAlign: TextAlign.center,style: TextStyle(
                 fontSize: 15,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w500,
                 color: greytheme1200),),
+                  ),
                   CircularProgressIndicator()
                 ],
               ),
