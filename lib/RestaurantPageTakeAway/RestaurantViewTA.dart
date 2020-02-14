@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
@@ -210,27 +211,27 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 ],
               ),
               SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
-                ],
-              ),
-              SizedBox(
                 height: 10,
-              )
+              ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
+              //     Text(
+              //       'Add Table Number',
+              //       textAlign: TextAlign.start,
+              //       style: TextStyle(
+              //           decoration: TextDecoration.underline,
+              //           decorationColor: Colors.black,
+              //           fontSize: 14,
+              //           fontFamily: 'gotham',
+              //           fontWeight: FontWeight.w600,
+              //           color: greytheme100),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // )
             ],
           ),
         ),
@@ -406,16 +407,35 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                "${_restaurantList[index].itemDescription}" ??
-                                    " ",
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme1000),
+                               Expanded(
+                                flex: 1,
+                                child: SingleChildScrollView(
+                                  child: AutoSizeText(
+                                    "${_restaurantList[index].itemDescription}" ??
+                                        " ",
+                                    //maxLines: 1,
+                                    style: TextStyle(
+                                      color: greytheme1000,
+                                      fontSize: 10,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    // minFontSize: 8,
+                                    //maxFontSize: 5,
+                                    // maxLines: 3,
+                                  ),
+                                ),
                               ),
+                              // Text(
+                              //   "${_restaurantList[index].itemDescription}" ??
+                              //       " ",
+                              //   maxLines: 2,
+                              //   style: TextStyle(
+                              //       fontSize: 10,
+                              //       fontFamily: 'gotham',
+                              //       fontWeight: FontWeight.w500,
+                              //       color: greytheme1000),
+                              // ),
                             ]),
                       )),
                       Container(

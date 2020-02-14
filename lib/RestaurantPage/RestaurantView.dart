@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
@@ -433,16 +434,35 @@ class _RestaurantViewState extends State<RestaurantView>
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                "${_restaurantList[index].itemDescription}" ??
-                                    " ",
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme1000),
+                              Expanded(
+                                flex: 1,
+                                child: SingleChildScrollView(
+                                  child: AutoSizeText(
+                                    "${_restaurantList[index].itemDescription}" ??
+                                        " ",
+                                    //maxLines: 1,
+                                    style: TextStyle(
+                                      color: greytheme1000,
+                                      fontSize: 10,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    // minFontSize: 8,
+                                    //maxFontSize: 5,
+                                    // maxLines: 3,
+                                  ),
+                                ),
                               ),
+                              // Text(
+                              //   "${_restaurantList[index].itemDescription}" ??
+                              //       " ",
+                              //   maxLines: 2,
+                              //   style: TextStyle(
+                              //       fontSize: 10,
+                              //       fontFamily: 'gotham',
+                              //       fontWeight: FontWeight.w500,
+                              //       color: greytheme1000),
+                              // ),
                             ]),
                       )),
                       Container(
