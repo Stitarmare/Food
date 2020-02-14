@@ -9,6 +9,7 @@ import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
+import 'package:foodzi/PaymentMethod/PaymentMethod.dart';
 
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
@@ -62,11 +63,12 @@ var routes = <String, WidgetBuilder>{
   '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
-  '/MyCart':(BuildContext context)=> MyCartView(),
+  '/MyCart': (BuildContext context) => MyCartView(),
   // '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
-   '/webview': (BuildContext context) => WebViewPage(),
+  '/webview': (BuildContext context) => WebViewPage(),
+  '/PaymentMethod': (BuildContext context) => PaymentMethod(),
   // "/webview": (_) => WebviewScaffold(
   //       url: "https://google.co.in",
   //       appBar: new AppBar(
@@ -80,19 +82,19 @@ var routes = <String, WidgetBuilder>{
   //       ),
   //     ),
 };
-void main() { 
+void main() {
   set();
   runApp(MaterialApp(
-      title: KEY_APP_NAME,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        //scaffoldBackgroundColor: Colors.white,
-        brightness: Brightness.light,
-        primaryColor: Color.fromRGBO(34, 180, 91, 1),
-        accentColor: Color.fromRGBO(34, 180, 91, 1),
-      ),
-      routes: routes,
-    ));
+    title: KEY_APP_NAME,
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      //scaffoldBackgroundColor: Colors.white,
+      brightness: Brightness.light,
+      primaryColor: Color.fromRGBO(34, 180, 91, 1),
+      accentColor: Color.fromRGBO(34, 180, 91, 1),
+    ),
+    routes: routes,
+  ));
 }
 
 class MyApp extends StatelessWidget {

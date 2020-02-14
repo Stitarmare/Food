@@ -50,10 +50,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     // RadioButtonOptions(index: 4, title: 'Item 4'),
   ];
   List<CheckBoxOptions> _checkBoxOptions = [
-    CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20", isChecked: false),
-    CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20", isChecked: false),
-    CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20", isChecked: false),
-    CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20", isChecked: false),
+    // CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20", isChecked: false),
+    // CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20", isChecked: false),
+    // CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20", isChecked: false),
+    // CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20", isChecked: false),
   ];
   void _onValueChange(String value) {
     setState(() {
@@ -65,10 +65,24 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: 1, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
     setState(() {
       _radioOptions = radiolist;
+    });
+  }
+
+  int checkboxbtn(int length) {
+    List<CheckBoxOptions> _checkboxlist = [];
+    for (int i = 1; i <= length; i++) {
+      _checkboxlist.add(CheckBoxOptions(
+          price: _addItemModelList.extras[i - 1].price ?? '',
+          isChecked: false,
+          index: i,
+          title: _addItemModelList.extras[i - 1].name ?? ''));
+    }
+    setState(() {
+      _checkBoxOptions = _checkboxlist;
     });
   }
 
@@ -327,29 +341,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   width: 40,
                 ),
                 steppercount()
-                // Container(
-                // )
-                // Counter(
-                //   initialValue: _defaultValue,
-                //   minValue: 0,
-                //   maxValue: 10,
-                //   step: 0.5,
-                //   decimalPlaces: 1,
-                //   buttonSize: 15,
-                //   color: redtheme,
-                //   onChanged: (value) {
-                //     // get the latest value from here
-                //     setState(() {
-                //       _defaultValue = value;
-                //     });
-                //   },
-                // ),
-                // FLCountStepper(
-                //     controller: _stepperController,
-                //     disabled: true, // default is false
-                //     disableInput: true,
-                //     actionColor: redtheme, // default is true
-                //     onChanged: (value) {})
               ],
             ),
             SizedBox(
@@ -419,6 +410,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         onChanged: (val) {
                           setState(() {
                             radioItem = radionBtn.title;
+                            print(radionBtn.title);
                             id = radionBtn.index;
                           });
                         },
@@ -430,102 +422,46 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   _getCheckBoxOptions() {
     return Column(
-      children: _checkBoxOptions
-          .map((checkBtn) => CheckboxListTile(
-              activeColor: redtheme,
-              value: checkBtn.isChecked,
-              controlAffinity: ListTileControlAffinity.leading,
-              onChanged: (val) {
-                setState(() {
-                  checkBtn.isChecked = val;
-                });
-              },
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    checkBtn.title,
-                    style: TextStyle(
-                        fontSize: 13, color: Color.fromRGBO(64, 64, 64, 1)),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: 100,
-                    ),
-                    flex: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 40),
-                    child: Text(
-                      checkBtn.price.toString(),
-                      style: TextStyle(
-                          fontSize: 13, color: Color.fromRGBO(64, 64, 64, 1)),
-                    ),
-                  ),
-                ],
-              )))
-          .toList(),
-      // children: <Widget>[
-      //   new CheckboxListTile(
-      //     title: Text(_checkBoxOptions[index].title),
-      //     activeColor: redtheme,
-      //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
-      //     // value: _checkBoxOptions[index] ,
-      //   )
-      // ],
-    );
-    // return new ListView.builder(
-    //   itemCount: _checkBoxOptions.length,
-    //   itemExtent: 20,
-    //   itemBuilder: (BuildContext context, int index) {
-    //     return Container(
-    //       padding: new EdgeInsets.all(10.0),
-    //       child: new Column(
-    //         children:
-    //                     _checkBoxOptions.map((text) => CheckboxListTile(
-    //                       activeColor: Color.fromRGBO(237, 29, 37, 1),
-    //                       value: _isChecked,
-    //                       onChanged: (val){
-    //                         setState(() {
-    //                           _isChecked = val;
-    //                         });
-    //                       },
-    //                       title: Text(text.title,style: TextStyle(fontSize: 13,color: Color.fromRGBO(64, 64, 64, 1)),),
-    //                     )
-    //                     ).toList(),
-    //         // children: <Widget>[
-    //         //   new CheckboxListTile(
-    //         //     title: Text(_checkBoxOptions[index].title),
-    //         //     activeColor: redtheme,
-    //         //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
-    //         //     // value: _checkBoxOptions[index] ,
-    //         //   )
-    //         // ],
-    //       ),
-    //       // child: new Column(
-    //       //     children: _checkBoxOptions
-    //       //         .map((checkBtn) => CheckboxListTile(
-    //       //               title: Text("${checkBtn.title}"),
-    //       //               // groupValue: id,
-    //       //               // value: checkBtn.index,
-    //       //               activeColor: Color.fromRGBO(239, 29, 37, 1),
-    //       //               onChanged: (bool value) {}, value: null,
-    //       //             ))
-    //       //         .toList()
-    //       // )
-    //       //     // <Widget>[
-    //           // new CheckboxListTile(
-    //           //     // value: index,
-    //           //     title: new Text(_checkBoxOptions[index].title,),
-    //           //     controlAffinity: ListTileControlAffinity.leading, onChanged: (bool value) {}, value: null,
-    //           //     // controlAffinity: ListTileControlAffinity.leading,
-    //           //     // onChanged:(){}
-    //           // )
-    //           // ],
-    //           // ),
-    //     );
-    // },
-    // )
+        children: _checkBoxOptions.length > 0
+            ? _checkBoxOptions
+                .map((checkBtn) => CheckboxListTile(
+                    activeColor: redtheme,
+                    value: checkBtn.isChecked,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (val) {
+                      setState(() {
+                        checkBtn.isChecked = val;
+                        print(val);
+                      });
+                    },
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          checkBtn.title ?? '',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromRGBO(64, 64, 64, 1)),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            width: 100,
+                          ),
+                          flex: 2,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: Text(
+                            checkBtn.price.toString() ?? '',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Color.fromRGBO(64, 64, 64, 1)),
+                          ),
+                        ),
+                      ],
+                    )))
+                .toList()
+            : [Container()]);
   }
 
   @override
@@ -538,18 +474,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+
+    checkboxbtn(_addItemModelList.extras.length);
     // TODO: implement addItemsuccess
   }
 }
 
 // OrderConfirmationView
 class CheckBoxOptions {
-  int id;
+  int index;
   String title;
   String price;
   // double price;
   bool isChecked;
-  CheckBoxOptions({this.id, this.title, this.price, this.isChecked});
+  CheckBoxOptions({this.index, this.title, this.price, this.isChecked});
 }
 
 class RadioButtonOptions {
