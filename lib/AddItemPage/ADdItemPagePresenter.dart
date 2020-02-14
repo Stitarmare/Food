@@ -6,10 +6,13 @@ import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class AddItemPagepresenter extends AddItemPageContractor {
+  AddItemPageModelView addItemPageModelView;
+  AddItemPagepresenter(AddItemPageModelView addItemPageView) {
+    this.addItemPageModelView = addItemPageView;
+  }
+
   @override
   void onBackPresed() {}
-  AddItemPageModelView addItemPageModelView;
-  AddItemPagepresenter(this.addItemPageModelView);
 
   @override
   void performAddItem(int item_id, int rest_id, BuildContext context) {

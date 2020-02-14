@@ -1,42 +1,38 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+
 // import 'package:flutter_counter/flutter_counter.dart';
-
 // import 'package:flui/flui.dart';
-
 class AddItemPageView extends StatefulWidget {
   String title;
   String description;
+  int item_id;
+  int rest_id;
 
-  AddItemPageView({this.title, this.description});
+  AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
   //AddItemPageView({Key key}) : super(key: key);
-
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
     implements AddItemPageModelView {
+  AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
-  List<bool> isSelected;
-  AddItemPagepresenter addItemPagepresenter;
-  List<AddItemModelList> _additemlist;
   ScrollController _controller = ScrollController();
+  AddItemPagepresenter _addItemPagepresenter;
 
   @override
   void initState() {
-// GeoLocationTracking.loadingPositionTrack();
-    // addItemPagepresenter = AddItemPagepresenter(this);
+    _addItemPagepresenter = AddItemPagepresenter(this);
 
-    //  addItemPagepresenter.performAddItem(item_id, rest_id, context);
-// TODO: implement initState
-    isSelected = [true, false];
+    _addItemPagepresenter.performAddItem(
+        widget.item_id, widget.rest_id, context);
     super.initState();
   }
 
@@ -45,12 +41,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int count = 1;
   String radioItem;
   String _selectedId;
-
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
-
   List<RadioButtonOptions> _radioOptions = [
-    // RadioButtonOptions(index: 1, title: 'Item 1'),
+    //RadioButtonOptions(index: 0, title: 'Item 1'),
     // RadioButtonOptions(index: 2, title: 'Item 2'),
     // RadioButtonOptions(index: 3, title: 'Item 3'),
     // RadioButtonOptions(index: 4, title: 'Item 4'),
@@ -61,34 +55,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
     CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20", isChecked: false),
     CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20", isChecked: false),
   ];
-
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
     });
   }
 
-  List<Widget> _getListings() {
-    // <<<<< Note this change for the return type
-    List listings = new List<Widget>();
-    int i = 0;
-    for (i = 0; i < 5; i++) {
-      listings.add(
-        new RadioListTile<String>(
-          title: const Text('Lafayette'),
-          value: "c",
-          groupValue: "x",
-          onChanged: (_) {},
-        ),
-      );
+  int getradiobtn(int length) {
+    List<RadioButtonOptions> radiolist = [];
+    for (int i = 1; i <= length; i++) {
+      radiolist.add(RadioButtonOptions(
+          index: 1, title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
-    return listings;
+    setState(() {
+      _radioOptions = radiolist;
+    });
   }
 
   Widget steppercount() {
     return Container(
       height: 24,
-      width: 150,
+      width: 92,
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
@@ -167,8 +154,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-              // Navigator.pushNamed(context, '/OrderConfirmationView');
-              print("button is pressed");
+              Navigator.pushNamed(context, '/OrderConfirmationView');
+              // print("button is pressed");
               // showDialog(
               //   context: context,
               //   child: new RadioDialog(
@@ -293,7 +280,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             Padding(
               padding: EdgeInsets.only(top: 25, left: 26),
               child: Text(
-                widget.title ?? "",
+                widget.title,
                 style: TextStyle(
                     fontFamily: 'gotham',
                     fontSize: 16,
@@ -340,6 +327,29 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   width: 40,
                 ),
                 steppercount()
+                // Container(
+                // )
+                // Counter(
+                //   initialValue: _defaultValue,
+                //   minValue: 0,
+                //   maxValue: 10,
+                //   step: 0.5,
+                //   decimalPlaces: 1,
+                //   buttonSize: 15,
+                //   color: redtheme,
+                //   onChanged: (value) {
+                //     // get the latest value from here
+                //     setState(() {
+                //       _defaultValue = value;
+                //     });
+                //   },
+                // ),
+                // FLCountStepper(
+                //     controller: _stepperController,
+                //     disabled: true, // default is false
+                //     disableInput: true,
+                //     actionColor: redtheme, // default is true
+                //     onChanged: (value) {})
               ],
             ),
             SizedBox(
@@ -384,121 +394,38 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
               ),
             ),
-            _getCheckBoxOptions(),
-            SizedBox(
-              height: 10,
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 28),
-                  Text(
-                    'Dressing',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700),
-                  ),
-                  SizedBox(
-                    width: 34,
-                  ),
-                  togglebutton(),
-                ],
-              ),
-            ),
+            _getCheckBoxOptions()
           ],
         ),
       ),
     );
   }
 
-  Widget togglebutton() {
-    return Container(
-      height: 36,
-      child: ToggleButtons(
-        borderColor: greytheme1300,
-        fillColor: redtheme,
-        borderWidth: 2,
-        selectedBorderColor: Colors.transparent,
-        selectedColor: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        children: <Widget>[
-          Container(
-            width: 85,
-            child: Text(
-              'On side',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
-            ),
-          ),
-          Container(
-            width: 85,
-            child: Text(
-              'On top',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color:
-                      (isSelected[1] == false) ? greytheme700 : Colors.white),
-            ),
-          ),
-        ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              if (i == index) {
-                isSelected[i] = true;
-              } else {
-                isSelected[i] = false;
-              }
-            }
-          });
-        },
-        isSelected: isSelected,
-      ),
-    );
-  }
-
   _getRadioOptions() {
-    int i;
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      // crossAxisAlignment: CrossAxisAlignment.baseline,
-      children: _getListings(),
-      // .map((radionBtn) => Padding(
-      //       padding: const EdgeInsets.only(top: 5),
-      //       child: RadioListTile(
-      //         title: Text("${_additemlist[i].itemName}" ?? ""),
-      //         groupValue: id,
-      //         value: radionBtn.index,
-      //         dense: true,
-      //         activeColor: redtheme,
-      //         onChanged: (val) {
-      //           setState(() {
-      //             radioItem = radionBtn.title;
-      //             id = radionBtn.index;
-      //           });
-      //         },
-      //       ),
-    );
-    // .toList(),
-    //);
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: _radioOptions.length > 0
+            ? _radioOptions
+                .map((radionBtn) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: RadioListTile(
+                        title: Text("${radionBtn.title}") ?? Text('data'),
+                        groupValue: id,
+                        value: radionBtn.index,
+                        dense: true,
+                        activeColor: redtheme,
+                        onChanged: (val) {
+                          setState(() {
+                            radioItem = radionBtn.title;
+                            id = radionBtn.index;
+                          });
+                        },
+                      ),
+                    ))
+                .toList()
+            : [Container()]);
   }
 
   _getCheckBoxOptions() {
@@ -544,7 +471,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
       //     activeColor: redtheme,
       //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
       //     // value: _checkBoxOptions[index] ,
-
       //   )
       // ],
     );
@@ -573,7 +499,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //         //     activeColor: redtheme,
     //         //     controlAffinity: ListTileControlAffinity.leading, value: null, onChanged: (bool value) {},
     //         //     // value: _checkBoxOptions[index] ,
-
     //         //   )
     //         // ],
     //       ),
@@ -593,7 +518,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //           //     // value: index,
     //           //     title: new Text(_checkBoxOptions[index].title,),
     //           //     controlAffinity: ListTileControlAffinity.leading, onChanged: (bool value) {}, value: null,
-
     //           //     // controlAffinity: ListTileControlAffinity.leading,
     //           //     // onChanged:(){}
     //           // )
@@ -611,6 +535,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
+    _addItemModelList = _additemlist[0];
+
+    getradiobtn(_addItemModelList.spreads.length);
     // TODO: implement addItemsuccess
   }
 }

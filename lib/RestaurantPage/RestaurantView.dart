@@ -498,6 +498,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AddItemPageView(
+                                            item_id: _restaurantList[index].id,
+                                            rest_id:
+                                                _restaurantList[index].restId,
                                             title:
                                                 '${_restaurantList[index].itemName}',
                                             description:

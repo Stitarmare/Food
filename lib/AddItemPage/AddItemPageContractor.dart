@@ -7,6 +7,6 @@ abstract class AddItemPageContractor {
 }
 
 abstract class AddItemPageModelView {
-  void addItemsuccess(List<AddItemModelList> _additemlist);
+  void addItemsuccess(List<AddItemModelList> additemlist);
   void addItemfailed();
 }

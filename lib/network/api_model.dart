@@ -1,3 +1,4 @@
+import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
@@ -83,9 +84,12 @@ class GenericModel<T> {
 
       case WriteRestaurantReviewModel:
         return WriteRestaurantReviewModel.fromJson(json) as T;
-      
-       case CategoryListModel:
+
+      case CategoryListModel:
         return CategoryListModel.fromJson(json) as T;
+
+      case AddItemPageModelList:
+        return AddItemPageModelList.fromJson(json) as T;
 
       default:
         break;
