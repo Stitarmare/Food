@@ -240,7 +240,7 @@ class ApiBaseHelper {
   }
 
   ApiBaseHelper._internal();
-
+  static var apiTimeStamp = Duration(seconds: 60);
   var _baseUrlString = BaseUrl.getBaseUrl();
 
   String authToken() {
@@ -281,8 +281,25 @@ class ApiBaseHelper {
 
   Future<APIModel<T>> get<T>(String url, BuildContext context) async {
     try {
-      final response =
-          await http.get(_baseUrlString + url, headers: getHeader(url));
+      var isTimeOut = false;
+      final response = await http
+          .get(_baseUrlString + url, headers: getHeader(url))
+          .timeout(apiTimeStamp, onTimeout: () {
+        isTimeOut = true;
+      });
+      if (isTimeOut) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          _showAlert(
+            context,
+            "Timeout",
+            "Looks like the server is taking to long to respond, please try again in sometime.",
+            () {
+              Navigator.of(context).pop();
+            },
+          );
+        });
+        return errorResponce<T>();
+      }
 
       return _returnResponse<T>(response, context);
     } on SocketException {
@@ -301,10 +318,27 @@ class ApiBaseHelper {
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
       {Map body, T model}) async {
-    Dio dio = new Dio();
     try {
-      final response = await http.post(_baseUrlString + url,
-          headers: getHeader(url), body: json.encode(body));
+      var isTimeOut = false;
+      final response = await http
+          .post(_baseUrlString + url,
+              headers: getHeader(url), body: json.encode(body))
+          .timeout(apiTimeStamp, onTimeout: () {
+        isTimeOut = true;
+      });
+      if (isTimeOut) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          _showAlert(
+            context,
+            "Timeout",
+            "Looks like the server is taking to long to respond, please try again in sometime.",
+            () {
+              Navigator.of(context).pop();
+            },
+          );
+        });
+        return errorResponce<T>();
+      }
       return _returnResponse<T>(response, context);
     } on SocketException {
       _showAlert(
@@ -321,8 +355,6 @@ class ApiBaseHelper {
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
       {Map<String, String> body, String key, File imageBody}) async {
-    Dio dio = new Dio();
-
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest("POST", postURL);
