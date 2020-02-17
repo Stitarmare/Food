@@ -69,18 +69,6 @@ var routes = <String, WidgetBuilder>{
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
   '/webview': (BuildContext context) => WebViewPage(),
   '/PaymentMethod': (BuildContext context) => PaymentMethod(),
-  // "/webview": (_) => WebviewScaffold(
-  //       url: "https://google.co.in",
-  //       appBar: new AppBar(
-  //         backgroundColor: Colors.transparent,
-  //         title: new Text("",style: TextStyle(
-  //               fontSize: 18,
-  //               fontFamily: 'gotham',
-  //               fontWeight: FontWeight.w500,
-  //               color: greytheme1200),),
-  //          elevation: 0.0,
-  //       ),
-  //     ),
 };
 void main() {
   set();

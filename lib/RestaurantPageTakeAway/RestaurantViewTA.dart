@@ -407,7 +407,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               SizedBox(
                                 height: 5,
                               ),
-                               Expanded(
+                              Expanded(
                                 flex: 1,
                                 child: SingleChildScrollView(
                                   child: AutoSizeText(
@@ -471,6 +471,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AddItemPageView(
+                                            item_id: _restaurantList[index].id,
+                                            rest_id:
+                                                _restaurantList[index].restId,
                                             title:
                                                 '${_restaurantList[index].itemName}',
                                             description:

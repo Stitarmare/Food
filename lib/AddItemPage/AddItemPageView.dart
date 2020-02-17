@@ -6,8 +6,6 @@ import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
-// import 'package:flutter_counter/flutter_counter.dart';
-// import 'package:flui/flui.dart';
 class AddItemPageView extends StatefulWidget {
   String title;
   String description;
@@ -15,12 +13,13 @@ class AddItemPageView extends StatefulWidget {
   int rest_id;
 
   AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
-  //AddItemPageView({Key key}) : super(key: key);
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
     implements AddItemPageModelView {
+  List<bool> isSelected;
+
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
@@ -30,7 +29,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void initState() {
     _addItemPagepresenter = AddItemPagepresenter(this);
-
+    isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     super.initState();
@@ -43,18 +42,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   String _selectedId;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
-  List<RadioButtonOptions> _radioOptions = [
-    //RadioButtonOptions(index: 0, title: 'Item 1'),
-    // RadioButtonOptions(index: 2, title: 'Item 2'),
-    // RadioButtonOptions(index: 3, title: 'Item 3'),
-    // RadioButtonOptions(index: 4, title: 'Item 4'),
-  ];
-  List<CheckBoxOptions> _checkBoxOptions = [
-    // CheckBoxOptions(id: 1, title: 'Item 1', price: "\$20", isChecked: false),
-    // CheckBoxOptions(id: 2, title: 'Item 2', price: "\$20", isChecked: false),
-    // CheckBoxOptions(id: 3, title: 'Item 3', price: "\$20", isChecked: false),
-    // CheckBoxOptions(id: 4, title: 'Item 4', price: "\$20", isChecked: false),
-  ];
+  List<RadioButtonOptions> _radioOptions = [];
+  List<CheckBoxOptions> _checkBoxOptions = [];
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -288,106 +277,138 @@ class _AddItemPageViewState extends State<AddItemPageView>
       child: Container(
         margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 25, left: 26),
-              child: Text(
-                widget.title,
-                style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: greytheme700),
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 25, left: 26),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
               ),
-            ),
-            // ),
-            Padding(
-              padding: EdgeInsets.only(left: 26, top: 12),
-              child: Text(
-                widget.description,
-                style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 16,
-                    // fontWeight: FontWeight.w500,
-                    color: greytheme1000),
+              // ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 12),
+                child: Text(
+                  widget.description,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      // fontWeight: FontWeight.w500,
+                      color: greytheme1000),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 26),
-                  child: Text(
-                    'Quantity:',
-                    style: TextStyle(
-                        fontFamily: 'gotham',
-                        fontSize: 16,
-                        color: greytheme700),
+              SizedBox(
+                height: 25,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 26),
+                    child: Text(
+                      'Quantity:',
+                      style: TextStyle(
+                          fontFamily: 'gotham',
+                          fontSize: 16,
+                          color: greytheme700),
+                    ),
                   ),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  steppercount()
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 15),
+                child: Text(
+                  'Spreads',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
                 ),
-                SizedBox(
-                  width: 40,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 8),
+                child: Text(
+                  'Please select any one option',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
                 ),
-                steppercount()
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 26, top: 15),
-              child: Text(
-                'Spreads',
-                style: TextStyle(
-                    fontFamily: 'gotham', fontSize: 16, color: greytheme700),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 26, top: 8),
-              child: Text(
-                'Please select any one option',
-                style: TextStyle(
-                    fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
+              _getRadioOptions(),
+              SizedBox(
+                height: 20,
               ),
-            ),
-            _getRadioOptions(),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 26, top: 15),
-              child: Text(
-                'Additions',
-                style: TextStyle(
-                    fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+              Divider(
+                thickness: 2,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 26, top: 8),
-              child: Text(
-                'You can select multiple options',
-                style: TextStyle(
-                    fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 15),
+                child: Text(
+                  'Additions',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+                ),
               ),
-            ),
-            _getCheckBoxOptions()
-          ],
-        ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 8),
+                child: Text(
+                  'You can select multiple options',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
+                ),
+              ),
+              _getCheckBoxOptions(),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 28),
+                    Text(
+                      'Dressing',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700),
+                    ),
+                    SizedBox(
+                      width: 34,
+                    ),
+                    togglebutton()
+                  ],
+                ),
+              ),
+            ]),
       ),
     );
   }
@@ -418,6 +439,59 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     ))
                 .toList()
             : [Container()]);
+  }
+
+  Widget togglebutton() {
+    return Container(
+      height: 36,
+      child: ToggleButtons(
+        borderColor: greytheme1300,
+        fillColor: redtheme,
+        borderWidth: 2,
+        selectedBorderColor: Colors.transparent,
+        selectedColor: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        children: <Widget>[
+          Container(
+            width: 85,
+            child: Text(
+              'On side',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
+            ),
+          ),
+          Container(
+            width: 85,
+            child: Text(
+              'On top',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color:
+                      (isSelected[1] == false) ? greytheme700 : Colors.white),
+            ),
+          ),
+        ],
+        onPressed: (int index) {
+          setState(() {
+            for (int i = 0; i < isSelected.length; i++) {
+              if (i == index) {
+                isSelected[i] = true;
+              } else {
+                isSelected[i] = false;
+              }
+            }
+          });
+        },
+        isSelected: isSelected,
+      ),
+    );
   }
 
   _getCheckBoxOptions() {
