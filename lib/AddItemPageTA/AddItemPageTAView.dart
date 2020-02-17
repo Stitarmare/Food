@@ -1,35 +1,37 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
-class AddItemPageView extends StatefulWidget {
+class AddItemPageTAView extends StatefulWidget {
   String title;
   String description;
   int item_id;
   int rest_id;
 
-  AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
-  _AddItemPageViewState createState() => _AddItemPageViewState();
+  AddItemPageTAView({this.title, this.description, this.item_id, this.rest_id});
+  _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
 }
 
-class _AddItemPageViewState extends State<AddItemPageView>
-    implements AddItemPageModelView {
+class _AddItemPageTAViewState extends State<AddItemPageTAView>
+    implements AddItemPageTAModelView {
   List<bool> isSelected;
 
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
-  AddItemPagepresenter _addItemPagepresenter;
+  AddItemPageTApresenter _addItemPagepresenter;
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this);
+    _addItemPagepresenter = AddItemPageTApresenter(this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -90,10 +92,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
               });
             }
           },
-          splashColor: Colors.redAccent.shade200,
+          splashColor:  getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color:  getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -126,7 +128,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color:  getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -170,7 +172,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color: redtheme,
+                  color:  getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -234,35 +236,35 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color:  getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
-                ],
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
+              //     Text(
+              //       'Add Table Number',
+              //       textAlign: TextAlign.start,
+              //       style: TextStyle(
+              //           decoration: TextDecoration.underline,
+              //           decorationColor: Colors.black,
+              //           fontSize: 14,
+              //           fontFamily: 'gotham',
+              //           fontWeight: FontWeight.w600,
+              //           color: greytheme100),
+              //     )
+              //   ],
+              // ),
               SizedBox(
                 height: 10,
               )
@@ -427,7 +429,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: redtheme,
+                        activeColor:  getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
                             radioItem = radionBtn.title;
@@ -446,7 +448,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       height: 36,
       child: ToggleButtons(
         borderColor: greytheme1300,
-        fillColor: redtheme,
+        fillColor:  getColorByHex(Globle().colorscode),
         borderWidth: 2,
         selectedBorderColor: Colors.transparent,
         selectedColor: Colors.white,
@@ -499,7 +501,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor: redtheme,
+                    activeColor:  getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {

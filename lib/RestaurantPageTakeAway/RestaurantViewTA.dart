@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -470,7 +471,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 onTap: () {
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageView(
+                                      builder: (context) => AddItemPageTAView(
                                             item_id: _restaurantList[index].id,
                                             rest_id:
                                                 _restaurantList[index].restId,

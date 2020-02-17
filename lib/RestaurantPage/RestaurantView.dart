@@ -46,10 +46,13 @@ class _RestaurantViewState extends State<RestaurantView>
   DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
+  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   String menutype;
-
+  int _dropdownTableNumber;
   int restaurantId;
+
+  var tableID;
   @override
   void initState() {
     _detectScrollPosition();
@@ -146,6 +149,74 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
+  Widget getTableNumber() {
+    return Container(
+      height: 50,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: FormField(builder: (FormFieldState state) {
+        return DropdownButtonFormField(
+            //itemHeight: Constants.getScreenHeight(context) * 0.06,
+            items: _dropdownItemsTable.map((int tableNumber) {
+              return new DropdownMenuItem(
+                  value: tableNumber,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Text("Table Number: $tableNumber",style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: getColorByHex(Globle().colorscode),
+                        fontSize: 14,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600,
+                        color: getColorByHex(Globle().colorscode)),)),
+                    ],
+                  ));
+            }).toList(),
+            onChanged: (newValue) {
+              // do other stuff with _category
+              setState(() {
+                _dropdownTableNumber = newValue;
+                _dropdownItemsTable.forEach((value) {
+                  if (value == newValue) {
+                    print(value);
+                    tableID = value;
+                  }
+                });
+              });
+            },
+
+            value: _dropdownTableNumber,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: greentheme100, width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: greytheme900, width: 2)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+              filled: false,
+              hintText: 'Choose Table',
+              // prefixIcon: Icon(
+              //   Icons.location_on,
+              //   size: 20,
+              //   color: greytheme1000,
+              // ),
+              labelText:
+                  _dropdownTableNumber == null ? "Add Table Number ": "Table Number",
+              // errorText: _errorText,
+              labelStyle: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600,
+                        color: greytheme100),
+            ),
+        );
+      }),
+    );
+  }
   // Widget _buildMainView() {
   //   return Container(
   //     child: Column(
@@ -169,7 +240,7 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +251,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     width: 20,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.85,
                     child: Text(
                       widget.title,
                       textAlign: TextAlign.start,
@@ -224,17 +295,20 @@ class _RestaurantViewState extends State<RestaurantView>
               Row(
                 children: <Widget>[
                   SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
+                  // Text(
+                  //   'Add Table Number',
+                  //   textAlign: TextAlign.start,
+                  //   style: TextStyle(
+                  //       decoration: TextDecoration.underline,
+                  //       decorationColor: Colors.black,
+                  //       fontSize: 14,
+                  //       fontFamily: 'gotham',
+                  //       fontWeight: FontWeight.w600,
+                  //       color: greytheme100),
+                  // ),
+                  //
+                  getTableNumber(),
+                  //SizedBox(width: 10,),
                 ],
               ),
               SizedBox(
