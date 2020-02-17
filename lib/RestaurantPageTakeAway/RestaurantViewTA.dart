@@ -483,7 +483,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: redtheme,
+                                      color: getColorByHex(Globle().colorscode),
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(12.0),
                                       )),

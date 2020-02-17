@@ -4,6 +4,7 @@ import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
@@ -90,10 +91,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
               });
             }
           },
-          splashColor: Colors.redAccent.shade200,
+          splashColor: getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -126,7 +127,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -170,7 +171,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color: redtheme,
+                  color: getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -240,7 +241,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -272,6 +273,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       ),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -427,7 +429,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: redtheme,
+                        activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
                             radioItem = radionBtn.title;
@@ -446,7 +448,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       height: 36,
       child: ToggleButtons(
         borderColor: greytheme1300,
-        fillColor: redtheme,
+        fillColor: getColorByHex(Globle().colorscode),
         borderWidth: 2,
         selectedBorderColor: Colors.transparent,
         selectedColor: Colors.white,
@@ -499,7 +501,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor: redtheme,
+                    activeColor: getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {

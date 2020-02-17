@@ -50,6 +50,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   RestaurantInfoData _restaurantInfoData;
   List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
+  ScrollController _scrollcontroller; 
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
     MenuCategoryButton(title: "Arabic", id: 2, isSelected: false),
@@ -86,6 +87,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void initState() {
+     _scrollcontroller = ScrollController();
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
@@ -219,6 +221,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     Widget hotelInfo = new Container(
         height: MediaQuery.of(context).size.height * 0.68 + 23,
         child: SingleChildScrollView(
+          controller: _scrollcontroller,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -439,7 +442,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 ),
                 customTabbar()
               ]),
-        ));
+        )
+        );
     return Scaffold(
       body: _restaurantInfoData == null
           ? Container(
@@ -607,6 +611,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               : Container(
                   // height: 150,
                   child: ListView.builder(
+                    controller: _scrollcontroller,
                   itemCount: getScheduleLength(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -732,6 +737,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               : Container(
                   // height: MediaQuery.of(context).size.height * 0.35,
                   child: ListView.builder(
+                    controller: _scrollcontroller,
                   // itemCount: _restaurantInfoData.reviews.length,
                   itemCount: getRestaurantReviewLength(),
                   shrinkWrap: true,
