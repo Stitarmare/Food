@@ -377,14 +377,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "Please wait, while Fetching your current location!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme1200),
+                    Center(
+                      child: Text(
+                        "Please wait, while Fetching your current location!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
                     ),
                     CircularProgressIndicator()
                   ],
