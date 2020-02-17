@@ -495,6 +495,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             Expanded(
                               child: new GestureDetector(
                                 onTap: () {
+                                  //   Globle().colorscode = _restaurantList[index]
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AddItemPageView(
