@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/NotificationModel.dart';
+import 'package:foodzi/Notifications/NotificationContarctor.dart';
+import 'package:foodzi/Notifications/NotificationPresenter.dart';
 import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -12,7 +15,10 @@ class NotificationView extends StatefulWidget {
   }
 }
 
-class _NotificationViewState extends State<NotificationView> {
+class _NotificationViewState extends State<NotificationView> implements NotificationModelView{
+ NotificationPresenter notificationPresenter;
+ List<NotificationData> notificationData;
+ int page = 1;
   final europeanCountries = [
     'Albania Does anyone know how to implement a selection of the elements located inside a ListView Class in Flutter. All elements present in my list are constructed as',
     'Andorra',
@@ -25,6 +31,14 @@ class _NotificationViewState extends State<NotificationView> {
     'Liechtenstein',
     'Lithuania',
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    // notificationPresenter.getNotofications(context);
+    notificationPresenter = NotificationPresenter(notificationModelView:this );
+    notificationPresenter.getNotifications(context);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +74,8 @@ class _NotificationViewState extends State<NotificationView> {
 
   Widget _notificationList(BuildContext context) {
     return ListView.builder(
-      itemCount: europeanCountries.length,
+      //itemCount: europeanCountries.length,
+      itemCount: getNotificationLength(),
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.only(right: 17, left: 18, top: 10),
@@ -69,7 +84,8 @@ class _NotificationViewState extends State<NotificationView> {
               title: Padding(
                 padding: const EdgeInsets.only(left: 8, right: 4, top: 7),
                 child: Text(
-                  europeanCountries[index],
+                  // notificationData[index].notifText,
+                  getNotificationText(index),
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'gotham',
@@ -79,6 +95,7 @@ class _NotificationViewState extends State<NotificationView> {
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 21),
                 child: Text(
+                  notificationData[index].createdAt ??
                   '05 May 2019',
                   style: TextStyle(
                       fontSize: 11,
@@ -106,5 +123,44 @@ class _NotificationViewState extends State<NotificationView> {
         );
       },
     );
+  }
+  int getNotificationLength() {
+    if (notificationData != null) {
+      return notificationData.length;
+    }
+    return 0;
+  }
+  String getNotificationText(int index){
+    if(notificationData != null){
+      if(notificationData[index].notifText !=null){
+        return notificationData[index].notifText.toString();
+
+      }
+      return " No Notification";
+    }
+    return " ";
+
+  }
+
+  @override
+  void getNotificationsFailed() {
+    // TODO: implement getNotoficationsFailed
+  }
+
+  @override
+  void getNotificationsSuccess(List<NotificationData> getNotificationList) {
+    // TODO: implement getNotoficationsSuccess
+        if (getNotificationList.length == 0) {
+      return;
+    }
+    setState(() {
+      if (notificationData == null) {
+        notificationData = getNotificationList;
+      } else {
+       // notificationData.removeRange(0, (notificationData.length));
+        notificationData.addAll(getNotificationList);
+      }
+      page++;
+    });
   }
 }

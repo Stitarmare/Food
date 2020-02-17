@@ -245,25 +245,25 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   )
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
-                ],
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
+              //     Text(
+              //       'Add Table Number',
+              //       textAlign: TextAlign.start,
+              //       style: TextStyle(
+              //           decoration: TextDecoration.underline,
+              //           decorationColor: Colors.black,
+              //           fontSize: 14,
+              //           fontFamily: 'gotham',
+              //           fontWeight: FontWeight.w600,
+              //           color: greytheme100),
+              //     )
+              //   ],
+              // ),
               SizedBox(
                 height: 10,
               )
