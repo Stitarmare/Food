@@ -50,7 +50,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   RestaurantInfoData _restaurantInfoData;
   List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
-  ScrollController _scrollcontroller; 
+  ScrollController _scrollcontroller;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
     MenuCategoryButton(title: "Arabic", id: 2, isSelected: false),
@@ -87,7 +87,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   void initState() {
-     _scrollcontroller = ScrollController();
+    _scrollcontroller = ScrollController();
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
@@ -169,24 +169,32 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       // //   fit: BoxFit.cover,
                       // //   )
                       child: isInfoLoaded
-                          ? ImageWithLoader(
-                              BaseUrl.getBaseUrlImages() + src.imagePath,
+                          ? CachedNetworkImage(
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl:
+                                  BaseUrl.getBaseUrlImages() + src.imagePath,
                             )
-                          //  Image.network(
-                          //     BaseUrl.getBaseUrlImages() + src.imagePath,
-                          //     fit: BoxFit.cover,
-                          //   )
-
-                          // CachedNetworkImage(
-                          //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                          //   fit: BoxFit.cover,
-                          //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                          // )
                           : Image.asset(
                               src.imagePath,
                               fit: BoxFit.cover,
                             ));
+                  // ImageWithLoader(
+                  //     BaseUrl.getBaseUrlImages() + src.imagePath,
+                  //     fit: BoxFit.cover,
+                  //   )
+                  //  Image.network(
+                  //     BaseUrl.getBaseUrlImages() + src.imagePath,
+                  //     fit: BoxFit.cover,
+                  //   )
+
+                  // CachedNetworkImage(
+                  //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
+                  //   fit: BoxFit.cover,
+                  //   //  placeholder: (context, url) => CircularProgressIndicator(),
+                  // )
                 },
               );
             }).toList(),
@@ -442,8 +450,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 ),
                 customTabbar()
               ]),
-        )
-        );
+        ));
     return Scaffold(
       body: _restaurantInfoData == null
           ? Container(
@@ -611,7 +618,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               : Container(
                   // height: 150,
                   child: ListView.builder(
-                    controller: _scrollcontroller,
+                  controller: _scrollcontroller,
                   itemCount: getScheduleLength(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -737,7 +744,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               : Container(
                   // height: MediaQuery.of(context).size.height * 0.35,
                   child: ListView.builder(
-                    controller: _scrollcontroller,
+                  controller: _scrollcontroller,
                   // itemCount: _restaurantInfoData.reviews.length,
                   itemCount: getRestaurantReviewLength(),
                   shrinkWrap: true,
