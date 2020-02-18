@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
@@ -54,12 +55,14 @@ class _RestaurantViewState extends State<RestaurantView>
   int restaurantId;
 
   var tableID;
+
+  var abc;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-    restaurantPresenter.getMenuList(widget.rest_Id, context, menu: menutype);
+    restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc, menu: menutype);
     super.initState();
   }
 
@@ -70,7 +73,7 @@ class _RestaurantViewState extends State<RestaurantView>
           print("Top");
         } else {
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-          restaurantPresenter.getMenuList(widget.rest_Id, context,
+          restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
               menu: menutype);
           print("Bottom");
         }
@@ -359,29 +362,22 @@ class _RestaurantViewState extends State<RestaurantView>
                     // restaurantPresenter.getMenuList(
                     //     widget.rest_Id, context,menu:menutype);
                     if (this._switchvalue) {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
+                       _restaurantList = null;
+                       DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
                       menutype = 'veg';
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
                           menu: menutype);
                     } else {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
+                       _restaurantList = null;
+                       DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
                       menutype = null;
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
                           menu: menutype);
                     }
-                  });
+                  }
+                  );
                 },
                 value: this._switchvalue,
               ),
@@ -413,7 +409,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         isselected = false;
                       }
                     });
-                    var abc = await showDialog(
+                     abc = await showDialog(
                         context: context,
                         child: MenuItem(
                           restaurantId: widget.rest_Id,
@@ -431,7 +427,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       DialogsIndicator.showLoadingDialog(
                           context, _keyLoader, "Loading");
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc);
+                          category_id: abc,menu: menutype);
                       print(abc);
 
                       print("abc");
@@ -503,13 +499,23 @@ class _RestaurantViewState extends State<RestaurantView>
                             //   height: 100,
                             // ),
 
-                            child: Image.network(
-                              BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
+                            child: CachedNetworkImage(
                               fit: BoxFit.fitWidth,
                               width: double.infinity,
                               height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
                             ),
+                            // Image.network(
+                            //   BaseUrl.getBaseUrlImages() +
+                            //       '${_restaurantList[index].itemImage}',
+                            //   fit: BoxFit.fitWidth,
+                            //   width: double.infinity,
+                            //   height: 100,
+                            // ),
                           ),
                         ),
                       ),
@@ -594,22 +600,28 @@ class _RestaurantViewState extends State<RestaurantView>
                               child: new GestureDetector(
                                 onTap: () {
                                   if (_dropdownTableNumber == null) {
-                                    Constants.showAlert(widget.title, "Please select table number first.", context);
+                                    Constants.showAlert(
+                                        widget.title,
+                                        "Please select table number first.",
+                                        context);
                                   } else {
                                     print("button is Pressed");
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageView(
-                                            item_id: _restaurantList[index].id,
-                                            rest_id:
-                                                _restaurantList[index].restId,
-                                            title:
-                                                '${_restaurantList[index].itemName}',
-                                            description:
-                                                '${_restaurantList[index].itemDescription}',
-                                          )));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddItemPageView(
+                                                  item_id:
+                                                      _restaurantList[index].id,
+                                                  rest_id:
+                                                      _restaurantList[index]
+                                                          .restId,
+                                                  title:
+                                                      '${_restaurantList[index].itemName}',
+                                                  description:
+                                                      '${_restaurantList[index].itemDescription}',
+                                                )));
                                   }
                                   //   Globle().colorscode = _restaurantList[index]
-                                  
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -665,13 +677,14 @@ class _RestaurantViewState extends State<RestaurantView>
     // TODO: implement getMenuListsuccess
 
     if (menulist.length == 0) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
       } else {
-        _restaurantList.removeRange(0, (_restaurantList.length));
+        //_restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
       }
       page++;

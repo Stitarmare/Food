@@ -112,6 +112,17 @@ class _ProfileScreenState extends State<ProfileScreen>
               child: Stack(
                 overflow: Overflow.visible,
                 children: <Widget>[
+                  ClipOval(
+                                      child: CachedNetworkImage(
+                        width: 83,
+                        height: 83,
+                        fit: BoxFit.fill,
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        imageUrl: profilePic(),
+                      ),
+                  ),
                   //  FadeInImage.assetNetwork(
                   //   placeholder: 'assets/PlaceholderImage/placeholder.png',
                   //   image: profilePic(),
@@ -136,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   // }),
 
                   //setProfilePic(),
-                  ClipOvalImageWithLoader(profilePic(),width: 83,height: 83,),
+                  //ClipOvalImageWithLoader(profilePic(),width: 83,height: 83,),
                   
 
                   //   CachedNetworkImage(

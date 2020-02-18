@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
@@ -398,13 +399,24 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         //     width: double.infinity,
                         //     height: 100,
                         //   ),
-                        child: Image.network(
-                          BaseUrl.getBaseUrlImages() +
-                              '${_restaurantList[index].itemImage}',
-                          fit: BoxFit.fitWidth,
-                          width: double.infinity,
-                          height: 100,
-                        ),
+
+                        child: CachedNetworkImage(
+                              fit: BoxFit.fitWidth,
+                              width: double.infinity,
+                              height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                            ), 
+                        // Image.network(
+                        //   BaseUrl.getBaseUrlImages() +
+                        //       '${_restaurantList[index].itemImage}',
+                        //   fit: BoxFit.fitWidth,
+                        //   width: double.infinity,
+                        //   height: 100,
+                        // ),
                       ),
                       Expanded(
                           child: Padding(
