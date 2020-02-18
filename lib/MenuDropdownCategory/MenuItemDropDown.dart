@@ -89,9 +89,12 @@ class MenuItemState extends State<MenuItem>
                     onTap: () {
                       if (index == 0) {
                         Navigator.pop(context, -1);
-                      }
-                      _onSelected(index);
+
+                      }else{
+                        _onSelected(index);
                       Navigator.pop(context, _categorydata[index].id);
+                      }
+                      
                     },
                   );
                 },
