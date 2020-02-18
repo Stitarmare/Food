@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
@@ -92,8 +93,8 @@ class _DineViewState extends State<DineInView>
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
-            _position.latitude.toString(),
-            _position.longitude.toString(),
+            "19.1394714",
+            "73.0080529",
             sortedBy,
             filteredBy,
             page,
@@ -479,8 +480,13 @@ class _DineViewState extends State<DineInView>
             //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
             //       fit: BoxFit.fitWidth),
             // ),
-            child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
-                fit: BoxFit.fitWidth),
+            child: CachedNetworkImage(
+              fit: BoxFit.fill,
+  placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
+  imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
+)
+            //  ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
+            //     fit: BoxFit.fitWidth),
           ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
