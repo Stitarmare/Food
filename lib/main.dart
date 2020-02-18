@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
-import 'package:foodzi/AddItemPage2/AddItemPageSecond.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
@@ -63,8 +62,7 @@ var routes = <String, WidgetBuilder>{
   '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
   '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
-    '/AddItemPageTAView': (BuildContext context) => AddItemPageTAView(),
-  '/AddItemPageSecond': (BuildContext context) => AddItemPageSecond(),
+  '/AddItemPageTAView': (BuildContext context) => AddItemPageTAView(),
   '/MyCart': (BuildContext context) => MyCartView(),
   // '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),

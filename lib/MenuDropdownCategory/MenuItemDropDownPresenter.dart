@@ -25,7 +25,7 @@ class MenuDropdpwnPresenter extends MenuDropdownContractor {
     // TODO: implement getMenuList
     ApiBaseHelper().post<CategoryListModel>(
         UrlConstant.getCategoryList, context,
-        body: {"rest_id": restId, }).then((value) {
+        body: {"rest_id": restId}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

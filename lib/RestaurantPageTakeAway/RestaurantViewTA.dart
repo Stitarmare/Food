@@ -319,13 +319,30 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     });
                     var abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(
-                              restaurantId: widget.rest_Id,
-                            ),
+                        child: MenuItem(
+                          restaurantId: widget.rest_Id,
+                        ),
                         barrierDismissible: true);
                     setState(() {
-                      isselected = false;
+                      if (isselected == false) {
+                        isselected = true;
+                      } else {
+                        isselected = false;
+                      }
                     });
+                    if (abc != null) {
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc);
+                      print(abc);
+
+                      print("abc");
+                    } else {
+                      Constants.showAlert(
+                          "No Records", "No items found.", context);
+                    }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),

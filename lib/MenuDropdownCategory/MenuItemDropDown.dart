@@ -15,16 +15,7 @@ class MenuItemState extends State<MenuItem>
     implements MenuDropdownModelView {
   AnimationController controller;
   Animation<double> scaleAnimation;
-  List<Item> _menu = <Item>[
-    // Item(itemName: 'All', itemCount: '102'),
-    // Item(itemName: 'Breakfast', itemCount: '10'),
-    // Item(itemName: 'Lunch', itemCount: '23'),
-    // Item(itemName: 'Dinner', itemCount: '25'),
-    // Item(itemName: 'Deserts', itemCount: '8'),
-    // Item(itemName: 'Specials', itemCount: '3'),
-    // Item(itemName: 'Halal', itemCount: '11'),
-    // Item(itemName: 'Drinks', itemCount: '28'),
-  ];
+  // List<Item> _menu = <Item>[];
   // Item selectedMenu;
   int _selectedMenu = 0;
   int rest_Id;
@@ -52,6 +43,8 @@ class MenuItemState extends State<MenuItem>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
+
+      print(_selectedMenu);
     });
   }
 
@@ -94,8 +87,11 @@ class MenuItemState extends State<MenuItem>
                             ? "0"
                             : _categorydata[index].menuCount.toString()),
                     onTap: () {
+                      if (index == 0) {
+                        Navigator.pop(context, -1);
+                      }
                       _onSelected(index);
-                      Navigator.pop(context);
+                      Navigator.pop(context, _categorydata[index].id);
                     },
                   );
                 },
