@@ -454,7 +454,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.82,
+        childAspectRatio: 0.92,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container(
@@ -500,7 +500,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             // ),
 
                             child: CachedNetworkImage(
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               width: double.infinity,
                               height: 100,
                               placeholder: (context, url) => Center(
@@ -560,12 +560,12 @@ class _RestaurantViewState extends State<RestaurantView>
                               AutoSizeText(
                                 "${_restaurantList[index].itemDescription}" ??
                                     " ",
-                                maxLines: 3,
-                                minFontSize:12,
-                                maxFontSize: 14,
+                                maxLines: 2,
+                                minFontSize:10,
+                                maxFontSize: 12,
                                 softWrap: true,
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     fontFamily: 'gotham',
                                     fontWeight: FontWeight.w500,
                                     color: greytheme1000),
