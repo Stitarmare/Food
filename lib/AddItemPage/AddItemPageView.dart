@@ -27,7 +27,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int rest_id;
   ScrollController _controller = ScrollController();
   AddItemPagepresenter _addItemPagepresenter;
+ List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  int _dropdownTableNumber;
+
+  int tableID;
   @override
   void initState() {
     _addItemPagepresenter = AddItemPagepresenter(this);
@@ -245,9 +249,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   )
                 ],
               ),
-              // SizedBox(
-              //   height: 20,
-              // ),
+              SizedBox(
+                height: 20,
+              ),
+              getTableNumber(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -273,7 +278,81 @@ class _AddItemPageViewState extends State<AddItemPageView>
       ),
     );
   }
+  Widget getTableNumber() {
+    return Container(
+      margin: EdgeInsets.only(left:20),
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: FormField(builder: (FormFieldState state) {
+        return DropdownButtonFormField(
+          //itemHeight: Constants.getScreenHeight(context) * 0.06,
+          items: _dropdownItemsTable.map((int tableNumber) {
+            return new DropdownMenuItem(
+                value: tableNumber,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          "Table Number: $tableNumber",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              fontSize: 14,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: getColorByHex(Globle().colorscode)),
+                        )),
+                  ],
+                ));
+          }).toList(),
+          onChanged: (newValue) {
+            // do other stuff with _category
+            setState(() {
+              _dropdownTableNumber = newValue;
+              _dropdownItemsTable.forEach((value) {
+                if (value == newValue) {
+                  print(value);
+                  tableID = value;
+                }
+              });
+            });
+          },
 
+          value: _dropdownTableNumber,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: greentheme100, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: greytheme900, width: 2)),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+            filled: false,
+            hintText: 'Choose Table',
+            // prefixIcon: Icon(
+            //   Icons.location_on,
+            //   size: 20,
+            //   color: greytheme1000,
+            // ),
+            labelText: _dropdownTableNumber == null
+                ? "Add Table Number "
+                : "Table Number",
+            // errorText: _errorText,
+            labelStyle: TextStyle(
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.black,
+                fontSize: 14,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme100),
+          ),
+        );
+      }),
+    );
+  }
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
