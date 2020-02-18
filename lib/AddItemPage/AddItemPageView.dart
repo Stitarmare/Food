@@ -159,7 +159,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/OrderConfirmationView');
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
               //   context: context,

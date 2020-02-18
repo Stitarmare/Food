@@ -586,7 +586,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                       fontSize: 14,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(64, 64, 64, 1)),
+                                      color:
+                                          getColorByHex(Globle().colorscode)),
                                 ),
                               ),
                             ),
@@ -594,22 +595,28 @@ class _RestaurantViewState extends State<RestaurantView>
                               child: new GestureDetector(
                                 onTap: () {
                                   if (_dropdownTableNumber == null) {
-                                    Constants.showAlert(widget.title, "Please select table number first.", context);
+                                    Constants.showAlert(
+                                        widget.title,
+                                        "Please select table number first.",
+                                        context);
                                   } else {
                                     print("button is Pressed");
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageView(
-                                            item_id: _restaurantList[index].id,
-                                            rest_id:
-                                                _restaurantList[index].restId,
-                                            title:
-                                                '${_restaurantList[index].itemName}',
-                                            description:
-                                                '${_restaurantList[index].itemDescription}',
-                                          )));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddItemPageView(
+                                                  item_id:
+                                                      _restaurantList[index].id,
+                                                  rest_id:
+                                                      _restaurantList[index]
+                                                          .restId,
+                                                  title:
+                                                      '${_restaurantList[index].itemName}',
+                                                  description:
+                                                      '${_restaurantList[index].itemDescription}',
+                                                )));
                                   }
                                   //   Globle().colorscode = _restaurantList[index]
-                                  
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
