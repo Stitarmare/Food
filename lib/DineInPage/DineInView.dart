@@ -93,8 +93,8 @@ class _DineViewState extends State<DineInView>
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
 
         dinerestaurantPresenter.getrestaurantspage(
-            "19.1394714",
-            "73.0080529",
+            _position.latitude.toString(),
+            _position.longitude.toString(),
             sortedBy,
             filteredBy,
             page,
@@ -473,21 +473,23 @@ class _DineViewState extends State<DineInView>
       children: <Widget>[
         Card(
           child: Container(
-            height: 150,
-            width: MediaQuery.of(context).size.width,
-            // decoration: new BoxDecoration(
-            //   image: DecorationImage(
-            //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
-            //       fit: BoxFit.fitWidth),
-            // ),
-            child: CachedNetworkImage(
-              fit: BoxFit.fill,
-  placeholder: (context, url) => Center(child: CircularProgressIndicator(),),
-  imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
-)
-            //  ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
-            //     fit: BoxFit.fitWidth),
-          ),
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              // decoration: new BoxDecoration(
+              //   image: DecorationImage(
+              //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
+              //       fit: BoxFit.fitWidth),
+              // ),
+              child: CachedNetworkImage(
+                fit: BoxFit.fill,
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(),
+                ),
+                imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
+              )
+              //  ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
+              //     fit: BoxFit.fitWidth),
+              ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
       ],
