@@ -593,8 +593,10 @@ class _RestaurantViewState extends State<RestaurantView>
                             Expanded(
                               child: new GestureDetector(
                                 onTap: () {
-                                  //   Globle().colorscode = _restaurantList[index]
-                                  print("button is Pressed");
+                                  if (_dropdownTableNumber == null) {
+                                    Constants.showAlert(widget.title, "Please select table number first.", context);
+                                  } else {
+                                    print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AddItemPageView(
                                             item_id: _restaurantList[index].id,
@@ -605,6 +607,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                             description:
                                                 '${_restaurantList[index].itemDescription}',
                                           )));
+                                  }
+                                  //   Globle().colorscode = _restaurantList[index]
+                                  
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
