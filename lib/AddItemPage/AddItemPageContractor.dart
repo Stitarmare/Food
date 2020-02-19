@@ -15,3 +15,8 @@ abstract class AddTablenoModelView {
   void addTablebnoSuccces();
   void addTablenofailed();
 }
+
+abstract class AddmenuToCartModelview {
+  void addMenuToCartsuccess();
+  void addMenuToCartfailed();
+}
