@@ -323,14 +323,15 @@ class _MyCartViewtate extends State<MyCartView> {
                 ),),
                 GestureDetector(
               onTap: (){
-                // Navigator.pushNamed(context, '/OrderConfirmationView');
+                Navigator.pushNamed(context, '/PaymentTipAndPay');
                 // print("button is pressed");
-                showDialog(
-                  context: context,
-                  child: new RadioDialog(
-                    onValueChange: _onValueChange,
-                    initialValue: _selectedId,
-                  ));
+                // showDialog(
+                //   context: context,
+                //   child: new RadioDialog(
+                //     onValueChange: _onValueChange,
+                //     initialValue: _selectedId,
+                //   ));
+                
               },
               child: Container(
                 height: 54,

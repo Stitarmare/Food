@@ -272,6 +272,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       ),
     );
   }
+  
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(

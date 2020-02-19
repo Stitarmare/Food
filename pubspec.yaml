@@ -175,7 +175,18 @@ flutter:
       - assets/NavigateButton/next(2).png
       - assets/NavigateButton/next(2)@2x.png
       - assets/NavigateButton/next(2)@3x.png
-      
+      #Veg Icon
+      - assets/VegIcon/Group1661.png
+      - assets/VegIcon/Group1661@2x.png
+      - assets/VegIcon/Group1661@3x.png
+      #PaymentCard
+      - assets/PaymentCard/visa.png
+      - assets/PaymentCard/verve.png
+      - assets/PaymentCard/mastercard.png
+      - assets/PaymentCard/jcb.png
+      - assets/PaymentCard/discover.png
+      - assets/PaymentCard/dinners_club.png
+      - assets/PaymentCard/american_express.png
 
 
       
