@@ -23,4 +23,6 @@ class UrlConstant {
   static const getCategoryList = "/api/getCategoryList";
   static const getmenudetailsApi = "/api/getMenuDetails";
   static const getNotificationApi = "/api/getNotificationList";
+  static const addMenuToCartApi = "/api/addMenuToCart";
+  static const addTablenoApi = "/api/addTable";
 }
