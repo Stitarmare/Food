@@ -1,4 +1,5 @@
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
@@ -94,6 +95,9 @@ class GenericModel<T> {
 
       case NotificationModel:
         return NotificationModel.fromJson(json) as T;
+
+       case AddMenuToCartModel:
+        return AddMenuToCartModel.fromJson(json) as T; 
 
       default:
         break;
