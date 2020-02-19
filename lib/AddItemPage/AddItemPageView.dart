@@ -4,6 +4,7 @@ import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -19,15 +20,23 @@ class AddItemPageView extends StatefulWidget {
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
-    implements AddItemPageModelView {
+    implements AddItemPageModelView, AddmenuToCartModelview {
   List<bool> isSelected;
+
+  AddItemsToCartModel addMenuToCartModel;
+
+  Item items;
+
+  List<Extras> extra;
+
+  Spreads spread;
 
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
   AddItemPagepresenter _addItemPagepresenter;
- List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   int _dropdownTableNumber;
 
@@ -60,7 +69,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: _addItemModelList.spreads[i - 1].id,
+          title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
     setState(() {
       _radioOptions = radiolist;
@@ -73,7 +83,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _checkboxlist.add(CheckBoxOptions(
           price: _addItemModelList.extras[i - 1].price ?? '',
           isChecked: false,
-          index: i,
+          index: _addItemModelList.extras[i - 1].id ?? 0,
           title: _addItemModelList.extras[i - 1].name ?? ''));
     }
     setState(() {
@@ -163,6 +173,22 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
+              if (addMenuToCartModel == null) {
+                addMenuToCartModel = AddItemsToCartModel();
+              }
+              addMenuToCartModel.userId = Globle().loginModel.data.id;
+              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.tableId = null;
+              if (items == null) {
+                items = Item();
+              }
+
+              addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].extra = extra;
+              addMenuToCartModel.items[0].spreads = [spread];
+              addMenuToCartModel.items[0].switches = [];
+
+              print(addMenuToCartModel.toJson());
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
@@ -278,9 +304,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
       ),
     );
   }
+
   Widget getTableNumber() {
     return Container(
-      margin: EdgeInsets.only(left:20),
+      margin: EdgeInsets.only(left: 20),
       height: 50,
       width: MediaQuery.of(context).size.width * 0.8,
       child: FormField(builder: (FormFieldState state) {
@@ -353,6 +380,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       }),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -511,9 +539,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
+                            if (spread == null) {
+                              spread = Spreads();
+                            }
+
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
+                            spread.spreadId = id;
                           });
                         },
                       ),
@@ -585,8 +618,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
                       setState(() {
+                        if (extra == null) {
+                          extra = [];
+                        }
+                        if (extra.length > 0) {
+                          if (val) {
+                            var ext = Extras();
+                            ext.extraId = checkBtn.index;
+                            extra.add(ext);
+                          } else {
+                            for (int i = 0; i < extra.length; i++) {
+                              if (checkBtn.index == extra[i].extraId) {
+                                extra.removeAt(i);
+                              }
+                            }
+                          }
+                        } else {
+                          var ext = Extras();
+                          ext.extraId = checkBtn.index;
+                          extra.add(ext);
+                        }
                         checkBtn.isChecked = val;
-                        print(val);
                       });
                     },
                     title: Row(
@@ -632,6 +684,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     checkboxbtn(_addItemModelList.extras.length);
     // TODO: implement addItemsuccess
+  }
+
+  @override
+  void addMenuToCartfailed() {
+    // TODO: implement addMenuToCartfailed
+  }
+
+  @override
+  void addMenuToCartsuccess() {
+    // TODO: implement addMenuToCartsuccess
   }
 }
 
