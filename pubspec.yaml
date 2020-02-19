@@ -179,7 +179,10 @@ flutter:
       - assets/VegIcon/Group1661.png
       - assets/VegIcon/Group1661@2x.png
       - assets/VegIcon/Group1661@3x.png
-      
+      #SuccessImage
+      - assets/SuccessIcon/success.png
+      - assets/SuccessIcon/success@2x.png
+      - assets/SuccessIcon/success@3x.png
 
 
       

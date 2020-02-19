@@ -51,6 +51,39 @@ class Constants {
             ));
   }
 
+  static void showAlertSuccess(
+      String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(title),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                Image.asset(
+                  'assets/SuccessIcon/success.png',
+                  width: 75,
+                  height: 75,
+                ),
+                SizedBox(height: 15,),
+                Text(message,textAlign: TextAlign.center,)
+              ]),
+              actions: <Widget>[
+                Divider(
+                  endIndent: 15,
+                  indent: 15,
+                  color: Colors.black,
+                ),
+                FlatButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   static Widget steppercount(int text) {
     Row(children: <Widget>[
       InkWell(
