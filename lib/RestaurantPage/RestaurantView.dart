@@ -62,7 +62,8 @@ class _RestaurantViewState extends State<RestaurantView>
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-    restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc, menu: menutype);
+    restaurantPresenter.getMenuList(widget.rest_Id, context,
+        category_id: abc, menu: menutype);
     super.initState();
   }
 
@@ -73,8 +74,8 @@ class _RestaurantViewState extends State<RestaurantView>
           print("Top");
         } else {
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-          restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-              menu: menutype);
+          restaurantPresenter.getMenuList(widget.rest_Id, context,
+              category_id: abc, menu: menutype);
           print("Bottom");
         }
       }
@@ -362,22 +363,21 @@ class _RestaurantViewState extends State<RestaurantView>
                     // restaurantPresenter.getMenuList(
                     //     widget.rest_Id, context,menu:menutype);
                     if (this._switchvalue) {
-                       _restaurantList = null;
-                       DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = 'veg';
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-                          menu: menutype);
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc, menu: menutype);
                     } else {
-                       _restaurantList = null;
-                       DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = null;
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-                          menu: menutype);
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc, menu: menutype);
                     }
-                  }
-                  );
+                  });
                 },
                 value: this._switchvalue,
               ),
@@ -409,7 +409,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         isselected = false;
                       }
                     });
-                     abc = await showDialog(
+                    abc = await showDialog(
                         context: context,
                         child: MenuItem(
                           restaurantId: widget.rest_Id,
@@ -427,7 +427,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       DialogsIndicator.showLoadingDialog(
                           context, _keyLoader, "Loading");
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc,menu: menutype);
+                          category_id: abc, menu: menutype);
                       print(abc);
 
                       print("abc");
@@ -454,7 +454,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.92,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container(
@@ -521,20 +521,47 @@ class _RestaurantViewState extends State<RestaurantView>
                       ),
                       Expanded(
                           child: Padding(
-                        padding: EdgeInsets.only(left: 10,top: 2),
+                        padding: EdgeInsets.only(left: 10, top: 2),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
-                              Text(
-                                "${_restaurantList[index].itemName}" ?? " ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w600,
-                                    color: greytheme700),
-                              ),
+                              
+                                 Row(
+                                  children: <Widget>[
+                                    (_restaurantList[index].menuType == "veg")
+                                        ? Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            //color: greentheme,
+                                            width: 14,
+                                            height: 14,
+                                          )
+                                        : Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            color: redtheme,
+                                            width: 14,
+                                            height: 14,
+                                          ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.38,
+                                      child: AutoSizeText(
+                                        "${_restaurantList[index].itemName}" ?? " ",
+                                        maxLines: 2,
+                                        minFontSize: 10,
+                                        maxFontSize: 13,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontFamily: 'gotham',
+                                            fontWeight: FontWeight.w600,
+                                            color: greytheme700),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              
                               SizedBox(
                                 height: 5,
                               ),
@@ -561,7 +588,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 "${_restaurantList[index].itemDescription}" ??
                                     " ",
                                 maxLines: 2,
-                                minFontSize:10,
+                                minFontSize: 10,
                                 maxFontSize: 12,
                                 softWrap: true,
                                 style: TextStyle(
@@ -619,21 +646,17 @@ class _RestaurantViewState extends State<RestaurantView>
                                   //       "Please select table number first.",
                                   //       context);
                                   // } else {
-                                    print("button is Pressed");
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddItemPageView(
-                                                  item_id:
-                                                      _restaurantList[index].id,
-                                                  rest_id:
-                                                      _restaurantList[index]
-                                                          .restId,
-                                                  title:
-                                                      '${_restaurantList[index].itemName}',
-                                                  description:
-                                                      '${_restaurantList[index].itemDescription}',
-                                                )));
+                                  print("button is Pressed");
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddItemPageView(
+                                            item_id: _restaurantList[index].id,
+                                            rest_id:
+                                                _restaurantList[index].restId,
+                                            title:
+                                                '${_restaurantList[index].itemName}',
+                                            description:
+                                                '${_restaurantList[index].itemDescription}',
+                                          )));
                                   //}
                                   //   Globle().colorscode = _restaurantList[index]
                                 },

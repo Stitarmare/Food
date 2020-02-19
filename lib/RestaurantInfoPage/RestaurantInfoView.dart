@@ -241,15 +241,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   padding: EdgeInsets.only(
                     left: 20,
                   ),
-                  // child: Text(
-                  //   _restaurantInfoData.restName,
-                  //   style: TextStyle(
-                  //       color: greytheme700,
-                  //       // color: Colors.red,
-                  //       fontFamily: 'gotham',
-                  //       fontWeight: FontWeight.w500,
-                  //       fontSize: 16),
-                  // ),
                   child: AutoSizeText(
                     getRestName(),
                     maxLines: 2,
@@ -282,9 +273,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             // minFontSize: 8,
                             maxFontSize: 14,
                             maxLines: 2,
-
-                            // overflow: Overflow.visible,
-                            // overflow: Overflow.visible,
                           ),
                         ),
                       ),
@@ -343,7 +331,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     Container(
                       width: 49,
                       height: 18,
-                      // color: Colors.black,
                       decoration: BoxDecoration(
                           color: greytheme700,
                           borderRadius: BorderRadius.all(Radius.circular(4))),
@@ -362,7 +349,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             padding: const EdgeInsets.only(
                                 left: 4, top: 2, bottom: 2),
                             child: Text(
-                              // '_restaurantInfoData.averageRating.toString()',
                               getAverageRating(),
                               style: TextStyle(
                                   fontFamily: 'gotham',
@@ -379,9 +365,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     ),
                     Text(
                       '(${getReviewsCount()}+ Reviews)',
-                      // _restaurantInfoData.reviewsCount.toString(),
-                      // "($_restaurantInfoData.reviewsCount.toString())",
-                      // _restaurantInfoData.reviewsCount.toString(),
                       style: TextStyle(
                           fontSize: 13,
                           fontFamily: 'gotham',
@@ -421,7 +404,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                     color: Colors.white,
                                   ),
                                 )),
-                            // Divider(thickness: 5,color: Colors.white,),
                             VerticalDivider(
                               thickness: 2,
                               width: 1,
@@ -432,7 +414,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                   right: 7, top: 6, bottom: 5, left: 7),
                               child: Text(
                                 getContactNumber(),
-                                // _restaurantInfoData.contactNumber,
                                 style: TextStyle(
                                     fontFamily: 'gotham',
                                     fontSize: 14,
@@ -474,8 +455,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ),
             )
           : Container(
-              // height: Constants.getSafeAreaHeight(context) * 0.35,
-              //             width: Constants.getScreenWidth(context),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Stack(

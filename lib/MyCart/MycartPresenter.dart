@@ -17,15 +17,12 @@ class MycartPresenter extends MyCartContarctor {
   }
 
   @override
-  void getCartMenuList(
-      int restId, BuildContext context, int user_id, int item_id,
-      {String menu, int category_id}) {
+  void getCartMenuList(int restId, BuildContext context, int userId,) {
     // TODO: implement getMenuList
-    ApiBaseHelper().post<AddMenuToCartModel>(
-        UrlConstant.getMenuListApi, context, body: {
+    ApiBaseHelper()
+        .post<AddMenuToCartModel>(UrlConstant.getCartDetailsApi, context, body: {
       "rest_id": restId,
-      "user_id": user_id,
-      "item_id": item_id
+      "user_id": userId,
     }).then((value) {
       print(value);
       switch (value.result) {

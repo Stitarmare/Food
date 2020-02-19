@@ -139,17 +139,6 @@ class MyDialogRatingState extends State<MyDialogRating>
                     ],
                   ),
                 ),
-                //                     RatingBar(
-                //   onRatingChanged: (rating) => setState(() => _rating = rating),
-                //   filledIcon: Icons.star,
-                //   emptyIcon: Icons.star_border,
-                //   halfFilledIcon: Icons.star_half,
-                //   isHalfAllowed: false,
-                //   filledColor: Colors.green,
-                //   emptyColor: Colors.redAccent,
-                //   halfFilledColor: Colors.amberAccent,
-                //   size: 20,
-                // ),
                 SizedBox(height: 20),
                 Center(
                   child: Container(
@@ -158,7 +147,6 @@ class MyDialogRatingState extends State<MyDialogRating>
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: greytheme600)),
-                    // color: Color.fromRGBO(213, 213, 213, 1)),
                     padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
                     child: TextFormField(
                       decoration: InputDecoration(
@@ -167,7 +155,6 @@ class MyDialogRatingState extends State<MyDialogRating>
                             fontFamily: 'gotham',
                             color: greytheme700,
                             fontSize: 13,
-                            //fontWeight: FontWeight.w600),
                           )),
                       maxLines: 3,
                       controller: _controller,
@@ -183,21 +170,6 @@ class MyDialogRatingState extends State<MyDialogRating>
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   onPressed: () {
-                    // restaurantIdInfoPresenter.writeRestaurantReview(
-                    //     context, widget.rest_Id, _controller.text, 3);
-                    // if (_rating != 0) {
-                    //   _controller.value.text == null
-                    //       ? restaurantReviewPresenter.writeRestaurantReview(
-                    //           context, widget.rest_id, " ", _rating)
-                    //       : restaurantReviewPresenter.writeRestaurantReview(
-                    //           context,
-                    //           widget.rest_id,
-                    //           _controller.value.text,
-                    //           _rating);
-                    // }else{
-                    //      Navigator.pop(context, false);
-                    // }
-
                     if (_rating != 0) {
                      if( _controller.value.text == ""){ Toast.show("Add Review", context, duration: Toast.LENGTH_SHORT, 
                       gravity:  Toast.BOTTOM);}
