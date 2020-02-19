@@ -60,7 +60,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       //   height: 60,
       //   child: FittedBox(
       //     child: FloatingActionButton(
-      //         backgroundColor: redtheme,
+      //         backgroundColor: orangetheme,
       //         onPressed: () {},
       //         child: Image.asset('assets/ClockIcon/clock.png')),
       //   ),
@@ -100,7 +100,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          //selectedItemColor: redtheme,
+          //selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
@@ -114,7 +114,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 activeIcon: Icon(
                   OMIcons.home,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -127,7 +127,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 activeIcon: Icon(
                   OMIcons.assignment,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -140,7 +140,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 activeIcon: Icon(
                   OMIcons.notifications,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -153,7 +153,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 activeIcon: Icon(
                   OMIcons.person,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),

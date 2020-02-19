@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
@@ -26,7 +27,8 @@ import 'package:foodzi/widgets/imagewithloader.dart';
 class RestaurantView extends StatefulWidget {
   String title;
   int rest_Id;
-  RestaurantView({this.title, this.rest_Id});
+  int categoryid;
+  RestaurantView({this.title, this.rest_Id, this.categoryid});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -46,16 +48,22 @@ class _RestaurantViewState extends State<RestaurantView>
   DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
+  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   String menutype;
-
+  int _dropdownTableNumber;
   int restaurantId;
+
+  var tableID;
+
+  var abc;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-    restaurantPresenter.getMenuList(widget.rest_Id, context, menu: menutype);
+    restaurantPresenter.getMenuList(widget.rest_Id, context,
+        category_id: abc, menu: menutype);
     super.initState();
   }
 
@@ -67,7 +75,7 @@ class _RestaurantViewState extends State<RestaurantView>
         } else {
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
           restaurantPresenter.getMenuList(widget.rest_Id, context,
-              menu: menutype);
+              category_id: abc, menu: menutype);
           print("Bottom");
         }
       }
@@ -146,6 +154,80 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
+  Widget getTableNumber() {
+    return Container(
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: FormField(builder: (FormFieldState state) {
+        return DropdownButtonFormField(
+          //itemHeight: Constants.getScreenHeight(context) * 0.06,
+          items: _dropdownItemsTable.map((int tableNumber) {
+            return new DropdownMenuItem(
+                value: tableNumber,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          "Table Number: $tableNumber",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              fontSize: 14,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: getColorByHex(Globle().colorscode)),
+                        )),
+                  ],
+                ));
+          }).toList(),
+          onChanged: (newValue) {
+            // do other stuff with _category
+            setState(() {
+              _dropdownTableNumber = newValue;
+              _dropdownItemsTable.forEach((value) {
+                if (value == newValue) {
+                  print(value);
+                  tableID = value;
+                }
+              });
+            });
+          },
+
+          value: _dropdownTableNumber,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: greentheme100, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: greytheme900, width: 2)),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+            filled: false,
+            hintText: 'Choose Table',
+            // prefixIcon: Icon(
+            //   Icons.location_on,
+            //   size: 20,
+            //   color: greytheme1000,
+            // ),
+            labelText: _dropdownTableNumber == null
+                ? "Add Table Number "
+                : "Table Number",
+            // errorText: _errorText,
+            labelStyle: TextStyle(
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.black,
+                fontSize: 14,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme100),
+          ),
+        );
+      }),
+    );
+  }
   // Widget _buildMainView() {
   //   return Container(
   //     child: Column(
@@ -169,7 +251,7 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +262,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     width: 20,
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.85,
                     child: Text(
                       widget.title,
                       textAlign: TextAlign.start,
@@ -224,17 +306,20 @@ class _RestaurantViewState extends State<RestaurantView>
               Row(
                 children: <Widget>[
                   SizedBox(width: 20),
-                  Text(
-                    'Add Table Number',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme100),
-                  )
+                  // Text(
+                  //   'Add Table Number',
+                  //   textAlign: TextAlign.start,
+                  //   style: TextStyle(
+                  //       decoration: TextDecoration.underline,
+                  //       decorationColor: Colors.black,
+                  //       fontSize: 14,
+                  //       fontFamily: 'gotham',
+                  //       fontWeight: FontWeight.w600,
+                  //       color: greytheme100),
+                  // ),
+                  //
+                  getTableNumber(),
+                  //SizedBox(width: 10,),
                 ],
               ),
               SizedBox(
@@ -278,27 +363,19 @@ class _RestaurantViewState extends State<RestaurantView>
                     // restaurantPresenter.getMenuList(
                     //     widget.rest_Id, context,menu:menutype);
                     if (this._switchvalue) {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = 'veg';
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          menu: menutype);
+                          category_id: abc, menu: menutype);
                     } else {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          menu: menutype);
+                          category_id: abc, menu: menutype);
                     }
                   });
                 },
@@ -332,15 +409,32 @@ class _RestaurantViewState extends State<RestaurantView>
                         isselected = false;
                       }
                     });
-                    var abc = await showDialog(
+                    abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(
-                              restaurantId: widget.rest_Id,
-                            ),
+                        child: MenuItem(
+                          restaurantId: widget.rest_Id,
+                        ),
                         barrierDismissible: true);
                     setState(() {
-                      isselected = false;
+                      if (isselected == false) {
+                        isselected = true;
+                      } else {
+                        isselected = false;
+                      }
                     });
+                    if (abc != null) {
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc, menu: menutype);
+                      print(abc);
+
+                      print("abc");
+                    } else {
+                      Constants.showAlert(
+                          "No Records", "No items found.", context);
+                    }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -360,7 +454,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 1.0,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container(
@@ -405,53 +499,103 @@ class _RestaurantViewState extends State<RestaurantView>
                             //   height: 100,
                             // ),
 
-                            child: Image.network(
-                              BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
-                              fit: BoxFit.fitWidth,
+                            child: CachedNetworkImage(
+                              fit: BoxFit.contain,
                               width: double.infinity,
                               height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
                             ),
+                            // Image.network(
+                            //   BaseUrl.getBaseUrlImages() +
+                            //       '${_restaurantList[index].itemImage}',
+                            //   fit: BoxFit.fitWidth,
+                            //   width: double.infinity,
+                            //   height: 100,
+                            // ),
                           ),
                         ),
                       ),
                       Expanded(
                           child: Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10, top: 2),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
-                              Text(
-                                "${_restaurantList[index].itemName}" ?? " ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w600,
-                                    color: greytheme700),
-                              ),
+                              
+                                 Row(
+                                  children: <Widget>[
+                                    (_restaurantList[index].menuType == "veg")
+                                        ? Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            //color: greentheme,
+                                            width: 14,
+                                            height: 14,
+                                          )
+                                        : Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            color: redtheme,
+                                            width: 14,
+                                            height: 14,
+                                          ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.38,
+                                      child: AutoSizeText(
+                                        "${_restaurantList[index].itemName}" ?? " ",
+                                        maxLines: 2,
+                                        minFontSize: 10,
+                                        maxFontSize: 13,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontFamily: 'gotham',
+                                            fontWeight: FontWeight.w600,
+                                            color: greytheme700),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              
                               SizedBox(
                                 height: 5,
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: SingleChildScrollView(
-                                  child: AutoSizeText(
-                                    "${_restaurantList[index].itemDescription}" ??
-                                        " ",
-                                    //maxLines: 1,
-                                    style: TextStyle(
-                                      color: greytheme1000,
-                                      fontSize: 10,
-                                      fontFamily: 'gotham',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    // minFontSize: 8,
-                                    //maxFontSize: 5,
-                                    // maxLines: 3,
-                                  ),
-                                ),
+                              // Expanded(
+                              //   flex: 1,
+                              //   child: SingleChildScrollView(
+                              //     child: AutoSizeText(
+                              //       "${_restaurantList[index].itemDescription}" ??
+                              //           " ",
+                              //       //maxLines: 1,
+                              //       style: TextStyle(
+                              //         color: greytheme1000,
+                              //         fontSize: 10,
+                              //         fontFamily: 'gotham',
+                              //         fontWeight: FontWeight.w500,
+                              //       ),
+                              //       // minFontSize: 8,
+                              //       //maxFontSize: 5,
+                              //       // maxLines: 3,
+                              //     ),
+                              //   ),
+                              // ),
+                              AutoSizeText(
+                                "${_restaurantList[index].itemDescription}" ??
+                                    " ",
+                                maxLines: 2,
+                                minFontSize: 10,
+                                maxFontSize: 12,
+                                softWrap: true,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1000),
                               ),
                               // Text(
                               //   "${_restaurantList[index].itemDescription}" ??
@@ -488,14 +632,20 @@ class _RestaurantViewState extends State<RestaurantView>
                                       fontSize: 14,
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(64, 64, 64, 1)),
+                                      color:
+                                          getColorByHex(Globle().colorscode)),
                                 ),
                               ),
                             ),
                             Expanded(
                               child: new GestureDetector(
                                 onTap: () {
-                                  //   Globle().colorscode = _restaurantList[index]
+                                  // if (_dropdownTableNumber == null) {
+                                  //   Constants.showAlert(
+                                  //       widget.title,
+                                  //       "Please select table number first.",
+                                  //       context);
+                                  // } else {
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => AddItemPageView(
@@ -507,6 +657,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                             description:
                                                 '${_restaurantList[index].itemDescription}',
                                           )));
+                                  //}
+                                  //   Globle().colorscode = _restaurantList[index]
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -562,6 +714,7 @@ class _RestaurantViewState extends State<RestaurantView>
     // TODO: implement getMenuListsuccess
 
     if (menulist.length == 0) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     setState(() {

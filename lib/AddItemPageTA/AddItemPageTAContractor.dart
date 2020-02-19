@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 
-abstract class AddItemPageContractor {
+abstract class AddItemPageTAContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
   void onBackPresed();
 }
 
-abstract class AddItemPageModelView {
+abstract class AddItemPageTAModelView {
   void addItemsuccess(List<AddItemModelList> additemlist);
   void addItemfailed();
-}
-
-abstract class AddTablenoModelView {
-  void addTablebnoSuccces();
-  void addTablenofailed();
 }

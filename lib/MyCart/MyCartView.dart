@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/MyCart/MyCartContarctor.dart';
+import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/DailogBox.dart';
@@ -14,12 +17,13 @@ class MyCartView extends StatefulWidget {
   }
 }
 
-class _MyCartViewtate extends State<MyCartView> {
+class _MyCartViewtate extends State<MyCartView> implements MyCartModelView{
    ScrollController _controller = ScrollController();
    final _textController = TextEditingController();
    
     String _selectedId;
      int count = 0;
+      MycartPresenter _myCartpresenter;
     void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -436,6 +440,16 @@ class _MyCartViewtate extends State<MyCartView> {
          },
     ),
       );
+  }
+
+  @override
+  void getCartMenuListfailed() {
+    // TODO: implement getCartMenuListfailed
+  }
+
+  @override
+  void getCartMenuListsuccess(List<AddMenuToCartList> menulist) {
+    // TODO: implement getCartMenuListsuccess
   }
   //   return Scaffold(
   //     body: _getmainview(),

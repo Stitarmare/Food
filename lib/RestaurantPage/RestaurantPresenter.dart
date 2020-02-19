@@ -1,7 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
-import 'package:foodzi/Models/RestaurantListModel.dart';
-import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -19,11 +17,15 @@ class RestaurantPresenter extends RestaurantContractor {
   }
 
   @override
-  void getMenuList(int restId,BuildContext context,{String menu}) {
+  void getMenuList(int restId, BuildContext context,
+      {String menu, int category_id}) {
     // TODO: implement getMenuList
     ApiBaseHelper().post<RestaurantItemsModel>(
-        UrlConstant.getMenuListApi, context,
-        body: {"rest_id": restId, "menu_type": menu}).then((value) {
+        UrlConstant.getMenuListApi, context, body: {
+      "rest_id": restId,
+      "menu_type": menu,
+      "category_id": category_id
+    }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

@@ -60,7 +60,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
       //   height: 60,
       //   child: FittedBox(
       //     child: FloatingActionButton(
-      //         backgroundColor: redtheme,
+      //         backgroundColor: orangetheme,
       //         onPressed: () {},
       //         child: Image.asset('assets/ClockIcon/clock.png')),
       //   ),
@@ -102,7 +102,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          //selectedItemColor: redtheme,
+          //selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
@@ -116,7 +116,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.home,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -129,7 +129,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.assignment,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -142,7 +142,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.notifications,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),
@@ -155,7 +155,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 activeIcon: Icon(
                   OMIcons.person,
-                  color: redtheme,
+                  color: orangetheme,
                   size: 30,
                 ),
                 title: Text('')),

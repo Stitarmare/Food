@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
-import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-class AddItemPagepresenter extends AddItemPageContractor {
-  AddTablenoModelView addTablenoModelView;
-  AddItemPageModelView addItemPageModelView;
-  AddItemPagepresenter(AddItemPageModelView addItemPageView) {
+class AddItemPageTApresenter extends AddItemPageTAContractor {
+  AddItemPageTAModelView addItemPageModelView;
+  AddItemPageTApresenter(AddItemPageTAModelView addItemPageView) {
     this.addItemPageModelView = addItemPageView;
   }
 
@@ -34,32 +32,6 @@ class AddItemPagepresenter extends AddItemPageContractor {
         case SuccessType.failed:
           print("AddItem failed");
           addItemPageModelView.addItemfailed();
-          break;
-      }
-    }).catchError((error) {
-      print(error);
-    });
-//ApiCall
-    //;
-  }
-
-  @override
-  void performAddTableno(
-      int user_id, int rest_id, int table_id, BuildContext context) {
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {
-      "user_id": user_id,
-      "rest_id": rest_id,
-      "table_id": table_id
-    }).then((value) {
-      print(value);
-      switch (value.result) {
-        case SuccessType.success:
-          addTablenoModelView.addTablebnoSuccces();
-          print("success");
-          break;
-        case SuccessType.failed:
-          addTablenoModelView.addTablenofailed();
-          print("failed");
           break;
       }
     }).catchError((error) {

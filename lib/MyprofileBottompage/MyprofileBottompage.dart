@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
@@ -101,19 +102,28 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                   overflow: Overflow.visible,
                   children: <Widget>[
                     ClipOval(
-                      child: ClipOvalImageWithLoader(
-                        profilePic(),
-                        width: 83,
-                        height: 83,
+                        child: CachedNetworkImage(
+                      width: 83,
+                      height: 83,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(),
                       ),
-                      //  FadeInImage.assetNetwork(
-                      //   placeholder: 'assets/PlaceholderImage/placeholder.png',
-                      //   image: profilePic(),
-                      //   fit: BoxFit.cover,
-                      //   width: 82.5,
-                      //   height: 82.5,
-                      // ),
-                    ),
+                      imageUrl: profilePic(),
+                    )
+                        //  ClipOvalImageWithLoader(
+                        //   profilePic(),
+                        //   width: 83,
+                        //   height: 83,
+                        // ),
+                        //  FadeInImage.assetNetwork(
+                        //   placeholder: 'assets/PlaceholderImage/placeholder.png',
+                        //   image: profilePic(),
+                        //   fit: BoxFit.cover,
+                        //   width: 82.5,
+                        //   height: 82.5,
+                        // ),
+                        ),
                     Positioned(
                       right: 0.0,
                       top: 5.0,
@@ -381,7 +391,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
   @override
   void profileImageUpdateSuccess() {
     // TODO: implement profileImageUpdateSuccess
-     setState(() {
+    setState(() {
       imageURL = BaseUrl.getBaseUrlImages() +
           '${Globle().loginModel.data.userDetails.profileImage}';
     });

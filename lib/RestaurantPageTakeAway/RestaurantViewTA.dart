@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -46,11 +48,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   bool _switchvalue = false;
   bool isselected = false;
   String menutype;
+  var abc;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantTAPresenter(this);
-    restaurantPresenter.getMenuList(widget.rest_Id, context);
+    restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc, menu: menutype);
     // TODO: implement initState
     super.initState();
   }
@@ -61,7 +64,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          restaurantPresenter.getMenuList(widget.rest_Id, context);
+          restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
+              menu: menutype);
           print("Bottom");
         }
       }
@@ -262,26 +266,18 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   setState(() {
                     this._switchvalue = value;
                     if (this._switchvalue) {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
+                       _restaurantList = null;
+                       DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
                       menutype = 'veg';
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
                           menu: menutype);
                     } else {
-                      if (_restaurantList != null) {
-                        DialogsIndicator.showLoadingDialog(
+                       _restaurantList = null;
+                       DialogsIndicator.showLoadingDialog(
                             context, _keyLoader, "Loading");
-                      } else {
-                        Constants.showAlert(
-                            "No Records", "No items found.", context);
-                      }
                       menutype = null;
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
                           menu: menutype);
                     }
                   });
@@ -316,15 +312,32 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         isselected = false;
                       }
                     });
-                    var abc = await showDialog(
+                     abc = await showDialog(
                         context: context,
-                        builder: (_) => MenuItem(
-                              restaurantId: widget.rest_Id,
-                            ),
+                        child: MenuItem(
+                          restaurantId: widget.rest_Id,
+                        ),
                         barrierDismissible: true);
                     setState(() {
-                      isselected = false;
+                      if (isselected == false) {
+                        isselected = true;
+                      } else {
+                        isselected = false;
+                      }
                     });
+                    if (abc != null) {
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc,menu: menutype);
+                      print(abc);
+
+                      print("abc");
+                    } else {
+                      Constants.showAlert(
+                          "No Records", "No items found.", context);
+                    }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -344,7 +357,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 1.0,
+        childAspectRatio: 0.92,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container(
@@ -380,17 +393,28 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         //     width: double.infinity,
                         //     height: 100,
                         //   ),
-                        child: Image.network(
-                          BaseUrl.getBaseUrlImages() +
-                              '${_restaurantList[index].itemImage}',
-                          fit: BoxFit.fitWidth,
-                          width: double.infinity,
-                          height: 100,
-                        ),
+
+                        child: CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                            ), 
+                        // Image.network(
+                        //   BaseUrl.getBaseUrlImages() +
+                        //       '${_restaurantList[index].itemImage}',
+                        //   fit: BoxFit.fitWidth,
+                        //   width: double.infinity,
+                        //   height: 100,
+                        // ),
                       ),
                       Expanded(
                           child: Padding(
-                        padding: EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10,top: 2),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -407,35 +431,38 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               SizedBox(
                                 height: 5,
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: SingleChildScrollView(
-                                  child: AutoSizeText(
-                                    "${_restaurantList[index].itemDescription}" ??
-                                        " ",
-                                    //maxLines: 1,
-                                    style: TextStyle(
-                                      color: greytheme1000,
-                                      fontSize: 10,
-                                      fontFamily: 'gotham',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    // minFontSize: 8,
-                                    //maxFontSize: 5,
-                                    // maxLines: 3,
-                                  ),
-                                ),
-                              ),
-                              // Text(
-                              //   "${_restaurantList[index].itemDescription}" ??
-                              //       " ",
-                              //   maxLines: 2,
-                              //   style: TextStyle(
-                              //       fontSize: 10,
-                              //       fontFamily: 'gotham',
-                              //       fontWeight: FontWeight.w500,
-                              //       color: greytheme1000),
+                              // Expanded(
+                              //   flex: 1,
+                              //   child: SingleChildScrollView(
+                              //     child: AutoSizeText(
+                              //       "${_restaurantList[index].itemDescription}" ??
+                              //           " ",
+                              //       //maxLines: 1,
+                              //       style: TextStyle(
+                              //         color: greytheme1000,
+                              //         fontSize: 10,
+                              //         fontFamily: 'gotham',
+                              //         fontWeight: FontWeight.w500,
+                              //       ),
+                              //       // minFontSize: 8,
+                              //       //maxFontSize: 5,
+                              //       // maxLines: 3,
+                              //     ),
+                              //   ),
                               // ),
+                              AutoSizeText(
+                                "${_restaurantList[index].itemDescription}" ??
+                                    " ",
+                                maxLines: 2,
+                                minFontSize:10,
+                                maxFontSize: 12,
+                                softWrap: true,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1000),
+                              ),
                             ]),
                       )),
                       Container(
@@ -470,7 +497,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 onTap: () {
                                   print("button is Pressed");
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageView(
+                                      builder: (context) => AddItemPageTAView(
                                             item_id: _restaurantList[index].id,
                                             rest_id:
                                                 _restaurantList[index].restId,
@@ -482,7 +509,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: redtheme,
+                                      color: getColorByHex(Globle().colorscode),
                                       borderRadius: BorderRadius.only(
                                         bottomRight: Radius.circular(12.0),
                                       )),
@@ -610,8 +637,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
     // TODO: implement getMenuListsuccess
+
     if (menulist.length == 0) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
+      
     }
 
     setState(() {

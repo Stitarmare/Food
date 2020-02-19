@@ -1,40 +1,37 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
-class AddItemPageView extends StatefulWidget {
+class AddItemPageTAView extends StatefulWidget {
   String title;
   String description;
   int item_id;
   int rest_id;
 
-  AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
-  _AddItemPageViewState createState() => _AddItemPageViewState();
+  AddItemPageTAView({this.title, this.description, this.item_id, this.rest_id});
+  _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
 }
 
-class _AddItemPageViewState extends State<AddItemPageView>
-    implements AddItemPageModelView {
+class _AddItemPageTAViewState extends State<AddItemPageTAView>
+    implements AddItemPageTAModelView {
   List<bool> isSelected;
 
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
-  AddItemPagepresenter _addItemPagepresenter;
- List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  AddItemPageTApresenter _addItemPagepresenter;
 
-  int _dropdownTableNumber;
-
-  int tableID;
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this);
+    _addItemPagepresenter = AddItemPageTApresenter(this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -95,10 +92,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
               });
             }
           },
-          splashColor: getColorByHex(Globle().colorscode),
+          splashColor:  getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color:  getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -131,7 +128,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color:  getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -148,10 +145,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: false,
-      top: false,
-      right: false,
-      bottom: true,
+      left: true,
+      top: true,
+      right: true,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -164,7 +160,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-              // Navigator.pushNamed(context, '/OrderConfirmationView');
+              Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
               //   context: context,
@@ -176,7 +172,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color: getColorByHex(Globle().colorscode),
+                  color:  getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -240,20 +236,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color:  getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              getTableNumber(),
+              // SizedBox(
+              //   height: 20,
+              // ),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -277,81 +272,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
           ),
         ),
       ),
-    );
-  }
-  Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left:20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((int tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "Table Number: $tableNumber",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) {
-            // do other stuff with _category
-            setState(() {
-              _dropdownTableNumber = newValue;
-              _dropdownItemsTable.forEach((value) {
-                if (value == newValue) {
-                  print(value);
-                  tableID = value;
-                }
-              });
-            });
-          },
-
-          value: _dropdownTableNumber,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
     );
   }
   Widget _getOptions() {
@@ -509,7 +429,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: getColorByHex(Globle().colorscode),
+                        activeColor:  getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
                             radioItem = radionBtn.title;
@@ -528,7 +448,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       height: 36,
       child: ToggleButtons(
         borderColor: greytheme1300,
-        fillColor: getColorByHex(Globle().colorscode),
+        fillColor:  getColorByHex(Globle().colorscode),
         borderWidth: 2,
         selectedBorderColor: Colors.transparent,
         selectedColor: Colors.white,
@@ -581,7 +501,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor: getColorByHex(Globle().colorscode),
+                    activeColor:  getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
