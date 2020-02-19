@@ -10,3 +10,8 @@ abstract class AddItemPageModelView {
   void addItemsuccess(List<AddItemModelList> additemlist);
   void addItemfailed();
 }
+
+abstract class AddTablenoModelView {
+  void addTablebnoSuccces();
+  void addTablenofailed();
+}
