@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
@@ -30,7 +31,7 @@ class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
   String _selectedId;
   int count = 0;
   MycartPresenter _myCartpresenter;
-  List<AddMenuToCartList> _cartItemList;
+  List<MenuCartList> _cartItemList;
   int page = 1;
 
   @override
@@ -394,7 +395,96 @@ class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
     );
   }
 
-  Widget _getAddedListItem() {
+  // Widget _getAddedListItem() {
+  //   return Expanded(
+  //     child: ListView.builder(
+  //       itemCount: 8,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         return Container(
+  //           child: Column(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: <Widget>[
+  //               Row(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Padding(
+  //                       padding: EdgeInsets.only(left: 20),
+  //                       child: Image.asset(
+  //                         'assets/VegIcon/Group1661.png',
+  //                         height: 20,
+  //                         width: 20,
+  //                       ),
+  //                     ),
+  //                     SizedBox(width: 16),
+  //                     Column(
+  //                       mainAxisAlignment: MainAxisAlignment.start,
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: <Widget>[
+  //                         Text(
+  //                           _cartItemList[index].items[index].itemName ??
+  //                           'Bacon & Cheese Burger',
+  //                           style: TextStyle(
+  //                               // fontFamily: 'gotham',
+  //                               fontSize: 18,
+  //                               color: greytheme700),
+  //                         ),
+  //                         SizedBox(
+  //                           height: 6,
+  //                         ),
+  //                         SizedBox(
+  //                           height: 30,
+  //                           width: 180,
+  //                           child: AutoSizeText(
+  //                             _cartItemList[index].items[index].itemDescription ??
+  //                             " Lorem Epsom is simply dummy text",
+  //                             style: TextStyle(
+  //                               color: greytheme1000,
+  //                               fontSize: 14,
+  //                               // fontFamily: 'gotham',
+  //                             ),
+  //                             // minFontSize: 8,
+  //                             maxFontSize: 12,
+  //                             maxLines: 2,
+  //                           ),
+  //                         ),
+  //                         SizedBox(height: 10),
+  //                         steppercount(index),
+  //                       ],
+  //                     ),
+  //                     Expanded(
+  //                       child: SizedBox(
+  //                         width: 80,
+  //                       ),
+  //                       flex: 2,
+  //                     ),
+  //                     Padding(
+  //                       padding: EdgeInsets.only(right: 20, top: 30),
+  //                       child: Text(
+  //                         _cartItemList[index].items[index].price ??
+  //                         '\$17',
+  //                         style: TextStyle(
+  //                             color: greytheme700,
+  //                             fontSize: 16,
+  //                             fontWeight: FontWeight.w600),
+  //                       ),
+  //                     )
+  //                   ]),
+  //               SizedBox(height: 12),
+  //               Divider(
+  //                 height: 2,
+  //                 thickness: 2,
+  //               ),
+  //               SizedBox(height: 8),
+  //             ],
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+   Widget _getAddedListItem() {
     return Expanded(
       child: ListView.builder(
         itemCount: 8,
@@ -490,7 +580,7 @@ class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
   }
 
   @override
-  void getCartMenuListsuccess(List<AddMenuToCartList> menulist) {
+  void getCartMenuListsuccess(List<MenuCartList> menulist) {
     // TODO: implement getCartMenuListsuccess
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

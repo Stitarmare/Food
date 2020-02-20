@@ -88,6 +88,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   onPressed: () {
                     print("2");
                     // Navigator.pushNamed(context, '/OrderConfirmationView');
+                    
                   },
                   heroTag: "btnAddCart",
                   child: Icon(Icons.shopping_cart, color: Colors.white)),

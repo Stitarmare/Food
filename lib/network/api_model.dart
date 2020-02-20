@@ -5,6 +5,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/Resendotp.dart';
@@ -96,8 +97,11 @@ class GenericModel<T> {
       case NotificationModel:
         return NotificationModel.fromJson(json) as T;
 
-       case AddMenuToCartModel:
-        return AddMenuToCartModel.fromJson(json) as T; 
+      case AddMenuToCartModel:
+        return AddMenuToCartModel.fromJson(json) as T;
+        
+      case MenuCartDisplayModel:
+        return MenuCartDisplayModel.fromJson(json) as T;
 
       default:
         break;

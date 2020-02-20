@@ -51,12 +51,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
   ScrollController _scrollcontroller;
-  List<MenuCategoryButton> menuOptionItem = [
-    MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
-    MenuCategoryButton(title: "Arabic", id: 2, isSelected: false),
-    MenuCategoryButton(title: "Indian", id: 3, isSelected: false),
-    MenuCategoryButton(title: "Chinese", id: 4, isSelected: false),
-  ];
+  // List<MenuCategoryButton> menuOptionItem = [
+  //   MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
+  //   MenuCategoryButton(title: "Arabic", id: 2, isSelected: false),
+  //   MenuCategoryButton(title: "Indian", id: 3, isSelected: false),
+  //   MenuCategoryButton(title: "Chinese", id: 4, isSelected: false),
+  // ];
 
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   bool isRestaurantViewed = true;
@@ -536,36 +536,36 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         description: _restaurantInfoData.addressLine1);
   }
 
-  Widget menuButton(Categories item) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: RaisedButton(
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Text(
-            item.name,
-            // item.title,
-            style: TextStyle(
-              fontFamily: 'gotham',
-              fontSize: 10,
-              color: greytheme1000,
-            ),
-          ),
-        ),
-        color: greytheme1100,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              3.0,
-            ),
-            side: BorderSide(
-              color: greytheme1100,
-            )),
-        onPressed: () {},
-      ),
+  // Widget menuButton(Categories item) {
+  //   return Container(
+  //     margin: EdgeInsets.only(right: 10),
+  //     child: RaisedButton(
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(4),
+  //         child: Text(
+  //           item.name,
+  //           // item.title,
+  //           style: TextStyle(
+  //             fontFamily: 'gotham',
+  //             fontSize: 10,
+  //             color: greytheme1000,
+  //           ),
+  //         ),
+  //       ),
+  //       color: greytheme1100,
+  //       shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(
+  //             3.0,
+  //           ),
+  //           side: BorderSide(
+  //             color: greytheme1100,
+  //           )),
+  //       onPressed: () {},
+  //     ),
 
-      // ),
-    );
-  }
+  //     // ),
+  //   );
+  // }
 
   Widget RestaurantInfoList(BuildContext context) {
     return Container(
@@ -1094,9 +1094,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 }
 
-class MenuCategoryButton {
-  String title;
-  bool isSelected;
-  int id;
-  MenuCategoryButton({this.title, this.isSelected, this.id});
-}
+// class MenuCategoryButton {
+//   String title;
+//   bool isSelected;
+//   int id;
+//   MenuCategoryButton({this.title, this.isSelected, this.id});
+// }
