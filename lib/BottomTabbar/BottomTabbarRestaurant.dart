@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -87,7 +88,14 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
-                    // Navigator.pushNamed(context, '/OrderConfirmationView');
+                    
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyCartView(
+                                  restId: widget.rest_Id,
+                                )));
+                    //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",
                   child: Icon(Icons.shopping_cart, color: Colors.white)),

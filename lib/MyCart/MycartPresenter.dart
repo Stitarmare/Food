@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -20,9 +21,9 @@ class MycartPresenter extends MyCartContarctor {
   void getCartMenuList(int restId, BuildContext context, int userId,) {
     // TODO: implement getMenuList
     ApiBaseHelper()
-        .post<AddMenuToCartModel>(UrlConstant.getCartDetailsApi, context, body: {
-      "rest_id": restId,
+        .post<MenuCartDisplayModel>(UrlConstant.getCartDetailsApi, context, body: {
       "user_id": userId,
+      "rest_id": restId, 
     }).then((value) {
       print(value);
       switch (value.result) {
