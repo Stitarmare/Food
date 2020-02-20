@@ -148,7 +148,7 @@ class Item {
   int sizePriceId;
   List<Extras> extra;
   List<Spreads> spreads;
-  List<Switch> switches;
+  List<Switches> switches;
 
   Item({
     this.itemId,
@@ -166,8 +166,8 @@ class Item {
         extra: List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x))),
         spreads:
             List<Spreads>.from(json["spreads"].map((x) => Spreads.fromJson(x))),
-        switches:
-            List<Switch>.from(json["switches"].map((x) => Switch.fromJson(x))),
+        switches: List<Switches>.from(
+            json["switches"].map((x) => Switches.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -212,16 +212,16 @@ class Spreads {
       };
 }
 
-class Switch {
+class Switches {
   int switchId;
   String switchOption;
 
-  Switch({
+  Switches({
     this.switchId,
     this.switchOption,
   });
 
-  factory Switch.fromJson(Map<String, dynamic> json) => Switch(
+  factory Switches.fromJson(Map<String, dynamic> json) => Switches(
         switchId: json["switch_id"],
         switchOption: json["switch_option"],
       );
