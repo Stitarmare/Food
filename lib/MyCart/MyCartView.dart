@@ -19,11 +19,11 @@ class MyCartView extends StatefulWidget {
   //MyCartView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _MyCartViewtate();
+    return _MyCartViewState();
   }
 }
 
-class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
+class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -32,7 +32,6 @@ class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
   String _selectedId;
   int count = 0;
   MycartPresenter _myCartpresenter;
-
   List<MenuCartList> _cartItemList;
   int page = 1;
 
@@ -553,3 +552,16 @@ class _MyCartViewtate extends State<MyCartView> implements MyCartModelView {
 // }
 
 }
+
+
+  @override
+  void getCartMenuListfailed() {
+    // TODO: implement getCartMenuListfailed
+  }
+
+  @override
+  void getCartMenuListsuccess(List<MenuCartList> menulist) {
+    // TODO: implement getCartMenuListsuccess
+  }
+
+  
