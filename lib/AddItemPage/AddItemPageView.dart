@@ -55,6 +55,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int count = 1;
   String radioItem;
   String _selectedId;
+
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
@@ -102,6 +103,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               setState(() {
                 --count;
                 print(count);
+                items.quantity = count;
               });
             }
           },
@@ -135,6 +137,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               setState(() {
                 ++count;
                 print(count);
+                items.quantity = count;
               });
             }
           },
@@ -184,6 +187,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 items = Item();
               }
 
+              addMenuToCartModel.items[0].quantity = count;
               addMenuToCartModel.items = [items];
               addMenuToCartModel.items[0].extra = extra;
               addMenuToCartModel.items[0].spreads = [spread];
