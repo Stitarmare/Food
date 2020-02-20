@@ -460,74 +460,82 @@ class _RestaurantViewState extends State<RestaurantView>
         return Container(
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              return Padding(
-                padding: EdgeInsets.all(8),
-                child: Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey, width: 0.7),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      LimitedBox(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            heightFactor: 1,
-                            // child: Container(
-                            //   //height: 150,
-                            //   //width: MediaQuery.of(context).size.width,
-                            //   decoration: new BoxDecoration(
-                            //     image: DecorationImage(
-                            //         image: NetworkImage(
-                            //           BaseUrl.getBaseUrlImages() +
-                            //               '${_restaurantList[index].itemImage}',
-                            //         ),
-                            //         fit: BoxFit.fitHeight),
-                            //   ),
-                            // ),
-                            // child: ImageWithLoader(
-                            //   BaseUrl.getBaseUrlImages() +
-                            //       '${_restaurantList[index].itemImage}',
-                            //   fit: BoxFit.fitWidth,
-                            //   width: double.infinity,
-                            //   height: 100,
-                            // ),
-
-                            child: CachedNetworkImage(
-                              fit: BoxFit.contain,
-                              width: double.infinity,
-                              height: 100,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              imageUrl: BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
+              return GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddItemPageView(
+                          item_id: _restaurantList[index].id,
+                          rest_id: _restaurantList[index].restId,
+                          title: '${_restaurantList[index].itemName}',
+                          description:
+                              '${_restaurantList[index].itemDescription}',
+                        ))),
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 0.7),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        LimitedBox(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
                             ),
-                            // Image.network(
-                            //   BaseUrl.getBaseUrlImages() +
-                            //       '${_restaurantList[index].itemImage}',
-                            //   fit: BoxFit.fitWidth,
-                            //   width: double.infinity,
-                            //   height: 100,
-                            // ),
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              heightFactor: 1,
+                              // child: Container(
+                              //   //height: 150,
+                              //   //width: MediaQuery.of(context).size.width,
+                              //   decoration: new BoxDecoration(
+                              //     image: DecorationImage(
+                              //         image: NetworkImage(
+                              //           BaseUrl.getBaseUrlImages() +
+                              //               '${_restaurantList[index].itemImage}',
+                              //         ),
+                              //         fit: BoxFit.fitHeight),
+                              //   ),
+                              // ),
+                              // child: ImageWithLoader(
+                              //   BaseUrl.getBaseUrlImages() +
+                              //       '${_restaurantList[index].itemImage}',
+                              //   fit: BoxFit.fitWidth,
+                              //   width: double.infinity,
+                              //   height: 100,
+                              // ),
+
+                              child: CachedNetworkImage(
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+                                height: 100,
+                                placeholder: (context, url) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                imageUrl: BaseUrl.getBaseUrlImages() +
+                                    '${_restaurantList[index].itemImage}',
+                              ),
+                              // Image.network(
+                              //   BaseUrl.getBaseUrlImages() +
+                              //       '${_restaurantList[index].itemImage}',
+                              //   fit: BoxFit.fitWidth,
+                              //   width: double.infinity,
+                              //   height: 100,
+                              // ),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 2),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              
-                                 Row(
+                        Expanded(
+                            child: Padding(
+                          padding: EdgeInsets.only(left: 10, top: 2),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Row(
                                   children: <Widget>[
                                     (_restaurantList[index].menuType == "veg")
                                         ? Image.asset(
@@ -546,9 +554,11 @@ class _RestaurantViewState extends State<RestaurantView>
                                       width: 5,
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context).size.width * 0.38,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.38,
                                       child: AutoSizeText(
-                                        "${_restaurantList[index].itemName}" ?? " ",
+                                        "${_restaurantList[index].itemName}" ??
+                                            " ",
                                         maxLines: 2,
                                         minFontSize: 10,
                                         maxFontSize: 13,
@@ -561,131 +571,137 @@ class _RestaurantViewState extends State<RestaurantView>
                                     ),
                                   ],
                                 ),
-                              
-                              SizedBox(
-                                height: 5,
-                              ),
-                              // Expanded(
-                              //   flex: 1,
-                              //   child: SingleChildScrollView(
-                              //     child: AutoSizeText(
-                              //       "${_restaurantList[index].itemDescription}" ??
-                              //           " ",
-                              //       //maxLines: 1,
-                              //       style: TextStyle(
-                              //         color: greytheme1000,
-                              //         fontSize: 10,
-                              //         fontFamily: 'gotham',
-                              //         fontWeight: FontWeight.w500,
-                              //       ),
-                              //       // minFontSize: 8,
-                              //       //maxFontSize: 5,
-                              //       // maxLines: 3,
-                              //     ),
-                              //   ),
-                              // ),
-                              AutoSizeText(
-                                "${_restaurantList[index].itemDescription}" ??
-                                    " ",
-                                maxLines: 2,
-                                minFontSize: 10,
-                                maxFontSize: 12,
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme1000),
-                              ),
-                              // Text(
-                              //   "${_restaurantList[index].itemDescription}" ??
-                              //       " ",
-                              //   maxLines: 2,
-                              //   style: TextStyle(
-                              //       fontSize: 10,
-                              //       fontFamily: 'gotham',
-                              //       fontWeight: FontWeight.w500,
-                              //       color: greytheme1000),
-                              // ),
-                            ]),
-                      )),
-                      Container(
-                        height: MediaQuery.of(context).size.width * 0.09,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              decoration: new BoxDecoration(
-                                //color: Colors.white,
-                                border: Border(
-                                  top: BorderSide(
-                                    color: Colors.grey,
-                                    width: 0.7,
-                                  ),
+
+                                SizedBox(
+                                  height: 5,
                                 ),
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Center(
-                                child: Text(
-                                  '\$ ${_restaurantList[index].price}' ?? "",
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: SingleChildScrollView(
+                                //     child: AutoSizeText(
+                                //       "${_restaurantList[index].itemDescription}" ??
+                                //           " ",
+                                //       //maxLines: 1,
+                                //       style: TextStyle(
+                                //         color: greytheme1000,
+                                //         fontSize: 10,
+                                //         fontFamily: 'gotham',
+                                //         fontWeight: FontWeight.w500,
+                                //       ),
+                                //       // minFontSize: 8,
+                                //       //maxFontSize: 5,
+                                //       // maxLines: 3,
+                                //     ),
+                                //   ),
+                                // ),
+                                AutoSizeText(
+                                  "${_restaurantList[index].itemDescription}" ??
+                                      " ",
+                                  maxLines: 2,
+                                  minFontSize: 10,
+                                  maxFontSize: 12,
+                                  softWrap: true,
                                   style: TextStyle(
-                                      //fontFamily: FontNames.gotham,
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      color:
-                                          getColorByHex(Globle().colorscode)),
+                                      fontSize: 12,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme1000),
                                 ),
-                              ),
-                            ),
-                            Expanded(
-                              child: new GestureDetector(
-                                onTap: () {
-                                  // if (_dropdownTableNumber == null) {
-                                  //   Constants.showAlert(
-                                  //       widget.title,
-                                  //       "Please select table number first.",
-                                  //       context);
-                                  // } else {
-                                  print("button is Pressed");
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageView(
-                                            item_id: _restaurantList[index].id,
-                                            rest_id:
-                                                _restaurantList[index].restId,
-                                            title:
-                                                '${_restaurantList[index].itemName}',
-                                            description:
-                                                '${_restaurantList[index].itemDescription}',
-                                          )));
-                                  //}
-                                  //   Globle().colorscode = _restaurantList[index]
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: getColorByHex(Globle().colorscode),
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(12.0),
-                                      )),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  child: Center(
-                                    child: Text(
-                                      "+ ADD",
-                                      style: TextStyle(
-                                          //fontFamily: FontNames.gotham,
-                                          fontSize: 14,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
+                                // Text(
+                                //   "${_restaurantList[index].itemDescription}" ??
+                                //       " ",
+                                //   maxLines: 2,
+                                //   style: TextStyle(
+                                //       fontSize: 10,
+                                //       fontFamily: 'gotham',
+                                //       fontWeight: FontWeight.w500,
+                                //       color: greytheme1000),
+                                // ),
+                              ]),
+                        )),
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.09,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                decoration: new BoxDecoration(
+                                  //color: Colors.white,
+                                  border: Border(
+                                    top: BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
                                     ),
                                   ),
                                 ),
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Center(
+                                  child: Text(
+                                    '\$ ${_restaurantList[index].price}' ?? "",
+                                    style: TextStyle(
+                                        //fontFamily: FontNames.gotham,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        color:
+                                            getColorByHex(Globle().colorscode)),
+                                  ),
+                                ),
                               ),
-                            )
-                          ],
+                              Expanded(
+                                child: new GestureDetector(
+                                  onTap: () {
+                                    // if (_dropdownTableNumber == null) {
+                                    //   Constants.showAlert(
+                                    //       widget.title,
+                                    //       "Please select table number first.",
+                                    //       context);
+                                    // } else {
+                                    print("button is Pressed");
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddItemPageView(
+                                                  item_id:
+                                                      _restaurantList[index].id,
+                                                  rest_id:
+                                                      _restaurantList[index]
+                                                          .restId,
+                                                  title:
+                                                      '${_restaurantList[index].itemName}',
+                                                  description:
+                                                      '${_restaurantList[index].itemDescription}',
+                                                )));
+                                    //}
+                                    //   Globle().colorscode = _restaurantList[index]
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            getColorByHex(Globle().colorscode),
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(12.0),
+                                        )),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.1,
+                                    child: Center(
+                                      child: Text(
+                                        "+ ADD",
+                                        style: TextStyle(
+                                            //fontFamily: FontNames.gotham,
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
