@@ -22,8 +22,8 @@ class MycartPresenter extends MyCartContarctor {
     // TODO: implement getMenuList
     ApiBaseHelper()
         .post<MenuCartDisplayModel>(UrlConstant.getCartDetailsApi, context, body: {
-      "rest_id": restId,
       "user_id": userId,
+      "rest_id": restId, 
     }).then((value) {
       print(value);
       switch (value.result) {

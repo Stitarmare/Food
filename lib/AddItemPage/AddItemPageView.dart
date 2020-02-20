@@ -31,6 +31,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   Spreads spread;
 
+  Switches switches;
+
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
@@ -60,6 +62,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
+  List<SwitchesItems> _switchOptions = [];
+
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -90,6 +94,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+  }
+
+  int switchbtn(int length) {
+    List<SwitchesItems> _switchlist = [];
+    for (int i = 1; i <= length; i++) {
+      _switchlist.add(SwitchesItems(
+          index: _addItemModelList.switches[i - 1].id,
+          title: _addItemModelList.switches[i - 1].name ?? ''));
+    }
   }
 
   Widget steppercount() {
@@ -562,55 +575,64 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   Widget togglebutton() {
     return Container(
-      height: 36,
-      child: ToggleButtons(
-        borderColor: greytheme1300,
-        fillColor: getColorByHex(Globle().colorscode),
-        borderWidth: 2,
-        selectedBorderColor: Colors.transparent,
-        selectedColor: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        children: <Widget>[
-          Container(
-            width: 85,
-            child: Text(
-              'On side',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
-            ),
-          ),
-          Container(
-            width: 85,
-            child: Text(
-              'On top',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color:
-                      (isSelected[1] == false) ? greytheme700 : Colors.white),
-            ),
-          ),
-        ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              if (i == index) {
-                isSelected[i] = true;
-              } else {
-                isSelected[i] = false;
-              }
-            }
-          });
-        },
-        isSelected: isSelected,
-      ),
-    );
+        height: 36,
+        child: Row(
+            children: _switchOptions.length > 0
+                ? _switchOptions
+                    .map((switchoption) => Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: ToggleButtons(
+                            borderColor: greytheme1300,
+                            fillColor: getColorByHex(Globle().colorscode),
+                            borderWidth: 2,
+                            selectedBorderColor: Colors.transparent,
+                            selectedColor: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                            children: <Widget>[
+                              Container(
+                                width: 85,
+                                child: Text(
+                                  'On side',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                      color: (isSelected[0] == true)
+                                          ? Colors.white
+                                          : greytheme700),
+                                ),
+                              ),
+                              // Container(
+                              //   width: 85,
+                              //   child: Text(
+                              //     'On top',
+                              //     textAlign: TextAlign.center,
+                              //     style: TextStyle(
+                              //         fontSize: 14,
+                              //         fontFamily: 'gotham',
+                              //         fontWeight: FontWeight.w500,
+                              //         color:
+                              //             (isSelected[1] == false) ? greytheme700 : Colors.white),
+                              //   ),
+                              // ),
+                            ],
+                            onPressed: (int index) {
+                              setState(() {
+                                for (int i = 0; i < isSelected.length; i++) {
+                                  if (i == index) {
+                                    isSelected[i] = true;
+                                  } else {
+                                    isSelected[i] = false;
+                                  }
+                                }
+                              });
+                            },
+                            isSelected: isSelected,
+                          ),
+                        ))
+                    .toList()
+                : [Container()]));
   }
 
   _getCheckBoxOptions() {
@@ -716,4 +738,10 @@ class RadioButtonOptions {
   int index;
   String title;
   RadioButtonOptions({this.index, this.title});
+}
+
+class SwitchesItems {
+  int index;
+  String title;
+  SwitchesItems({this.index, this.title});
 }
