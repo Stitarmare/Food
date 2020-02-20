@@ -31,7 +31,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   Spreads spread;
 
-  Switches switches;
+  List<Switches> switches;
 
   AddItemModelList _addItemModelList;
   int item_id;
@@ -100,9 +100,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<SwitchesItems> _switchlist = [];
     for (int i = 1; i <= length; i++) {
       _switchlist.add(SwitchesItems(
+          option1: _addItemModelList.switches[i - 1].option1 ?? "",
+          option2: _addItemModelList.switches[i - 1].option2 ?? "",
           index: _addItemModelList.switches[i - 1].id,
-          title: _addItemModelList.switches[i - 1].name ?? ''));
+          title: _addItemModelList.switches[i - 1].name ?? '',
+          isSelected: [true, false]));
     }
+
+    setState(() {
+      _switchOptions = _switchlist;
+    });
   }
 
   Widget steppercount() {
@@ -116,8 +123,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
               setState(() {
                 --count;
                 print(count);
-                items.quantity = count;
               });
+              items.quantity = count;
             }
           },
           splashColor: getColorByHex(Globle().colorscode),
@@ -150,8 +157,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
               setState(() {
                 ++count;
                 print(count);
-                items.quantity = count;
               });
+              items.quantity = count;
             }
           },
           splashColor: Colors.lightBlue,
@@ -200,11 +207,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 items = Item();
               }
 
-              addMenuToCartModel.items[0].quantity = count;
               addMenuToCartModel.items = [items];
-              addMenuToCartModel.items[0].extra = extra;
-              addMenuToCartModel.items[0].spreads = [spread];
-              addMenuToCartModel.items[0].switches = [];
+              addMenuToCartModel.items[0].extra = extra ?? [];
+              addMenuToCartModel.items[0].spreads =
+                  spread == null ? [] : [spread];
+              addMenuToCartModel.items[0].switches = switches ?? [];
+              addMenuToCartModel.items[0].quantity = count;
 
               print(addMenuToCartModel.toJson());
               // Navigator.pushNamed(context, '/OrderConfirmationView');
@@ -514,27 +522,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               SizedBox(
                 height: 10,
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 28),
-                    Text(
-                      'Dressing',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme700),
-                    ),
-                    SizedBox(
-                      width: 34,
-                    ),
-                    togglebutton()
-                  ],
-                ),
-              ),
+              togglebutton()
             ]),
       ),
     );
@@ -574,65 +562,122 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   Widget togglebutton() {
-    return Container(
-        height: 36,
-        child: Row(
-            children: _switchOptions.length > 0
-                ? _switchOptions
-                    .map((switchoption) => Padding(
-                          padding: const EdgeInsets.all(5),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: _switchOptions.length > 0
+          ? _switchOptions
+              .map((switchs) => Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 28),
+                        Text(
+                          switchs.title ?? "",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700),
+                        ),
+                        SizedBox(
+                          width: 34,
+                        ),
+                        Container(
+                          height: 36,
                           child: ToggleButtons(
-                            borderColor: greytheme1300,
-                            fillColor: getColorByHex(Globle().colorscode),
-                            borderWidth: 2,
-                            selectedBorderColor: Colors.transparent,
-                            selectedColor: Colors.white,
-                            borderRadius: BorderRadius.circular(4),
-                            children: <Widget>[
-                              Container(
-                                width: 85,
-                                child: Text(
-                                  'On side',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontFamily: 'gotham',
-                                      fontWeight: FontWeight.w500,
-                                      color: (isSelected[0] == true)
-                                          ? Colors.white
-                                          : greytheme700),
+                              borderColor: greytheme1300,
+                              fillColor: redtheme,
+                              borderWidth: 2,
+                              selectedBorderColor: Colors.transparent,
+                              selectedColor: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              children: <Widget>[
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    "${switchs.option1}" ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[0] == true)
+                                            ? Colors.white
+                                            : greytheme700),
+                                  ),
                                 ),
-                              ),
-                              // Container(
-                              //   width: 85,
-                              //   child: Text(
-                              //     'On top',
-                              //     textAlign: TextAlign.center,
-                              //     style: TextStyle(
-                              //         fontSize: 14,
-                              //         fontFamily: 'gotham',
-                              //         fontWeight: FontWeight.w500,
-                              //         color:
-                              //             (isSelected[1] == false) ? greytheme700 : Colors.white),
-                              //   ),
-                              // ),
-                            ],
-                            onPressed: (int index) {
-                              setState(() {
-                                for (int i = 0; i < isSelected.length; i++) {
-                                  if (i == index) {
-                                    isSelected[i] = true;
-                                  } else {
-                                    isSelected[i] = false;
-                                  }
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    '${switchs.option2}' ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[1] == false)
+                                            ? greytheme700
+                                            : Colors.white),
+                                  ),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  switchs.isSelected[0] =
+                                      !switchs.isSelected[0];
+                                  switchs.isSelected[1] =
+                                      !switchs.isSelected[1];
+                                });
+                                if (switches == null) {
+                                  switches = [];
                                 }
-                              });
-                            },
-                            isSelected: isSelected,
-                          ),
-                        ))
-                    .toList()
-                : [Container()]));
+                                if (switches.length > 0) {
+                                  for (int i = 0; i < switches.length; i++) {
+                                    if (switches[i].switchId == switchs.index) {
+                                      if (index == 0) {
+                                        switches[i].switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switches[i].switchOption =
+                                            switchs.option2;
+                                      }
+                                    } else {
+                                      var switchItem = Switches();
+                                      switchItem.switchId = switchs.index;
+                                      if (index == 0) {
+                                        switchItem.switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switchItem.switchOption =
+                                            switchs.option2;
+                                      }
+                                      switches.add(switchItem);
+                                    }
+                                  }
+                                } else {
+                                  var switchItem = Switches();
+                                  switchItem.switchId = switchs.index;
+                                  if (index == 0) {
+                                    switchItem.switchOption = switchs.option1;
+                                  }
+                                  if (index == 1) {
+                                    switchItem.switchOption = switchs.option2;
+                                  }
+                                  switches.add(switchItem);
+                                }
+                              },
+                              isSelected: switchs.isSelected),
+                        )
+                      ],
+                    ),
+                  ))
+              .toList()
+          : [Container()],
+    );
   }
 
   _getCheckBoxOptions() {
@@ -710,6 +755,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
     getradiobtn(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+
+    switchbtn(_addItemModelList.switches.length);
+
     // TODO: implement addItemsuccess
   }
 
@@ -743,5 +791,9 @@ class RadioButtonOptions {
 class SwitchesItems {
   int index;
   String title;
-  SwitchesItems({this.index, this.title});
+  String option1;
+  List<bool> isSelected;
+  String option2;
+  SwitchesItems(
+      {this.index, this.title, this.option1, this.option2, this.isSelected});
 }
