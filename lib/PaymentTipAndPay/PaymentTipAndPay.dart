@@ -2,6 +2,8 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
@@ -10,9 +12,16 @@ class PaymentTipAndPay extends StatefulWidget {
   _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
 }
 
-class _PaymentTipAndPayState extends State<PaymentTipAndPay> {
+class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentTipAndPayModelView{
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
+    //PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+    @override
+  void initState() {
+    // TODO: implement initState
+  //  _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -451,5 +460,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> {
         ],
       ),
     );
+  }
+
+  @override
+  void placeOrderfailed() {
+    // TODO: implement placeOrderfailed
+  }
+
+  @override
+  void placeOrdersuccess(List menulist) {
+    // TODO: implement placeOrdersuccess
   }
 }
