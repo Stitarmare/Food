@@ -75,9 +75,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: _addItemModelList.spreads[i - 1].id ?? 0,
+          index: _addItemModelList.spreads[i - 1].id,
           title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
+    radiolist.add(RadioButtonOptions(title: "None"));
+    // for (int i = length; i <= length+1; i++) {
+    //   radiolist.add(RadioButtonOptions(
+    //       index: _addItemModelList.spreads[i].id,
+    //       title: 'none')
+    //       );
+
+    // }
     setState(() {
       _radioOptions = radiolist;
     });

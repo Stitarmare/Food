@@ -74,6 +74,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       radiolist.add(RadioButtonOptions(
           index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
+    radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
