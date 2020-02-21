@@ -12,7 +12,6 @@ import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-
 class BottomTabbarHome extends StatefulWidget {
   String title;
   int rest_Id;
@@ -22,7 +21,6 @@ class BottomTabbarHome extends StatefulWidget {
     return _BottomTabbarHomeState();
   }
 }
-
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   var title;
   int currentTabIndex = 0;
@@ -37,7 +35,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       currentTabIndex = index;
     });
   }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +49,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,8 +84,14 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
-                    // Navigator.pushNamed(context, '/OrderConfirmationView');
                     
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyCartView(
+                                  restId: widget.rest_Id,
+                                )));
+                    //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",
                   child: Icon(Icons.shopping_cart, color: Colors.white)),

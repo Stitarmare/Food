@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
@@ -28,12 +28,15 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
+  List<ItemInfo> _itemInfo = [];
 
   String _selectedId;
   int count = 0;
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
+
+  int id;
 
   @override
   void initState() {
@@ -42,6 +45,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+        
     super.initState();
   }
 
@@ -303,9 +307,9 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
     }
 
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
       child: Scaffold(
         appBar: AppBar(
           title: Text('My Cart'),
@@ -397,13 +401,26 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
       ),
     );
   }
-
+int getItemName(int length) {
+    List<ItemInfo> itemInfolist = [];
+    for (int i = 1; i <= length; i++) {
+      itemInfolist.add(ItemInfo(
+          itemName: _cartItemList[i-1].items[i - 1].itemName,
+          itemDescription: _cartItemList[i-1].items[i - 1].itemDescription,
+          itemId:_cartItemList[i-1].items[i - 1].id, ));
+    }
+    setState(() {
+      _itemInfo = itemInfolist;
+    });
+  }
   Widget _getAddedListItem() {
     return (_cartItemList != null)
         ? Expanded(
             child: ListView.builder(
-              itemCount: 8,
+              
+              itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
+                id = _cartItemList[index].itemId;
                 return Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -427,7 +444,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  _cartItemList[index].items[index].itemName ??
+                                  _cartItemList[index].items[0].itemName ??
                                       'Bacon & Cheese Burger',
                                   style: TextStyle(
                                       // fontFamily: 'gotham',
@@ -442,7 +459,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                                   width: 180,
                                   child: AutoSizeText(
                                     _cartItemList[index]
-                                            .items[index]
+                                            .items[0]
                                             .itemDescription ??
                                         " Lorem Epsom is simply dummy text",
                                     style: TextStyle(
@@ -468,7 +485,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                             Padding(
                               padding: EdgeInsets.only(right: 20, top: 30),
                               child: Text(
-                                _cartItemList[index].items[index].price ??
+                               "\$ ${_cartItemList[index].items[0].price}" ??
                                     '\$17',
                                 style: TextStyle(
                                     color: greytheme700,
@@ -512,6 +529,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   @override
   void getCartMenuListsuccess(List<MenuCartList> menulist) {
     // TODO: implement getCartMenuListsuccess
+    
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
@@ -553,15 +571,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
 
 }
 
-
-  @override
-  void getCartMenuListfailed() {
-    // TODO: implement getCartMenuListfailed
-  }
-
-  @override
-  void getCartMenuListsuccess(List<MenuCartList> menulist) {
-    // TODO: implement getCartMenuListsuccess
-  }
-
-  
+  class ItemInfo {
+  String itemName;
+  String itemDescription;
+  int itemId;
+  String menutype;
+  ItemInfo({this.itemName, this.itemDescription,this.itemId,this.menutype});
+}
