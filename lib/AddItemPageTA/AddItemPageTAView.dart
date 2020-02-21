@@ -264,7 +264,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Wimpy',
+                      widget.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20,

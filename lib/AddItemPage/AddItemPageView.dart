@@ -75,7 +75,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: _addItemModelList.spreads[i - 1].id,
+          index: _addItemModelList.spreads[i - 1].id ?? 0,
           title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
     setState(() {
@@ -103,7 +103,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _switchlist.add(SwitchesItems(
           option1: _addItemModelList.switches[i - 1].option1 ?? "",
           option2: _addItemModelList.switches[i - 1].option2 ?? "",
-          index: _addItemModelList.switches[i - 1].id,
+          index: _addItemModelList.switches[i - 1].id ?? 0,
           title: _addItemModelList.switches[i - 1].name ?? '',
           isSelected: [true, false]));
     }
@@ -198,6 +198,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
+              // setState(() {
               if (addMenuToCartModel == null) {
                 addMenuToCartModel = AddItemsToCartModel();
               }
@@ -215,7 +216,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   spread == null ? [] : [spread];
               addMenuToCartModel.items[0].switches = switches ?? [];
               addMenuToCartModel.items[0].quantity = count;
-
+              // }
+              //);
               print(addMenuToCartModel.toJson());
 
               _addItemPagepresenter.performaddMenuToCart(
@@ -271,7 +273,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Wimpy',
+                      widget.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20,
