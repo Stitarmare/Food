@@ -144,7 +144,7 @@ class _MyOrdersState extends State<MyOrders> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Text('1 * Chicken Biryani',style: TextStyle(
+              child: Text('1 × Chicken Biryani',style: TextStyle(
                   fontSize: 16,
                   //letterSpacing: 0.24,
                   fontWeight: FontWeight.w500,

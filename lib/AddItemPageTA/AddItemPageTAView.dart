@@ -59,6 +59,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       radiolist.add(RadioButtonOptions(
           index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
+    radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
@@ -92,10 +93,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               });
             }
           },
-          splashColor:  getColorByHex(Globle().colorscode),
+          splashColor: getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -128,7 +129,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -172,7 +173,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color:  getColorByHex(Globle().colorscode),
+                  color: getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -242,7 +243,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color:  getColorByHex(Globle().colorscode)),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -274,6 +275,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       ),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -429,7 +431,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor:  getColorByHex(Globle().colorscode),
+                        activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
                             radioItem = radionBtn.title;
@@ -448,7 +450,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       height: 36,
       child: ToggleButtons(
         borderColor: greytheme1300,
-        fillColor:  getColorByHex(Globle().colorscode),
+        fillColor: getColorByHex(Globle().colorscode),
         borderWidth: 2,
         selectedBorderColor: Colors.transparent,
         selectedColor: Colors.white,
@@ -501,7 +503,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor:  getColorByHex(Globle().colorscode),
+                    activeColor: getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {

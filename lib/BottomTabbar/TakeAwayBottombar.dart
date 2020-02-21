@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/MyCartTW/MyCartTWView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -87,6 +88,12 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
+                     Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyCartTWView(
+                                  restId: widget.rest_Id,
+                                )));
                     // Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",

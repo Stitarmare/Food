@@ -12,18 +12,19 @@ import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class MyCartView extends StatefulWidget {
+class MyCartTWView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartView({this.restId, this.userID});
-  //MyCartView({Key key}) : super(key: key);
+  MyCartTWView({this.restId, this.userID});
+  //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _MyCartViewState();
+    return _MyCartTWViewState();
   }
 }
 
-class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
+class _MyCartTWViewState extends State<MyCartTWView>
+    implements MyCartModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -31,7 +32,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   List<ItemInfo> _itemInfo = [];
 
   String _selectedId;
-  
+  int count = 0;
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
@@ -64,13 +65,12 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
         InkWell(
           onTap: () {
             if (count > 1) {
-              setState(() {               
+              setState(() {
                 --count;
-                 _cartItemList[i].quantity = count;
-                
+                _cartItemList[i].quantity = count;
+
                 print(count);
               });
-             
             }
           },
           splashColor: Colors.redAccent.shade200,
@@ -105,7 +105,6 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                 print(count);
                 _cartItemList[i].quantity = count;
               });
-              
             }
           },
           splashColor: Colors.lightBlue,
@@ -265,7 +264,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -278,31 +277,31 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () {
-                      //  await DailogBox.addTablePopUp(context);
-                      addTablePopUp(context);
-                    },
-                    child: Text(
-                      'Add Table Number',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme100),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              )
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
+              //     GestureDetector(
+              //       onTap: () {
+              //         //  await DailogBox.addTablePopUp(context);
+              //         addTablePopUp(context);
+              //       },
+              //       child: Text(
+              //         'Add Table Number',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             decoration: TextDecoration.underline,
+              //             decorationColor: Colors.black,
+              //             fontSize: 14,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w600,
+              //             color: greytheme100),
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // )
             ],
           ),
         ),
@@ -406,20 +405,18 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
     );
   }
 
-  // int getItemName(int length) {
-  //   List<ItemInfo> itemInfolist = [];
-  //   for (int i = 1; i <= length; i++) {
-  //     itemInfolist.add(ItemInfo(
-  //       itemName: _cartItemList[i - 1].items[i - 1].itemName,
-  //       itemDescription: _cartItemList[i - 1].items[i - 1].itemDescription,
-  //       itemId: _cartItemList[i - 1].items[i - 1].id,
-  //     ));
-  //   }
-  //   setState(() {
-  //     _itemInfo = itemInfolist;
-  //   });
-  // }
-
+// int getItemName(int length) {
+//     List<ItemInfo> itemInfolist = [];
+//     for (int i = 1; i <= length; i++) {
+//       itemInfolist.add(ItemInfo(
+//           itemName: _cartItemList[i-1].items[i - 1].itemName,
+//           itemDescription: _cartItemList[i-1].items[i - 1].itemDescription,
+//           itemId:_cartItemList[i-1].items[i - 1].id, ));
+//     }
+//     setState(() {
+//       _itemInfo = itemInfolist;
+//     });
+//   }
   Widget _getAddedListItem() {
     return (_cartItemList != null)
         ? Expanded(
@@ -438,19 +435,19 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 20),
-                              child: (_cartItemList[index].items.menuType ==
-                                      "veg")
-                                  ? Image.asset(
-                                      'assets/VegIcon/Group1661.png',
-                                      height: 25,
-                                      width: 25,
-                                    )
-                                  : Image.asset(
-                                      'assets/VegIcon/Group1661.png',
-                                      color: redtheme,
-                                      width: 25,
-                                      height: 25,
-                                    ),
+                              child:
+                                  (_cartItemList[index].items.menuType == "veg")
+                                      ? Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          height: 25,
+                                          width: 25,
+                                        )
+                                      : Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          color: redtheme,
+                                          width: 25,
+                                          height: 25,
+                                        ),
                             ),
                             SizedBox(width: 16),
                             Column(
