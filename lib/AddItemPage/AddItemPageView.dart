@@ -37,6 +37,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
+
   AddItemPagepresenter _addItemPagepresenter;
   List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -219,6 +220,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               }
 
               addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].itemId = widget.item_id;
               addMenuToCartModel.items[0].extra = extra ?? [];
               addMenuToCartModel.items[0].spreads =
                   spread == null ? [] : [spread];
@@ -226,6 +228,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
               addMenuToCartModel.items[0].quantity = count;
 
               print(addMenuToCartModel.toJson());
+
+              _addItemPagepresenter.performaddMenuToCart(
+                  addMenuToCartModel, context);
+
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(

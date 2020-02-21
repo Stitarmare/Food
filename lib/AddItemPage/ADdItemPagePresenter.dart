@@ -73,7 +73,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
   }
 
   @override
-  void performaddMenuToCart(AddMenuToCartModel item, BuildContext context) {
+  void performaddMenuToCart(AddItemsToCartModel item, BuildContext context) {
     ApiBaseHelper()
         .post<AddMenuToCartModel>(UrlConstant.addMenuToCartApi, context,
             body: item.toJson())
@@ -81,11 +81,11 @@ class AddItemPagepresenter extends AddItemPageContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          addTablenoModelView.addTablebnoSuccces();
+          addMenuToCartModel.addMenuToCartsuccess();
           print("success");
           break;
         case SuccessType.failed:
-          addTablenoModelView.addTablenofailed();
+          addMenuToCartModel.addMenuToCartfailed();
           print("failed");
           break;
       }

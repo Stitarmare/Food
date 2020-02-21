@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class AddItemPageTApresenter extends AddItemPageTAContractor {
   AddItemPageTAModelView addItemPageModelView;
+  AddmenuToCartModelviews addMenuToCartModel;
+
   AddItemPageTApresenter(AddItemPageTAModelView addItemPageView) {
     this.addItemPageModelView = addItemPageView;
   }
@@ -32,6 +35,30 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
         case SuccessType.failed:
           print("AddItem failed");
           addItemPageModelView.addItemfailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+//ApiCall
+    //;
+  }
+
+  @override
+  void performaddMenuToCart(AddItemsToCartModel item, BuildContext context) {
+    ApiBaseHelper()
+        .post<AddMenuToCartModel>(UrlConstant.addMenuToCartApi, context,
+            body: item.toJson())
+        .then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          addMenuToCartModel.addMenuToCartsuccess();
+          print("success");
+          break;
+        case SuccessType.failed:
+          addMenuToCartModel.addMenuToCartfailed();
+          print("failed");
           break;
       }
     }).catchError((error) {
