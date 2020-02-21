@@ -10,3 +10,8 @@ abstract class AddItemPageTAModelView {
   void addItemsuccess(List<AddItemModelList> additemlist);
   void addItemfailed();
 }
+
+abstract class AddmenuToCartModelviews {
+  void addMenuToCartsuccess();
+  void addMenuToCartfailed();
+}

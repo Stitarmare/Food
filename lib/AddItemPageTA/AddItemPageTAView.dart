@@ -5,6 +5,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -20,8 +21,18 @@ class AddItemPageTAView extends StatefulWidget {
 }
 
 class _AddItemPageTAViewState extends State<AddItemPageTAView>
-    implements AddItemPageTAModelView {
+    implements AddItemPageTAModelView, AddmenuToCartModelviews {
   List<bool> isSelected;
+
+  AddItemsToCartModel addMenuToCartModel;
+
+  Item items;
+
+  List<Extras> extra;
+
+  Spreads spread;
+
+  List<Switches> switches;
 
   AddItemModelList _addItemModelList;
   int item_id;
@@ -46,7 +57,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
+
   List<CheckBoxOptions> _checkBoxOptions = [];
+
+  List<SwitchesItems> _switchOptions = [];
+
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -70,11 +85,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       _checkboxlist.add(CheckBoxOptions(
           price: _addItemModelList.extras[i - 1].price ?? '',
           isChecked: false,
-          index: i,
+          index: _addItemModelList.extras[i - 1].id ?? 0,
           title: _addItemModelList.extras[i - 1].name ?? ''));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
+    });
+  }
+
+  int switchbtn(int length) {
+    List<SwitchesItems> _switchlist = [];
+    for (int i = 1; i <= length; i++) {
+      _switchlist.add(SwitchesItems(
+          option1: _addItemModelList.switches[i - 1].option1 ?? "",
+          option2: _addItemModelList.switches[i - 1].option2 ?? "",
+          index: _addItemModelList.switches[i - 1].id,
+          title: _addItemModelList.switches[i - 1].name ?? '',
+          isSelected: [true, false]));
+    }
+
+    setState(() {
+      _switchOptions = _switchlist;
     });
   }
 
@@ -90,12 +121,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 --count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
-          splashColor:  getColorByHex(Globle().colorscode),
+          splashColor: getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -123,12 +155,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ++count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -160,7 +193,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/OrderConfirmationView');
+              if (addMenuToCartModel == null) {
+                addMenuToCartModel = AddItemsToCartModel();
+              }
+              addMenuToCartModel.userId = Globle().loginModel.data.id;
+              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.tableId = null;
+              if (items == null) {
+                items = Item();
+              }
+
+              addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].itemId = widget.item_id;
+              addMenuToCartModel.items[0].extra = extra ?? [];
+              addMenuToCartModel.items[0].spreads =
+                  spread == null ? [] : [spread];
+              addMenuToCartModel.items[0].switches = switches ?? [];
+              addMenuToCartModel.items[0].quantity = count;
+
+              print(addMenuToCartModel.toJson());
+              _addItemPagepresenter.performaddMenuToCart(
+                  addMenuToCartModel, context);
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
               //   context: context,
@@ -172,7 +226,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color:  getColorByHex(Globle().colorscode),
+                  color: getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -242,7 +296,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color:  getColorByHex(Globle().colorscode)),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -274,6 +328,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       ),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -429,12 +484,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor:  getColorByHex(Globle().colorscode),
+                        activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
+                            if (spread == null) {
+                              spread = Spreads();
+                            }
+
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
+                            spread.spreadId = id;
                           });
                         },
                       ),
@@ -444,55 +504,121 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget togglebutton() {
-    return Container(
-      height: 36,
-      child: ToggleButtons(
-        borderColor: greytheme1300,
-        fillColor:  getColorByHex(Globle().colorscode),
-        borderWidth: 2,
-        selectedBorderColor: Colors.transparent,
-        selectedColor: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        children: <Widget>[
-          Container(
-            width: 85,
-            child: Text(
-              'On side',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
-            ),
-          ),
-          Container(
-            width: 85,
-            child: Text(
-              'On top',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color:
-                      (isSelected[1] == false) ? greytheme700 : Colors.white),
-            ),
-          ),
-        ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              if (i == index) {
-                isSelected[i] = true;
-              } else {
-                isSelected[i] = false;
-              }
-            }
-          });
-        },
-        isSelected: isSelected,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: _switchOptions.length > 0
+          ? _switchOptions
+              .map((switchs) => Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 28),
+                        Text(
+                          switchs.title ?? "",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700),
+                        ),
+                        SizedBox(
+                          width: 34,
+                        ),
+                        Container(
+                          height: 36,
+                          child: ToggleButtons(
+                              borderColor: greytheme1300,
+                              fillColor: redtheme,
+                              borderWidth: 2,
+                              selectedBorderColor: Colors.transparent,
+                              selectedColor: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              children: <Widget>[
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    "${switchs.option1}" ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[0] == true)
+                                            ? Colors.white
+                                            : greytheme700),
+                                  ),
+                                ),
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    '${switchs.option2}' ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[1] == false)
+                                            ? greytheme700
+                                            : Colors.white),
+                                  ),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  switchs.isSelected[0] =
+                                      !switchs.isSelected[0];
+                                  switchs.isSelected[1] =
+                                      !switchs.isSelected[1];
+                                });
+                                if (switches == null) {
+                                  switches = [];
+                                }
+                                if (switches.length > 0) {
+                                  for (int i = 0; i < switches.length; i++) {
+                                    if (switches[i].switchId == switchs.index) {
+                                      if (index == 0) {
+                                        switches[i].switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switches[i].switchOption =
+                                            switchs.option2;
+                                      }
+                                    } else {
+                                      var switchItem = Switches();
+                                      switchItem.switchId = switchs.index;
+                                      if (index == 0) {
+                                        switchItem.switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switchItem.switchOption =
+                                            switchs.option2;
+                                      }
+                                      switches.add(switchItem);
+                                    }
+                                  }
+                                } else {
+                                  var switchItem = Switches();
+                                  switchItem.switchId = switchs.index;
+                                  if (index == 0) {
+                                    switchItem.switchOption = switchs.option1;
+                                  }
+                                  if (index == 1) {
+                                    switchItem.switchOption = switchs.option2;
+                                  }
+                                  switches.add(switchItem);
+                                }
+                              },
+                              isSelected: switchs.isSelected),
+                        )
+                      ],
+                    ),
+                  ))
+              .toList()
+          : [Container()],
     );
   }
 
@@ -501,13 +627,32 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor:  getColorByHex(Globle().colorscode),
+                    activeColor: getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
                       setState(() {
+                        if (extra == null) {
+                          extra = [];
+                        }
+                        if (extra.length > 0) {
+                          if (val) {
+                            var ext = Extras();
+                            ext.extraId = checkBtn.index;
+                            extra.add(ext);
+                          } else {
+                            for (int i = 0; i < extra.length; i++) {
+                              if (checkBtn.index == extra[i].extraId) {
+                                extra.removeAt(i);
+                              }
+                            }
+                          }
+                        } else {
+                          var ext = Extras();
+                          ext.extraId = checkBtn.index;
+                          extra.add(ext);
+                        }
                         checkBtn.isChecked = val;
-                        print(val);
                       });
                     },
                     title: Row(
@@ -552,7 +697,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     getradiobtn(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+
+    switchbtn(_addItemModelList.switches.length);
+
     // TODO: implement addItemsuccess
+  }
+
+  @override
+  void addMenuToCartfailed() {
+    // TODO: implement addMenuToCartfailed
+  }
+
+  @override
+  void addMenuToCartsuccess() {
+    // TODO: implement addMenuToCartsuccess
   }
 }
 
@@ -570,4 +728,14 @@ class RadioButtonOptions {
   int index;
   String title;
   RadioButtonOptions({this.index, this.title});
+}
+
+class SwitchesItems {
+  int index;
+  String title;
+  String option1;
+  List<bool> isSelected;
+  String option2;
+  SwitchesItems(
+      {this.index, this.title, this.option1, this.option2, this.isSelected});
 }
