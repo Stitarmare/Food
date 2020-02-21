@@ -555,7 +555,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.38,
+                                          0.36,
                                       child: AutoSizeText(
                                         "${_restaurantList[index].itemName}" ??
                                             " ",
