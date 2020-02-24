@@ -5,6 +5,7 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -230,6 +231,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
+                  Constants.showAlertSuccess("${widget.title}", "${widget.title} is successfully added to your cart.", context);
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");

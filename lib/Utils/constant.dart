@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io' as io;
 
+import 'package:foodzi/theme/colors.dart';
+
 class Constants {
   static getScreenWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
@@ -56,7 +58,11 @@ class Constants {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(title),
+              title: Text(title,textAlign:TextAlign.center ,style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme700),),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -66,7 +72,11 @@ class Constants {
                   height: 75,
                 ),
                 SizedBox(height: 15,),
-                Text(message,textAlign: TextAlign.center,)
+                Text(message,textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme700),)
               ]),
               actions: <Widget>[
                 Divider(
@@ -75,7 +85,11 @@ class Constants {
                   color: Colors.black,
                 ),
                 FlatButton(
-                  child: Text("Ok"),
+                  child: Text("Ok",style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme700)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
