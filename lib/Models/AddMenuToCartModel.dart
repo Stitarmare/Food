@@ -116,13 +116,13 @@ class AddMenuToCartList {
 class AddItemsToCartModel {
   int userId;
   int restId;
-  int tableId;
+  // int tableId;
   List<Item> items;
 
   AddItemsToCartModel({
     this.userId,
     this.restId,
-    this.tableId,
+    // this.tableId,
     this.items,
   });
 
@@ -130,14 +130,14 @@ class AddItemsToCartModel {
       AddItemsToCartModel(
         userId: json["user_id"],
         restId: json["rest_id"],
-        tableId: json["table_id"],
+        // tableId: json["table_id"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "user_id": userId,
         "rest_id": restId,
-        "table_id": tableId,
+        //"table_id": tableId,
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
       };
 }

@@ -20,7 +20,10 @@ class AddItemPageView extends StatefulWidget {
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
-    implements AddItemPageModelView, AddmenuToCartModelview {
+    implements
+        AddItemPageModelView,
+        AddmenuToCartModelview,
+        AddTablenoModelView {
   List<bool> isSelected;
 
   AddItemsToCartModel addMenuToCartModel;
@@ -39,14 +42,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
   ScrollController _controller = ScrollController();
 
   AddItemPagepresenter _addItemPagepresenter;
-  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<int> _dropdownItemsTable = [];
 
   int _dropdownTableNumber;
 
   int tableID;
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this, this);
+    _addItemPagepresenter = AddItemPagepresenter(this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -212,7 +215,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               }
               addMenuToCartModel.userId = Globle().loginModel.data.id;
               addMenuToCartModel.restId = widget.rest_id;
-              addMenuToCartModel.tableId = null;
+              //addMenuToCartModel.tableId = null;
               if (items == null) {
                 items = Item();
               }
@@ -785,6 +788,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+  }
+
+  @override
+  void addTablebnoSuccces() {
+    // TODO: implement addTablebnoSuccces
+  }
+
+  @override
+  void addTablenofailed() {
+    // TODO: implement addTablenofailed
   }
 }
 
