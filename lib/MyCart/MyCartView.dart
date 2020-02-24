@@ -31,7 +31,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   List<ItemInfo> _itemInfo = [];
 
   String _selectedId;
-  
+
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
@@ -64,19 +64,18 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
         InkWell(
           onTap: () {
             if (count > 1) {
-              setState(() {               
+              setState(() {
                 --count;
-                 _cartItemList[i].quantity = count;
-                
+                _cartItemList[i].quantity = count;
+
                 print(count);
               });
-             
             }
           },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -105,13 +104,12 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                 print(count);
                 _cartItemList[i].quantity = count;
               });
-              
             }
           },
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -151,8 +149,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                         child: Text(
                           'Add a Table Number',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700),
                         ),
                       ),
                       SizedBox(
@@ -191,9 +191,9 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                       ),
                       Center(
                         child: RaisedButton(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: redtheme),
+                              side: BorderSide(color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -203,9 +203,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                             child: Text(
                               'SUBMIT',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                  fontSize: 18,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -271,7 +272,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -358,12 +359,12 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // Navigator.pop(context);
+                         Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -382,11 +383,11 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
                           'PLACE ORDER',
@@ -438,32 +439,35 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 20),
-                              child: (_cartItemList[index].items.menuType ==
-                                      "veg")
-                                  ? Image.asset(
-                                      'assets/VegIcon/Group1661.png',
-                                      height: 25,
-                                      width: 25,
-                                    )
-                                  : Image.asset(
-                                      'assets/VegIcon/Group1661.png',
-                                      color: redtheme,
-                                      width: 25,
-                                      height: 25,
-                                    ),
+                              child:
+                                  (_cartItemList[index].items.menuType == "veg")
+                                      ? Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          height: 25,
+                                          width: 25,
+                                        )
+                                      : Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          color: redtheme,
+                                          width: 25,
+                                          height: 25,
+                                        ),
                             ),
                             SizedBox(width: 16),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  _cartItemList[index].items.itemName ??
-                                      'Bacon & Cheese Burger',
-                                  style: TextStyle(
-                                      // fontFamily: 'gotham',
-                                      fontSize: 18,
-                                      color: greytheme700),
+                                Container(
+                                  width: MediaQuery.of(context).size.width* 0.65,
+                                  child: Text(
+                                    _cartItemList[index].items.itemName ??
+                                        'Bacon & Cheese Burger',
+                                    style: TextStyle(
+                                         fontFamily: 'gotham',
+                                        fontSize: 16,
+                                        color: greytheme700),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 6,
