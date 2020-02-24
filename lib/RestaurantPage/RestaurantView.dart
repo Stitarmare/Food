@@ -431,10 +431,11 @@ class _RestaurantViewState extends State<RestaurantView>
                       print(abc);
 
                       print("abc");
-                    } else {
-                      Constants.showAlert(
-                          "No Records", "No items found.", context);
-                    }
+                    } 
+                    // else {
+                    //   Constants.showAlert(
+                    //       "No Records", "No items found.", context);
+                    // }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),

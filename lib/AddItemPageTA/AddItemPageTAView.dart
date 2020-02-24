@@ -445,27 +445,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               SizedBox(
                 height: 10,
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 28),
-                    Text(
-                      'Dressing',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme700),
-                    ),
-                    SizedBox(
-                      width: 34,
-                    ),
-                    togglebutton()
-                  ],
-                ),
-              ),
+              togglebutton()
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+              //   child: Row(
+              //     children: <Widget>[
+              //       SizedBox(width: 28),
+              //       Text(
+              //         'Dressing',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             fontSize: 16,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w500,
+              //             color: greytheme700),
+              //       ),
+              //       SizedBox(
+              //         width: 34,
+              //       ),
+              //       togglebutton()
+              //     ],
+              //   ),
+              //),
             ]),
       ),
     );
@@ -531,7 +532,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           height: 36,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
-                              fillColor: redtheme,
+                              fillColor: getColorByHex(Globle().colorscode),
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,

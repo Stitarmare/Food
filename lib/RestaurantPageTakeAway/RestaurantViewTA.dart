@@ -335,10 +335,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       print(abc);
 
                       print("abc");
-                    } else {
-                      Constants.showAlert(
-                          "No Records", "No items found.", context);
-                    }
+                    } 
+                    // else {
+                    //   Constants.showAlert(
+                    //       "No Records", "No items found.", context);
+                    // }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),

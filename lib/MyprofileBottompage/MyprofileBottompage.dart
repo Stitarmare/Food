@@ -110,6 +110,9 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                         child: CircularProgressIndicator(),
                       ),
                       imageUrl: profilePic(),
+                      errorWidget:(context, url, error) => Image.asset('assets/PlaceholderImage/placeholder.png',width: 83,
+                      height: 83,
+                      fit: BoxFit.fill,),
                     )
                         //  ClipOvalImageWithLoader(
                         //   profilePic(),
