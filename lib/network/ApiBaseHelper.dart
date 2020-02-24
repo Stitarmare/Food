@@ -247,8 +247,16 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         var responseJson = json.decode(response.body.toString());
         var errorModel = ErrorModel.fromMap(responseJson);
+        var msg = "";
+
+        if (errorModel != null) {
+          if (errorModel.message != null) {
+            msg =  errorModel.message;
+          }
+        }
+
         Future.delayed(const Duration(milliseconds: 200), () {
-          _showAlert(context, "Error", errorModel.message, () {
+          _showAlert(context, "Error",  msg, () {
             Navigator.of(context).pop();
           });
         });
@@ -259,9 +267,15 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         var responseJson = json.decode(response.body.toString());
         var errorModel = AuthModel.fromMap(responseJson);
+        var msg = "";
 
+        if (errorModel != null) {
+          if (errorModel.message != null) {
+            msg =  errorModel.message;
+          }
+        }
         Future.delayed(const Duration(milliseconds: 200), () {
-          _showAlert(context, "Session", errorModel.message, () {
+          _showAlert(context, "Session", msg, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
         });
