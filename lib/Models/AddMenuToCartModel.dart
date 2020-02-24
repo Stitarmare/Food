@@ -14,7 +14,7 @@ class AddMenuToCartModel {
   String status;
   int statusCode;
   String message;
-  List<AddMenuToCartList> data;
+  AddMenuToCartList data;
   int totalAmount;
   String colourCode;
 
@@ -32,8 +32,7 @@ class AddMenuToCartModel {
         status: json["status"],
         statusCode: json["status_code"],
         message: json["message"],
-        data: List<AddMenuToCartList>.from(
-            json["data"].map((x) => AddMenuToCartList.fromJson(x))),
+        data: AddMenuToCartList.fromJson(json["data"]),
         totalAmount: json["totalAmount"],
         colourCode: json["colour_code"],
       );
@@ -42,7 +41,7 @@ class AddMenuToCartModel {
         "status": status,
         "status_code": statusCode,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
         "totalAmount": totalAmount,
         "colour_code": colourCode,
       };

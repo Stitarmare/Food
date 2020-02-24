@@ -234,10 +234,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
-              Constants.showAlertSuccess(
-                  "${widget.title}",
-                  "${widget.title} is successfully added to your cart.",
-                  context);
+              
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -801,6 +798,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+    Constants.showAlertSuccess(
+                  "${widget.title}",
+                  "${widget.title} is successfully added to your cart.",
+                  context);
   }
 
   @override
