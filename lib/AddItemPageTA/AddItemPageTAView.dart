@@ -6,6 +6,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -215,6 +216,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               print(addMenuToCartModel.toJson());
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
+              Constants.showAlertSuccess(
+                  "${widget.title}",
+                  "${widget.title} is successfully added to your cart.",
+                  context);
+
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
@@ -516,20 +522,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: 28),
-                        Text(
-                          switchs.title ?? "",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                switchs.title ?? "",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          width: 34,
+                          width: 10,
                         ),
                         Container(
-                          height: 36,
+                          height: 40,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
                               fillColor: getColorByHex(Globle().colorscode),

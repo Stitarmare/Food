@@ -76,7 +76,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -110,7 +110,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -150,8 +150,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: Text(
                           'Add a Table Number',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700),
                         ),
                       ),
                       SizedBox(
@@ -190,9 +192,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       ),
                       Center(
                         child: RaisedButton(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: redtheme),
+                              side: BorderSide(color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -202,9 +204,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             child: Text(
                               'SUBMIT',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                  fontSize: 18,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -270,7 +273,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -357,12 +360,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // Navigator.pop(context);
+                         Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -381,11 +384,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
                           'PLACE ORDER',
@@ -454,13 +457,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  _cartItemList[index].items.itemName ??
-                                      'Bacon & Cheese Burger',
-                                  style: TextStyle(
-                                      // fontFamily: 'gotham',
-                                      fontSize: 18,
-                                      color: greytheme700),
+                                Container(
+                                  width: MediaQuery.of(context).size.width* 0.65,
+                                  child: Text(
+                                    _cartItemList[index].items.itemName ??
+                                        'Bacon & Cheese Burger',
+                                    style: TextStyle(
+                                         fontFamily: 'gotham',
+                                        fontSize: 16,
+                                        color: greytheme700),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 6,

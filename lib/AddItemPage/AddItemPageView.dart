@@ -234,7 +234,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
-                  Constants.showAlertSuccess("${widget.title}", "${widget.title} is successfully added to your cart.", context);
+              Constants.showAlertSuccess(
+                  "${widget.title}",
+                  "${widget.title} is successfully added to your cart.",
+                  context);
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -593,20 +596,28 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: 28),
-                        Text(
-                          switchs.title ?? "",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                switchs.title ?? "",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          width: 34,
+                          width: 10,
                         ),
                         Container(
-                          height: 36,
+                          height: 40,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
                               fillColor: getColorByHex(Globle().colorscode),
