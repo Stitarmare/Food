@@ -5,8 +5,10 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddItemPageView extends StatefulWidget {
   String title;
@@ -27,10 +29,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int rest_id;
   ScrollController _controller = ScrollController();
   AddItemPagepresenter _addItemPagepresenter;
- List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  String strAdd = 'ADD \$24';
+  String strGoToCart = 'test';
+  String strOnTop = 'On top';
+  String strOnSide = 'On side';
+  String strDefaultTxt = '';
+  List<int> listItemIdList = [];
+  bool isAddBtnClicked = false;
 
   int _dropdownTableNumber;
+  int itemIdValue;
+  SharedPreferences prefs;
+  List<String> listStrItemId = [];
+  List<int> listIntItemId = [];
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int tableID;
   @override
   void initState() {
@@ -38,12 +53,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
+
+    itemIdValue = widget.item_id;
+    getTextChanged();
     super.initState();
   }
 
   // double _defaultValue = 1;
-  int id = 1;
+  int spread_id = 1;
   int count = 1;
+  int extraCheckBoxid;
   String radioItem;
   String _selectedId;
   // FLCountStepperController _stepperController =
@@ -152,6 +171,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       top: true,
       right: true,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -160,39 +180,74 @@ class _AddItemPageViewState extends State<AddItemPageView>
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: GestureDetector(
-            onTap: () {
-              // Navigator.pushNamed(context, '/OrderConfirmationView');
-              // print("button is pressed");
-              // showDialog(
-              //   context: context,
-              //   child: new RadioDialog(
-              //     onValueChange: _onValueChange,
-              //     initialValue: _selectedId,
-              //   ));
-            },
-            child: Container(
-              height: 54,
-              decoration: BoxDecoration(
-                  color: getColorByHex(Globle().colorscode),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              // color: redtheme,
-              child: Center(
-                child: Text(
-                  'ADD \$24',
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.white),
+        bottomNavigationBar: isAddBtnClicked
+            ? BottomAppBar(
+                child: GestureDetector(
+                  onTap: () {
+                    // addItemToCart();
+
+                    // Navigator.pushNamed(context, '/OrderConfirmationView');
+                    // print("button is pressed");
+                    // showDialog(
+                    //   context: context,
+                    //   child: new RadioDialog(
+                    //     onValueChange: _onValueChange,
+                    //     initialValue: _selectedId,
+                    //   ));
+                  },
+                  child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: getColorByHex(Globle().colorscode),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      // color: redtheme,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12.0, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              strDefaultTxt,
+                              style: TextStyle(
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),
+                            InkWell(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "View Cart",
+                                    style: TextStyle(
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
+                                  SizedBox(width: 6),
+                                  Icon(Icons.shopping_cart, color: Colors.white)
+                                ],
+                              ),
+                              onTap: () {
+                                print("count length-->");
+                                print("$count");
+                                print("spread id-->");
+                                print("$spread_id");
+                                print("extra checkbox id-->");
+                                if (extraCheckBoxid != null) {
+                                  print("$extraCheckBoxid");
+                                }
+                              },
+                            )
+                          ],
+                        ),
+                      )),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : null,
       ),
     );
   }
@@ -278,9 +333,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
       ),
     );
   }
+
   Widget getTableNumber() {
     return Container(
-      margin: EdgeInsets.only(left:20),
+      margin: EdgeInsets.only(left: 20),
       height: 50,
       width: MediaQuery.of(context).size.width * 0.8,
       child: FormField(builder: (FormFieldState state) {
@@ -353,6 +409,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       }),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -361,58 +418,73 @@ class _AddItemPageViewState extends State<AddItemPageView>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 25, left: 26),
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: greytheme700),
-                ),
-              ),
-              // ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 12),
-                child: Text(
-                  widget.description,
-                  style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
-                      // fontWeight: FontWeight.w500,
-                      color: greytheme1000),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              SizedBox(
-                height: 15,
-              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 26),
-                    child: Text(
-                      'Quantity:',
-                      style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 16,
-                          color: greytheme700),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 25, left: 26),
+                          child: Text(
+                            widget.title,
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: greytheme700),
+                          ),
+                        ),
+                        // ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 12),
+                          child: Text(
+                            widget.description,
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w500,
+                                color: greytheme1000),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  steppercount()
+                  Expanded(flex: 2, child: steppercount())
                 ],
               ),
+
+              // SizedBox(
+              //   height: 25,
+              // ),
+              // Divider(
+              //   thickness: 2,
+              // ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: <Widget>[
+              //     Padding(
+              //       padding: EdgeInsets.only(left: 26),
+              //       child: Text(
+              //         'Quantity:',
+              //         style: TextStyle(
+              //             fontFamily: 'gotham',
+              //             fontSize: 16,
+              //             color: greytheme700),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 40,
+              //     ),
+              //     steppercount()
+              //   ],
+              // ),
               SizedBox(
                 height: 20,
               ),
@@ -489,7 +561,42 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ],
                 ),
               ),
+              SizedBox(height: 20),
+              getAddButton(),
+              SizedBox(height: 20),
             ]),
+      ),
+    );
+  }
+
+  getAddButton() {
+    return Align(
+      alignment: Alignment.center,
+      child: ButtonTheme(
+        minWidth: 350,
+        height: 50,
+        child: RaisedButton(
+          color: getColorByHex(Globle().colorscode),
+          onPressed: () {
+            setState(() {
+              isAddBtnClicked = true;
+            });
+            addItemToCart();
+          },
+          child: Text(
+            "Add Item",
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'gotham'),
+          ),
+          textColor: Colors.white,
+          textTheme: ButtonTextTheme.normal,
+          splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+          shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0),
+              side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
+        ),
       ),
     );
   }
@@ -505,7 +612,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
                         title: Text("${radionBtn.title}") ?? Text('data'),
-                        groupValue: id,
+                        groupValue: spread_id,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: getColorByHex(Globle().colorscode),
@@ -513,7 +620,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           setState(() {
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            id = radionBtn.index;
+                            spread_id = radionBtn.index;
+                            print("Spread item id--->");
+                            print("$spread_id");
                           });
                         },
                       ),
@@ -536,7 +645,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           Container(
             width: 85,
             child: Text(
-              'On side',
+              strOnSide,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 14,
@@ -548,7 +657,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           Container(
             width: 85,
             child: Text(
-              'On top',
+              strOnTop,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 14,
@@ -564,6 +673,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             for (int i = 0; i < isSelected.length; i++) {
               if (i == index) {
                 isSelected[i] = true;
+                print("item selected-->");
               } else {
                 isSelected[i] = false;
               }
@@ -586,6 +696,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     onChanged: (val) {
                       setState(() {
                         checkBtn.isChecked = val;
+                        if (checkBtn.isChecked != false) {
+                          extraCheckBoxid = checkBtn.index;
+                        } else {
+                          extraCheckBoxid = null;
+                        }
+                        print("Additions id--->");
+                        print(extraCheckBoxid);
                         print(val);
                       });
                     },
@@ -632,6 +749,66 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     checkboxbtn(_addItemModelList.extras.length);
     // TODO: implement addItemsuccess
+  }
+
+  addItemToCart() async {
+    listItemIdList.add(itemIdValue);
+
+    List<String> list = listItemIdList.map((i) => i.toString()).toList();
+    prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("key", list);
+    print("item id-->");
+    print("$itemIdValue");
+    setState(() {
+      strDefaultTxt = "$count Item added";
+    });
+
+    // final snackBar = SnackBar(
+    //   content: Text("Item added into cart"),
+    // );
+    // _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+  getTextChanged() {
+    if (listItemIdList.length == 0) {
+      setState(() {
+        strDefaultTxt = strAdd;
+      });
+    }
+    getItemIdfromPreference();
+  }
+
+  getItemIdfromPreference() async {
+    prefs = await SharedPreferences.getInstance();
+    listStrItemId = prefs.getStringList("key");
+    listIntItemId = listStrItemId.map((j) => int.parse(j)).toList();
+
+    print("item id-->");
+    print("$itemIdValue");
+    print("list length in prefs--->");
+    print(listIntItemId.length);
+    for (int k = 0; k < listIntItemId.length; k++) {
+      print("item in list-->");
+      print(listIntItemId.elementAt(k));
+      if (itemIdValue == listIntItemId.elementAt(k)) {
+        print("Item matched");
+        setState(() {
+          strDefaultTxt = "$count item added";
+          isAddBtnClicked = true;
+        });
+        return;
+      } else {
+        print("Item not matched");
+        setState(() {
+          strDefaultTxt = strAdd;
+        });
+      }
+    }
+    if (listItemIdList.length == 0) {
+      listItemIdList.addAll(listIntItemId);
+      print("default list length--->");
+      print(listItemIdList);
+    }
   }
 }
 
