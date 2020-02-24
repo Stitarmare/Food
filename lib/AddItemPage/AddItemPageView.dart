@@ -604,7 +604,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           height: 36,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
-                              fillColor: redtheme,
+                              fillColor: getColorByHex(Globle().colorscode),
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,
