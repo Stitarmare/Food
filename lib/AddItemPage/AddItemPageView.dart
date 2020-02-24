@@ -46,7 +46,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this);
+    _addItemPagepresenter = AddItemPagepresenter(this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -281,7 +281,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      widget.title,
+                      widget.title ?? '',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20,

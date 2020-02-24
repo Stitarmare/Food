@@ -99,6 +99,7 @@ class GenericModel<T> {
 
       case AddMenuToCartModel:
         return AddMenuToCartModel.fromJson(json) as T;
+
       case MenuCartDisplayModel:
         return MenuCartDisplayModel.fromJson(json) as T;
 
