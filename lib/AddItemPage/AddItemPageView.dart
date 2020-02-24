@@ -216,7 +216,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               }
               addMenuToCartModel.userId = Globle().loginModel.data.id;
               addMenuToCartModel.restId = widget.rest_id;
-              //addMenuToCartModel.tableId = null;
+              addMenuToCartModel.tableId = null;
               if (items == null) {
                 items = Item();
               }
