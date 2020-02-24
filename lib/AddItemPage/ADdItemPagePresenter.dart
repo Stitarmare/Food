@@ -10,10 +10,13 @@ import 'package:foodzi/network/url_constant.dart';
 class AddItemPagepresenter extends AddItemPageContractor {
   AddTablenoModelView addTablenoModelView;
   AddItemPageModelView addItemPageModelView;
+
   AddmenuToCartModelview addMenuToCartModel;
 
-  AddItemPagepresenter(AddItemPageModelView addItemPageView) {
+  AddItemPagepresenter(AddItemPageModelView addItemPageView,
+      AddmenuToCartModelview addMenuToCartModel) {
     this.addItemPageModelView = addItemPageView;
+    this.addMenuToCartModel = addMenuToCartModel;
   }
 
   @override
