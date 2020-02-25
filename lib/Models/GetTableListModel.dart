@@ -45,15 +45,15 @@ class GetTableList {
         id: json["id"],
         tableName: json["table_name"],
         restId: json["rest_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        // createdAt: DateTime.parse(json["created_at"]),
+        // updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "table_name": tableName,
         "rest_id": restId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        //"created_at": createdAt.toIso8601String(),
+        //"updated_at": updatedAt.toIso8601String(),
       };
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
@@ -5,10 +6,14 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AddItemPageView extends StatefulWidget {
   String title;
@@ -24,10 +29,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
     implements
         AddItemPageModelView,
         AddmenuToCartModelview,
-        AddTablenoModelView {
+        AddTablenoModelView,
+        GetTableListModelView {
   List<bool> isSelected;
 
+  int table_id;
+
   AddItemsToCartModel addMenuToCartModel;
+
+  GetTableList getTableListModel;
 
   Item items;
 
@@ -36,6 +46,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Spreads spread;
 
   List<Switches> switches;
+  bool isTableList = false;
+
+  bool getttingLocation = false;
+  StreamController<Position> _controllerPosition = new StreamController();
 
   AddItemModelList _addItemModelList;
   int item_id;
@@ -43,17 +57,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
   ScrollController _controller = ScrollController();
 
   AddItemPagepresenter _addItemPagepresenter;
-  List<int> _dropdownItemsTable = [];
+  List<TableList> _dropdownItemsTable = [];
+  List<AddTableno> _addtableno = [];
 
   int _dropdownTableNumber;
 
   int tableID;
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this, this, this);
+    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
+    _addItemPagepresenter.getTableListno(widget.rest_id, context);
     super.initState();
   }
 
@@ -94,6 +110,54 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _radioOptions = radiolist;
     });
   }
+
+  int gettablelist(List<GetTableList> getlist) {
+    List<TableList> _tablelist = [];
+    for (int i = 0; i < getlist.length; i++) {
+      _tablelist.add(TableList(
+        id: getlist[i].id,
+        restid: widget.rest_id,
+        name: getlist[i].tableName,
+      ));
+    }
+    setState(() {
+      _dropdownItemsTable = _tablelist;
+    });
+    getlistoftable();
+  }
+
+  // _getLocationtablelist(int length) async {
+  //   setState(() {
+  //     getttingLocation = false;
+  //   });
+  //   var strim = await GeoLocationTracking.load(context, _controllerPosition);
+  //   _controllerPosition.stream.listen((position) {
+  //     print(position);
+  //     _position = position;
+  //     if (_position != null) {
+  //       setState(() {
+  //         getttingLocation = true;
+  //       });
+  //       // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
+  //       _addItemPagepresenter.getTableListno(_position.latitude.toString(),
+  //           widget.rest_id, _position.longitude.toString(), context);
+
+  //       List<TableList> _tablelist = [];
+  //       for (int i; i < _tablelist.length; i++) {
+  //         _tablelist.add(TableList(
+  //           restid: widget.rest_id,
+  //         ));
+  //       }
+  //       setState(() {
+  //         _tablelist = _dropdownItemsTable;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         getttingLocation = false;
+  //       });
+  //     }
+  //   });
+  // }
 
   int checkboxbtn(int length) {
     List<CheckBoxOptions> _checkboxlist = [];
@@ -216,7 +280,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               }
               addMenuToCartModel.userId = Globle().loginModel.data.id;
               addMenuToCartModel.restId = widget.rest_id;
-              addMenuToCartModel.tableId = null;
+              addMenuToCartModel.tableId = table_id;
               if (items == null) {
                 items = Item();
               }
@@ -325,7 +389,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               SizedBox(
                 height: 20,
               ),
-              getTableNumber(),
+              isTableList ? getTableNumber() : Container(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -352,6 +416,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
     );
   }
 
+  getlistoftable() {
+    if (_dropdownItemsTable != null) {
+      if (_dropdownItemsTable.length >= 0) {
+        setState(() {
+          isTableList = true;
+        });
+        return;
+      }
+      setState(() {
+        isTableList = false;
+      });
+    }
+    setState(() {
+      isTableList = false;
+    });
+  }
+
   Widget getTableNumber() {
     return Container(
       margin: EdgeInsets.only(left: 20),
@@ -360,15 +441,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
       child: FormField(builder: (FormFieldState state) {
         return DropdownButtonFormField(
           //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((int tableNumber) {
+          items: _dropdownItemsTable.map((tableNumber) {
             return new DropdownMenuItem(
-                value: tableNumber,
+                value: tableNumber.id,
                 child: Row(
                   children: <Widget>[
                     Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          "Table Number: $tableNumber",
+                          "Table Number: ${tableNumber.name}",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor:
@@ -385,13 +466,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
             // do other stuff with _category
             setState(() {
               _dropdownTableNumber = newValue;
-              _dropdownItemsTable.forEach((value) {
-                if (value == newValue) {
-                  print(value);
-                  tableID = value;
-                }
-              });
             });
+            _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+                widget.rest_id, _dropdownTableNumber, context);
           },
 
           value: _dropdownTableNumber,
@@ -813,6 +890,21 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void addTablenofailed() {
     // TODO: implement addTablenofailed
   }
+
+  @override
+  void getTableListFailed() {
+    // TODO: implement getTableListFailed
+  }
+
+  @override
+  void getTableListSuccess(List<GetTableList> _getlist) {
+    getTableListModel = _getlist[0];
+    if (_getlist.length > 0) {
+      gettablelist(_getlist);
+    }
+
+    // TODO: implement getTableListSuccess
+  }
 }
 
 // OrderConfirmationView
@@ -839,4 +931,20 @@ class SwitchesItems {
   String option2;
   SwitchesItems(
       {this.index, this.title, this.option1, this.option2, this.isSelected});
+}
+
+class TableList {
+  //geolocation(){}
+  String name;
+  int restid;
+  int id;
+  TableList({this.restid, this.id, this.name});
+}
+
+class AddTableno {
+  int user_id;
+  int table_id;
+  int rest_id;
+
+  AddTableno({this.rest_id, this.table_id, this.user_id});
 }

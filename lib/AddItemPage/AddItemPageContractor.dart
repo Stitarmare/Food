@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
 
 abstract class AddItemPageContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
@@ -19,4 +20,9 @@ abstract class AddTablenoModelView {
 abstract class AddmenuToCartModelview {
   void addMenuToCartsuccess();
   void addMenuToCartfailed();
+}
+
+abstract class GetTableListModelView {
+  void getTableListSuccess(List<GetTableList> getlist);
+  void getTableListFailed();
 }
