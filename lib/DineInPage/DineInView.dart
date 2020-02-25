@@ -451,6 +451,8 @@ class _DineViewState extends State<DineInView>
                       builder: (context) => BottomTabbarHome(
                             title: "${_restaurantList[i].restName}",
                             rest_Id: _restaurantList[i].id,
+                            lat:_restaurantList[i].latitude,
+                            long:_restaurantList[i].longitude,
                           )));
                   setState(() {
 // selected[i] = !selected[i];

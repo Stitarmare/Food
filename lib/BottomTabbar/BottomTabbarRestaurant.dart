@@ -15,7 +15,9 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class BottomTabbarHome extends StatefulWidget {
   String title;
   int rest_Id;
-  BottomTabbarHome({this.title, this.rest_Id});
+  String lat;
+  String long;
+  BottomTabbarHome({this.title, this.rest_Id,this.lat,this.long});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -90,6 +92,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                         MaterialPageRoute(
                             builder: (context) => MyCartView(
                                   restId: widget.rest_Id,
+                                  lat: widget.lat ,
+                                  long: widget.long,
+                                  orderType: "dine_in",
                                 )));
                     //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },

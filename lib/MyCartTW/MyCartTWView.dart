@@ -4,7 +4,9 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -15,7 +17,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 class MyCartTWView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartTWView({this.restId, this.userID});
+  String lat;
+  String long;
+  String orderType;
+  double total;
+  MyCartTWView(
+      {this.restId,
+      this.userID,
+      this.orderType,
+      this.lat,
+      this.long,
+      this.total});
   //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -38,6 +50,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
   int page = 1;
 
   int id;
+  List<int> itemList = [];
+  MenuCartDisplayModel myCart;
 
   @override
   void initState() {
@@ -194,7 +208,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: RaisedButton(
                           color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: getColorByHex(Globle().colorscode)),
+                              side: BorderSide(
+                                  color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -365,7 +380,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                         Navigator.pop(context);
+                        Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -374,12 +389,30 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     onTap: () {
                       // Navigator.pushNamed(context, '/OrderConfirmationView');
                       // print("button is pressed");
-                      showDialog(
-                          context: context,
-                          child: new RadioDialog(
-                            onValueChange: _onValueChange,
-                            initialValue: _selectedId,
-                          ));
+                      // showDialog(
+                      //     context: context,
+                      //     child: new RadioDialog(
+                      //       onValueChange: _onValueChange,
+                      //       initialValue: _selectedId,
+                      //     ));
+                      (_cartItemList != null)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentTipAndPay(
+                                        restId: widget.restId,
+                                        //userId: widget.userID,
+                                        items: itemList,
+                                        totalAmount: myCart.grandTotal,
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                        itemdata: _cartItemList,
+
+                                        // tableId: _cartItemList[index].tableId,
+                                      )))
+                          : Constants.showAlert("My Cart",
+                              "Please add items to your cart first.", context);
                     },
                     child: Container(
                       height: 54,
@@ -458,12 +491,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  width: MediaQuery.of(context).size.width* 0.65,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.65,
                                   child: Text(
                                     _cartItemList[index].items.itemName ??
                                         'Bacon & Cheese Burger',
                                     style: TextStyle(
-                                         fontFamily: 'gotham',
+                                        fontFamily: 'gotham',
                                         fontSize: 16,
                                         color: greytheme700),
                                   ),
@@ -544,16 +578,22 @@ class _MyCartTWViewState extends State<MyCartTWView>
   }
 
   @override
-  void getCartMenuListsuccess(List<MenuCartList> menulist) {
+  void getCartMenuListsuccess(
+      List<MenuCartList> menulist, MenuCartDisplayModel model) {
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    myCart = model;
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        for (var i = 0; i < _cartItemList.length; i++) {
+          itemList.add(_cartItemList[i].id);
+          print(itemList);
+        }
       } else {
         //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
