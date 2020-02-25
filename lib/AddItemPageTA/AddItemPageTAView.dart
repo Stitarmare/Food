@@ -43,7 +43,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this);
+    _addItemPagepresenter = AddItemPageTApresenter(this,this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -216,10 +216,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               print(addMenuToCartModel.toJson());
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
-              Constants.showAlertSuccess(
-                  "${widget.title}",
-                  "${widget.title} is successfully added to your cart.",
-                  context);
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -715,7 +711,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-
+    
     // TODO: implement addItemsuccess
   }
 
@@ -727,6 +723,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+    Constants.showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
   }
 }
 
