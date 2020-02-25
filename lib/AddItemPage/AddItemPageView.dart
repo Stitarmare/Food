@@ -280,7 +280,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               }
               addMenuToCartModel.userId = Globle().loginModel.data.id;
               addMenuToCartModel.restId = widget.rest_id;
-              addMenuToCartModel.tableId = table_id;
+              addMenuToCartModel.tableId = _dropdownTableNumber;
               if (items == null) {
                 items = Item();
               }
@@ -298,7 +298,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
-              
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -875,10 +874,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess(
-                  "${widget.title}",
-                  "${widget.title} is successfully added to your cart.",
-                  context);
+    Constants.showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
   }
 
   @override
