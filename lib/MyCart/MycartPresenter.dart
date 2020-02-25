@@ -30,7 +30,7 @@ class MycartPresenter extends MyCartContarctor {
         case SuccessType.success:
           print("Added Menu To Cart success");
           print(value.model);
-          _cartModelView.getCartMenuListsuccess(value.model.data);
+          _cartModelView.getCartMenuListsuccess(value.model.data,value.model);
           break;
         case SuccessType.failed:
           print("Added Menu To Cart failed");
