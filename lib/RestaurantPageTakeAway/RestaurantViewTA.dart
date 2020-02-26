@@ -492,8 +492,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Center(
-                                  child: Text(
-                                    '\$ ${_restaurantList[index].price}' ?? "",
+                                  child: Text((_restaurantList[index].sizePrizes.isEmpty) ?
+                                    '\$ ${_restaurantList[index].price}' ?? '' : "\$ ${_restaurantList[index].sizePrizes[0].price}" ?? "",
                                     style: TextStyle(
                                         //fontFamily: FontNames.gotham,
                                         fontSize: 14,

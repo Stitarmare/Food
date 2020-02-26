@@ -180,9 +180,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
