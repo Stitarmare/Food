@@ -54,6 +54,29 @@ class MycartPresenter extends MyCartContarctor {
   }
 
   @override
+  void removeItemfromCart(int cartId, int userId, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.removeItemfromCartApi, context,
+        body: {'cart_id': cartId, 'user_id': userId}).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Removed Item success");
+          print(value.model);
+          _cartModelView.removeItemSuccess();
+          break;
+        case SuccessType.failed:
+          print("Removed Item failed");
+          _cartModelView.removeItemFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+
+//ApiCall
+    //;
+  }
+
   void addTablenoToCart(
       int user_id, int rest_id, int table_id, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {
@@ -70,13 +93,12 @@ class MycartPresenter extends MyCartContarctor {
         case SuccessType.failed:
           addTablenoModelView.addTablenofailed();
           print("failed");
+
           break;
       }
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
@@ -101,10 +123,5 @@ class MycartPresenter extends MyCartContarctor {
     });
 //ApiCall
     //;
-  }
-
-  @override
-  void removeItemfromCart(int cartId, int userId, BuildContext context) {
-    // TODO: implement removeItemfromCart
   }
 }
