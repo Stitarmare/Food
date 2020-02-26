@@ -79,7 +79,6 @@ flutter:
       - assets/SplashScreen/LauncherScreen.png
       - assets/SplashScreen/LauncherScreen@2x.png
       - assets/SplashScreen/LauncherScreen@3x.png
-      
       #Logo Images  
       - assets/Logo/foodzi_logo.jpg
       - assets/Logo/foodzi_logo@2x.jpg
@@ -175,6 +174,18 @@ flutter:
       - assets/NavigateButton/next(2).png
       - assets/NavigateButton/next(2)@2x.png
       - assets/NavigateButton/next(2)@3x.png
+      #PlaceHolder food image
+      - assets/PlaceholderFoodImage/MaskGroup55.png
+      - assets/PlaceholderFoodImage/MaskGroup55@2x.png
+      - assets/PlaceholderFoodImage/MaskGroup55@3x.png
+      #SuccessImage
+      - assets/SuccessIcon/success.png
+      - assets/SuccessIcon/success@2x.png
+      - assets/SuccessIcon/success@3x.png
+      #SuccessImage
+      - assets/VegIcon/Group1661.png
+      - assets/VegIcon/Group1661@2x.png
+      - assets/VegIcon/Group1661@3x.png
       
 
 
