@@ -431,7 +431,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       print(abc);
 
                       print("abc");
-                    } 
+                    }
                     // else {
                     //   Constants.showAlert(
                     //       "No Records", "No items found.", context);
@@ -516,6 +516,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                 placeholder: (context, url) => Center(
                                   child: CircularProgressIndicator(),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                        "assets/PlaceholderFoodImage/MaskGroup55.png"),
+                                        
                                 imageUrl: BaseUrl.getBaseUrlImages() +
                                     '${_restaurantList[index].itemImage}',
                               ),
@@ -636,8 +640,12 @@ class _RestaurantViewState extends State<RestaurantView>
                                 ),
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Center(
-                                  child: Text((_restaurantList[index].sizePrizes.isEmpty) ?
-                                    '\$ ${_restaurantList[index].price}' ?? '' : "\$ ${_restaurantList[index].sizePrizes[0].price}" ?? "",
+                                  child: Text(
+                                    (_restaurantList[index].sizePrizes.isEmpty)
+                                        ? '\$ ${_restaurantList[index].price}' ??
+                                            ''
+                                        : "\$ ${_restaurantList[index].sizePrizes[0].price}" ??
+                                            "",
                                     style: TextStyle(
                                         //fontFamily: FontNames.gotham,
                                         fontSize: 14,
