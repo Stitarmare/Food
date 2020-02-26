@@ -356,24 +356,25 @@ class _MyCartViewState extends State<MyCartView>
               Row(
                 children: <Widget>[
                   SizedBox(width: 20),
-                  _getmainviewTableno()
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     //  await DailogBox.addTablePopUp(context);
-                  //     addTablePopUp(context);
-                  //   },
-                  //   child: Text(
-                  //     'Add Table Number',
-                  //     textAlign: TextAlign.start,
-                  //     style: TextStyle(
-                  //         decoration: TextDecoration.underline,
-                  //         decorationColor: Colors.black,
-                  //         fontSize: 14,
-                  //         fontFamily: 'gotham',
-                  //         fontWeight: FontWeight.w600,
-                  //         color: greytheme100),
-                  //   ),
-                  // )
+                  GestureDetector(
+                    onTap: null,
+                    //() {}
+                    //  {
+                    //   // //  await DailogBox.addTablePopUp(context);
+                    //   // addTablePopUp(context);
+                    // },
+                    child: Text(
+                      'Add Table Number',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme100),
+                    ),
+                  )
                 ],
               ),
               SizedBox(
@@ -399,7 +400,7 @@ class _MyCartViewState extends State<MyCartView>
         ),
         body: Column(
           children: <Widget>[
-            // _getmainviewTableno(),
+            _getmainviewTableno(),
             SizedBox(
               height: 20,
             ),
@@ -593,7 +594,9 @@ class _MyCartViewState extends State<MyCartView>
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
+                //int userID = _cartItemList[index].userId;
                 cartId = _cartItemList[index].id;
+
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),
