@@ -477,9 +477,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
-                //int userID = _cartItemList[index].userId;
                 cartId = _cartItemList[index].id;
-
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),

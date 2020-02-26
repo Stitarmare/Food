@@ -50,4 +50,26 @@ class MycartTWPresenter extends MyCartTWContarctor {
       print(error);
     });
   }
+
+  @override
+  void removeItemfromCart(int cartId, int userId, BuildContext context) {
+    // TODO: implement removeItemfromCart
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.removeItemfromCartApi, context,
+        body: {'cart_id': cartId, 'user_id': userId}).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Removed Item success");
+          print(value.model);
+          _cartModelView.removeItemSuccess();
+          break;
+        case SuccessType.failed:
+          print("Removed Item failed");
+          _cartModelView.removeItemFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
 }
