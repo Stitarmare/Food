@@ -18,11 +18,11 @@ enum Environment { PRODUCTION, DEVLOPMENT, LOCAL }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.DEVLOPMENT;
+  static var environment = Environment.PRODUCTION;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
-        return "";
+        return "http://18.219.185.86/";
       case Environment.DEVLOPMENT:
         return "http://foodzi.php-dev.in/";
       case Environment.LOCAL:
@@ -35,7 +35,7 @@ class BaseUrl {
   static String getBaseUrlImages() {
     switch (environment) {
       case Environment.PRODUCTION:
-        return "";
+        return "http://18.219.185.86/";
       case Environment.DEVLOPMENT:
         return "http://foodzi.php-dev.in/storage/";
       case Environment.LOCAL:
@@ -251,12 +251,12 @@ class ApiBaseHelper {
 
         if (errorModel != null) {
           if (errorModel.message != null) {
-            msg =  errorModel.message;
+            msg = errorModel.message;
           }
         }
 
         Future.delayed(const Duration(milliseconds: 200), () {
-          _showAlert(context, "Error",  msg, () {
+          _showAlert(context, "Error", msg, () {
             Navigator.of(context).pop();
           });
         });
@@ -271,7 +271,7 @@ class ApiBaseHelper {
 
         if (errorModel != null) {
           if (errorModel.message != null) {
-            msg =  errorModel.message;
+            msg = errorModel.message;
           }
         }
         Future.delayed(const Duration(milliseconds: 200), () {
