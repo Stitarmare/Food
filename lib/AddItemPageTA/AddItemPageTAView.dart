@@ -43,7 +43,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this,this);
+    _addItemPagepresenter = AddItemPageTApresenter(this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -236,7 +236,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               // color: redtheme,
               child: Center(
                 child: Text(
-                  'ADD \$24',
+                  'ADD ${_addItemModelList.price}',
                   style: TextStyle(
                       fontFamily: 'gotham',
                       fontWeight: FontWeight.w600,
@@ -711,7 +711,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-    
+
     // TODO: implement addItemsuccess
   }
 
