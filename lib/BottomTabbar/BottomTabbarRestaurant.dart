@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -11,7 +12,6 @@ import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-
 class BottomTabbarHome extends StatefulWidget {
   String title;
   int rest_Id;
@@ -23,7 +23,6 @@ class BottomTabbarHome extends StatefulWidget {
     return _BottomTabbarHomeState();
   }
 }
-
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   var title;
   int currentTabIndex = 0;
@@ -38,7 +37,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       currentTabIndex = index;
     });
   }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +51,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,9 +86,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
-<<<<<<< HEAD
-                    // Navigator.pushNamed(context, '/OrderConfirmationView');
-=======
                     
                     Navigator.push(
                         context,
@@ -103,7 +97,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                                   orderType: "dine_in",
                                 )));
                     //Navigator.pushNamed(context, '/OrderConfirmationView');
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                   },
                   heroTag: "btnAddCart",
                   child: Icon(Icons.shopping_cart, color: Colors.white)),

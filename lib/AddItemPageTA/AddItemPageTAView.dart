@@ -5,11 +5,8 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
-<<<<<<< HEAD
-=======
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/constant.dart';
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -25,8 +22,18 @@ class AddItemPageTAView extends StatefulWidget {
 }
 
 class _AddItemPageTAViewState extends State<AddItemPageTAView>
-    implements AddItemPageTAModelView {
+    implements AddItemPageTAModelView, AddmenuToCartModelviews {
   List<bool> isSelected;
+
+  AddItemsToCartModel addMenuToCartModel;
+
+  Item items;
+
+  List<Extras> extra;
+
+  Spreads spread;
+
+  List<Switches> switches;
 
   AddItemModelList _addItemModelList;
   int item_id;
@@ -51,7 +58,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
+
   List<CheckBoxOptions> _checkBoxOptions = [];
+
+  List<SwitchesItems> _switchOptions = [];
+
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -64,6 +75,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       radiolist.add(RadioButtonOptions(
           index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
+    radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
@@ -75,11 +87,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       _checkboxlist.add(CheckBoxOptions(
           price: _addItemModelList.extras[i - 1].price ?? '',
           isChecked: false,
-          index: i,
+          index: _addItemModelList.extras[i - 1].id ?? 0,
           title: _addItemModelList.extras[i - 1].name ?? ''));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
+    });
+  }
+
+  int switchbtn(int length) {
+    List<SwitchesItems> _switchlist = [];
+    for (int i = 1; i <= length; i++) {
+      _switchlist.add(SwitchesItems(
+          option1: _addItemModelList.switches[i - 1].option1 ?? "",
+          option2: _addItemModelList.switches[i - 1].option2 ?? "",
+          index: _addItemModelList.switches[i - 1].id,
+          title: _addItemModelList.switches[i - 1].name ?? '',
+          isSelected: [true, false]));
+    }
+
+    setState(() {
+      _switchOptions = _switchlist;
     });
   }
 
@@ -95,12 +123,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 --count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
-          splashColor:  getColorByHex(Globle().colorscode),
+          splashColor: getColorByHex(Globle().colorscode),
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -128,12 +157,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ++count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color:  getColorByHex(Globle().colorscode),
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -165,9 +195,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
-<<<<<<< HEAD
-              Navigator.pushNamed(context, '/OrderConfirmationView');
-=======
               if (addMenuToCartModel == null) {
                 addMenuToCartModel = AddItemsToCartModel();
               }
@@ -191,7 +218,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   addMenuToCartModel, context);
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
               // print("button is pressed");
               // showDialog(
               //   context: context,
@@ -203,7 +229,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Container(
               height: 54,
               decoration: BoxDecoration(
-                  color:  getColorByHex(Globle().colorscode),
+                  color: getColorByHex(Globle().colorscode),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -241,7 +267,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Wimpy',
+                      widget.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20,
@@ -273,7 +299,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color:  getColorByHex(Globle().colorscode)),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -305,6 +331,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       ),
     );
   }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -420,27 +447,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               SizedBox(
                 height: 10,
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 28),
-                    Text(
-                      'Dressing',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme700),
-                    ),
-                    SizedBox(
-                      width: 34,
-                    ),
-                    togglebutton()
-                  ],
-                ),
-              ),
+              togglebutton()
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+              //   child: Row(
+              //     children: <Widget>[
+              //       SizedBox(width: 28),
+              //       Text(
+              //         'Dressing',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             fontSize: 16,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w500,
+              //             color: greytheme700),
+              //       ),
+              //       SizedBox(
+              //         width: 34,
+              //       ),
+              //       togglebutton()
+              //     ],
+              //   ),
+              //),
             ]),
       ),
     );
@@ -460,12 +488,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor:  getColorByHex(Globle().colorscode),
+                        activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
+                            if (spread == null) {
+                              spread = Spreads();
+                            }
+
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
+                            spread.spreadId = id;
                           });
                         },
                       ),
@@ -475,57 +508,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget togglebutton() {
-<<<<<<< HEAD
-    return Container(
-      height: 36,
-      child: ToggleButtons(
-        borderColor: greytheme1300,
-        fillColor:  getColorByHex(Globle().colorscode),
-        borderWidth: 2,
-        selectedBorderColor: Colors.transparent,
-        selectedColor: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        children: <Widget>[
-          Container(
-            width: 85,
-            child: Text(
-              'On side',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
-            ),
-          ),
-          Container(
-            width: 85,
-            child: Text(
-              'On top',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color:
-                      (isSelected[1] == false) ? greytheme700 : Colors.white),
-            ),
-          ),
-        ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              if (i == index) {
-                isSelected[i] = true;
-              } else {
-                isSelected[i] = false;
-              }
-            }
-          });
-        },
-        isSelected: isSelected,
-      ),
-=======
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -649,7 +631,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   ))
               .toList()
           : [Container()],
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     );
   }
 
@@ -658,13 +639,32 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor:  getColorByHex(Globle().colorscode),
+                    activeColor: getColorByHex(Globle().colorscode),
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
                       setState(() {
+                        if (extra == null) {
+                          extra = [];
+                        }
+                        if (extra.length > 0) {
+                          if (val) {
+                            var ext = Extras();
+                            ext.extraId = checkBtn.index;
+                            extra.add(ext);
+                          } else {
+                            for (int i = 0; i < extra.length; i++) {
+                              if (checkBtn.index == extra[i].extraId) {
+                                extra.removeAt(i);
+                              }
+                            }
+                          }
+                        } else {
+                          var ext = Extras();
+                          ext.extraId = checkBtn.index;
+                          extra.add(ext);
+                        }
                         checkBtn.isChecked = val;
-                        print(val);
                       });
                     },
                     title: Row(
@@ -709,10 +709,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     getradiobtn(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
-<<<<<<< HEAD
-    // TODO: implement addItemsuccess
-  }
-=======
 
     switchbtn(_addItemModelList.switches.length);
     
@@ -730,7 +726,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Constants.showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 }
 
 // OrderConfirmationView
@@ -747,4 +742,14 @@ class RadioButtonOptions {
   int index;
   String title;
   RadioButtonOptions({this.index, this.title});
+}
+
+class SwitchesItems {
+  int index;
+  String title;
+  String option1;
+  List<bool> isSelected;
+  String option2;
+  SwitchesItems(
+      {this.index, this.title, this.option1, this.option2, this.isSelected});
 }

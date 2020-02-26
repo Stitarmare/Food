@@ -4,11 +4,7 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
-<<<<<<< HEAD
-
-=======
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -51,12 +47,9 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
-<<<<<<< HEAD
   List<CartExtraItems> cartExtraItemsList = [];
   int cartId;
-=======
   MenuCartDisplayModel myCart;
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   int page = 1;
 
   int id;
@@ -483,7 +476,6 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
             child: ListView.builder(
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
-<<<<<<< HEAD
                 id = _cartItemList[index].itemId;
                 //int userID = _cartItemList[index].userId;
                 cartId = _cartItemList[index].id;
@@ -532,63 +524,6 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                                   Text(
                                     _cartItemList[index].items.itemName ??
                                         'Bacon & Cheese Burger',
-=======
-                //int tempID = _cartItemList[index].itemId;
-
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child:
-                                  (_cartItemList[index].items.menuType == "veg")
-                                      ? Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          height: 25,
-                                          width: 25,
-                                        )
-                                      : Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          color: redtheme,
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                            ),
-                            SizedBox(width: 16),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.65,
-                                  child: Text(
-                                    _cartItemList[index].items.itemName ??
-                                        'Bacon & Cheese Burger',
-                                    style: TextStyle(
-                                        fontFamily: 'gotham',
-                                        fontSize: 16,
-                                        color: greytheme700),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                  width: 180,
-                                  child: AutoSizeText(
-                                    _cartItemList[index]
-                                            .items
-                                            .itemDescription ??
-                                        " Lorem Epsom is simply dummy text",
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                                     style: TextStyle(
                                         // fontFamily: 'gotham',
                                         fontSize: 18,

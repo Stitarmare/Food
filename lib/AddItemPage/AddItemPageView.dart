@@ -5,23 +5,15 @@ import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
-<<<<<<< HEAD
-=======
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/globle.dart';
-import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
-<<<<<<< HEAD
-import 'package:shared_preferences/shared_preferences.dart';
-=======
 import 'package:geolocator/geolocator.dart';
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 
 class AddItemPageView extends StatefulWidget {
   String title;
@@ -34,11 +26,6 @@ class AddItemPageView extends StatefulWidget {
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
-<<<<<<< HEAD
-    implements AddItemPageModelView {
-  List<bool> isSelected;
-
-=======
     implements
         AddItemPageModelView,
         AddmenuToCartModelview,
@@ -64,65 +51,40 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
 
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
-  AddItemPagepresenter _addItemPagepresenter;
-<<<<<<< HEAD
-  List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  String strAdd = 'ADD \$24';
-  String strGoToCart = 'test';
-  String strOnTop = 'On top';
-  String strOnSide = 'On side';
-  String strDefaultTxt = '';
-  List<int> listItemIdList = [];
-  bool isAddBtnClicked = false;
-=======
+  AddItemPagepresenter _addItemPagepresenter;
   List<TableList> _dropdownItemsTable = [];
   List<AddTableno> _addtableno = [];
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 
   int _dropdownTableNumber;
-  int itemIdValue;
-  SharedPreferences prefs;
-  List<String> listStrItemId = [];
-  List<int> listIntItemId = [];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int tableID;
   @override
   void initState() {
-<<<<<<< HEAD
-    _addItemPagepresenter = AddItemPagepresenter(this);
-    isSelected = [true, false];
-    _addItemPagepresenter.performAddItem(
-        widget.item_id, widget.rest_id, context);
-
-    itemIdValue = widget.item_id;
-    getTextChanged();
-=======
     _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     _addItemPagepresenter.getTableListno(widget.rest_id, context);
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     super.initState();
   }
 
   // double _defaultValue = 1;
-  int spread_id = 1;
+  int id = 1;
   int count = 1;
-  int extraCheckBoxid;
   String radioItem;
   String _selectedId;
+
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
+  List<SwitchesItems> _switchOptions = [];
+
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -133,8 +95,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: _addItemModelList.spreads[i - 1].id,
+          title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
+    radiolist.add(RadioButtonOptions(title: "None"));
+    // for (int i = length; i <= length+1; i++) {
+    //   radiolist.add(RadioButtonOptions(
+    //       index: _addItemModelList.spreads[i].id,
+    //       title: 'none')
+    //       );
+
+    // }
     setState(() {
       _radioOptions = radiolist;
     });
@@ -194,11 +165,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _checkboxlist.add(CheckBoxOptions(
           price: _addItemModelList.extras[i - 1].price ?? '',
           isChecked: false,
-          index: i,
+          index: _addItemModelList.extras[i - 1].id ?? 0,
           title: _addItemModelList.extras[i - 1].name ?? ''));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
+    });
+  }
+
+  int switchbtn(int length) {
+    List<SwitchesItems> _switchlist = [];
+    for (int i = 1; i <= length; i++) {
+      _switchlist.add(SwitchesItems(
+          option1: _addItemModelList.switches[i - 1].option1 ?? "",
+          option2: _addItemModelList.switches[i - 1].option2 ?? "",
+          index: _addItemModelList.switches[i - 1].id ?? 0,
+          title: _addItemModelList.switches[i - 1].name ?? '',
+          isSelected: [true, false]));
+    }
+
+    setState(() {
+      _switchOptions = _switchlist;
     });
   }
 
@@ -214,6 +201,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 --count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
           splashColor: getColorByHex(Globle().colorscode),
@@ -247,6 +235,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ++count;
                 print(count);
               });
+              items.quantity = count;
             }
           },
           splashColor: Colors.lightBlue,
@@ -269,11 +258,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
+      bottom: true,
       child: Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -282,73 +271,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-<<<<<<< HEAD
-        bottomNavigationBar: isAddBtnClicked
-            ? BottomAppBar(
-                child: GestureDetector(
-                  onTap: () {
-                    // addItemToCart();
-
-                    // Navigator.pushNamed(context, '/OrderConfirmationView');
-                    // print("button is pressed");
-                    // showDialog(
-                    //   context: context,
-                    //   child: new RadioDialog(
-                    //     onValueChange: _onValueChange,
-                    //     initialValue: _selectedId,
-                    //   ));
-                  },
-                  child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      // color: redtheme,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              strDefaultTxt,
-                              style: TextStyle(
-                                  fontFamily: 'gotham',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            ),
-                            InkWell(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    "View Cart",
-                                    style: TextStyle(
-                                        fontFamily: 'gotham',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: Colors.white),
-                                  ),
-                                  SizedBox(width: 6),
-                                  Icon(Icons.shopping_cart, color: Colors.white)
-                                ],
-                              ),
-                              onTap: () {
-                                print("count length-->");
-                                print("$count");
-                                print("spread id-->");
-                                print("$spread_id");
-                                print("extra checkbox id-->");
-                                if (extraCheckBoxid != null) {
-                                  print("$extraCheckBoxid");
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      )),
-=======
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
@@ -402,10 +324,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                       color: Colors.white),
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                 ),
-              )
-            : null,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -426,7 +349,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Wimpy',
+                      widget.title ?? '',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 20,
@@ -589,73 +512,58 @@ class _AddItemPageViewState extends State<AddItemPageView>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 25, left: 26),
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+              ),
+              // ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 12),
+                child: Text(
+                  widget.description,
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontSize: 16,
+                      // fontWeight: FontWeight.w500,
+                      color: greytheme1000),
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 15,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 25, left: 26),
-                          child: Text(
-                            widget.title,
-                            style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: greytheme700),
-                          ),
-                        ),
-                        // ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 26, top: 12),
-                          child: Text(
-                            widget.description,
-                            style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
-                                // fontWeight: FontWeight.w500,
-                                color: greytheme1000),
-                          ),
-                        ),
-                      ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 26),
+                    child: Text(
+                      'Quantity:',
+                      style: TextStyle(
+                          fontFamily: 'gotham',
+                          fontSize: 16,
+                          color: greytheme700),
                     ),
                   ),
-                  Expanded(flex: 2, child: steppercount())
+                  SizedBox(
+                    width: 40,
+                  ),
+                  steppercount()
                 ],
               ),
-
-              // SizedBox(
-              //   height: 25,
-              // ),
-              // Divider(
-              //   thickness: 2,
-              // ),
-              // SizedBox(
-              //   height: 15,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: <Widget>[
-              //     Padding(
-              //       padding: EdgeInsets.only(left: 26),
-              //       child: Text(
-              //         'Quantity:',
-              //         style: TextStyle(
-              //             fontFamily: 'gotham',
-              //             fontSize: 16,
-              //             color: greytheme700),
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 40,
-              //     ),
-              //     steppercount()
-              //   ],
-              // ),
               SizedBox(
                 height: 20,
               ),
@@ -711,63 +619,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
               SizedBox(
                 height: 10,
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 28),
-                    Text(
-                      'Dressing',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme700),
-                    ),
-                    SizedBox(
-                      width: 34,
-                    ),
-                    togglebutton()
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              getAddButton(),
-              SizedBox(height: 20),
+              togglebutton()
             ]),
-      ),
-    );
-  }
-
-  getAddButton() {
-    return Align(
-      alignment: Alignment.center,
-      child: ButtonTheme(
-        minWidth: 350,
-        height: 50,
-        child: RaisedButton(
-          color: getColorByHex(Globle().colorscode),
-          onPressed: () {
-            setState(() {
-              isAddBtnClicked = true;
-            });
-            addItemToCart();
-          },
-          child: Text(
-            "Add Item",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'gotham'),
-          ),
-          textColor: Colors.white,
-          textTheme: ButtonTextTheme.normal,
-          splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-          shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-        ),
       ),
     );
   }
@@ -783,17 +636,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
                         title: Text("${radionBtn.title}") ?? Text('data'),
-                        groupValue: spread_id,
+                        groupValue: id,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: getColorByHex(Globle().colorscode),
                         onChanged: (val) {
                           setState(() {
+                            if (spread == null) {
+                              spread = Spreads();
+                            }
+
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            spread_id = radionBtn.index;
-                            print("Spread item id--->");
-                            print("$spread_id");
+                            id = radionBtn.index;
+                            spread.spreadId = id;
                           });
                         },
                       ),
@@ -803,58 +659,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   Widget togglebutton() {
-<<<<<<< HEAD
-    return Container(
-      height: 36,
-      child: ToggleButtons(
-        borderColor: greytheme1300,
-        fillColor: getColorByHex(Globle().colorscode),
-        borderWidth: 2,
-        selectedBorderColor: Colors.transparent,
-        selectedColor: Colors.white,
-        borderRadius: BorderRadius.circular(4),
-        children: <Widget>[
-          Container(
-            width: 85,
-            child: Text(
-              strOnSide,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: (isSelected[0] == true) ? Colors.white : greytheme700),
-            ),
-          ),
-          Container(
-            width: 85,
-            child: Text(
-              strOnTop,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color:
-                      (isSelected[1] == false) ? greytheme700 : Colors.white),
-            ),
-          ),
-        ],
-        onPressed: (int index) {
-          setState(() {
-            for (int i = 0; i < isSelected.length; i++) {
-              if (i == index) {
-                isSelected[i] = true;
-                print("item selected-->");
-              } else {
-                isSelected[i] = false;
-              }
-            }
-          });
-        },
-        isSelected: isSelected,
-      ),
-=======
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -978,7 +782,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ))
               .toList()
           : [Container()],
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     );
   }
 
@@ -992,15 +795,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
                       setState(() {
-                        checkBtn.isChecked = val;
-                        if (checkBtn.isChecked != false) {
-                          extraCheckBoxid = checkBtn.index;
-                        } else {
-                          extraCheckBoxid = null;
+                        if (extra == null) {
+                          extra = [];
                         }
-                        print("Additions id--->");
-                        print(extraCheckBoxid);
-                        print(val);
+                        if (extra.length > 0) {
+                          if (val) {
+                            var ext = Extras();
+                            ext.extraId = checkBtn.index;
+                            extra.add(ext);
+                          } else {
+                            for (int i = 0; i < extra.length; i++) {
+                              if (checkBtn.index == extra[i].extraId) {
+                                extra.removeAt(i);
+                              }
+                            }
+                          }
+                        } else {
+                          var ext = Extras();
+                          ext.extraId = checkBtn.index;
+                          extra.add(ext);
+                        }
+                        checkBtn.isChecked = val;
                       });
                     },
                     title: Row(
@@ -1045,75 +860,32 @@ class _AddItemPageViewState extends State<AddItemPageView>
     getradiobtn(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+
+    switchbtn(_addItemModelList.switches.length);
+
     // TODO: implement addItemsuccess
   }
 
-  addItemToCart() async {
-    listItemIdList.add(itemIdValue);
+  @override
+  void addMenuToCartfailed() {
+    // TODO: implement addMenuToCartfailed
+  }
 
-<<<<<<< HEAD
-    List<String> list = listItemIdList.map((i) => i.toString()).toList();
-    prefs = await SharedPreferences.getInstance();
-    prefs.setStringList("key", list);
-    print("item id-->");
-    print("$itemIdValue");
-    setState(() {
-      strDefaultTxt = "$count Item added";
-    });
-
-    // final snackBar = SnackBar(
-    //   content: Text("Item added into cart"),
-    // );
-    // _scaffoldKey.currentState.showSnackBar(snackBar);
-=======
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
     Constants.showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   }
 
-  getTextChanged() {
-    if (listItemIdList.length == 0) {
-      setState(() {
-        strDefaultTxt = strAdd;
-      });
-    }
-    getItemIdfromPreference();
+  @override
+  void addTablebnoSuccces() {
+    // TODO: implement addTablebnoSuccces
   }
 
-  getItemIdfromPreference() async {
-    prefs = await SharedPreferences.getInstance();
-    listStrItemId = prefs.getStringList("key");
-    listIntItemId = listStrItemId.map((j) => int.parse(j)).toList();
-
-    print("item id-->");
-    print("$itemIdValue");
-    print("list length in prefs--->");
-    print(listIntItemId.length);
-    for (int k = 0; k < listIntItemId.length; k++) {
-      print("item in list-->");
-      print(listIntItemId.elementAt(k));
-      if (itemIdValue == listIntItemId.elementAt(k)) {
-        print("Item matched");
-        setState(() {
-          strDefaultTxt = "$count item added";
-          isAddBtnClicked = true;
-        });
-        return;
-      } else {
-        print("Item not matched");
-        setState(() {
-          strDefaultTxt = strAdd;
-        });
-      }
-    }
-    if (listItemIdList.length == 0) {
-      listItemIdList.addAll(listIntItemId);
-      print("default list length--->");
-      print(listItemIdList);
-    }
+  @override
+  void addTablenofailed() {
+    // TODO: implement addTablenofailed
   }
 
   @override
@@ -1147,8 +919,6 @@ class RadioButtonOptions {
   String title;
   RadioButtonOptions({this.index, this.title});
 }
-<<<<<<< HEAD
-=======
 
 class SwitchesItems {
   int index;
@@ -1175,4 +945,3 @@ class AddTableno {
 
   AddTableno({this.rest_id, this.table_id, this.user_id});
 }
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8

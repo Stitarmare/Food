@@ -53,7 +53,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantTAPresenter(this);
-    restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc, menu: menutype);
+    restaurantPresenter.getMenuList(widget.rest_Id, context,
+        category_id: abc, menu: menutype);
     // TODO: implement initState
     super.initState();
   }
@@ -64,8 +65,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-              menu: menutype);
+          restaurantPresenter.getMenuList(widget.rest_Id, context,
+              category_id: abc, menu: menutype);
           print("Bottom");
         }
       }
@@ -266,19 +267,19 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   setState(() {
                     this._switchvalue = value;
                     if (this._switchvalue) {
-                       _restaurantList = null;
-                       DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = 'veg';
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-                          menu: menutype);
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc, menu: menutype);
                     } else {
-                       _restaurantList = null;
-                       DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "Loading");
+                      _restaurantList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
                       menutype = null;
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,category_id: abc,
-                          menu: menutype);
+                      restaurantPresenter.getMenuList(widget.rest_Id, context,
+                          category_id: abc, menu: menutype);
                     }
                   });
                 },
@@ -312,7 +313,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         isselected = false;
                       }
                     });
-                     abc = await showDialog(
+                    abc = await showDialog(
                         context: context,
                         child: MenuItem(
                           restaurantId: widget.rest_Id,
@@ -330,14 +331,15 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       DialogsIndicator.showLoadingDialog(
                           context, _keyLoader, "Loading");
                       restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc,menu: menutype);
+                          category_id: abc, menu: menutype);
                       print(abc);
 
                       print("abc");
-                    } else {
-                      Constants.showAlert(
-                          "No Records", "No items found.", context);
-                    }
+                    } 
+                    // else {
+                    //   Constants.showAlert(
+                    //       "No Records", "No items found.", context);
+                    // }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -363,134 +365,131 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         return Container(
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              return Padding(
-                padding: EdgeInsets.all(8),
-                child: Container(
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey, width: 0.7),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                          // bottomLeft: Radius.circular(10.0),
-                          //bottomRight: Radius.circular(10.0),
-                        ),
-                        // child: Align(
-                        //   alignment: Alignment.bottomRight,
-                        //   heightFactor: 1,
-                        //   child: Image.network(
-                        //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
-                        // ),
-                        // child: ImageWithLoader(
-                        //     BaseUrl.getBaseUrlImages() +
-                        //         '${_restaurantList[index].itemImage}',
-                        //     fit: BoxFit.fitWidth,
-                        //     width: double.infinity,
-                        //     height: 100,
-                        //   ),
+              return GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddItemPageTAView(
+                          item_id: _restaurantList[index].id,
+                          rest_id: _restaurantList[index].restId,
+                          title: '${_restaurantList[index].itemName}',
+                          description:
+                              '${_restaurantList[index].itemDescription}',
+                        ))),
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Container(
+                    decoration: new BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 0.7),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                            // bottomLeft: Radius.circular(10.0),
+                            //bottomRight: Radius.circular(10.0),
+                          ),
+                          // child: Align(
+                          //   alignment: Alignment.bottomRight,
+                          //   heightFactor: 1,
+                          //   child: Image.network(
+                          //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
+                          // ),
+                          // child: ImageWithLoader(
+                          //     BaseUrl.getBaseUrlImages() +
+                          //         '${_restaurantList[index].itemImage}',
+                          //     fit: BoxFit.fitWidth,
+                          //     width: double.infinity,
+                          //     height: 100,
+                          //   ),
 
-                        child: CachedNetworkImage(
-                              fit: BoxFit.contain,
-                              width: double.infinity,
-                              height: 100,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              imageUrl: BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
-                            ), 
-                        // Image.network(
-                        //   BaseUrl.getBaseUrlImages() +
-                        //       '${_restaurantList[index].itemImage}',
-                        //   fit: BoxFit.fitWidth,
-                        //   width: double.infinity,
-                        //   height: 100,
-                        // ),
-                      ),
-                      Expanded(
-                          child: Padding(
-                        padding: EdgeInsets.only(left: 10,top: 2),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                          child: CachedNetworkImage(
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: 100,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            imageUrl: BaseUrl.getBaseUrlImages() +
+                                '${_restaurantList[index].itemImage}',
+                          ),
+                          // Image.network(
+                          //   BaseUrl.getBaseUrlImages() +
+                          //       '${_restaurantList[index].itemImage}',
+                          //   fit: BoxFit.fitWidth,
+                          //   width: double.infinity,
+                          //   height: 100,
+                          // ),
+                        ),
+                        Expanded(
+                            child: Padding(
+                          padding: EdgeInsets.only(left: 10, top: 2),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Text(
+                                  "${_restaurantList[index].itemName}" ?? " ",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w600,
+                                      color: greytheme700),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                // Expanded(
+                                //   flex: 1,
+                                //   child: SingleChildScrollView(
+                                //     child: AutoSizeText(
+                                //       "${_restaurantList[index].itemDescription}" ??
+                                //           " ",
+                                //       //maxLines: 1,
+                                //       style: TextStyle(
+                                //         color: greytheme1000,
+                                //         fontSize: 10,
+                                //         fontFamily: 'gotham',
+                                //         fontWeight: FontWeight.w500,
+                                //       ),
+                                //       // minFontSize: 8,
+                                //       //maxFontSize: 5,
+                                //       // maxLines: 3,
+                                //     ),
+                                //   ),
+                                // ),
+                                AutoSizeText(
+                                  "${_restaurantList[index].itemDescription}" ??
+                                      " ",
+                                  maxLines: 2,
+                                  minFontSize: 10,
+                                  maxFontSize: 12,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme1000),
+                                ),
+                              ]),
+                        )),
+                        Container(
+                          height: MediaQuery.of(context).size.width * 0.09,
+                          child: Row(
                             children: <Widget>[
-                              Text(
-                                "${_restaurantList[index].itemName}" ?? " ",
-                                maxLines: 1,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w600,
-                                    color: greytheme700),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              // Expanded(
-                              //   flex: 1,
-                              //   child: SingleChildScrollView(
-                              //     child: AutoSizeText(
-                              //       "${_restaurantList[index].itemDescription}" ??
-                              //           " ",
-                              //       //maxLines: 1,
-                              //       style: TextStyle(
-                              //         color: greytheme1000,
-                              //         fontSize: 10,
-                              //         fontFamily: 'gotham',
-                              //         fontWeight: FontWeight.w500,
-                              //       ),
-                              //       // minFontSize: 8,
-                              //       //maxFontSize: 5,
-                              //       // maxLines: 3,
-                              //     ),
-                              //   ),
-                              // ),
-                              AutoSizeText(
-                                "${_restaurantList[index].itemDescription}" ??
-                                    " ",
-                                maxLines: 2,
-                                minFontSize:10,
-                                maxFontSize: 12,
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'gotham',
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme1000),
-                              ),
-                            ]),
-                      )),
-                      Container(
-                        height: MediaQuery.of(context).size.width * 0.09,
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              decoration: new BoxDecoration(
-                                //color: Colors.white,
-                                border: Border(
-                                  top: BorderSide(
-                                    color: Colors.grey,
-                                    width: 0.7,
+                              Container(
+                                decoration: new BoxDecoration(
+                                  //color: Colors.white,
+                                  border: Border(
+                                    top: BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.7,
+                                    ),
                                   ),
                                 ),
-<<<<<<< HEAD
-                              ),
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              child: Center(
-                                child: Text(
-                                  '\$ ${_restaurantList[index].price}' ?? "",
-                                  style: TextStyle(
-                                      //fontFamily: FontNames.gotham,
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromRGBO(64, 64, 64, 1)),
-=======
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Center(
                                   child: Text((_restaurantList[index].sizePrizes.isEmpty) ?
@@ -502,108 +501,112 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         fontWeight: FontWeight.w600,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
                                   ),
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () {
-                                  print("button is Pressed");
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => AddItemPageTAView(
-                                            item_id: _restaurantList[index].id,
-                                            rest_id:
-                                                _restaurantList[index].restId,
-                                            title:
-                                                '${_restaurantList[index].itemName}',
-                                            description:
-                                                '${_restaurantList[index].itemDescription}',
-                                          )));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: getColorByHex(Globle().colorscode),
-                                      borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(12.0),
-                                      )),
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  child: Center(
-                                    child: Text(
-                                      "+ ADD",
-                                      style: TextStyle(
-                                          //fontFamily: FontNames.gotham,
-                                          fontSize: 14,
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print("button is Pressed");
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddItemPageTAView(
+                                                  item_id:
+                                                      _restaurantList[index].id,
+                                                  rest_id:
+                                                      _restaurantList[index]
+                                                          .restId,
+                                                  title:
+                                                      '${_restaurantList[index].itemName}',
+                                                  description:
+                                                      '${_restaurantList[index].itemDescription}',
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            getColorByHex(Globle().colorscode),
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(12.0),
+                                        )),
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.1,
+                                    child: Center(
+                                      child: Text(
+                                        "+ ADD",
+                                        style: TextStyle(
+                                            //fontFamily: FontNames.gotham,
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.normal,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                            //   new GestureDetector(
-                            //         onTap: (){
-                            //             print("button is Pressed");
-                            //            Navigator.of(context).push(MaterialPageRoute(
-                            // builder: (context) => AddItemPageView()
-                            //     )
-                            //     );
-                            //         },
-                            //  child:
-                            // Expanded(
-                            //   //       child: GestureDetector(
-                            //   //         onTap: (){
-                            //   //             print("button is Pressed");
-                            //   //            Navigator.of(context).push(MaterialPageRoute(
-                            //   // builder: (context) => AddItemPageView()
-                            //   //     )
-                            //   //     );
-                            //   //         },
-                            //   child: FlatButton(
-                            //     onPressed: () {
-                            //       print("button is Pressed");
-                            //       Navigator.of(context).push(MaterialPageRoute(
-                            //           builder: (context) => AddItemPageView()));
-                            //     },
-                            //     child: Container(
-                            //       decoration: BoxDecoration(
-                            //           color: redtheme,
-                            //           borderRadius: BorderRadius.only(
-                            //             bottomRight: Radius.circular(12.0),
-                            //           )),
-                            //       width:
-                            //           MediaQuery.of(context).size.width * 0.1,
-                            //       child: Center(
-                            //         //             child:FlatButton(
-                            //         //               onPressed: (){
-                            //         //                 print("button is Pressed");
-                            //         //                  Navigator.of(context).push(MaterialPageRoute(
-                            //         // builder: (context) => AddItemPageView()
-                            //         //     )
-                            //         //     );
-                            //         //               },
-                            //         child: Text(
-                            //           "+ ADD",
-                            //           style: TextStyle(
-                            //               //fontFamily: FontNames.gotham,
-                            //               fontSize: 14,
-                            //               fontStyle: FontStyle.normal,
-                            //               fontWeight: FontWeight.w600,
-                            //               color: Colors.white),
-                            //         ),
-                            //         // )
-                            //       ),
-                            //     ),
-                            //   ),
-                            //   // ),
-                            //   // ),
-                            // )
-                          ],
+                              )
+                              //   new GestureDetector(
+                              //         onTap: (){
+                              //             print("button is Pressed");
+                              //            Navigator.of(context).push(MaterialPageRoute(
+                              // builder: (context) => AddItemPageView()
+                              //     )
+                              //     );
+                              //         },
+                              //  child:
+                              // Expanded(
+                              //   //       child: GestureDetector(
+                              //   //         onTap: (){
+                              //   //             print("button is Pressed");
+                              //   //            Navigator.of(context).push(MaterialPageRoute(
+                              //   // builder: (context) => AddItemPageView()
+                              //   //     )
+                              //   //     );
+                              //   //         },
+                              //   child: FlatButton(
+                              //     onPressed: () {
+                              //       print("button is Pressed");
+                              //       Navigator.of(context).push(MaterialPageRoute(
+                              //           builder: (context) => AddItemPageView()));
+                              //     },
+                              //     child: Container(
+                              //       decoration: BoxDecoration(
+                              //           color: redtheme,
+                              //           borderRadius: BorderRadius.only(
+                              //             bottomRight: Radius.circular(12.0),
+                              //           )),
+                              //       width:
+                              //           MediaQuery.of(context).size.width * 0.1,
+                              //       child: Center(
+                              //         //             child:FlatButton(
+                              //         //               onPressed: (){
+                              //         //                 print("button is Pressed");
+                              //         //                  Navigator.of(context).push(MaterialPageRoute(
+                              //         // builder: (context) => AddItemPageView()
+                              //         //     )
+                              //         //     );
+                              //         //               },
+                              //         child: Text(
+                              //           "+ ADD",
+                              //           style: TextStyle(
+                              //               //fontFamily: FontNames.gotham,
+                              //               fontSize: 14,
+                              //               fontStyle: FontStyle.normal,
+                              //               fontWeight: FontWeight.w600,
+                              //               color: Colors.white),
+                              //         ),
+                              //         // )
+                              //       ),
+                              //     ),
+                              //   ),
+                              //   // ),
+                              //   // ),
+                              // )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -655,7 +658,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
-      
     }
 
     setState(() {

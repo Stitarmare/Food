@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
-<<<<<<< HEAD
-=======
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/error_model.dart';
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class AddItemPagepresenter extends AddItemPageContractor {
-<<<<<<< HEAD
-  AddItemPageModelView addItemPageModelView;
-  AddItemPagepresenter(AddItemPageModelView addItemPageView) {
-    this.addItemPageModelView = addItemPageView;
-=======
   GetTableListModelView getTableListModel;
 
   AddTablenoModelView addTablenoModelView;
@@ -34,7 +26,6 @@ class AddItemPagepresenter extends AddItemPageContractor {
     this.addMenuToCartModel = addMenuToCartModel;
     this.addTablenoModelView = addTablenoModelView;
     this.getTableListModel = getTableListModel;
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   }
 
   @override
@@ -66,8 +57,6 @@ class AddItemPagepresenter extends AddItemPageContractor {
 //ApiCall
     //;
   }
-<<<<<<< HEAD
-=======
 
   @override
   void getTableListno(int rest_id, BuildContext context) {
@@ -142,5 +131,4 @@ class AddItemPagepresenter extends AddItemPageContractor {
 //ApiCall
     //;
   }
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 }

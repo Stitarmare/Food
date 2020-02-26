@@ -103,8 +103,6 @@ class AddMenuToCartList {
         "updated_at": updatedAt.toIso8601String(),
       };
 }
-<<<<<<< HEAD
-=======
 
 // To parse this JSON data, do
 //
@@ -232,4 +230,3 @@ class Switches {
         "switch_option": switchOption,
       };
 }
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8

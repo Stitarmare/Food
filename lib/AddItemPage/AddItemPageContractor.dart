@@ -11,8 +11,6 @@ abstract class AddItemPageModelView {
   void addItemsuccess(List<AddItemModelList> additemlist);
   void addItemfailed();
 }
-<<<<<<< HEAD
-=======
 
 abstract class AddTablenoModelView {
   void addTablebnoSuccces();
@@ -28,4 +26,3 @@ abstract class GetTableListModelView {
   void getTableListSuccess(List<GetTableList> getlist);
   void getTableListFailed();
 }
->>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
