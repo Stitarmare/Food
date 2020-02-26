@@ -7,8 +7,16 @@ import 'package:foodzi/network/url_constant.dart';
 
 class AddItemPageTApresenter extends AddItemPageTAContractor {
   AddItemPageTAModelView addItemPageModelView;
+<<<<<<< HEAD
   AddItemPageTApresenter(AddItemPageTAModelView addItemPageView) {
+=======
+
+  AddmenuToCartModelviews addMenuToCartModel;
+
+  AddItemPageTApresenter(AddItemPageTAModelView addItemPageView,AddmenuToCartModelviews addMenuToCartModel) {
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     this.addItemPageModelView = addItemPageView;
+    this.addMenuToCartModel = addMenuToCartModel;
   }
 
   @override

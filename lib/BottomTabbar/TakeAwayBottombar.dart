@@ -15,7 +15,9 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class TakeAwayBottombar extends StatefulWidget {
   String title;
   int rest_Id;
-  TakeAwayBottombar({this.title, this.rest_Id});
+  String lat;
+  String long;
+  TakeAwayBottombar({this.title, this.rest_Id,this.lat,this.long});
   @override
   State<StatefulWidget> createState() {
     return _TakeAwayBottombarState();
@@ -87,6 +89,18 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
+<<<<<<< HEAD
+=======
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyCartTWView(
+                                  restId: widget.rest_Id,
+                                  lat: widget.lat ,
+                                  long: widget.long,
+                                  orderType: "take_away",
+                                )));
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                     // Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",

@@ -4,8 +4,13 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
+<<<<<<< HEAD
 
+=======
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -16,7 +21,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 class MyCartView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartView({this.restId, this.userID});
+  String lat;
+  String long;
+  String orderType;
+  double total;
+
+  MyCartView(
+      {this.restId,
+      this.userID,
+      this.orderType,
+      this.lat,
+      this.long,
+      this.total});
   //MyCartView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -35,11 +51,18 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
+<<<<<<< HEAD
   List<CartExtraItems> cartExtraItemsList = [];
   int cartId;
+=======
+  MenuCartDisplayModel myCart;
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   int page = 1;
 
   int id;
+  List<int> itemList = [];
+
+  List<MenuCartList> itemData;
 
   @override
   void initState() {
@@ -57,6 +80,19 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
       _selectedId = value;
     });
   }
+
+  // int getcartitemlist(){
+  //   List<int> items = [];
+  //   for(int i; i>items.length ; i++){
+  //     items.add(_cartItemList[i].id);
+  //   }
+  //   setState(() {
+  //     if(items !=null){
+  //       itemList = items;
+  //     }
+
+  //   });
+  // }
 
   Widget steppercount(int i) {
     int count = _cartItemList[i].quantity;
@@ -78,7 +114,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -112,7 +148,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -152,8 +188,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                         child: Text(
                           'Add a Table Number',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700),
                         ),
                       ),
                       SizedBox(
@@ -192,9 +230,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                       ),
                       Center(
                         child: RaisedButton(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: redtheme),
+                              side: BorderSide(
+                                  color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -204,9 +243,10 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                             child: Text(
                               'SUBMIT',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                  fontSize: 18,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -272,7 +312,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -359,12 +399,12 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -373,21 +413,37 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                     onTap: () {
                       // Navigator.pushNamed(context, '/OrderConfirmationView');
                       // print("button is pressed");
-                      showDialog(
-                          context: context,
-                          child: new RadioDialog(
-                            onValueChange: _onValueChange,
-                            initialValue: _selectedId,
-                          ));
+                      // showDialog(
+                      //     context: context,
+                      //     child: new RadioDialog(
+                      //       onValueChange: _onValueChange,
+                      //       initialValue: _selectedId,
+                      //     ));
+                      (_cartItemList != null)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentTipAndPay(
+                                        restId: widget.restId,
+                                        // userId: widget.userID,
+                                        totalAmount: myCart.grandTotal,
+                                        items: itemList,
+                                        itemdata: _cartItemList,
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                      )))
+                          : Constants.showAlert("My Cart",
+                              "Please add items to your cart first.", context);
                     },
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
                           'PLACE ORDER',
@@ -427,6 +483,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
             child: ListView.builder(
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
+<<<<<<< HEAD
                 id = _cartItemList[index].itemId;
                 //int userID = _cartItemList[index].userId;
                 cartId = _cartItemList[index].id;
@@ -475,6 +532,63 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                                   Text(
                                     _cartItemList[index].items.itemName ??
                                         'Bacon & Cheese Burger',
+=======
+                //int tempID = _cartItemList[index].itemId;
+
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child:
+                                  (_cartItemList[index].items.menuType == "veg")
+                                      ? Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          height: 25,
+                                          width: 25,
+                                        )
+                                      : Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          color: redtheme,
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                            ),
+                            SizedBox(width: 16),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.65,
+                                  child: Text(
+                                    _cartItemList[index].items.itemName ??
+                                        'Bacon & Cheese Burger',
+                                    style: TextStyle(
+                                        fontFamily: 'gotham',
+                                        fontSize: 16,
+                                        color: greytheme700),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  width: 180,
+                                  child: AutoSizeText(
+                                    _cartItemList[index]
+                                            .items
+                                            .itemDescription ??
+                                        " Lorem Epsom is simply dummy text",
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                                     style: TextStyle(
                                         // fontFamily: 'gotham',
                                         fontSize: 18,
@@ -569,19 +683,32 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   }
 
   @override
-  void getCartMenuListsuccess(List<MenuCartList> menulist) {
+  void getCartMenuListsuccess(
+      List<MenuCartList> menulist, MenuCartDisplayModel model) {
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    myCart = model;
+
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        for (var i = 0; i < _cartItemList.length; i++) {
+          itemList.add(_cartItemList[i].id);
+          print(itemList);
+        }
+        // for (var i = 0; i < _cartItemList.length; i++) {
+        //   itemData.add(_cartItemList[i].items);
+        //   print(itemData);
+        // }
       } else {
         //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
+
+        //getcartitemlist();
       }
       page++;
     });

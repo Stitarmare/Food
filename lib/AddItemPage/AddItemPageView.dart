@@ -1,14 +1,27 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+<<<<<<< HEAD
+=======
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+<<<<<<< HEAD
 import 'package:shared_preferences/shared_preferences.dart';
+=======
+import 'package:geolocator/geolocator.dart';
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 
 class AddItemPageView extends StatefulWidget {
   String title;
@@ -21,14 +34,43 @@ class AddItemPageView extends StatefulWidget {
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
+<<<<<<< HEAD
     implements AddItemPageModelView {
   List<bool> isSelected;
 
+=======
+    implements
+        AddItemPageModelView,
+        AddmenuToCartModelview,
+        AddTablenoModelView,
+        GetTableListModelView {
+  List<bool> isSelected;
+
+  int table_id;
+
+  AddItemsToCartModel addMenuToCartModel;
+
+  GetTableList getTableListModel;
+
+  Item items;
+
+  List<Extras> extra;
+
+  Spreads spread;
+
+  List<Switches> switches;
+  bool isTableList = false;
+
+  bool getttingLocation = false;
+  StreamController<Position> _controllerPosition = new StreamController();
+
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
   AddItemPagepresenter _addItemPagepresenter;
+<<<<<<< HEAD
   List<int> _dropdownItemsTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   String strAdd = 'ADD \$24';
@@ -38,6 +80,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   String strDefaultTxt = '';
   List<int> listItemIdList = [];
   bool isAddBtnClicked = false;
+=======
+  List<TableList> _dropdownItemsTable = [];
+  List<AddTableno> _addtableno = [];
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 
   int _dropdownTableNumber;
   int itemIdValue;
@@ -49,6 +95,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   @override
   void initState() {
+<<<<<<< HEAD
     _addItemPagepresenter = AddItemPagepresenter(this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
@@ -56,6 +103,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     itemIdValue = widget.item_id;
     getTextChanged();
+=======
+    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
+    isSelected = [true, false];
+    _addItemPagepresenter.performAddItem(
+        widget.item_id, widget.rest_id, context);
+    _addItemPagepresenter.getTableListno(widget.rest_id, context);
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     super.initState();
   }
 
@@ -85,6 +139,54 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _radioOptions = radiolist;
     });
   }
+
+  int gettablelist(List<GetTableList> getlist) {
+    List<TableList> _tablelist = [];
+    for (int i = 0; i < getlist.length; i++) {
+      _tablelist.add(TableList(
+        id: getlist[i].id,
+        restid: widget.rest_id,
+        name: getlist[i].tableName,
+      ));
+    }
+    setState(() {
+      _dropdownItemsTable = _tablelist;
+    });
+    getlistoftable();
+  }
+
+  // _getLocationtablelist(int length) async {
+  //   setState(() {
+  //     getttingLocation = false;
+  //   });
+  //   var strim = await GeoLocationTracking.load(context, _controllerPosition);
+  //   _controllerPosition.stream.listen((position) {
+  //     print(position);
+  //     _position = position;
+  //     if (_position != null) {
+  //       setState(() {
+  //         getttingLocation = true;
+  //       });
+  //       // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
+  //       _addItemPagepresenter.getTableListno(_position.latitude.toString(),
+  //           widget.rest_id, _position.longitude.toString(), context);
+
+  //       List<TableList> _tablelist = [];
+  //       for (int i; i < _tablelist.length; i++) {
+  //         _tablelist.add(TableList(
+  //           restid: widget.rest_id,
+  //         ));
+  //       }
+  //       setState(() {
+  //         _tablelist = _dropdownItemsTable;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         getttingLocation = false;
+  //       });
+  //     }
+  //   });
+  // }
 
   int checkboxbtn(int length) {
     List<CheckBoxOptions> _checkboxlist = [];
@@ -180,6 +282,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
+<<<<<<< HEAD
         bottomNavigationBar: isAddBtnClicked
             ? BottomAppBar(
                 child: GestureDetector(
@@ -245,6 +348,61 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           ],
                         ),
                       )),
+=======
+        bottomNavigationBar: BottomAppBar(
+          child: GestureDetector(
+            onTap: () {
+              // setState(() {
+              if (addMenuToCartModel == null) {
+                addMenuToCartModel = AddItemsToCartModel();
+              }
+              addMenuToCartModel.userId = Globle().loginModel.data.id;
+              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.tableId = _dropdownTableNumber;
+              if (items == null) {
+                items = Item();
+              }
+
+              addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].itemId = widget.item_id;
+              addMenuToCartModel.items[0].extra = extra ?? [];
+              addMenuToCartModel.items[0].spreads =
+                  spread == null ? [] : [spread];
+              addMenuToCartModel.items[0].switches = switches ?? [];
+              addMenuToCartModel.items[0].quantity = count;
+              // }
+              //);
+              print(addMenuToCartModel.toJson());
+
+              _addItemPagepresenter.performaddMenuToCart(
+                  addMenuToCartModel, context);
+
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
+              // print("button is pressed");
+              // showDialog(
+              //   context: context,
+              //   child: new RadioDialog(
+              //     onValueChange: _onValueChange,
+              //     initialValue: _selectedId,
+              //   ));
+            },
+            child: Container(
+              height: 54,
+              decoration: BoxDecoration(
+                  color: getColorByHex(Globle().colorscode),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15))),
+              // color: redtheme,
+              child: Center(
+                child: Text(
+                  'ADD \$24',
+                  style: TextStyle(
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.white),
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                 ),
               )
             : null,
@@ -307,7 +465,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               SizedBox(
                 height: 20,
               ),
-              getTableNumber(),
+              isTableList ? getTableNumber() : Container(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -334,6 +492,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
     );
   }
 
+  getlistoftable() {
+    if (_dropdownItemsTable != null) {
+      if (_dropdownItemsTable.length >= 0) {
+        setState(() {
+          isTableList = true;
+        });
+        return;
+      }
+      setState(() {
+        isTableList = false;
+      });
+    }
+    setState(() {
+      isTableList = false;
+    });
+  }
+
   Widget getTableNumber() {
     return Container(
       margin: EdgeInsets.only(left: 20),
@@ -342,15 +517,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
       child: FormField(builder: (FormFieldState state) {
         return DropdownButtonFormField(
           //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((int tableNumber) {
+          items: _dropdownItemsTable.map((tableNumber) {
             return new DropdownMenuItem(
-                value: tableNumber,
+                value: tableNumber.id,
                 child: Row(
                   children: <Widget>[
                     Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          "Table Number: $tableNumber",
+                          "Table Number: ${tableNumber.name}",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor:
@@ -367,13 +542,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
             // do other stuff with _category
             setState(() {
               _dropdownTableNumber = newValue;
-              _dropdownItemsTable.forEach((value) {
-                if (value == newValue) {
-                  print(value);
-                  tableID = value;
-                }
-              });
             });
+            _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+                widget.rest_id, _dropdownTableNumber, context);
           },
 
           value: _dropdownTableNumber,
@@ -632,6 +803,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   Widget togglebutton() {
+<<<<<<< HEAD
     return Container(
       height: 36,
       child: ToggleButtons(
@@ -682,6 +854,131 @@ class _AddItemPageViewState extends State<AddItemPageView>
         },
         isSelected: isSelected,
       ),
+=======
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: _switchOptions.length > 0
+          ? _switchOptions
+              .map((switchs) => Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 28),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                switchs.title ?? "",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 40,
+                          child: ToggleButtons(
+                              borderColor: greytheme1300,
+                              fillColor: getColorByHex(Globle().colorscode),
+                              borderWidth: 2,
+                              selectedBorderColor: Colors.transparent,
+                              selectedColor: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              children: <Widget>[
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    "${switchs.option1}" ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[0] == true)
+                                            ? Colors.white
+                                            : greytheme700),
+                                  ),
+                                ),
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    '${switchs.option2}' ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[1] == false)
+                                            ? greytheme700
+                                            : Colors.white),
+                                  ),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  switchs.isSelected[0] =
+                                      !switchs.isSelected[0];
+                                  switchs.isSelected[1] =
+                                      !switchs.isSelected[1];
+                                });
+                                if (switches == null) {
+                                  switches = [];
+                                }
+                                if (switches.length > 0) {
+                                  for (int i = 0; i < switches.length; i++) {
+                                    if (switches[i].switchId == switchs.index) {
+                                      if (index == 0) {
+                                        switches[i].switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switches[i].switchOption =
+                                            switchs.option2;
+                                      }
+                                    } else {
+                                      var switchItem = Switches();
+                                      switchItem.switchId = switchs.index;
+                                      if (index == 0) {
+                                        switchItem.switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switchItem.switchOption =
+                                            switchs.option2;
+                                      }
+                                      switches.add(switchItem);
+                                    }
+                                  }
+                                } else {
+                                  var switchItem = Switches();
+                                  switchItem.switchId = switchs.index;
+                                  if (index == 0) {
+                                    switchItem.switchOption = switchs.option1;
+                                  }
+                                  if (index == 1) {
+                                    switchItem.switchOption = switchs.option2;
+                                  }
+                                  switches.add(switchItem);
+                                }
+                              },
+                              isSelected: switchs.isSelected),
+                        )
+                      ],
+                    ),
+                  ))
+              .toList()
+          : [Container()],
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     );
   }
 
@@ -754,6 +1051,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   addItemToCart() async {
     listItemIdList.add(itemIdValue);
 
+<<<<<<< HEAD
     List<String> list = listItemIdList.map((i) => i.toString()).toList();
     prefs = await SharedPreferences.getInstance();
     prefs.setStringList("key", list);
@@ -767,6 +1065,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //   content: Text("Item added into cart"),
     // );
     // _scaffoldKey.currentState.showSnackBar(snackBar);
+=======
+  @override
+  void addMenuToCartsuccess() {
+    // TODO: implement addMenuToCartsuccess
+    Constants.showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
   }
 
   getTextChanged() {
@@ -810,6 +1115,21 @@ class _AddItemPageViewState extends State<AddItemPageView>
       print(listItemIdList);
     }
   }
+
+  @override
+  void getTableListFailed() {
+    // TODO: implement getTableListFailed
+  }
+
+  @override
+  void getTableListSuccess(List<GetTableList> _getlist) {
+    getTableListModel = _getlist[0];
+    if (_getlist.length > 0) {
+      gettablelist(_getlist);
+    }
+
+    // TODO: implement getTableListSuccess
+  }
 }
 
 // OrderConfirmationView
@@ -827,3 +1147,32 @@ class RadioButtonOptions {
   String title;
   RadioButtonOptions({this.index, this.title});
 }
+<<<<<<< HEAD
+=======
+
+class SwitchesItems {
+  int index;
+  String title;
+  String option1;
+  List<bool> isSelected;
+  String option2;
+  SwitchesItems(
+      {this.index, this.title, this.option1, this.option2, this.isSelected});
+}
+
+class TableList {
+  //geolocation(){}
+  String name;
+  int restid;
+  int id;
+  TableList({this.restid, this.id, this.name});
+}
+
+class AddTableno {
+  int user_id;
+  int table_id;
+  int rest_id;
+
+  AddTableno({this.rest_id, this.table_id, this.user_id});
+}
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8

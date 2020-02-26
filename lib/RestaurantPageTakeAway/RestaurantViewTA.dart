@@ -478,6 +478,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                     width: 0.7,
                                   ),
                                 ),
+<<<<<<< HEAD
                               ),
                               width: MediaQuery.of(context).size.width * 0.2,
                               child: Center(
@@ -489,6 +490,19 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                       fontStyle: FontStyle.normal,
                                       fontWeight: FontWeight.w600,
                                       color: Color.fromRGBO(64, 64, 64, 1)),
+=======
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Center(
+                                  child: Text((_restaurantList[index].sizePrizes.isEmpty) ?
+                                    '\$ ${_restaurantList[index].price}' ?? '' : "\$ ${_restaurantList[index].sizePrizes[0].price}" ?? "",
+                                    style: TextStyle(
+                                        //fontFamily: FontNames.gotham,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.normal,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromRGBO(64, 64, 64, 1)),
+                                  ),
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
                                 ),
                               ),
                             ),

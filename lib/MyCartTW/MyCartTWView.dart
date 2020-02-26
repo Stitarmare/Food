@@ -4,7 +4,9 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -15,7 +17,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 class MyCartTWView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartTWView({this.restId, this.userID});
+  String lat;
+  String long;
+  String orderType;
+  double total;
+  MyCartTWView(
+      {this.restId,
+      this.userID,
+      this.orderType,
+      this.lat,
+      this.long,
+      this.total});
   //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -38,6 +50,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
   int page = 1;
 
   int id;
+  List<int> itemList = [];
+  MenuCartDisplayModel myCart;
 
   @override
   void initState() {
@@ -76,7 +90,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -110,7 +124,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -150,8 +164,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: Text(
                           'Add a Table Number',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700),
                         ),
                       ),
                       SizedBox(
@@ -190,9 +206,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       ),
                       Center(
                         child: RaisedButton(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: redtheme),
+                              side: BorderSide(
+                                  color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -202,9 +219,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             child: Text(
                               'SUBMIT',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                  fontSize: 18,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -270,7 +288,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -357,12 +375,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -371,21 +389,39 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     onTap: () {
                       // Navigator.pushNamed(context, '/OrderConfirmationView');
                       // print("button is pressed");
-                      showDialog(
-                          context: context,
-                          child: new RadioDialog(
-                            onValueChange: _onValueChange,
-                            initialValue: _selectedId,
-                          ));
+                      // showDialog(
+                      //     context: context,
+                      //     child: new RadioDialog(
+                      //       onValueChange: _onValueChange,
+                      //       initialValue: _selectedId,
+                      //     ));
+                      (_cartItemList != null)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentTipAndPay(
+                                        restId: widget.restId,
+                                        //userId: widget.userID,
+                                        items: itemList,
+                                        totalAmount: myCart.grandTotal,
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                        itemdata: _cartItemList,
+
+                                        // tableId: _cartItemList[index].tableId,
+                                      )))
+                          : Constants.showAlert("My Cart",
+                              "Please add items to your cart first.", context);
                     },
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
                           'PLACE ORDER',
@@ -454,13 +490,17 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  _cartItemList[index].items.itemName ??
-                                      'Bacon & Cheese Burger',
-                                  style: TextStyle(
-                                      // fontFamily: 'gotham',
-                                      fontSize: 18,
-                                      color: greytheme700),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.65,
+                                  child: Text(
+                                    _cartItemList[index].items.itemName ??
+                                        'Bacon & Cheese Burger',
+                                    style: TextStyle(
+                                        fontFamily: 'gotham',
+                                        fontSize: 16,
+                                        color: greytheme700),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 6,
@@ -538,16 +578,22 @@ class _MyCartTWViewState extends State<MyCartTWView>
   }
 
   @override
-  void getCartMenuListsuccess(List<MenuCartList> menulist) {
+  void getCartMenuListsuccess(
+      List<MenuCartList> menulist, MenuCartDisplayModel model) {
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    myCart = model;
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        for (var i = 0; i < _cartItemList.length; i++) {
+          itemList.add(_cartItemList[i].id);
+          print(itemList);
+        }
       } else {
         //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);

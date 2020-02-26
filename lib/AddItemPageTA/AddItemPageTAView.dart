@@ -5,6 +5,11 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+<<<<<<< HEAD
+=======
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/constant.dart';
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -31,7 +36,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this);
+    _addItemPagepresenter = AddItemPageTApresenter(this,this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -145,9 +150,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -160,7 +165,33 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () {
+<<<<<<< HEAD
               Navigator.pushNamed(context, '/OrderConfirmationView');
+=======
+              if (addMenuToCartModel == null) {
+                addMenuToCartModel = AddItemsToCartModel();
+              }
+              addMenuToCartModel.userId = Globle().loginModel.data.id;
+              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.tableId = null;
+              if (items == null) {
+                items = Item();
+              }
+
+              addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].itemId = widget.item_id;
+              addMenuToCartModel.items[0].extra = extra ?? [];
+              addMenuToCartModel.items[0].spreads =
+                  spread == null ? [] : [spread];
+              addMenuToCartModel.items[0].switches = switches ?? [];
+              addMenuToCartModel.items[0].quantity = count;
+
+              print(addMenuToCartModel.toJson());
+              _addItemPagepresenter.performaddMenuToCart(
+                  addMenuToCartModel, context);
+
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
               // print("button is pressed");
               // showDialog(
               //   context: context,
@@ -444,6 +475,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget togglebutton() {
+<<<<<<< HEAD
     return Container(
       height: 36,
       child: ToggleButtons(
@@ -493,6 +525,131 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         },
         isSelected: isSelected,
       ),
+=======
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: _switchOptions.length > 0
+          ? _switchOptions
+              .map((switchs) => Container(
+                    margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 28),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                switchs.title ?? "",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          height: 40,
+                          child: ToggleButtons(
+                              borderColor: greytheme1300,
+                              fillColor: getColorByHex(Globle().colorscode),
+                              borderWidth: 2,
+                              selectedBorderColor: Colors.transparent,
+                              selectedColor: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              children: <Widget>[
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    "${switchs.option1}" ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[0] == true)
+                                            ? Colors.white
+                                            : greytheme700),
+                                  ),
+                                ),
+                                Container(
+                                  width: 85,
+                                  child: Text(
+                                    '${switchs.option2}' ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'gotham',
+                                        fontWeight: FontWeight.w500,
+                                        color: (switchs.isSelected[1] == false)
+                                            ? greytheme700
+                                            : Colors.white),
+                                  ),
+                                ),
+                              ],
+                              onPressed: (int index) {
+                                setState(() {
+                                  switchs.isSelected[0] =
+                                      !switchs.isSelected[0];
+                                  switchs.isSelected[1] =
+                                      !switchs.isSelected[1];
+                                });
+                                if (switches == null) {
+                                  switches = [];
+                                }
+                                if (switches.length > 0) {
+                                  for (int i = 0; i < switches.length; i++) {
+                                    if (switches[i].switchId == switchs.index) {
+                                      if (index == 0) {
+                                        switches[i].switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switches[i].switchOption =
+                                            switchs.option2;
+                                      }
+                                    } else {
+                                      var switchItem = Switches();
+                                      switchItem.switchId = switchs.index;
+                                      if (index == 0) {
+                                        switchItem.switchOption =
+                                            switchs.option1;
+                                      }
+                                      if (index == 1) {
+                                        switchItem.switchOption =
+                                            switchs.option2;
+                                      }
+                                      switches.add(switchItem);
+                                    }
+                                  }
+                                } else {
+                                  var switchItem = Switches();
+                                  switchItem.switchId = switchs.index;
+                                  if (index == 0) {
+                                    switchItem.switchOption = switchs.option1;
+                                  }
+                                  if (index == 1) {
+                                    switchItem.switchOption = switchs.option2;
+                                  }
+                                  switches.add(switchItem);
+                                }
+                              },
+                              isSelected: switchs.isSelected),
+                        )
+                      ],
+                    ),
+                  ))
+              .toList()
+          : [Container()],
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
     );
   }
 
@@ -552,8 +709,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     getradiobtn(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+<<<<<<< HEAD
     // TODO: implement addItemsuccess
   }
+=======
+
+    switchbtn(_addItemModelList.switches.length);
+    
+    // TODO: implement addItemsuccess
+  }
+
+  @override
+  void addMenuToCartfailed() {
+    // TODO: implement addMenuToCartfailed
+  }
+
+  @override
+  void addMenuToCartsuccess() {
+    // TODO: implement addMenuToCartsuccess
+    Constants.showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
+  }
+>>>>>>> 9ec3a5ed106d6b4ad8242e8cf3e9ded29c7b0bd8
 }
 
 // OrderConfirmationView

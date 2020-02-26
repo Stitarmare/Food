@@ -14,7 +14,7 @@ abstract class MyCartContarctor {
 }
 
 abstract class MyCartModelView {
-  void getCartMenuListsuccess(List<MenuCartList> menulist);
+  void getCartMenuListsuccess(List<MenuCartList> menulist,MenuCartDisplayModel model);
   void getCartMenuListfailed();
   void removeItemSuccess();
   void removeItemFailed();
