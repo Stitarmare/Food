@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
-import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
@@ -37,8 +36,7 @@ class MyCartView extends StatefulWidget {
   }
 }
 
-class _MyCartViewState extends State<MyCartView>
-    implements MyCartModelView, AddTablenoModelView, GetTableListModelView {
+class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -46,11 +44,6 @@ class _MyCartViewState extends State<MyCartView>
   List<ItemInfo> _itemInfo = [];
 
   String _selectedId;
-
-  int _dropdownTableNumber;
-
-  bool isTableList = true;
-  GetTableList getTableListModel;
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
@@ -63,26 +56,7 @@ class _MyCartViewState extends State<MyCartView>
   int id;
   List<int> itemList = [];
 
-  List<TableList> _dropdownItemsTable = [];
-
   List<MenuCartList> itemData;
-
-  getlistoftable() {
-    if (_dropdownItemsTable != null) {
-      if (_dropdownItemsTable.length >= 0) {
-        setState(() {
-          isTableList = true;
-        });
-        return;
-      }
-      setState(() {
-        isTableList = false;
-      });
-    }
-    setState(() {
-      isTableList = false;
-    });
-  }
 
   @override
   void initState() {
@@ -91,7 +65,6 @@ class _MyCartViewState extends State<MyCartView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    _myCartpresenter.getTableListno(widget.restId, context);
 
     super.initState();
   }
@@ -338,34 +311,36 @@ class _MyCartViewState extends State<MyCartView>
                 ],
               ),
               SizedBox(
-                height: 20,
-              ),
-              isTableList ? getTableNumber() : Container(),
-              // GestureDetector(
-              //   onTap: () {
-              //     //  await DailogBox.addTablePopUp(context);
-              //     addTablePopUp(context);
-              //   },
-
-              //   child: Text(
-              //     'Add Table Number',
-              //     textAlign: TextAlign.start,
-              //     style: TextStyle(
-              //         decoration: TextDecoration.underline,
-              //         decorationColor: Colors.black,
-              //         fontSize: 14,
-              //         fontFamily: 'gotham',
-              //         fontWeight: FontWeight.w600,
-              //         color: greytheme100),
-              //   ),
-              // )
-              SizedBox(
                 height: 10,
               ),
+              Row(
+                children: <Widget>[
+                  SizedBox(width: 20),
+                  GestureDetector(
+                    onTap: () {
+                      //  await DailogBox.addTablePopUp(context);
+                      addTablePopUp(context);
+                    },
+                    child: Text(
+                      'Add Table Number',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.black,
+                          fontSize: 14,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme100),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              )
             ],
           ),
         ),
-
         // ),
       );
     }
@@ -496,93 +471,6 @@ class _MyCartViewState extends State<MyCartView>
   //     _itemInfo = itemInfolist;
   //   });
   // }
-
-  int gettablelist(List<GetTableList> getlist) {
-    List<TableList> _tablelist = [];
-    for (int i = 0; i < getlist.length; i++) {
-      _tablelist.add(TableList(
-        id: getlist[i].id,
-        restid: widget.restId,
-        name: getlist[i].tableName,
-      ));
-    }
-    setState(() {
-      _dropdownItemsTable = _tablelist;
-    });
-    getlistoftable();
-  }
-
-  Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber.id,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "Table Number: ${tableNumber.name}",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) {
-            // do other stuff with _category
-            setState(() {
-              _dropdownTableNumber = newValue;
-            });
-            _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
-                widget.restId, _dropdownTableNumber, context);
-          },
-
-          value: _dropdownTableNumber,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
-    );
-  }
 
   Widget _getAddedListItem() {
     return (_cartItemList != null)
@@ -749,8 +637,15 @@ class _MyCartViewState extends State<MyCartView>
           itemList.add(_cartItemList[i].id);
           print(itemList);
         }
+        // for (var i = 0; i < _cartItemList.length; i++) {
+        //   itemData.add(_cartItemList[i].items);
+        //   print(itemData);
+        // }
       } else {
+        //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
+
+        //getcartitemlist();
       }
       page++;
     });
@@ -758,38 +653,45 @@ class _MyCartViewState extends State<MyCartView>
   }
 
   @override
-  void addTablebnoSuccces() {
-    // TODO: implement addTablebnoSuccces
-  }
-
-  @override
-  void addTablenofailed() {
-    // TODO: implement addTablenofailed
-  }
-
-  @override
-  void getTableListFailed() {
-    // TODO: implement getTableListFailed
-  }
-
-  @override
-  void getTableListSuccess(List<GetTableList> _getlist) {
-    // TODO: implement getTableListSuccess
-    getTableListModel = _getlist[0];
-    if (_getlist.length > 0) {
-      gettablelist(_getlist);
-    }
-  }
-
-  @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
+    _cartItemList = null;
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    _myCartpresenter.getCartMenuList(
+        widget.restId, context, Globle().loginModel.data.id);
   }
+
+  //   return Scaffold(
+  //     body: _getmainview(),
+  //   );
+  // }
+
+//   Widget _getmainview() {
+//     return Container(
+//       child: Column(
+//         children: <Widget>[
+//           Padding(padding: EdgeInsets.fromLTRB(15, 200, 0, 0)),
+//           Center(child: Text('data')),
+//           //_getmainviewTableno(),
+//           SizedBox(
+//             height: 20,
+//           ),
+//           Divider(
+//             thickness: 3,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 }
 
 class ItemInfo {
@@ -798,12 +700,4 @@ class ItemInfo {
   int itemId;
   String menutype;
   ItemInfo({this.itemName, this.itemDescription, this.itemId, this.menutype});
-}
-
-class TableList {
-  //geolocation(){}
-  String name;
-  int restid;
-  int id;
-  TableList({this.restid, this.id, this.name});
 }
