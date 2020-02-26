@@ -19,6 +19,8 @@ class MycartPresenter extends MyCartContarctor {
       GetTableListModelView getTableListModel,
       AddTablenoModelView addTablenoModelView) {
     this._cartModelView = _cartModelView;
+    this.getTableListModel = getTableListModel;
+    this.addTablenoModelView = addTablenoModelView;
   }
 
   @override

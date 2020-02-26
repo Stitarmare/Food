@@ -6,7 +6,7 @@ import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
-import 'package:foodzi/Utils/ConstantImages.dart';
+//import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -73,7 +73,7 @@ class _MyCartViewState extends State<MyCartView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-
+    _myCartpresenter.getTableListno(widget.restId, context);
     super.initState();
   }
 
@@ -114,19 +114,6 @@ class _MyCartViewState extends State<MyCartView>
       isTableList = false;
     });
   }
-
-  // int getcartitemlist(){
-  //   List<int> items = [];
-  //   for(int i; i>items.length ; i++){
-  //     items.add(_cartItemList[i].id);
-  //   }
-  //   setState(() {
-  //     if(items !=null){
-  //       itemList = items;
-  //     }
-
-  //   });
-  // }
 
   Widget steppercount(int i) {
     int count = _cartItemList[i].quantity;
@@ -198,101 +185,6 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Widget build(BuildContext context) {
-    addTablePopUp(BuildContext context) {
-      return showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return Container(
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Container(
-                  height: 236,
-                  width: 284,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Text(
-                          'Add a Table Number',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: greytheme700),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      // Center(
-                      //   child: TextFormField(
-                      //     keyboardType: TextInputType.number,
-                      //     autofocus: true,
-                      //     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                      //   )
-                      // ),
-                      Center(
-                        child: Container(
-                          // margin: EdgeInsets.only(left: 37, right: 27),
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: greytheme600)),
-                          // color: Color.fromRGBO(213, 213, 213, 1)),
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            autofocus: true,
-                            inputFormatters: [
-                              WhitelistingTextInputFormatter.digitsOnly
-                            ],
-                            maxLines: 1,
-                            controller: _textController,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      Center(
-                        child: RaisedButton(
-                          color: getColorByHex(Globle().colorscode),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: getColorByHex(Globle().colorscode)),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
-                            child: Text(
-                              'SUBMIT',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'gotham',
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
-    }
-
     Widget _getmainviewTableno() {
       return
           // SliverToBoxAdapter(
@@ -356,25 +248,26 @@ class _MyCartViewState extends State<MyCartView>
               Row(
                 children: <Widget>[
                   SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: null,
-                    //() {}
-                    //  {
-                    //   // //  await DailogBox.addTablePopUp(context);
-                    //   // addTablePopUp(context);
-                    // },
-                    child: Text(
-                      'Add Table Number',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme100),
-                    ),
-                  )
+
+                  // GestureDetector(
+                  //   onTap: null,
+                  //   //() {}
+                  //   //  {
+                  //   //   // //  await DailogBox.addTablePopUp(context);
+                  //   //   // addTablePopUp(context);
+                  //   // },
+                  //   child: Text(
+                  //     'Add Table Number',
+                  //     textAlign: TextAlign.start,
+                  //     style: TextStyle(
+                  //         decoration: TextDecoration.underline,
+                  //         decorationColor: Colors.black,
+                  //         fontSize: 14,
+                  //         fontFamily: 'gotham',
+                  //         fontWeight: FontWeight.w600,
+                  //         color: greytheme100),
+                  //   ),
+                  // )
                 ],
               ),
               SizedBox(
@@ -462,7 +355,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
-                                        tableId: _cartList.tableId,
+                                        tableId: _dropdownTableNumber,
                                         // userId: widget.userID,
                                         totalAmount: myCart.grandTotal,
                                         items: itemList,
