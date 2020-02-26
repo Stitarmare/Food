@@ -4,7 +4,6 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
-
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -13,18 +12,19 @@ import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class MyCartView extends StatefulWidget {
+class MyCartTWView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartView({this.restId, this.userID});
-  //MyCartView({Key key}) : super(key: key);
+  MyCartTWView({this.restId, this.userID});
+  //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _MyCartViewState();
+    return _MyCartTWViewState();
   }
 }
 
-class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
+class _MyCartTWViewState extends State<MyCartTWView>
+    implements MyCartModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -32,11 +32,9 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   List<ItemInfo> _itemInfo = [];
 
   String _selectedId;
-
+  int count = 0;
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
-  List<CartExtraItems> cartExtraItemsList = [];
-  int cartId;
   int page = 1;
 
   int id;
@@ -266,7 +264,7 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -279,31 +277,31 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () {
-                      //  await DailogBox.addTablePopUp(context);
-                      addTablePopUp(context);
-                    },
-                    child: Text(
-                      'Add Table Number',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme100),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              )
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
+              //     GestureDetector(
+              //       onTap: () {
+              //         //  await DailogBox.addTablePopUp(context);
+              //         addTablePopUp(context);
+              //       },
+              //       child: Text(
+              //         'Add Table Number',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             decoration: TextDecoration.underline,
+              //             decorationColor: Colors.black,
+              //             fontSize: 14,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w600,
+              //             color: greytheme100),
+              //       ),
+              //     )
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // )
             ],
           ),
         ),
@@ -407,20 +405,18 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
     );
   }
 
-  // int getItemName(int length) {
-  //   List<ItemInfo> itemInfolist = [];
-  //   for (int i = 1; i <= length; i++) {
-  //     itemInfolist.add(ItemInfo(
-  //       itemName: _cartItemList[i - 1].items[i - 1].itemName,
-  //       itemDescription: _cartItemList[i - 1].items[i - 1].itemDescription,
-  //       itemId: _cartItemList[i - 1].items[i - 1].id,
-  //     ));
-  //   }
-  //   setState(() {
-  //     _itemInfo = itemInfolist;
-  //   });
-  // }
-
+// int getItemName(int length) {
+//     List<ItemInfo> itemInfolist = [];
+//     for (int i = 1; i <= length; i++) {
+//       itemInfolist.add(ItemInfo(
+//           itemName: _cartItemList[i-1].items[i - 1].itemName,
+//           itemDescription: _cartItemList[i-1].items[i - 1].itemDescription,
+//           itemId:_cartItemList[i-1].items[i - 1].id, ));
+//     }
+//     setState(() {
+//       _itemInfo = itemInfolist;
+//     });
+//   }
   Widget _getAddedListItem() {
     return (_cartItemList != null)
         ? Expanded(
@@ -428,109 +424,94 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
-                //int userID = _cartItemList[index].userId;
-                cartId = _cartItemList[index].id;
-
-                return Dismissible(
-                  key: UniqueKey(),
-                  background: refreshBg(),
-                  onDismissed: (direction) {
-                    int cartIdnew = _cartItemList[index].id;
-                    DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, "Loading");
-
-                    _myCartpresenter.removeItemfromCart(
-                        cartIdnew, Globle().loginModel.data.id, context);
-                  },
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: (_cartItemList[index].items.menuType ==
-                                        "veg")
-                                    ? Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        height: 25,
-                                        width: 25,
-                                      )
-                                    : Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        color: redtheme,
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                              ),
-                              SizedBox(width: 16),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    _cartItemList[index].items.itemName ??
-                                        'Bacon & Cheese Burger',
-                                    style: TextStyle(
-                                        // fontFamily: 'gotham',
-                                        fontSize: 18,
-                                        color: greytheme700),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 180,
-                                    child: AutoSizeText(
-                                      _cartItemList[index]
-                                              .items
-                                              .itemDescription ??
-                                          " Lorem Epsom is simply dummy text",
-                                      style: TextStyle(
-                                        color: greytheme1000,
-                                        fontSize: 14,
-                                        // fontFamily: 'gotham',
-                                      ),
-                                      // minFontSize: 8,
-                                      maxFontSize: 12,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  steppercount(index),
-                                ],
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 80,
-                                ),
-                                flex: 2,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20, top: 30),
-                                child: Text(
-                                  "\$ ${_cartItemList[index].items.price}" ??
-                                      '\$17',
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child:
+                                  (_cartItemList[index].items.menuType == "veg")
+                                      ? Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          height: 25,
+                                          width: 25,
+                                        )
+                                      : Image.asset(
+                                          'assets/VegIcon/Group1661.png',
+                                          color: redtheme,
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                            ),
+                            SizedBox(width: 16),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  _cartItemList[index].items.itemName ??
+                                      'Bacon & Cheese Burger',
                                   style: TextStyle(
-                                      color: greytheme700,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                                      // fontFamily: 'gotham',
+                                      fontSize: 18,
+                                      color: greytheme700),
                                 ),
-                              )
-                            ]),
-                        SizedBox(height: 12),
-                        Divider(
-                          height: 2,
-                          thickness: 2,
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  width: 180,
+                                  child: AutoSizeText(
+                                    _cartItemList[index]
+                                            .items
+                                            .itemDescription ??
+                                        " Lorem Epsom is simply dummy text",
+                                    style: TextStyle(
+                                      color: greytheme1000,
+                                      fontSize: 14,
+                                      // fontFamily: 'gotham',
+                                    ),
+                                    // minFontSize: 8,
+                                    maxFontSize: 12,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                steppercount(index),
+                              ],
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                width: 80,
+                              ),
+                              flex: 2,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 20, top: 30),
+                              child: Text(
+                                "\$ ${_cartItemList[index].items.price}" ??
+                                    '\$17',
+                                style: TextStyle(
+                                    color: greytheme700,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )
+                          ]),
+                      SizedBox(height: 12),
+                      Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                      SizedBox(height: 8),
+                    ],
                   ),
                 );
               },
@@ -539,28 +520,16 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
         : Expanded(
             child: Center(
               child: Text(
-                "Nothing in the Cart",
+                "No Items found.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     fontFamily: 'gotham',
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
             ),
           );
-  }
-
-  Widget refreshBg() {
-    return Container(
-      alignment: Alignment.centerRight,
-      color: Colors.red,
-      padding: EdgeInsets.only(right: 20),
-      child: Icon(
-        Icons.delete,
-        color: Colors.white,
-      ),
-    );
   }
 
   @override
@@ -591,19 +560,12 @@ class _MyCartViewState extends State<MyCartView> implements MyCartModelView {
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
-    _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-    _myCartpresenter.getCartMenuList(
-        widget.restId, context, Globle().loginModel.data.id);
   }
-
   //   return Scaffold(
   //     body: _getmainview(),
   //   );
