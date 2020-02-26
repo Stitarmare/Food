@@ -335,7 +335,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       print(abc);
 
                       print("abc");
-                    } 
+                    }
                     // else {
                     //   Constants.showAlert(
                     //       "No Records", "No items found.", context);
@@ -359,7 +359,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.92,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return Container(
@@ -430,14 +430,51 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
-                                Text(
-                                  "${_restaurantList[index].itemName}" ?? " ",
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontFamily: 'gotham',
-                                      fontWeight: FontWeight.w600,
-                                      color: greytheme700),
+                                Row(
+                                  children: <Widget>[
+                                    (_restaurantList[index].menuType == "veg")
+                                        ? Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            //color: greentheme,
+                                            width: 14,
+                                            height: 14,
+                                          )
+                                        : Image.asset(
+                                            'assets/VegIcon/Group1661.png',
+                                            color: redtheme,
+                                            width: 14,
+                                            height: 14,
+                                          ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.36,
+                                      child: AutoSizeText(
+                                        "${_restaurantList[index].itemName}" ??
+                                            " ",
+                                        maxLines: 2,
+                                        minFontSize: 10,
+                                        maxFontSize: 13,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontFamily: 'gotham',
+                                            fontWeight: FontWeight.w600,
+                                            color: greytheme700),
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   "${_restaurantList[index].itemName}" ??
+                                    //       " ",
+                                    //   maxLines: 1,
+                                    //   style: TextStyle(
+                                    //       fontSize: 13,
+                                    //       fontFamily: 'gotham',
+                                    //       fontWeight: FontWeight.w600,
+                                    //       color: greytheme700),
+                                    // ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -492,8 +529,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 ),
                                 width: MediaQuery.of(context).size.width * 0.2,
                                 child: Center(
-                                  child: Text((_restaurantList[index].sizePrizes.isEmpty) ?
-                                    '\$ ${_restaurantList[index].price}' ?? '' : "\$ ${_restaurantList[index].sizePrizes[0].price}" ?? "",
+                                  child: Text(
+                                    (_restaurantList[index].sizePrizes.isEmpty)
+                                        ? '\$ ${_restaurantList[index].price}' ??
+                                            ''
+                                        : "\$ ${_restaurantList[index].sizePrizes[0].price}" ??
+                                            "",
                                     style: TextStyle(
                                         //fontFamily: FontNames.gotham,
                                         fontSize: 14,
