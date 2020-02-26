@@ -10,12 +10,16 @@ abstract class MyCartContarctor {
     int userId,
   );
   void onBackPresed();
+
+  void removeItemfromCart(int cartId, int userId, BuildContext context);
 }
 
 abstract class MyCartModelView {
   void getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model);
   void getCartMenuListfailed();
+  void removeItemSuccess();
+  void removeItemFailed();
 }
 
 abstract class AddTablenoModelView {

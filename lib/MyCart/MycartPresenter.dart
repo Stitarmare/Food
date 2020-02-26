@@ -102,4 +102,9 @@ class MycartPresenter extends MyCartContarctor {
 //ApiCall
     //;
   }
+
+  @override
+  void removeItemfromCart(int cartId, int userId, BuildContext context) {
+    // TODO: implement removeItemfromCart
+  }
 }

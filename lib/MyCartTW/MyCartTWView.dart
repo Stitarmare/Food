@@ -599,6 +599,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
+
+  @override
+  void removeItemFailed() {
+    // TODO: implement removeItemFailed
+  }
+
+  @override
+  void removeItemSuccess() {
+    // TODO: implement removeItemSuccess
+  }
   //   return Scaffold(
   //     body: _getmainview(),
   //   );

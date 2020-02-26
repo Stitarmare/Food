@@ -39,7 +39,6 @@ import 'ChangePassword/ChangePassView.dart';
 // import './OrderConfirmation/OrderConfirmationView.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 
 var routes = <String, WidgetBuilder>{
   '/': (BuildContext context) => SplashScreen(),
@@ -70,7 +69,6 @@ var routes = <String, WidgetBuilder>{
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
   '/webview': (BuildContext context) => WebViewPage(),
   '/PaymentMethod': (BuildContext context) => PaymentMethod(),
-  '/PaymentTipAndPay':(BuildContext context)=> PaymentTipAndPay(),
 };
 void main() {
   set();

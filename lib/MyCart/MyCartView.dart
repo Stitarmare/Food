@@ -54,6 +54,8 @@ class _MyCartViewState extends State<MyCartView>
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
+  List<CartExtraItems> cartExtraItemsList = [];
+  int cartId;
   MenuCartDisplayModel myCart;
   int page = 1;
 
@@ -586,100 +588,110 @@ class _MyCartViewState extends State<MyCartView>
             child: ListView.builder(
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
-                //int tempID = _cartItemList[index].itemId;
+                id = _cartItemList[index].itemId;
+                //int userID = _cartItemList[index].userId;
+                cartId = _cartItemList[index].id;
 
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child:
-                                  (_cartItemList[index].items.menuType == "veg")
-                                      ? Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          height: 25,
-                                          width: 25,
-                                        )
-                                      : Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          color: redtheme,
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                            ),
-                            SizedBox(width: 16),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.65,
-                                  child: Text(
+                return Dismissible(
+                  key: UniqueKey(),
+                  background: refreshBg(),
+                  onDismissed: (direction) {
+                    int cartIdnew = _cartItemList[index].id;
+                    DialogsIndicator.showLoadingDialog(
+                        context, _keyLoader, "Loading");
+
+                    _myCartpresenter.removeItemfromCart(
+                        cartIdnew, Globle().loginModel.data.id, context);
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: (_cartItemList[index].items.menuType ==
+                                        "veg")
+                                    ? Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        height: 25,
+                                        width: 25,
+                                      )
+                                    : Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        color: redtheme,
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                              ),
+                              SizedBox(width: 16),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
                                     _cartItemList[index].items.itemName ??
                                         'Bacon & Cheese Burger',
                                     style: TextStyle(
-                                        fontFamily: 'gotham',
-                                        fontSize: 16,
+                                        // fontFamily: 'gotham',
+                                        fontSize: 18,
                                         color: greytheme700),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                  width: 180,
-                                  child: AutoSizeText(
-                                    _cartItemList[index]
-                                            .items
-                                            .itemDescription ??
-                                        " Lorem Epsom is simply dummy text",
-                                    style: TextStyle(
-                                      color: greytheme1000,
-                                      fontSize: 14,
-                                      // fontFamily: 'gotham',
-                                    ),
-                                    // minFontSize: 8,
-                                    maxFontSize: 12,
-                                    maxLines: 2,
+                                  SizedBox(
+                                    height: 6,
                                   ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 180,
+                                    child: AutoSizeText(
+                                      _cartItemList[index]
+                                              .items
+                                              .itemDescription ??
+                                          " Lorem Epsom is simply dummy text",
+                                      style: TextStyle(
+                                        color: greytheme1000,
+                                        fontSize: 14,
+                                        // fontFamily: 'gotham',
+                                      ),
+                                      // minFontSize: 8,
+                                      maxFontSize: 12,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  steppercount(index),
+                                ],
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  width: 80,
                                 ),
-                                SizedBox(height: 10),
-                                steppercount(index),
-                              ],
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 80,
+                                flex: 2,
                               ),
-                              flex: 2,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 20, top: 30),
-                              child: Text(
-                                "\$ ${_cartItemList[index].items.price}" ??
-                                    '\$17',
-                                style: TextStyle(
-                                    color: greytheme700,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            )
-                          ]),
-                      SizedBox(height: 12),
-                      Divider(
-                        height: 2,
-                        thickness: 2,
-                      ),
-                      SizedBox(height: 8),
-                    ],
+                              Padding(
+                                padding: EdgeInsets.only(right: 20, top: 30),
+                                child: Text(
+                                  "\$ ${_cartItemList[index].items.price}" ??
+                                      '\$17',
+                                  style: TextStyle(
+                                      color: greytheme700,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            ]),
+                        SizedBox(height: 12),
+                        Divider(
+                          height: 2,
+                          thickness: 2,
+                        ),
+                        SizedBox(height: 8),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -688,16 +700,28 @@ class _MyCartViewState extends State<MyCartView>
         : Expanded(
             child: Center(
               child: Text(
-                "No Items found.",
+                "Nothing in the Cart",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontFamily: 'gotham',
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
             ),
           );
+  }
+
+  Widget refreshBg() {
+    return Container(
+      alignment: Alignment.centerRight,
+      color: Colors.red,
+      padding: EdgeInsets.only(right: 20),
+      child: Icon(
+        Icons.delete,
+        color: Colors.white,
+      ),
+    );
   }
 
   @override
@@ -753,6 +777,16 @@ class _MyCartViewState extends State<MyCartView>
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
+  }
+
+  @override
+  void removeItemFailed() {
+    // TODO: implement removeItemFailed
+  }
+
+  @override
+  void removeItemSuccess() {
+    // TODO: implement removeItemSuccess
   }
 }
 
