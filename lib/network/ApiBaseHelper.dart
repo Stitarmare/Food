@@ -35,7 +35,7 @@ class BaseUrl {
   static String getBaseUrlImages() {
     switch (environment) {
       case Environment.PRODUCTION:
-        return "http://18.219.185.86/";
+        return "http://18.219.185.86/storage/";
       case Environment.DEVLOPMENT:
         return "http://foodzi.php-dev.in/storage/";
       case Environment.LOCAL:

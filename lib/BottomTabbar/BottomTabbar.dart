@@ -43,36 +43,46 @@ class _BottomTabbarState extends State<BottomTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        width: 60,
-        height: 120,
-        child: Column(
-          children: <Widget>[
-            FittedBox(
-              child: FloatingActionButton(
+      floatingActionButton: 
+      FloatingActionButton(
                   backgroundColor: orangetheme,
                   onPressed: () {
                     print("1");
                   },
                   heroTag: "btnBuzzer",
                   child: Image.asset('assets/ClockIcon/clock.png')),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: orangetheme,
-                  onPressed: () {
-                    print("2");
-                    Navigator.pushNamed(context, '/MyCart');
-                  },
-                  heroTag: "btnAddCart",
-                  child: Icon(Icons.shopping_cart, color: Colors.white)),
-            ),
-          ],
-        ),
-      ),
+        //           Container(
+        // width: 60,
+        // height: 120,
+        // child: 
+        // Column(
+        //   children: <Widget>[
+        //     FittedBox(
+        //       child: 
+              // FloatingActionButton(
+              //     backgroundColor: orangetheme,
+              //     onPressed: () {
+              //       print("1");
+              //     },
+              //     heroTag: "btnBuzzer",
+              //     child: Image.asset('assets/ClockIcon/clock.png')),
+           // ),
+            // SizedBox(
+            //   height: 5,
+            // ),
+            // FittedBox(
+            //   child: FloatingActionButton(
+            //       backgroundColor: orangetheme,
+            //       onPressed: () {
+            //         print("2");
+            //         Navigator.pushNamed(context, '/MyCart');
+            //       },
+            //       heroTag: "btnAddCart",
+            //       child: Icon(Icons.shopping_cart, color: Colors.white)),
+            // ),
+      //     ],
+      //   ),
+      // ),
       body: widget.tabValue == 0
           ? tabsDineIn[currentTabIndex]
           : tabsTakeAway[currentTabIndex],

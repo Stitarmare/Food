@@ -429,33 +429,33 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           SizedBox(
             height: 13,
           ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  'VAT (7.7%)',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  width: 120,
-                ),
-                flex: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Text(
-                  '\$ 0.0',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 13,
-          ),
+          // Row(
+          //   children: <Widget>[
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 20),
+          //       child: Text(
+          //         'VAT (7.7%)',
+          //         style: TextStyle(fontSize: 12, color: greytheme700),
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: SizedBox(
+          //         width: 120,
+          //       ),
+          //       flex: 2,
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.only(right: 20),
+          //       child: Text(
+          //         '\$ 0.0',
+          //         style: TextStyle(fontSize: 12, color: greytheme700),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: 13,
+          // ),
           Row(
             children: <Widget>[
               Padding(

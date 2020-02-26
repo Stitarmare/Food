@@ -247,28 +247,29 @@ class _MyCartTWViewState extends State<MyCartTWView>
               //     SizedBox(
               //       width: 20,
               //     ),
-              Container(
-                // width: MediaQuery.of(context).size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
-                  child: Text(
-                    'Wimpy',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme700),
-                  ),
-                ),
-              ),
+              // Container(
+              //   // width: MediaQuery.of(context).size.width * 0.8,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
+              //     child: Text(
+              //       'Wimpy',
+              //       textAlign: TextAlign.start,
+              //       style: TextStyle(
+              //           fontSize: 20,
+              //           fontFamily: 'gotham',
+              //           fontWeight: FontWeight.w600,
+              //           color: greytheme700),
+              //     ),
+              //   ),
+              // ),
               //   ],
               // ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
+              // Divider(
+              //   thickness: 2,
+              //   //endIndent: 10,
+              //   //indent: 10,
+              // ),
+              SizedBox(height: 10,),
               Row(
                 children: <Widget>[
                   // SizedBox(
