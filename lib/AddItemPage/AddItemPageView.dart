@@ -54,8 +54,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
-  String strDefaultTxt = '';
-  String strAdd = 'ADD \$24';
+  String strDefaultTxt = 'ADD \$24';
 
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -80,7 +79,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
         widget.item_id, widget.rest_id, context);
     _addItemPagepresenter.getTableListno(widget.rest_id, context);
     itemIdValue = widget.item_id;
-    getTextChanged();
     super.initState();
   }
 
@@ -282,74 +280,62 @@ class _AddItemPageViewState extends State<AddItemPageView>
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        bottomNavigationBar: isAddBtnClicked
-            ? BottomAppBar(
-                child: GestureDetector(
-                  onTap: () {
-                    // setState(() {
+        bottomNavigationBar: BottomAppBar(
+          child: GestureDetector(
+            onTap: () {
+              if (addMenuToCartModel == null) {
+                addMenuToCartModel = AddItemsToCartModel();
+              }
+              addMenuToCartModel.userId = Globle().loginModel.data.id;
+              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.tableId = _dropdownTableNumber;
+              if (items == null) {
+                items = Item();
+              }
 
-                    // Navigator.pushNamed(context, '/OrderConfirmationView');
-                    // print("button is pressed");
-                    // showDialog(
-                    //   context: context,
-                    //   child: new RadioDialog(
-                    //     onValueChange: _onValueChange,
-                    //     initialValue: _selectedId,
-                    //   ));
-                  },
-                  child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      // color: redtheme,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              strDefaultTxt,
-                              style: TextStyle(
-                                  fontFamily: 'gotham',
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            ),
-                            InkWell(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    "View Cart",
-                                    style: TextStyle(
-                                        fontFamily: 'gotham',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                        color: Colors.white),
-                                  ),
-                                  SizedBox(width: 6),
-                                  Icon(Icons.shopping_cart, color: Colors.white)
-                                ],
-                              ),
-                              onTap: () {
-                                // print("count length-->");
-                                // print("$count");
-                                // print("spread id-->");
-                                // print("$spread_id");
-                                // print("extra checkbox id-->");
-                                // if (extraCheckBoxid != null) {
-                                //   print("$extraCheckBoxid");
-                                // }
-                              },
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              )
-            : null,
+              addMenuToCartModel.items = [items];
+              addMenuToCartModel.items[0].itemId = widget.item_id;
+              addMenuToCartModel.items[0].extra = extra ?? [];
+              addMenuToCartModel.items[0].spreads =
+                  spread == null ? [] : [spread];
+              addMenuToCartModel.items[0].switches = switches ?? [];
+              addMenuToCartModel.items[0].quantity = count;
+              // }
+              //);
+              print(addMenuToCartModel.toJson());
+
+              _addItemPagepresenter.performaddMenuToCart(
+                  addMenuToCartModel, context);
+              // setState(() {
+              // Navigator.pushNamed(context, '/OrderConfirmationView');
+              // print("button is pressed");
+              // showDialog(
+              //   context: context,
+              //   child: new RadioDialog(
+              //     onValueChange: _onValueChange,
+              //     initialValue: _selectedId,
+              //   ));
+            },
+            child: Container(
+                height: 54,
+                decoration: BoxDecoration(
+                    color: getColorByHex(Globle().colorscode),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15))),
+                // color: redtheme,
+                child: Center(
+                  child: Text(
+                    strDefaultTxt,
+                    style: TextStyle(
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Colors.white),
+                  ),
+                )),
+          ),
+        ),
       ),
     );
   }
@@ -641,122 +627,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 height: 10,
               ),
               togglebutton(),
-              SizedBox(height: 20),
-              getAddButton(),
-              SizedBox(height: 20),
             ]),
       ),
     );
-  }
-
-  getAddButton() {
-    return Align(
-      alignment: Alignment.center,
-      child: ButtonTheme(
-        minWidth: 350,
-        height: 50,
-        child: RaisedButton(
-          color: getColorByHex(Globle().colorscode),
-          onPressed: () {
-            setState(() {
-              isAddBtnClicked = true;
-            });
-            addItemToCart();
-            if (addMenuToCartModel == null) {
-              addMenuToCartModel = AddItemsToCartModel();
-            }
-            addMenuToCartModel.userId = Globle().loginModel.data.id;
-            addMenuToCartModel.restId = widget.rest_id;
-            addMenuToCartModel.tableId = _dropdownTableNumber;
-            if (items == null) {
-              items = Item();
-            }
-
-            addMenuToCartModel.items = [items];
-            addMenuToCartModel.items[0].itemId = widget.item_id;
-            addMenuToCartModel.items[0].extra = extra ?? [];
-            addMenuToCartModel.items[0].spreads =
-                spread == null ? [] : [spread];
-            addMenuToCartModel.items[0].switches = switches ?? [];
-            addMenuToCartModel.items[0].quantity = count;
-            // }
-            //);
-            print(addMenuToCartModel.toJson());
-
-            _addItemPagepresenter.performaddMenuToCart(
-                addMenuToCartModel, context);
-          },
-          child: Text(
-            "Add Item",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'gotham'),
-          ),
-          textColor: Colors.white,
-          textTheme: ButtonTextTheme.normal,
-          splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-          shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-              side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-        ),
-      ),
-    );
-  }
-
-  getTextChanged() {
-    if (listItemIdList.length == 0) {
-      setState(() {
-        strDefaultTxt = strAdd;
-      });
-    }
-    getItemIdfromPreference();
-  }
-
-  getItemIdfromPreference() async {
-    prefs = await SharedPreferences.getInstance();
-    listStrItemId = prefs.getStringList("key");
-    listIntItemId = listStrItemId.map((j) => int.parse(j)).toList();
-
-    print("item id-->");
-    print("$itemIdValue");
-    print("list length in prefs--->");
-    print(listIntItemId.length);
-    for (int k = 0; k < listIntItemId.length; k++) {
-      print("item in list-->");
-      print(listIntItemId.elementAt(k));
-      if (itemIdValue == listIntItemId.elementAt(k)) {
-        print("Item matched");
-        setState(() {
-          strDefaultTxt = "$count item added";
-          isAddBtnClicked = true;
-        });
-        return;
-      } else {
-        print("Item not matched");
-        setState(() {
-          strDefaultTxt = strAdd;
-        });
-      }
-    }
-    if (listItemIdList.length == 0) {
-      listItemIdList.addAll(listIntItemId);
-      print("default list length--->");
-      print(listItemIdList);
-    }
-  }
-
-  addItemToCart() async {
-    listItemIdList.add(itemIdValue);
-
-    List<String> list = listItemIdList.map((i) => i.toString()).toList();
-    prefs = await SharedPreferences.getInstance();
-    prefs.setStringList("key", list);
-    print("item id-->");
-    print("$itemIdValue");
-    setState(() {
-      strDefaultTxt = "$count Item added";
-    });
   }
 
   _getRadioOptions() {
