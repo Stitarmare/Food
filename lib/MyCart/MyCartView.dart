@@ -55,6 +55,7 @@ class _MyCartViewState extends State<MyCartView>
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   MenuCartDisplayModel myCart;
+  MenuCartList _cartList;
   int page = 1;
 
   int id;
@@ -84,7 +85,7 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void initState() {
     // TODO: implement initState
-    _myCartpresenter = MycartPresenter(this);
+    _myCartpresenter = MycartPresenter(this, this, this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -441,6 +442,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
+                                        tableId: _cartList.tableId,
                                         // userId: widget.userID,
                                         totalAmount: myCart.grandTotal,
                                         items: itemList,
