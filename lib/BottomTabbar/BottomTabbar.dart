@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
-import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -13,7 +12,6 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbar extends StatefulWidget {
-  int restId;
   int tabValue = 0;
   BottomTabbar({this.tabValue});
   @override
@@ -45,41 +43,36 @@ class _BottomTabbarState extends State<BottomTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: 
-      //Container(
-      //   width: 60,
-      //   height: 120,
-      //   child: Column(
-      //     children: <Widget>[
-      //       FittedBox(
-              //child: 
-              FloatingActionButton(
+      floatingActionButton: Container(
+        width: 60,
+        height: 120,
+        child: Column(
+          children: <Widget>[
+            FittedBox(
+              child: FloatingActionButton(
                   backgroundColor: orangetheme,
                   onPressed: () {
                     print("1");
                   },
                   heroTag: "btnBuzzer",
                   child: Image.asset('assets/ClockIcon/clock.png')),
-            //),
-            // SizedBox(
-            //   height: 5,
-            // ),
-            // FittedBox(
-            //   child: FloatingActionButton(
-            //       backgroundColor: orangetheme,
-            //       onPressed: () {
-            //         print("2");
-            //        Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //             builder: (context) => MyCartView(restId: ,)));
-            //       },
-            //       heroTag: "btnAddCart",
-            //       child: Icon(Icons.shopping_cart, color: Colors.white)),
-            // ),
-          //],
-        //),
-      //),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            FittedBox(
+              child: FloatingActionButton(
+                  backgroundColor: orangetheme,
+                  onPressed: () {
+                    print("2");
+                    Navigator.pushNamed(context, '/MyCart');
+                  },
+                  heroTag: "btnAddCart",
+                  child: Icon(Icons.shopping_cart, color: Colors.white)),
+            ),
+          ],
+        ),
+      ),
       body: widget.tabValue == 0
           ? tabsDineIn[currentTabIndex]
           : tabsTakeAway[currentTabIndex],

@@ -268,7 +268,6 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         var errorModel = AuthModel.fromMap(responseJson);
         var msg = "";
-
         if (errorModel != null) {
           if (errorModel.message != null) {
             msg = errorModel.message;

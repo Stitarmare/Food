@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/MyCart/MyCartContarctor.dart';
-import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
+import 'package:foodzi/MyCartTW/MyCartTWPresenter.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/DailogBox.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MyCartTWView extends StatefulWidget {
@@ -36,7 +33,7 @@ class MyCartTWView extends StatefulWidget {
 }
 
 class _MyCartTWViewState extends State<MyCartTWView>
-    implements MyCartModelView {
+    implements MyCartTWModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -45,7 +42,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   String _selectedId;
   int count = 0;
-  MycartPresenter _myCartpresenter;
+  MycartTWPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
 
@@ -56,7 +53,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void initState() {
     // TODO: implement initState
-    _myCartpresenter = MycartPresenter(this);
+    _myCartpresenter = MycartTWPresenter(this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -601,6 +598,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
       page++;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void removeItemFailed() {
+    // TODO: implement removeItemFailed
+  }
+
+  @override
+  void removeItemSuccess() {
+    // TODO: implement removeItemSuccess
   }
   //   return Scaffold(
   //     body: _getmainview(),
