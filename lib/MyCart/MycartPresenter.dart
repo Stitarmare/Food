@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
@@ -9,6 +10,10 @@ import 'package:foodzi/network/url_constant.dart';
 
 class MycartPresenter extends MyCartContarctor {
   MyCartModelView _cartModelView;
+  GetTableListModelView getTableListModel;
+
+  AddTablenoModelView addTablenoModelView;
+
   MycartPresenter(MyCartModelView _cartModelView) {
     this._cartModelView = _cartModelView;
   }
@@ -36,7 +41,7 @@ class MycartPresenter extends MyCartContarctor {
         case SuccessType.success:
           print("Added Menu To Cart success");
           print(value.model);
-          _cartModelView.getCartMenuListsuccess(value.model.data,value.model);
+          _cartModelView.getCartMenuListsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:
           print("Added Menu To Cart failed");
@@ -49,23 +54,57 @@ class MycartPresenter extends MyCartContarctor {
   }
 
   @override
-  void removeItemfromCart(int cartId, int userId, BuildContext context) {
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.removeItemfromCartApi, context,
-        body: {'cart_id': cartId, 'user_id': userId}).then((value) {
+  void addTablenoToCart(
+      int user_id, int rest_id, int table_id, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {
+      "user_id": user_id,
+      "table_id": table_id,
+      "rest_id": rest_id,
+    }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Removed Item success");
-          print(value.model);
-          _cartModelView.removeItemSuccess();
+          addTablenoModelView.addTablebnoSuccces();
+          print("success");
           break;
         case SuccessType.failed:
-          print("Removed Item failed");
-          _cartModelView.removeItemFailed();
+          addTablenoModelView.addTablenofailed();
+          print("failed");
           break;
       }
     }).catchError((error) {
       print(error);
     });
+//ApiCall
+    //;
+  }
+
+  @override
+  void getTableListno(int rest_id, BuildContext context) {
+    ApiBaseHelper()
+        .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
+      "rest_id": rest_id,
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          getTableListModel.getTableListSuccess(value.model.data);
+          print("success");
+          break;
+        case SuccessType.failed:
+          getTableListModel.getTableListFailed();
+          print("failed");
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+//ApiCall
+    //;
+  }
+
+  @override
+  void removeItemfromCart(int cartId, int userId, BuildContext context) {
+    // TODO: implement removeItemfromCart
   }
 }
