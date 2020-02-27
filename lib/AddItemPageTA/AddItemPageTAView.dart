@@ -73,7 +73,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: i,
+          title: _addItemModelList.spreads[i - 1].name ?? '',
+          price: _addItemModelList.spreads[i - 1].price));
     }
     radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
@@ -741,7 +743,8 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  RadioButtonOptions({this.index, this.title});
+  String price;
+  RadioButtonOptions({this.index, this.title, this.price});
 }
 
 class SwitchesItems {
