@@ -11,6 +11,7 @@ import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -951,6 +952,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+    Globle().dinecartValue += 1;
+    Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
 //Navigator.of(context).pop();

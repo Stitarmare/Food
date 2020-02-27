@@ -10,6 +10,7 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
@@ -65,7 +66,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
     //GeoLocationTracking.load();
     // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
-
+    if(Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount ) != null){
+     Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount).then((value){
+       Globle().takeAwayCartItemCount = value;
+    });
+    }
     // TODO: implement initState
     super.initState();
   }
@@ -441,6 +446,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   _restaurantList[i].coverImage,
                 ),
                 onTap: () {
+                  Globle().takeAwayCartItemCount = 0;
                   Globle().colorscode = _restaurantList[i].colourCode;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => TakeAwayBottombar(

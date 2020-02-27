@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -104,18 +105,30 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   },
                   heroTag: "btnAddCart",
                   child: Stack(
-                    fit:StackFit.passthrough,
+                    fit: StackFit.passthrough,
                     overflow: Overflow.visible,
                     children: <Widget>[
                       Icon(Icons.shopping_cart, color: Colors.white),
-                      // Positioned(
-                      //   top: -20,
-                      //   right: -15,
-                      //   child: Container(
-                      //   height: 20,
-                      //   width: 20,
-                      //   decoration: BoxDecoration(color: Colors.red),
-                      // ))
+                      (Globle().dinecartValue != null)
+                          ? Globle().dinecartValue > 0
+                              ? Positioned(
+                                  top: -20,
+                                  right: -15,
+                                  child: Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text(
+                                          "${Globle().dinecartValue} ",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  //    Container(
+                                  //   height: 20,
+                                  //   width: 20,
+                                  //   decoration: BoxDecoration(color: Colors.red),
+                                  // )
+                                  )
+                              : Text("")
+                          : Text("")
                     ],
                   )),
             ),

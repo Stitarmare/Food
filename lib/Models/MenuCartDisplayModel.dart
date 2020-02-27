@@ -183,6 +183,7 @@ class MenuCartDisplayModel {
   String status;
   int statusCode;
   List<MenuCartList> data;
+  int cartCount;
   int grandTotal;
   String colourCode;
 
@@ -190,6 +191,7 @@ class MenuCartDisplayModel {
     this.status,
     this.statusCode,
     this.data,
+    this.cartCount,
     this.grandTotal,
     this.colourCode,
   });
@@ -200,6 +202,7 @@ class MenuCartDisplayModel {
         statusCode: json["status_code"],
         data: List<MenuCartList>.from(
             json["data"].map((x) => MenuCartList.fromJson(x))),
+        cartCount: json["cartCount"],
         grandTotal: json["grandTotal"],
         colourCode: json["colour_code"],
       );
@@ -208,6 +211,7 @@ class MenuCartDisplayModel {
         "status": status,
         "status_code": statusCode,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "cartCount": cartCount, 
         "grandTotal": grandTotal,
         "colour_code": colourCode,
       };

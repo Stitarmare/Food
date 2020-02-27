@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyCartTW/MyCartTWView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -18,7 +19,7 @@ class TakeAwayBottombar extends StatefulWidget {
   int rest_Id;
   String lat;
   String long;
-  TakeAwayBottombar({this.title, this.rest_Id,this.lat,this.long});
+  TakeAwayBottombar({this.title, this.rest_Id, this.lat, this.long});
   @override
   State<StatefulWidget> createState() {
     return _TakeAwayBottombarState();
@@ -95,16 +96,42 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                         MaterialPageRoute(
                             builder: (context) => MyCartTWView(
                                   restId: widget.rest_Id,
-                                  lat: widget.lat ,
+                                  lat: widget.lat,
                                   long: widget.long,
                                   orderType: "take_away",
                                 )));
                     // Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",
-                  child: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
+                  child: Stack(
+                    fit: StackFit.passthrough,
+                    overflow: Overflow.visible,
+                    children: <Widget>[
+                      Icon(
+                        Icons.shopping_cart,
+                        color: Colors.white,
+                      ),
+                      (Globle().takeAwayCartItemCount != null)
+                          ? Globle().takeAwayCartItemCount > 0
+                              ? Positioned(
+                                  top: -20,
+                                  right: -15,
+                                  child: Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text(
+                                          "${Globle().takeAwayCartItemCount} ",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  //    Container(
+                                  //   height: 20,
+                                  //   width: 20,
+                                  //   decoration: BoxDecoration(color: Colors.red),
+                                  // )
+                                  )
+                              : Text("")
+                          : Text("")
+                    ],
                   )),
             ),
           ],

@@ -8,6 +8,7 @@ import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
@@ -791,6 +792,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+     Globle().takeAwayCartItemCount += 1;
+    Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }

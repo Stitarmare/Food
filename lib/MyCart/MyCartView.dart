@@ -10,6 +10,7 @@ import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -620,9 +621,13 @@ class _MyCartViewState extends State<MyCartView>
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
+      Globle().dinecartValue = menulist.length;
+      Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    Globle().dinecartValue = menulist.length;
+    Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     myCart = model;
 
     setState(() {
@@ -661,6 +666,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
   }
 

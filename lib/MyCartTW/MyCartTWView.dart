@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -607,9 +608,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
+      Globle().takeAwayCartItemCount = menulist.length;
+      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    Globle().takeAwayCartItemCount = menulist.length;
+      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
       if (_cartItemList == null) {

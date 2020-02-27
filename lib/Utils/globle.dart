@@ -14,6 +14,7 @@ class Globle {
   MenuCartDisplayModel menuCartDisplayModel;
 
   String colorscode;
-
+  int dinecartValue = 0;
+  int takeAwayCartItemCount = 0;
   var authKey;
 }
