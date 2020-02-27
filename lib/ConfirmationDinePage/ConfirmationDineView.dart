@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
@@ -65,7 +66,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                   fontWeight: FontWeight.w600,
                   color: Colors.white),
             ),
-            color: redtheme,
+            color: getColorByHex(Globle().colorscode),
             onPressed: () {},
           ),
         ),
@@ -129,7 +130,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                   groupValue: id,
                   value: radionBtn.index,
                   dense: true,
-                  activeColor: redtheme,
+                  activeColor: getColorByHex(Globle().colorscode),
                   onChanged: (val) {
                     setState(() {
                       radioItem = radionBtn.title;
@@ -164,7 +165,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                               fontSize: 20,
                               fontFamily: 'gotham',
                               fontWeight: FontWeight.w600,
-                              color: redtheme)),
+                              color: getColorByHex(Globle().colorscode))),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
@@ -178,7 +179,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                     groupValue: radioOrderId,
                     value: radionOrderBtn.index,
                     dense: true,
-                    activeColor: redtheme,
+                    activeColor: getColorByHex(Globle().colorscode),
                     onChanged: (val) {
                       setState(() {
                         radioOrderItem = radionOrderBtn.title;

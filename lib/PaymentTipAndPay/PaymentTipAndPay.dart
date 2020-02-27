@@ -138,30 +138,31 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      'Wimpy',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(
+              //       width: 20,
+              //     ),
+              //     Container(
+              //       width: MediaQuery.of(context).size.width * 0.8,
+              //       child: Text(
+              //         'Wimpy',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             fontSize: 20,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w600,
+              //             color: greytheme700),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Divider(
+              //   thickness: 2,
+              //   //endIndent: 10,
+              //   //indent: 10,
+              // ),
+              SizedBox(height: 10,),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -183,7 +184,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 5,
+              ),
+              Divider(thickness: 2,),
+              SizedBox(
+                height: 5,
               ),
               Row(
                 children: <Widget>[
@@ -587,8 +592,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData = orderData;
       }
     });
-    showAlertSuccess(
-        "Order Placed", "Your order has been successfully placed.", context);
+    // showAlertSuccess(
+    //     "Order Placed", "Your order has been successfully placed.", context);
+    Navigator.of(context).pushNamed('/ConfirmationDineView');
 
     // TODO: implement placeOrdersuccess
   }
