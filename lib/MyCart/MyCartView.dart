@@ -268,7 +268,9 @@ class _MyCartViewState extends State<MyCartView>
               SizedBox(
                 height: 5,
               ),
-              Divider(thickness: 2.0,),
+              Divider(
+                thickness: 2.0,
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -276,32 +278,34 @@ class _MyCartViewState extends State<MyCartView>
               //   children: <Widget>[
               //     SizedBox(width: 20),
 
-                  // GestureDetector(
-                  //   onTap: null,
-                  //   //() {}
-                  //   //  {
-                  //   //   // //  await DailogBox.addTablePopUp(context);
-                  //   //   // addTablePopUp(context);
-                  //   // },
-                  //   child: Text(
-                  //     'Add Table Number',
-                  //     textAlign: TextAlign.start,
-                  //     style: TextStyle(
-                  //         decoration: TextDecoration.underline,
-                  //         decorationColor: Colors.black,
-                  //         fontSize: 14,
-                  //         fontFamily: 'gotham',
-                  //         fontWeight: FontWeight.w600,
-                  //         color: greytheme100),
-                  //   ),
-                  // )
+              // GestureDetector(
+              //   onTap: null,
+              //   //() {}
+              //   //  {
+              //   //   // //  await DailogBox.addTablePopUp(context);
+              //   //   // addTablePopUp(context);
+              //   // },
+              //   child: Text(
+              //     'Add Table Number',
+              //     textAlign: TextAlign.start,
+              //     style: TextStyle(
+              //         decoration: TextDecoration.underline,
+              //         decorationColor: Colors.black,
+              //         fontSize: 14,
+              //         fontFamily: 'gotham',
+              //         fontWeight: FontWeight.w600,
+              //         color: greytheme100),
+              //   ),
+              // )
               //   ],
               // ),
               // SizedBox(
               //   height: 20,
               // ),
               isTableList ? getTableNumber() : Container(),
-              SizedBox(height: 10,)
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
@@ -321,7 +325,6 @@ class _MyCartViewState extends State<MyCartView>
         ),
         body: Column(
           children: <Widget>[
-            
             _getmainviewTableno(),
             SizedBox(
               height: 20,
