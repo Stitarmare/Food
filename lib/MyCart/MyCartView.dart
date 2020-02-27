@@ -126,32 +126,31 @@ class _MyCartViewState extends State<MyCartView>
   //   });
   // }
 
-  Widget steppercount(int i) {
-    count = _cartItemList[i].quantity;
-    int cartIdnew = _cartItemList[i].id;
+  Widget steppercount(MenuCartList menuCartList) {
+    
     return Container(
       height: 24,
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 0) {
+            if (menuCartList.quantity > 0) {
               setState(() {
-                --count;
-                _cartItemList[i].quantity = count;
-                print(count);
+                
+                menuCartList.quantity -= 1;
+                print(menuCartList.quantity);
               });
               _myCartpresenter.updateQauntityCount(
-                  cartIdnew,
-                  count,
-                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
+                  menuCartList.id,
+                  menuCartList.quantity,
+                  menuCartList.totalAmount / menuCartList.quantity,
                   context);
 
-              if (count == 0) {
+              if (menuCartList.quantity == 0) {
                 _myCartpresenter.removeItemfromCart(
-                    cartIdnew, Globle().loginModel.data.id, context);
+                    menuCartList.id, Globle().loginModel.data.id, context);
                 setState(() {
-                  _cartItemList.removeAt(_cartItemList[i].id);
+                  _cartItemList.removeAt(menuCartList.id);
                 });
               }
             }
@@ -172,7 +171,7 @@ class _MyCartViewState extends State<MyCartView>
         Padding(
           padding: const EdgeInsets.only(left: 13, right: 13),
           child: Text(
-            count.toString(),
+            menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'gotham',
@@ -182,16 +181,15 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () {
-            if (count < 100) {
+            if (menuCartList.quantity < 100) {
               setState(() {
-                ++count;
-                print(count);
-                _cartItemList[i].quantity = count;
+                menuCartList.quantity += 1;
+                print(menuCartList.quantity);
               });
               _myCartpresenter.updateQauntityCount(
-                  cartIdnew,
-                  count,
-                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
+                  menuCartList.id,
+                  menuCartList.quantity,
+                  menuCartList.totalAmount / menuCartList.quantity,
                   context);
             }
           },
@@ -551,7 +549,7 @@ class _MyCartViewState extends State<MyCartView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(index),
+                                  steppercount(_cartItemList[index]),
                                 ],
                               ),
                               Expanded(
