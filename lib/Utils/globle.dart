@@ -1,3 +1,4 @@
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 
@@ -10,6 +11,9 @@ class Globle {
 
   Globle.internal();
   LoginModel loginModel;
+  MenuCartDisplayModel menuCartDisplayModel;
+
   String colorscode;
+
   var authKey;
 }

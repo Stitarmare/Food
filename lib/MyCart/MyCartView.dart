@@ -141,11 +141,6 @@ class _MyCartViewState extends State<MyCartView>
                 _cartItemList[i].quantity = count;
                 print(count);
               });
-              _myCartpresenter.updateQauntityCount(
-                  cartIdnew,
-                  count,
-                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
-                  context);
 
               if (count == 0) {
                 _myCartpresenter.removeItemfromCart(
@@ -154,6 +149,11 @@ class _MyCartViewState extends State<MyCartView>
                   _cartItemList.removeAt(_cartItemList[i].id);
                 });
               }
+              _myCartpresenter.updateQauntityCount(
+                  cartIdnew,
+                  count,
+                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
+                  context);
             }
           },
           splashColor: Colors.redAccent.shade200,
@@ -660,7 +660,7 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -695,6 +695,8 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void updatequantitySuccess() {
     _cartItemList = null;
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     // TODO: implement updatequantitySuccess
