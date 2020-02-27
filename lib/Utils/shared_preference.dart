@@ -6,6 +6,8 @@ import 'package:crypto/crypto.dart' as crypto;
 class PreferenceKeys {
   static final AUTH_KEY = "AUTH_KEY";
   static const User_data = 'USER_DATA';
+  static final dineCartItemCount = "DINE_CART_ITEM_COUNT";
+  static final takeAwayCartCount = "TAKE_AWAY_ITEM_COUNT";
   // static const Sign_UP_With_User_Data = 'Sign_In_With_User_Data';
   // static const Sign_IN_With_OTP = "Sign_IN_With_OTP";
   // static const ResetOtp = "ResetOtp";

@@ -9,6 +9,7 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
@@ -70,6 +71,11 @@ class _DineViewState extends State<DineInView>
   void initState() {
 // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
+    if(Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount ) != null){
+     Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount).then((value){
+       Globle().dinecartValue = value;
+    });
+    }
 
     _getLocation();
     _detectScrollPosition();
@@ -446,6 +452,7 @@ class _DineViewState extends State<DineInView>
                   _restaurantList[i].coverImage,
                 ),
                 onTap: () {
+                  Globle().dinecartValue = 0;
                   Globle().colorscode = _restaurantList[i].colourCode;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => BottomTabbarHome(
