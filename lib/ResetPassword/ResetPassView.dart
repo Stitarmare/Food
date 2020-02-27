@@ -244,44 +244,47 @@ class _ResetPasswordview extends State<ResetPasswordview>
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          "Reset Password",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greentheme100,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'gotham',
-              fontSize: 22),
-        ),
-        content: Text(
-          _password == _confirmPassword
-              ? 'Your password has been successfully reset. '
-              : 'Password does not match with confirm password.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greytheme100,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'gotham',
-              fontSize: 20),
-        ),
-        actions: [
-          FlatButton(
-            child: const Text(
-              "OK",
-              style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 20),
-            ),
-            onPressed: () {
-              _password == _confirmPassword
-                  ? Navigator.of(context).pushReplacementNamed('/LoginView')
-                  : Navigator.pop(context);
-            },
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+              child: AlertDialog(
+          title: const Text(
+            "Reset Password",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greentheme100,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'gotham',
+                fontSize: 22),
           ),
-        ],
+          content: Text(
+            _password == _confirmPassword
+                ? 'Your password has been successfully reset. '
+                : 'Password does not match with confirm password.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greytheme100,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'gotham',
+                fontSize: 20),
+          ),
+          actions: [
+            FlatButton(
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                    color: greentheme100,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'gotham',
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                _password == _confirmPassword
+                    ? Navigator.of(context).pushReplacementNamed('/LoginView')
+                    : Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

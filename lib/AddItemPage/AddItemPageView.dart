@@ -7,6 +7,7 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -71,6 +72,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int _dropdownTableNumber;
 
   int tableID;
+
   @override
   void initState() {
     _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
@@ -105,9 +107,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
           index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? ''));
+          title: _addItemModelList.spreads[i - 1].name ?? '',
+          //price: _addItemModelList.spreads[i - 1].price ?? '0'
+          ));
     }
-    radiolist.add(RadioButtonOptions(title: "None"));
+    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
     // for (int i = length; i <= length+1; i++) {
     //   radiolist.add(RadioButtonOptions(
     //       index: _addItemModelList.spreads[i].id,
@@ -652,7 +656,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
@@ -855,6 +858,70 @@ class _AddItemPageViewState extends State<AddItemPageView>
             : [Container()]);
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => RestaurantView()));
+                      //Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -881,8 +948,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess("${widget.title}",
+    showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
+//Navigator.of(context).pop();
   }
 
   @override
@@ -924,6 +992,7 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
+
   RadioButtonOptions({this.index, this.title});
 }
 
