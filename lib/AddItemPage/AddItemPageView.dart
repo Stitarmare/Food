@@ -54,7 +54,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
-  String strDefaultTxt = 'ADD \$24';
+  //String strDefaultTxt = 'ADD \$24';
 
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -326,7 +326,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 // color: redtheme,
                 child: Center(
                   child: Text(
-                    strDefaultTxt,
+                    "Add To Cart",
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
