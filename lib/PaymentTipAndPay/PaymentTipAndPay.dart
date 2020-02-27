@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
@@ -57,6 +58,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+          title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -162,7 +164,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               //   //endIndent: 10,
               //   //indent: 10,
               // ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -186,7 +190,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               SizedBox(
                 height: 5,
               ),
-              Divider(thickness: 2,),
+              Divider(
+                thickness: 2,
+              ),
               SizedBox(
                 height: 5,
               ),
@@ -523,8 +529,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
-          onWillPop: () async => false,
-                  child: AlertDialog(
+              onWillPop: () async => false,
+              child: AlertDialog(
                 title: Text(
                   title,
                   textAlign: TextAlign.center,
@@ -576,7 +582,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   )
                 ],
               ),
-        ));
+            ));
   }
 
   @override
@@ -595,6 +601,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     // showAlertSuccess(
     //     "Order Placed", "Your order has been successfully placed.", context);
     Navigator.of(context).pushNamed('/ConfirmationDineView');
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ConfirmationDineView(restID: widget.restId)));
 
     // TODO: implement placeOrdersuccess
   }

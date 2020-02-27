@@ -106,10 +106,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? '',
-          //price: _addItemModelList.spreads[i - 1].price ?? '0'
-          ));
+        index: _addItemModelList.spreads[i - 1].id,
+        title: _addItemModelList.spreads[i - 1].name ?? '',
+        //price: _addItemModelList.spreads[i - 1].price ?? '0'
+      ));
     }
     //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
     // for (int i = length; i <= length+1; i++) {
@@ -352,6 +352,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(

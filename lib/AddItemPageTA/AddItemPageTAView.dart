@@ -260,6 +260,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(

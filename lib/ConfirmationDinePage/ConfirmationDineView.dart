@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
+  int restID;
+   ConfirmationDineView(
+      {this.restID,});
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
@@ -28,6 +32,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
   String radioItem;
   String radioOrderItem;
   String radioOrderItemsub;
+
+  int _dropdownTableNumber;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -142,6 +148,108 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
           .toList(),
     );
   }
+// Widget getTableNumber() {
+//     return Container(
+//       margin: EdgeInsets.only(left: 20),
+//       height: 50,
+//       width: MediaQuery.of(context).size.width * 0.8,
+//       child: FormField(builder: (FormFieldState state) {
+//         return DropdownButtonFormField(
+//           //itemHeight: Constants.getScreenHeight(context) * 0.06,
+//           items: _dropdownItemsTable.map((tableNumber) {
+//             return new DropdownMenuItem(
+//                 value: tableNumber.id,
+//                 child: Row(
+//                   children: <Widget>[
+//                     Container(
+//                         width: MediaQuery.of(context).size.width * 0.4,
+//                         child: Text(
+//                           "Table Number: ${tableNumber.name}",
+//                           style: TextStyle(
+//                               decoration: TextDecoration.underline,
+//                               decorationColor:
+//                                   getColorByHex(Globle().colorscode),
+//                               fontSize: 14,
+//                               fontFamily: 'gotham',
+//                               fontWeight: FontWeight.w600,
+//                               color: getColorByHex(Globle().colorscode)),
+//                         )),
+//                   ],
+//                 ));
+//           }).toList(),
+//           onChanged: (newValue) {
+//             // do other stuff with _category
+//             setState(() {
+//               _dropdownTableNumber = newValue;
+//             });
+//             _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+//                 widget.rest_id, _dropdownTableNumber, context);
+//           },
+
+//           value: _dropdownTableNumber,
+//           decoration: InputDecoration(
+//             contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+//             focusedBorder: OutlineInputBorder(
+//               borderSide: BorderSide(color: greentheme100, width: 2),
+//             ),
+//             enabledBorder: OutlineInputBorder(
+//                 borderSide: BorderSide(color: greytheme900, width: 2)),
+//             border:
+//                 OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+//             filled: false,
+//             hintText: 'Choose Table',
+//             // prefixIcon: Icon(
+//             //   Icons.location_on,
+//             //   size: 20,
+//             //   color: greytheme1000,
+//             // ),
+//             labelText: _dropdownTableNumber == null
+//                 ? "Add Table Number "
+//                 : "Table Number",
+//             // errorText: _errorText,
+//             labelStyle: TextStyle(
+//                 decoration: TextDecoration.underline,
+//                 decorationColor: Colors.black,
+//                 fontSize: 14,
+//                 fontFamily: 'gotham',
+//                 fontWeight: FontWeight.w600,
+//                 color: greytheme100),
+//           ),
+//         );
+//       }),
+//     );
+//   }
+  void getTableAlert() {
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      //child: getTableNumber(),
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Select Table",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w600,
+              color: greytheme700),
+        ),
+        actions: <Widget>[
+          Divider(
+            endIndent: 15,
+            indent: 15,
+            color: Colors.black,
+          ),
+          FlatButton(
+            child: Text("Ok"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
 
   _getorderOption() {
     return Column(
@@ -185,6 +293,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
+                        // if (radioOrderItem == 'Dine-in') {
+                        //   getTableAlert();
+                        // }
                       });
                     },
                   ),

@@ -333,7 +333,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         appBar: AppBar(
           title: Text('My Cart'),
           backgroundColor: Colors.white,
-          elevation: 5,
+          elevation: 0,
         ),
         body: Column(
           children: <Widget>[
