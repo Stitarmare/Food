@@ -143,11 +143,11 @@ class MycartPresenter extends MyCartContarctor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          addTablenoModelView.addTablebnoSuccces();
+          _cartModelView.updatequantitySuccess();
           print("success");
           break;
         case SuccessType.failed:
-          addTablenoModelView.addTablenofailed();
+          _cartModelView.updatequantityfailed();
           print("failed");
 
           break;
