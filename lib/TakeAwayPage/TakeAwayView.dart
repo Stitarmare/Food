@@ -483,8 +483,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   child: CircularProgressIndicator(),
                 ),
                 imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
-                errorWidget: (context, url, error) =>
-                    Image.asset("assets/HotelImages/Image12.png"),
+                errorWidget: (context, url, error) => Image.asset(
+                  "assets/HotelImages/Image12.png",
+                  fit: BoxFit.fill,
+                ),
               )
               // child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
               //     fit: BoxFit.fitWidth),

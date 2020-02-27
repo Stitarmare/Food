@@ -20,6 +20,8 @@ abstract class MyCartModelView {
   void getCartMenuListfailed();
   void removeItemSuccess();
   void removeItemFailed();
+  void updatequantitySuccess();
+  void updatequantityfailed();
 }
 
 abstract class AddTablenoModelView {

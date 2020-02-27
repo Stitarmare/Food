@@ -213,16 +213,19 @@ class ApiBaseHelper {
       BuildContext context, String title, String message, Function onPressed) {
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: Text(title),
-              content: Text(message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Ok"),
-                  onPressed: onPressed,
-                )
-              ],
-            ));
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+                  child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Ok"),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+        ));
   }
 
   void showSnackBar(BuildContext context, String message) {

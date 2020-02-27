@@ -73,9 +73,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: _addItemModelList.spreads[i - 1].id,
+          title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
-    radiolist.add(RadioButtonOptions(title: "None"));
+    //radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
@@ -236,7 +237,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               // color: redtheme,
               child: Center(
                 child: Text(
-                  'ADD ${_addItemModelList.price}',
+                  'Add To Cart',
                   style: TextStyle(
                       fontFamily: 'gotham',
                       fontWeight: FontWeight.w600,
@@ -697,6 +698,70 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             : [Container()]);
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => RestaurantView()));
+                      //Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -723,7 +788,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess("${widget.title}",
+    showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }
 }
@@ -741,7 +806,8 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  RadioButtonOptions({this.index, this.title});
+  String price;
+  RadioButtonOptions({this.index, this.title, this.price});
 }
 
 class SwitchesItems {

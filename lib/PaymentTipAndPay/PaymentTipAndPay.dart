@@ -138,30 +138,31 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      'Wimpy',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(
+              //       width: 20,
+              //     ),
+              //     Container(
+              //       width: MediaQuery.of(context).size.width * 0.8,
+              //       child: Text(
+              //         'Wimpy',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             fontSize: 20,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w600,
+              //             color: greytheme700),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Divider(
+              //   thickness: 2,
+              //   //endIndent: 10,
+              //   //indent: 10,
+              // ),
+              SizedBox(height: 10,),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -183,7 +184,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 5,
+              ),
+              Divider(thickness: 2,),
+              SizedBox(
+                height: 5,
               ),
               Row(
                 children: <Widget>[
@@ -517,58 +522,61 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   void showAlertSuccess(String title, String message, BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'gotham',
-                    fontWeight: FontWeight.w600,
-                    color: greytheme700),
-              ),
-              content:
-                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Image.asset(
-                  'assets/SuccessIcon/success.png',
-                  width: 75,
-                  height: 75,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  message,
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+                  child: AlertDialog(
+                title: Text(
+                  title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontFamily: 'gotham',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: greytheme700),
-                )
-              ]),
-              actions: <Widget>[
-                Divider(
-                  endIndent: 15,
-                  indent: 15,
-                  color: Colors.black,
                 ),
-                FlatButton(
-                  child: Text("Ok",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700)),
-                  onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                    //                 (widget.orderType == 'dine_in')
-                    // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
-                    // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
-                  },
-                )
-              ],
-            ));
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      //                 (widget.orderType == 'dine_in')
+                      // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
+                      // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
+                    },
+                  )
+                ],
+              ),
+        ));
   }
 
   @override
@@ -584,8 +592,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData = orderData;
       }
     });
-    showAlertSuccess(
-        "Order Placed", "Your order has been successfully placed.", context);
+    // showAlertSuccess(
+    //     "Order Placed", "Your order has been successfully placed.", context);
+    Navigator.of(context).pushNamed('/ConfirmationDineView');
 
     // TODO: implement placeOrdersuccess
   }

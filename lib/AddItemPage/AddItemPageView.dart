@@ -7,6 +7,7 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -54,7 +55,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
-  String strDefaultTxt = 'ADD \$24';
+  //String strDefaultTxt = 'ADD \$24';
 
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -71,6 +72,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int _dropdownTableNumber;
 
   int tableID;
+
   @override
   void initState() {
     _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
@@ -105,9 +107,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
           index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? ''));
+          title: _addItemModelList.spreads[i - 1].name ?? '',
+          //price: _addItemModelList.spreads[i - 1].price ?? '0'
+          ));
     }
-    radiolist.add(RadioButtonOptions(title: "None"));
+    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
     // for (int i = length; i <= length+1; i++) {
     //   radiolist.add(RadioButtonOptions(
     //       index: _addItemModelList.spreads[i].id,
@@ -326,7 +330,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 // color: redtheme,
                 child: Center(
                   child: Text(
-                    strDefaultTxt,
+                    "Add To Cart",
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
@@ -393,9 +397,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              isTableList ? getTableNumber() : Container(),
+              //isTableList ? getTableNumber() : Container(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -412,9 +416,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
               //     )
               //   ],
               // ),
-              SizedBox(
-                height: 10,
-              )
+              // SizedBox(
+              //   height: 10,
+              // )
             ],
           ),
         ),
@@ -439,88 +443,88 @@ class _AddItemPageViewState extends State<AddItemPageView>
     });
   }
 
-  Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber.id,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "Table Number: ${tableNumber.name}",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) {
-            // do other stuff with _category
-            setState(() {
-              _dropdownTableNumber = newValue;
-            });
-            _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
-                widget.rest_id, _dropdownTableNumber, context);
-          },
+  // Widget getTableNumber() {
+  //   return Container(
+  //     margin: EdgeInsets.only(left: 20),
+  //     height: 50,
+  //     width: MediaQuery.of(context).size.width * 0.8,
+  //     child: FormField(builder: (FormFieldState state) {
+  //       return DropdownButtonFormField(
+  //         //itemHeight: Constants.getScreenHeight(context) * 0.06,
+  //         items: _dropdownItemsTable.map((tableNumber) {
+  //           return new DropdownMenuItem(
+  //               value: tableNumber.id,
+  //               child: Row(
+  //                 children: <Widget>[
+  //                   Container(
+  //                       width: MediaQuery.of(context).size.width * 0.4,
+  //                       child: Text(
+  //                         "Table Number: ${tableNumber.name}",
+  //                         style: TextStyle(
+  //                             decoration: TextDecoration.underline,
+  //                             decorationColor:
+  //                                 getColorByHex(Globle().colorscode),
+  //                             fontSize: 14,
+  //                             fontFamily: 'gotham',
+  //                             fontWeight: FontWeight.w600,
+  //                             color: getColorByHex(Globle().colorscode)),
+  //                       )),
+  //                 ],
+  //               ));
+  //         }).toList(),
+  //         onChanged: (newValue) {
+  //           // do other stuff with _category
+  //           setState(() {
+  //             _dropdownTableNumber = newValue;
+  //           });
+  //           _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+  //               widget.rest_id, _dropdownTableNumber, context);
+  //         },
 
-          value: _dropdownTableNumber,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
-    );
-  }
+  //         value: _dropdownTableNumber,
+  //         decoration: InputDecoration(
+  //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(color: greentheme100, width: 2),
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //               borderSide: BorderSide(color: greytheme900, width: 2)),
+  //           border:
+  //               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+  //           filled: false,
+  //           hintText: 'Choose Table',
+  //           // prefixIcon: Icon(
+  //           //   Icons.location_on,
+  //           //   size: 20,
+  //           //   color: greytheme1000,
+  //           // ),
+  //           labelText: _dropdownTableNumber == null
+  //               ? "Add Table Number "
+  //               : "Table Number",
+  //           // errorText: _errorText,
+  //           labelStyle: TextStyle(
+  //               decoration: TextDecoration.underline,
+  //               decorationColor: Colors.black,
+  //               fontSize: 14,
+  //               fontFamily: 'gotham',
+  //               fontWeight: FontWeight.w600,
+  //               color: greytheme100),
+  //         ),
+  //       );
+  //     }),
+  //   );
+  // }
 
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 25, left: 26),
+                padding: EdgeInsets.only(top: 10, left: 26),
                 child: Text(
                   widget.title,
                   style: TextStyle(
@@ -652,7 +656,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
@@ -855,6 +858,70 @@ class _AddItemPageViewState extends State<AddItemPageView>
             : [Container()]);
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => RestaurantView()));
+                      //Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -881,8 +948,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess("${widget.title}",
+    showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
+//Navigator.of(context).pop();
   }
 
   @override
@@ -924,6 +992,7 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
+
   RadioButtonOptions({this.index, this.title});
 }
 
