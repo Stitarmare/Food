@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
@@ -59,6 +60,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+          title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -601,6 +603,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     // showAlertSuccess(
     //     "Order Placed", "Your order has been successfully placed.", context);
     Navigator.of(context).pushNamed('/ConfirmationDineView');
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ConfirmationDineView(restID: widget.restId)));
 
     // TODO: implement placeOrdersuccess
   }
