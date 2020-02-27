@@ -338,6 +338,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
+                                        price: _cartItemList[0].totalAmount,
                                         tableId: _dropdownTableNumber,
                                         // userId: widget.userID,
                                         totalAmount: myCart.grandTotal,
@@ -661,7 +662,7 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -697,6 +698,8 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void updatequantitySuccess() {
     _cartItemList = null;
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     // TODO: implement updatequantitySuccess
@@ -704,6 +707,8 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void updatequantityfailed() {
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     // TODO: implement updatequantityfailed
   }
 

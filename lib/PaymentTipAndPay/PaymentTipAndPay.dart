@@ -11,6 +11,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
+  int price;
   int restId;
   int userId;
   String orderType;
@@ -22,6 +23,7 @@ class PaymentTipAndPay extends StatefulWidget {
   List<MenuCartList> itemdata;
   PaymentTipAndPay(
       {this.userId,
+      this.price,
       this.items,
       this.restId,
       this.latitude,
@@ -317,7 +319,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$ ${widget.itemdata[index].items.price}' ?? '\$17',
+                          '\$ ${widget.itemdata[index].totalAmount}' ?? '\$17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,

@@ -11,6 +11,8 @@ class Globle {
 
   Globle.internal();
   LoginModel loginModel;
+  MenuCartDisplayModel menuCartDisplayModel;
+
   String colorscode;
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
