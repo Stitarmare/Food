@@ -74,7 +74,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
           index: _addItemModelList.spreads[i - 1].id,
-           title: _addItemModelList.spreads[i - 1].name ?? ''));
+          title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
     //radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
@@ -237,7 +237,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               // color: redtheme,
               child: Center(
                 child: Text(
-                  'ADD ${_addItemModelList.price}',
+                  'Add To Cart',
                   style: TextStyle(
                       fontFamily: 'gotham',
                       fontWeight: FontWeight.w600,
@@ -697,7 +697,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 .toList()
             : [Container()]);
   }
-void showAlertSuccess(String title, String message, BuildContext context) {
+
+  void showAlertSuccess(String title, String message, BuildContext context) {
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -760,6 +761,7 @@ void showAlertSuccess(String title, String message, BuildContext context) {
               ),
             ));
   }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -804,7 +806,8 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  RadioButtonOptions({this.index, this.title});
+  String price;
+  RadioButtonOptions({this.index, this.title, this.price});
 }
 
 class SwitchesItems {
