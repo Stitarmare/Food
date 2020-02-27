@@ -269,7 +269,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
               //   //endIndent: 10,
               //   //indent: 10,
               // ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -545,7 +547,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               Padding(
                                 padding: EdgeInsets.only(right: 20, top: 30),
                                 child: Text(
-                                  "\$ ${_cartItemList[index].items.price}" ??
+                                  "\$ ${_cartItemList[index].totalAmount}" ??
                                       '\$17',
                                   style: TextStyle(
                                       color: greytheme700,

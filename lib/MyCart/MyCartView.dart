@@ -337,7 +337,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
-                                        price: _cartItemList[0].totalAmount,
+                                        // price: _cartItemList[0].totalAmount,
                                         tableId: _dropdownTableNumber,
                                         // userId: widget.userID,
                                         totalAmount: myCart.grandTotal,
