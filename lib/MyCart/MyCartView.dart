@@ -266,11 +266,15 @@ class _MyCartViewState extends State<MyCartView>
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
+              Divider(thickness: 2.0,),
+              SizedBox(
+                height: 5,
+              ),
+              // Row(
+              //   children: <Widget>[
+              //     SizedBox(width: 20),
 
                   // GestureDetector(
                   //   onTap: null,
@@ -291,12 +295,13 @@ class _MyCartViewState extends State<MyCartView>
                   //         color: greytheme100),
                   //   ),
                   // )
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               isTableList ? getTableNumber() : Container(),
+              SizedBox(height: 10,)
             ],
           ),
         ),
@@ -316,6 +321,7 @@ class _MyCartViewState extends State<MyCartView>
         ),
         body: Column(
           children: <Widget>[
+            
             _getmainviewTableno(),
             SizedBox(
               height: 20,

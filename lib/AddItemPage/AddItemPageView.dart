@@ -397,9 +397,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              isTableList ? getTableNumber() : Container(),
+              //isTableList ? getTableNumber() : Container(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -416,9 +416,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
               //     )
               //   ],
               // ),
-              SizedBox(
-                height: 10,
-              )
+              // SizedBox(
+              //   height: 10,
+              // )
             ],
           ),
         ),
@@ -443,88 +443,88 @@ class _AddItemPageViewState extends State<AddItemPageView>
     });
   }
 
-  Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber.id,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "Table Number: ${tableNumber.name}",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) {
-            // do other stuff with _category
-            setState(() {
-              _dropdownTableNumber = newValue;
-            });
-            _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
-                widget.rest_id, _dropdownTableNumber, context);
-          },
+  // Widget getTableNumber() {
+  //   return Container(
+  //     margin: EdgeInsets.only(left: 20),
+  //     height: 50,
+  //     width: MediaQuery.of(context).size.width * 0.8,
+  //     child: FormField(builder: (FormFieldState state) {
+  //       return DropdownButtonFormField(
+  //         //itemHeight: Constants.getScreenHeight(context) * 0.06,
+  //         items: _dropdownItemsTable.map((tableNumber) {
+  //           return new DropdownMenuItem(
+  //               value: tableNumber.id,
+  //               child: Row(
+  //                 children: <Widget>[
+  //                   Container(
+  //                       width: MediaQuery.of(context).size.width * 0.4,
+  //                       child: Text(
+  //                         "Table Number: ${tableNumber.name}",
+  //                         style: TextStyle(
+  //                             decoration: TextDecoration.underline,
+  //                             decorationColor:
+  //                                 getColorByHex(Globle().colorscode),
+  //                             fontSize: 14,
+  //                             fontFamily: 'gotham',
+  //                             fontWeight: FontWeight.w600,
+  //                             color: getColorByHex(Globle().colorscode)),
+  //                       )),
+  //                 ],
+  //               ));
+  //         }).toList(),
+  //         onChanged: (newValue) {
+  //           // do other stuff with _category
+  //           setState(() {
+  //             _dropdownTableNumber = newValue;
+  //           });
+  //           _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+  //               widget.rest_id, _dropdownTableNumber, context);
+  //         },
 
-          value: _dropdownTableNumber,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
-    );
-  }
+  //         value: _dropdownTableNumber,
+  //         decoration: InputDecoration(
+  //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(color: greentheme100, width: 2),
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //               borderSide: BorderSide(color: greytheme900, width: 2)),
+  //           border:
+  //               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+  //           filled: false,
+  //           hintText: 'Choose Table',
+  //           // prefixIcon: Icon(
+  //           //   Icons.location_on,
+  //           //   size: 20,
+  //           //   color: greytheme1000,
+  //           // ),
+  //           labelText: _dropdownTableNumber == null
+  //               ? "Add Table Number "
+  //               : "Table Number",
+  //           // errorText: _errorText,
+  //           labelStyle: TextStyle(
+  //               decoration: TextDecoration.underline,
+  //               decorationColor: Colors.black,
+  //               fontSize: 14,
+  //               fontFamily: 'gotham',
+  //               fontWeight: FontWeight.w600,
+  //               color: greytheme100),
+  //         ),
+  //       );
+  //     }),
+  //   );
+  // }
 
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 25, left: 26),
+                padding: EdgeInsets.only(top: 10, left: 26),
                 child: Text(
                   widget.title,
                   style: TextStyle(
