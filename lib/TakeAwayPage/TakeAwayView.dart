@@ -446,6 +446,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                       builder: (context) => TakeAwayBottombar(
                             title: "${_restaurantList[i].restName}",
                             rest_Id: _restaurantList[i].id,
+                            lat: _restaurantList[i].latitude,
+                            long: _restaurantList[i].longitude,
                           )));
                   setState(() {
 // selected[i] = !selected[i];
@@ -468,23 +470,25 @@ class _TakeAwayViewState extends State<TakeAwayView>
       children: <Widget>[
         Card(
           child: Container(
-            height: 150,
-            width: MediaQuery.of(context).size.width,
-            // decoration: new BoxDecoration(
-            //   image: DecorationImage(
-            //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
-            //       fit: BoxFit.fitWidth),
-            // ),
-            child: CachedNetworkImage(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              // decoration: new BoxDecoration(
+              //   image: DecorationImage(
+              //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
+              //       fit: BoxFit.fitWidth),
+              // ),
+              child: CachedNetworkImage(
                 fit: BoxFit.fill,
                 placeholder: (context, url) => Center(
                   child: CircularProgressIndicator(),
                 ),
                 imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
+                errorWidget: (context, url, error) =>
+                    Image.asset("assets/HotelImages/Image12.png"),
               )
-            // child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
-            //     fit: BoxFit.fitWidth),
-          ),
+              // child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
+              //     fit: BoxFit.fitWidth),
+              ),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
       ],

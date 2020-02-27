@@ -1,59 +1,32 @@
-// import 'package:flutter/material.dart';
-// import 'package:foodzi/theme/colors.dart';
-// class MyOrders extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return WillPopScope(
-//       onWillPop: () async => false,
-//       child: Scaffold(
-//         appBar: AppBar(
-//           centerTitle: true,
-//           backgroundColor: Colors.transparent,
-//           elevation: 0.0,
-//           automaticallyImplyLeading: false,
-//           title: Text("My Orders",
-//               style: TextStyle(
-//                   color: greytheme1200,
-//                   fontSize: 18,
-//                   fontFamily: 'gotham',
-//                   fontWeight: FontWeight.w600)),
-//         ),
-//         body: Center(
-//           child: Text("No Orders yet."),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:foodzi/theme/colors.dart';
 class MyOrders extends StatefulWidget {
   MyOrders({Key key}) : super(key: key);
-
   _MyOrdersState createState() => _MyOrdersState();
 }
-
 class _MyOrdersState extends State<MyOrders> {
   ScrollController _controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text(
-              "Your Orders",
-              style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: greytheme1200),
-            ),
+    return WillPopScope(
+      onWillPop: () async => false,
+          child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          title: Text(
+                "Your Orders",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200),
+              ),
+        ),
+        body: getOrderList(),
       ),
-      body: getOrderList(),
     );
   }
   Widget getOrderList(){

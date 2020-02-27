@@ -4,23 +4,16 @@ import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
+import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-class MycartPresenter extends MyCartContarctor {
-  MyCartModelView _cartModelView;
-  GetTableListModelView getTableListModel;
+class MycartTWPresenter extends MyCartTWContarctor {
+  MyCartTWModelView _cartModelView;
 
-  AddTablenoModelView addTablenoModelView;
-
-  MycartPresenter(
-      MyCartModelView _cartModelView,
-      GetTableListModelView getTableListModel,
-      AddTablenoModelView addTablenoModelView) {
+  MycartTWPresenter(MyCartTWModelView _cartModelView) {
     this._cartModelView = _cartModelView;
-    this.getTableListModel = getTableListModel;
-    this.addTablenoModelView = addTablenoModelView;
   }
 
   @override
@@ -60,6 +53,7 @@ class MycartPresenter extends MyCartContarctor {
 
   @override
   void removeItemfromCart(int cartId, int userId, BuildContext context) {
+    // TODO: implement removeItemfromCart
     ApiBaseHelper().post<ErrorModel>(UrlConstant.removeItemfromCartApi, context,
         body: {'cart_id': cartId, 'user_id': userId}).then((value) {
       print(value);
@@ -77,56 +71,5 @@ class MycartPresenter extends MyCartContarctor {
     }).catchError((error) {
       print(error);
     });
-
-//ApiCall
-    //;
-  }
-
-  void addTablenoToCart(
-      int user_id, int rest_id, int table_id, BuildContext context) {
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {
-      "user_id": user_id,
-      "table_id": table_id,
-      "rest_id": rest_id,
-    }).then((value) {
-      print(value);
-      switch (value.result) {
-        case SuccessType.success:
-          addTablenoModelView.addTablebnoSuccces();
-          print("success");
-          break;
-        case SuccessType.failed:
-          addTablenoModelView.addTablenofailed();
-          print("failed");
-
-          break;
-      }
-    }).catchError((error) {
-      print(error);
-    });
-  }
-
-  @override
-  void getTableListno(int rest_id, BuildContext context) {
-    ApiBaseHelper()
-        .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
-      "rest_id": rest_id,
-    }).then((value) {
-      print(value);
-      switch (value.result) {
-        case SuccessType.success:
-          getTableListModel.getTableListSuccess(value.model.data);
-          print("success");
-          break;
-        case SuccessType.failed:
-          getTableListModel.getTableListFailed();
-          print("failed");
-          break;
-      }
-    }).catchError((error) {
-      print(error);
-    });
-//ApiCall
-    //;
   }
 }

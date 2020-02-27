@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/MyCart/MyCartContarctor.dart';
-import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
+import 'package:foodzi/MyCartTW/MyCartTWPresenter.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/DailogBox.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MyCartTWView extends StatefulWidget {
   int restId;
   int userID;
-  MyCartTWView({this.restId, this.userID});
+  String lat;
+  String long;
+  String orderType;
+  double total;
+  MyCartTWView(
+      {this.restId,
+      this.userID,
+      this.orderType,
+      this.lat,
+      this.long,
+      this.total});
   //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +33,7 @@ class MyCartTWView extends StatefulWidget {
 }
 
 class _MyCartTWViewState extends State<MyCartTWView>
-    implements MyCartModelView {
+    implements MyCartTWModelView {
   ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -33,16 +42,18 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   String _selectedId;
   int count = 0;
-  MycartPresenter _myCartpresenter;
+  MycartTWPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
 
   int id;
+  List<int> itemList = [];
+  MenuCartDisplayModel myCart;
 
   @override
   void initState() {
     // TODO: implement initState
-    _myCartpresenter = MycartPresenter(this);
+    _myCartpresenter = MycartTWPresenter(this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -76,7 +87,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -110,7 +121,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: redtheme,
+                color: getColorByHex(Globle().colorscode),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -150,8 +161,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: Text(
                           'Add a Table Number',
                           style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              fontSize: 16,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700),
                         ),
                       ),
                       SizedBox(
@@ -190,9 +203,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       ),
                       Center(
                         child: RaisedButton(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: redtheme),
+                              side: BorderSide(
+                                  color: getColorByHex(Globle().colorscode)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
                             Navigator.pop(context);
@@ -202,9 +216,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             child: Text(
                               'SUBMIT',
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              ),
+                                  fontSize: 18,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -232,28 +247,29 @@ class _MyCartTWViewState extends State<MyCartTWView>
               //     SizedBox(
               //       width: 20,
               //     ),
-              Container(
-                // width: MediaQuery.of(context).size.width * 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
-                  child: Text(
-                    'Wimpy',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: greytheme700),
-                  ),
-                ),
-              ),
+              // Container(
+              //   // width: MediaQuery.of(context).size.width * 0.8,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
+              //     child: Text(
+              //       'Wimpy',
+              //       textAlign: TextAlign.start,
+              //       style: TextStyle(
+              //           fontSize: 20,
+              //           fontFamily: 'gotham',
+              //           fontWeight: FontWeight.w600,
+              //           color: greytheme700),
+              //     ),
+              //   ),
+              // ),
               //   ],
               // ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
+              // Divider(
+              //   thickness: 2,
+              //   //endIndent: 10,
+              //   //indent: 10,
+              // ),
+              SizedBox(height: 10,),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -270,7 +286,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -357,12 +373,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -371,21 +387,39 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     onTap: () {
                       // Navigator.pushNamed(context, '/OrderConfirmationView');
                       // print("button is pressed");
-                      showDialog(
-                          context: context,
-                          child: new RadioDialog(
-                            onValueChange: _onValueChange,
-                            initialValue: _selectedId,
-                          ));
+                      // showDialog(
+                      //     context: context,
+                      //     child: new RadioDialog(
+                      //       onValueChange: _onValueChange,
+                      //       initialValue: _selectedId,
+                      //     ));
+                      (_cartItemList != null)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentTipAndPay(
+                                        restId: widget.restId,
+                                        //userId: widget.userID,
+                                        items: itemList,
+                                        totalAmount: myCart.grandTotal,
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                        itemdata: _cartItemList,
+
+                                        // tableId: _cartItemList[index].tableId,
+                                      )))
+                          : Constants.showAlert("My Cart",
+                              "Please add items to your cart first.", context);
                     },
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
                           'PLACE ORDER',
@@ -424,94 +458,110 @@ class _MyCartTWViewState extends State<MyCartTWView>
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child:
-                                  (_cartItemList[index].items.menuType == "veg")
-                                      ? Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          height: 25,
-                                          width: 25,
-                                        )
-                                      : Image.asset(
-                                          'assets/VegIcon/Group1661.png',
-                                          color: redtheme,
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                            ),
-                            SizedBox(width: 16),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  _cartItemList[index].items.itemName ??
-                                      'Bacon & Cheese Burger',
-                                  style: TextStyle(
-                                      // fontFamily: 'gotham',
-                                      fontSize: 18,
-                                      color: greytheme700),
-                                ),
-                                SizedBox(
-                                  height: 6,
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                  width: 180,
-                                  child: AutoSizeText(
-                                    _cartItemList[index]
-                                            .items
-                                            .itemDescription ??
-                                        " Lorem Epsom is simply dummy text",
-                                    style: TextStyle(
-                                      color: greytheme1000,
-                                      fontSize: 14,
-                                      // fontFamily: 'gotham',
+                return Dismissible(
+                  key: UniqueKey(),
+                  background: refreshBg(),
+                  onDismissed: (direction) {
+                    int cartIdnew = _cartItemList[index].id;
+                    DialogsIndicator.showLoadingDialog(
+                        context, _keyLoader, "Loading");
+
+                    _myCartpresenter.removeItemfromCart(
+                        cartIdnew, Globle().loginModel.data.id, context);
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: (_cartItemList[index].items.menuType ==
+                                        "veg")
+                                    ? Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        height: 25,
+                                        width: 25,
+                                      )
+                                    : Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        color: redtheme,
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                              ),
+                              SizedBox(width: 16),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.65,
+                                    child: Text(
+                                      _cartItemList[index].items.itemName ??
+                                          'Bacon & Cheese Burger',
+                                      style: TextStyle(
+                                          fontFamily: 'gotham',
+                                          fontSize: 16,
+                                          color: greytheme700),
                                     ),
-                                    // minFontSize: 8,
-                                    maxFontSize: 12,
-                                    maxLines: 2,
                                   ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 180,
+                                    child: AutoSizeText(
+                                      _cartItemList[index]
+                                              .items
+                                              .itemDescription ??
+                                          " Lorem Epsom is simply dummy text",
+                                      style: TextStyle(
+                                        color: greytheme1000,
+                                        fontSize: 14,
+                                        // fontFamily: 'gotham',
+                                      ),
+                                      // minFontSize: 8,
+                                      maxFontSize: 12,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  steppercount(index),
+                                ],
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  width: 80,
                                 ),
-                                SizedBox(height: 10),
-                                steppercount(index),
-                              ],
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 80,
+                                flex: 2,
                               ),
-                              flex: 2,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 20, top: 30),
-                              child: Text(
-                                "\$ ${_cartItemList[index].items.price}" ??
-                                    '\$17',
-                                style: TextStyle(
-                                    color: greytheme700,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            )
-                          ]),
-                      SizedBox(height: 12),
-                      Divider(
-                        height: 2,
-                        thickness: 2,
-                      ),
-                      SizedBox(height: 8),
-                    ],
+                              Padding(
+                                padding: EdgeInsets.only(right: 20, top: 30),
+                                child: Text(
+                                  "\$ ${_cartItemList[index].items.price}" ??
+                                      '\$17',
+                                  style: TextStyle(
+                                      color: greytheme700,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            ]),
+                        SizedBox(height: 12),
+                        Divider(
+                          height: 2,
+                          thickness: 2,
+                        ),
+                        SizedBox(height: 8),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -520,10 +570,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
         : Expanded(
             child: Center(
               child: Text(
-                "No Items found.",
+                "Nothing in the Cart",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontFamily: 'gotham',
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
@@ -532,22 +582,40 @@ class _MyCartTWViewState extends State<MyCartTWView>
           );
   }
 
+  Widget refreshBg() {
+    return Container(
+      alignment: Alignment.centerRight,
+      color: Colors.red,
+      padding: EdgeInsets.only(right: 20),
+      child: Icon(
+        Icons.delete,
+        color: Colors.white,
+      ),
+    );
+  }
+
   @override
   void getCartMenuListfailed() {
     // TODO: implement getCartMenuListfailed
   }
 
   @override
-  void getCartMenuListsuccess(List<MenuCartList> menulist) {
+  void getCartMenuListsuccess(
+      List<MenuCartList> menulist, MenuCartDisplayModel model) {
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    myCart = model;
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        for (var i = 0; i < _cartItemList.length; i++) {
+          itemList.add(_cartItemList[i].id);
+          print(itemList);
+        }
       } else {
         //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
@@ -555,6 +623,22 @@ class _MyCartTWViewState extends State<MyCartTWView>
       page++;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void removeItemFailed() {
+    // TODO: implement removeItemFailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void removeItemSuccess() {
+    // TODO: implement removeItemSuccess
+    _cartItemList = null;
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    _myCartpresenter.getCartMenuList(
+        widget.restId, context, Globle().loginModel.data.id);
   }
   //   return Scaffold(
   //     body: _getmainview(),

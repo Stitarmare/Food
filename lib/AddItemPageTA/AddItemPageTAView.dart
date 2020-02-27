@@ -6,6 +6,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 //import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -42,7 +43,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this);
+    _addItemPagepresenter = AddItemPageTApresenter(this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -179,9 +180,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -215,6 +216,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               print(addMenuToCartModel.toJson());
               _addItemPagepresenter.performaddMenuToCart(
                   addMenuToCartModel, context);
+
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
               // showDialog(
@@ -234,7 +236,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               // color: redtheme,
               child: Center(
                 child: Text(
-                  'ADD \$24',
+                  'ADD ${_addItemModelList.price}',
                   style: TextStyle(
                       fontFamily: 'gotham',
                       fontWeight: FontWeight.w600,
@@ -445,27 +447,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               SizedBox(
                 height: 10,
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 28),
-                    Text(
-                      'Dressing',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w500,
-                          color: greytheme700),
-                    ),
-                    SizedBox(
-                      width: 34,
-                    ),
-                    togglebutton()
-                  ],
-                ),
-              ),
+              togglebutton()
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+              //   child: Row(
+              //     children: <Widget>[
+              //       SizedBox(width: 28),
+              //       Text(
+              //         'Dressing',
+              //         textAlign: TextAlign.start,
+              //         style: TextStyle(
+              //             fontSize: 16,
+              //             fontFamily: 'gotham',
+              //             fontWeight: FontWeight.w500,
+              //             color: greytheme700),
+              //       ),
+              //       SizedBox(
+              //         width: 34,
+              //       ),
+              //       togglebutton()
+              //     ],
+              //   ),
+              //),
             ]),
       ),
     );
@@ -515,23 +518,31 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     child: Row(
                       children: <Widget>[
                         SizedBox(width: 28),
-                        Text(
-                          switchs.title ?? "",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                switchs.title ?? "",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
-                          width: 34,
+                          width: 10,
                         ),
                         Container(
-                          height: 36,
+                          height: 40,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
-                              fillColor: redtheme,
+                              fillColor: getColorByHex(Globle().colorscode),
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,
@@ -712,6 +723,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+    Constants.showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
   }
 }
 

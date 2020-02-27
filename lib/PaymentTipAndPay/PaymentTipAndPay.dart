@@ -1,33 +1,60 @@
-//import 'dart:html';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
-  PaymentTipAndPay({Key key}) : super(key: key);
-
+  int restId;
+  int userId;
+  String orderType;
+  int tableId;
+  List<int> items;
+  int totalAmount;
+  String latitude;
+  String longitude;
+  List<MenuCartList> itemdata;
+  PaymentTipAndPay(
+      {this.userId,
+      this.items,
+      this.restId,
+      this.latitude,
+      this.longitude,
+      this.orderType,
+      this.tableId,
+      this.totalAmount,
+      this.itemdata});
+  // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
 }
 
-class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentTipAndPayModelView{
+class _PaymentTipAndPayState extends State<PaymentTipAndPay>
+    implements PaymentTipAndPayModelView {
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
-    //PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
-    @override
+  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+
+  OrderData myOrderData;
+  @override
   void initState() {
     // TODO: implement initState
-  //  _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    print(widget.items);
+    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      left: true,
-      top: true,
-      right: true,
+      left: false,
+      top: false,
+      right: false,
+      bottom: true,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -52,8 +79,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: redtheme,
-                            color: redtheme,
+                            decorationColor: getColorByHex(Globle().colorscode),
+                            color: getColorByHex(Globle().colorscode),
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
@@ -65,18 +92,28 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
+                      _paymentTipAndPayPresenter.placeOrder(
+                          widget.restId,
+                          Globle().loginModel.data.id,
+                          widget.orderType,
+                          1,
+                          widget.items,
+                          widget.totalAmount,
+                          widget.latitude,
+                          widget.longitude,
+                          context);
                     },
                     child: Container(
                       height: 45,
                       decoration: BoxDecoration(
-                          color: redtheme,
+                          color: getColorByHex(Globle().colorscode),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: redtheme,
+                      // color: getColorByHex(Globle().colorscode,
                       child: Center(
                         child: Text(
-                          'PLACE ORDER',
+                          'PAY BILL',
                           style: TextStyle(
                               fontFamily: 'gotham',
                               fontWeight: FontWeight.w600,
@@ -135,13 +172,13 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Take Away',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: redtheme),
+                        color: getColorByHex(Globle().colorscode)),
                   )
                 ],
               ),
@@ -152,7 +189,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    'Table 8',
+                    widget.tableId == null
+                        ? "Table 1"
+                        : 'Table ${widget.tableId}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -198,7 +237,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
       margin: EdgeInsets.only(top: 15),
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
-        itemCount: 8,
+        itemCount: widget.itemdata.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Column(
@@ -211,11 +250,18 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: Image.asset(
-                          'assets/VegIcon/Group1661.png',
-                          height: 20,
-                          width: 20,
-                        ),
+                        child: (widget.itemdata[index].items.menuType == 'veg')
+                            ? Image.asset(
+                                'assets/VegIcon/Group1661.png',
+                                height: 20,
+                                width: 20,
+                              )
+                            : Image.asset(
+                                'assets/VegIcon/Group1661.png',
+                                height: 20,
+                                width: 20,
+                                color: redtheme,
+                              ),
                       ),
                       SizedBox(width: 16),
                       Column(
@@ -223,7 +269,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'Bacon & Cheese Burger',
+                            widget.itemdata[index].items.itemName ??
+                                'Bacon & Cheese Burger',
                             style: TextStyle(
                                 // fontFamily: 'gotham',
                                 fontSize: 18,
@@ -236,7 +283,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              "  Lorem Epsom is simply dummy text Lorem Epsom is simply dummy text",
+                              widget.itemdata[index].items.itemDescription ??
+                                  "  Lorem Epsom is simply dummy text Lorem Epsom is simply dummy text",
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: 14,
@@ -258,7 +306,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$17',
+                          '\$ ${widget.itemdata[index].items.price}' ?? '\$17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,
@@ -303,11 +351,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
             child: Container(
               width: MediaQuery.of(context).size.width * 0.65,
               child: Slider(
-                activeColor: redtheme,
+                activeColor: getColorByHex(Globle().colorscode),
                 inactiveColor: greytheme100,
                 min: 0,
-                max: 100,
-                divisions: 100,
+                max: 20,
+                //divisions: 20,
                 value: sliderValue,
                 // label: '${sliderValue}',
                 onChanged: (newValue) {
@@ -323,7 +371,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
               right: 10,
             ),
             child: Text(
-              '${sliderValue.toInt()}%',
+              '\$ ${sliderValue.toInt()}',
               style: TextStyle(
                   fontSize: 16,
                   color: greytheme700,
@@ -370,7 +418,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$45',
+                  (widget.totalAmount) != null
+                      ? " \$ ${widget.totalAmount}"
+                      : '\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
@@ -379,33 +429,33 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
           SizedBox(
             height: 13,
           ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  'VAT (7.7%)',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  width: 120,
-                ),
-                flex: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Text(
-                  '\$4.31',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 13,
-          ),
+          // Row(
+          //   children: <Widget>[
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 20),
+          //       child: Text(
+          //         'VAT (7.7%)',
+          //         style: TextStyle(fontSize: 12, color: greytheme700),
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: SizedBox(
+          //         width: 120,
+          //       ),
+          //       flex: 2,
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.only(right: 20),
+          //       child: Text(
+          //         '\$ 0.0',
+          //         style: TextStyle(fontSize: 12, color: greytheme700),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // SizedBox(
+          //   height: 13,
+          // ),
           Row(
             children: <Widget>[
               Padding(
@@ -424,7 +474,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$11.20',
+                  '\$ ${sliderValue.toInt()}',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
@@ -451,7 +501,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$11.20',
+                  '\$ ${widget.totalAmount + sliderValue.toInt()}',
+                  // (widget.totalAmount) != null?
+                  // " \$ ${widget.totalAmount}":'\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
@@ -462,13 +514,79 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay> implements PaymentT
     );
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    color: greytheme700),
+              ),
+              content:
+                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                Image.asset(
+                  'assets/SuccessIcon/success.png',
+                  width: 75,
+                  height: 75,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w500,
+                      color: greytheme700),
+                )
+              ]),
+              actions: <Widget>[
+                Divider(
+                  endIndent: 15,
+                  indent: 15,
+                  color: Colors.black,
+                ),
+                FlatButton(
+                  child: Text("Ok",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greytheme700)),
+                  onPressed: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    //                 (widget.orderType == 'dine_in')
+                    // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
+                    // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
+                  },
+                )
+              ],
+            ));
+  }
+
   @override
   void placeOrderfailed() {
     // TODO: implement placeOrderfailed
   }
 
   @override
-  void placeOrdersuccess(List menulist) {
+  void placeOrdersuccess(OrderData orderData) {
+    print("Place ORDER SUCCESS.");
+    setState(() {
+      if (myOrderData == null) {
+        myOrderData = orderData;
+      }
+    });
+    showAlertSuccess(
+        "Order Placed", "Your order has been successfully placed.", context);
+
     // TODO: implement placeOrdersuccess
   }
 }
