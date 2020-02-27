@@ -447,7 +447,7 @@ class _MyCartViewState extends State<MyCartView>
                     Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          "Table Number: ${tableNumber.name}",
+                          "${tableNumber.name}",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor:
