@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
@@ -128,5 +129,31 @@ class MycartPresenter extends MyCartContarctor {
     });
 //ApiCall
     //;
+  }
+
+  @override
+  void updateQauntityCount(
+      int cart_id, int quantity, double amount, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.updatequantityApi, context,
+        body: {
+          "cart_id": cart_id,
+          "quantity": quantity,
+          "amount": amount
+        }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          addTablenoModelView.addTablebnoSuccces();
+          print("success");
+          break;
+        case SuccessType.failed:
+          addTablenoModelView.addTablenofailed();
+          print("failed");
+
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
   }
 }
