@@ -274,46 +274,49 @@ class _ChangePasswordview extends State<ChangePasswordview>
     return showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          "Change Password",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greentheme100,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'gotham',
-              fontSize: 22),
-        ),
-        content: Text(
-          'Your password has been successfully change. ',
-          // _newPassword == _confirmPassword
-          //     ? 'Your password has been successfully change. '
-          //     : 'Password does not match with confirm password.',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greytheme100,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'gotham',
-              fontSize: 20),
-        ),
-        actions: [
-          FlatButton(
-            child: const Text(
-              "OK",
-              style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 20),
-            ),
-            onPressed: () {
-              // _newPassword == _confirmPassword
-              //     ? Navigator.of(context).pushReplacementNamed('/MainWidget')
-              //     : Navigator.pop(context);
-              Navigator.of(context).pushReplacementNamed('/MainWidget');
-            },
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+              child: AlertDialog(
+          title: const Text(
+            "Change Password",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greentheme100,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'gotham',
+                fontSize: 22),
           ),
-        ],
+          content: Text(
+            'Your password has been successfully change. ',
+            // _newPassword == _confirmPassword
+            //     ? 'Your password has been successfully change. '
+            //     : 'Password does not match with confirm password.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greytheme100,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'gotham',
+                fontSize: 20),
+          ),
+          actions: [
+            FlatButton(
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                    color: greentheme100,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'gotham',
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                // _newPassword == _confirmPassword
+                //     ? Navigator.of(context).pushReplacementNamed('/MainWidget')
+                //     : Navigator.pop(context);
+                Navigator.of(context).pushReplacementNamed('/MainWidget');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

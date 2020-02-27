@@ -517,58 +517,61 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   void showAlertSuccess(String title, String message, BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'gotham',
-                    fontWeight: FontWeight.w600,
-                    color: greytheme700),
-              ),
-              content:
-                  Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Image.asset(
-                  'assets/SuccessIcon/success.png',
-                  width: 75,
-                  height: 75,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  message,
+        builder: (context) => WillPopScope(
+          onWillPop: () async => false,
+                  child: AlertDialog(
+                title: Text(
+                  title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontFamily: 'gotham',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: greytheme700),
-                )
-              ]),
-              actions: <Widget>[
-                Divider(
-                  endIndent: 15,
-                  indent: 15,
-                  color: Colors.black,
                 ),
-                FlatButton(
-                  child: Text("Ok",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700)),
-                  onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                    //                 (widget.orderType == 'dine_in')
-                    // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
-                    // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
-                  },
-                )
-              ],
-            ));
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      //                 (widget.orderType == 'dine_in')
+                      // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
+                      // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
+                    },
+                  )
+                ],
+              ),
+        ));
   }
 
   @override

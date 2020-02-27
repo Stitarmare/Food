@@ -412,8 +412,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             placeholder: (context, url) => Center(
                               child: CircularProgressIndicator(),
                             ),
-                            errorWidget: (context, url, error) =>
-                                Image.asset("assets/PlaceholderFoodImage/MaskGroup55.png"),
+                            errorWidget: (context, url, error) => Image.asset(
+                              "assets/PlaceholderFoodImage/MaskGroup55.png",
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: 100,
+                            ),
                             imageUrl: BaseUrl.getBaseUrlImages() +
                                 '${_restaurantList[index].itemImage}',
                           ),
