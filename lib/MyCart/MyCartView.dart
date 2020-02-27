@@ -49,6 +49,8 @@ class _MyCartViewState extends State<MyCartView>
   String _selectedId;
   bool isTableList = false;
 
+  bool isloading = false;
+
   int _dropdownTableNumber;
 
   GetTableList getTableListModel;
@@ -115,21 +117,39 @@ class _MyCartViewState extends State<MyCartView>
     });
   }
 
+  // List list;
+
+  // void removeItem(int index) {
+  //   setState(() {
+  //     list = List.from(list)..removeAt(index);
+  //   });
+  // }
+
   Widget steppercount(int i) {
     int count = _cartItemList[i].quantity;
+    int cartIdnew = _cartItemList[i].id;
     return Container(
       height: 24,
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 1) {
+            if (count > 0) {
               setState(() {
                 --count;
                 _cartItemList[i].quantity = count;
-
                 print(count);
               });
+              if (count == 0) {
+                _myCartpresenter.removeItemfromCart(
+                    cartIdnew, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(_cartItemList[i].id);
+                });
+
+                //     _cartItemList = null;
+
+              }
             }
           },
           splashColor: Colors.redAccent.shade200,
@@ -222,7 +242,9 @@ class _MyCartViewState extends State<MyCartView>
               //   //endIndent: 10,
               //   //indent: 10,
               // ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -304,7 +326,7 @@ class _MyCartViewState extends State<MyCartView>
             SizedBox(
               height: 10,
             ),
-            _getAddedListItem()
+            isloading ? Container() : _getAddedListItem()
           ],
         ),
         // CustomScrollView(
@@ -618,7 +640,7 @@ class _MyCartViewState extends State<MyCartView>
   Widget refreshBg() {
     return Container(
       alignment: Alignment.centerRight,
-      color: Colors.red,
+      color: getColorByHex(Globle().colorscode),
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,
@@ -675,10 +697,11 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    //return;
   }
 
   @override
