@@ -107,6 +107,7 @@ class GenericModel<T> {
 
       case PlaceOrderModel:
         return PlaceOrderModel.fromJson(json) as T;
+
       case GetTableListModel:
         return GetTableListModel.fromJson(json) as T;
 

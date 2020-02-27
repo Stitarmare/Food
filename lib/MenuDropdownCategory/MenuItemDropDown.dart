@@ -50,54 +50,58 @@ class MenuItemState extends State<MenuItem>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 340,
-      width: 280,
-      child: Center(
-        child: Material(
-          color: Colors.transparent,
-          child: ScaleTransition(
-            scale: scaleAnimation,
-            child: Container(
-              // margin: EdgeInsets.only(
-              //     left: MediaQuery.of(context).size.width * 0.3,
-              //     right: 13,
-              //     top: MediaQuery.of(context).size.height * 0.22),
-              padding: EdgeInsets.all(15.0),
-              height: 320,
-              width: 260,
-              decoration: ShapeDecoration(
-                  color: Color.fromRGBO(255, 255, 255, 1),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0))),
-              child: ListView.builder(
-                itemCount: _getint(),
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      _categorydata[index].name ?? "",
-                      style: TextStyle(
-                        color: _selectedMenu != null && _selectedMenu == index
-                            ? Color.fromRGBO(237, 29, 37, 1)
-                            : Color.fromRGBO(118, 118, 118, 1),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+      child: Container(
+        height: 340,
+        width: 280,
+        child: Center(
+          child: Material(
+            color: Colors.transparent,
+            child: ScaleTransition(
+              scale: scaleAnimation,
+              child: Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.3,
+                    right: 10,
+                    top: MediaQuery.of(context).size.height * 0.01,
+                    bottom: MediaQuery.of(context).size.height * 0.1),
+                padding: EdgeInsets.all(15.0),
+                height: 320,
+                width: 260,
+                decoration: ShapeDecoration(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0))),
+                child: ListView.builder(
+                  itemCount: _getint(),
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        _categorydata[index].name ?? "",
+                        style: TextStyle(
+                          color: _selectedMenu != null && _selectedMenu == index
+                              ? Color.fromRGBO(237, 29, 37, 1)
+                              : Color.fromRGBO(118, 118, 118, 1),
+                        ),
                       ),
-                    ),
-                    trailing: Text(
-                        _categorydata[index].menuCount.toString() == null
-                            ? "0"
-                            : _categorydata[index].menuCount.toString()),
-                    onTap: () {
-                      if (index == 0) {
-                        Navigator.pop(context, -1);
-
-                      }else{
-                        _onSelected(index);
-                      Navigator.pop(context, _categorydata[index].id);
-                      }
-                      
-                    },
-                  );
-                },
+                      trailing: Text(
+                          _categorydata[index].menuCount.toString() == null
+                              ? "0"
+                              : _categorydata[index].menuCount.toString()),
+                      onTap: () {
+                        if (index == 0) {
+                          Navigator.pop(context, -1);
+                        } else {
+                          _onSelected(index);
+                          Navigator.pop(context, _categorydata[index].id);
+                        }
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),
