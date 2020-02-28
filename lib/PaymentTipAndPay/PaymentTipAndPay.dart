@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
+import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
@@ -582,7 +583,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      //                 (widget.orderType == 'dine_in')
+                      //  (widget.orderType == 'dine_in');
                       // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
                       // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
                     },
@@ -605,13 +606,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData = orderData;
       }
     });
-    // showAlertSuccess(
-    //     "Order Placed", "Your order has been successfully placed.", context);
-    Navigator.of(context).pushNamed('/ConfirmationDineView');
+    showAlertSuccess(
+        "Order Placed", "Your order has been successfully placed.", context);
+    //Navigator.of(context).pushNamed('/ConfirmationDineView');
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => ConfirmationDineView(restID: widget.restId)));
+            builder: (context) => DineInView(
+
+                //restId: widget.restId
+                )));
 
     // TODO: implement placeOrdersuccess
   }

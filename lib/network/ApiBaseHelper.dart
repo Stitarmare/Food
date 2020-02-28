@@ -214,8 +214,8 @@ class ApiBaseHelper {
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
-          onWillPop: () async => false,
-                  child: AlertDialog(
+              onWillPop: () async => false,
+              child: AlertDialog(
                 title: Text(title),
                 content: Text(message),
                 actions: <Widget>[
@@ -225,7 +225,7 @@ class ApiBaseHelper {
                   )
                 ],
               ),
-        ));
+            ));
   }
 
   void showSnackBar(BuildContext context, String message) {
@@ -258,7 +258,7 @@ class ApiBaseHelper {
           }
         }
 
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error", msg, () {
             Navigator.of(context).pop();
           });
@@ -276,7 +276,7 @@ class ApiBaseHelper {
             msg = errorModel.message;
           }
         }
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Session", msg, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -290,7 +290,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error", "Could not access", () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -304,7 +304,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         //var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error",
               'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
               () {

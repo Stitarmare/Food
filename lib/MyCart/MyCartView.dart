@@ -154,6 +154,7 @@ class _MyCartViewState extends State<MyCartView>
                     context);
               }
               if (menuCartList.quantity == 0) {
+                // _cartItemList = null;
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
                 setState(() {
@@ -335,36 +336,33 @@ class _MyCartViewState extends State<MyCartView>
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/OrderConfirmationView');
-                      // print("button is pressed");
-                      // showDialog(
-                      //     context: context,
-                      //     child: new RadioDialog(
-                      //       onValueChange: _onValueChange,
-                      //       initialValue: _selectedId,
-                      //     ));
-                      (_cartItemList != null)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ConfirmationDineView(),
-
-                                // PaymentTipAndPay(
-                                //       restId: widget.restId,
-                                //       tablename: tableno,
-                                //       // price: _cartItemList[0].totalAmount,
-                                //       tableId: _dropdownTableNumber,
-                                //       // userId: widget.userID,
-                                //       totalAmount: myCart.grandTotal,
-                                //       items: itemList,
-                                //       itemdata: _cartItemList,
-                                //       orderType: widget.orderType,
-                                //       latitude: widget.lat,
-                                //       longitude: widget.long,
-                                //     )
-                              ))
-                          : Constants.showAlert("My Cart",
-                              "Please add items to your cart first.", context);
+                      if (_dropdownTableNumber == null) {
+                        Constants.showAlert("My Cart",
+                            "Please select table number first.", context);
+                      } else {
+                        (_cartItemList != null)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ConfirmationDineView(
+                                    restId: widget.restId,
+                                    tablename: tableno,
+                                    // price: _cartItemList[0].totalAmount,
+                                    tableId: _dropdownTableNumber,
+                                    // userId: widget.userID,
+                                    totalAmount: myCart.grandTotal,
+                                    items: itemList,
+                                    itemdata: _cartItemList,
+                                    orderType: widget.orderType,
+                                    latitude: widget.lat,
+                                    longitude: widget.long,
+                                  ),
+                                ))
+                            : Constants.showAlert(
+                                "My Cart",
+                                "Please add items to your cart first.",
+                                context);
+                      }
                     },
                     child: Container(
                       height: 54,
@@ -665,7 +663,11 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void getCartMenuListfailed() {
-    // TODO: implement getCartMenuListfailed
+    // TODO: implement getCartMenuListfailed\
+    setState(() {
+      _cartItemList = null;
+    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -720,7 +722,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
@@ -757,7 +759,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantitySuccess
   }

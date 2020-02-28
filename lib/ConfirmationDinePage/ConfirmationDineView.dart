@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
-  int restID;
-  ConfirmationDineView({
-    this.restID,
-  });
+  int price;
+  int restId;
+  int userId;
+  String orderType;
+  int tableId;
+  String tablename;
+  List<int> items;
+  int totalAmount;
+  String latitude;
+  String longitude;
+  List<MenuCartList> itemdata;
+  ConfirmationDineView(
+      {this.userId,
+      this.price,
+      this.items,
+      this.restId,
+      this.latitude,
+      this.tablename,
+      this.longitude,
+      this.orderType,
+      this.tableId,
+      this.totalAmount,
+      this.itemdata});
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
@@ -33,6 +54,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
 
   ScrollController _controller = ScrollController();
   int id = 1;
+  int radioId = 1;
   int radioOrderId = 1;
   String radioItem;
   String radioOrderItem;
@@ -54,7 +76,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
           controller: _controller,
           slivers: <Widget>[
             _getorderOptions(),
-            _gettimeOptions(),
+            radioId == 1 ? _gettableText() : _gettimeOptions(),
           ],
         ),
         bottomNavigationBar: Container(
@@ -78,8 +100,52 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                   color: Colors.white),
             ),
             color: getColorByHex(Globle().colorscode),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PaymentTipAndPay(
+                          restId: widget.restId,
+                          tablename: widget.tablename,
+                          // price: _cartItemList[0].totalAmount,
+                          tableId: widget.tableId,
+                          // userId: widget.userID,
+                          totalAmount: widget.totalAmount,
+                          items: widget.items,
+                          itemdata: widget.itemdata,
+                          orderType: widget.orderType,
+                          latitude: widget.latitude,
+                          longitude: widget.longitude)));
+            },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _gettableText() {
+    return SliverToBoxAdapter(
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: 150,
+            ),
+            Text(
+              "Please help us with table number:" "${widget.tablename}",
+              style: TextStyle(fontSize: 15),
+            ),
+            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.add),
+                RaisedButton(onPressed: null, child: Text('Add More People'))
+              ],
+            )
+          ],
         ),
       ),
     );
@@ -123,19 +189,18 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
     );
   }
 
-  getcontent() {
-    if (isselected == _radioOptions[0]) {
-      Visibility(
-        child: Text('Selected Table no is 4'),
-        visible: true,
-      );
-    } else {
-      Visibility(
-        child: _getRadioOptions(),
-        visible: true,
-      );
-    }
-  }
+  // getcontent() {
+  //   if (radioId == 1) {
+  //     Visibility(
+  //       visible: true,
+  //     );
+  //   } else {
+  //     Visibility(
+  //       child: _getRadioOptions(),
+  //       visible: true,
+  //     );
+  //   }
+  // }
 
   _getRadioOptions() {
     return Column(
@@ -312,6 +377,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
+                        radioId = val;
                         // if (radioOrderItem == 'Dine-in') {
                         //   getTableAlert();
                         // }
