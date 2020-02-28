@@ -953,7 +953,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
     Globle().dinecartValue += 1;
-    Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
 //Navigator.of(context).pop();

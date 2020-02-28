@@ -142,14 +142,14 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity -= 1;
                 print(menuCartList.quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
               if (menuCartList.quantity > 0) {
                 _myCartpresenter.updateQauntityCount(
                     menuCartList.id,
                     menuCartList.quantity,
                     menuCartList.totalAmount / menuCartList.quantity,
                     context);
-                DialogsIndicator.showLoadingDialog(
-                    context, _keyLoader, "Loading");
               }
               if (menuCartList.quantity == 0) {
                 _myCartpresenter.removeItemfromCart(
@@ -191,14 +191,14 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
+
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
                   menuCartList.totalAmount / menuCartList.quantity,
                   context);
-
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, "Loading");
             }
           },
           splashColor: Colors.lightBlue,
@@ -647,9 +647,10 @@ class _MyCartViewState extends State<MyCartView>
         }
       }
     }
-    extras = removeLastChar(extras);
-    extras = removeLastChar(extras);
-
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
     return extras;
   }
 
@@ -711,10 +712,11 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
   }
