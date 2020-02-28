@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
@@ -69,6 +68,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int _dropdownTableNumber;
 
   int tableID;
+  bool alreadyAdded = false;
+  int restaurant;
 
   @override
   void initState() {
@@ -304,21 +305,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
               // }
               //);
               print(addMenuToCartModel.toJson());
-              bool alreadyAdded = await Preference.getPrefValue<bool>(
+              var alreadyAdde = await Preference.getPrefValue<bool>(
                   PreferenceKeys.isAlreadyINCart);
-              int restaurant = await (Preference.getPrefValue<int>(
+              var restauran = await (Preference.getPrefValue<int>(
                   PreferenceKeys.restaurantID));
-              if (alreadyAdded != null && restaurant != null) {
-                if ((widget.rest_id != restaurant) && (alreadyAdded)) {
+              if (alreadyAdde != null && restauran != null) {
+                if ((widget.rest_id != restauran) && (alreadyAdde)) {
                   cartAlert(
                       "My Cart",
-                      "Already Items Previous Items Present In Cart, Clear Cart?",
+                      "Already Items; Previous Items Present In Cart, Clear Cart?",
                       context);
-                }else{
- _addItemPagepresenter.performaddMenuToCart(
-                    addMenuToCartModel, context);
+                } else {
+                  _addItemPagepresenter.performaddMenuToCart(
+                      addMenuToCartModel, context);
                 }
-               
+              } else {
+                _addItemPagepresenter.performaddMenuToCart(
+                    addMenuToCartModel, context);
               }
 
               // setState(() {
@@ -378,7 +381,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           widget.rest_id, PreferenceKeys.restaurantID);
                       Preference.setPersistData<bool>(
                           true, PreferenceKeys.isAlreadyINCart);
-                          Navigator.of(context).pop();
+                      Globle().dinecartValue = 0;
+                      Navigator.of(context).pop();
                     },
                   )
                 ],
@@ -996,6 +1000,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
 //Navigator.of(context).pop();
@@ -1033,6 +1039,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
+            Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     // TODO: implement clearCartSuccess
   }
 }

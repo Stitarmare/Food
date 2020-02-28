@@ -588,7 +588,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   Widget refreshBg() {
     return Container(
       alignment: Alignment.centerRight,
-      color: Colors.red,
+      color: getColorByHex(Globle().colorscode),
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,
@@ -599,6 +599,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void getCartMenuListfailed() {
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     // TODO: implement getCartMenuListfailed
   }
 
@@ -610,6 +612,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+             Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -635,6 +639,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -643,7 +649,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement removeItemSuccess
     _cartItemList = null;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
+    Globle().takeAwayCartItemCount -=1;
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
   }

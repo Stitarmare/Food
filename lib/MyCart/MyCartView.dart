@@ -661,6 +661,7 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void getCartMenuListfailed() {
     // TODO: implement getCartMenuListfailed
+
   }
 
   @override
@@ -672,6 +673,7 @@ class _MyCartViewState extends State<MyCartView>
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+        
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -705,6 +707,8 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
+        Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -749,7 +753,7 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void updatequantitySuccess() {
     _cartItemList = null;
-
+Globle().dinecartValue -=1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
