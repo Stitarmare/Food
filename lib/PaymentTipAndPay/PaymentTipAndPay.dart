@@ -609,13 +609,13 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);
     //Navigator.of(context).pushNamed('/ConfirmationDineView');
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DineInView(
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => DineInView(
 
-                //restId: widget.restId
-                )));
+    //             //restId: widget.restId
+    //             )));
 
     // TODO: implement placeOrdersuccess
   }
