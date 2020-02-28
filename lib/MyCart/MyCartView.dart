@@ -53,6 +53,8 @@ class _MyCartViewState extends State<MyCartView>
   bool isloading = false;
 
   int _dropdownTableNumber;
+
+  String tableno;
   int count;
 
   GetTableList getTableListModel;
@@ -69,6 +71,8 @@ class _MyCartViewState extends State<MyCartView>
   List<int> itemList = [];
 
   List<MenuCartList> itemData;
+
+  TableList tableList;
 
   @override
   void initState() {
@@ -144,6 +148,8 @@ class _MyCartViewState extends State<MyCartView>
                   menuCartList.quantity,
                   menuCartList.totalAmount / menuCartList.quantity,
                   context);
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
 
               if (menuCartList.quantity == 0) {
                 _myCartpresenter.removeItemfromCart(
@@ -190,6 +196,9 @@ class _MyCartViewState extends State<MyCartView>
                   menuCartList.quantity,
                   menuCartList.totalAmount / menuCartList.quantity,
                   context);
+
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
             }
           },
           splashColor: Colors.lightBlue,
@@ -338,6 +347,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
+                                        tablename: tableno,
                                         // price: _cartItemList[0].totalAmount,
                                         tableId: _dropdownTableNumber,
                                         // userId: widget.userID,
@@ -426,6 +436,12 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
             });
+            for (int i = 0; i < _dropdownItemsTable.length; i++) {
+              if (newValue == _dropdownItemsTable[i].id) {
+                print(_dropdownItemsTable[i].name);
+                tableno = _dropdownItemsTable[i].name;
+              }
+            }
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -622,12 +638,14 @@ class _MyCartViewState extends State<MyCartView>
 
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
-      Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+      Preference.setPersistData(
+          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().dinecartValue = menulist.length;
-    Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     myCart = model;
 
     setState(() {
@@ -698,16 +716,17 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void updatequantitySuccess() {
     _cartItemList = null;
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     // TODO: implement updatequantitySuccess
   }
 
   @override
   void updatequantityfailed() {
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantityfailed
   }
