@@ -16,6 +16,7 @@ class PaymentTipAndPay extends StatefulWidget {
   int userId;
   String orderType;
   int tableId;
+  String tablename;
   List<int> items;
   int totalAmount;
   String latitude;
@@ -27,6 +28,7 @@ class PaymentTipAndPay extends StatefulWidget {
       this.items,
       this.restId,
       this.latitude,
+      this.tablename,
       this.longitude,
       this.orderType,
       this.tableId,
@@ -100,7 +102,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           widget.restId,
                           Globle().loginModel.data.id,
                           widget.orderType,
-                          1,
+                          widget.tableId,
                           widget.items,
                           widget.totalAmount,
                           widget.latitude,
@@ -204,7 +206,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   Text(
                     widget.tableId == null
                         ? "Table 1"
-                        : 'Table ${widget.tableId}',
+                        : 'Selected Table : ${widget.tablename}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -281,13 +283,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            widget.itemdata[index].items.itemName ??
-                                'Bacon & Cheese Burger',
-                            style: TextStyle(
-                                // fontFamily: 'gotham',
-                                fontSize: 18,
-                                color: greytheme700),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Text(
+                              widget.itemdata[index].items.itemName ??
+                                  'Bacon & Cheese Burger',
+                              style: TextStyle(
+                                  // fontFamily: 'gotham',
+                                  fontSize: 18,
+                                  color: greytheme700),
+                            ),
                           ),
                           SizedBox(
                             height: 6,

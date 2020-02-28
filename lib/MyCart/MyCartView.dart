@@ -53,6 +53,8 @@ class _MyCartViewState extends State<MyCartView>
   bool isloading = false;
 
   int _dropdownTableNumber;
+
+  String tableno;
   int count;
 
   GetTableList getTableListModel;
@@ -68,6 +70,8 @@ class _MyCartViewState extends State<MyCartView>
   List<int> itemList = [];
 
   List<MenuCartList> itemData;
+
+  TableList tableList;
 
   @override
   void initState() {
@@ -138,12 +142,14 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity -= 1;
                 print(menuCartList.quantity);
               });
-              if (menuCartList.quantity> 0) {
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
+              if (menuCartList.quantity > 0) {
                 _myCartpresenter.updateQauntityCount(
-                  menuCartList.id,
-                  menuCartList.quantity,
-                  menuCartList.totalAmount / menuCartList.quantity,
-                  context);
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    menuCartList.totalAmount / menuCartList.quantity,
+                    context);
               }
               if (menuCartList.quantity == 0) {
                 _myCartpresenter.removeItemfromCart(
@@ -185,6 +191,9 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
+
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
@@ -338,6 +347,7 @@ class _MyCartViewState extends State<MyCartView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
+                                        tablename: tableno,
                                         // price: _cartItemList[0].totalAmount,
                                         tableId: _dropdownTableNumber,
                                         // userId: widget.userID,
@@ -426,6 +436,12 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
             });
+            for (int i = 0; i < _dropdownItemsTable.length; i++) {
+              if (newValue == _dropdownItemsTable[i].id) {
+                print(_dropdownItemsTable[i].name);
+                tableno = _dropdownItemsTable[i].name;
+              }
+            }
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -609,36 +625,38 @@ class _MyCartViewState extends State<MyCartView>
 
   String getExtra(MenuCartList menuCartList) {
     var extras = "";
-    for (int i =0;i<menuCartList.cartExtraItems.length;i++) {
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
       if (menuCartList.cartExtraItems[i].spreads.length > 0) {
-          for (int j = 0;j<menuCartList.cartExtraItems[i].spreads.length;j++) {
-            extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
         }
       }
 
       if (menuCartList.cartExtraItems[i].extras.length > 0) {
-          for (int j = 0;j<menuCartList.cartExtraItems[i].extras.length;j++) {
-            extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
         }
       }
       if (menuCartList.cartExtraItems[i].switches.length > 0) {
-          for (int j = 0;j<menuCartList.cartExtraItems[i].switches.length;j++) {
-            extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
         }
       }
-
-      
-        
     }
-    extras = removeLastChar(extras);
-    extras = removeLastChar(extras);
-
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
     return extras;
   }
 
-static String removeLastChar(String str) {
+  static String removeLastChar(String str) {
     return str.substring(0, str.length - 1);
-}
+  }
 
   @override
   void getCartMenuListfailed() {
@@ -652,12 +670,14 @@ static String removeLastChar(String str) {
 
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
-      Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+      Preference.setPersistData(
+          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().dinecartValue = menulist.length;
-    Preference.setPersistData( Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     myCart = model;
 
     setState(() {
@@ -692,10 +712,11 @@ static String removeLastChar(String str) {
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
   }
@@ -728,16 +749,17 @@ static String removeLastChar(String str) {
   @override
   void updatequantitySuccess() {
     _cartItemList = null;
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     // TODO: implement updatequantitySuccess
   }
 
   @override
   void updatequantityfailed() {
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantityfailed
   }
