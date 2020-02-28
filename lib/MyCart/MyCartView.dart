@@ -61,7 +61,6 @@ class _MyCartViewState extends State<MyCartView>
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
-  List<CartExtraItems> cartExtraItemsList = [];
   int cartId;
   MenuCartDisplayModel myCart;
   MenuCartList _cartList;
@@ -143,14 +142,15 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity -= 1;
                 print(menuCartList.quantity);
               });
-              _myCartpresenter.updateQauntityCount(
-                  menuCartList.id,
-                  menuCartList.quantity,
-                  menuCartList.totalAmount / menuCartList.quantity,
-                  context);
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, "Loading");
-
+              if (menuCartList.quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    menuCartList.totalAmount / menuCartList.quantity,
+                    context);
+                DialogsIndicator.showLoadingDialog(
+                    context, _keyLoader, "Loading");
+              }
               if (menuCartList.quantity == 0) {
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
@@ -550,10 +550,7 @@ class _MyCartViewState extends State<MyCartView>
                                     height: 30,
                                     width: 180,
                                     child: AutoSizeText(
-                                      _cartItemList[index]
-                                              .items
-                                              .itemDescription ??
-                                          " Lorem Epsom is simply dummy text",
+                                      getExtra(_cartItemList[index]),
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: 14,
@@ -626,6 +623,40 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
+  String getExtra(MenuCartList menuCartList) {
+    var extras = "";
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+        }
+      }
+    }
+    extras = removeLastChar(extras);
+    extras = removeLastChar(extras);
+
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   @override
   void getCartMenuListfailed() {
     // TODO: implement getCartMenuListfailed
@@ -684,7 +715,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
   }
 
