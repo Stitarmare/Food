@@ -73,7 +73,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this, this);
+    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);

@@ -7,25 +7,30 @@ import 'package:foodzi/widgets/RadioDailog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
   int restID;
-   ConfirmationDineView(
-      {this.restID,});
+  ConfirmationDineView({
+    this.restID,
+  });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
 
 class _ConfirmationDineViewState extends State<ConfirmationDineView> {
+  bool isselected = false;
+
   List<RadioButtonOrderOptions> _orderOptions = [
     RadioButtonOrderOptions(
         index: 1, title: 'Dine-in', subtitle: 'Get served in Restaurant'),
     RadioButtonOrderOptions(
         index: 2, title: "Take Away", subtitle: 'Get you food packed'),
   ];
+
   List<RadioButtonOptions> _radioOptions = [
     RadioButtonOptions(index: 1, title: 'ASAP'),
     RadioButtonOptions(index: 2, title: '02:30 PM'),
     RadioButtonOptions(index: 3, title: '03:00PM'),
     RadioButtonOptions(index: 4, title: '03:30 PM'),
   ];
+
   ScrollController _controller = ScrollController();
   int id = 1;
   int radioOrderId = 1;
@@ -116,6 +121,20 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[_getorderOption()])),
     );
+  }
+
+  getcontent() {
+    if (isselected == _radioOptions[0]) {
+      Visibility(
+        child: Text('Selected Table no is 4'),
+        visible: true,
+      );
+    } else {
+      Visibility(
+        child: _getRadioOptions(),
+        visible: true,
+      );
+    }
   }
 
   _getRadioOptions() {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 //import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -345,19 +347,22 @@ class _MyCartViewState extends State<MyCartView>
                           ? Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PaymentTipAndPay(
-                                        restId: widget.restId,
-                                        tablename: tableno,
-                                        // price: _cartItemList[0].totalAmount,
-                                        tableId: _dropdownTableNumber,
-                                        // userId: widget.userID,
-                                        totalAmount: myCart.grandTotal,
-                                        items: itemList,
-                                        itemdata: _cartItemList,
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                      )))
+                                builder: (context) => ConfirmationDineView(),
+
+                                // PaymentTipAndPay(
+                                //       restId: widget.restId,
+                                //       tablename: tableno,
+                                //       // price: _cartItemList[0].totalAmount,
+                                //       tableId: _dropdownTableNumber,
+                                //       // userId: widget.userID,
+                                //       totalAmount: myCart.grandTotal,
+                                //       items: itemList,
+                                //       itemdata: _cartItemList,
+                                //       orderType: widget.orderType,
+                                //       latitude: widget.lat,
+                                //       longitude: widget.long,
+                                //     )
+                              ))
                           : Constants.showAlert("My Cart",
                               "Please add items to your cart first.", context);
                     },
