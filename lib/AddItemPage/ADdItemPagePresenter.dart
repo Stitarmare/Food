@@ -20,11 +20,12 @@ class AddItemPagepresenter extends AddItemPageContractor {
   ClearCartModelView clearCartModelView;
 
   AddItemPagepresenter(
-      AddItemPageModelView addItemPageView,
-      AddmenuToCartModelview addMenuToCartModel,
-      AddTablenoModelView addTablenoModelView,
-      GetTableListModelView getTableListModel,
-      ClearCartModelView clearCartModelView) {
+    AddItemPageModelView addItemPageView,
+    AddmenuToCartModelview addMenuToCartModel,
+    AddTablenoModelView addTablenoModelView,
+    GetTableListModelView getTableListModel,
+    // ClearCartModelView clearCartModelView
+  ) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
     this.addTablenoModelView = addTablenoModelView;
@@ -135,12 +136,16 @@ class AddItemPagepresenter extends AddItemPageContractor {
 //ApiCall
     //;
   }
-   @override
+
+  @override
   void clearCart(BuildContext context) {
     // TODO: implement getNotifications
-        ApiBaseHelper().get<ErrorModel>(
-        UrlConstant.clearCartApi, context,
-        ).then((value) {
+    ApiBaseHelper()
+        .get<ErrorModel>(
+      UrlConstant.clearCartApi,
+      context,
+    )
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
