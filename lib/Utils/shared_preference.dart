@@ -8,6 +8,8 @@ class PreferenceKeys {
   static const User_data = 'USER_DATA';
   static final dineCartItemCount = "DINE_CART_ITEM_COUNT";
   static final takeAwayCartCount = "TAKE_AWAY_ITEM_COUNT";
+  static final isAlreadyINCart = "IS_ALREADY_IN_CART";
+  static final restaurantID = "RESTAURANT_ID";
   // static const Sign_UP_With_User_Data = 'Sign_In_With_User_Data';
   // static const Sign_IN_With_OTP = "Sign_IN_With_OTP";
   // static const ResetOtp = "ResetOtp";

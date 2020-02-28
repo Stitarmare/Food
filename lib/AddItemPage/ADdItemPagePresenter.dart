@@ -17,15 +17,19 @@ class AddItemPagepresenter extends AddItemPageContractor {
 
   AddmenuToCartModelview addMenuToCartModel;
 
+  ClearCartModelView clearCartModelView;
+
   AddItemPagepresenter(
       AddItemPageModelView addItemPageView,
       AddmenuToCartModelview addMenuToCartModel,
       AddTablenoModelView addTablenoModelView,
-      GetTableListModelView getTableListModel) {
+      GetTableListModelView getTableListModel,
+      ClearCartModelView clearCartModelView) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
     this.addTablenoModelView = addTablenoModelView;
     this.getTableListModel = getTableListModel;
+    this.clearCartModelView = clearCartModelView;
   }
 
   @override
@@ -130,5 +134,27 @@ class AddItemPagepresenter extends AddItemPageContractor {
     });
 //ApiCall
     //;
+  }
+   @override
+  void clearCart(BuildContext context) {
+    // TODO: implement getNotifications
+        ApiBaseHelper().get<ErrorModel>(
+        UrlConstant.clearCartApi, context,
+        ).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Clear cart success");
+          print(value.model);
+          clearCartModelView.clearCartSuccess();
+          break;
+        case SuccessType.failed:
+          print("Clear cart failed");
+          clearCartModelView.clearCartFailed();
+          break;
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }
