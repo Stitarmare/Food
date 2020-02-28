@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -10,10 +11,15 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
   AddItemPageTAModelView addItemPageModelView;
 
   AddmenuToCartModelviews addMenuToCartModel;
+  ClearCartTAModelView clearCartModelView;
 
-  AddItemPageTApresenter(AddItemPageTAModelView addItemPageView,AddmenuToCartModelviews addMenuToCartModel) {
+  AddItemPageTApresenter(
+      AddItemPageTAModelView addItemPageView,
+      AddmenuToCartModelviews addMenuToCartModel,
+      ClearCartTAModelView clearCartModelView) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
+    this.clearCartModelView = clearCartModelView;
   }
 
   @override
@@ -68,5 +74,28 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
     });
 //ApiCall
     //;
+  }
+
+  @override
+  void clearCart(BuildContext context) {
+    // TODO: implement getNotifications
+        ApiBaseHelper().get<ErrorModel>(
+        UrlConstant.clearCartApi, context,
+        ).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Clear cart success");
+          print(value.model);
+          clearCartModelView.clearCartSuccess();
+          break;
+        case SuccessType.failed:
+          print("Clear cart failed");
+          clearCartModelView.clearCartFailed();
+          break;
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }

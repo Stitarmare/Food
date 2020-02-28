@@ -1,20 +1,14 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
-//import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
-import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/constant.dart';
-import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/GeoLocationTracking.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +17,7 @@ class AddItemPageView extends StatefulWidget {
   String description;
   int item_id;
   int rest_id;
+
   AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
@@ -32,34 +27,50 @@ class _AddItemPageViewState extends State<AddItemPageView>
         AddItemPageModelView,
         AddmenuToCartModelview,
         AddTablenoModelView,
-        GetTableListModelView {
+        GetTableListModelView,
+        ClearCartModelView {
   List<bool> isSelected;
+
   int table_id;
+
   AddItemsToCartModel addMenuToCartModel;
+
   GetTableList getTableListModel;
+
   Item items;
+
   List<Extras> extra;
+
   Spreads spread;
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
+
   List<Switches> switches;
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
   //String strDefaultTxt = 'ADD \$24';
+
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
+
   AddItemModelList _addItemModelList;
   int item_id;
   int rest_id;
   ScrollController _controller = ScrollController();
+
   AddItemPagepresenter _addItemPagepresenter;
   List<TableList> _dropdownItemsTable = [];
   List<AddTableno> _addtableno = [];
+
   int _dropdownTableNumber;
+
   int tableID;
+  bool alreadyAdded = false;
+  int restaurant;
+
   @override
   void initState() {
     _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
@@ -76,11 +87,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int count = 1;
   String radioItem;
   String _selectedId;
+
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
+
   void _onValueChange(String value) {
     setState(() {
       _selectedId = value;
@@ -102,6 +115,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //       index: _addItemModelList.spreads[i].id,
     //       title: 'none')
     //       );
+
     // }
     setState(() {
       _radioOptions = radiolist;
@@ -138,6 +152,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   //       // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
   //       _addItemPagepresenter.getTableListno(_position.latitude.toString(),
   //           widget.rest_id, _position.longitude.toString(), context);
+
   //       List<TableList> _tablelist = [];
   //       for (int i; i < _tablelist.length; i++) {
   //         _tablelist.add(TableList(
@@ -154,6 +169,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   //     }
   //   });
   // }
+
   int checkboxbtn(int length) {
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
@@ -178,6 +194,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
           title: _addItemModelList.switches[i - 1].name ?? '',
           isSelected: [true, false]));
     }
+
     setState(() {
       _switchOptions = _switchlist;
     });
@@ -267,7 +284,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (addMenuToCartModel == null) {
                 addMenuToCartModel = AddItemsToCartModel();
               }
@@ -277,6 +294,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               if (items == null) {
                 items = Item();
               }
+
               addMenuToCartModel.items = [items];
               addMenuToCartModel.items[0].itemId = widget.item_id;
               addMenuToCartModel.items[0].extra = extra ?? [];
@@ -287,8 +305,25 @@ class _AddItemPageViewState extends State<AddItemPageView>
               // }
               //);
               print(addMenuToCartModel.toJson());
-              _addItemPagepresenter.performaddMenuToCart(
-                  addMenuToCartModel, context);
+              var alreadyAdde = await Preference.getPrefValue<bool>(
+                  PreferenceKeys.isAlreadyINCart);
+              var restauran = await (Preference.getPrefValue<int>(
+                  PreferenceKeys.restaurantID));
+              if (alreadyAdde != null && restauran != null) {
+                if ((widget.rest_id != restauran) && (alreadyAdde)) {
+                  cartAlert(
+                      "My Cart",
+                      "Already Items; Previous Items Present In Cart, Clear Cart?",
+                      context);
+                } else {
+                  _addItemPagepresenter.performaddMenuToCart(
+                      addMenuToCartModel, context);
+                }
+              } else {
+                _addItemPagepresenter.performaddMenuToCart(
+                    addMenuToCartModel, context);
+              }
+
               // setState(() {
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -321,6 +356,38 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
       ),
     );
+  }
+
+  void cartAlert(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Cancel"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Ok"),
+                    onPressed: () {
+                      _addItemPagepresenter.clearCart(context);
+                      Preference.setPersistData<int>(
+                          widget.rest_id, PreferenceKeys.restaurantID);
+                      Preference.setPersistData<bool>(
+                          true, PreferenceKeys.isAlreadyINCart);
+                      Globle().dinecartValue = 0;
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget _getmainviewTableno() {
@@ -462,6 +529,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   //           _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
   //               widget.rest_id, _dropdownTableNumber, context);
   //         },
+
   //         value: _dropdownTableNumber,
   //         decoration: InputDecoration(
   //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
@@ -495,6 +563,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   //     }),
   //   );
   // }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -906,12 +975,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void addItemfailed() {
     // TODO: implement addItemfailed
   }
+
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
     _addItemModelList = _additemlist[0];
+
     getradiobtn(_addItemModelList.spreads.length);
+
     checkboxbtn(_addItemModelList.extras.length);
+
     switchbtn(_addItemModelList.switches.length);
+
     // TODO: implement addItemsuccess
   }
 
@@ -919,12 +993,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void addMenuToCartfailed() {
     // TODO: implement addMenuToCartfailed
   }
+
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
 //Navigator.of(context).pop();
@@ -934,21 +1011,37 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void addTablebnoSuccces() {
     // TODO: implement addTablebnoSuccces
   }
+
   @override
   void addTablenofailed() {
     // TODO: implement addTablenofailed
   }
+
   @override
   void getTableListFailed() {
     // TODO: implement getTableListFailed
   }
+
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
+
     // TODO: implement getTableListSuccess
+  }
+
+  @override
+  void clearCartFailed() {
+    // TODO: implement clearCartFailed
+  }
+
+  @override
+  void clearCartSuccess() {
+            Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    // TODO: implement clearCartSuccess
   }
 }
 
@@ -965,6 +1058,7 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
+
   RadioButtonOptions({this.index, this.title});
 }
 
@@ -990,5 +1084,6 @@ class AddTableno {
   int user_id;
   int table_id;
   int rest_id;
+
   AddTableno({this.rest_id, this.table_id, this.user_id});
 }
