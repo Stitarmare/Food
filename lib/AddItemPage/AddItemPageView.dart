@@ -17,8 +17,14 @@ class AddItemPageView extends StatefulWidget {
   String description;
   int item_id;
   int rest_id;
+  String restName;
 
-  AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
+  AddItemPageView(
+      {this.title,
+      this.description,
+      this.item_id,
+      this.rest_id,
+      this.restName});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -309,11 +315,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   PreferenceKeys.isAlreadyINCart);
               var restauran = await (Preference.getPrefValue<int>(
                   PreferenceKeys.restaurantID));
+              var restaurantName = await (Preference.getPrefValue<String>(
+                  PreferenceKeys.restaurantName));
               if (alreadyAdde != null && restauran != null) {
                 if ((widget.rest_id != restauran) && (alreadyAdde)) {
                   cartAlert(
-                      "My Cart",
-                      "Already Items; Previous Items Present In Cart, Clear Cart?",
+                      "Start a new order?",
+                      (restaurantName != null)
+                          ? "Your unfinished order at $restaurantName will be deleted."
+                          : "Your unfinished order at previous hotel will be deleted.",
                       context);
                 } else {
                   _addItemPagepresenter.performaddMenuToCart(
@@ -364,27 +374,60 @@ class _AddItemPageViewState extends State<AddItemPageView>
         builder: (context) => WillPopScope(
               onWillPop: () async => false,
               child: AlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Cancel"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                title: Text(title,textAlign: TextAlign.center,),
+                content: Text(message,textAlign: TextAlign.center,),
+                actions: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      RaisedButton(
+                        color: getColorByHex(Globle().colorscode),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          "NEW ORDER",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
+                        ),
+                        onPressed: () {
+                          _addItemPagepresenter.clearCart(context);
+                          Preference.setPersistData<int>(
+                              widget.rest_id, PreferenceKeys.restaurantID);
+                          Preference.setPersistData<bool>(
+                              true, PreferenceKeys.isAlreadyINCart);
+                          Preference.setPersistData<String>(
+                              widget.restName, PreferenceKeys.restaurantName);
+                          Globle().dinecartValue = 0;
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.12,
+                        ),
+                      RaisedButton(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Color.fromRGBO(170, 170, 170, 1)),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          "CANCEL",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontFamily: 'gotham',
+                              fontWeight: FontWeight.w400,
+                              color: greytheme100),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   ),
-                  FlatButton(
-                    child: Text("Ok"),
-                    onPressed: () {
-                      _addItemPagepresenter.clearCart(context);
-                      Preference.setPersistData<int>(
-                          widget.rest_id, PreferenceKeys.restaurantID);
-                      Preference.setPersistData<bool>(
-                          true, PreferenceKeys.isAlreadyINCart);
-                      Globle().dinecartValue = 0;
-                      Navigator.of(context).pop();
-                    },
-                  )
                 ],
               ),
             ));
@@ -1002,6 +1045,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
 //Navigator.of(context).pop();
@@ -1039,8 +1084,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
-            Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
     // TODO: implement clearCartSuccess
   }
 }
