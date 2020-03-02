@@ -8,7 +8,9 @@ import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
@@ -41,6 +43,8 @@ class PaymentTipAndPay extends StatefulWidget {
 
 class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     implements PaymentTipAndPayModelView {
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
@@ -595,6 +599,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   void placeOrderfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     // TODO: implement placeOrderfailed
   }
 
@@ -606,8 +613,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData = orderData;
       }
     });
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     //Navigator.of(context).pushNamed('/ConfirmationDineView');
     // Navigator.pushReplacement(
     //     context,
