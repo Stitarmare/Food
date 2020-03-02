@@ -295,7 +295,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(left:8.0,right: 8.0) ,
+                    padding: const EdgeInsets.only(left:0.0,right: 5.0) ,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
