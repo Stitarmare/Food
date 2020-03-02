@@ -16,5 +16,6 @@ class Globle {
   String colorscode;
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
+  String restauranrtName = "";
   var authKey;
 }

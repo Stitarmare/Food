@@ -641,6 +641,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement removeItemFailed
            Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -654,6 +655,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
   //   return Scaffold(
   //     body: _getmainview(),

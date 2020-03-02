@@ -376,6 +376,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
+                           restName: widget.title,   
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),

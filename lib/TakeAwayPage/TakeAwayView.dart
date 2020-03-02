@@ -450,7 +450,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   Globle().colorscode = _restaurantList[i].colourCode;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => TakeAwayBottombar(
-                            title: "${_restaurantList[i].restName}",
+                            title: _restaurantList[i].restName,
                             rest_Id: _restaurantList[i].id,
                             lat: _restaurantList[i].latitude,
                             long: _restaurantList[i].longitude,

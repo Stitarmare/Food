@@ -71,10 +71,12 @@ class _DineViewState extends State<DineInView>
   void initState() {
 // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
-    if(Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount ) != null){
-     Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount).then((value){
-       Globle().dinecartValue = value;
-    });
+    if (Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount) !=
+        null) {
+      Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount)
+          .then((value) {
+        Globle().dinecartValue = value;
+      });
     }
 
     _getLocation();
@@ -454,9 +456,10 @@ class _DineViewState extends State<DineInView>
                 onTap: () {
                   Globle().dinecartValue = 0;
                   Globle().colorscode = _restaurantList[i].colourCode;
+                  //                 Globle().restauranrtName = _restaurantList[i].restName;
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => BottomTabbarHome(
-                            title: "${_restaurantList[i].restName}",
+                            title: _restaurantList[i].restName,
                             rest_Id: _restaurantList[i].id,
                             lat: _restaurantList[i].latitude,
                             long: _restaurantList[i].longitude,

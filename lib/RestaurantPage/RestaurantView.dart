@@ -27,6 +27,7 @@ import 'package:foodzi/widgets/imagewithloader.dart';
 class RestaurantView extends StatefulWidget {
   String title;
   int rest_Id;
+  
   int categoryid;
   RestaurantView({this.title, this.rest_Id, this.categoryid});
   @override
@@ -472,6 +473,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
+                          restName: widget.title,
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
