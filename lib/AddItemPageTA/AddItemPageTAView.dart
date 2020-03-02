@@ -279,7 +279,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     );
   }
 
-  void cartAlert(String title, String message, BuildContext context) {
+    void cartAlert(String title, String message, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
@@ -293,57 +293,69 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   message,
                   textAlign: TextAlign.center,
                 ),
-                actions: <Widget>[
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      RaisedButton(
-                        color: getColorByHex(Globle().colorscode),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
-                          "NEW ORDER",
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:8.0,right: 8.0) ,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: RaisedButton(
+                            color: getColorByHex(Globle().colorscode),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "NEW ORDER",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            onPressed: () {
+                              _addItemPagepresenter.clearCart(context);
+                              Preference.setPersistData<int>(
+                                  widget.rest_id, PreferenceKeys.restaurantID);
+                              Preference.setPersistData<bool>(
+                                  true, PreferenceKeys.isAlreadyINCart);
+                              Preference.setPersistData<String>(
+                                  widget.restName, PreferenceKeys.restaurantName);
+                              Globle().dinecartValue = 0;
+                              Navigator.of(context).pop();
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          _addItemPagepresenter.clearCart(context);
-                          Preference.setPersistData<int>(
-                              widget.rest_id, PreferenceKeys.restaurantID);
-                          Preference.setPersistData<bool>(
-                              true, PreferenceKeys.isAlreadyINCart);
-                          Preference.setPersistData<String>(
-                              widget.restName, PreferenceKeys.restaurantName);
-                          Globle().takeAwayCartItemCount = 0;
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.12,
-                      ),
-                      RaisedButton(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Color.fromRGBO(170, 170, 170, 1)),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
-                          "CANCEL",
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w400,
-                              color: greytheme100),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.04,
+                          //width: 10,
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+                        Container(
+                          width: MediaQuery.of(context).size.width *0.32,
+                          height: 40,
+                          child: RaisedButton(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: greytheme100),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "CANCEL",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: greytheme100),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
