@@ -53,6 +53,11 @@ class _StatusTrackingViewState extends State<StatusTrackView> {
                 },
               ),
             ),
+
+            SizedBox(
+              height: 50,
+            ),
+            _billPayment(),
           ],
         ),
       ),
@@ -73,4 +78,17 @@ Widget _getstatus() {
       ),
     ),
   );
+}
+
+Widget _billPayment() {
+  return Container(
+      child: FlatButton(
+    child: Text("Bill Payment",
+        style: TextStyle(
+            fontSize: 16,
+            fontFamily: 'gotham',
+            fontWeight: FontWeight.w600,
+            color: greytheme700)),
+    onPressed: () {},
+  ));
 }
