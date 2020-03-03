@@ -161,28 +161,78 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/OrderIcon/order.png'),
-                icon: Icon(
-                  OMIcons.assignment,
-                  color: greytheme100,
-                  size: 30,
+                // icon: Icon(
+                //   OMIcons.assignment,
+                //   color: greytheme100,
+                //   size: 30,
+                // ),
+                icon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.assignment, color: greytheme100,size: 30,),
+                    Positioned(
+                        top: -11,
+                        right: -11,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
-                activeIcon: Icon(
-                  OMIcons.assignment,
-                  color: orangetheme,
-                  size: 30,
+                // activeIcon: Icon(
+                //   OMIcons.assignment,
+                //   color: orangetheme,
+                //   size: 30,
+                // ),
+                activeIcon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.assignment, color: orangetheme,size: 30,),
+                    Positioned(
+                        top: -11,
+                        right: -11,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                icon: Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
+                icon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.notifications, color: greytheme100,size: 30,),
+                    Positioned(
+                        top: -10,
+                        right: -10,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
-                activeIcon: Icon(
-                  OMIcons.notifications,
-                  color: orangetheme,
-                  size: 30,
+                activeIcon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.notifications, color: orangetheme,size: 30,),
+                    Positioned(
+                        top: -10,
+                        right: -10,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
                 title: Text('')),
             BottomNavigationBarItem(

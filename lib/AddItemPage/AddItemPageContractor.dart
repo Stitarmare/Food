@@ -5,6 +5,7 @@ import 'package:foodzi/Models/GetTableListModel.dart';
 abstract class AddItemPageContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
    void clearCart(BuildContext context) ;
+   void updateOrder(int orderId,BuildContext context);
   void onBackPresed();
 }
 
@@ -30,4 +31,8 @@ abstract class GetTableListModelView {
 abstract class ClearCartModelView {
   void clearCartSuccess();
   void clearCartFailed();
+}
+abstract class UpdateCartModelView {
+  void updateOrderSuccess();
+  void updateOrderFailed();
 }

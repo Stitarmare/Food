@@ -615,7 +615,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-
+    Globle().orderNumber = orderData.orderNumber;
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
 
     showAlertSuccess(

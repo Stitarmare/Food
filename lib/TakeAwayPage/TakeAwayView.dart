@@ -425,43 +425,46 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   Widget restaurantsInfo() {
-    return ListView.builder(
-      controller: _controller,
-      itemCount: _getint(),
-      itemBuilder: (_, i) {
-        return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0),
-            ),
-            elevation: 2,
-            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-            child: ListTile(
-                contentPadding: EdgeInsets.all(0.0),
-                title: _getMainView(
-                  _restaurantList[i].restName,
-                  _restaurantList[i].distance,
-                  _restaurantList[i].openingTime,
-                  _restaurantList[i].closingTime,
-                  _restaurantList[i].averageRating.toString(),
-                  _restaurantList[i].coverImage,
-                ),
-                onTap: () {
-                  Globle().takeAwayCartItemCount = 0;
-                  Globle().colorscode = _restaurantList[i].colourCode;
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TakeAwayBottombar(
-                            title: _restaurantList[i].restName,
-                            rest_Id: _restaurantList[i].id,
-                            lat: _restaurantList[i].latitude,
-                            long: _restaurantList[i].longitude,
-                          )));
-                  setState(() {
+    return RefreshIndicator(
+      onRefresh: _refreshRstaurantList,
+          child: ListView.builder(
+        controller: _controller,
+        itemCount: _getint(),
+        itemBuilder: (_, i) {
+          return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+              elevation: 2,
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+              child: ListTile(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: _getMainView(
+                    _restaurantList[i].restName,
+                    _restaurantList[i].distance,
+                    _restaurantList[i].openingTime,
+                    _restaurantList[i].closingTime,
+                    _restaurantList[i].averageRating.toString(),
+                    _restaurantList[i].coverImage,
+                  ),
+                  onTap: () {
+                    Globle().takeAwayCartItemCount = 0;
+                    Globle().colorscode = _restaurantList[i].colourCode;
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TakeAwayBottombar(
+                              title: _restaurantList[i].restName,
+                              rest_Id: _restaurantList[i].id,
+                              lat: _restaurantList[i].latitude,
+                              long: _restaurantList[i].longitude,
+                            )));
+                    setState(() {
 // selected[i] = !selected[i];
-                  }
+                    }
 // reverse bool value
-                      );
-                }));
-      },
+                        );
+                  }));
+        },
+      ),
     );
   }
 
@@ -660,3 +663,7 @@ class BottomItemButton {
   int id;
   BottomItemButton({this.title, this.isSelected, this.id});
 }
+Future<Null> _refreshRstaurantList() async{
+    print('refreshing List...');
+
+  }
