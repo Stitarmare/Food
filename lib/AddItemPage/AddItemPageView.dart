@@ -34,7 +34,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
         AddmenuToCartModelview,
         AddTablenoModelView,
         GetTableListModelView,
-        ClearCartModelView {
+        ClearCartModelView,
+        UpdateCartModelView {
   List<bool> isSelected;
 
   int table_id;
@@ -79,7 +80,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
+    _addItemPagepresenter =
+        AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -333,7 +335,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
+              // if (Globle().orderNumber != null) {
+              //   if (widget.rest_id == ) {
+                  
+              //   } else {
+              //   }
+              // } else {
 
+              // }
               // setState(() {
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -384,7 +393,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(left:8.0,right: 8.0) ,
+                    padding: const EdgeInsets.only(left: 0.0, right: 5.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -411,8 +420,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   widget.rest_id, PreferenceKeys.restaurantID);
                               Preference.setPersistData<bool>(
                                   true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(
-                                  widget.restName, PreferenceKeys.restaurantName);
+                              Preference.setPersistData<String>(widget.restName,
+                                  PreferenceKeys.restaurantName);
                               Globle().dinecartValue = 0;
                               Navigator.of(context).pop();
                             },
@@ -423,7 +432,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           //width: 10,
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width *0.32,
+                          width: MediaQuery.of(context).size.width * 0.32,
                           height: 40,
                           child: RaisedButton(
                             color: Colors.white,
@@ -1106,6 +1115,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
     // TODO: implement clearCartSuccess
+  }
+
+  @override
+  void updateOrderFailed() {
+    // TODO: implement updateOrderFailed
+  }
+
+  @override
+  void updateOrderSuccess() {
+    // TODO: implement updateOrderSuccess
   }
 }
 

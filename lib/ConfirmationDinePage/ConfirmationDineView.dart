@@ -101,21 +101,22 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
             ),
             color: getColorByHex(Globle().colorscode),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PaymentTipAndPay(
-                          restId: widget.restId,
-                          tablename: widget.tablename,
-                          // price: _cartItemList[0].totalAmount,
-                          tableId: widget.tableId,
-                          // userId: widget.userID,
-                          totalAmount: widget.totalAmount,
-                          items: widget.items,
-                          itemdata: widget.itemdata,
-                          orderType: widget.orderType,
-                          latitude: widget.latitude,
-                          longitude: widget.longitude)));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => PaymentTipAndPay(
+              //             restId: widget.restId,
+              //             tablename: widget.tablename,
+              //             // price: _cartItemList[0].totalAmount,
+              //             tableId: widget.tableId,
+              //             // userId: widget.userID,
+              //             totalAmount: widget.totalAmount,
+              //             items: widget.items,
+              //             itemdata: widget.itemdata,
+              //             orderType: widget.orderType,
+              //             latitude: widget.latitude,
+              //             longitude: widget.longitude)));
+              Navigator.of(context).pushNamed('/StatusTrackView');
             },
           ),
         ),

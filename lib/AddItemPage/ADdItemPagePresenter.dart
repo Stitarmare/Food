@@ -18,19 +18,22 @@ class AddItemPagepresenter extends AddItemPageContractor {
   AddmenuToCartModelview addMenuToCartModel;
 
   ClearCartModelView clearCartModelView;
+  UpdateCartModelView updateCartModelView;
 
   AddItemPagepresenter(
     AddItemPageModelView addItemPageView,
     AddmenuToCartModelview addMenuToCartModel,
     AddTablenoModelView addTablenoModelView,
     GetTableListModelView getTableListModel,
-    // ClearCartModelView clearCartModelView
+    ClearCartModelView clearCartModelView,
+    UpdateCartModelView updateCartModelView,
   ) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
     this.addTablenoModelView = addTablenoModelView;
     this.getTableListModel = getTableListModel;
     this.clearCartModelView = clearCartModelView;
+    this.updateCartModelView = updateCartModelView;
   }
 
   @override
@@ -160,6 +163,26 @@ class AddItemPagepresenter extends AddItemPageContractor {
       }
     }).catchError((onError) {
       print(onError);
+    });
+  }
+
+  @override
+  void updateOrder(int orderId, BuildContext context) {
+    ApiBaseHelper()
+        .post(UrlConstant.updateOrderApi, context, body: {}).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          updateCartModelView.updateOrderSuccess();
+          print("success");
+          break;
+        case SuccessType.failed:
+          updateCartModelView.updateOrderFailed();
+          print("failed");
+          break;
+      }
+    }).catchError((error) {
+      print(error);
     });
   }
 }

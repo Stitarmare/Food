@@ -13,6 +13,7 @@ import 'package:foodzi/PaymentMethod/PaymentMethod.dart';
 
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -69,6 +70,7 @@ var routes = <String, WidgetBuilder>{
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
   '/webview': (BuildContext context) => WebViewPage(),
   '/PaymentMethod': (BuildContext context) => PaymentMethod(),
+  '/StatusTrackView': (BuildContext context) => StatusTrackView(),
 };
 void main() {
   set();

@@ -17,5 +17,6 @@ class Globle {
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
   String restauranrtName = "";
+  String orderNumber = "";
   var authKey;
 }
