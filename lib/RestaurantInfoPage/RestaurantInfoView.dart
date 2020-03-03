@@ -588,7 +588,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     );
   }
 
-  Widget RestaurantInfoList(BuildContext context) {
+  Widget restaurantInfoList(BuildContext context) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -669,7 +669,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     );
   }
 
-  Widget ReviewList(BuildContext context) {
+  Widget reviewList(BuildContext context) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -964,8 +964,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
             ),
           ),
           isRestaurantViewed
-              ? Center(child: Container(child: RestaurantInfoList(context)))
-              : Center(child: Container(child: ReviewList(context))),
+              ? Center(child: Container(child: restaurantInfoList(context)))
+              : Center(child: Container(child: reviewList(context))),
         ],
       ),
     );
