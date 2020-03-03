@@ -3,6 +3,8 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
+import 'package:foodzi/Models/UpdateOrderResponseModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -167,9 +169,9 @@ class AddItemPagepresenter extends AddItemPageContractor {
   }
 
   @override
-  void updateOrder(int orderId, BuildContext context) {
+  void updateOrder(UpdateOrderModel updateOrderModel, BuildContext context) {
     ApiBaseHelper()
-        .post(UrlConstant.updateOrderApi, context, body: {}).then((value) {
+        .post<UpdateOrderResponseModel>(UrlConstant.updateOrderApi, context, body: updateOrderModel.toJson()).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

@@ -25,6 +25,7 @@ class MyCartView extends StatefulWidget {
   String long;
   String orderType;
   double total;
+  String restName;
 
   MyCartView(
       {this.restId,
@@ -32,7 +33,8 @@ class MyCartView extends StatefulWidget {
       this.orderType,
       this.lat,
       this.long,
-      this.total});
+      this.total,
+      this.restName});
   //MyCartView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -347,6 +349,7 @@ class _MyCartViewState extends State<MyCartView>
                                   builder: (context) => ConfirmationDineView(
                                     restId: widget.restId,
                                     tablename: tableno,
+                                    restName: widget.restName,
                                     // price: _cartItemList[0].totalAmount,
                                     tableId: _dropdownTableNumber,
                                     // userId: widget.userID,

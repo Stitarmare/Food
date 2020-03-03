@@ -100,6 +100,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                                   lat: widget.lat,
                                   long: widget.long,
                                   orderType: "dine_in",
+                                  restName: widget.title,
                                 )));
                     //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },

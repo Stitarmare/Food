@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
 
 abstract class AddItemPageContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
    void clearCart(BuildContext context) ;
-   void updateOrder(int orderId,BuildContext context);
+   void updateOrder(UpdateOrderModel updateOrderModel,BuildContext context);
   void onBackPresed();
 }
 

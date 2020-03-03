@@ -435,7 +435,7 @@ class _DineViewState extends State<DineInView>
   Widget restaurantsInfo() {
     return RefreshIndicator(
       onRefresh: _refreshRstaurantList,
-          child: ListView.builder(
+      child: ListView.builder(
         controller: _controller,
         itemCount: _getint(),
         itemBuilder: (_, i) {
@@ -624,7 +624,9 @@ class _DineViewState extends State<DineInView>
                 height: 14,
               ),
               Container(
-                color: greentheme100,
+                decoration: BoxDecoration(
+                    color: greentheme100,
+                    borderRadius: BorderRadius.all(Radius.circular(3))),
                 width: 30,
                 height: 16,
                 child: Center(
@@ -683,7 +685,7 @@ class BottomItemButton {
   int id;
   BottomItemButton({this.title, this.isSelected, this.id});
 }
- Future<Null> _refreshRstaurantList() async{
-    print('refreshing List...');
 
-  }
+Future<Null> _refreshRstaurantList() async {
+  print('refreshing List...');
+}
