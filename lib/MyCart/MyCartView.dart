@@ -332,6 +332,7 @@ class _MyCartViewState extends State<MyCartView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
+                        
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -359,6 +360,7 @@ class _MyCartViewState extends State<MyCartView>
                                     orderType: widget.orderType,
                                     latitude: widget.lat,
                                     longitude: widget.long,
+                                    // orderID: 6
                                   ),
                                 ))
                             : Constants.showAlert(

@@ -2,13 +2,20 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
+  int orderID;
   String restName;
   int price;
   int restId;
@@ -34,14 +41,17 @@ class ConfirmationDineView extends StatefulWidget {
     this.totalAmount,
     this.itemdata,
     this.restName,
+    this.orderID,
   });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
 
-class _ConfirmationDineViewState extends State<ConfirmationDineView> {
+class _ConfirmationDineViewState extends State<ConfirmationDineView>
+    implements PaymentTipAndPayModelView {
   bool isselected = false;
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   List<RadioButtonOrderOptions> _orderOptions = [
     RadioButtonOrderOptions(
         index: 1, title: 'Dine-in', subtitle: 'Get served in Restaurant'),
@@ -55,7 +65,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
     RadioButtonOptions(index: 3, title: '03:00PM'),
     RadioButtonOptions(index: 4, title: '03:30 PM'),
   ];
-
+  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
   ScrollController _controller = ScrollController();
   int id = 1;
   int radioId = 1;
@@ -67,6 +77,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
   int _dropdownTableNumber;
 
   int cartId;
+
+  OrderData myOrderData;
+
+  @override
+  void initState() {
+    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -291,7 +310,18 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               //             orderType: widget.orderType,
               //             latitude: widget.latitude,
               //             longitude: widget.longitude)));
-              Navigator.of(context).pushNamed('/StatusTrackView');
+              //Navigator.of(context).pushNamed('/StatusTrackView');
+              _paymentTipAndPayPresenter.placeOrder(
+                  widget.restId,
+                  Globle().loginModel.data.id,
+                  widget.orderType,
+                  widget.tableId,
+                  widget.items,
+                  widget.totalAmount,
+                  widget.latitude,
+                  widget.longitude,
+                  context);
+              
             },
           ),
         ),
@@ -599,6 +629,90 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               ))
           .toList(),
     );
+  }
+void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                     Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          StatusTrackView(orderID: myOrderData.id)));
+                    },
+                  )
+                ],
+              ),
+            );
+  }
+
+  @override
+  void placeOrderfailed() {
+    // TODO: implement placeOrderfailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+  }
+
+  @override
+  void placeOrdersuccess(OrderData orderData) {
+    // TODO: implement placeOrdersuccess
+    print("Place ORDER SUCCESS.");
+    setState(() {
+      if (myOrderData == null) {
+        myOrderData = orderData;
+      }
+    });
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Globle().orderNumber = orderData.orderNumber;
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+        showAlertSuccess(
+        "Order Placed", "Your order has been successfully placed.", context);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 
