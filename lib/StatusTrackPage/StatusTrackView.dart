@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -28,10 +29,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     super.initState();
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
-    
-      _timer = Timer.periodic(_duration, (Timer t) {
-        statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
-     
+
+    _timer = Timer.periodic(_duration, (Timer t) {
+      statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     });
   }
 
@@ -56,8 +56,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   Widget billPaymentButton() {
     return (statusInfo.status == "completed")
-        ?
-         Container(
+        ? Container(
             //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             height: 54,
@@ -78,9 +77,17 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     color: Colors.white),
               ),
               color: getColorByHex(Globle().colorscode),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PaymentTipAndPayDi(
+                              orderID: widget.orderID,
+                            )));
+              },
             ),
-          ):Text("");
+          )
+        : Text("");
   }
 
   Widget _getmainview() {
@@ -139,8 +146,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
-                   Navigator.pop(context);
-                    Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                   //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
 
                   //Navigator.pushNamed(context, '/OrderConfirmation2View');
@@ -157,52 +164,55 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       ),
     );
   }
-Widget _getstatus() {
-  return LimitedBox(
-    child: Container(
-      decoration: BoxDecoration(
-          //color: getColorByHex(Globle().colorscode),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30),
-        child: Column(
-          children: <Widget>[
-            AutoSizeText(
-                "Order for table number 8 is confirmed. Please wait while kitchen updates time for prepration. You will be notified about the status.",
-                //maxFontSize: 12,
-                //maxLines: 2,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'gotham',
-                    fontWeight: FontWeight.w500,
-                    color: greytheme700)),
-            SizedBox(
-              height: 15,
-            ),
-            AutoSizeText((" Status: ${getStatus()}"),
-                //maxFontSize: 12,
-                //maxLines: 2,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'gotham',
-                    fontWeight: FontWeight.w500,
-                    color: greytheme700)),
-          ],
+
+  Widget _getstatus() {
+    return LimitedBox(
+      child: Container(
+        decoration: BoxDecoration(
+            //color: getColorByHex(Globle().colorscode),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 30, right: 30),
+          child: Column(
+            children: <Widget>[
+              AutoSizeText(
+                  "Order for table number 8 is confirmed. Please wait while kitchen updates time for prepration. You will be notified about the status.",
+                  //maxFontSize: 12,
+                  //maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w500,
+                      color: greytheme700)),
+              SizedBox(
+                height: 15,
+              ),
+              AutoSizeText((" Status: ${getStatus()}"),
+                  //maxFontSize: 12,
+                  //maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w500,
+                      color: greytheme700)),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-String getStatus() {
-  if (statusInfo != null) {
-    if (statusInfo.status != null) {
-      return statusInfo.status;
-    }
+    );
   }
-  return "You will be notified about the status.";
-}
+
+  String getStatus() {
+    if (statusInfo != null) {
+      if (statusInfo.status != null) {
+        return statusInfo.status;
+      }
+    }
+    return "You will be notified about the status.";
+  }
+
   @override
   void getOrderStatusfailed() {
     // TODO: implement getOrderStatusfailed
@@ -212,9 +222,8 @@ String getStatus() {
   void getOrderStatussuccess(StatusData statusData) {
     if (statusData != null) {
       setState(() {
-         statusInfo = statusData;
+        statusInfo = statusData;
       });
-     
     }
     // TODO: implement getOrderStatussuccess
   }
@@ -228,8 +237,6 @@ String getStatus() {
 }
 
 String name;
-
-
 
 Widget _billPayment() {
   return Container(
