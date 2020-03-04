@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
@@ -22,12 +23,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   int i;
 
   List<CurrentOrderList> _orderDetailList;
+  List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     _myOrdersPresenter.getOrderDetails(context);
+    _myOrdersPresenter.getmyOrderBookingHistory(context);
   }
 
   @override
@@ -333,11 +336,34 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         ));
   }
 
+  int getLenghtOfHistoryOrder() {
+    if (getmyOrderBookingHistory != null) {
+      return getmyOrderBookingHistory.length;
+    }
+    return 0;
+  }
+
+  String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
+    var itemname = '';
+    for (i = 0; i < _listitem.length; i++) {
+      itemname += "${_listitem[i].quantity} x ${_listitem[i]}, ";
+    }
+    if (itemname.isNotEmpty) {
+      itemname = removeLastChar(itemname);
+      itemname = removeLastChar(itemname);
+    }
+    return itemname;
+  }
+
+  static String removeLastChars(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   Widget _bookingHistoryList(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.70,
         child: ListView.builder(
-          itemCount: getLenghtOfCurrentOrder(),
+          itemCount: getLenghtOfHistoryOrder(),
           controller: _controller,
           itemBuilder: (BuildContext context, int index) {
             return Card(
@@ -373,7 +399,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
-                              'Daawat',
+                              '${getmyOrderBookingHistory[index].restaurant.restName}',
                               style: TextStyle(
                                   fontSize: 18,
                                   letterSpacing: 0.32,
@@ -418,7 +444,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '1 × Chicken Biryani',
+                      '${getBookingHistoryitemname(getmyOrderBookingHistory[index].list)}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -464,7 +490,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      'Dine-in',
+                      '${getmyOrderBookingHistory[index].status}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -487,7 +513,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '₹186.35',
+                      '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -561,6 +587,23 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     });
 
     // TODO: implement getOrderDetailsSuccess
+  }
+
+  @override
+  void getmyOrderHistoryFailed() {
+    // TODO: implement getmyOrderHistoryFailed
+  }
+
+  @override
+  void getmyOrderHistorySuccess(
+      List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
+    if (_getmyOrderBookingHistory.length == 0) {
+      return;
+    }
+    setState(() {
+      getmyOrderBookingHistory = _getmyOrderBookingHistory;
+    });
+    // TODO: implement getmyOrderHistorySuccess
   }
 
   // Widget getOrderList() {
