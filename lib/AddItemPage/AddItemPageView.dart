@@ -1,18 +1,15 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
-//import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/constant.dart';
-import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/GeoLocationTracking.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,8 +18,14 @@ class AddItemPageView extends StatefulWidget {
   String description;
   int item_id;
   int rest_id;
+  String restName;
 
-  AddItemPageView({this.title, this.description, this.item_id, this.rest_id});
+  AddItemPageView(
+      {this.title,
+      this.description,
+      this.item_id,
+      this.rest_id,
+      this.restName});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -31,7 +34,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
         AddItemPageModelView,
         AddmenuToCartModelview,
         AddTablenoModelView,
-        GetTableListModelView {
+        GetTableListModelView,
+        ClearCartModelView,
+        UpdateCartModelView {
   List<bool> isSelected;
 
   int table_id;
@@ -43,6 +48,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Item items;
 
   List<Extras> extra;
+  UpdateOrderModel _updateOrderModel;
 
   Spreads spread;
   bool isAddBtnClicked = false;
@@ -54,7 +60,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
-  String strDefaultTxt = 'ADD \$24';
+  //String strDefaultTxt = 'ADD \$24';
 
   bool getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -71,9 +77,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int _dropdownTableNumber;
 
   int tableID;
+  bool alreadyAdded = false;
+  int restaurant;
+
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPagepresenter(this, this, this, this);
+    _addItemPagepresenter =
+        AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -104,10 +114,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? ''));
+        index: _addItemModelList.spreads[i - 1].id,
+        title: _addItemModelList.spreads[i - 1].name ?? '',
+        //price: _addItemModelList.spreads[i - 1].price ?? '0'
+      ));
     }
-    radiolist.add(RadioButtonOptions(title: "None"));
+    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
     // for (int i = length; i <= length+1; i++) {
     //   radiolist.add(RadioButtonOptions(
     //       index: _addItemModelList.spreads[i].id,
@@ -282,30 +294,53 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-            onTap: () {
-              if (addMenuToCartModel == null) {
-                addMenuToCartModel = AddItemsToCartModel();
-              }
-              addMenuToCartModel.userId = Globle().loginModel.data.id;
-              addMenuToCartModel.restId = widget.rest_id;
-              addMenuToCartModel.tableId = _dropdownTableNumber;
-              if (items == null) {
-                items = Item();
+            onTap: () async {
+              var alreadyAdde = await Preference.getPrefValue<bool>(
+                  PreferenceKeys.isAlreadyINCart);
+              var restauran = await (Preference.getPrefValue<int>(
+                  PreferenceKeys.restaurantID));
+              var restaurantName = await (Preference.getPrefValue<String>(
+                  PreferenceKeys.restaurantName));
+              var orderId = await Preference.getPrefValue<String>(
+                  PreferenceKeys.ORDER_ID);
+              if (orderId != null) {
+                if (restauran == widget.rest_id) {
+                  print("object");
+                  if (_updateOrderModel == null) {
+                    _updateOrderModel = UpdateOrderModel();
+                  }
+                  _updateOrderModel.orderId = int.parse(orderId);
+                  if (items == null) {
+                    items = Item();
+                  }
+
+                  _updateOrderModel.items = items;
+                  _updateOrderModel.items.quantity = count;
+                  _updateOrderModel.items.itemId = widget.item_id;
+                  _updateOrderModel.items.extra = extra ?? null;
+                  _updateOrderModel.items.spreads =
+                      spread == null ? [] : [spread];
+                  _updateOrderModel.items.switches = switches ?? [];
+
+                  print(_updateOrderModel.toJson());
+                  _addItemPagepresenter.updateOrder(_updateOrderModel , context);
+                } else {
+                  //pop up
+                  Constants.showAlert("Invalid Order", "Sorry, you can't order from this restaurant right now.", context);
+                }
+              } else {
+                checkForItemIsAlreadyInCart(
+                    alreadyAdde, restauran, restaurantName);
               }
 
-              addMenuToCartModel.items = [items];
-              addMenuToCartModel.items[0].itemId = widget.item_id;
-              addMenuToCartModel.items[0].extra = extra ?? [];
-              addMenuToCartModel.items[0].spreads =
-                  spread == null ? [] : [spread];
-              addMenuToCartModel.items[0].switches = switches ?? [];
-              addMenuToCartModel.items[0].quantity = count;
+              // if (Globle().orderNumber != null) {
+              //   if (widget.rest_id == ) {
+
+              //   } else {
+              //   }
+              // } else {
+
               // }
-              //);
-              print(addMenuToCartModel.toJson());
-
-              _addItemPagepresenter.performaddMenuToCart(
-                  addMenuToCartModel, context);
               // setState(() {
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -326,7 +361,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 // color: redtheme,
                 child: Center(
                   child: Text(
-                    strDefaultTxt,
+                    "Add To Cart",
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
@@ -340,6 +375,126 @@ class _AddItemPageViewState extends State<AddItemPageView>
     );
   }
 
+  void checkForItemIsAlreadyInCart(
+      bool alreadyAdde, int restauran, String restaurantName) {
+    if (addMenuToCartModel == null) {
+      addMenuToCartModel = AddItemsToCartModel();
+    }
+    addMenuToCartModel.userId = Globle().loginModel.data.id;
+    addMenuToCartModel.restId = widget.rest_id;
+    addMenuToCartModel.tableId = _dropdownTableNumber;
+    if (items == null) {
+      items = Item();
+    }
+
+    addMenuToCartModel.items = [items];
+    addMenuToCartModel.items[0].itemId = widget.item_id;
+    addMenuToCartModel.items[0].extra = extra ?? [];
+    addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
+    addMenuToCartModel.items[0].switches = switches ?? [];
+    addMenuToCartModel.items[0].quantity = count;
+    // }
+    //);
+    print(addMenuToCartModel.toJson());
+    if (alreadyAdde != null && restauran != null) {
+      if ((widget.rest_id != restauran) && (alreadyAdde)) {
+        cartAlert(
+            "Start a new order?",
+            (restaurantName != null)
+                ? "Your unfinished order at $restaurantName will be deleted."
+                : "Your unfinished order at previous hotel will be deleted.",
+            context);
+      } else {
+        _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+      }
+    } else {
+      _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+    }
+  }
+
+  void cartAlert(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                ),
+                content: Text(
+                  message,
+                  textAlign: TextAlign.center,
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0.0, right: 5.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: RaisedButton(
+                            color: getColorByHex(Globle().colorscode),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "NEW ORDER",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            onPressed: () {
+                              _addItemPagepresenter.clearCart(context);
+                              Preference.setPersistData<int>(
+                                  widget.rest_id, PreferenceKeys.restaurantID);
+                              Preference.setPersistData<bool>(
+                                  true, PreferenceKeys.isAlreadyINCart);
+                              Preference.setPersistData<String>(widget.restName,
+                                  PreferenceKeys.restaurantName);
+                              Globle().dinecartValue = 0;
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.04,
+                          //width: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.32,
+                          height: 40,
+                          child: RaisedButton(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: greytheme100),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "CANCEL",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: greytheme100),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ));
+  }
+
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
       child: Container(
@@ -348,6 +503,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -393,9 +551,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
-              isTableList ? getTableNumber() : Container(),
+              //isTableList ? getTableNumber() : Container(),
               // Row(
               //   children: <Widget>[
               //     SizedBox(width: 20),
@@ -412,9 +570,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
               //     )
               //   ],
               // ),
-              SizedBox(
-                height: 10,
-              )
+              // SizedBox(
+              //   height: 10,
+              // )
             ],
           ),
         ),
@@ -439,88 +597,88 @@ class _AddItemPageViewState extends State<AddItemPageView>
     });
   }
 
-  Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
-          items: _dropdownItemsTable.map((tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber.id,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "Table Number: ${tableNumber.name}",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) {
-            // do other stuff with _category
-            setState(() {
-              _dropdownTableNumber = newValue;
-            });
-            _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
-                widget.rest_id, _dropdownTableNumber, context);
-          },
+  // Widget getTableNumber() {
+  //   return Container(
+  //     margin: EdgeInsets.only(left: 20),
+  //     height: 50,
+  //     width: MediaQuery.of(context).size.width * 0.8,
+  //     child: FormField(builder: (FormFieldState state) {
+  //       return DropdownButtonFormField(
+  //         //itemHeight: Constants.getScreenHeight(context) * 0.06,
+  //         items: _dropdownItemsTable.map((tableNumber) {
+  //           return new DropdownMenuItem(
+  //               value: tableNumber.id,
+  //               child: Row(
+  //                 children: <Widget>[
+  //                   Container(
+  //                       width: MediaQuery.of(context).size.width * 0.4,
+  //                       child: Text(
+  //                         "Table Number: ${tableNumber.name}",
+  //                         style: TextStyle(
+  //                             decoration: TextDecoration.underline,
+  //                             decorationColor:
+  //                                 getColorByHex(Globle().colorscode),
+  //                             fontSize: 14,
+  //                             fontFamily: 'gotham',
+  //                             fontWeight: FontWeight.w600,
+  //                             color: getColorByHex(Globle().colorscode)),
+  //                       )),
+  //                 ],
+  //               ));
+  //         }).toList(),
+  //         onChanged: (newValue) {
+  //           // do other stuff with _category
+  //           setState(() {
+  //             _dropdownTableNumber = newValue;
+  //           });
+  //           _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
+  //               widget.rest_id, _dropdownTableNumber, context);
+  //         },
 
-          value: _dropdownTableNumber,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
-    );
-  }
+  //         value: _dropdownTableNumber,
+  //         decoration: InputDecoration(
+  //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(color: greentheme100, width: 2),
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //               borderSide: BorderSide(color: greytheme900, width: 2)),
+  //           border:
+  //               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+  //           filled: false,
+  //           hintText: 'Choose Table',
+  //           // prefixIcon: Icon(
+  //           //   Icons.location_on,
+  //           //   size: 20,
+  //           //   color: greytheme1000,
+  //           // ),
+  //           labelText: _dropdownTableNumber == null
+  //               ? "Add Table Number "
+  //               : "Table Number",
+  //           // errorText: _errorText,
+  //           labelStyle: TextStyle(
+  //               decoration: TextDecoration.underline,
+  //               decorationColor: Colors.black,
+  //               fontSize: 14,
+  //               fontFamily: 'gotham',
+  //               fontWeight: FontWeight.w600,
+  //               color: greytheme100),
+  //         ),
+  //       );
+  //     }),
+  //   );
+  // }
 
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 25, left: 26),
+                padding: EdgeInsets.only(top: 10, left: 26),
                 child: Text(
                   widget.title,
                   style: TextStyle(
@@ -652,7 +810,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             id = radionBtn.index;
@@ -855,6 +1012,70 @@ class _AddItemPageViewState extends State<AddItemPageView>
             : [Container()]);
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => RestaurantView()));
+                      //Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -881,8 +1102,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess("${widget.title}",
+    Globle().dinecartValue += 1;
+    Preference.setPersistData(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+
+    showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
+//Navigator.of(context).pop();
   }
 
   @override
@@ -909,6 +1138,35 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     // TODO: implement getTableListSuccess
   }
+
+  @override
+  void clearCartFailed() {
+    // TODO: implement clearCartFailed
+  }
+
+  @override
+  void clearCartSuccess() {
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    // TODO: implement clearCartSuccess
+  }
+
+  @override
+  void updateOrderFailed() {
+    // TODO: implement updateOrderFailed
+  }
+
+  @override
+  void updateOrderSuccess() {
+    // TODO: implement updateOrderSuccess
+    //Globle().dinecartValue += 1;
+    //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+    showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
+  }
 }
 
 // OrderConfirmationView
@@ -924,12 +1182,13 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
+
   RadioButtonOptions({this.index, this.title});
 }
 
 class SwitchesItems {
   int index;
-  String title;
+  String title;        
   String option1;
   List<bool> isSelected;
   String option2;

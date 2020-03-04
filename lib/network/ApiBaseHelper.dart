@@ -213,15 +213,18 @@ class ApiBaseHelper {
       BuildContext context, String title, String message, Function onPressed) {
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              title: Text(title),
-              content: Text(message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Ok"),
-                  onPressed: onPressed,
-                )
-              ],
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Ok"),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
             ));
   }
 
@@ -256,7 +259,7 @@ class ApiBaseHelper {
           }
         }
 
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error", msg, () {
             Navigator.of(context).pop();
           });
@@ -274,7 +277,7 @@ class ApiBaseHelper {
             msg = errorModel.message;
           }
         }
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Session", msg, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -288,7 +291,7 @@ class ApiBaseHelper {
         var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
 
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error", "Could not access", () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
@@ -302,7 +305,7 @@ class ApiBaseHelper {
         apiModel.result = SuccessType.failed;
         //var responseJson = json.decode(response.body.toString());
         //var errorModel = AuthModel.fromMap(responseJson);
-        Future.delayed(const Duration(milliseconds: 200), () {
+        Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, "Error",
               'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
               () {

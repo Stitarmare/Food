@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -269,7 +270,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
               //   //endIndent: 10,
               //   //indent: 10,
               // ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -333,7 +336,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         appBar: AppBar(
           title: Text('My Cart'),
           backgroundColor: Colors.white,
-          elevation: 5,
+          elevation: 0,
         ),
         body: Column(
           children: <Widget>[
@@ -545,7 +548,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               Padding(
                                 padding: EdgeInsets.only(right: 20, top: 30),
                                 child: Text(
-                                  "\$ ${_cartItemList[index].items.price}" ??
+                                  "\$ ${_cartItemList[index].totalAmount}" ??
                                       '\$17',
                                   style: TextStyle(
                                       color: greytheme700,
@@ -585,7 +588,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   Widget refreshBg() {
     return Container(
       alignment: Alignment.centerRight,
-      color: Colors.red,
+      color: getColorByHex(Globle().colorscode),
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,
@@ -596,6 +599,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void getCartMenuListfailed() {
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     // TODO: implement getCartMenuListfailed
   }
 
@@ -605,9 +610,15 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
+      Globle().takeAwayCartItemCount = menulist.length;
+      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+             Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    Globle().takeAwayCartItemCount = menulist.length;
+      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
       if (_cartItemList == null) {
@@ -628,6 +639,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -636,9 +650,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement removeItemSuccess
     _cartItemList = null;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
+    Globle().takeAwayCartItemCount -=1;
+           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
   //   return Scaffold(
   //     body: _getmainview(),

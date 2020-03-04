@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
 
 abstract class AddItemPageContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
+   void clearCart(BuildContext context) ;
+   void updateOrder(UpdateOrderModel updateOrderModel,BuildContext context);
   void onBackPresed();
 }
 
@@ -25,4 +28,12 @@ abstract class AddmenuToCartModelview {
 abstract class GetTableListModelView {
   void getTableListSuccess(List<GetTableList> getlist);
   void getTableListFailed();
+}
+abstract class ClearCartModelView {
+  void clearCartSuccess();
+  void clearCartFailed();
+}
+abstract class UpdateCartModelView {
+  void updateOrderSuccess();
+  void updateOrderFailed();
 }

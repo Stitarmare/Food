@@ -162,7 +162,7 @@ class Item {
         itemId: json["item_id"],
         quantity: json["quantity"],
         sizePriceId: json["size_price_id"],
-        extra: List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x))),
+        extra:json["extra"] != null ?  List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x))) : [],
         spreads:
             List<Spreads>.from(json["spreads"].map((x) => Spreads.fromJson(x))),
         switches: List<Switches>.from(
@@ -173,7 +173,7 @@ class Item {
         "item_id": itemId,
         "quantity": quantity,
         "size_price_id": sizePriceId,
-        "extra": List<dynamic>.from(extra.map((x) => x.toJson())),
+        "extra": extra != null ? List<dynamic>.from(extra.map((x) => x.toJson())) : [],
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
         "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
       };

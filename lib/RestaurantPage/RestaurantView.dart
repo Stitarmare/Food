@@ -27,6 +27,7 @@ import 'package:foodzi/widgets/imagewithloader.dart';
 class RestaurantView extends StatefulWidget {
   String title;
   int rest_Id;
+  
   int categoryid;
   RestaurantView({this.title, this.rest_Id, this.categoryid});
   @override
@@ -256,6 +257,9 @@ class _RestaurantViewState extends State<RestaurantView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -469,6 +473,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
+                          restName: widget.title,
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -518,8 +523,11 @@ class _RestaurantViewState extends State<RestaurantView>
                                 ),
                                 errorWidget: (context, url, error) =>
                                     Image.asset(
-                                        "assets/PlaceholderFoodImage/MaskGroup55.png"),
-                                        
+                                  "assets/PlaceholderFoodImage/MaskGroup55.png",
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                  height: 100,
+                                ),
                                 imageUrl: BaseUrl.getBaseUrlImages() +
                                     '${_restaurantList[index].itemImage}',
                               ),

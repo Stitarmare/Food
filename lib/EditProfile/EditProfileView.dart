@@ -121,7 +121,8 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 firstName = text;
               },
-              placeHolderName: KEY_FIRST_NAME,
+              //placeHolderName: KEY_FIRST_NAME,
+              placeHolderName: Globle().loginModel.data.firstName ?? KEY_FIRST_NAME,
               validator: validatename,
             ),
             SizedBox(
@@ -131,7 +132,8 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 lastName = text;
               },
-              placeHolderName: KEY_LAST_NAME,
+              placeHolderName: Globle().loginModel.data.lastName ?? KEY_LAST_NAME,
+              //placeHolderName: KEY_LAST_NAME,
               validator: validatename,
             ),
             // SizedBox(
@@ -149,7 +151,8 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 streetAddress = text;
               },
-              placeHolderName: KEY_STREET,
+              //placeHolderName: KEY_STREET,
+              placeHolderName:  KEY_STREET,
               validator: validateStreetname,
             ),
             SizedBox(
@@ -651,42 +654,45 @@ class _EditProfileState extends State<EditProfileview>
     return showDialog(
       barrierDismissible: true,
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          "Edit Profile",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greentheme100,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'gotham',
-              fontSize: 22),
-        ),
-        content: Text(
-          'Your account details has been successfully updated. ',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              color: greytheme100,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'gotham',
-              fontSize: 20),
-        ),
-        actions: [
-          FlatButton(
-            child: const Text(
-              "OK",
-              style: TextStyle(
-                  color: greentheme100,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 20),
-            ),
-            onPressed: () {
-              Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-                 .pop();
-              Navigator.pushReplacementNamed(context, '/MainWidget');
-            },
+      builder: (_) => WillPopScope(
+        onWillPop: () async => false,
+              child: AlertDialog(
+          title: const Text(
+            "Edit Profile",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greentheme100,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'gotham',
+                fontSize: 22),
           ),
-        ],
+          content: Text(
+            'Your account details has been successfully updated. ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: greytheme100,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'gotham',
+                fontSize: 20),
+          ),
+          actions: [
+            FlatButton(
+              child: const Text(
+                "OK",
+                style: TextStyle(
+                    color: greentheme100,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'gotham',
+                    fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                   .pop();
+                Navigator.pushReplacementNamed(context, '/MainWidget');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

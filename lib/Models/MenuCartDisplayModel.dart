@@ -183,6 +183,7 @@ class MenuCartDisplayModel {
   String status;
   int statusCode;
   List<MenuCartList> data;
+  int cartCount;
   int grandTotal;
   String colourCode;
 
@@ -190,6 +191,7 @@ class MenuCartDisplayModel {
     this.status,
     this.statusCode,
     this.data,
+    this.cartCount,
     this.grandTotal,
     this.colourCode,
   });
@@ -200,6 +202,7 @@ class MenuCartDisplayModel {
         statusCode: json["status_code"],
         data: List<MenuCartList>.from(
             json["data"].map((x) => MenuCartList.fromJson(x))),
+        cartCount: json["cartCount"],
         grandTotal: json["grandTotal"],
         colourCode: json["colour_code"],
       );
@@ -208,6 +211,7 @@ class MenuCartDisplayModel {
         "status": status,
         "status_code": statusCode,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "cartCount": cartCount, 
         "grandTotal": grandTotal,
         "colour_code": colourCode,
       };
@@ -229,7 +233,7 @@ class MenuCartList {
   int totalAmount;
   Item items;
   // List<dynamic> cartExtraItems;
-  List<CartExtraItems> cartExtraItems;
+  List<CartExtraItem> cartExtraItems;
 
   MenuCartList({
     this.id,
@@ -284,9 +288,9 @@ class MenuCartList {
     totalAmount = json['totalAmount'];
     items = json['items'] != null ? new Item.fromJson(json['items']) : null;
     if (json['cart_extra_items'] != null) {
-      cartExtraItems = new List<CartExtraItems>();
+      cartExtraItems = new List<CartExtraItem>();
       json['cart_extra_items'].forEach((v) {
-        cartExtraItems.add(new CartExtraItems.fromJson(v));
+        cartExtraItems.add(new CartExtraItem.fromJson(v));
       });
     }
   }
@@ -374,59 +378,118 @@ class Item {
       };
 }
 
-class CartExtraItems {
-  int id;
-  int cartId;
-  int itemId;
-  int extraId;
-  int spreadId;
-  int switchId;
-  int orderListId;
-  String createdAt;
-  String updatedAt;
-  String switchOption;
-  String price;
+class CartExtraItem {
+    int id;
+    int cartId;
+    int itemId;
+    int extraId;
+    int spreadId;
+    int switchId;
+    dynamic orderListId;
+    DateTime createdAt;
+    DateTime updatedAt;
+    String switchOption;
+    String price;
+    List<Extra> extras;
+    List<Extra> spreads;
+    List<Extra> switches;
 
-  CartExtraItems(
-      {this.id,
-      this.cartId,
-      this.itemId,
-      this.extraId,
-      this.spreadId,
-      this.switchId,
-      this.orderListId,
-      this.createdAt,
-      this.updatedAt,
-      this.switchOption,
-      this.price});
+    CartExtraItem({
+        this.id,
+        this.cartId,
+        this.itemId,
+        this.extraId,
+        this.spreadId,
+        this.switchId,
+        this.orderListId,
+        this.createdAt,
+        this.updatedAt,
+        this.switchOption,
+        this.price,
+        this.extras,
+        this.spreads,
+        this.switches,
+    });
 
-  CartExtraItems.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    cartId = json['cart_id'];
-    itemId = json['item_id'];
-    extraId = json['extra_id'];
-    spreadId = json['spread_id'];
-    switchId = json['switch_id'];
-    orderListId = json['order_list_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    switchOption = json['switch_option'];
-    price = json['price'];
-  }
+    factory CartExtraItem.fromJson(Map<String, dynamic> json) => CartExtraItem(
+        id: json["id"],
+        cartId: json["cart_id"],
+        itemId: json["item_id"],
+        extraId: json["extra_id"] == null ? null : json["extra_id"],
+        spreadId: json["spread_id"] == null ? null : json["spread_id"],
+        switchId: json["switch_id"] == null ? null : json["switch_id"],
+        orderListId: json["order_list_id"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        switchOption: json["switch_option"] == null ? null : json["switch_option"],
+        price: json["price"] == null ? null : json["price"],
+        extras: List<Extra>.from(json["extras"].map((x) => Extra.fromJson(x))),
+        spreads: List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
+        switches: List<Extra>.from(json["switches"].map((x) => Extra.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['cart_id'] = this.cartId;
-    data['item_id'] = this.itemId;
-    data['extra_id'] = this.extraId;
-    data['spread_id'] = this.spreadId;
-    data['switch_id'] = this.switchId;
-    data['order_list_id'] = this.orderListId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['switch_option'] = this.switchOption;
-    data['price'] = this.price;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "cart_id": cartId,
+        "item_id": itemId,
+        "extra_id": extraId == null ? null : extraId,
+        "spread_id": spreadId == null ? null : spreadId,
+        "switch_id": switchId == null ? null : switchId,
+        "order_list_id": orderListId,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "switch_option": switchOption == null ? null : switchOption,
+        "price": price == null ? null : price,
+        "extras": List<dynamic>.from(extras.map((x) => x.toJson())),
+        "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
+        "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
+    };
+}
+
+class Extra {
+    int id;
+    String name;
+    String price;
+    int restId;
+    String status;
+    DateTime createdAt;
+    DateTime updatedAt;
+    String option1;
+    String option2;
+
+    Extra({
+        this.id,
+        this.name,
+        this.price,
+        this.restId,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.option1,
+        this.option2,
+    });
+
+    factory Extra.fromJson(Map<String, dynamic> json) => Extra(
+        id: json["id"],
+        name: json["name"],
+        price: json["price"] == null ? null : json["price"],
+        restId: json["rest_id"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        option1: json["option1"] == null ? null : json["option1"],
+        option2: json["option2"] == null ? null : json["option2"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "price": price == null ? null : price,
+        "rest_id": restId,
+        "status": status,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "option1": option1 == null ? null : option1,
+        "option2": option2 == null ? null : option2,
+    };
 }

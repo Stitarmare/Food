@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -12,17 +13,19 @@ import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+
 class BottomTabbarHome extends StatefulWidget {
   String title;
   int rest_Id;
   String lat;
   String long;
-  BottomTabbarHome({this.title, this.rest_Id,this.lat,this.long});
+  BottomTabbarHome({this.title, this.rest_Id, this.lat, this.long});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
   }
 }
+
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   var title;
   int currentTabIndex = 0;
@@ -37,6 +40,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       currentTabIndex = index;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +55,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,20 +91,47 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
                     print("2");
-                    
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyCartView(
                                   restId: widget.rest_Id,
-                                  lat: widget.lat ,
+                                  lat: widget.lat,
                                   long: widget.long,
                                   orderType: "dine_in",
+                                  restName: widget.title,
                                 )));
                     //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
                   heroTag: "btnAddCart",
-                  child: Icon(Icons.shopping_cart, color: Colors.white)),
+                  child: Stack(
+                    fit: StackFit.passthrough,
+                    overflow: Overflow.visible,
+                    children: <Widget>[
+                      Icon(Icons.shopping_cart, color: Colors.white),
+                      (Globle().dinecartValue != null)
+                          ? Globle().dinecartValue > 0
+                              ? Positioned(
+                                  top: -20,
+                                  right: -15,
+                                  child: Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text(
+                                          "${Globle().dinecartValue} ",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  //    Container(
+                                  //   height: 20,
+                                  //   width: 20,
+                                  //   decoration: BoxDecoration(color: Colors.red),
+                                  // )
+                                  )
+                              : Text("")
+                          : Text("")
+                    ],
+                  )),
             ),
             //
           ],
@@ -129,28 +161,78 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/OrderIcon/order.png'),
-                icon: Icon(
-                  OMIcons.assignment,
-                  color: greytheme100,
-                  size: 30,
+                // icon: Icon(
+                //   OMIcons.assignment,
+                //   color: greytheme100,
+                //   size: 30,
+                // ),
+                icon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.assignment, color: greytheme100,size: 30,),
+                    Positioned(
+                        top: -11,
+                        right: -11,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
-                activeIcon: Icon(
-                  OMIcons.assignment,
-                  color: orangetheme,
-                  size: 30,
+                // activeIcon: Icon(
+                //   OMIcons.assignment,
+                //   color: orangetheme,
+                //   size: 30,
+                // ),
+                activeIcon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.assignment, color: orangetheme,size: 30,),
+                    Positioned(
+                        top: -11,
+                        right: -11,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                icon: Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
+                icon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.notifications, color: greytheme100,size: 30,),
+                    Positioned(
+                        top: -10,
+                        right: -10,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
-                activeIcon: Icon(
-                  OMIcons.notifications,
-                  color: orangetheme,
-                  size: 30,
+                activeIcon: Stack(
+                  fit: StackFit.passthrough,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Icon(OMIcons.notifications, color: orangetheme,size: 30,),
+                    Positioned(
+                        top: -10,
+                        right: -10,
+                        child: Badge(
+                            badgeColor: redtheme,
+                            badgeContent: Text("1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.white))))
+                  ],
                 ),
                 title: Text('')),
             BottomNavigationBarItem(

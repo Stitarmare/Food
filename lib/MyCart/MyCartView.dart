@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 //import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
@@ -22,6 +25,7 @@ class MyCartView extends StatefulWidget {
   String long;
   String orderType;
   double total;
+  String restName;
 
   MyCartView(
       {this.restId,
@@ -29,7 +33,8 @@ class MyCartView extends StatefulWidget {
       this.orderType,
       this.lat,
       this.long,
-      this.total});
+      this.total,
+      this.restName});
   //MyCartView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -49,13 +54,17 @@ class _MyCartViewState extends State<MyCartView>
   String _selectedId;
   bool isTableList = false;
 
+  bool isloading = false;
+
   int _dropdownTableNumber;
+
+  String tableno;
+  int count;
 
   GetTableList getTableListModel;
 
   MycartPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
-  List<CartExtraItems> cartExtraItemsList = [];
   int cartId;
   MenuCartDisplayModel myCart;
   MenuCartList _cartList;
@@ -65,6 +74,8 @@ class _MyCartViewState extends State<MyCartView>
   List<int> itemList = [];
 
   List<MenuCartList> itemData;
+
+  TableList tableList;
 
   @override
   void initState() {
@@ -115,21 +126,43 @@ class _MyCartViewState extends State<MyCartView>
     });
   }
 
-  Widget steppercount(int i) {
-    int count = _cartItemList[i].quantity;
+  // List list;
+
+  // void removeItem(int index) {
+  //   setState(() {
+  //     list = List.from(list)..removeAt(index);
+  //   });
+  // }
+
+  Widget steppercount(MenuCartList menuCartList) {
     return Container(
       height: 24,
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
           onTap: () {
-            if (count > 1) {
+            if (menuCartList.quantity > 0) {
               setState(() {
-                --count;
-                _cartItemList[i].quantity = count;
-
-                print(count);
+                menuCartList.quantity -= 1;
+                print(menuCartList.quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
+              if (menuCartList.quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    menuCartList.totalAmount / menuCartList.quantity,
+                    context);
+              }
+              if (menuCartList.quantity == 0) {
+                // _cartItemList = null;
+                _myCartpresenter.removeItemfromCart(
+                    menuCartList.id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(menuCartList.id);
+                });
+              }
             }
           },
           splashColor: Colors.redAccent.shade200,
@@ -148,7 +181,7 @@ class _MyCartViewState extends State<MyCartView>
         Padding(
           padding: const EdgeInsets.only(left: 13, right: 13),
           child: Text(
-            count.toString(),
+            menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'gotham',
@@ -158,12 +191,19 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () {
-            if (count < 100) {
+            if (menuCartList.quantity < 100) {
               setState(() {
-                ++count;
-                print(count);
-                _cartItemList[i].quantity = count;
+                menuCartList.quantity += 1;
+                print(menuCartList.quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
+
+              _myCartpresenter.updateQauntityCount(
+                  menuCartList.id,
+                  menuCartList.quantity,
+                  menuCartList.totalAmount / menuCartList.quantity,
+                  context);
             }
           },
           splashColor: Colors.lightBlue,
@@ -195,34 +235,9 @@ class _MyCartViewState extends State<MyCartView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(
-              //       width: 20,
-              //     ),
-              // Container(
-              //   // width: MediaQuery.of(context).size.width * 0.8,
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
-              //     child: Text(
-              //       'Wimpy',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           fontSize: 20,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme700),
-              //     ),
-              //   ),
-              // ),
-              // //   ],
-              // // ),
-              // Divider(
-              //   thickness: 2,
-              //   //endIndent: 10,
-              //   //indent: 10,
-              // ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   // SizedBox(
@@ -244,37 +259,18 @@ class _MyCartViewState extends State<MyCartView>
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Row(
-                children: <Widget>[
-                  SizedBox(width: 20),
-
-                  // GestureDetector(
-                  //   onTap: null,
-                  //   //() {}
-                  //   //  {
-                  //   //   // //  await DailogBox.addTablePopUp(context);
-                  //   //   // addTablePopUp(context);
-                  //   // },
-                  //   child: Text(
-                  //     'Add Table Number',
-                  //     textAlign: TextAlign.start,
-                  //     style: TextStyle(
-                  //         decoration: TextDecoration.underline,
-                  //         decorationColor: Colors.black,
-                  //         fontSize: 14,
-                  //         fontFamily: 'gotham',
-                  //         fontWeight: FontWeight.w600,
-                  //         color: greytheme100),
-                  //   ),
-                  // )
-                ],
+              Divider(
+                thickness: 2.0,
               ),
               SizedBox(
-                height: 20,
+                height: 5,
               ),
               isTableList ? getTableNumber() : Container(),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
@@ -290,7 +286,7 @@ class _MyCartViewState extends State<MyCartView>
         appBar: AppBar(
           title: Text('My Cart'),
           backgroundColor: Colors.white,
-          elevation: 5,
+          elevation: 0,
         ),
         body: Column(
           children: <Widget>[
@@ -304,7 +300,7 @@ class _MyCartViewState extends State<MyCartView>
             SizedBox(
               height: 10,
             ),
-            _getAddedListItem()
+            isloading ? Container() : _getAddedListItem()
           ],
         ),
         // CustomScrollView(
@@ -336,37 +332,42 @@ class _MyCartViewState extends State<MyCartView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
+                        
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/OrderConfirmationView');
-                      // print("button is pressed");
-                      // showDialog(
-                      //     context: context,
-                      //     child: new RadioDialog(
-                      //       onValueChange: _onValueChange,
-                      //       initialValue: _selectedId,
-                      //     ));
-                      (_cartItemList != null)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentTipAndPay(
-                                        restId: widget.restId,
-                                        tableId: _dropdownTableNumber,
-                                        // userId: widget.userID,
-                                        totalAmount: myCart.grandTotal,
-                                        items: itemList,
-                                        itemdata: _cartItemList,
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                      )))
-                          : Constants.showAlert("My Cart",
-                              "Please add items to your cart first.", context);
+                      if (_dropdownTableNumber == null) {
+                        Constants.showAlert("My Cart",
+                            "Please select table number first.", context);
+                      } else {
+                        (_cartItemList != null)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ConfirmationDineView(
+                                    restId: widget.restId,
+                                    tablename: tableno,
+                                    restName: widget.restName,
+                                    // price: _cartItemList[0].totalAmount,
+                                    tableId: _dropdownTableNumber,
+                                    // userId: widget.userID,
+                                    totalAmount: myCart.grandTotal,
+                                    items: itemList,
+                                    itemdata: _cartItemList,
+                                    orderType: widget.orderType,
+                                    latitude: widget.lat,
+                                    longitude: widget.long,
+                                    // orderID: 6
+                                  ),
+                                ))
+                            : Constants.showAlert(
+                                "My Cart",
+                                "Please add items to your cart first.",
+                                context);
+                      }
                     },
                     child: Container(
                       height: 54,
@@ -425,7 +426,7 @@ class _MyCartViewState extends State<MyCartView>
                     Container(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          "Table Number: ${tableNumber.name}",
+                          "${tableNumber.name}",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor:
@@ -443,6 +444,12 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
             });
+            for (int i = 0; i < _dropdownItemsTable.length; i++) {
+              if (newValue == _dropdownItemsTable[i].id) {
+                print(_dropdownItemsTable[i].name);
+                tableno = _dropdownItemsTable[i].name;
+              }
+            }
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -551,10 +558,7 @@ class _MyCartViewState extends State<MyCartView>
                                     height: 30,
                                     width: 180,
                                     child: AutoSizeText(
-                                      _cartItemList[index]
-                                              .items
-                                              .itemDescription ??
-                                          " Lorem Epsom is simply dummy text",
+                                      getExtra(_cartItemList[index]),
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: 14,
@@ -566,7 +570,7 @@ class _MyCartViewState extends State<MyCartView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(index),
+                                  steppercount(_cartItemList[index]),
                                 ],
                               ),
                               Expanded(
@@ -578,8 +582,8 @@ class _MyCartViewState extends State<MyCartView>
                               Padding(
                                 padding: EdgeInsets.only(right: 20, top: 30),
                                 child: Text(
-                                  "\$ ${_cartItemList[index].items.price}" ??
-                                      '\$17',
+                                  "\$ ${_cartItemList[index].totalAmount}" ??
+                                      '',
                                   style: TextStyle(
                                       color: greytheme700,
                                       fontSize: 16,
@@ -618,7 +622,7 @@ class _MyCartViewState extends State<MyCartView>
   Widget refreshBg() {
     return Container(
       alignment: Alignment.centerRight,
-      color: Colors.red,
+      color: getColorByHex(Globle().colorscode),
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,
@@ -627,9 +631,48 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
+  String getExtra(MenuCartList menuCartList) {
+    var extras = "";
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   @override
   void getCartMenuListfailed() {
-    // TODO: implement getCartMenuListfailed
+    // TODO: implement getCartMenuListfailed\
+    setState(() {
+      _cartItemList = null;
+    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -638,9 +681,16 @@ class _MyCartViewState extends State<MyCartView>
     // TODO: implement getCartMenuListsuccess
 
     if (menulist.length == 0) {
+      Globle().dinecartValue = menulist.length;
+      Preference.setPersistData(
+          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+    Globle().dinecartValue = menulist.length;
+    Preference.setPersistData(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     myCart = model;
 
     setState(() {
@@ -668,6 +718,9 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -675,10 +728,13 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //return;
   }
 
   @override
@@ -704,6 +760,24 @@ class _MyCartViewState extends State<MyCartView>
     }
 
     // TODO: implement getTableListSuccess
+  }
+
+  @override
+  void updatequantitySuccess() {
+    _cartItemList = null;
+    Globle().dinecartValue -= 1;
+    _myCartpresenter.getCartMenuList(
+        widget.restId, context, Globle().loginModel.data.id);
+    //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    // TODO: implement updatequantitySuccess
+  }
+
+  @override
+  void updatequantityfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    // TODO: implement updatequantityfailed
   }
 
   //   return Scaffold(

@@ -1,60 +1,38 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
-import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
-class PaymentTipAndPay extends StatefulWidget {
-  int price;
-  int restId;
-  int userId;
-  String orderType;
-  int tableId;
-  String tablename;
-  List<int> items;
-  int totalAmount;
-  String latitude;
-  String longitude;
-  List<MenuCartList> itemdata;
-  PaymentTipAndPay(
-      {this.userId,
-      this.price,
-      this.items,
-      this.restId,
-      this.latitude,
-      this.tablename,
-      this.longitude,
-      this.orderType,
-      this.tableId,
-      this.totalAmount,
-      this.itemdata});
+class PaymentTipAndPayDi extends StatefulWidget {
+  int orderID;
+  PaymentTipAndPayDi({this.orderID});
   // PaymentTipAndPay({Key key}) : super(key: key);
-  _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
+  _PaymentTipAndPayDiState createState() => _PaymentTipAndPayDiState();
 }
 
-class _PaymentTipAndPayState extends State<PaymentTipAndPay>
-    implements PaymentTipAndPayModelView {
+class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
+    implements PaymentTipandPayDiModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
-  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
 
-  OrderData myOrderData;
+  Data myOrderData;
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.items);
-    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
+    _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     super.initState();
   }
 
@@ -90,8 +68,13 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
+                            decorationColor:
+                                ((Globle().colorscode) != null)
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
@@ -103,21 +86,23 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
-                      _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
+                      // _paymentTipAndPayPresenter.placeOrder(
+                      //     widget.restId,
+                      //     Globle().loginModel.data.id,
+                      //     widget.orderType,
+                      //     widget.tableId,
+                      //     widget.items,
+                      //     widget.totalAmount,
+                      //     widget.latitude,
+                      //     widget.longitude,
+                      //     context);
                     },
                     child: Container(
                       height: 45,
                       decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
@@ -186,13 +171,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     width: 20,
                   ),
                   Text(
-                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Take Away',
+                    'Dine-in',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,),
                   )
                 ],
               ),
@@ -209,9 +196,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    widget.tableId == null
-                        ? "Table 1"
-                        : 'Selected Table : ${widget.tablename}',
+                    'Selected Table : ${myOrderData.tableId}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -257,7 +242,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       margin: EdgeInsets.only(top: 15),
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
-        itemCount: widget.itemdata.length,
+        itemCount: myOrderData.list.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Column(
@@ -270,18 +255,20 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child: (widget.itemdata[index].items.menuType == 'veg')
-                            ? Image.asset(
-                                'assets/VegIcon/Group1661.png',
-                                height: 20,
-                                width: 20,
-                              )
-                            : Image.asset(
-                                'assets/VegIcon/Group1661.png',
-                                height: 20,
-                                width: 20,
-                                color: redtheme,
-                              ),
+                        child:
+                            //(widget.itemdata[index].items.menuType == 'veg')
+                            // ?
+                            Image.asset(
+                          'assets/VegIcon/Group1661.png',
+                          height: 20,
+                          width: 20,
+                        ),
+                        // : Image.asset(
+                        //     'assets/VegIcon/Group1661.png',
+                        //     height: 20,
+                        //     width: 20,
+                        //     color: redtheme,
+                        //   ),
                       ),
                       SizedBox(width: 16),
                       Column(
@@ -291,7 +278,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           Container(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
-                              widget.itemdata[index].items.itemName ??
+                              myOrderData.list[index].items.itemName ??
                                   'Bacon & Cheese Burger',
                               style: TextStyle(
                                   // fontFamily: 'gotham',
@@ -306,7 +293,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              widget.itemdata[index].items.itemDescription ??
+                              myOrderData.list[index].items.itemDescription ??
                                   "  Lorem Epsom is simply dummy text Lorem Epsom is simply dummy text",
                               style: TextStyle(
                                 color: greytheme1000,
@@ -329,7 +316,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$ ${widget.itemdata[index].totalAmount}' ?? '\$17',
+                          '\$ ${myOrderData.list[index].items.price}' ?? '\$17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,
@@ -374,7 +361,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
             child: Container(
               width: MediaQuery.of(context).size.width * 0.65,
               child: Slider(
-                activeColor: getColorByHex(Globle().colorscode),
+                activeColor: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 inactiveColor: greytheme100,
                 min: 0,
                 max: 20,
@@ -441,8 +430,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  (widget.totalAmount) != null
-                      ? " \$ ${widget.totalAmount}"
+                  (myOrderData.totalAmount) != null
+                      ? " \$ ${myOrderData.totalAmount}"
                       : '\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
@@ -524,7 +513,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${widget.totalAmount + sliderValue.toInt()}',
+                  '\$ ${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}',
                   // (widget.totalAmount) != null?
                   // " \$ ${widget.totalAmount}":'\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
@@ -597,30 +586,30 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
             ));
   }
 
-  @override
-  void placeOrderfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    // TODO: implement placeOrderfailed
-  }
+  // @override
+  // void placeOrderfailed() {
+  //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  //   Preference.setPersistData(null, PreferenceKeys.restaurantID);
+  //   Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+  //   // TODO: implement placeOrderfailed
+  // }
 
-  @override
-  void placeOrdersuccess(OrderData orderData) {
-    print("Place ORDER SUCCESS.");
-    setState(() {
-      if (myOrderData == null) {
-        myOrderData = orderData;
-      }
-    });
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Globle().orderNumber = orderData.orderNumber;
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+  // @override
+  // void placeOrdersuccess(OrderData orderData) {
+  //   print("Place ORDER SUCCESS.");
+  //   setState(() {
+  //     if (myOrderData == null) {
+  //       myOrderData = orderData;
+  //     }
+  //   });
+  //   Preference.setPersistData(null, PreferenceKeys.restaurantID);
+  //   Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+  //   Globle().orderNumber = orderData.orderNumber;
+  //   DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
 
-    showAlertSuccess(
-        "Order Placed", "Your order has been successfully placed.", context);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  //   showAlertSuccess(
+  //       "Order Placed", "Your order has been successfully placed.", context);
+  //   Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(context).pushNamed('/ConfirmationDineView');
     // Navigator.pushReplacement(
@@ -632,5 +621,24 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     //             )));
 
     // TODO: implement placeOrdersuccess
+  // }
+
+  @override
+  void getOrderDetailsFailed() {
+    // TODO: implement getOrderDetailsFailed
+  }
+
+  @override
+  void getOrderDetailsSuccess(Data orderData) {
+    // TODO: implement getOrderDetailsSuccess
+    setState(() {
+      if (myOrderData == null) {
+        myOrderData = orderData;
+      }
+    });
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    // showAlertSuccess(
+    //     "Order Placed", "Your order has been successfully placed.", context);
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

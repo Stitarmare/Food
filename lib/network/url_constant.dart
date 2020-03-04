@@ -29,4 +29,11 @@ class UrlConstant {
   static const removeItemfromCartApi = "api/removeItemFromCart";
   static const placeOrderApi = "/api/placeOrder";
   static const getTablenoListApi = "/api/getTableList";
+  static const updatequantityApi = "/api/updateQuantity";
+  static const clearCartApi = "api/clearCart";
+  static const getorderDetails = "/api/getOrderDetails";
+  static const updateOrderApi = "api/updateOrder";
+  static const runningOrderApi = "/api/getRunningOrders";
+  static const getOrderStatusApi = "api/getOrderStatus";
+  static const getMyOrdersBookingHistory = "/api/getMyOrders";
 }

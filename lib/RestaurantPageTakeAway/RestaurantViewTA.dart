@@ -171,6 +171,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -373,6 +376,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
+                           restName: widget.title,   
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -412,8 +416,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             placeholder: (context, url) => Center(
                               child: CircularProgressIndicator(),
                             ),
-                            errorWidget: (context, url, error) =>
-                                Image.asset("assets/PlaceholderFoodImage/MaskGroup55.png"),
+                            errorWidget: (context, url, error) => Image.asset(
+                              "assets/PlaceholderFoodImage/MaskGroup55.png",
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: 100,
+                            ),
                             imageUrl: BaseUrl.getBaseUrlImages() +
                                 '${_restaurantList[index].itemImage}',
                           ),

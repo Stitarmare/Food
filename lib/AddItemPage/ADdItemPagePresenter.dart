@@ -3,6 +3,8 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
+import 'package:foodzi/Models/UpdateOrderResponseModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -17,15 +19,23 @@ class AddItemPagepresenter extends AddItemPageContractor {
 
   AddmenuToCartModelview addMenuToCartModel;
 
+  ClearCartModelView clearCartModelView;
+  UpdateCartModelView updateCartModelView;
+
   AddItemPagepresenter(
-      AddItemPageModelView addItemPageView,
-      AddmenuToCartModelview addMenuToCartModel,
-      AddTablenoModelView addTablenoModelView,
-      GetTableListModelView getTableListModel) {
+    AddItemPageModelView addItemPageView,
+    AddmenuToCartModelview addMenuToCartModel,
+    AddTablenoModelView addTablenoModelView,
+    GetTableListModelView getTableListModel,
+    ClearCartModelView clearCartModelView,
+    UpdateCartModelView updateCartModelView,
+  ) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
     this.addTablenoModelView = addTablenoModelView;
     this.getTableListModel = getTableListModel;
+    this.clearCartModelView = clearCartModelView;
+    this.updateCartModelView = updateCartModelView;
   }
 
   @override
@@ -130,5 +140,51 @@ class AddItemPagepresenter extends AddItemPageContractor {
     });
 //ApiCall
     //;
+  }
+
+  @override
+  void clearCart(BuildContext context) {
+    // TODO: implement getNotifications
+    ApiBaseHelper()
+        .get<ErrorModel>(
+      UrlConstant.clearCartApi,
+      context,
+    )
+        .then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Clear cart success");
+          print(value.model);
+          clearCartModelView.clearCartSuccess();
+          break;
+        case SuccessType.failed:
+          print("Clear cart failed");
+          clearCartModelView.clearCartFailed();
+          break;
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+  @override
+  void updateOrder(UpdateOrderModel updateOrderModel, BuildContext context) {
+    ApiBaseHelper()
+        .post<UpdateOrderResponseModel>(UrlConstant.updateOrderApi, context, body: updateOrderModel.toJson()).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          updateCartModelView.updateOrderSuccess();
+          print("success");
+          break;
+        case SuccessType.failed:
+          updateCartModelView.updateOrderFailed();
+          print("failed");
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
   }
 }

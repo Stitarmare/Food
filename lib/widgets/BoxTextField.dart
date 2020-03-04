@@ -64,7 +64,7 @@ class _AppTextFieldState extends State<BoxAppTextField> {
               fontSize: 16,
               fontFamily: 'gotham',
               fontWeight: FontWeight.w500),
-          // prefixText: widget.prefixText,
+           //prefixText: widget.prefixText,
           prefixIcon: widget.icon,
           // hintText: widget.hintText,
           //  icon: widget.icon),

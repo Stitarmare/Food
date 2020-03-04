@@ -1,28 +1,33 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
-import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
-//import 'package:foodzi/AddItemPage/AddItemPagePresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 
 class AddItemPageTAView extends StatefulWidget {
   String title;
   String description;
   int item_id;
   int rest_id;
-
-  AddItemPageTAView({this.title, this.description, this.item_id, this.rest_id});
+  String restName;
+  AddItemPageTAView(
+      {this.title,
+      this.description,
+      this.item_id,
+      this.rest_id,
+      String restName});
   _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
 }
 
 class _AddItemPageTAViewState extends State<AddItemPageTAView>
-    implements AddItemPageTAModelView, AddmenuToCartModelviews {
+    implements
+        AddItemPageTAModelView,
+        AddmenuToCartModelviews,
+        ClearCartTAModelView {
   List<bool> isSelected;
 
   AddItemsToCartModel addMenuToCartModel;
@@ -40,10 +45,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int rest_id;
   ScrollController _controller = ScrollController();
   AddItemPageTApresenter _addItemPagepresenter;
-
+  bool alreadyAddedTA = false;
+  int restaurantTA;
   @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this, this);
+    _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
@@ -73,9 +79,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: i, title: _addItemModelList.spreads[i - 1].name ?? ''));
+          index: _addItemModelList.spreads[i - 1].id,
+          title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
-    radiolist.add(RadioButtonOptions(title: "None"));
+    //radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
@@ -194,7 +201,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (addMenuToCartModel == null) {
                 addMenuToCartModel = AddItemsToCartModel();
               }
@@ -214,8 +221,29 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               addMenuToCartModel.items[0].quantity = count;
 
               print(addMenuToCartModel.toJson());
-              _addItemPagepresenter.performaddMenuToCart(
-                  addMenuToCartModel, context);
+
+              var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                  PreferenceKeys.isAlreadyINCart);
+              var restaurantTA = await Preference.getPrefValue<int>(
+                  PreferenceKeys.restaurantID);
+              var restaurantName = await (Preference.getPrefValue<String>(
+                  PreferenceKeys.restaurantName));
+              if (alreadyAddedTA != null && restaurantTA != null) {
+                if ((widget.rest_id != restaurantTA) && (alreadyAddedTA)) {
+                  cartAlert(
+                      "Start a new order?",
+                      (restaurantName != null)
+                          ? "Your unfinished order at $restaurantName will be deleted."
+                          : "Your unfinished order at previous hotel will be deleted.",
+                      context);
+                } else {
+                  _addItemPagepresenter.performaddMenuToCart(
+                      addMenuToCartModel, context);
+                }
+              } else {
+                _addItemPagepresenter.performaddMenuToCart(
+                    addMenuToCartModel, context);
+              }
 
               // Navigator.pushNamed(context, '/OrderConfirmationView');
               // print("button is pressed");
@@ -236,7 +264,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               // color: redtheme,
               child: Center(
                 child: Text(
-                  'ADD ${_addItemModelList.price}',
+                  'Add To Cart',
                   style: TextStyle(
                       fontFamily: 'gotham',
                       fontWeight: FontWeight.w600,
@@ -251,6 +279,89 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     );
   }
 
+    void cartAlert(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                ),
+                content: Text(
+                  message,
+                  textAlign: TextAlign.center,
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:0.0,right: 5.0) ,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width * 0.35,
+                          child: RaisedButton(
+                            color: getColorByHex(Globle().colorscode),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "NEW ORDER",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                            ),
+                            onPressed: () {
+                              _addItemPagepresenter.clearCart(context);
+                              Preference.setPersistData<int>(
+                                  widget.rest_id, PreferenceKeys.restaurantID);
+                              Preference.setPersistData<bool>(
+                                  true, PreferenceKeys.isAlreadyINCart);
+                              Preference.setPersistData<String>(
+                                  widget.restName, PreferenceKeys.restaurantName);
+                              Globle().dinecartValue = 0;
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.04,
+                          //width: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width *0.32,
+                          height: 40,
+                          child: RaisedButton(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(color: greytheme100),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Text(
+                              "CANCEL",
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: 'gotham',
+                                  fontWeight: FontWeight.w400,
+                                  color: greytheme100),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ));
+  }
+
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
       child: Container(
@@ -259,6 +370,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
                   SizedBox(
@@ -697,6 +811,70 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             : [Container()]);
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      // Navigator.pushReplacement(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => RestaurantView()));
+                      //Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addItemfailed() {
     // TODO: implement addItemfailed
@@ -723,8 +901,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    Constants.showAlertSuccess("${widget.title}",
+    Globle().takeAwayCartItemCount += 1;
+    Preference.setPersistData(
+        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+    showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
+  }
+
+  @override
+  void clearCartFailed() {
+    // TODO: implement clearCartFailed
+  }
+
+  @override
+  void clearCartSuccess() {
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    // TODO: implement clearCartSuccess
   }
 }
 
@@ -741,7 +938,8 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  RadioButtonOptions({this.index, this.title});
+  String price;
+  RadioButtonOptions({this.index, this.title, this.price});
 }
 
 class SwitchesItems {
