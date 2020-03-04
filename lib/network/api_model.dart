@@ -1,6 +1,7 @@
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
+import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
@@ -114,6 +115,9 @@ class GenericModel<T> {
 
       case OrderDetailsModel:
         return OrderDetailsModel.fromJson(json) as T;
+
+      case CurrentOrderDetailsModel:
+        return CurrentOrderDetailsModel.fromJson(json) as T;
 
       default:
         break;
