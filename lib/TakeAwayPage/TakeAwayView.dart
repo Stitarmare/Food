@@ -604,7 +604,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 height: 14,
               ),
               Container(
-                color: greentheme100,
+                decoration: BoxDecoration(
+                    color: greentheme100,
+                    borderRadius: BorderRadius.all(Radius.circular(3))),
                 width: 30,
                 height: 16,
                 child: Center(

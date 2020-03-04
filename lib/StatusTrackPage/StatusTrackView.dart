@@ -1,16 +1,40 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class StatusTrackView extends StatefulWidget {
+  int orderID;
+  StatusTrackView({this.orderID});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
   }
 }
 
-class _StatusTrackingViewState extends State<StatusTrackView> {
+class _StatusTrackingViewState extends State<StatusTrackView>
+    implements StatusTrackViewModelView {
+  StatusTrackViewPresenter statusTrackViewPresenter;
+  Duration _duration = Duration(seconds: 30);
+  Timer _timer;
+  StatusData statusInfo;
+  @override
+  void initState() {
+    super.initState();
+    statusTrackViewPresenter = StatusTrackViewPresenter(this);
+    statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    
+      _timer = Timer.periodic(_duration, (Timer t) {
+        statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+     
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,32 +48,39 @@ class _StatusTrackingViewState extends State<StatusTrackView> {
           elevation: 0,
         ),
         body: _getmainview(),
-        bottomNavigationBar: Container(
-          //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          width: MediaQuery.of(context).size.width,
-          height: 54,
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-            ),
-            child: Text(
-              'BILL PAYMENT',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-            color: getColorByHex(Globle().colorscode),
-            onPressed: () {},
-          ),
-        ),
+        bottomNavigationBar:
+            (statusInfo != null) ? billPaymentButton() : Text(""),
       ),
     );
+  }
+
+  Widget billPaymentButton() {
+    return (statusInfo.status == "completed")
+        ?
+         Container(
+            //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            width: MediaQuery.of(context).size.width,
+            height: 54,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  topRight: Radius.circular(20.0),
+                ),
+              ),
+              child: Text(
+                'BILL PAYMENT',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
+              color: getColorByHex(Globle().colorscode),
+              onPressed: () {},
+            ),
+          ):Text("");
   }
 
   Widget _getmainview() {
@@ -108,8 +139,10 @@ class _StatusTrackingViewState extends State<StatusTrackView> {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
+                   Navigator.pop(context);
+                    Navigator.pop(context);
                   //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
-                 
+
                   //Navigator.pushNamed(context, '/OrderConfirmation2View');
                 },
               ),
@@ -124,10 +157,6 @@ class _StatusTrackingViewState extends State<StatusTrackView> {
       ),
     );
   }
-}
-
-String name;
-
 Widget _getstatus() {
   return LimitedBox(
     child: Container(
@@ -151,7 +180,7 @@ Widget _getstatus() {
             SizedBox(
               height: 15,
             ),
-            AutoSizeText("Status: You will be notified about the status.",
+            AutoSizeText((" Status: ${getStatus()}"),
                 //maxFontSize: 12,
                 //maxLines: 2,
                 textAlign: TextAlign.center,
@@ -166,6 +195,41 @@ Widget _getstatus() {
     ),
   );
 }
+String getStatus() {
+  if (statusInfo != null) {
+    if (statusInfo.status != null) {
+      return statusInfo.status;
+    }
+  }
+  return "You will be notified about the status.";
+}
+  @override
+  void getOrderStatusfailed() {
+    // TODO: implement getOrderStatusfailed
+  }
+
+  @override
+  void getOrderStatussuccess(StatusData statusData) {
+    if (statusData != null) {
+      setState(() {
+         statusInfo = statusData;
+      });
+     
+    }
+    // TODO: implement getOrderStatussuccess
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer.cancel();
+    super.dispose();
+  }
+}
+
+String name;
+
+
 
 Widget _billPayment() {
   return Container(
@@ -178,4 +242,6 @@ Widget _billPayment() {
             color: greytheme700)),
     onPressed: () {},
   ));
+
+  //TODO: dispose
 }

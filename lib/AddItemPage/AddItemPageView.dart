@@ -5,6 +5,7 @@ import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -47,6 +48,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Item items;
 
   List<Extras> extra;
+  UpdateOrderModel _updateOrderModel;
 
   Spreads spread;
   bool isAddBtnClicked = false;
@@ -293,51 +295,47 @@ class _AddItemPageViewState extends State<AddItemPageView>
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () async {
-              if (addMenuToCartModel == null) {
-                addMenuToCartModel = AddItemsToCartModel();
-              }
-              addMenuToCartModel.userId = Globle().loginModel.data.id;
-              addMenuToCartModel.restId = widget.rest_id;
-              addMenuToCartModel.tableId = _dropdownTableNumber;
-              if (items == null) {
-                items = Item();
-              }
-
-              addMenuToCartModel.items = [items];
-              addMenuToCartModel.items[0].itemId = widget.item_id;
-              addMenuToCartModel.items[0].extra = extra ?? [];
-              addMenuToCartModel.items[0].spreads =
-                  spread == null ? [] : [spread];
-              addMenuToCartModel.items[0].switches = switches ?? [];
-              addMenuToCartModel.items[0].quantity = count;
-              // }
-              //);
-              print(addMenuToCartModel.toJson());
               var alreadyAdde = await Preference.getPrefValue<bool>(
                   PreferenceKeys.isAlreadyINCart);
               var restauran = await (Preference.getPrefValue<int>(
                   PreferenceKeys.restaurantID));
               var restaurantName = await (Preference.getPrefValue<String>(
                   PreferenceKeys.restaurantName));
-              if (alreadyAdde != null && restauran != null) {
-                if ((widget.rest_id != restauran) && (alreadyAdde)) {
-                  cartAlert(
-                      "Start a new order?",
-                      (restaurantName != null)
-                          ? "Your unfinished order at $restaurantName will be deleted."
-                          : "Your unfinished order at previous hotel will be deleted.",
-                      context);
+              var orderId = await Preference.getPrefValue<String>(
+                  PreferenceKeys.ORDER_ID);
+              if (orderId != null) {
+                if (restauran == widget.rest_id) {
+                  print("object");
+                  if (_updateOrderModel == null) {
+                    _updateOrderModel = UpdateOrderModel();
+                  }
+                  _updateOrderModel.orderId = int.parse(orderId);
+                  if (items == null) {
+                    items = Item();
+                  }
+
+                  _updateOrderModel.items = items;
+                  _updateOrderModel.items.quantity = count;
+                  _updateOrderModel.items.itemId = widget.item_id;
+                  _updateOrderModel.items.extra = extra ?? null;
+                  _updateOrderModel.items.spreads =
+                      spread == null ? [] : [spread];
+                  _updateOrderModel.items.switches = switches ?? [];
+
+                  print(_updateOrderModel.toJson());
+                  _addItemPagepresenter.updateOrder(_updateOrderModel , context);
                 } else {
-                  _addItemPagepresenter.performaddMenuToCart(
-                      addMenuToCartModel, context);
+                  //pop up
+                  Constants.showAlert("Invalid Order", "Sorry, you can't order from this restaurant right now.", context);
                 }
               } else {
-                _addItemPagepresenter.performaddMenuToCart(
-                    addMenuToCartModel, context);
+                checkForItemIsAlreadyInCart(
+                    alreadyAdde, restauran, restaurantName);
               }
+
               // if (Globle().orderNumber != null) {
               //   if (widget.rest_id == ) {
-                  
+
               //   } else {
               //   }
               // } else {
@@ -375,6 +373,43 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
       ),
     );
+  }
+
+  void checkForItemIsAlreadyInCart(
+      bool alreadyAdde, int restauran, String restaurantName) {
+    if (addMenuToCartModel == null) {
+      addMenuToCartModel = AddItemsToCartModel();
+    }
+    addMenuToCartModel.userId = Globle().loginModel.data.id;
+    addMenuToCartModel.restId = widget.rest_id;
+    addMenuToCartModel.tableId = _dropdownTableNumber;
+    if (items == null) {
+      items = Item();
+    }
+
+    addMenuToCartModel.items = [items];
+    addMenuToCartModel.items[0].itemId = widget.item_id;
+    addMenuToCartModel.items[0].extra = extra ?? [];
+    addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
+    addMenuToCartModel.items[0].switches = switches ?? [];
+    addMenuToCartModel.items[0].quantity = count;
+    // }
+    //);
+    print(addMenuToCartModel.toJson());
+    if (alreadyAdde != null && restauran != null) {
+      if ((widget.rest_id != restauran) && (alreadyAdde)) {
+        cartAlert(
+            "Start a new order?",
+            (restaurantName != null)
+                ? "Your unfinished order at $restaurantName will be deleted."
+                : "Your unfinished order at previous hotel will be deleted.",
+            context);
+      } else {
+        _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+      }
+    } else {
+      _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+    }
   }
 
   void cartAlert(String title, String message, BuildContext context) {
@@ -1125,6 +1160,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void updateOrderSuccess() {
     // TODO: implement updateOrderSuccess
+    //Globle().dinecartValue += 1;
+    //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+    showAlertSuccess("${widget.title}",
+        "${widget.title} is successfully added to your cart.", context);
   }
 }
 
@@ -1147,7 +1188,7 @@ class RadioButtonOptions {
 
 class SwitchesItems {
   int index;
-  String title;
+  String title;        
   String option1;
   List<bool> isSelected;
   String option2;

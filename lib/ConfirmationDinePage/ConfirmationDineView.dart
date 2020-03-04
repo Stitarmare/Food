@@ -1,13 +1,22 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
+  int orderID;
+  String restName;
   int price;
   int restId;
   int userId;
@@ -19,25 +28,30 @@ class ConfirmationDineView extends StatefulWidget {
   String latitude;
   String longitude;
   List<MenuCartList> itemdata;
-  ConfirmationDineView(
-      {this.userId,
-      this.price,
-      this.items,
-      this.restId,
-      this.latitude,
-      this.tablename,
-      this.longitude,
-      this.orderType,
-      this.tableId,
-      this.totalAmount,
-      this.itemdata});
+  ConfirmationDineView({
+    this.userId,
+    this.price,
+    this.items,
+    this.restId,
+    this.latitude,
+    this.tablename,
+    this.longitude,
+    this.orderType,
+    this.tableId,
+    this.totalAmount,
+    this.itemdata,
+    this.restName,
+    this.orderID,
+  });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
 
-class _ConfirmationDineViewState extends State<ConfirmationDineView> {
+class _ConfirmationDineViewState extends State<ConfirmationDineView>
+    implements PaymentTipAndPayModelView {
   bool isselected = false;
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   List<RadioButtonOrderOptions> _orderOptions = [
     RadioButtonOrderOptions(
         index: 1, title: 'Dine-in', subtitle: 'Get served in Restaurant'),
@@ -51,7 +65,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
     RadioButtonOptions(index: 3, title: '03:00PM'),
     RadioButtonOptions(index: 4, title: '03:30 PM'),
   ];
-
+  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
   ScrollController _controller = ScrollController();
   int id = 1;
   int radioId = 1;
@@ -61,6 +75,17 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
   String radioOrderItemsub;
 
   int _dropdownTableNumber;
+
+  int cartId;
+
+  OrderData myOrderData;
+
+  @override
+  void initState() {
+    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,15 +94,184 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
       right: false,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          title: Text(widget.restName),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[
-            _getorderOptions(),
-            radioId == 1 ? _gettableText() : _gettimeOptions(),
-          ],
+        // body: CustomScrollView(
+        //   controller: _controller,
+        //   slivers: <Widget>[
+        //     _getorderOptions(),
+        //     radioId == 1 ? _gettableText() : _gettimeOptions(),
+        //   ],
+        // ),
+        body: Container(
+          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+          child: Column(children: <Widget>[
+            Row(
+              children: <Widget>[
+                Spacer(),
+                Text(
+                  "${widget.tablename}",
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme100),
+                ),
+                SizedBox(
+                  width: 15,
+                )
+              ],
+            ),
+            //SizedBox(height: 0,),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: widget.itemdata.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    id = widget.itemdata[index].itemId;
+                    //int userID = widget.itemdata[index].userId;
+                    cartId = widget.itemdata[index].id;
+
+                    return Container(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: (widget.itemdata[index].items.menuType ==
+                                        "veg")
+                                    ? Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        height: 25,
+                                        width: 25,
+                                      )
+                                    : Image.asset(
+                                        'assets/VegIcon/Group1661.png',
+                                        color: redtheme,
+                                        width: 25,
+                                        height: 25,
+                                      ),
+                              ),
+                              SizedBox(width: 16),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.65,
+                                    child: Text(
+                                      widget.itemdata[index].items.itemName ??
+                                          'Bacon & Cheese Burger',
+                                      style: TextStyle(
+                                          fontFamily: 'gotham',
+                                          fontSize: 16,
+                                          color: greytheme700),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                    width: 180,
+                                    child: AutoSizeText(
+                                      getExtra(widget.itemdata[index]),
+                                      style: TextStyle(
+                                        color: greytheme1000,
+                                        fontSize: 14,
+                                        // fontFamily: 'gotham',
+                                      ),
+                                      // minFontSize: 8,
+                                      maxFontSize: 12,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  width: 80,
+                                ),
+                                flex: 2,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  right: 20,
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "\$ ${widget.itemdata[index].totalAmount}" ??
+                                          '',
+                                      style: TextStyle(
+                                          color: greytheme700,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Quantity:",
+                                      // ${widget.itemdata[index].quantity}",
+                                      style: TextStyle(
+                                          fontFamily: 'gotham',
+                                          fontSize: 10,
+                                          color: greytheme700),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: getColorByHex(
+                                              Globle().colorscode),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5))),
+                                      width: 25,
+                                      height: 25,
+                                      child: Center(
+                                        child: Text(
+                                          "${widget.itemdata[index].quantity}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'gotham',
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ]),
+                        SizedBox(height: 12),
+                        Divider(
+                          height: 2,
+                          thickness: 2,
+                        ),
+                        SizedBox(height: 8),
+                      ],
+                    ));
+                  }),
+            ),
+          ]),
         ),
         bottomNavigationBar: Container(
           //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -107,7 +301,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               //         builder: (context) => PaymentTipAndPay(
               //             restId: widget.restId,
               //             tablename: widget.tablename,
-              //             // price: _cartItemList[0].totalAmount,
+              //             // price: widget.itemdata[0].totalAmount,
               //             tableId: widget.tableId,
               //             // userId: widget.userID,
               //             totalAmount: widget.totalAmount,
@@ -116,12 +310,58 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               //             orderType: widget.orderType,
               //             latitude: widget.latitude,
               //             longitude: widget.longitude)));
-              Navigator.of(context).pushNamed('/StatusTrackView');
+              //Navigator.of(context).pushNamed('/StatusTrackView');
+              _paymentTipAndPayPresenter.placeOrder(
+                  widget.restId,
+                  Globle().loginModel.data.id,
+                  widget.orderType,
+                  widget.tableId,
+                  widget.items,
+                  widget.totalAmount,
+                  widget.latitude,
+                  widget.longitude,
+                  context);
+              
             },
           ),
         ),
       ),
     );
+  }
+
+  String getExtra(MenuCartList menuCartList) {
+    var extras = "";
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
   }
 
   Widget _gettableText() {
@@ -389,6 +629,90 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView> {
               ))
           .toList(),
     );
+  }
+void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    'assets/SuccessIcon/success.png',
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'gotham',
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text("Ok",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                     Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          StatusTrackView(orderID: myOrderData.id)));
+                    },
+                  )
+                ],
+              ),
+            );
+  }
+
+  @override
+  void placeOrderfailed() {
+    // TODO: implement placeOrderfailed
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+  }
+
+  @override
+  void placeOrdersuccess(OrderData orderData) {
+    // TODO: implement placeOrdersuccess
+    print("Place ORDER SUCCESS.");
+    setState(() {
+      if (myOrderData == null) {
+        myOrderData = orderData;
+      }
+    });
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Globle().orderNumber = orderData.orderNumber;
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+        showAlertSuccess(
+        "Order Placed", "Your order has been successfully placed.", context);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 
