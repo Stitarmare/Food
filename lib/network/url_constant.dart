@@ -35,4 +35,5 @@ class UrlConstant {
   static const updateOrderApi = "api/updateOrder";
   static const runningOrderApi = "/api/getRunningOrders";
   static const getOrderStatusApi = "api/getOrderStatus";
+  static const getMyOrdersBookingHistory = "/api/getMyOrders";
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -34,6 +35,29 @@ class MyOrdersPresenter extends MyOrderContractor {
       print(error);
     });
     // TODO: implement getOrderDetails
+  }
+
+  @override
+  void getmyOrderBookingHistory(BuildContext context) {
+    ApiBaseHelper()
+        .get<GetMyOrdersBookingHistory>(
+            UrlConstant.getMyOrdersBookingHistory, context)
+        .then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Order History success");
+          print(value.model);
+          _myOrderModelView.getmyOrderHistorySuccess(value.model.data);
+          break;
+        case SuccessType.failed:
+          print("Order History failed");
+          _myOrderModelView.getmyOrderHistoryFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
   }
 
   @override
