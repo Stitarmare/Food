@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/MyOrders/MyOrderContractor.dart';
+import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -7,14 +11,22 @@ class MyOrders extends StatefulWidget {
   _MyOrdersState createState() => _MyOrdersState();
 }
 
-class _MyOrdersState extends State<MyOrders> {
+class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   ScrollController _controller = ScrollController();
+  MyOrdersPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
+  List<CurrentOrderList> _currentOrder;
+  List<CurrentOrderList> _orderHistory;
+  int i;
+
+  List<CurrentOrderList> _orderDetailList;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _myOrdersPresenter = MyOrdersPresenter(this);
+    _myOrdersPresenter.getOrderDetails(context);
   }
 
   @override
@@ -77,7 +89,7 @@ class _MyOrdersState extends State<MyOrders> {
                   onTap: (index) {
                     switch (index) {
                       case 0:
-                        print('Restaurants Info');
+                        print('Current Orders');
                         setState(() {
                           isCurrentOrders = true;
                           isBookingHistory = false;
@@ -85,7 +97,7 @@ class _MyOrdersState extends State<MyOrders> {
 
                         break;
                       case 1:
-                        print('Review');
+                        print('Booking History');
                         setState(() {
                           isCurrentOrders = false;
                           isBookingHistory = true;
@@ -103,11 +115,34 @@ class _MyOrdersState extends State<MyOrders> {
     );
   }
 
+  int getLenghtOfCurrentOrder() {
+    if (_orderDetailList != null) {
+      return _orderDetailList.length;
+    }
+    return 0;
+  }
+
+  String getitemname(List<ListElement> _listitem) {
+    var itemname = '';
+    for (i = 0; i < _listitem.length; i++) {
+      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+    }
+    if (itemname.isNotEmpty) {
+      itemname = removeLastChar(itemname);
+      itemname = removeLastChar(itemname);
+    }
+    return itemname;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   Widget _currentOrders(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * 0.70,
         child: ListView.builder(
-          itemCount: 8,
+          itemCount: getLenghtOfCurrentOrder(),
           controller: _controller,
           itemBuilder: (BuildContext context, int index) {
             return Card(
@@ -120,25 +155,6 @@ class _MyOrdersState extends State<MyOrders> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // ListTile(leading:ClipRect(child: Image.asset('assets/HotelImages/Image12.png',width: 30,height: 40,),clipBehavior: Clip.hardEdge,),
-                  // // Container(
-                  // //   height: 40,
-                  // //   width: 40,
-                  // //   decoration: BoxDecoration(borderRadius:new BorderRadius.circular(15)),
-                  // //   child: Image.asset('assets/HotelImages/Image12.png'),
-                  // // ),
-                  // title: Text('Daawat',style: TextStyle(
-                  //   fontSize: 18,
-                  //   letterSpacing: 0.32,
-                  //   color: greytheme700,
-                  //   fontWeight: FontWeight.w500
-                  // ),),
-                  // subtitle: Text('Airoli, Navi Mumbai',style: TextStyle(
-                  //   fontSize: 14,
-                  //   letterSpacing: 0.24,
-                  //   color:greytheme1200,
-                  // ),),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -146,8 +162,6 @@ class _MyOrdersState extends State<MyOrders> {
                         height: 40,
                         width: 40,
                         margin: const EdgeInsets.only(left: 15, top: 8),
-                        //  decoration: BoxDecoration(shape:BoxShape.rectangle,borderRadius: new BorderRadius.all(Radius.circular(15)),),
-                        // decoration: BoxDecoration(borderRadius:new BorderRadius.circular(15)),
                         child: ClipRRect(
                           child: Image.asset(
                             'assets/HotelImages/Image12.png',
@@ -158,13 +172,13 @@ class _MyOrdersState extends State<MyOrders> {
                         ),
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
-                              'Daawat',
+                              '${_orderDetailList[index].restaurant.restName}',
                               style: TextStyle(
                                   fontSize: 18,
                                   letterSpacing: 0.32,
@@ -172,17 +186,17 @@ class _MyOrdersState extends State<MyOrders> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Airoli, Navi Mumbai',
-                              style: TextStyle(
-                                fontSize: 14,
-                                letterSpacing: 0.24,
-                                color: greytheme1000,
-                              ),
-                            ),
-                          )
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 10),
+                          //   child: Text(
+                          //     'Airoli, Navi Mumbai', // address
+                          //     style: TextStyle(
+                          //       fontSize: 14,
+                          //       letterSpacing: 0.24,
+                          //       color: greytheme1000,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       )
                     ],
@@ -209,7 +223,7 @@ class _MyOrdersState extends State<MyOrders> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '1 × Chicken Biryani',
+                      '${getitemname(_orderDetailList[index].list)}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -232,7 +246,7 @@ class _MyOrdersState extends State<MyOrders> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '06 Feb 2020 at 12:05 PM',
+                      '${_orderDetailList[index].createdAt}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -255,7 +269,7 @@ class _MyOrdersState extends State<MyOrders> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      'Dine-in',
+                      '${_orderDetailList[index].orderType}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -278,7 +292,7 @@ class _MyOrdersState extends State<MyOrders> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '₹186.35',
+                      '${_orderDetailList[index].totalAmount}',
                       style: TextStyle(
                         fontSize: 16,
                         //letterSpacing: 0.24,
@@ -298,7 +312,7 @@ class _MyOrdersState extends State<MyOrders> {
                   Padding(
                     padding: const EdgeInsets.only(left: 15, top: 8, bottom: 8),
                     child: Text(
-                      'Status : Preparing',
+                      'Status : ${_orderDetailList[index].status}',
                       style: TextStyle(color: greytheme400, fontSize: 18),
                     ),
                   )
@@ -313,7 +327,7 @@ class _MyOrdersState extends State<MyOrders> {
     return Container(
         height: MediaQuery.of(context).size.height * 0.70,
         child: ListView.builder(
-          itemCount: 8,
+          itemCount: getLenghtOfCurrentOrder(),
           controller: _controller,
           itemBuilder: (BuildContext context, int index) {
             return Card(
@@ -326,25 +340,6 @@ class _MyOrdersState extends State<MyOrders> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // ListTile(leading:ClipRect(child: Image.asset('assets/HotelImages/Image12.png',width: 30,height: 40,),clipBehavior: Clip.hardEdge,),
-                  // // Container(
-                  // //   height: 40,
-                  // //   width: 40,
-                  // //   decoration: BoxDecoration(borderRadius:new BorderRadius.circular(15)),
-                  // //   child: Image.asset('assets/HotelImages/Image12.png'),
-                  // // ),
-                  // title: Text('Daawat',style: TextStyle(
-                  //   fontSize: 18,
-                  //   letterSpacing: 0.32,
-                  //   color: greytheme700,
-                  //   fontWeight: FontWeight.w500
-                  // ),),
-                  // subtitle: Text('Airoli, Navi Mumbai',style: TextStyle(
-                  //   fontSize: 14,
-                  //   letterSpacing: 0.24,
-                  //   color:greytheme1200,
-                  // ),),
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -352,8 +347,6 @@ class _MyOrdersState extends State<MyOrders> {
                         height: 40,
                         width: 40,
                         margin: const EdgeInsets.only(left: 15, top: 8),
-                        //  decoration: BoxDecoration(shape:BoxShape.rectangle,borderRadius: new BorderRadius.all(Radius.circular(15)),),
-                        // decoration: BoxDecoration(borderRadius:new BorderRadius.circular(15)),
                         child: ClipRRect(
                           child: Image.asset(
                             'assets/HotelImages/Image12.png',
@@ -378,17 +371,17 @@ class _MyOrdersState extends State<MyOrders> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Airoli, Navi Mumbai',
-                              style: TextStyle(
-                                fontSize: 14,
-                                letterSpacing: 0.24,
-                                color: greytheme1000,
-                              ),
-                            ),
-                          )
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: 10),
+                          //   child: Text(
+                          //     'Airoli, Navi Mumbai',
+                          //     style: TextStyle(
+                          //       fontSize: 14,
+                          //       letterSpacing: 0.24,
+                          //       color: greytheme1000,
+                          //     ),
+                          //   ),
+                          // )
                         ],
                       )
                     ],
@@ -540,6 +533,24 @@ class _MyOrdersState extends State<MyOrders> {
             );
           },
         ));
+  }
+
+  @override
+  void getOrderDetailsFailed() {
+    // TODO: implement getOrderDetailsFailed
+  }
+
+  @override
+  void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
+    if (_orderdetailsList.length == 0) {
+      return;
+    }
+
+    setState(() {
+      _orderDetailList = _orderdetailsList;
+    });
+
+    // TODO: implement getOrderDetailsSuccess
   }
 
   // Widget getOrderList() {
