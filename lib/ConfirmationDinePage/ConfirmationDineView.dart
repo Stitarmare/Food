@@ -83,7 +83,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void initState() {
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
   }
 
@@ -681,12 +681,13 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
-                 Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            StatusTrackView(orderID: myOrderData.id)));
+                            StatusTrackView(orderID: myOrderData.id,flag: 1,)));
+                           
               },
             )
           ],
