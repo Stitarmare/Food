@@ -397,7 +397,7 @@ class Data {
     String totalAmount;
     DateTime createdAt;
     DateTime updatedAt;
-    List<ListElement> list;
+    List<ListElements> list;
     List<dynamic> invitation;
 
     Data({
@@ -428,7 +428,7 @@ class Data {
         totalAmount: json["total_amount"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        list: List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElements>.from(json["list"].map((x) => ListElements.fromJson(x))),
         invitation: List<dynamic>.from(json["invitation"].map((x) => x)),
     );
 
@@ -449,7 +449,7 @@ class Data {
     };
 }
 
-class ListElement {
+class ListElements {
     int id;
     int quantity;
     String preparationTime;
@@ -467,7 +467,7 @@ class ListElement {
     List<CartExtra> cartExtras;
     Items items;
 
-    ListElement({
+    ListElements({
         this.id,
         this.quantity,
         this.preparationTime,
@@ -486,7 +486,7 @@ class ListElement {
         this.items,
     });
 
-    factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+    factory ListElements.fromJson(Map<String, dynamic> json) => ListElements(
         id: json["id"],
         quantity: json["quantity"],
         preparationTime: json["preparation_time"],

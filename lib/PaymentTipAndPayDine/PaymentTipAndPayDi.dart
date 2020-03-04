@@ -14,8 +14,7 @@ import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
-  PaymentTipAndPayDi(
-      {this.orderID});
+  PaymentTipAndPayDi({this.orderID});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayDiState createState() => _PaymentTipAndPayDiState();
 }
@@ -69,8 +68,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
+                            decorationColor:
+                                ((Globle().colorscode) != null)
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
@@ -96,7 +100,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     child: Container(
                       height: 45,
                       decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
@@ -165,13 +171,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     width: 20,
                   ),
                   Text(
-                     'Dine-in',
+                    'Dine-in',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,),
                   )
                 ],
               ),
@@ -188,7 +196,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                         'Selected Table : ${myOrderData.tableId}',
+                    'Selected Table : ${myOrderData.tableId}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -234,7 +242,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       margin: EdgeInsets.only(top: 15),
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
-         itemCount: myOrderData.list.length,
+        itemCount: myOrderData.list.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Column(
@@ -248,19 +256,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child:
-                         //(widget.itemdata[index].items.menuType == 'veg')
-                           // ?
-                             Image.asset(
-                                'assets/VegIcon/Group1661.png',
-                                height: 20,
-                                width: 20,
-                              ),
-                            // : Image.asset(
-                            //     'assets/VegIcon/Group1661.png',
-                            //     height: 20,
-                            //     width: 20,
-                            //     color: redtheme,
-                            //   ),
+                            //(widget.itemdata[index].items.menuType == 'veg')
+                            // ?
+                            Image.asset(
+                          'assets/VegIcon/Group1661.png',
+                          height: 20,
+                          width: 20,
+                        ),
+                        // : Image.asset(
+                        //     'assets/VegIcon/Group1661.png',
+                        //     height: 20,
+                        //     width: 20,
+                        //     color: redtheme,
+                        //   ),
                       ),
                       SizedBox(width: 16),
                       Column(
@@ -353,7 +361,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             child: Container(
               width: MediaQuery.of(context).size.width * 0.65,
               child: Slider(
-                activeColor: getColorByHex(Globle().colorscode),
+                activeColor: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 inactiveColor: greytheme100,
                 min: 0,
                 max: 20,
@@ -503,7 +513,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${int.parse(myOrderData.totalAmount)  + sliderValue.toInt()}',
+                  '\$ ${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}',
                   // (widget.totalAmount) != null?
                   // " \$ ${widget.totalAmount}":'\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
@@ -601,16 +611,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   //       "Order Placed", "Your order has been successfully placed.", context);
   //   Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
-  //   //Navigator.of(context).pushNamed('/ConfirmationDineView');
-  //   // Navigator.pushReplacement(
-  //   //     context,
-  //   //     MaterialPageRoute(
-  //   //         builder: (context) => DineInView(
+    //Navigator.of(context).pushNamed('/ConfirmationDineView');
+    // Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => DineInView(
 
-  //   //             //restId: widget.restId
-  //   //             )));
+    //             //restId: widget.restId
+    //             )));
 
-  //   // TODO: implement placeOrdersuccess
+    // TODO: implement placeOrdersuccess
   // }
 
   @override
@@ -621,10 +631,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   @override
   void getOrderDetailsSuccess(Data orderData) {
     // TODO: implement getOrderDetailsSuccess
-     setState(() {
+    setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
       }
     });
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    // showAlertSuccess(
+    //     "Order Placed", "Your order has been successfully placed.", context);
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

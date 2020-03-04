@@ -83,6 +83,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void initState() {
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
   }
 
@@ -311,6 +312,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               //             latitude: widget.latitude,
               //             longitude: widget.longitude)));
               //Navigator.of(context).pushNamed('/StatusTrackView');
+              //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
               _paymentTipAndPayPresenter.placeOrder(
                   widget.restId,
                   Globle().loginModel.data.id,
@@ -635,8 +637,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       barrierDismissible: false,
       context: context,
       builder: (context) => WillPopScope(
-         onWillPop: () async => false ,
-              child: AlertDialog(
+        onWillPop: () async => false,
+        child: AlertDialog(
           title: Text(
             title,
             textAlign: TextAlign.center,
@@ -679,6 +681,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
+                 Navigator.of(context).pop();
                 Navigator.push(
                     context,
                     MaterialPageRoute(

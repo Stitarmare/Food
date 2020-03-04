@@ -76,7 +76,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
-              color: getColorByHex(Globle().colorscode),
+              color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
               onPressed: () {
                 Navigator.push(
                     context,
@@ -138,13 +138,12 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontSize: 16,
                       fontFamily: 'gotham',
                       decoration: TextDecoration.underline,
-                      decorationColor: getColorByHex(Globle().colorscode),
-                      color: getColorByHex(Globle().colorscode),
+                      decorationColor: (Globle().colorscode != null )? getColorByHex(Globle().colorscode):orangetheme,
+                      color: (Globle().colorscode != null ) ? getColorByHex(Globle().colorscode):orangetheme,
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);

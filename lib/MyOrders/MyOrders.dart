@@ -3,6 +3,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -145,178 +146,187 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           itemCount: getLenghtOfCurrentOrder(),
           controller: _controller,
           itemBuilder: (BuildContext context, int index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(4),
-              ),
-              elevation: 5,
-              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 40,
-                        width: 40,
-                        margin: const EdgeInsets.only(left: 15, top: 8),
-                        child: ClipRRect(
-                          child: Image.asset(
-                            'assets/HotelImages/Image12.png',
-                            fit: BoxFit.fill,
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StatusTrackView(orderID: _orderDetailList[index].id)));
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(4),
+                ),
+                elevation: 5,
+                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 40,
+                          width: 40,
+                          margin: const EdgeInsets.only(left: 15, top: 8),
+                          child: ClipRRect(
+                            child: Image.asset(
+                              'assets/HotelImages/Image12.png',
+                              fit: BoxFit.fill,
+                            ),
+                            borderRadius:
+                                new BorderRadius.all(Radius.circular(8)),
                           ),
-                          borderRadius:
-                              new BorderRadius.all(Radius.circular(8)),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                '${_orderDetailList[index].restaurant.restName}',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    letterSpacing: 0.32,
+                                    color: greytheme700,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: 10),
+                            //   child: Text(
+                            //     'Airoli, Navi Mumbai', // address
+                            //     style: TextStyle(
+                            //       fontSize: 14,
+                            //       letterSpacing: 0.24,
+                            //       color: greytheme1000,
+                            //     ),
+                            //   ),
+                            // )
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Divider(
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, left: 15),
+                      child: Text(
+                        'ITEMS',
+                        style: TextStyle(
+                          fontSize: 14,
+                          //letterSpacing: 0.24,
+                          color: greytheme1000,
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              '${_orderDetailList[index].restaurant.restName}',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  letterSpacing: 0.32,
-                                  color: greytheme700,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 10),
-                          //   child: Text(
-                          //     'Airoli, Navi Mumbai', // address
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       letterSpacing: 0.24,
-                          //       color: greytheme1000,
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Divider(
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 15),
-                    child: Text(
-                      'ITEMS',
-                      style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
-                        color: greytheme1000,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        '${getitemname(_orderDetailList[index].list)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          //letterSpacing: 0.24,
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text(
-                      '${getitemname(_orderDetailList[index].list)}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 15),
+                      child: Text(
+                        'ORDERED ON ',
+                        style: TextStyle(
+                          fontSize: 14,
+                          //letterSpacing: 0.24,
+                          color: greytheme1000,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15),
-                    child: Text(
-                      'ORDERED ON ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
-                        color: greytheme1000,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        '${_orderDetailList[index].createdAt}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          //letterSpacing: 0.24,
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text(
-                      '${_orderDetailList[index].createdAt}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 15),
+                      child: Text(
+                        'ORDERED TYPE',
+                        style: TextStyle(
+                          fontSize: 14,
+                          //letterSpacing: 0.24,
+                          color: greytheme1000,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15),
-                    child: Text(
-                      'ORDERED TYPE',
-                      style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
-                        color: greytheme1000,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        '${_orderDetailList[index].orderType}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          //letterSpacing: 0.24,
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text(
-                      '${_orderDetailList[index].orderType}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, left: 15),
+                      child: Text(
+                        'TOTAL AMOUNT',
+                        style: TextStyle(
+                          fontSize: 14,
+                          //letterSpacing: 0.24,
+                          color: greytheme1000,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, left: 15),
-                    child: Text(
-                      'TOTAL AMOUNT',
-                      style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
-                        color: greytheme1000,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        '${_orderDetailList[index].totalAmount}',
+                        style: TextStyle(
+                          fontSize: 16,
+                          //letterSpacing: 0.24,
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text(
-                      '${_orderDetailList[index].totalAmount}',
-                      style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
-                        fontWeight: FontWeight.w500,
-                        color: greytheme700,
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Divider(
+                      thickness: 2,
+                      indent: 10,
+                      endIndent: 10,
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 15, top: 8, bottom: 8),
+                      child: Text(
+                        'Status : ${_orderDetailList[index].status}',
+                        style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Divider(
-                    thickness: 2,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 8, bottom: 8),
-                    child: Text(
-                      'Status : ${_orderDetailList[index].status}',
-                      style: TextStyle(color: greytheme400, fontSize: 18),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             );
           },
