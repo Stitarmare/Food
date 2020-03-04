@@ -196,7 +196,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    'Selected Table : ${myOrderData.tableId}',
+                    'Selected Table : ${myOrderData.tableName}',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -256,19 +256,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       Padding(
                         padding: EdgeInsets.only(left: 20),
                         child:
-                            //(widget.itemdata[index].items.menuType == 'veg')
-                            // ?
+                            (myOrderData.list[index].items.menuType == 'veg')
+                             ?
                             Image.asset(
                           'assets/VegIcon/Group1661.png',
                           height: 20,
                           width: 20,
-                        ),
-                        // : Image.asset(
-                        //     'assets/VegIcon/Group1661.png',
-                        //     height: 20,
-                        //     width: 20,
-                        //     color: redtheme,
-                        //   ),
+                        )
+                        : Image.asset(
+                            'assets/VegIcon/Group1661.png',
+                            height: 20,
+                            width: 20,
+                            color: redtheme,
+                          ),
                       ),
                       SizedBox(width: 16),
                       Column(
@@ -316,7 +316,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$ ${myOrderData.list[index].items.price}' ?? '\$17',
+                          '\$ ${myOrderData.list[index].totalAmount}' ?? '\$17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,

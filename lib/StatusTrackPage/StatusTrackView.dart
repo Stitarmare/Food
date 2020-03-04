@@ -143,7 +143,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                  //Navigator.pop(context);
+                  Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);

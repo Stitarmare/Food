@@ -83,7 +83,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void initState() {
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
   }
 
