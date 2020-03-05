@@ -84,6 +84,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void initState() {
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
   }
@@ -313,7 +314,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               //             latitude: widget.latitude,
               //             longitude: widget.longitude)));
               //Navigator.of(context).pushNamed('/StatusTrackView');
-              //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
               _paymentTipAndPayPresenter.placeOrder(
                   widget.restId,
                   Globle().loginModel.data.id,
@@ -689,12 +691,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         builder: (context) => StatusTrackView(
                               orderID: myOrderData.id,
                               restname: widget.restName,
-                              restID: widget.restId,
-                              flag: 1,
-                              totalamount: double.parse(
-                                  widget.itemdata[i].totalAmount.toString()),
-                              amount:
-                                  double.parse(widget.itemdata[i].sizePrice),
+                              // restID: widget.restId,
+                              // flag: 1,
+                              // totalamount: double.parse(
+                              //     widget.itemdata[i].totalAmount.toString()),
+                              // amount:
+                              //     double.parse(widget.itemdata[i].sizePrice),
                             )));
               },
             )
@@ -707,10 +709,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void placeOrderfailed() {
     // TODO: implement placeOrderfailed
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -725,12 +726,11 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    // Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

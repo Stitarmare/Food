@@ -721,7 +721,7 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

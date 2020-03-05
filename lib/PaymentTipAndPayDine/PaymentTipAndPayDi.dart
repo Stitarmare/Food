@@ -7,6 +7,7 @@ import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -90,6 +91,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   // ),
                   GestureDetector(
                     onTap: () {
+                      _finalBillPresenter.payfinalOrderBill(
+                          Globle().loginModel.data.id,
+                          myOrderData.restId,
+                          myOrderData.id,
+                          "cash",
+                          double.parse(myOrderData.totalAmount),
+                          double.parse(myOrderData.totalAmount) +
+                              sliderValue.toInt(),
+                          context);
                       // Navigator.pushNamed(context, '/PaymentMethod');
                       // _paymentTipAndPayPresenter.placeOrder(
                       //     widget.restId,
@@ -202,7 +212,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    'Selected Table : ${myOrderData.tableName}',
+                    (getTableName() != null)
+                        ? 'Selected Table : ${myOrderData.tableName}'
+                        : "Table 1",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -222,6 +234,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ),
       ),
     );
+  }
+
+  getTableName() {
+    if (myOrderData != null) {
+      if (myOrderData.tableName != null) {
+        return myOrderData.tableName;
+      }
+    }
+    return;
   }
 
   Widget _getOptions() {
@@ -248,7 +269,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       margin: EdgeInsets.only(top: 15),
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
-        itemCount: myOrderData.list.length,
+        itemCount: getlength(),
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Column(
@@ -320,7 +341,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$ ${myOrderData.list[index].totalAmount}' ?? '\$17',
+                          (getTotalAmount(index) != null)
+                              ? '\$ ${myOrderData.list[index].totalAmount}'
+                              : '\$17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,
@@ -341,6 +364,35 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       ),
       // ),
     );
+  }
+
+  getAmount() {
+    if (myOrderData != null) {
+      if (myOrderData.totalAmount != null) {
+        return myOrderData.totalAmount;
+      }
+    }
+    return;
+  }
+
+  getTotalAmount(int i) {
+    if (myOrderData != null) {
+      if (myOrderData.list != null) {
+        if (myOrderData.list[i].totalAmount != null) {
+          return myOrderData.list[i].totalAmount;
+        }
+      }
+    }
+    return;
+  }
+
+  getlength() {
+    if (myOrderData != null) {
+      if (myOrderData.list != null) {
+        return myOrderData.list.length;
+      }
+    }
+    return 0;
   }
 
   Widget _getTipSlider() {
@@ -434,7 +486,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  (myOrderData.totalAmount) != null
+                  (getAmount() != null)
                       ? " \$ ${myOrderData.totalAmount}"
                       : '\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
@@ -517,7 +569,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}',
+                  (getAmount() != null)
+                      ? '\$ ${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
+                      : "\$ ",
                   // (widget.totalAmount) != null?
                   // " \$ ${widget.totalAmount}":'\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
@@ -653,6 +707,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payfinalBillSuccess() {
+    print("payment Success");
+    Constants.showAlertSuccess("Payment Success",
+        "your Transactions Has been Done Successfully", context);
     // TODO: implement payfinalBillSuccess
   }
 }

@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -13,18 +15,13 @@ import 'package:foodzi/theme/colors.dart';
 class StatusTrackView extends StatefulWidget {
   int orderID;
   int flag;
+  int rest_id;
   String restname;
-  int restID;
-  double totalamount;
-  double amount;
-
+  //   String lat;
+  // String long;
+  String title;
   StatusTrackView(
-      {this.orderID,
-      this.flag,
-      this.restname,
-      this.restID,
-      this.totalamount,
-      this.amount});
+      {this.orderID, this.flag, this.rest_id, this.title, this.restname});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -113,7 +110,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     MaterialPageRoute(
                         builder: (context) => PaymentTipAndPayDi(
                               orderID: widget.orderID,
-                              restid: widget.restID,
+                              //restid: widget.restID,
                               // restname: widget.restname,
                               //totalamount: widget.totalamount,
                               // totalamount: ,
@@ -183,10 +180,22 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 onPressed: () {
                   Preference.setPersistData<int>(
                       widget.orderID, PreferenceKeys.ORDER_ID);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+
+                  if (widget.flag == 1) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
+                  if (widget.flag == 2) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RestaurantView(
+                                  rest_Id: widget.rest_id,
+                                  title: widget.title,
+                                )));
+                  }
                   //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
 
                   //Navigator.pushNamed(context, '/OrderConfirmation2View');
