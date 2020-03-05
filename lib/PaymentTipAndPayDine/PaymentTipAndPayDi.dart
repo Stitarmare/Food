@@ -14,25 +14,31 @@ import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
-  PaymentTipAndPayDi({this.orderID});
+  int restid;
+
+  PaymentTipAndPayDi({this.orderID, this.restid});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayDiState createState() => _PaymentTipAndPayDiState();
 }
 
 class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
-    implements PaymentTipandPayDiModelView {
+    implements PaymentTipandPayDiModelView, PayFinalBillModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
+  PayFinalBillPresenter _finalBillPresenter;
 
   Data myOrderData;
   @override
   void initState() {
     // TODO: implement initState
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
+    _finalBillPresenter = PayFinalBillPresenter(this);
+
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
+    //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     super.initState();
   }
 
@@ -68,10 +74,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontSize: 16,
                             fontFamily: 'gotham',
                             decoration: TextDecoration.underline,
-                            decorationColor:
-                                ((Globle().colorscode) != null)
-                                    ? getColorByHex(Globle().colorscode)
-                                    : orangetheme,
+                            decorationColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             color: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
                                 : orangetheme,
@@ -174,12 +179,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     'Dine-in',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,),
+                      fontSize: 20,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: ((Globle().colorscode) != null)
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
+                    ),
                   )
                 ],
               ),
@@ -255,20 +261,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 20),
-                        child:
-                            (myOrderData.list[index].items.menuType == 'veg')
-                             ?
-                            Image.asset(
-                          'assets/VegIcon/Group1661.png',
-                          height: 20,
-                          width: 20,
-                        )
-                        : Image.asset(
-                            'assets/VegIcon/Group1661.png',
-                            height: 20,
-                            width: 20,
-                            color: redtheme,
-                          ),
+                        child: (myOrderData.list[index].items.menuType == 'veg')
+                            ? Image.asset(
+                                'assets/VegIcon/Group1661.png',
+                                height: 20,
+                                width: 20,
+                              )
+                            : Image.asset(
+                                'assets/VegIcon/Group1661.png',
+                                height: 20,
+                                width: 20,
+                                color: redtheme,
+                              ),
                       ),
                       SizedBox(width: 16),
                       Column(
@@ -611,16 +615,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   //       "Order Placed", "Your order has been successfully placed.", context);
   //   Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
-    //Navigator.of(context).pushNamed('/ConfirmationDineView');
-    // Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => DineInView(
+  //Navigator.of(context).pushNamed('/ConfirmationDineView');
+  // Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => DineInView(
 
-    //             //restId: widget.restId
-    //             )));
+  //             //restId: widget.restId
+  //             )));
 
-    // TODO: implement placeOrdersuccess
+  // TODO: implement placeOrdersuccess
   // }
 
   @override
@@ -640,5 +644,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     // showAlertSuccess(
     //     "Order Placed", "Your order has been successfully placed.", context);
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void payfinalBillFailed() {
+    // TODO: implement payfinalBillFailed
+  }
+
+  @override
+  void payfinalBillSuccess() {
+    // TODO: implement payfinalBillSuccess
   }
 }

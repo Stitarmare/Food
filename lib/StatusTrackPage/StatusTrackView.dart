@@ -12,8 +12,19 @@ import 'package:foodzi/theme/colors.dart';
 
 class StatusTrackView extends StatefulWidget {
   int orderID;
-   int flag;
-  StatusTrackView({this.orderID,this.flag});
+  int flag;
+  String restname;
+  int restID;
+  double totalamount;
+  double amount;
+
+  StatusTrackView(
+      {this.orderID,
+      this.flag,
+      this.restname,
+      this.restID,
+      this.totalamount,
+      this.amount});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -26,7 +37,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
- 
+
   @override
   void initState() {
     super.initState();
@@ -50,19 +61,19 @@ class _StatusTrackingViewState extends State<StatusTrackView>
           backgroundColor: Colors.transparent,
           elevation: 0,
           // automaticallyImplyLeading:true,
-        leading: GestureDetector(
-          child: Icon(Icons.arrow_back),
-          onTap: (){
-            if(widget.flag == 1){
-              Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-            }
-            if(widget.flag == 2){
-              // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
-              Navigator.pop(context);
-            }
-            
-          },
-        ),
+          leading: GestureDetector(
+            child: Icon(Icons.arrow_back),
+            onTap: () {
+              if (widget.flag == 1) {
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              }
+              if (widget.flag == 2) {
+                // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
+                Navigator.pop(context);
+              }
+            },
+          ),
         ),
         body: _getmainview(),
         bottomNavigationBar:
@@ -93,13 +104,19 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
-              color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+              color: ((Globle().colorscode) != null)
+                  ? getColorByHex(Globle().colorscode)
+                  : orangetheme,
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PaymentTipAndPayDi(
                               orderID: widget.orderID,
+                              restid: widget.restID,
+                              // restname: widget.restname,
+                              //totalamount: widget.totalamount,
+                              // totalamount: ,
                             )));
               },
             ),
@@ -122,7 +139,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       height: 10,
                     ),
                     Text(
-                      "That's Amore",
+                      "${widget.restname}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
@@ -155,13 +172,17 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontSize: 16,
                       fontFamily: 'gotham',
                       decoration: TextDecoration.underline,
-                      decorationColor: (Globle().colorscode != null )? getColorByHex(Globle().colorscode):orangetheme,
-                      color: (Globle().colorscode != null ) ? getColorByHex(Globle().colorscode):orangetheme,
+                      decorationColor: (Globle().colorscode != null)
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
+                      color: (Globle().colorscode != null)
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                   Preference.setPersistData<int>(
-                                  widget.orderID, PreferenceKeys.ORDER_ID);
+                  Preference.setPersistData<int>(
+                      widget.orderID, PreferenceKeys.ORDER_ID);
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);

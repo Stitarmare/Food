@@ -49,6 +49,7 @@ class ConfirmationDineView extends StatefulWidget {
 
 class _ConfirmationDineViewState extends State<ConfirmationDineView>
     implements PaymentTipAndPayModelView {
+  int i;
   bool isselected = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -681,13 +682,20 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
-                  Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            StatusTrackView(orderID: myOrderData.id,flag: 1,)));
-                           
+                        builder: (context) => StatusTrackView(
+                              orderID: myOrderData.id,
+                              restname: widget.restName,
+                              restID: widget.restId,
+                              flag: 1,
+                              totalamount: double.parse(
+                                  widget.itemdata[i].totalAmount.toString()),
+                              amount:
+                                  double.parse(widget.itemdata[i].sizePrice),
+                            )));
               },
             )
           ],
