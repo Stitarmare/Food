@@ -702,7 +702,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -717,7 +717,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+   // Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     showAlertSuccess(
