@@ -1,8 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
-import 'package:foodzi/Models/RestaurantListModel.dart';
-import 'package:foodzi/Models/error_model.dart';
-import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
