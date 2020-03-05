@@ -11,7 +11,8 @@ import 'package:foodzi/theme/colors.dart';
 
 class StatusTrackView extends StatefulWidget {
   int orderID;
-  StatusTrackView({this.orderID});
+   int flag;
+  StatusTrackView({this.orderID,this.flag});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -24,6 +25,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
+ 
   @override
   void initState() {
     super.initState();
@@ -46,6 +48,20 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          // automaticallyImplyLeading:true,
+        leading: GestureDetector(
+          child: Icon(Icons.arrow_back),
+          onTap: (){
+            if(widget.flag == 1){
+              Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+            }
+            if(widget.flag == 2){
+              // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
+              Navigator.pop(context);
+            }
+            
+          },
+        ),
         ),
         body: _getmainview(),
         bottomNavigationBar:
@@ -143,7 +159,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                  //Navigator.pop(context);
+                  Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
