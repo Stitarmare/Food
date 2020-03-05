@@ -7,24 +7,16 @@ import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
-import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
-import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
-import 'package:foodzi/Utils/String.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
-import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 
 import 'package:foodzi/theme/colors.dart';
 //import 'package:foodzi/widgets/MenuItemDropDown.dart';
-
-import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
-import 'package:foodzi/widgets/imagewithloader.dart';
 
 class RestaurantTAView extends StatefulWidget {
   String title;
@@ -142,26 +134,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       ),
     );
   }
-
-  // Widget _buildMainView() {
-  //   return Container(
-  //     child: Column(
-  //       children: <Widget>[
-  //         _getmainviewTableno(),
-
-  //         _getOptionsformenu(),
-  //         SliverToBoxAdapter(
-  //                     child: Container(
-  //             child: SizedBox(
-  //               height: 40,
-  //             ),
-  //           ),
-  //         ),
-  //         _menuItemList()
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
@@ -376,7 +348,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
-                           restName: widget.title,   
+                          restName: widget.title,
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -595,64 +567,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                     ),
                                   ),
                                 ),
-                              )
-                              //   new GestureDetector(
-                              //         onTap: (){
-                              //             print("button is Pressed");
-                              //            Navigator.of(context).push(MaterialPageRoute(
-                              // builder: (context) => AddItemPageView()
-                              //     )
-                              //     );
-                              //         },
-                              //  child:
-                              // Expanded(
-                              //   //       child: GestureDetector(
-                              //   //         onTap: (){
-                              //   //             print("button is Pressed");
-                              //   //            Navigator.of(context).push(MaterialPageRoute(
-                              //   // builder: (context) => AddItemPageView()
-                              //   //     )
-                              //   //     );
-                              //   //         },
-                              //   child: FlatButton(
-                              //     onPressed: () {
-                              //       print("button is Pressed");
-                              //       Navigator.of(context).push(MaterialPageRoute(
-                              //           builder: (context) => AddItemPageView()));
-                              //     },
-                              //     child: Container(
-                              //       decoration: BoxDecoration(
-                              //           color: redtheme,
-                              //           borderRadius: BorderRadius.only(
-                              //             bottomRight: Radius.circular(12.0),
-                              //           )),
-                              //       width:
-                              //           MediaQuery.of(context).size.width * 0.1,
-                              //       child: Center(
-                              //         //             child:FlatButton(
-                              //         //               onPressed: (){
-                              //         //                 print("button is Pressed");
-                              //         //                  Navigator.of(context).push(MaterialPageRoute(
-                              //         // builder: (context) => AddItemPageView()
-                              //         //     )
-                              //         //     );
-                              //         //               },
-                              //         child: Text(
-                              //           "+ ADD",
-                              //           style: TextStyle(
-                              //               //fontFamily: FontNames.gotham,
-                              //               fontSize: 14,
-                              //               fontStyle: FontStyle.normal,
-                              //               fontWeight: FontWeight.w600,
-                              //               color: Colors.white),
-                              //         ),
-                              //         // )
-                              //       ),
-                              //     ),
-                              //   ),
-                              //   // ),
-                              //   // ),
-                              // )
+                              ),
                             ],
                           ),
                         ),

@@ -154,7 +154,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTrackView(orderID: _orderDetailList[index].id)));
+                        builder: (context) => StatusTrackView(
+                            orderID: _orderDetailList[index].id)));
               },
               child: Card(
                 shape: RoundedRectangleBorder(
