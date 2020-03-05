@@ -7,6 +7,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class StatusTrackView extends StatefulWidget {
@@ -159,6 +160,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
+                   Preference.setPersistData<int>(
+                                  widget.orderID, PreferenceKeys.ORDER_ID);
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
