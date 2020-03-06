@@ -12,6 +12,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/RadioDailog.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
@@ -30,6 +31,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   var sliderValue = 0.0;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
+  int selectedRadioTile;
+  bool isSplitBillVisible = false;
 
   Data myOrderData;
   @override
@@ -41,6 +44,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     super.initState();
+  }
+
+  setSelectedRadioTile(int val) {
+    setState(() {
+      selectedRadioTile = val;
+    });
   }
 
   @override
@@ -66,28 +75,34 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                    height: 35,
-                    child: FlatButton(
-                      child: Text(
-                        'Split Bill',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
-                            decoration: TextDecoration.underline,
-                            decorationColor: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            color: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                    ),
-                  ),
+                  isSplitBillVisible
+                      ? Container(
+                          height: 35,
+                          child: FlatButton(
+                            child: Text(
+                              'Split Bill',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'gotham',
+                                  decoration: TextDecoration.underline,
+                                  decorationColor:
+                                      ((Globle().colorscode) != null)
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme,
+                                  color: ((Globle().colorscode) != null)
+                                      ? getColorByHex(Globle().colorscode)
+                                      : orangetheme,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                  context: context, child: new RadioDialog());
+                            },
+                          ),
+                        )
+                      : Container(
+                          height: 35,
+                        ),
                   // ),
                   GestureDetector(
                     onTap: () {
@@ -577,6 +592,84 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15),
+            child: Divider(
+              thickness: 0.4,
+              color: greytheme300,
+            ),
+          ),
+          SizedBox(height: 5),
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: RadioListTile(
+                  value: 1,
+                  groupValue: selectedRadioTile,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Text(
+                          "Pay",
+                          style: TextStyle(color: greytheme300),
+                        ),
+                      ),
+                      Text(
+                        "By Cash",
+                        style: TextStyle(color: greytheme300),
+                      ),
+                    ],
+                  ),
+                  onChanged: (val) {
+                    print("Radio Tile pressed $val");
+                    setSelectedRadioTile(val);
+                    isSplitBillVisible = false;
+                  },
+                  activeColor: ((Globle().colorscode) != null)
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme,
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                      height: 30, child: VerticalDivider(color: greytheme300))),
+              Expanded(
+                flex: 5,
+                child: RadioListTile(
+                  value: 2,
+                  groupValue: selectedRadioTile,
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 14.0),
+                        child: Text(
+                          "Net",
+                          style: TextStyle(color: greytheme300),
+                        ),
+                      ),
+                      Text(
+                        "Banking",
+                        style: TextStyle(color: greytheme300),
+                      ),
+                    ],
+                  ),
+                  onChanged: (val) {
+                    print("Radio Tile pressed $val");
+                    setSelectedRadioTile(val);
+                    isSplitBillVisible = true;
+                  },
+                  activeColor: ((Globle().colorscode) != null)
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme,
+                ),
+              )
             ],
           )
         ],
