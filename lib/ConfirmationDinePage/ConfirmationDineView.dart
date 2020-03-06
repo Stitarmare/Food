@@ -13,6 +13,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class ConfirmationDineView extends StatefulWidget {
   int orderID;
@@ -387,7 +388,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(Icons.add),
-                RaisedButton(onPressed: null, child: Text('Add More People'))
+                RaisedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context, child: RadioDialogAddPeople());
+                    },
+                    child: Text('Add More People'))
               ],
             )
           ],

@@ -13,6 +13,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
@@ -32,7 +33,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
   int selectedRadioTile;
-  bool isSplitBillVisible = false;
+  // bool isSplitBillVisible = false;
 
   Data myOrderData;
   @override
@@ -43,6 +44,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
+    selectedRadioTile = 1;
     super.initState();
   }
 
@@ -75,34 +77,35 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  isSplitBillVisible
-                      ? Container(
-                          height: 35,
-                          child: FlatButton(
-                            child: Text(
-                              'Split Bill',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'gotham',
-                                  decoration: TextDecoration.underline,
-                                  decorationColor:
-                                      ((Globle().colorscode) != null)
-                                          ? getColorByHex(Globle().colorscode)
-                                          : orangetheme,
-                                  color: ((Globle().colorscode) != null)
-                                      ? getColorByHex(Globle().colorscode)
-                                      : orangetheme,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                  context: context, child: new RadioDialog());
-                            },
-                          ),
-                        )
-                      : Container(
-                          height: 35,
-                        ),
+                  // isSplitBillVisible?
+
+                  Container(
+                    height: 35,
+                    child: FlatButton(
+                      child: Text(
+                        'Split Bill',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            decoration: TextDecoration.underline,
+                            decorationColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () {
+                        // showDialog(context: context, child: new RadioDialog());
+                        showDialog(
+                            context: context, child: RadioDialogAddPeople());
+                      },
+                    ),
+                  ),
+                  // : Container(
+                  //     height: 35,
+                  //   ),
                   // ),
                   GestureDetector(
                     onTap: () {
@@ -629,7 +632,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   onChanged: (val) {
                     print("Radio Tile pressed $val");
                     setSelectedRadioTile(val);
-                    isSplitBillVisible = false;
+                    // isSplitBillVisible = false;
                   },
                   activeColor: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
@@ -663,7 +666,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   onChanged: (val) {
                     print("Radio Tile pressed $val");
                     setSelectedRadioTile(val);
-                    isSplitBillVisible = true;
+                    // isSplitBillVisible = true;
                   },
                   activeColor: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)

@@ -225,10 +225,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
               items.quantity = count;
             }
           },
-          splashColor: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+          splashColor: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
           child: Container(
             decoration: BoxDecoration(
-                color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                color: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -262,7 +266,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                color: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -301,8 +307,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   PreferenceKeys.restaurantID));
               var restaurantName = await (Preference.getPrefValue<String>(
                   PreferenceKeys.restaurantName));
-              var orderId = await Preference.getPrefValue<int>(
-                  PreferenceKeys.ORDER_ID);
+              var orderId =
+                  await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
               if (orderId != null) {
                 if (restauran == widget.rest_id) {
                   print("object");
@@ -323,10 +329,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.switches = switches ?? [];
 
                   print(_updateOrderModel.toJson());
-                  _addItemPagepresenter.updateOrder(_updateOrderModel , context);
+                  _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   //pop up
-                  Constants.showAlert("Invalid Order", "Sorry, you can't order from this restaurant right now.", context);
+                  Constants.showAlert(
+                      "Invalid Order",
+                      "Sorry, you can't order from this restaurant right now.",
+                      context);
                 }
               } else {
                 checkForItemIsAlreadyInCart(
@@ -354,7 +363,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Container(
                 height: 54,
                 decoration: BoxDecoration(
-                    color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                    color: ((Globle().colorscode) != null)
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15))),
@@ -437,7 +448,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           height: 40,
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: RaisedButton(
-                            color:((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
@@ -546,7 +559,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color:((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme),
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme),
                   )
                 ],
               ),
@@ -804,7 +819,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
                         onChanged: (val) {
                           setState(() {
                             if (spread == null) {
@@ -857,7 +874,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           height: 40,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
-                              fillColor: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                              fillColor: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,
@@ -954,7 +973,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+                    activeColor: ((Globle().colorscode) != null)
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme,
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
@@ -1188,7 +1209,7 @@ class RadioButtonOptions {
 
 class SwitchesItems {
   int index;
-  String title;        
+  String title;
   String option1;
   List<bool> isSelected;
   String option2;
