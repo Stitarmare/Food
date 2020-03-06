@@ -37,4 +37,5 @@ class UrlConstant {
   static const getOrderStatusApi = "api/getOrderStatus";
   static const getMyOrdersBookingHistory = "/api/getMyOrders";
   static const getFinalBillApi = "/api/payOrder";
+  static const paycheckOutNetbankingApi = "/api/checkout";
 }
