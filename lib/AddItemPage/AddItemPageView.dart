@@ -330,12 +330,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
                   print(_updateOrderModel.toJson());
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
-                } else {
-                  //pop up
-                  Constants.showAlert(
-                      "Invalid Order",
-                      "Sorry, you can't order from this restaurant right now.",
-                      context);
+                  // } else {
+                  //   //pop up
+                  //   Constants.showAlert(
+                  //       "Invalid Order",
+                  //       "Sorry, you can't order from this restaurant right now.",
+                  //       context);
+                  // }
                 }
               } else {
                 checkForItemIsAlreadyInCart(

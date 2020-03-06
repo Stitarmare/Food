@@ -12,7 +12,7 @@ class PreferenceKeys {
   static final restaurantID = "RESTAURANT_ID";
   static final isAlreadyINCartTA = "IS_ALREADY_IN_CART_TA";
   static final restaurantIDTA = "RESTAURANT_ID_TA";
-  static final restaurantName = "RESTAURANT_NAME"; 
+  static final restaurantName = "RESTAURANT_NAME";
   static final ORDER_ID = "ORDER_ID";
   // static const Sign_UP_With_User_Data = 'Sign_In_With_User_Data';
   // static const Sign_IN_With_OTP = "Sign_IN_With_OTP";
@@ -28,9 +28,19 @@ class Preference {
     _sharedPreferences.commit();
   }
 
+  static removeForKey(String key) async {
+    SharedPreferences _sharedPreferences;
+    _sharedPreferences = await SharedPreferences.getInstance();
+
+    _sharedPreferences.remove(key);
+  }
+
   static setPersistData<T>(T value, String key) async {
     SharedPreferences _sharedPreferences;
     _sharedPreferences = await SharedPreferences.getInstance();
+
+    _sharedPreferences.remove(key);
+
     if (T == String) {
       _sharedPreferences.setString(key, value as String);
     }
