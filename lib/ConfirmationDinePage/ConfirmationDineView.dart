@@ -215,7 +215,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  right: 20,
+                                  right: 18,
                                 ),
                                 child: Column(
                                   children: <Widget>[
@@ -277,57 +277,89 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
             ),
           ]),
         ),
-        bottomNavigationBar: Container(
-          //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-          width: MediaQuery.of(context).size.width,
-          height: 54,
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0),
-              ),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            height: 90,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 35,
+                  child: FlatButton(
+                    child: Text(
+                      'Add More People',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          decoration: TextDecoration.underline,
+                          decorationColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context, child: RadioDialogAddPeople());
+                    },
+                  ),
+                ),
+                Container(
+                  //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  width: MediaQuery.of(context).size.width,
+                  height: 54,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12.0),
+                        topRight: Radius.circular(12.0),
+                      ),
+                    ),
+                    child: Text(
+                      'CONFIRM & PLACE ORDER',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    ),
+                    color: getColorByHex(Globle().colorscode),
+                    onPressed: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => PaymentTipAndPay(
+                      //             restId: widget.restId,
+                      //             tablename: widget.tablename,
+                      //             // price: widget.itemdata[0].totalAmount,
+                      //             tableId: widget.tableId,
+                      //             // userId: widget.userID,
+                      //             totalAmount: widget.totalAmount,
+                      //             items: widget.items,
+                      //             itemdata: widget.itemdata,
+                      //             orderType: widget.orderType,
+                      //             latitude: widget.latitude,
+                      //             longitude: widget.longitude)));
+                      //Navigator.of(context).pushNamed('/StatusTrackView');
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      _paymentTipAndPayPresenter.placeOrder(
+                          widget.restId,
+                          Globle().loginModel.data.id,
+                          widget.orderType,
+                          widget.tableId,
+                          widget.items,
+                          widget.totalAmount,
+                          widget.latitude,
+                          widget.longitude,
+                          context);
+                    },
+                  ),
+                ),
+              ],
             ),
-            child: Text(
-              'CONFIRM & PLACE ORDER',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-            ),
-            color: getColorByHex(Globle().colorscode),
-            onPressed: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => PaymentTipAndPay(
-              //             restId: widget.restId,
-              //             tablename: widget.tablename,
-              //             // price: widget.itemdata[0].totalAmount,
-              //             tableId: widget.tableId,
-              //             // userId: widget.userID,
-              //             totalAmount: widget.totalAmount,
-              //             items: widget.items,
-              //             itemdata: widget.itemdata,
-              //             orderType: widget.orderType,
-              //             latitude: widget.latitude,
-              //             longitude: widget.longitude)));
-              //Navigator.of(context).pushNamed('/StatusTrackView');
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, "Loading");
-              _paymentTipAndPayPresenter.placeOrder(
-                  widget.restId,
-                  Globle().loginModel.data.id,
-                  widget.orderType,
-                  widget.tableId,
-                  widget.items,
-                  widget.totalAmount,
-                  widget.latitude,
-                  widget.longitude,
-                  context);
-            },
           ),
         ),
       ),

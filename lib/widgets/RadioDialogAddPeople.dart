@@ -94,7 +94,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Center(
                   child: Text(
@@ -119,7 +119,11 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                               onChanged: (val) {
                                 setState(() {
                                   bList[i].isChecked = val;
-                                  addList.add(bList[i]);
+                                  if (val != false) {
+                                    addList.add(bList[i]);
+                                  } else {
+                                    addList.remove(bList[i]);
+                                  }
                                 });
                               },
                               title: Row(
@@ -139,18 +143,20 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                 ),
                 Center(
                     child: RaisedButton(
-                  color: redtheme,
+                  color: getColorByHex(Globle().colorscode),
                   shape: RoundedRectangleBorder(
                       // side: BorderSide(
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
                     Navigator.pop(context);
                     print("Added people-->");
                     print(addList.length);
                   },
                   child: Text(
-                    'Add',
+                    addList.length != 0
+                        ? 'Add ${addList.length} People'
+                        : 'Add',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

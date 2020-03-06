@@ -357,7 +357,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i]}, ";
+      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);

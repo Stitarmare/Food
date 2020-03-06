@@ -97,9 +97,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        // showDialog(context: context, child: new RadioDialog());
-                        showDialog(
-                            context: context, child: RadioDialogAddPeople());
+                        showDialog(context: context, child: new RadioDialog());
                       },
                     ),
                   ),
@@ -804,13 +802,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   @override
   void payfinalBillSuccess() {
     print("payment Success");
-    // Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
-    Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    //Preference.removeForKey(PreferenceKeys.ORDER_ID);
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    Constants.showAlertSuccess("Payment Success",
+    showAlertSuccess("Payment Success",
         "your Transactions Has been Done Successfully", context);
     // TODO: implement payfinalBillSuccess
   }
