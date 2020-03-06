@@ -12,7 +12,9 @@ class MyOrders extends StatefulWidget {
   String title;
   // String lat;
   // String long;
-  MyOrders({this.title,});
+  MyOrders({
+    this.title,
+  });
   _MyOrdersState createState() => _MyOrdersState();
 }
 
@@ -161,7 +163,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                               orderID: _orderDetailList[index].id,
                               flag: 2,
                               rest_id: _orderDetailList[index].restId,
-                              title: _orderDetailList[index].restaurant.restName,
+                              title:
+                                  _orderDetailList[index].restaurant.restName,
                             )));
               },
               child: Card(
@@ -554,7 +557,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         width: 10,
                       ),
                       Text(
-                        'Confirmed',
+                        '${getmyOrderBookingHistory[index].status}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),

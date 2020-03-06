@@ -13,6 +13,7 @@ import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/Resendotp.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
@@ -126,6 +127,9 @@ class GenericModel<T> {
 
       case GetMyOrdersBookingHistory:
         return GetMyOrdersBookingHistory.fromJson(json) as T;
+
+      case PaycheckoutNetbanking:
+        return PaycheckoutNetbanking.fromJson(json) as T;
 
       default:
         break;
