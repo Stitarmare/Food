@@ -38,4 +38,5 @@ class UrlConstant {
   static const getMyOrdersBookingHistory = "/api/getMyOrders";
   static const getFinalBillApi = "/api/payOrder";
   static const paycheckOutNetbankingApi = "/api/checkout";
+  static const addPeopleToOrderApi = "/api/addPeopleToOrder";
 }
