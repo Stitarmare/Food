@@ -45,52 +45,10 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
   // bool isChecked = false;
   String _currText = "";
 
-  // List<AddPeople> bList = [
-  //   AddPeople(
-  //     index: 1,
-  //     name: "ABC",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 2,
-  //     name: "XYZ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 3,
-  //     name: "PQR",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 4,
-  //     name: "CDG ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 5,
-  //     name: "ABC",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 6,
-  //     name: "XYZ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 7,
-  //     name: "PQR",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 8,
-  //     name: "CDG ",
-  //     isChecked: false,
-  //   ),
-  // ];
-
   @override
   void initState() {
     super.initState();
+
     // _selectedId = widget.initialValue;
   }
 

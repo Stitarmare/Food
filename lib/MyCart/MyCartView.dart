@@ -332,7 +332,7 @@ class _MyCartViewState extends State<MyCartView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        
+
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -575,12 +575,12 @@ class _MyCartViewState extends State<MyCartView>
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  width: 80,
+                                  width: 0,
                                 ),
-                                flex: 2,
+                                // flex: 2,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 20, top: 30),
+                                padding: EdgeInsets.only(right: 15, top: 30),
                                 child: Text(
                                   "\$ ${_cartItemList[index].totalAmount}" ??
                                       '',
@@ -732,7 +732,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;

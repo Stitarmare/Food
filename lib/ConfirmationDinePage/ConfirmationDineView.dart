@@ -218,13 +218,13 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  width: 80,
+                                  width: 0,
                                 ),
-                                flex: 2,
+                                // flex: 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  right: 18,
+                                  right: 15,
                                 ),
                                 child: Column(
                                   children: <Widget>[
@@ -315,7 +315,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               widget.tableId, widget.restId, widget.orderID));
 
                       // confirmationDineviewPresenter.addPeople(
-                      //     str,
+                      //     widget.mobilenumber,
                       //     widget.tableId,
                       //     widget.restId,
                       //     widget.orderID,
