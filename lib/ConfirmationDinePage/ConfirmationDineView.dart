@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
@@ -49,7 +52,7 @@ class ConfirmationDineView extends StatefulWidget {
 }
 
 class _ConfirmationDineViewState extends State<ConfirmationDineView>
-    implements PaymentTipAndPayModelView {
+    implements PaymentTipAndPayModelView, ConfirmationDineViewModelView {
   int i;
   bool isselected = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -60,6 +63,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     RadioButtonOrderOptions(
         index: 2, title: "Take Away", subtitle: 'Get you food packed'),
   ];
+
+  List<Data> peopleList = [];
+
+  ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
   List<RadioButtonOptions> _radioOptions = [
     RadioButtonOptions(index: 1, title: 'ASAP'),
@@ -85,6 +92,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   @override
   void initState() {
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    confirmationDineviewPresenter.getPeopleList(context);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
@@ -301,7 +310,16 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                     ),
                     onPressed: () {
                       showDialog(
-                          context: context, child: RadioDialogAddPeople());
+                          context: context,
+                          child: RadioDialogAddPeople(peopleList,
+                              widget.tableId, widget.restId, widget.orderID));
+
+                      // confirmationDineviewPresenter.addPeople(
+                      //     str,
+                      //     widget.tableId,
+                      //     widget.restId,
+                      //     widget.orderID,
+                      //     context);
                     },
                   ),
                 ),
@@ -422,8 +440,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                 Icon(Icons.add),
                 RaisedButton(
                     onPressed: () {
-                      showDialog(
-                          context: context, child: RadioDialogAddPeople());
+                      // showDialog(
+                      //     context: context, child: RadioDialogAddPeople());
                     },
                     child: Text('Add More People'))
               ],
@@ -769,6 +787,30 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);
+  }
+
+  @override
+  void addPeopleFailed() {
+    // TODO: implement addPeopleFailed
+  }
+
+  @override
+  void addPeopleSuccess() {
+    // TODO: implement addPeopleSuccess
+  }
+
+  @override
+  void getPeopleListonFailed() {
+    // TODO: implement getPeopleListonFailed
+  }
+
+  @override
+  void getPeopleListonSuccess(List<Data> data) {
+    peopleList = data;
+
+    print("data list --->");
+    print(peopleList.length);
+    print(peopleList.elementAt(0).firstName);
   }
 }
 
