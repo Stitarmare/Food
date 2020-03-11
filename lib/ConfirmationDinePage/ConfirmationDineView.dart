@@ -762,6 +762,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     );
   }
 
+   
+
   @override
   void placeOrderfailed() {
     // TODO: implement placeOrderfailed
@@ -796,7 +798,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void addPeopleSuccess() {
+    // showAddPeopleAlertSuccess("Invitation Send","Invitation has been send Successfully!!",context);
     // TODO: implement addPeopleSuccess
+
   }
 
   @override

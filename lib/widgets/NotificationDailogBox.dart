@@ -6,6 +6,9 @@ enum DailogAction { yes, abort }
 class DailogBox {
   static Future<DailogAction> notification_1(
     BuildContext context,
+    String recipientName,
+    String recipientMobno,
+    String tableno,
   ) async {
     final action = await showDialog(
         context: context,
@@ -42,7 +45,7 @@ class DailogBox {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              'Ritu Budhouliya,',
+                              '${recipientName},',
                               style: TextStyle(
                                   color: Color.fromRGBO(55, 180, 76, 1),
                                   fontSize: 16),
@@ -51,7 +54,7 @@ class DailogBox {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              '+91-8409898409',
+                              recipientMobno,
                               style: TextStyle(
                                   color: Color.fromRGBO(64, 64, 64, 1),
                                   fontSize: 14),
@@ -84,7 +87,7 @@ class DailogBox {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              '8',
+                              tableno,
                               style: TextStyle(
                                   fontSize: 24,
                                   color: Color.fromRGBO(55, 180, 76, 1)),
@@ -119,7 +122,8 @@ class DailogBox {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            // action = DailogAction.yes;
+                            Navigator.pop(context,DailogAction.yes);
                           },
                         ),
                         SizedBox(
@@ -132,7 +136,7 @@ class DailogBox {
                                   color: Color.fromRGBO(170, 170, 170, 1)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.pop(context,DailogAction.abort);
                           },
 
                           child: Padding(
