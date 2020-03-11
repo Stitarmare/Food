@@ -136,7 +136,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       height: 10,
                     ),
                     Text(
-                      "${widget.title}",
+                      "${widget.title}" ,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,

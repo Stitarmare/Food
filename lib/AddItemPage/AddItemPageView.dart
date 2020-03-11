@@ -316,6 +316,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     _updateOrderModel = UpdateOrderModel();
                   }
                   _updateOrderModel.orderId = orderId;
+                  _updateOrderModel.userId = Globle().loginModel.data.id;
                   if (items == null) {
                     items = Item();
                   }
@@ -330,13 +331,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
                   print(_updateOrderModel.toJson());
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
-                  // } else {
-                  //   //pop up
-                  //   Constants.showAlert(
-                  //       "Invalid Order",
-                  //       "Sorry, you can't order from this restaurant right now.",
-                  //       context);
-                  // }
+                } else {
+                  //pop up
+                  Constants.showAlert(
+                      "Invalid Order",
+                      "Sorry, you can't order from this restaurant right now.",
+                      context);
                 }
               } else {
                 checkForItemIsAlreadyInCart(

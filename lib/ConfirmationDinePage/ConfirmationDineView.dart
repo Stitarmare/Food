@@ -746,9 +746,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
                               orderID: myOrderData.id,
-                              restname: widget.restName,
+                              title: widget.restName,
                               // restID: widget.restId,
-                              // flag: 1,
+                               flag: 1,
                               // totalamount: double.parse(
                               //     widget.itemdata[i].totalAmount.toString()),
                               // amount:
