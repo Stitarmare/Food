@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -10,10 +11,21 @@ class AddPeople {
 }
 
 class RadioDialogAddPeople extends StatefulWidget {
-  const RadioDialogAddPeople({this.onValueChange, this.initialValue});
+  final List<Data> data;
+  final int tableId;
+  final int orderId;
+  final int restId;
 
-  final String initialValue;
-  final void Function(String) onValueChange;
+  // const RadioDialogAddPeople(
+  //     {this.onValueChange,
+  //     this.initialValue,
+  //   });
+
+  const RadioDialogAddPeople(
+      this.data, this.tableId, this.restId, this.orderId);
+
+  // final String initialValue;
+  // final void Function(String) onValueChange;
 
   @override
   State createState() => new RadioDialogAddPeopleState();
@@ -28,57 +40,58 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
 
   // Group Value for Radio Button.
   int id = 1;
+  bool isChecked = false;
 
   // bool isChecked = false;
   String _currText = "";
 
-  List<AddPeople> bList = [
-    AddPeople(
-      index: 1,
-      name: "ABC",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 2,
-      name: "XYZ",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 3,
-      name: "PQR",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 4,
-      name: "CDG ",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 5,
-      name: "ABC",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 6,
-      name: "XYZ",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 7,
-      name: "PQR",
-      isChecked: false,
-    ),
-    AddPeople(
-      index: 8,
-      name: "CDG ",
-      isChecked: false,
-    ),
-  ];
+  // List<AddPeople> bList = [
+  //   AddPeople(
+  //     index: 1,
+  //     name: "ABC",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 2,
+  //     name: "XYZ",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 3,
+  //     name: "PQR",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 4,
+  //     name: "CDG ",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 5,
+  //     name: "ABC",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 6,
+  //     name: "XYZ",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 7,
+  //     name: "PQR",
+  //     isChecked: false,
+  //   ),
+  //   AddPeople(
+  //     index: 8,
+  //     name: "CDG ",
+  //     isChecked: false,
+  //   ),
+  // ];
 
   @override
   void initState() {
     super.initState();
-    _selectedId = widget.initialValue;
+    // _selectedId = widget.initialValue;
   }
 
   Widget build(BuildContext context) {
@@ -94,7 +107,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Center(
                   child: Text(
@@ -108,25 +121,32 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                 ),
                 Expanded(
                     child: ListView.builder(
-                        itemCount: bList.length,
+                        itemCount: widget.data.length,
                         itemBuilder: (BuildContext context, int i) {
                           return CheckboxListTile(
                               activeColor: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
                                   : orangetheme,
-                              value: bList[i].isChecked,
+                              value: isChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (val) {
+                                // setState(() {
+                                //   bList[i].isChecked = val;
+                                //   if (val != false) {
+                                //     addList.add(bList[i]);
+                                //   } else {
+                                //     addList.remove(bList[i]);
+                                //   }
+                                // });
                                 setState(() {
-                                  bList[i].isChecked = val;
-                                  addList.add(bList[i]);
+                                  isChecked = val;
                                 });
                               },
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    bList[i].name ?? '',
+                                    widget.data[i].firstName ?? '',
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
@@ -139,18 +159,20 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                 ),
                 Center(
                     child: RaisedButton(
-                  color: redtheme,
+                  color: getColorByHex(Globle().colorscode),
                   shape: RoundedRectangleBorder(
                       // side: BorderSide(
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
                     Navigator.pop(context);
                     print("Added people-->");
                     print(addList.length);
                   },
                   child: Text(
-                    'Add',
+                    addList.length != 0
+                        ? 'Add ${addList.length} People'
+                        : 'Add',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

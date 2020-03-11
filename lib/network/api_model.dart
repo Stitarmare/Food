@@ -6,6 +6,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
@@ -130,6 +131,9 @@ class GenericModel<T> {
 
       case PaycheckoutNetbanking:
         return PaycheckoutNetbanking.fromJson(json) as T;
+
+      case GetPeopleListModel:
+        return GetPeopleListModel.fromJson(json) as T;
 
       default:
         break;

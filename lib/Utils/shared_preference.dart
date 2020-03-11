@@ -39,7 +39,7 @@ class Preference {
     SharedPreferences _sharedPreferences;
     _sharedPreferences = await SharedPreferences.getInstance();
 
-    _sharedPreferences.remove(key);
+    // _sharedPreferences.remove(key);
 
     if (T == String) {
       _sharedPreferences.setString(key, value as String);
