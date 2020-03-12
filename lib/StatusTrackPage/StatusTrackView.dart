@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
@@ -11,6 +12,7 @@ import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
   int orderID;
@@ -30,6 +32,8 @@ class StatusTrackView extends StatefulWidget {
 
 class _StatusTrackingViewState extends State<StatusTrackView>
     implements StatusTrackViewModelView {
+      List<Data> peopleList = [];
+
   StatusTrackViewPresenter statusTrackViewPresenter;
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
@@ -203,6 +207,27 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 },
               ),
             ),
+
+              FlatButton(
+                    child: Text(
+                      'Add More People',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          decoration: TextDecoration.underline,
+                          decorationColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          child: RadioDialogAddPeople(peopleList,
+                              widget.tableId, widget.restId, widget.orderID));
 
             // SizedBox(
             //   height: 50,
