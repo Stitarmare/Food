@@ -143,8 +143,8 @@ class _RegisterviewState extends State<Registerview>
         ),
         Divider(
           color: Colors.green,
-          indent: 145,
-          endIndent: 145,
+          indent: 138,
+          endIndent: 135,
           height: 10,
           thickness: 3,
         )
@@ -162,6 +162,10 @@ class _RegisterviewState extends State<Registerview>
     return Column(
       children: <Widget>[
         AppTextField(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(20),
+            BlacklistingTextInputFormatter(RegExp('[ ]'))
+          ],
           onChanged: (text) {
             _firstname = text;
           },
@@ -180,6 +184,10 @@ class _RegisterviewState extends State<Registerview>
           height: 15,
         ),
         AppTextField(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(20),
+            BlacklistingTextInputFormatter(RegExp('[ ]'))
+          ],
           onChanged: (text) {
             _lastname = text;
           },
@@ -201,6 +209,10 @@ class _RegisterviewState extends State<Registerview>
           Expanded(
             flex: 2,
             child: AppTextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(4),
+                BlacklistingTextInputFormatter(RegExp('[ ]'))
+              ],
               icon: Icon(
                 Icons.language,
                 color: greentheme100,
@@ -222,8 +234,13 @@ class _RegisterviewState extends State<Registerview>
             width: 10,
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: AppTextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(10),
+                BlacklistingTextInputFormatter(RegExp('[ ]')),
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
               onChanged: (text) {
                 _phoneno = countrycode + text;
               },
@@ -239,6 +256,10 @@ class _RegisterviewState extends State<Registerview>
         ]),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+            BlacklistingTextInputFormatter(RegExp('[ ]'))
+          ],
           onChanged: (text) {
             _password = text;
           },

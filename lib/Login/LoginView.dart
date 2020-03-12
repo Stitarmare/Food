@@ -147,8 +147,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         ),
         Divider(
           color: Colors.green,
-          indent: 145,
-          endIndent: 145,
+          indent: 138,
+          endIndent: 135,
           height: 10,
           thickness: 3,
         )
@@ -165,6 +165,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             Expanded(
               flex: 2,
               child: AppTextField(
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(4),
+                  BlacklistingTextInputFormatter(RegExp('[ ]'))
+                ],
                 icon: Icon(
                   Icons.language,
                   color: greentheme100,
@@ -186,8 +190,13 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               width: 10,
             ),
             Expanded(
-              flex: 5,
+              flex: 4,
               child: AppTextField(
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                  BlacklistingTextInputFormatter(RegExp('[ ]')),
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
                 onChanged: (text) {
                   mobilenumber = countrycode + text;
                 },
@@ -207,6 +216,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         ),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+            BlacklistingTextInputFormatter(RegExp('[ ]'))
+          ],
           onChanged: (text) {
             password = text;
           },

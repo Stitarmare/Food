@@ -39,7 +39,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   String _selectedId;
   // Default Radio Button Item
   String radioItem = 'Mango';
-  List<AddPeople> addList = [];
+  List<Data> addList = [];
   AddPeopleInterface addPeopleInterface;
 
   // Group Value for Radio Button.
@@ -148,6 +148,11 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 setState(() {
                                   isChecked = val;
                                   id = i;
+                                  if (val != false) {
+                                    addList.add(widget.data[i]);
+                                  } else {
+                                    addList.remove(widget.data[i]);
+                                  }
                                 });
                               },
                               title: Row(

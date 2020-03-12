@@ -748,7 +748,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               orderID: myOrderData.id,
                               title: widget.restName,
                               // restID: widget.restId,
-                               flag: 1,
+                              flag: 1,
                               // totalamount: double.parse(
                               //     widget.itemdata[i].totalAmount.toString()),
                               // amount:
@@ -761,8 +761,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       ),
     );
   }
-
-   
 
   @override
   void placeOrderfailed() {
@@ -800,7 +798,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   void addPeopleSuccess() {
     // showAddPeopleAlertSuccess("Invitation Send","Invitation has been send Successfully!!",context);
     // TODO: implement addPeopleSuccess
-
   }
 
   @override
@@ -810,8 +807,16 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-    peopleList = data;
-
+    if (data.length == 0) {
+      return;
+    }
+    setState(() {
+      if (peopleList == null) {
+        peopleList = data;
+      } else {
+        peopleList.addAll(data);
+      }
+    });
     print("data list --->");
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
