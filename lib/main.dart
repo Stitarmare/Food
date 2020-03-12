@@ -16,6 +16,7 @@ import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
+import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import './Utils/String.dart';
@@ -71,6 +72,8 @@ var routes = <String, WidgetBuilder>{
   '/webview': (BuildContext context) => WebViewPage(),
   '/PaymentMethod': (BuildContext context) => PaymentMethod(),
   '/StatusTrackView': (BuildContext context) => StatusTrackView(),
+  '/WebViewScreen': (BuildContext context) => WebViewScreen(),
+  
 };
 void main() {
   set();

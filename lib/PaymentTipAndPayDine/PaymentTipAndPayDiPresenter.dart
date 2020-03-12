@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/error_model.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -42,6 +44,27 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
   void onBackPresed() {
     // TODO: implement onBackPresed
   }
+
+  @override
+  void getCheckoutDetails(String checkoutId, BuildContext context) {
+    ApiBaseHelper().post<PaymentCheckoutModel>(UrlConstant.checkoutPaymentStatus, context,body: {
+      "encrypted_checkout_id":checkoutId
+    }).then((value){
+      switch (value.result) {
+        case SuccessType.success:
+          print("Order Detail success");
+          print(value.model);
+          _paymentTipandPayDiModelView.paymentCheckoutSuccess(value.model);
+          break;
+        case SuccessType.failed:
+          print("Order Detail failed");
+          _paymentTipandPayDiModelView.paymentCheckoutFailed();
+          break;
+      }
+    }).catchError((error){
+      print(error);
+    });
+  }
 }
 
 class PayFinalBillPresenter extends PayFinalBillContaractor {
@@ -58,6 +81,7 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
     String payment_mode,
     double amount,
     double total_amount,
+    String transacionId,
     BuildContext context,
   ) {
     ApiBaseHelper()
@@ -68,6 +92,7 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
       "payment_mode": payment_mode,
       "amount": amount,
       "total_amount": total_amount,
+      "transaction_id" : transacionId,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -79,6 +104,45 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
         case SuccessType.failed:
           print("Place Order failed.");
           _payModelView.payfinalBillFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+}
+
+
+class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
+  PayBillCheckoutModelView _paybillcheckoutModelView;
+  PayBillCheckoutPresenter(PayBillCheckoutModelView _paybillcheckoutModelView) {
+    this._paybillcheckoutModelView = _paybillcheckoutModelView;
+  }
+
+  @override
+  void payBillCheckOut(
+    int restId,
+    // String currency,
+    double amount,
+    BuildContext context,
+  ) {
+    ApiBaseHelper()
+        .post<PaycheckoutNetbanking>(UrlConstant.paycheckOutNetbankingApi, context, body: {
+      "rest_id": restId,
+      //"currency": currency,
+      "amount": amount,
+      
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print("Place Order success.");
+          print(value.model);
+          _paybillcheckoutModelView.payBillCheckoutSuccess(value.model);
+          break;
+        case SuccessType.failed:
+          print("Place Order failed.");
+          _paybillcheckoutModelView.payBillCheckoutFailed();
           break;
       }
     }).catchError((error) {

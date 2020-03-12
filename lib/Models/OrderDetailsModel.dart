@@ -653,7 +653,7 @@ String orderDetailsModelToJson(OrderDetailsModel data) => json.encode(data.toJso
 class OrderDetailsModel {
     String status;
     int statusCode;
-    Data data;
+    OrderDetailData data;
     int grandTotal;
 
     OrderDetailsModel({
@@ -666,7 +666,7 @@ class OrderDetailsModel {
     factory OrderDetailsModel.fromJson(Map<String, dynamic> json) => OrderDetailsModel(
         status: json["status"],
         statusCode: json["status_code"],
-        data: Data.fromJson(json["data"]),
+        data: OrderDetailData.fromJson(json["data"]),
         grandTotal: json["grandTotal"],
     );
 
@@ -678,7 +678,7 @@ class OrderDetailsModel {
     };
 }
 
-class Data {
+class OrderDetailData {
     int id;
     String orderType;
     int tableId;
@@ -694,7 +694,7 @@ class Data {
     List<ListElements> list;
     List<dynamic> invitation;
 
-    Data({
+    OrderDetailData({
         this.id,
         this.orderType,
         this.tableId,
@@ -711,7 +711,7 @@ class Data {
         this.invitation,
     });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
+    factory OrderDetailData.fromJson(Map<String, dynamic> json) => OrderDetailData(
         id: json["id"],
         orderType: json["order_type"],
         tableId: json["table_id"],

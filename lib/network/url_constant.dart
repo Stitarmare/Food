@@ -40,4 +40,6 @@ class UrlConstant {
   static const paycheckOutNetbankingApi = "/api/checkout";
   static const addPeopleToOrderApi = "/api/addPeopleToOrder";
   static const getPeopleListApi = "api/getPeopleList";
+  static const checkoutPaymentStatus = "api/checkoutPaymentStatus";
+  static const acceptInvitationApi = "api/acceptRejectInvitation";
 }

@@ -22,6 +22,7 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
@@ -102,8 +103,10 @@ class GenericModel<T> {
       case AddItemPageModelList:
         return AddItemPageModelList.fromJson(json) as T;
 
-      case NotificationModel:
-        return NotificationModel.fromJson(json) as T;
+      // case NotificationModel:
+      //   return NotificationModel.fromJson(json) as T;
+      case GetNotificationListModel:
+       return GetNotificationListModel.fromJson(json) as T;
 
       case AddMenuToCartModel:
         return AddMenuToCartModel.fromJson(json) as T;
@@ -134,7 +137,8 @@ class GenericModel<T> {
 
       case GetPeopleListModel:
         return GetPeopleListModel.fromJson(json) as T;
-
+      case PaymentCheckoutModel:
+        return PaymentCheckoutModel.fromJson(json) as T;
       default:
         break;
     }

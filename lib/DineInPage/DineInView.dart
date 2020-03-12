@@ -557,7 +557,7 @@ class _DineViewState extends State<DineInView>
                     width: 10.0,
                   ),
                   Text(
-                    "${shortdatetime} - ${cLosingtime}",
+                    "${(shortdatetime == null || shortdatetime == "00:00") ? "- -" : shortdatetime} - ${(cLosingtime == null || cLosingtime == "00:00") ? "- -" : cLosingtime}",
                     style: TextStyle(
                         fontFamily: 'gotham',
                         fontSize: 12,
@@ -631,7 +631,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    (rating != null) ? '4.5' : rating,
+                    (rating == "null") ? '-' : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'gotham',
