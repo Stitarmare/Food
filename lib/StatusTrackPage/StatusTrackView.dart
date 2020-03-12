@@ -80,8 +80,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   Widget billPaymentButton() {
-    return (statusInfo.status == "completed")
-        ? Container(
+    return 
+         Container(
             //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             height: 54,
@@ -105,6 +105,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ? getColorByHex(Globle().colorscode)
                   : orangetheme,
               onPressed: () {
+
+                _timer.cancel();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -117,8 +119,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             )));
               },
             ),
-          )
-        : Text("");
+          );
   }
 
   Widget _getmainview() {

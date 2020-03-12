@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 
 abstract class PaymentTipandPayDiContractor {
   void getOrderDetails(
@@ -7,11 +9,17 @@ abstract class PaymentTipandPayDiContractor {
     BuildContext context,
   );
   void onBackPresed();
+  void getCheckoutDetails(
+    String checkoutId,
+    BuildContext context,
+  );
 }
 
 abstract class PaymentTipandPayDiModelView {
-  void getOrderDetailsSuccess(Data orderData);
+  void getOrderDetailsSuccess(OrderDetailData orderData);
   void getOrderDetailsFailed();
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel);
+  void paymentCheckoutFailed();
 }
 
 abstract class PayFinalBillContaractor {
@@ -22,6 +30,7 @@ abstract class PayFinalBillContaractor {
       String payment_mode,
       double amount,
       double total_amount,
+      String transacionId,
       BuildContext context);
 }
 
@@ -29,3 +38,18 @@ abstract class PayFinalBillModelView {
   void payfinalBillSuccess();
   void payfinalBillFailed();
 }
+
+abstract class PayBillCheckoutContaractor {
+  void payBillCheckOut(
+      int restId,
+      // String currency,
+      double amount,
+      BuildContext context);
+} 
+
+abstract class PayBillCheckoutModelView {
+  void payBillCheckoutSuccess(PaycheckoutNetbanking model);
+  void payBillCheckoutFailed();
+  
+}
+
