@@ -41,6 +41,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here

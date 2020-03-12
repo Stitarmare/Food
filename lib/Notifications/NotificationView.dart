@@ -43,6 +43,7 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Colors.white,

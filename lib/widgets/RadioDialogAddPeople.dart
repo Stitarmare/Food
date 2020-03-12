@@ -3,6 +3,7 @@ import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart'
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
 
@@ -49,48 +50,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   // bool isChecked = false;
   String _currText = "";
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
-  // List<AddPeople> bList = [
-  //   AddPeople(
-  //     index: 1,
-  //     name: "ABC",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 2,
-  //     name: "XYZ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 3,
-  //     name: "PQR",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 4,
-  //     name: "CDG ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 5,
-  //     name: "ABC",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 6,
-  //     name: "XYZ",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 7,
-  //     name: "PQR",
-  //     isChecked: false,
-  //   ),
-  //   AddPeople(
-  //     index: 8,
-  //     name: "CDG ",
-  //     isChecked: false,
-  //   ),
-  // ];
+ 
 
   @override
   void initState() {
@@ -177,13 +137,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       // side: BorderSide(
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
                       borderRadius: BorderRadius.circular(8)),
-                  onPressed: () {
-                    confirmationDineviewPresenter.addPeople(
-                        widget.data[id].mobileNumber,
-                        widget.tableId,
-                        widget.restId,
-                        23,
-                        context);
+                  onPressed: () async{
+                    int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+                    confirmationDineviewPresenter.addPeople(widget.data[id].mobileNumber, widget.tableId, widget.restId, orderId, context);
                     Navigator.pop(context);
                     Toast.show(
                         "Sending Invitation to ${widget.data[id].firstName}...",

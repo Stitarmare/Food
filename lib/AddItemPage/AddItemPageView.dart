@@ -291,6 +291,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+          brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),

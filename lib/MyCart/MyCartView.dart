@@ -26,6 +26,7 @@ class MyCartView extends StatefulWidget {
   String orderType;
   double total;
   String restName;
+  // int orderId;
 
   MyCartView(
       {this.restId,
@@ -284,6 +285,7 @@ class _MyCartViewState extends State<MyCartView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           title: Text('My Cart'),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -360,7 +362,7 @@ class _MyCartViewState extends State<MyCartView>
                                     orderType: widget.orderType,
                                     latitude: widget.lat,
                                     longitude: widget.long,
-                                    // orderID: 6
+                                    // orderID: widget.orderId
                                   ),
                                 ))
                             : Constants.showAlert(

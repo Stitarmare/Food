@@ -77,6 +77,7 @@ class _EditProfileState extends State<EditProfileview>
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+           brightness: Brightness.dark,
           elevation: 0.0,
           backgroundColor: Colors.white,
           centerTitle: false,

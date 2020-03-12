@@ -59,6 +59,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
           // automaticallyImplyLeading:true,

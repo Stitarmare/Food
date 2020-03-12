@@ -72,6 +72,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,

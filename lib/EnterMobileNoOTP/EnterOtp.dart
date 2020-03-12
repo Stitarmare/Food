@@ -47,6 +47,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here

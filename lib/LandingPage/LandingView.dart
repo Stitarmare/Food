@@ -32,6 +32,7 @@ class _LandingStateView extends State<Landingview> {
       elevation: 100.0,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           //  title: Text(titleAppBar),
           actions: <Widget>[
             new IconButton(
