@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
-import 'package:foodzi/widgets/DailogBox.dart';
+// import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/NotificationDailogBox.dart';
+import 'package:toast/toast.dart';
+
+
+enum NotificationType{order_item_status,updates_for_assigned_table,invitation,split_bill_request,app_update }
 
 class NotificationView extends StatefulWidget {
   NotificationView({Key key}) : super(key: key);
@@ -17,20 +23,14 @@ class NotificationView extends StatefulWidget {
 
 class _NotificationViewState extends State<NotificationView> implements NotificationModelView{
  NotificationPresenter notificationPresenter;
- List<NotificationData> notificationData;
+ List<Datum> notificationData;
  int page = 1;
-  final europeanCountries = [
-    'Albania Does anyone know how to implement a selection of the elements located inside a ListView Class in Flutter. All elements present in my list are constructed as',
-    'Andorra',
-    'Armenia',
-    'Austria',
-    'Italy',
-    'Kazakhstan',
-    'Kosovo',
-    'Latvia',
-    'Liechtenstein',
-    'Lithuania',
-  ];
+ var status;
+ String recipientName;
+ String recipientMobno;
+ String tableno;
+ List notifytext;
+ 
   @override
   void initState() {
     // TODO: implement initState
@@ -49,12 +49,12 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
           //centerTitle: false,
           title: Text("Notifications",
               style: TextStyle(
-                  color: Color.fromRGBO(51, 51, 51, 1),
+                  color: greytheme1200,
                   fontSize: 18,
                   fontFamily: 'gotham',
                   fontWeight: FontWeight.w500)),
           leading: IconButton(
-            color: Color.fromRGBO(51, 51, 51, 1),
+            color: greytheme1200,
             icon: Icon(
               Icons.arrow_back_ios,
               size: 22,
@@ -89,34 +89,45 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'gotham',
-                      color: Color.fromRGBO(51, 51, 51, 1)),
+                      color: greytheme1200),
                 ),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 21),
                 child: Text(
-                  notificationData[index].createdAt ??
-                  '05 May 2019',
+                  // notificationData[index].createdAt ??
+                  // '05 May 2019',
+                  getNotificationDate(index),
                   style: TextStyle(
                       fontSize: 11,
                       fontFamily: 'gotham',
-                      color: Color.fromRGBO(152, 152, 152, 1)),
+                      color: greytheme1400),
                 ),
               ),
-              onTap: () async{
-                _onSelected(index);
-                await DailogBox.notification_1(context);
+              onTap: () {
+                // _onSelected(index);
+                // print(notificationData[index].notifType);
+                // if(notificationData[index].notifType == NotificationType.invitation ){
+                //     // status = await DailogBox.notification_1(context);
+                //     status =  DailogBox.notification_1(context, recipientName, recipientMobno, tableno);
+                //     print(status);
+                //     notificationPresenter.acceptInvitation(notificationData[index].fromId, notificationData[index].invitationId, status, context);
+                //     //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
+                //     // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
+                // }
+                _onTap(index);
+               
               },
             ),
             decoration: BoxDecoration(
-                border: Border.all(color: Color.fromRGBO(112, 112, 112, 0.2)),
+                border: Border.all(color: greytheme1500),
                 gradient: LinearGradient(stops: [
                   0.015,
                   0.015
                 ], colors: [
                   _selectedIndex != null && _selectedIndex == index
                       ? greentheme100
-                      : Color.fromRGBO(112, 112, 112, 0.2),
+                      : greytheme1500,
                   Colors.white
                 ])),
           ),
@@ -124,15 +135,35 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
       },
     );
   }
+_onTap(int index)async{
+  _onSelected(index);
+                print(notificationData[index].notifType);
+                if(notificationData[index].notifType == "invitation" ){
+                    // status = await DailogBox.notification_1(context);
+                    status = await DailogBox.notification_1(context, recipientName, recipientMobno, tableno);
+                    print(status);
+                    notificationPresenter.acceptInvitation(notificationData[index].fromId, notificationData[index].invitationId, status.toString(), context);
+                    //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
+                    // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
+                }
+}
+
   int getNotificationLength() {
     if (notificationData != null) {
       return notificationData.length;
     }
     return 0;
   }
+
   String getNotificationText(int index){
     if(notificationData != null){
       if(notificationData[index].notifText !=null){
+       notifytext = notificationData[index].notifText.split(",");
+       recipientName = notifytext[0];
+       recipientMobno = notifytext[1];
+       tableno = notifytext[3];
+       print(recipientName);
+       print(tableno);
         return notificationData[index].notifText.toString();
 
       }
@@ -148,7 +179,7 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
   }
 
   @override
-  void getNotificationsSuccess(List<NotificationData> getNotificationList) {
+  void getNotificationsSuccess(List<Datum> getNotificationList) {
     // TODO: implement getNotoficationsSuccess
         if (getNotificationList.length == 0) {
       return;
@@ -163,4 +194,32 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
       page++;
     });
   }
+
+   String getNotificationDate(int index){
+    if(notificationData!= null){
+      if(notificationData[index].createdAt != null){
+        return notificationData[index].createdAt.toString();
+      }
+      return " ";
+    }
+    return " ";
+  }
+
+  @override
+  void acceptInvitationFailed(ErrorModel model) {
+    // TODO: implement acceptInvitationFailed
+     Toast.show(model.message, context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM,);
+  }
+
+  @override
+  void acceptInvitationSuccess(ErrorModel model) {
+    // TODO: implement acceptInvitationSuccess
+     Toast.show(model.message, context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM,);
+  }
+  
+
+ 
+
 }

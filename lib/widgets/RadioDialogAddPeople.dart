@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:toast/toast.dart';
+
 
 class AddPeople {
   String name;
@@ -31,7 +35,7 @@ class RadioDialogAddPeople extends StatefulWidget {
   State createState() => new RadioDialogAddPeopleState();
 }
 
-class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
+class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> implements ConfirmationDineViewModelView{
   String _selectedId;
   // Default Radio Button Item
   String radioItem = 'Mango';
@@ -39,12 +43,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
   AddPeopleInterface addPeopleInterface;
 
   // Group Value for Radio Button.
-  int id = 1;
+  int id;
   bool isChecked = false;
 
   // bool isChecked = false;
   String _currText = "";
-
+  ConfirmationDineviewPresenter confirmationDineviewPresenter;
   // List<AddPeople> bList = [
   //   AddPeople(
   //     index: 1,
@@ -91,6 +95,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
   @override
   void initState() {
     super.initState();
+    // confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     // _selectedId = widget.initialValue;
   }
 
@@ -140,7 +146,10 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                                 // });
                                 setState(() {
                                   isChecked = val;
+                                  id = i;
                                 });
+
+
                               },
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -165,9 +174,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
                       borderRadius: BorderRadius.circular(8)),
                   onPressed: () {
+                    confirmationDineviewPresenter.addPeople(widget.data[id].mobileNumber, widget.tableId, widget.restId, 23, context);
                     Navigator.pop(context);
+                    Toast.show("Sending Invitation to ${widget.data[id].firstName}...", context, duration: Toast.LENGTH_SHORT, 
+                      gravity:  Toast.BOTTOM);
+                       showAddPeopleAlertSuccess("Invitation Send","Invitation has been send Successfully!!",context);
                     print("Added people-->");
                     print(addList.length);
+
                   },
                   child: Text(
                     addList.length != 0
@@ -183,6 +197,84 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople> {
             ))
       ],
     );
+  }
+  void showAddPeopleAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greytheme700),
+          ),
+          content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Image.asset(
+              'assets/SuccessIcon/success.png',
+              width: 75,
+              height: 75,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'gotham',
+                  fontWeight: FontWeight.w500,
+                  color: greytheme700),
+            )
+          ]),
+          actions: <Widget>[
+            Divider(
+              endIndent: 15,
+              indent: 15,
+              color: Colors.black,
+            ),
+            FlatButton(
+              child: Text("Ok",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'gotham',
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void addPeopleFailed() {
+    // TODO: implement addPeopleFailed
+  }
+
+  @override
+  void addPeopleSuccess() {
+    // TODO: implement addPeopleSuccess
+    
+  }
+
+  @override
+  void getPeopleListonFailed() {
+    // TODO: implement getPeopleListonFailed
+  }
+
+  @override
+  void getPeopleListonSuccess(List<Data> data) {
+    // TODO: implement getPeopleListonSuccess
   }
 }
 

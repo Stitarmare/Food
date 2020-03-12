@@ -1,12 +1,15 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+
 import 'package:foodzi/Models/OrderDetailsModel.dart';
-import 'package:foodzi/Models/PlaceOrderModel.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
+
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -25,23 +28,29 @@ class PaymentTipAndPayDi extends StatefulWidget {
 }
 
 class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
-    implements PaymentTipandPayDiModelView, PayFinalBillModelView {
+    implements
+        PaymentTipandPayDiModelView,
+        PayFinalBillModelView,
+        PayBillCheckoutModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
+  PayBillCheckoutPresenter _billCheckoutPresenter;
   int selectedRadioTile;
   // bool isSplitBillVisible = false;
 
-  Data myOrderData;
+  OrderDetailData myOrderData;
+
+  PaycheckoutNetbanking billModel;
   @override
   void initState() {
     // TODO: implement initState
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
-
+    _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     selectedRadioTile = 1;
@@ -107,15 +116,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   // ),
                   GestureDetector(
                     onTap: () {
-                      _finalBillPresenter.payfinalOrderBill(
-                          Globle().loginModel.data.id,
+                      _billCheckoutPresenter.payBillCheckOut(
                           myOrderData.restId,
-                          myOrderData.id,
-                          "cash",
-                          double.parse(myOrderData.totalAmount),
-                          double.parse(myOrderData.totalAmount) +
-                              sliderValue.toInt(),
+                          (double.parse(myOrderData.totalAmount) + sliderValue),
                           context);
+                      // _finalBillPresenter.payfinalOrderBill(
+                      //     Globle().loginModel.data.id,
+                      //     myOrderData.restId,
+                      //     myOrderData.id,
+                      //     "card",
+                      //     double.parse(myOrderData.totalAmount),
+                      //     double.parse(myOrderData.totalAmount) +
+                      //         sliderValue.toInt(),
+                      //     context);
                       // Navigator.pushNamed(context, '/PaymentMethod');
                       // _paymentTipAndPayPresenter.placeOrder(
                       //     widget.restId,
@@ -595,84 +608,84 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               ),
             ],
           ),
-          SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15),
-            child: Divider(
-              thickness: 0.4,
-              color: greytheme300,
-            ),
-          ),
-          SizedBox(height: 5),
-          Row(
-            children: <Widget>[
-              Expanded(
-                flex: 5,
-                child: RadioListTile(
-                  value: 1,
-                  groupValue: selectedRadioTile,
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          "Pay",
-                          style: TextStyle(color: greytheme300),
-                        ),
-                      ),
-                      Text(
-                        "By Cash",
-                        style: TextStyle(color: greytheme300),
-                      ),
-                    ],
-                  ),
-                  onChanged: (val) {
-                    print("Radio Tile pressed $val");
-                    setSelectedRadioTile(val);
-                    // isSplitBillVisible = false;
-                  },
-                  activeColor: ((Globle().colorscode) != null)
-                      ? getColorByHex(Globle().colorscode)
-                      : orangetheme,
-                ),
-              ),
-              Expanded(
-                  child: Container(
-                      height: 30, child: VerticalDivider(color: greytheme300))),
-              Expanded(
-                flex: 5,
-                child: RadioListTile(
-                  value: 2,
-                  groupValue: selectedRadioTile,
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 14.0),
-                        child: Text(
-                          "Net",
-                          style: TextStyle(color: greytheme300),
-                        ),
-                      ),
-                      Text(
-                        "Banking",
-                        style: TextStyle(color: greytheme300),
-                      ),
-                    ],
-                  ),
-                  onChanged: (val) {
-                    print("Radio Tile pressed $val");
-                    setSelectedRadioTile(val);
-                    // isSplitBillVisible = true;
-                  },
-                  activeColor: ((Globle().colorscode) != null)
-                      ? getColorByHex(Globle().colorscode)
-                      : orangetheme,
-                ),
-              )
-            ],
-          )
+          // SizedBox(height: 10),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15.0, right: 15),
+          //   child: Divider(
+          //     thickness: 0.4,
+          //     color: greytheme300,
+          //   ),
+          // ),
+          // SizedBox(height: 5),
+          // Row(
+          //   children: <Widget>[
+          //     Expanded(
+          //       flex: 5,
+          //       child: RadioListTile(
+          //         value: 1,
+          //         groupValue: selectedRadioTile,
+          //         title: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: <Widget>[
+          //             Padding(
+          //               padding: const EdgeInsets.only(left: 12.0),
+          //               child: Text(
+          //                 "Pay",
+          //                 style: TextStyle(color: greytheme300),
+          //               ),
+          //             ),
+          //             Text(
+          //               "By Cash",
+          //               style: TextStyle(color: greytheme300),
+          //             ),
+          //           ],
+          //         ),
+          //         onChanged: (val) {
+          //           print("Radio Tile pressed $val");
+          //           setSelectedRadioTile(val);
+          //           // isSplitBillVisible = false;
+          //         },
+          //         activeColor: ((Globle().colorscode) != null)
+          //             ? getColorByHex(Globle().colorscode)
+          //             : orangetheme,
+          //       ),
+          //     ),
+          //     Expanded(
+          //         child: Container(
+          //             height: 30, child: VerticalDivider(color: greytheme300))),
+          //     Expanded(
+          //       flex: 5,
+          //       child: RadioListTile(
+          //         value: 2,
+          //         groupValue: selectedRadioTile,
+          //         title: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: <Widget>[
+          //             Padding(
+          //               padding: const EdgeInsets.only(left: 14.0),
+          //               child: Text(
+          //                 "Net",
+          //                 style: TextStyle(color: greytheme300),
+          //               ),
+          //             ),
+          //             Text(
+          //               "Banking",
+          //               style: TextStyle(color: greytheme300),
+          //             ),
+          //           ],
+          //         ),
+          //         onChanged: (val) {
+          //           print("Radio Tile pressed $val");
+          //           setSelectedRadioTile(val);
+          //           // isSplitBillVisible = true;
+          //         },
+          //         activeColor: ((Globle().colorscode) != null)
+          //             ? getColorByHex(Globle().colorscode)
+          //             : orangetheme,
+          //       ),
+          //     )
+          //   ],
+          // )
         ],
       ),
     );
@@ -781,7 +794,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   @override
-  void getOrderDetailsSuccess(Data orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData) {
     // TODO: implement getOrderDetailsSuccess
     setState(() {
       if (myOrderData == null) {
@@ -802,14 +815,68 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   @override
   void payfinalBillSuccess() {
     print("payment Success");
-    Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
     //Preference.removeForKey(PreferenceKeys.ORDER_ID);
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     showAlertSuccess("Payment Success",
-        "your Transactions Has been Done Successfully", context);
+        "Your Transactions Has been Done Successfully", context);
+    // Navigator.of(context).pushNamed('/WebViewScreen');
     // TODO: implement payfinalBillSuccess
+  }
+
+  @override
+  void payBillCheckoutFailed() {
+    // TODO: implement payBillCheckoutFailed
+  }
+
+  @override
+  void payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
+    if (billModel == null) {
+      billModel = model;
+    }
+    var data = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => WebViewScreen(
+                  url: billModel.url,
+                )));
+    if (data['check_out_code'] != null) {
+      var codec = latin1.fuse(base64);
+      _paymentTipandPayDiPresenter.getCheckoutDetails(
+          codec.encode(data['check_out_code']), context);
+    } else {
+      Constants.showAlert("Foodzi", "Payment Failed.", context);
+    }
+
+    //Navigator.of(context).pushNamed('/WebViewScreen');
+    // TODO: implement payBillCheckoutSuccess
+  }
+
+  @override
+  void paymentCheckoutFailed() {
+    // TODO: implement paymentCheckoutFailed
+  }
+
+  @override
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
+    if (paymentCheckoutModel.statusCode == 200) {
+      _finalBillPresenter.payfinalOrderBill(
+          Globle().loginModel.data.id,
+          myOrderData.restId,
+          myOrderData.id,
+          'card',
+          double.parse(myOrderData.totalAmount),
+          double.parse(myOrderData.totalAmount) + sliderValue.toInt(),
+          paymentCheckoutModel.transactionId,
+          context);
+     
+    } else {
+      Constants.showAlert("Foodzi", "Payment Failed.", context);
+    }
+
+    // TODO: implement paymentCheckoutSuccess
   }
 }
