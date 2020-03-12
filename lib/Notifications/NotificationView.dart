@@ -73,7 +73,14 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
   }
 
   Widget _notificationList(BuildContext context) {
-    return ListView.builder(
+    return  getNotificationLength() == 0? Container(child: Center(child: Text("No Notifications!!",textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200)),),):
+    
+    ListView.builder(
       //itemCount: europeanCountries.length,
       itemCount: getNotificationLength(),
       itemBuilder: (BuildContext context, int index) {
@@ -158,12 +165,13 @@ _onTap(int index)async{
   String getNotificationText(int index){
     if(notificationData != null){
       if(notificationData[index].notifText !=null){
+        if(notificationData[index].notifType == "invitation"){
        notifytext = notificationData[index].notifText.split(",");
        recipientName = notifytext[0];
        recipientMobno = notifytext[1];
        tableno = notifytext[3];
        print(recipientName);
-       print(tableno);
+       print(tableno);}
         return notificationData[index].notifText.toString();
 
       }

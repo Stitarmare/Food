@@ -66,7 +66,14 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   }
 
   Widget _notificationList(BuildContext context) {
-    return ListView.builder(
+    return 
+    getNotificationLength() == 0? Container(child: Center(child: Text("No Notifications!!",textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'gotham',
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200)),),):
+                    ListView.builder(
       itemCount: getNotificationLength(),
       itemBuilder: (BuildContext context, int index) {
         return Padding(
@@ -146,12 +153,13 @@ _onTap(int index)async{
   String getNotificationText(int index){
     if(notificationData != null){
       if(notificationData[index].notifText !=null){
-        notifytext = notificationData[index].notifText.split(",");
+        if(notificationData[index].notifType == "invitation"){
+       notifytext = notificationData[index].notifText.split(",");
        recipientName = notifytext[0];
        recipientMobno = notifytext[1];
        tableno = notifytext[3];
        print(recipientName);
-       print(tableno);
+       print(tableno);}
         return notificationData[index].notifText.toString();
 
       }
