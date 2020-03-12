@@ -103,8 +103,10 @@ class GenericModel<T> {
       case AddItemPageModelList:
         return AddItemPageModelList.fromJson(json) as T;
 
-      case NotificationModel:
-        return NotificationModel.fromJson(json) as T;
+      // case NotificationModel:
+      //   return NotificationModel.fromJson(json) as T;
+      case GetNotificationListModel:
+       return GetNotificationListModel.fromJson(json) as T;
 
       case AddMenuToCartModel:
         return AddMenuToCartModel.fromJson(json) as T;

@@ -36,6 +36,8 @@ const greytheme1000 = Color.fromRGBO(118, 118, 118, 1);
 const greytheme1100 = Color.fromRGBO(230, 230, 230, 1);
 const greytheme1200 = Color.fromRGBO(51, 51, 51, 1);
 const greytheme1300 = Color.fromRGBO(237, 237, 237, 1);
+const greytheme1400 = Color.fromRGBO(152, 152, 152, 1);
+const greytheme1500 = Color.fromRGBO(112, 112, 112, 0.2);
 
 //Orange themes
 const orangetheme = Color.fromRGBO(242, 154, 41, 1);
