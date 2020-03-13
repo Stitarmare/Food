@@ -5,6 +5,7 @@ import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -26,7 +27,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   List<CurrentOrderList> _currentOrder;
   List<CurrentOrderList> _orderHistory;
   int i;
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   List<CurrentOrderList> _orderDetailList;
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
   @override
@@ -34,6 +35,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     // TODO: implement initState
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
+     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _myOrdersPresenter.getOrderDetails(context);
     _myOrdersPresenter.getmyOrderBookingHistory(context);
   }
@@ -598,7 +600,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     setState(() {
       _orderDetailList = _orderdetailsList;
     });
-
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsSuccess
   }
 
@@ -610,6 +612,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
+         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (_getmyOrderBookingHistory.length == 0) {
       return;
     }

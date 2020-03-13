@@ -101,6 +101,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantReview() {
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantReview(context, widget.rest_Id);
   }
 
@@ -1005,6 +1006,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     setState(() {
       _getReviewData = getReviewList;
       print(_getReviewData);

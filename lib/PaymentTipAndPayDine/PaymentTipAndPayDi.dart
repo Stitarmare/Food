@@ -51,6 +51,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
+     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     selectedRadioTile = 1;
@@ -117,6 +118,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   // ),
                   GestureDetector(
                     onTap: () {
+                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                       _billCheckoutPresenter.payBillCheckOut(
                           myOrderData.restId,
                           (double.parse(myOrderData.totalAmount) + sliderValue),
@@ -796,6 +798,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void getOrderDetailsSuccess(OrderDetailData orderData) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsSuccess
     setState(() {
       if (myOrderData == null) {
@@ -815,6 +818,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payfinalBillSuccess() {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     print("payment Success");
     Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
     Preference.removeForKey(PreferenceKeys.ORDER_ID);
@@ -835,6 +839,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (billModel == null) {
       billModel = model;
     }
@@ -846,6 +851,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 )));
     if (data['check_out_code'] != null) {
       var codec = latin1.fuse(base64);
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data['check_out_code']), context);
     } else {
@@ -863,7 +869,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (paymentCheckoutModel.statusCode == 200) {
+       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
           Globle().loginModel.data.id,
           myOrderData.restId,

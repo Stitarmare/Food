@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,7 +22,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   StreamSubscription _onDestroy;
   StreamSubscription<String> _onUrlChanged;
   StreamSubscription<WebViewStateChanged> _onStateChanged;
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   String token;
 
   @override
@@ -48,9 +49,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
+           if(state.type == WebViewState.startLoad){
+         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      }
      
       if (state.type == WebViewState.shouldStart &&
           state.url.contains("http://foodzi.php-dev.in/success")) {
+
             //fetchJson(state.url);
              print("onStateChanged: ${state.type} ${state.url}");
             setState(() {
@@ -61,6 +66,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
               flutterWebviewPlugin.close();
             });
             
+      }
+       if(state.type == WebViewState.finishLoad){
+            Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       }
     });
 
@@ -91,3 +99,4 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
 }
+ 
