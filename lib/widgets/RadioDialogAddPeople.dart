@@ -50,7 +50,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   // bool isChecked = false;
   String _currText = "";
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
- 
 
   @override
   void initState() {
@@ -59,6 +58,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     // confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     // _selectedId = widget.initialValue;
+    print("addpeople list length-->");
+    print(widget.data);
   }
 
   Widget build(BuildContext context) {
@@ -137,9 +138,15 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       // side: BorderSide(
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
                       borderRadius: BorderRadius.circular(8)),
-                  onPressed: () async{
-                    int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-                    confirmationDineviewPresenter.addPeople(widget.data[id].mobileNumber, widget.tableId, widget.restId, orderId, context);
+                  onPressed: () async {
+                    int orderId = await Preference.getPrefValue<int>(
+                        PreferenceKeys.ORDER_ID);
+                    confirmationDineviewPresenter.addPeople(
+                        widget.data[id].mobileNumber,
+                        widget.tableId,
+                        widget.restId,
+                        orderId,
+                        context);
                     Navigator.pop(context);
                     Toast.show(
                         "Sending Invitation to ${widget.data[id].firstName}...",
