@@ -42,6 +42,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       _image = image;
     });
     if (image != null) {
+              //  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       profileScreenPresenter.updateProfileImage(_image, context);
     }
   }
@@ -398,6 +399,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
   @override
   void profileImageUpdateSuccess() {
     // TODO: implement profileImageUpdateSuccess
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     setState(() {
       imageURL = BaseUrl.getBaseUrlImages() +
           '${Globle().loginModel.data.userDetails.profileImage}';

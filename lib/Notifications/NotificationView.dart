@@ -3,6 +3,7 @@ import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 // import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
@@ -30,12 +31,14 @@ class _NotificationViewState extends State<NotificationView> implements Notifica
  String recipientMobno;
  String tableno;
  List notifytext;
- 
+   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
   @override
   void initState() {
     // TODO: implement initState
     // notificationPresenter.getNotofications(context);
     notificationPresenter = NotificationPresenter(notificationModelView:this );
+     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     notificationPresenter.getNotifications(context);
     super.initState();
   }
@@ -150,6 +153,7 @@ _onTap(int index)async{
                     // status = await DailogBox.notification_1(context);
                     status = await DailogBox.notification_1(context, recipientName, recipientMobno, tableno);
                     print(status);
+                             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                     notificationPresenter.acceptInvitation(notificationData[index].fromId, notificationData[index].invitationId, status.toString(), context);
                     //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
                     // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
@@ -189,6 +193,7 @@ _onTap(int index)async{
 
   @override
   void getNotificationsSuccess(List<Datum> getNotificationList) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getNotoficationsSuccess
         if (getNotificationList.length == 0) {
       return;
@@ -224,6 +229,7 @@ _onTap(int index)async{
   @override
   void acceptInvitationSuccess(ErrorModel model) {
     // TODO: implement acceptInvitationSuccess
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
      Toast.show(model.message, context, duration: Toast.LENGTH_SHORT, 
                       gravity:  Toast.BOTTOM,);
   }

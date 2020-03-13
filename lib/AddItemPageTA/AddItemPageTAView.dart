@@ -4,6 +4,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -49,10 +50,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   bool alreadyAddedTA = false;
   int restaurantTA;
   int sizesid;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
+             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     super.initState();
@@ -265,10 +268,12 @@ int getradiobtnsize(int length) {
                           : "Your unfinished order at previous hotel will be deleted.",
                       context);
                 } else {
+                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
+                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -345,6 +350,7 @@ int getradiobtnsize(int length) {
                                   color: Colors.white),
                             ),
                             onPressed: () {
+                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -974,6 +980,7 @@ _getRadioOptionsSizes() {
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -993,6 +1000,7 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
@@ -1010,6 +1018,7 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
 
   @override
   void clearCartSuccess() {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);

@@ -7,6 +7,7 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -81,6 +82,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   bool alreadyAdded = false;
   int restaurant;
+ final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   int sizesid;
 
@@ -89,6 +91,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemPagepresenter =
         AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     _addItemPagepresenter.getTableListno(widget.rest_id, context);
@@ -360,6 +363,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.switches = switches ?? [];
                   _updateOrderModel.items.sizes = size == null ? [] : [size];
                   print(_updateOrderModel.toJson());
+                  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   //pop up
@@ -448,9 +452,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 : "Your unfinished order at previous hotel will be deleted.",
             context);
       } else {
+                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
+               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -496,6 +502,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   color: Colors.white),
                             ),
                             onPressed: () {
+                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -1202,6 +1209,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -1223,6 +1232,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1252,6 +1262,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -1267,6 +1278,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -1285,6 +1297,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }

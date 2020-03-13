@@ -62,7 +62,7 @@ class _RestaurantViewState extends State<RestaurantView>
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     restaurantPresenter.getMenuList(widget.rest_Id, context,
         category_id: abc, menu: menutype);
     super.initState();
