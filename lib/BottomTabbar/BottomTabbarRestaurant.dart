@@ -11,6 +11,7 @@ import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -160,13 +161,15 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
+              
                 //icon: Image.asset('assets/OrderIcon/order.png'),
                 // icon: Icon(
                 //   OMIcons.assignment,
                 //   color: greytheme100,
                 //   size: 30,
                 // ),
-                icon: Stack(
+                
+                icon: (getOrderID() != null)? Stack(
                   fit: StackFit.passthrough,
                   overflow: Overflow.visible,
                   children: <Widget>[
@@ -180,13 +183,17 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Colors.white))))
                   ],
+                ):Icon(
+                  OMIcons.assignment,
+                  color: greytheme100,
+                  size: 30,
                 ),
                 // activeIcon: Icon(
                 //   OMIcons.assignment,
                 //   color: orangetheme,
                 //   size: 30,
                 // ),
-                activeIcon: Stack(
+                activeIcon: (getOrderID() != null)?Stack(
                   fit: StackFit.passthrough,
                   overflow: Overflow.visible,
                   children: <Widget>[
@@ -200,40 +207,54 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: Colors.white))))
                   ],
+                ): Icon(
+                  OMIcons.assignment,
+                  color: orangetheme,
+                  size: 30,
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
+              icon: Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.notifications,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                icon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.notifications, color: greytheme100,size: 30,),
-                    Positioned(
-                        top: -10,
-                        right: -10,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
-                activeIcon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.notifications, color: orangetheme,size: 30,),
-                    Positioned(
-                        top: -10,
-                        right: -10,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
+                // icon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.notifications, color: greytheme100,size: 30,),
+                //     Positioned(
+                //         top: -10,
+                //         right: -10,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
+                // ),
+                // activeIcon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.notifications, color: orangetheme,size: 30,),
+                //     Positioned(
+                //         top: -10,
+                //         right: -10,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
+                // ),
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/UserIcon/Group3.png'),
@@ -250,5 +271,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 title: Text('')),
           ]),
     );
+  }
+  getOrderID() async {
+    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+    if(orderId != null){
+      return orderId;
+    }
+    return;
   }
 }

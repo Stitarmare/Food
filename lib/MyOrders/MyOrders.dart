@@ -9,7 +9,12 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class MyOrders extends StatefulWidget {
-  MyOrders({Key key}) : super(key: key);
+  String title;
+  // String lat;
+  // String long;
+  MyOrders({
+    this.title,
+  });
   _MyOrdersState createState() => _MyOrdersState();
 }
 
@@ -154,7 +159,13 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTrackView(orderID: _orderDetailList[index].id)));
+                        builder: (context) => StatusTrackView(
+                              orderID: _orderDetailList[index].id,
+                              flag: 2,
+                              rest_id: _orderDetailList[index].restId,
+                              title:
+                                  _orderDetailList[index].restaurant.restName,
+                            )));
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -346,7 +357,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i]}, ";
+      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -546,7 +557,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         width: 10,
                       ),
                       Text(
-                        'Confirmed',
+                        '${getmyOrderBookingHistory[index].status}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),

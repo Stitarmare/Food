@@ -2,16 +2,28 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
   int orderID;
-  StatusTrackView({this.orderID});
+  int flag;
+  int rest_id;
+  String restname;
+  //   String lat;
+  // String long;
+  String title;
+  StatusTrackView(
+      {this.orderID, this.flag, this.rest_id, this.title, this.restname});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -20,10 +32,13 @@ class StatusTrackView extends StatefulWidget {
 
 class _StatusTrackingViewState extends State<StatusTrackView>
     implements StatusTrackViewModelView {
+      List<Data> peopleList = [];
+
   StatusTrackViewPresenter statusTrackViewPresenter;
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +61,20 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          // automaticallyImplyLeading:true,
+          leading: GestureDetector(
+            child: Icon(Icons.arrow_back),
+            onTap: () {
+              if (widget.flag == 1) {
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              }
+              if (widget.flag == 2) {
+                // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
+                Navigator.pop(context);
+              }
+            },
+          ),
         ),
         body: _getmainview(),
         bottomNavigationBar:
@@ -55,8 +84,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   Widget billPaymentButton() {
-    return (statusInfo.status == "completed")
-        ? Container(
+    return 
+         Container(
             //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
             width: MediaQuery.of(context).size.width,
             height: 54,
@@ -76,18 +105,25 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     fontWeight: FontWeight.w600,
                     color: Colors.white),
               ),
-              color: ((Globle().colorscode) != null)?getColorByHex(Globle().colorscode):orangetheme,
+              color: ((Globle().colorscode) != null)
+                  ? getColorByHex(Globle().colorscode)
+                  : orangetheme,
               onPressed: () {
+
+                _timer.cancel();
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PaymentTipAndPayDi(
                               orderID: widget.orderID,
+                              //restid: widget.restID,
+                              // restname: widget.restname,
+                              //totalamount: widget.totalamount,
+                              // totalamount: ,
                             )));
               },
             ),
-          )
-        : Text("");
+          );
   }
 
   Widget _getmainview() {
@@ -105,7 +141,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       height: 10,
                     ),
                     Text(
-                      "That's Amore",
+                      "${widget.title}" ,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
@@ -138,21 +174,60 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       fontSize: 16,
                       fontFamily: 'gotham',
                       decoration: TextDecoration.underline,
-                      decorationColor: (Globle().colorscode != null )? getColorByHex(Globle().colorscode):orangetheme,
-                      color: (Globle().colorscode != null ) ? getColorByHex(Globle().colorscode):orangetheme,
+                      decorationColor: (Globle().colorscode != null)
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
+                      color: (Globle().colorscode != null)
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
                       fontWeight: FontWeight.w600),
                 ),
                 onPressed: () {
-                  //Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                  Preference.setPersistData<int>(
+                      widget.orderID, PreferenceKeys.ORDER_ID);
+
+                  if (widget.flag == 1) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
+                  if (widget.flag == 2) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RestaurantView(
+                                  rest_Id: widget.rest_id,
+                                  title: widget.title,
+                                )));
+                  }
                   //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
 
                   //Navigator.pushNamed(context, '/OrderConfirmation2View');
                 },
               ),
             ),
+
+              FlatButton(
+                    child: Text(
+                      'Add More People',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          decoration: TextDecoration.underline,
+                          decorationColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          child: RadioDialogAddPeople(peopleList,
+                              widget.tableId, widget.restId, widget.orderID));
 
             // SizedBox(
             //   height: 50,

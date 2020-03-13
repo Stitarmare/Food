@@ -209,9 +209,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    widget.tableId == null
-                        ? "Table 1"
-                        : 'Selected Table : ${widget.tablename}',
+                    
+                    (widget.tablename != null)
+                        ? 'Selected Table : ${widget.tablename}' 
+                        : "Table 1",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
@@ -615,6 +616,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
 

@@ -20,6 +20,7 @@ class AppTextField extends StatefulWidget {
   final FocusNode focusNode;
   final String initialvalue;
   //final Widget inputFormatters;
+  final List<TextInputFormatter> inputFormatters;
 
   const AppTextField({
     this.initialvalue,
@@ -39,6 +40,7 @@ class AppTextField extends StatefulWidget {
     this.autovalidate = false,
     this.focusNode,
     // this.inputFormatters,
+    this.inputFormatters,
   });
 
   @override
@@ -49,6 +51,7 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     TextFormField tf = TextFormField(
+      inputFormatters: widget.inputFormatters,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText,
       readOnly: widget.readOnly,

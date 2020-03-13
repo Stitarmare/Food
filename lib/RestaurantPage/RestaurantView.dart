@@ -27,7 +27,7 @@ import 'package:foodzi/widgets/imagewithloader.dart';
 class RestaurantView extends StatefulWidget {
   String title;
   int rest_Id;
-  
+
   int categoryid;
   RestaurantView({this.title, this.rest_Id, this.categoryid});
   @override
@@ -300,7 +300,9 @@ class _RestaurantViewState extends State<RestaurantView>
                         fontSize: 20,
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme),
                   )
                 ],
               ),
@@ -355,7 +357,9 @@ class _RestaurantViewState extends State<RestaurantView>
             Transform.scale(
               scale: 0.7,
               child: CupertinoSwitch(
-                activeColor: getColorByHex(Globle().colorscode),
+                activeColor: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 onChanged: (bool value) {
                   //  DialogsIndicator.showLoadingDialog(
                   //      context, _keyLoader, "Loading");
@@ -398,11 +402,16 @@ class _RestaurantViewState extends State<RestaurantView>
                         fontFamily: 'gotham',
                         fontWeight: FontWeight.w500,
                         color: (isselected)
-                            ? getColorByHex(Globle().colorscode)
+                            ? ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme
                             : greytheme100),
                   ),
                   borderSide: (isselected)
-                      ? BorderSide(color: getColorByHex(Globle().colorscode))
+                      ? BorderSide(
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme)
                       : BorderSide(color: greytheme100),
                   //borderSide: BorderSide(color:redtheme),
                   onPressed: () async {
@@ -659,8 +668,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                         fontSize: 14,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
-                                        color:
-                                            getColorByHex(Globle().colorscode)),
+                                        color: ((Globle().colorscode) != null)
+                                            ? getColorByHex(Globle().colorscode)
+                                            : orangetheme),
                                   ),
                                 ),
                               ),
@@ -693,8 +703,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color:
-                                            getColorByHex(Globle().colorscode),
+                                        color: ((Globle().colorscode) != null)
+                                            ? getColorByHex(Globle().colorscode)
+                                            : orangetheme,
                                         borderRadius: BorderRadius.only(
                                           bottomRight: Radius.circular(12.0),
                                         )),

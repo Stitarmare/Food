@@ -14,7 +14,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/DailogBox.dart';
+// import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -332,7 +332,7 @@ class _MyCartViewState extends State<MyCartView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        
+
                         //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
@@ -575,12 +575,12 @@ class _MyCartViewState extends State<MyCartView>
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  width: 80,
+                                  width: 0,
                                 ),
-                                flex: 2,
+                                // flex: 2,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 20, top: 30),
+                                padding: EdgeInsets.only(right: 15, top: 30),
                                 child: Text(
                                   "\$ ${_cartItemList[index].totalAmount}" ??
                                       '',
@@ -721,6 +721,7 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -731,7 +732,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;

@@ -6,6 +6,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
@@ -13,6 +14,7 @@ import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/Resendotp.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
@@ -20,6 +22,7 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
@@ -100,8 +103,10 @@ class GenericModel<T> {
       case AddItemPageModelList:
         return AddItemPageModelList.fromJson(json) as T;
 
-      case NotificationModel:
-        return NotificationModel.fromJson(json) as T;
+      // case NotificationModel:
+      //   return NotificationModel.fromJson(json) as T;
+      case GetNotificationListModel:
+       return GetNotificationListModel.fromJson(json) as T;
 
       case AddMenuToCartModel:
         return AddMenuToCartModel.fromJson(json) as T;
@@ -127,6 +132,13 @@ class GenericModel<T> {
       case GetMyOrdersBookingHistory:
         return GetMyOrdersBookingHistory.fromJson(json) as T;
 
+      case PaycheckoutNetbanking:
+        return PaycheckoutNetbanking.fromJson(json) as T;
+
+      case GetPeopleListModel:
+        return GetPeopleListModel.fromJson(json) as T;
+      case PaymentCheckoutModel:
+        return PaymentCheckoutModel.fromJson(json) as T;
       default:
         break;
     }

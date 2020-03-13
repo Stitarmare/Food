@@ -44,43 +44,44 @@ class _BottomTabbarState extends State<BottomTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: 
-      FloatingActionButton(
-                  backgroundColor: orangetheme,
-                  onPressed: () {
-                    print("1");
-                  },
-                  heroTag: "btnBuzzer",
-                  child: Image.asset('assets/ClockIcon/clock.png')),
-        //           Container(
-        // width: 60,
-        // height: 120,
-        // child: 
-        // Column(
-        //   children: <Widget>[
-        //     FittedBox(
-        //       child: 
-              // FloatingActionButton(
-              //     backgroundColor: orangetheme,
-              //     onPressed: () {
-              //       print("1");
-              //     },
-              //     heroTag: "btnBuzzer",
-              //     child: Image.asset('assets/ClockIcon/clock.png')),
-           // ),
-            // SizedBox(
-            //   height: 5,
-            // ),
-            // FittedBox(
-            //   child: FloatingActionButton(
-            //       backgroundColor: orangetheme,
-            //       onPressed: () {
-            //         print("2");
-            //         Navigator.pushNamed(context, '/MyCart');
-            //       },
-            //       heroTag: "btnAddCart",
-            //       child: Icon(Icons.shopping_cart, color: Colors.white)),
-            // ),
+      // floatingActionButton:
+      // FloatingActionButton(
+      //             backgroundColor: orangetheme,
+      //             onPressed: () {
+      //               print("1");
+      //             },
+      //             heroTag: "btnBuzzer",
+      //             child: Image.asset('assets/ClockIcon/clock.png')),
+
+      //           Container(
+      // width: 60,
+      // height: 120,
+      // child:
+      // Column(
+      //   children: <Widget>[
+      //     FittedBox(
+      //       child:
+      // FloatingActionButton(
+      //     backgroundColor: orangetheme,
+      //     onPressed: () {
+      //       print("1");
+      //     },
+      //     heroTag: "btnBuzzer",
+      //     child: Image.asset('assets/ClockIcon/clock.png')),
+      // ),
+      // SizedBox(
+      //   height: 5,
+      // ),
+      // FittedBox(
+      //   child: FloatingActionButton(
+      //       backgroundColor: orangetheme,
+      //       onPressed: () {
+      //         print("2");
+      //         Navigator.pushNamed(context, '/MyCart');
+      //       },
+      //       heroTag: "btnAddCart",
+      //       child: Icon(Icons.shopping_cart, color: Colors.white)),
+      // ),
       //     ],
       //   ),
       // ),
@@ -109,80 +110,100 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
+                icon: Icon(
+                  OMIcons.assignment,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.assignment,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 //icon: Image.asset('assets/OrderIcon/order.png'),
                 // icon: Icon(
                 //   OMIcons.assignment,
                 //   color: greytheme100,
                 //   size: 30,
                 // ),
-                icon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.assignment, color: greytheme100,size: 30,),
-                    Positioned(
-                        top: -11,
-                        right: -11,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
-                // activeIcon: Icon(
-                //   OMIcons.assignment,
-                //   color: orangetheme,
-                //   size: 30,
+                // icon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.assignment, color: greytheme100,size: 30,),
+                //     Positioned(
+                //         top: -11,
+                //         right: -11,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
                 // ),
-                activeIcon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.assignment, color: orangetheme,size: 30,),
-                    Positioned(
-                        top: -11,
-                        right: -11,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
+                // // activeIcon: Icon(
+                // //   OMIcons.assignment,
+                // //   color: orangetheme,
+                // //   size: 30,
+                // // ),
+                // activeIcon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.assignment, color: orangetheme,size: 30,),
+                //     Positioned(
+                //         top: -11,
+                //         right: -11,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
+                // ),
                 title: Text('')),
             BottomNavigationBarItem(
+                icon: Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                activeIcon: Icon(
+                  OMIcons.notifications,
+                  color: orangetheme,
+                  size: 30,
+                ),
                 //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                icon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.notifications, color: greytheme100,size: 30,),
-                    Positioned(
-                        top: -10,
-                        right: -10,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
-                activeIcon: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.notifications, color: orangetheme,size: 30,),
-                    Positioned(
-                        top: -10,
-                        right: -10,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ),
+                // icon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.notifications, color: greytheme100,size: 30,),
+                //     Positioned(
+                //         top: -10,
+                //         right: -10,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
+                // ),
+                // activeIcon: Stack(
+                //   fit: StackFit.passthrough,
+                //   overflow: Overflow.visible,
+                //   children: <Widget>[
+                //     Icon(OMIcons.notifications, color: orangetheme,size: 30,),
+                //     Positioned(
+                //         top: -10,
+                //         right: -10,
+                //         child: Badge(
+                //             badgeColor: redtheme,
+                //             badgeContent: Text("1",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(color: Colors.white))))
+                //   ],
+                // ),
                 title: Text('')),
             BottomNavigationBarItem(
                 //icon: Image.asset('assets/UserIcon/Group3.png'),

@@ -36,4 +36,10 @@ class UrlConstant {
   static const runningOrderApi = "/api/getRunningOrders";
   static const getOrderStatusApi = "api/getOrderStatus";
   static const getMyOrdersBookingHistory = "/api/getMyOrders";
+  static const getFinalBillApi = "/api/payOrder";
+  static const paycheckOutNetbankingApi = "/api/checkout";
+  static const addPeopleToOrderApi = "/api/addPeopleToOrder";
+  static const getPeopleListApi = "api/getPeopleList";
+  static const checkoutPaymentStatus = "api/checkoutPaymentStatus";
+  static const acceptInvitationApi = "api/acceptRejectInvitation";
 }
