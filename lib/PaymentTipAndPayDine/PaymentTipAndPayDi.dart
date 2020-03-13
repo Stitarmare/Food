@@ -821,6 +821,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_RESTAURANT_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     showAlertSuccess("Payment Success",
         "Your Transactions Has been Done Successfully", context);
