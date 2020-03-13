@@ -82,7 +82,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool alreadyAdded = false;
   int restaurant;
 
-  int sizeid;
+  int sizesid;
 
   @override
   void initState() {
@@ -142,7 +142,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptionsSizes> radiolistsize = [];
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
-        index: _addItemModelList.sizePrizes[i - 1].id,
+        index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
         title: _addItemModelList.sizePrizes[i - 1].size ?? '',
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
         //price: _addItemModelList.spreads[i - 1].price ?? '0'
@@ -358,7 +358,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.spreads =
                       spread == null ? [] : [spread];
                   _updateOrderModel.items.switches = switches ?? [];
-                  _updateOrderModel.items.sizes = sizes ?? [];
+                  _updateOrderModel.items.sizes = size == null ? [] : [size];
                   print(_updateOrderModel.toJson());
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
@@ -435,7 +435,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     addMenuToCartModel.items[0].switches = switches ?? [];
     addMenuToCartModel.items[0].quantity = count;
-    addMenuToCartModel.items[0].sizes = sizes ?? [];
+    addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
     // }
     //);
     print(addMenuToCartModel.toJson());
@@ -454,6 +454,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
+
 
   void cartAlert(String title, String message, BuildContext context) {
     showDialog(
@@ -879,7 +880,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: Text("${radionBtnsize.title}") ?? Text('data'),
                         secondary: Text("\$ ${radionBtnsize.secondary}") ??
                             Text('data'),
-                        groupValue: sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -887,13 +888,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             : orangetheme,
                         onChanged: (val) {
                           setState(() {
-                            if (sizes == null) {
+                            if (size == null) {
                               size = Sizes();
                             }
                             radioItemsize = radionBtnsize.title;
                             print(radionBtnsize.title);
-                            sizeid = radionBtnsize.index;
-                            size.sizeid = sizeid;
+                            sizesid = radionBtnsize.index;
+                            size.sizeid = sizesid;
                           });
                         },
                       ),
@@ -1204,6 +1205,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+
     getradiobtnsize(_addItemModelList.sizePrizes.length);
 
     checkboxbtn(_addItemModelList.extras.length);

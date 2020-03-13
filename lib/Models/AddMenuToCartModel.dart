@@ -185,7 +185,7 @@ class Item {
             : [],
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
         "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
-        "sizes": List<dynamic>.from(switches.map((x) => x.toJson())),
+        "sizes": List<dynamic>.from(sizes.map((x) => x.toJson())),
 
       };
 }
@@ -250,10 +250,10 @@ class Sizes {
   });
 
   factory Sizes.fromJson(Map<String, dynamic> json) => Sizes(
-        sizeid: json["spread_id"],
+        sizeid: json["size_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "spread_id": sizeid,
+        "size_id": sizeid,
       };
 }
