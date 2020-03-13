@@ -30,13 +30,7 @@ class _LandingStateView extends State<Landingview> {
   bool isOrderRunning = false;
   @override
   void initState() {
-    setState(() {
-      if (getCurrentOrderID() != null && getCurrentRestID() != null) {
-        isOrderRunning = true;
-      } else {
-        isOrderRunning = false;
-      }
-    });
+    
     super.initState();
   }
 
@@ -79,9 +73,12 @@ class _LandingStateView extends State<Landingview> {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
     if (currentOrderId != null) {
-      return currentOrderId;
+      setState(() {
+        isOrderRunning = true;
+      });
+       currentOrderId;
     }
-    return;
+    
   }
 
   getCurrentRestID() async {
@@ -181,7 +178,7 @@ class _LandingStateView extends State<Landingview> {
             SizedBox(
               height: 12,
             ),
-            (isOrderRunning) ? _currentOrderCard() : Container()
+            isOrderRunning ? _currentOrderCard() : Container()
           ],
         ),
       ),
