@@ -3,15 +3,16 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/error_model.dart';
+import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-class MyOrdersPresenter extends MyOrderContractor {
-  MyOrderModelView _myOrderModelView;
+class MyOrderTakeAwayPresenter extends MyOrderContractor {
+  MyOrderTakeAwayModelView _myOrderModelView;
 
-  MyOrdersPresenter(MyOrderModelView _myOrderModelView) {
+  MyOrderTakeAwayPresenter(MyOrderTakeAwayModelView _myOrderModelView) {
     this._myOrderModelView = _myOrderModelView;
   }
 

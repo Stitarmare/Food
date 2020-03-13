@@ -38,7 +38,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Extras> extra;
 
   Spreads spread;
-
+  Sizes size;
+  List<Sizes> sizes;
   List<Switches> switches;
 
   AddItemModelList _addItemModelList;
@@ -49,6 +50,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   bool alreadyAddedTA = false;
   int restaurantTA;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  int sizeid;
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
@@ -63,11 +65,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int id = 1;
   int count = 1;
   String radioItem;
+  String radioItemsize;
+  
   String _selectedId;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
-
+ List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
 
   List<SwitchesItems> _switchOptions = [];
@@ -88,6 +92,28 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     //radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
+    });
+  }
+int getradiobtnsize(int length) {
+    List<RadioButtonOptionsSizes> radiolistsize = [];
+    for (int i = 1; i <= length; i++) {
+      radiolistsize.add(RadioButtonOptionsSizes(
+        index: _addItemModelList.sizePrizes[i - 1].id,
+        title: _addItemModelList.sizePrizes[i - 1].size ?? '',
+        secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
+        //price: _addItemModelList.spreads[i - 1].price ?? '0'
+      ));
+    }
+    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
+    // for (int i = length; i <= length+1; i++) {
+    //   radiolist.add(RadioButtonOptions(
+    //       index: _addItemModelList.spreads[i].id,
+    //       title: 'none')
+    //       );
+
+    // }
+    setState(() {
+      _radioOptionsSizes = radiolistsize;
     });
   }
 
@@ -223,6 +249,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   spread == null ? [] : [spread];
               addMenuToCartModel.items[0].switches = switches ?? [];
               addMenuToCartModel.items[0].quantity = count;
+                addMenuToCartModel.items[0].sizes = sizes ?? [];
 
               print(addMenuToCartModel.toJson());
 
@@ -285,7 +312,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     );
   }
 
-    void cartAlert(String title, String message, BuildContext context) {
+  void cartAlert(String title, String message, BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
@@ -301,7 +328,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(left:0.0,right: 5.0) ,
+                    padding: const EdgeInsets.only(left: 0.0, right: 5.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -329,8 +356,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   widget.rest_id, PreferenceKeys.restaurantID);
                               Preference.setPersistData<bool>(
                                   true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(
-                                  widget.restName, PreferenceKeys.restaurantName);
+                              Preference.setPersistData<String>(widget.restName,
+                                  PreferenceKeys.restaurantName);
                               Globle().dinecartValue = 0;
                               Navigator.of(context).pop();
                             },
@@ -341,7 +368,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           //width: 10,
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width *0.32,
+                          width: MediaQuery.of(context).size.width * 0.32,
                           height: 40,
                           child: RaisedButton(
                             color: Colors.white,
@@ -568,7 +595,36 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               SizedBox(
                 height: 10,
               ),
-              togglebutton()
+              togglebutton(),
+               SizedBox(
+                height: 10,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 15),
+                child: Text(
+                  'Size',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 8),
+                child: Text(
+                  'Please select any one option',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
+                ),
+              ),
+              _getRadioOptionsSizes(),
+              SizedBox(
+                height: 10,
+              )
               // Container(
               //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
               //   child: Row(
@@ -593,6 +649,41 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             ]),
       ),
     );
+  }
+_getRadioOptionsSizes() {
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: _radioOptionsSizes.length > 0
+            ? _radioOptionsSizes
+                .map((radionBtnsize) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: RadioListTile(
+                        title: Text("${radionBtnsize.title}") ?? Text('data'),
+                        secondary: Text("\$ ${radionBtnsize.secondary}") ??
+                            Text('data'),
+                        groupValue: sizeid,
+                        value: radionBtnsize.index,
+                        dense: true,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        onChanged: (val) {
+                          setState(() {
+                            if (sizes == null) {
+                              size = Sizes();
+                            }
+                            radioItemsize = radionBtnsize.title;
+                            print(radionBtnsize.title);
+                            sizeid = radionBtnsize.index;
+                            size.sizeid = sizeid;
+                          });
+                        },
+                      ),
+                    ))
+                .toList()
+            : [Container()]);
   }
 
   _getRadioOptions() {
@@ -897,7 +988,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-
+getradiobtnsize(_addItemModelList.sizePrizes.length);
     // TODO: implement addItemsuccess
   }
 
@@ -930,7 +1021,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-        Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Preference.setPersistData(null, PreferenceKeys.restaurantName);
     // TODO: implement clearCartSuccess
   }
 }
@@ -951,7 +1042,13 @@ class RadioButtonOptions {
   String price;
   RadioButtonOptions({this.index, this.title, this.price});
 }
+class RadioButtonOptionsSizes {
+  int index;
+  String title;
+  String secondary;
 
+  RadioButtonOptionsSizes({this.index, this.title, this.secondary});
+}
 class SwitchesItems {
   int index;
   String title;

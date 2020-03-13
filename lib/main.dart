@@ -5,6 +5,7 @@ import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
+import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 
@@ -60,6 +61,7 @@ var routes = <String, WidgetBuilder>{
   '/RestaurantTAView': (BuildContext context) => RestaurantTAView(),
   '/NotificationView': (BuildContext context) => NotificationView(),
   '/MyOrders': (BuildContext context) => MyOrders(),
+  '/MyOrderTakeAway': (BuildContext context) => MyOrderTakeAway(),
   '/BottomProfileScreen': (BuildContext context) => BottomProfileScreen(),
   '/BottomNotificationView': (BuildContext context) => BottomNotificationView(),
   '/RestaurantInfoView': (BuildContext context) => RestaurantInfoView(),
@@ -73,7 +75,6 @@ var routes = <String, WidgetBuilder>{
   '/PaymentMethod': (BuildContext context) => PaymentMethod(),
   '/StatusTrackView': (BuildContext context) => StatusTrackView(),
   '/WebViewScreen': (BuildContext context) => WebViewScreen(),
-  
 };
 void main() {
   set();

@@ -52,6 +52,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   UpdateOrderModel _updateOrderModel;
 
   Spreads spread;
+  Sizes size;
+  List<Sizes> sizes;
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
@@ -81,6 +83,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool alreadyAdded = false;
   int restaurant;
  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
+  int sizeid;
+
   @override
   void initState() {
     _addItemPagepresenter =
@@ -98,11 +103,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int id = 1;
   int count = 1;
   String radioItem;
+  String radioItemsize;
   String _selectedId;
 
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
+  List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
 
@@ -131,6 +138,29 @@ class _AddItemPageViewState extends State<AddItemPageView>
     // }
     setState(() {
       _radioOptions = radiolist;
+    });
+  }
+
+  int getradiobtnsize(int length) {
+    List<RadioButtonOptionsSizes> radiolistsize = [];
+    for (int i = 1; i <= length; i++) {
+      radiolistsize.add(RadioButtonOptionsSizes(
+        index: _addItemModelList.sizePrizes[i - 1].id,
+        title: _addItemModelList.sizePrizes[i - 1].size ?? '',
+        secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
+        //price: _addItemModelList.spreads[i - 1].price ?? '0'
+      ));
+    }
+    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
+    // for (int i = length; i <= length+1; i++) {
+    //   radiolist.add(RadioButtonOptions(
+    //       index: _addItemModelList.spreads[i].id,
+    //       title: 'none')
+    //       );
+
+    // }
+    setState(() {
+      _radioOptionsSizes = radiolistsize;
     });
   }
 
@@ -331,7 +361,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.spreads =
                       spread == null ? [] : [spread];
                   _updateOrderModel.items.switches = switches ?? [];
-
+                  _updateOrderModel.items.sizes = sizes ?? [];
                   print(_updateOrderModel.toJson());
                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
@@ -409,6 +439,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     addMenuToCartModel.items[0].switches = switches ?? [];
     addMenuToCartModel.items[0].quantity = count;
+    addMenuToCartModel.items[0].sizes = sizes ?? [];
     // }
     //);
     print(addMenuToCartModel.toJson());
@@ -808,9 +839,74 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 height: 10,
               ),
               togglebutton(),
+              SizedBox(
+                height: 10,
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 15),
+                child: Text(
+                  'Size',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 26, top: 8),
+                child: Text(
+                  'Please select any one option',
+                  style: TextStyle(
+                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
+                ),
+              ),
+              _getRadioOptionsSizes(),
+              SizedBox(
+                height: 10,
+              )
             ]),
       ),
     );
+  }
+
+  _getRadioOptionsSizes() {
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: _radioOptionsSizes.length > 0
+            ? _radioOptionsSizes
+                .map((radionBtnsize) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: RadioListTile(
+                        title: Text("${radionBtnsize.title}") ?? Text('data'),
+                        secondary: Text("\$ ${radionBtnsize.secondary}") ??
+                            Text('data'),
+                        groupValue: sizeid,
+                        value: radionBtnsize.index,
+                        dense: true,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        onChanged: (val) {
+                          setState(() {
+                            if (sizes == null) {
+                              size = Sizes();
+                            }
+                            radioItemsize = radionBtnsize.title;
+                            print(radionBtnsize.title);
+                            sizeid = radionBtnsize.index;
+                            size.sizeid = sizeid;
+                          });
+                        },
+                      ),
+                    ))
+                .toList()
+            : [Container()]);
   }
 
   _getRadioOptions() {
@@ -1117,6 +1213,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+    getradiobtnsize(_addItemModelList.sizePrizes.length);
 
     checkboxbtn(_addItemModelList.extras.length);
 
@@ -1219,6 +1316,14 @@ class RadioButtonOptions {
   String title;
 
   RadioButtonOptions({this.index, this.title});
+}
+
+class RadioButtonOptionsSizes {
+  int index;
+  String title;
+  String secondary;
+
+  RadioButtonOptionsSizes({this.index, this.title, this.secondary});
 }
 
 class SwitchesItems {

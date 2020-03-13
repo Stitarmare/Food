@@ -3,7 +3,9 @@ import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/main.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -12,7 +14,6 @@ import 'package:foodzi/widgets/WebView.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-
 
 class Landingview extends DrawerContent {
   Landingview({Key key, this.title, this.body});
@@ -26,6 +27,13 @@ class Landingview extends DrawerContent {
 
 class _LandingStateView extends State<Landingview> {
   //String titleAppBar = "Testing";
+  bool isOrderRunning = false;
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,6 +67,27 @@ class _LandingStateView extends State<Landingview> {
         body: SingleChildScrollView(child: _getmainView()),
       ),
     );
+  }
+
+  getCurrentOrderID() async {
+    var currentOrderId =
+        await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
+    if (currentOrderId != null) {
+      setState(() {
+        isOrderRunning = true;
+      });
+       currentOrderId;
+    }
+    
+  }
+
+  getCurrentRestID() async {
+    var currentRestId = await Preference.getPrefValue<int>(
+        PreferenceKeys.CURRENT_RESTAURANT_ID);
+    if (currentRestId != null) {
+      return currentRestId;
+    }
+    return;
   }
 
   Widget _getmainView() {
@@ -145,7 +174,11 @@ class _LandingStateView extends State<Landingview> {
             SizedBox(
               height: 12,
             ),
-            _takeAwaycard()
+            _takeAwaycard(),
+            SizedBox(
+              height: 12,
+            ),
+            isOrderRunning ? _currentOrderCard() : Container()
           ],
         ),
       ),
@@ -221,6 +254,33 @@ class _LandingStateView extends State<Landingview> {
     );
   }
 
+  Widget _currentOrdertext() {
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 20,
+        ),
+        Text('Current Order',
+            style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greentheme100)),
+        SizedBox(
+          height: 15,
+        ),
+        Text('Track your current order',
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme100)),
+      ],
+    );
+  }
+
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -248,6 +308,58 @@ class _LandingStateView extends State<Landingview> {
                   width: 40,
                 ),
                 _buildTakeAwaytext(),
+                SizedBox(
+                  width: 40,
+                ),
+                Icon(
+                  Icons.navigate_next,
+                  color: greytheme600,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _currentOrderCard() {
+    return Center(
+      child: Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          onTap: () {
+            // _goToNextPageDineIn(context);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => StatusTrackView()));
+            print('Card tapped.');
+          },
+          child: Container(
+            width: 345,
+            height: 90,
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 17,
+                ),
+                ClipOval(
+                  child: Container(
+                    width: 46.8,
+                    height: 46.8,
+                    child: Image.asset(
+                      'assets/OrderIcon/order.png',
+                      color: Colors.white,
+                    ),
+                    color: orangetheme,
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                _currentOrdertext(),
                 SizedBox(
                   width: 40,
                 ),
@@ -306,18 +418,16 @@ class _LandingStateView extends State<Landingview> {
 }
 
 class MainWidget extends StatefulWidget {
-  MainWidget({Key key, this.title,this.appbarTitle}) : super(key: key);
+  MainWidget({Key key, this.title, this.appbarTitle}) : super(key: key);
   final String title;
   String appbarTitle;
-  
+
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
-
-  
 
   @override
   void initState() {
@@ -338,10 +448,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Home',
             ),
-            onPressed: () { 
+            onPressed: () {
               widget.appbarTitle = 'Home';
-                _opennewpage();                               
-              }),
+              _opennewpage();
+            }),
         DrawerItem(
             text: Text('Settings',
                 style: TextStyle(
@@ -353,10 +463,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Gallery',
             ),
-            onPressed: () { 
-               widget.appbarTitle = 'Settings';
-                _opennewpage();                               
-              }),
+            onPressed: () {
+              widget.appbarTitle = 'Settings';
+              _opennewpage();
+            }),
         DrawerItem(
             text: Text(
               'Terms & Conditions',
@@ -370,10 +480,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Favorites',
             ),
-            onPressed: () { 
-               widget.appbarTitle = 'Favorites';
-                _opennewpage();                               
-              }),
+            onPressed: () {
+              widget.appbarTitle = 'Favorites';
+              _opennewpage();
+            }),
         DrawerItem(
             text: Text(
               'Privacy Policy',
@@ -387,10 +497,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'Notification',
             ),
-            onPressed: () { 
-               widget.appbarTitle = 'Privacy Policy';
-                _opennewpage();                               
-              }),
+            onPressed: () {
+              widget.appbarTitle = 'Privacy Policy';
+              _opennewpage();
+            }),
         DrawerItem(
             text: Text(
               'About Us',
@@ -404,10 +514,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'invite',
             ),
-            onPressed: () { 
+            onPressed: () {
               widget.appbarTitle = 'About Us';
-                _opennewpage();                               
-              }),
+              _opennewpage();
+            }),
         DrawerItem(
             text: Text(
               'Help',
@@ -425,10 +535,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             page: Landingview(
               title: 'SETTINGS',
             ),
-            onPressed: () { 
+            onPressed: () {
               widget.appbarTitle = "Help";
-                _opennewpage();                               
-              }),
+              _opennewpage();
+            }),
       ],
     );
   }
@@ -513,12 +623,14 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ),
     );
   }
-    void _opennewpage() {
+
+  void _opennewpage() {
     //Navigator.of(context).pushNamed('/webview');
     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WebViewPage(title: widget.appbarTitle,)));
-    
+        context,
+        MaterialPageRoute(
+            builder: (context) => WebViewPage(
+                  title: widget.appbarTitle,
+                )));
   }
 }

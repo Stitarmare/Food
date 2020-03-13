@@ -2,43 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
+import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayPresenter.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
-import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
-import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
-class MyOrders extends StatefulWidget {
+class MyOrderTakeAway extends StatefulWidget {
   String title;
   // String lat;
   // String long;
-  MyOrders({
+  MyOrderTakeAway({
     this.title,
   });
   _MyOrdersState createState() => _MyOrdersState();
 }
 
-class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
+class _MyOrdersState extends State<MyOrderTakeAway>
+    implements MyOrderTakeAwayModelView {
   ScrollController _controller = ScrollController();
-  MyOrdersPresenter _myOrdersPresenter;
+  MyOrderTakeAwayPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
   List<CurrentOrderList> _currentOrder;
   List<CurrentOrderList> _orderHistory;
   int i;
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
   List<CurrentOrderList> _orderDetailList;
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _myOrdersPresenter = MyOrdersPresenter(this);
-     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    // _myOrdersPresenter.getOrderDetails(context);
-    _myOrdersPresenter.getOrderDetails("dine_in", context);
+    _myOrdersPresenter = MyOrderTakeAwayPresenter(this);
+    _myOrdersPresenter.getOrderDetails("take_away", context);
     _myOrdersPresenter.getmyOrderBookingHistory(context);
   }
 
@@ -165,7 +164,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
-                              tableId: _orderDetailList[index].tableId,
+                              //tableId: _orderDetailList[index].tableId,
                               orderID: _orderDetailList[index].id,
                               flag: 2,
                               rest_id: _orderDetailList[index].restId,
@@ -604,11 +603,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList = _orderdetailsList;
       }
     });
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Preference.setPersistData<int>(_orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
-    Preference.setPersistData<int>(_orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
-
-    // TODO: implement getOrderDetailsSuccess
   }
 
   //List<CurrentOrderList> _orderdetailsList)
@@ -632,7 +626,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (_getmyOrderBookingHistory.length == 0) {
       return;
     }

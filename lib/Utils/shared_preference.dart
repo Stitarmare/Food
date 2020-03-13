@@ -14,6 +14,9 @@ class PreferenceKeys {
   static final restaurantIDTA = "RESTAURANT_ID_TA";
   static final restaurantName = "RESTAURANT_NAME";
   static final ORDER_ID = "ORDER_ID";
+  static final CURRENT_ORDER_ID = "CURRENT_ORDER_ID";
+  static final CURRENT_RESTAURANT_ID = "CURRENT_RESTAURANT_ID";
+
   // static const Sign_UP_With_User_Data = 'Sign_In_With_User_Data';
   // static const Sign_IN_With_OTP = "Sign_IN_With_OTP";
   // static const ResetOtp = "ResetOtp";
