@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -15,27 +16,51 @@ class MyOrdersPresenter extends MyOrderContractor {
   }
 
   @override
-  void getOrderDetails(BuildContext context) {
-    ApiBaseHelper()
-        .get<CurrentOrderDetailsModel>(UrlConstant.runningOrderApi, context)
-        .then((value) {
+  void getOrderDetails(String order_type, BuildContext context) {
+    ApiBaseHelper().post<CurrentOrderDetailsModel>(
+        UrlConstant.runningOrderApi, context,
+        body: {
+          "order_type": order_type,
+        }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Order Detail success");
+          print("Add People Success");
           print(value.model);
           _myOrderModelView.getOrderDetailsSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Order Detail failed");
+          print("Add People Failed");
           _myOrderModelView.getOrderDetailsFailed();
           break;
       }
     }).catchError((error) {
       print(error);
     });
-    // TODO: implement getOrderDetails
   }
+
+  // @override
+  // void getOrderDetails(BuildContext context) {
+  //   ApiBaseHelper()
+  //       .get<CurrentOrderDetailsModel>(UrlConstant.runningOrderApi, context)
+  //       .then((value) {
+  //     print(value);
+  //     switch (value.result) {
+  //       case SuccessType.success:
+  //         print("Order Detail success");
+  //         print(value.model);
+  //         _myOrderModelView.getOrderDetailsSuccess(value.model.data);
+  //         break;
+  //       case SuccessType.failed:
+  //         print("Order Detail failed");
+  //         _myOrderModelView.getOrderDetailsFailed();
+  //         break;
+  //     }
+  //   }).catchError((error) {
+  //     print(error);
+  //   });
+  //   // TODO: implement getOrderDetails
+  // }
 
   @override
   void getmyOrderBookingHistory(BuildContext context) {

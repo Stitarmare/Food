@@ -140,6 +140,7 @@ class _DineViewState extends State<DineInView>
       child: Scaffold(
         key: this._scaffoldKey,
         appBar: AppBar(
+           brightness: Brightness.dark,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,

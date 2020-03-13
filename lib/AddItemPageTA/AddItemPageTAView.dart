@@ -218,6 +218,7 @@ int getradiobtnsize(int length) {
       right: false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),

@@ -19,7 +19,7 @@ import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class ConfirmationDineView extends StatefulWidget {
-  int orderID;
+  // int orderID;
   String restName;
   int price;
   int restId;
@@ -45,7 +45,7 @@ class ConfirmationDineView extends StatefulWidget {
     this.totalAmount,
     this.itemdata,
     this.restName,
-    this.orderID,
+    // this.orderID,
   });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
@@ -86,7 +86,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   int _dropdownTableNumber;
 
   int cartId;
-
+  
   OrderData myOrderData;
 
   @override
@@ -107,6 +107,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           centerTitle: true,
           title: Text(widget.restName),
           backgroundColor: Colors.transparent,
@@ -308,11 +309,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               : orangetheme,
                           fontWeight: FontWeight.w600),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
+                      int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
                       showDialog(
                           context: context,
                           child: RadioDialogAddPeople(peopleList,
-                              widget.tableId, widget.restId, widget.orderID));
+                              widget.tableId, widget.restId, orderId));
 
                       // confirmationDineviewPresenter.addPeople(
                       //     widget.mobilenumber,
@@ -745,6 +747,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
+                              tableId: widget.tableId,
                               orderID: myOrderData.id,
                               title: widget.restName,
                               // restID: widget.restId,

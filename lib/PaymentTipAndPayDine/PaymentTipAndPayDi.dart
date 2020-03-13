@@ -72,6 +72,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -816,7 +817,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void payfinalBillSuccess() {
     print("payment Success");
     Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-    //Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Preference.removeForKey(PreferenceKeys.ORDER_ID);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
@@ -874,7 +875,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           double.parse(myOrderData.totalAmount) + sliderValue.toInt(),
           paymentCheckoutModel.transactionId,
           context);
-     
     } else {
       Constants.showAlert("Foodzi", "Payment Failed.", context);
     }

@@ -64,6 +64,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
+          
             preferredSize: Size(MediaQuery.of(context).size.width,
                 MediaQuery.of(context).size.height * 0.2),
             child: Stack(overflow: Overflow.visible, children: <Widget>[

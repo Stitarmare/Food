@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>216592835926-9v000a2bg4bg63afojnlcr4peqdk9v1j.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.216592835926-9v000a2bg4bg63afojnlcr4peqdk9v1j</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBFWonm8YUvwJZHsiJUfChdk27h0Wwrggg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>216592835926</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.foodzi</string>
+	<key>PROJECT_ID</key>
+	<string>foodziapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>foodziapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:216592835926:ios:93597f04304284f98122f7</string>
+	<key>DATABASE_URL</key>
+	<string>https://foodziapp.firebaseio.com</string>
+</dict>
+</plist>

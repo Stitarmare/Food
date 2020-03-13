@@ -91,6 +91,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
       right: true,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),

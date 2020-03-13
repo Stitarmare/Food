@@ -248,6 +248,7 @@ class ApiBaseHelper {
       case 400:
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
+        print(response.body.toString());
         var responseJson = json.decode(response.body.toString());
         var errorModel = ErrorModel.fromMap(responseJson);
         var msg = "";

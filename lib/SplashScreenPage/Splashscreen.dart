@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -16,10 +18,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+    FirebaseMessaging _fcm = FirebaseMessaging();
+    StreamSubscription iosSubscription;
+
   @override
   void initState() {
     super.initState();
-
+  setForIosPushNotification();
+  fcmConfiguration();
+  getFcmToken();
     Timer(Duration(seconds: 2),
         //() => Navigator.pushReplacementNamed(context, '/LoginView'),
 
@@ -43,6 +51,51 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, '/LoginView');
       });
     });
+  }
+
+  setForIosPushNotification() {
+    if(Platform.isIOS) {
+     iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+
+      });
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    }
+  }
+
+  fcmConfiguration() {
+    _fcm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+            print("onMessage: $message");
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                        content: ListTile(
+                        title: Text(message['notification']['title']),
+                        subtitle: Text(message['notification']['body']),
+                        ),
+                        actions: <Widget>[
+                        FlatButton(
+                            child: Text('Ok'),
+                            onPressed: () => Navigator.of(context).pop(),
+                        ),
+                    ],
+                ),
+            );
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+            print("onLaunch: $message");
+            // TODO optional
+        },
+        onResume: (Map<String, dynamic> message) async {
+            print("onResume: $message");
+            // TODO optional
+        },
+    );
+  }
+
+  getFcmToken() async{
+    String fcmToken = await _fcm.getToken();
+    print(fcmToken);
   }
 
   @override

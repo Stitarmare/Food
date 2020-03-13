@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
@@ -11,8 +14,10 @@ import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
+  int tableId;
   int orderID;
   int flag;
   int rest_id;
@@ -21,7 +26,12 @@ class StatusTrackView extends StatefulWidget {
   // String long;
   String title;
   StatusTrackView(
-      {this.orderID, this.flag, this.rest_id, this.title, this.restname});
+      {this.orderID,
+      this.flag,
+      this.rest_id,
+      this.title,
+      this.restname,
+      this.tableId});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -29,17 +39,22 @@ class StatusTrackView extends StatefulWidget {
 }
 
 class _StatusTrackingViewState extends State<StatusTrackView>
-    implements StatusTrackViewModelView {
+    implements StatusTrackViewModelView, ConfirmationDineViewModelView {
+  List<Data> peopleList = [];
+
   StatusTrackViewPresenter statusTrackViewPresenter;
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
+  ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
   @override
   void initState() {
     super.initState();
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    confirmationDineviewPresenter.getPeopleList(context);
 
     _timer = Timer.periodic(_duration, (Timer t) {
       statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
@@ -55,6 +70,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
           // automaticallyImplyLeading:true,
@@ -80,46 +96,44 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   Widget billPaymentButton() {
-    return 
-         Container(
-            //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-            width: MediaQuery.of(context).size.width,
-            height: 54,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-              ),
-              child: Text(
-                'BILL PAYMENT',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'gotham',
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              ),
-              color: ((Globle().colorscode) != null)
-                  ? getColorByHex(Globle().colorscode)
-                  : orangetheme,
-              onPressed: () {
-
-                _timer.cancel();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PaymentTipAndPayDi(
-                              orderID: widget.orderID,
-                              //restid: widget.restID,
-                              // restname: widget.restname,
-                              //totalamount: widget.totalamount,
-                              // totalamount: ,
-                            )));
-              },
-            ),
-          );
+    return Container(
+      //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+      width: MediaQuery.of(context).size.width,
+      height: 54,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+        ),
+        child: Text(
+          'BILL PAYMENT',
+          textAlign: TextAlign.start,
+          style: TextStyle(
+              fontSize: 18,
+              fontFamily: 'gotham',
+              fontWeight: FontWeight.w600,
+              color: Colors.white),
+        ),
+        color: ((Globle().colorscode) != null)
+            ? getColorByHex(Globle().colorscode)
+            : orangetheme,
+        onPressed: () {
+          _timer.cancel();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PaymentTipAndPayDi(
+                        orderID: widget.orderID,
+                        //restid: widget.restID,
+                        // restname: widget.restname,
+                        //totalamount: widget.totalamount,
+                        // totalamount: ,
+                      )));
+        },
+      ),
+    );
   }
 
   Widget _getmainview() {
@@ -137,7 +151,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       height: 10,
                     ),
                     Text(
-                      "${widget.title}" ,
+                      "${widget.title}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
@@ -204,10 +218,35 @@ class _StatusTrackingViewState extends State<StatusTrackView>
               ),
             ),
 
-            // SizedBox(
-            //   height: 50,
-            // ),
-            // _billPayment(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                  child: Text(
+                    'Add More People',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        decoration: TextDecoration.underline,
+                        decorationColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        child: RadioDialogAddPeople(peopleList, widget.tableId,
+                            widget.rest_id, widget.orderID));
+
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // _billPayment(),
+                  }),
+            )
           ],
         ),
       ),
@@ -282,6 +321,39 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     // TODO: implement dispose
     _timer.cancel();
     super.dispose();
+  }
+
+  @override
+  void addPeopleFailed() {
+    // TODO: implement addPeopleFailed
+  }
+
+  @override
+  void addPeopleSuccess() {
+    // TODO: implement addPeopleSuccess
+  }
+
+  @override
+  void getPeopleListonFailed() {
+    // TODO: implement getPeopleListonFailed
+  }
+
+  @override
+  void getPeopleListonSuccess(List<Data> data) {
+    // TODO: implement getPeopleListonSuccess
+    if (data.length == 0) {
+      return;
+    }
+    setState(() {
+      if (peopleList == null) {
+        peopleList = data;
+      } else {
+        peopleList.addAll(data);
+      }
+    });
+    print("data list --->");
+    print(peopleList.length);
+    print(peopleList.elementAt(0).firstName);
   }
 }
 

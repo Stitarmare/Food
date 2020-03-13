@@ -17,6 +17,7 @@ class _WebViewPageState extends State<WebViewPage> {
     return WebviewScaffold(
         url: "https://google.co.in",
         appBar: new AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           title: new Text(widget.title,style: TextStyle(
                 fontSize: 18,

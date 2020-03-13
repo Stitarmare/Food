@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "216592835926",
+    "firebase_url": "https://foodziapp.firebaseio.com",
+    "project_id": "foodziapp",
+    "storage_bucket": "foodziapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216592835926:android:2e56ed732bdfb2278122f7",
+        "android_client_info": {
+          "package_name": "com.example.foodzi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216592835926-td44gufdbk72unhifm7gnfk4o14rkbpg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZI3r8mQzOPflU0e-9Yidbsma38UQ_RaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216592835926-td44gufdbk72unhifm7gnfk4o14rkbpg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

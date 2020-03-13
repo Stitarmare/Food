@@ -334,6 +334,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           title: Text('My Cart'),
           backgroundColor: Colors.white,
           elevation: 0,

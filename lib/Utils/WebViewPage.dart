@@ -83,7 +83,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
     return new WebviewScaffold(
         url: loginUrl,
         appBar: new AppBar(
-          title: new Text("Payment"),
+          // title: new Text("Payment"),
+           brightness: Brightness.dark,
+          title: new Text("Login to someservise..."),
           backgroundColor: orangetheme,
         ));
   }
