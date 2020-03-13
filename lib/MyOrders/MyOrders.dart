@@ -6,6 +6,7 @@ import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class MyOrders extends StatefulWidget {
@@ -596,6 +597,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     setState(() {
       _orderDetailList = _orderdetailsList;
     });
+    Preference.setPersistData<int>(_orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<int>(_orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
 
     // TODO: implement getOrderDetailsSuccess
   }
