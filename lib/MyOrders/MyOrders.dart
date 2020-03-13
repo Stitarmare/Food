@@ -160,6 +160,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
+                              tableId: _orderDetailList[index].tableId,
                               orderID: _orderDetailList[index].id,
                               flag: 2,
                               rest_id: _orderDetailList[index].restId,

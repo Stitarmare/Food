@@ -745,6 +745,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
+                              tableId: widget.tableId,
                               orderID: myOrderData.id,
                               title: widget.restName,
                               // restID: widget.restId,
