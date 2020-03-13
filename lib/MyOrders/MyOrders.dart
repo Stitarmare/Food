@@ -44,6 +44,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           centerTitle: true,
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,

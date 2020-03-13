@@ -192,6 +192,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
+           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),

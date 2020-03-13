@@ -87,6 +87,7 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[

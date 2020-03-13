@@ -132,6 +132,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       child: Scaffold(
         key: this._scaffoldKey,
         appBar: AppBar(
+           brightness: Brightness.dark,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,

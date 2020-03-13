@@ -45,6 +45,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       onWillPop: () async => false,
       child: Scaffold(
           appBar: AppBar(
+             brightness: Brightness.dark,
             automaticallyImplyLeading: false,
             elevation: 0.0,
             backgroundColor: Colors.white,
