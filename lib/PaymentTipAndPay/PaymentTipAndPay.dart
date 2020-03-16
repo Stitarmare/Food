@@ -620,7 +620,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
 
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);

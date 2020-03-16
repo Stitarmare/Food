@@ -841,10 +841,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     if (billModel == null) {
       billModel = model;
     }
+         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
         MaterialPageRoute(

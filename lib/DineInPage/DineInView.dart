@@ -121,7 +121,7 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                  
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
@@ -688,7 +688,7 @@ class _DineViewState extends State<DineInView>
   void restaurantsuccess(List<RestaurantList> restlist) {
     isIgnoreTouch = false;
 // TODO: implement restaurantsuccess
-   
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
         _restaurantList = null;
@@ -704,7 +704,7 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    
   }
 }
 
