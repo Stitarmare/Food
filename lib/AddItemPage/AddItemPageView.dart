@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
@@ -9,6 +10,7 @@ import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,13 +21,15 @@ class AddItemPageView extends StatefulWidget {
   int item_id;
   int rest_id;
   String restName;
+  String itemImage;
 
   AddItemPageView(
       {this.title,
       this.description,
       this.item_id,
       this.rest_id,
-      this.restName});
+      this.restName,
+      this.itemImage});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -44,6 +48,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   AddItemsToCartModel addMenuToCartModel;
 
   GetTableList getTableListModel;
+  AddItemPageModelList _addItemPageModelList;
 
   Item items;
 
@@ -85,10 +90,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemPagepresenter =
         AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
+    _addItemPageModelList = AddItemPageModelList();
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     _addItemPagepresenter.getTableListno(widget.rest_id, context);
     itemIdValue = widget.item_id;
+    print("${widget.itemImage}");
     super.initState();
   }
 
@@ -297,7 +304,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         body: CustomScrollView(
           controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+          slivers: <Widget>[
+            _getmainviewTableno(),
+            // _getItemImage(),
+            _getOptions()
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
@@ -508,6 +519,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ],
               ),
             ));
+  }
+
+  Widget _getItemImage() {
+    return CachedNetworkImage(
+      fit: BoxFit.fill,
+      height: 100,
+      placeholder: (context, url) => Center(
+        child: CircularProgressIndicator(),
+      ),
+      errorWidget: (context, url, error) => Image.asset(
+        "assets/PlaceholderFoodImage/MaskGroup55.png",
+        fit: BoxFit.contain,
+        width: double.infinity,
+        height: 100,
+      ),
+      imageUrl: BaseUrl.getBaseUrlImages() + '${widget.itemImage}',
+    );
   }
 
   Widget _getmainviewTableno() {
@@ -1023,7 +1051,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: const EdgeInsets.only(right: 40),
                           child: Text(
-                            checkBtn.price.toString() ?? '',
+                            "${_addItemPageModelList.currencySymbol} " +
+                                    checkBtn.price.toString() ??
+                                '',
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Color.fromRGBO(64, 64, 64, 1)),
@@ -1100,12 +1130,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addItemfailed() {
-    // TODO: implement addItemfailed
-  }
+  void addItemfailed() {}
 
   @override
-  void addItemsuccess(List<AddItemModelList> _additemlist) {
+  void addItemsuccess(List<AddItemModelList> _additemlist,
+      AddItemPageModelList addItemPageModelList1) {
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -1113,18 +1142,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-
-    // TODO: implement addItemsuccess
+    setState(() {
+      _addItemPageModelList = addItemPageModelList1;
+    });
   }
 
   @override
-  void addMenuToCartfailed() {
-    // TODO: implement addMenuToCartfailed
-  }
+  void addMenuToCartfailed() {}
 
   @override
   void addMenuToCartsuccess() {
-    // TODO: implement addMenuToCartsuccess
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1199,7 +1226,13 @@ class CheckBoxOptions {
   String price;
   // double price;
   bool isChecked;
-  CheckBoxOptions({this.index, this.title, this.price, this.isChecked});
+
+  CheckBoxOptions({
+    this.index,
+    this.title,
+    this.price,
+    this.isChecked,
+  });
 }
 
 class RadioButtonOptions {

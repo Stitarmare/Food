@@ -59,7 +59,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     // _selectedId = widget.initialValue;
     print("addpeople list length-->");
-    print(widget.data);
+    print(widget.data.length);
   }
 
   Widget build(BuildContext context) {

@@ -20,7 +20,9 @@ class BottomTabbarHome extends StatefulWidget {
   int rest_Id;
   String lat;
   String long;
-  BottomTabbarHome({this.title, this.rest_Id, this.lat, this.long});
+  String imageUrl;
+  BottomTabbarHome(
+      {this.title, this.rest_Id, this.lat, this.long, this.imageUrl});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -44,13 +46,13 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
 
   @override
   void initState() {
-    // TODO: implement initState
     if (widget.title != null) {
       setState(() {
         tabsHome.setAll(0, [
           RestaurantView(
             title: widget.title,
             rest_Id: widget.rest_Id,
+            imageUrl: widget.imageUrl,
           )
         ]);
       });
@@ -161,60 +163,72 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-              
+
                 //icon: Image.asset('assets/OrderIcon/order.png'),
                 // icon: Icon(
                 //   OMIcons.assignment,
                 //   color: greytheme100,
                 //   size: 30,
                 // ),
-                
-                icon: (getOrderID() != null)? Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.assignment, color: greytheme100,size: 30,),
-                    Positioned(
-                        top: -11,
-                        right: -11,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ):Icon(
-                  OMIcons.assignment,
-                  color: greytheme100,
-                  size: 30,
-                ),
+
+                icon: (getOrderID() != null)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.assignment,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text("1",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white))))
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.assignment,
+                        color: greytheme100,
+                        size: 30,
+                      ),
                 // activeIcon: Icon(
                 //   OMIcons.assignment,
                 //   color: orangetheme,
                 //   size: 30,
                 // ),
-                activeIcon: (getOrderID() != null)?Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Icon(OMIcons.assignment, color: orangetheme,size: 30,),
-                    Positioned(
-                        top: -11,
-                        right: -11,
-                        child: Badge(
-                            badgeColor: redtheme,
-                            badgeContent: Text("1",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white))))
-                  ],
-                ): Icon(
-                  OMIcons.assignment,
-                  color: orangetheme,
-                  size: 30,
-                ),
+                activeIcon: (getOrderID() != null)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.assignment,
+                            color: orangetheme,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text("1",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white))))
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.assignment,
+                        color: orangetheme,
+                        size: 30,
+                      ),
                 title: Text('')),
             BottomNavigationBarItem(
-              icon: Icon(
+                icon: Icon(
                   OMIcons.notifications,
                   color: greytheme100,
                   size: 30,
@@ -272,9 +286,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
           ]),
     );
   }
+
   getOrderID() async {
     var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-    if(orderId != null){
+    if (orderId != null) {
       return orderId;
     }
     return;

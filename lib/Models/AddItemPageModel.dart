@@ -13,18 +13,21 @@ String addItemPageModelListToJson(AddItemPageModelList data) =>
 class AddItemPageModelList {
   String status;
   int statusCode;
+  String currencySymbol;
   List<AddItemModelList> data;
 
   AddItemPageModelList({
     this.status,
     this.statusCode,
     this.data,
+    this.currencySymbol,
   });
 
   factory AddItemPageModelList.fromJson(Map<String, dynamic> json) =>
       AddItemPageModelList(
         status: json["status"],
         statusCode: json["status_code"],
+        currencySymbol: json["currency_symbol"],
         data: List<AddItemModelList>.from(
             json["data"].map((x) => AddItemModelList.fromJson(x))),
       );
@@ -32,6 +35,7 @@ class AddItemPageModelList {
   Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
+        "currency_symbol": currencySymbol,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }

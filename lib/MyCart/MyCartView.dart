@@ -285,7 +285,7 @@ class _MyCartViewState extends State<MyCartView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           title: Text('My Cart'),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -362,6 +362,7 @@ class _MyCartViewState extends State<MyCartView>
                                     orderType: widget.orderType,
                                     latitude: widget.lat,
                                     longitude: widget.long,
+                                    currencySymbol: myCart.currencySymbol,
                                     // orderID: widget.orderId
                                   ),
                                 ))
@@ -584,7 +585,8 @@ class _MyCartViewState extends State<MyCartView>
                               Padding(
                                 padding: EdgeInsets.only(right: 15, top: 30),
                                 child: Text(
-                                  "\$ ${_cartItemList[index].totalAmount}" ??
+                                  "${myCart.currencySymbol} " +
+                                          "${_cartItemList[index].totalAmount}" ??
                                       '',
                                   style: TextStyle(
                                       color: greytheme700,
@@ -693,11 +695,12 @@ class _MyCartViewState extends State<MyCartView>
     Globle().dinecartValue = menulist.length;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-    myCart = model;
 
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        myCart = model;
+
         for (var i = 0; i < _cartItemList.length; i++) {
           itemList.add(_cartItemList[i].id);
           print(itemList);
@@ -709,6 +712,7 @@ class _MyCartViewState extends State<MyCartView>
       } else {
         //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
+        myCart = model;
 
         //getcartitemlist();
       }

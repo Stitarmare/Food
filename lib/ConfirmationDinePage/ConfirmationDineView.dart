@@ -31,6 +31,7 @@ class ConfirmationDineView extends StatefulWidget {
   int totalAmount;
   String latitude;
   String longitude;
+  String currencySymbol;
   List<MenuCartList> itemdata;
   ConfirmationDineView({
     this.userId,
@@ -45,6 +46,7 @@ class ConfirmationDineView extends StatefulWidget {
     this.totalAmount,
     this.itemdata,
     this.restName,
+    this.currencySymbol,
     // this.orderID,
   });
   @override
@@ -86,7 +88,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   int _dropdownTableNumber;
 
   int cartId;
-  
+
   OrderData myOrderData;
 
   @override
@@ -107,7 +109,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           centerTitle: true,
           title: Text(widget.restName),
           backgroundColor: Colors.transparent,
@@ -230,7 +232,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "\$ ${widget.itemdata[index].totalAmount}" ??
+                                      "${widget.currencySymbol} " +
+                                              "${widget.itemdata[index].totalAmount}" ??
                                           '',
                                       style: TextStyle(
                                           color: greytheme700,
@@ -309,8 +312,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               : orangetheme,
                           fontWeight: FontWeight.w600),
                     ),
-                    onPressed: () async{
-                      int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+                    onPressed: () async {
+                      int orderId = await Preference.getPrefValue<int>(
+                          PreferenceKeys.ORDER_ID);
                       showDialog(
                           context: context,
                           child: RadioDialogAddPeople(peopleList,

@@ -54,7 +54,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
         case SuccessType.success:
           print("AddItem success");
           print(value.model);
-          addItemPageModelView.addItemsuccess(value.model.data);
+          addItemPageModelView.addItemsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:
           print("AddItem failed");
@@ -171,7 +171,9 @@ class AddItemPagepresenter extends AddItemPageContractor {
   @override
   void updateOrder(UpdateOrderModel updateOrderModel, BuildContext context) {
     ApiBaseHelper()
-        .post<UpdateOrderResponseModel>(UrlConstant.updateOrderApi, context, body: updateOrderModel.toJson()).then((value) {
+        .post<UpdateOrderResponseModel>(UrlConstant.updateOrderApi, context,
+            body: updateOrderModel.toJson())
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

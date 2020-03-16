@@ -5,13 +5,14 @@ import 'package:foodzi/Models/UpdateOrderModel.dart';
 
 abstract class AddItemPageContractor {
   void performAddItem(int item_id, int rest_id, BuildContext context);
-   void clearCart(BuildContext context) ;
-   void updateOrder(UpdateOrderModel updateOrderModel,BuildContext context);
+  void clearCart(BuildContext context);
+  void updateOrder(UpdateOrderModel updateOrderModel, BuildContext context);
   void onBackPresed();
 }
 
 abstract class AddItemPageModelView {
-  void addItemsuccess(List<AddItemModelList> additemlist);
+  void addItemsuccess(List<AddItemModelList> additemlist,
+      AddItemPageModelList addItemPageModelList);
   void addItemfailed();
 }
 
@@ -29,10 +30,12 @@ abstract class GetTableListModelView {
   void getTableListSuccess(List<GetTableList> getlist);
   void getTableListFailed();
 }
+
 abstract class ClearCartModelView {
   void clearCartSuccess();
   void clearCartFailed();
 }
+
 abstract class UpdateCartModelView {
   void updateOrderSuccess();
   void updateOrderFailed();

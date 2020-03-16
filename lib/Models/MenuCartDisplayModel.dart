@@ -186,6 +186,7 @@ class MenuCartDisplayModel {
   int cartCount;
   int grandTotal;
   String colourCode;
+  String currencySymbol;
 
   MenuCartDisplayModel({
     this.status,
@@ -194,6 +195,7 @@ class MenuCartDisplayModel {
     this.cartCount,
     this.grandTotal,
     this.colourCode,
+    this.currencySymbol,
   });
 
   factory MenuCartDisplayModel.fromJson(Map<String, dynamic> json) =>
@@ -205,15 +207,17 @@ class MenuCartDisplayModel {
         cartCount: json["cartCount"],
         grandTotal: json["grandTotal"],
         colourCode: json["colour_code"],
+        currencySymbol: json["currency_symbol"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "cartCount": cartCount, 
+        "cartCount": cartCount,
         "grandTotal": grandTotal,
         "colour_code": colourCode,
+        "currency_symbol": currencySymbol,
       };
 }
 
@@ -379,39 +383,39 @@ class Item {
 }
 
 class CartExtraItem {
-    int id;
-    int cartId;
-    int itemId;
-    int extraId;
-    int spreadId;
-    int switchId;
-    dynamic orderListId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String switchOption;
-    String price;
-    List<Extra> extras;
-    List<Extra> spreads;
-    List<Extra> switches;
+  int id;
+  int cartId;
+  int itemId;
+  int extraId;
+  int spreadId;
+  int switchId;
+  dynamic orderListId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String switchOption;
+  String price;
+  List<Extra> extras;
+  List<Extra> spreads;
+  List<Extra> switches;
 
-    CartExtraItem({
-        this.id,
-        this.cartId,
-        this.itemId,
-        this.extraId,
-        this.spreadId,
-        this.switchId,
-        this.orderListId,
-        this.createdAt,
-        this.updatedAt,
-        this.switchOption,
-        this.price,
-        this.extras,
-        this.spreads,
-        this.switches,
-    });
+  CartExtraItem({
+    this.id,
+    this.cartId,
+    this.itemId,
+    this.extraId,
+    this.spreadId,
+    this.switchId,
+    this.orderListId,
+    this.createdAt,
+    this.updatedAt,
+    this.switchOption,
+    this.price,
+    this.extras,
+    this.spreads,
+    this.switches,
+  });
 
-    factory CartExtraItem.fromJson(Map<String, dynamic> json) => CartExtraItem(
+  factory CartExtraItem.fromJson(Map<String, dynamic> json) => CartExtraItem(
         id: json["id"],
         cartId: json["cart_id"],
         itemId: json["item_id"],
@@ -421,14 +425,17 @@ class CartExtraItem {
         orderListId: json["order_list_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        switchOption: json["switch_option"] == null ? null : json["switch_option"],
+        switchOption:
+            json["switch_option"] == null ? null : json["switch_option"],
         price: json["price"] == null ? null : json["price"],
         extras: List<Extra>.from(json["extras"].map((x) => Extra.fromJson(x))),
-        spreads: List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
-        switches: List<Extra>.from(json["switches"].map((x) => Extra.fromJson(x))),
-    );
+        spreads:
+            List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
+        switches:
+            List<Extra>.from(json["switches"].map((x) => Extra.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "cart_id": cartId,
         "item_id": itemId,
@@ -443,33 +450,33 @@ class CartExtraItem {
         "extras": List<dynamic>.from(extras.map((x) => x.toJson())),
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
         "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
-    };
+      };
 }
 
 class Extra {
-    int id;
-    String name;
-    String price;
-    int restId;
-    String status;
-    DateTime createdAt;
-    DateTime updatedAt;
-    String option1;
-    String option2;
+  int id;
+  String name;
+  String price;
+  int restId;
+  String status;
+  DateTime createdAt;
+  DateTime updatedAt;
+  String option1;
+  String option2;
 
-    Extra({
-        this.id,
-        this.name,
-        this.price,
-        this.restId,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.option1,
-        this.option2,
-    });
+  Extra({
+    this.id,
+    this.name,
+    this.price,
+    this.restId,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.option1,
+    this.option2,
+  });
 
-    factory Extra.fromJson(Map<String, dynamic> json) => Extra(
+  factory Extra.fromJson(Map<String, dynamic> json) => Extra(
         id: json["id"],
         name: json["name"],
         price: json["price"] == null ? null : json["price"],
@@ -479,9 +486,9 @@ class Extra {
         updatedAt: DateTime.parse(json["updated_at"]),
         option1: json["option1"] == null ? null : json["option1"],
         option2: json["option2"] == null ? null : json["option2"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "price": price == null ? null : price,
@@ -491,5 +498,5 @@ class Extra {
         "updated_at": updatedAt.toIso8601String(),
         "option1": option1 == null ? null : option1,
         "option2": option2 == null ? null : option2,
-    };
+      };
 }

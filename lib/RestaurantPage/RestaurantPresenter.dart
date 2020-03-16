@@ -19,7 +19,6 @@ class RestaurantPresenter extends RestaurantContractor {
   @override
   void getMenuList(int restId, BuildContext context,
       {String menu, int category_id}) {
-    // TODO: implement getMenuList
     ApiBaseHelper().post<RestaurantItemsModel>(
         UrlConstant.getMenuListApi, context, body: {
       "rest_id": restId,
@@ -31,7 +30,7 @@ class RestaurantPresenter extends RestaurantContractor {
         case SuccessType.success:
           print("Restaurant get Menu success");
           print(value.model);
-          restaurantView.getMenuListsuccess(value.model.data);
+          restaurantView.getMenuListsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:
           print("Restaurant get Menu failed");
