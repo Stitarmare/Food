@@ -562,6 +562,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
             ));
   }
 
+  Widget _foodItemLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
+      child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          width: double.infinity,
+          height: 175,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
+          errorWidget: (context, url, error) => Image.asset(
+                "assets/HotelImages/Image12.png",
+                fit: BoxFit.fill,
+              )),
+    );
+  }
+
   Widget _getItemImage() {
     return CachedNetworkImage(
       fit: BoxFit.fill,
@@ -581,88 +598,89 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      widget.title ?? '',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Dine-in',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              //isTableList ? getTableNumber() : Container(),
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(width: 20),
-              //     Text(
-              //       'Add Table Number',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           decoration: TextDecoration.underline,
-              //           decorationColor: Colors.black,
-              //           fontSize: 14,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme100),
-              //     )
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // )
-            ],
-          ),
-        ),
-      ),
+      child: _foodItemLogo(),
+      // child: Container(
+      //   margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+      //   child: Card(
+      //     child: Column(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: <Widget>[
+      //         SizedBox(
+      //           height: 10,
+      //         ),
+      //         Row(
+      //           children: <Widget>[
+      //             SizedBox(
+      //               width: 20,
+      //             ),
+      //             Container(
+      //               width: MediaQuery.of(context).size.width * 0.8,
+      //               child: Text(
+      //                 widget.title ?? '',
+      //                 textAlign: TextAlign.start,
+      //                 style: TextStyle(
+      //                     fontSize: 20,
+      //                     fontFamily: 'gotham',
+      //                     fontWeight: FontWeight.w600,
+      //                     color: greytheme700),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         Divider(
+      //           thickness: 2,
+      //           //endIndent: 10,
+      //           //indent: 10,
+      //         ),
+      //         Row(
+      //           children: <Widget>[
+      //             // SizedBox(
+      //             //   width: 26,
+      //             // ),
+      //             // Image.asset('assets/DineInImage/Group1504.png'),
+      //             SizedBox(
+      //               width: 20,
+      //             ),
+      //             Text(
+      //               'Dine-in',
+      //               textAlign: TextAlign.start,
+      //               style: TextStyle(
+      //                   fontSize: 20,
+      //                   fontFamily: 'gotham',
+      //                   fontWeight: FontWeight.w600,
+      //                   color: ((Globle().colorscode) != null)
+      //                       ? getColorByHex(Globle().colorscode)
+      //                       : orangetheme),
+      //             )
+      //           ],
+      //         ),
+      //         SizedBox(
+      //           height: 10,
+      //         ),
+      //         //isTableList ? getTableNumber() : Container(),
+      //         // Row(
+      //         //   children: <Widget>[
+      //         //     SizedBox(width: 20),
+      //         //     Text(
+      //         //       'Add Table Number',
+      //         //       textAlign: TextAlign.start,
+      //         //       style: TextStyle(
+      //         //           decoration: TextDecoration.underline,
+      //         //           decorationColor: Colors.black,
+      //         //           fontSize: 14,
+      //         //           fontFamily: 'gotham',
+      //         //           fontWeight: FontWeight.w600,
+      //         //           color: greytheme100),
+      //         //     )
+      //         //   ],
+      //         // ),
+      //         // SizedBox(
+      //         //   height: 10,
+      //         // )
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
