@@ -82,7 +82,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   bool alreadyAdded = false;
   int restaurant;
- final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   int sizesid;
 
@@ -452,15 +452,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 : "Your unfinished order at previous hotel will be deleted.",
             context);
       } else {
-                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
-               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
-
 
   void cartAlert(String title, String message, BuildContext context) {
     showDialog(
@@ -502,7 +501,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                              DialogsIndicator.showLoadingDialog(
+                                  context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -1209,7 +1209,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //  Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     _addItemModelList = _additemlist[0];
 
@@ -1220,7 +1220,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement addItemsuccess
   }
 
@@ -1232,7 +1232,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1262,7 +1262,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -1278,7 +1278,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -1297,7 +1297,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }

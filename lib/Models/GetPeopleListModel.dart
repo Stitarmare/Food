@@ -45,27 +45,30 @@ class Data {
   String updatedAt;
   String latitude;
   String longitude;
-  int distance;
+  String distance;
+  //ToId toId;
 
-  Data(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.mobileNumber,
-      this.status,
-      this.userType,
-      this.accessToken,
-      this.deviceToken,
-      this.deviceType,
-      this.otp,
-      this.emailVerifiedAt,
-      this.deletedAt,
-      this.createdAt,
-      this.updatedAt,
-      this.latitude,
-      this.longitude,
-      this.distance});
+  Data({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.mobileNumber,
+    this.status,
+    this.userType,
+    this.accessToken,
+    this.deviceToken,
+    this.deviceType,
+    this.otp,
+    this.emailVerifiedAt,
+    this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
+    this.latitude,
+    this.longitude,
+    this.distance,
+    //this.toId
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -86,6 +89,7 @@ class Data {
     latitude = json['latitude'];
     longitude = json['longitude'];
     distance = json['distance'];
+    //toId = ToId.fromJson(json["to_id"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -108,6 +112,46 @@ class Data {
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['distance'] = this.distance;
+    //data["to_id"] = this.toId;
     return data;
   }
+}
+
+// class ToId {
+//   int id;
+//   String status;
+//   int toId;
+
+//   ToId({
+//     this.id,
+//     this.status,
+//     this.toId,
+//   });
+
+//   factory ToId.fromJson(Map<String, dynamic> json) => ToId(
+//         id: json["id"],
+//         status: json["status"],
+//         toId: json["to_id"],
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "status": status,
+//         "to_id": toId,
+//       };
+// }
+class InvitePeople {
+  int inviteId;
+
+  InvitePeople({
+    this.inviteId,
+  });
+
+  factory InvitePeople.fromJson(Map<String, dynamic> json) => InvitePeople(
+        inviteId: json["invite_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "invite_id": inviteId,
+      };
 }

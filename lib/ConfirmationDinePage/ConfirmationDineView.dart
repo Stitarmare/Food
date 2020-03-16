@@ -86,7 +86,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   int _dropdownTableNumber;
 
   int cartId;
-  
+
   OrderData myOrderData;
 
   @override
@@ -94,7 +94,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-             
+
     confirmationDineviewPresenter.getPeopleList(context);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -109,7 +109,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           centerTitle: true,
           title: Text(widget.restName),
           backgroundColor: Colors.transparent,
@@ -311,8 +311,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               : orangetheme,
                           fontWeight: FontWeight.w600),
                     ),
-                    onPressed: () async{
-                      int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+                    onPressed: () async {
+                      int orderId = await Preference.getPrefValue<int>(
+                          PreferenceKeys.ORDER_ID);
                       showDialog(
                           context: context,
                           child: RadioDialogAddPeople(peopleList,
@@ -812,7 +813,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       return;
     }
@@ -826,6 +827,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     print("data list --->");
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 }
 
