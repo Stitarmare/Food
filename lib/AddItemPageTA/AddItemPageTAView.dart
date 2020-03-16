@@ -1000,13 +1000,14 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }

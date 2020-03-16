@@ -1288,10 +1288,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 //Navigator.of(context).pop();
   }
 
