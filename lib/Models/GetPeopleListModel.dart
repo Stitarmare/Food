@@ -45,7 +45,7 @@ class Data {
   String updatedAt;
   String latitude;
   String longitude;
-  int distance;
+  double distance;
 
   Data(
       {this.id,

@@ -61,7 +61,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     RadioButtonOrderOptions(
         index: 1, title: 'Dine-in', subtitle: 'Get served in Restaurant'),
     RadioButtonOrderOptions(
-        index: 2, title: "Take Away", subtitle: 'Get you food packed'),
+        index: 2, title: "Collection", subtitle: 'Order to Collect'),
   ];
 
   List<Data> peopleList = [];
@@ -86,7 +86,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   int _dropdownTableNumber;
 
   int cartId;
-  
+
   OrderData myOrderData;
 
   @override
@@ -94,7 +94,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-             
+
     confirmationDineviewPresenter.getPeopleList(context);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -109,186 +109,186 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           centerTitle: true,
           title: Text(widget.restName),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        // body: CustomScrollView(
-        //   controller: _controller,
-        //   slivers: <Widget>[
-        //     _getorderOptions(),
-        //     radioId == 1 ? _gettableText() : _gettimeOptions(),
-        //   ],
-        // ),
-        body: Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Column(children: <Widget>[
-            Row(
-              children: <Widget>[
-                Spacer(),
-                Text(
-                  "${widget.tablename}",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'gotham',
-                      fontWeight: FontWeight.w600,
-                      color: greytheme100),
-                ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
-            //SizedBox(height: 0,),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: widget.itemdata.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    id = widget.itemdata[index].itemId;
-                    //int userID = widget.itemdata[index].userId;
-                    cartId = widget.itemdata[index].id;
-
-                    return Container(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: (widget.itemdata[index].items.menuType ==
-                                        "veg")
-                                    ? Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        height: 25,
-                                        width: 25,
-                                      )
-                                    : Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        color: redtheme,
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                              ),
-                              SizedBox(width: 16),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.65,
-                                    child: Text(
-                                      widget.itemdata[index].items.itemName ??
-                                          'Bacon & Cheese Burger',
-                                      style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 16,
-                                          color: greytheme700),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 180,
-                                    child: AutoSizeText(
-                                      getExtra(widget.itemdata[index]),
-                                      style: TextStyle(
-                                        color: greytheme1000,
-                                        fontSize: 14,
-                                        // fontFamily: 'gotham',
-                                      ),
-                                      // minFontSize: 8,
-                                      maxFontSize: 12,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 0,
-                                ),
-                                // flex: 2,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "\$ ${widget.itemdata[index].totalAmount}" ??
-                                          '',
-                                      style: TextStyle(
-                                          color: greytheme700,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Quantity:",
-                                      // ${widget.itemdata[index].quantity}",
-                                      style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 10,
-                                          color: greytheme700),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: getColorByHex(
-                                              Globle().colorscode),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      width: 25,
-                                      height: 25,
-                                      child: Center(
-                                        child: Text(
-                                          "${widget.itemdata[index].quantity}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontFamily: 'gotham',
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ]),
-                        SizedBox(height: 12),
-                        Divider(
-                          height: 2,
-                          thickness: 2,
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ));
-                  }),
-            ),
-          ]),
+        body: CustomScrollView(
+          controller: _controller,
+          slivers: <Widget>[
+            _getorderOptions(),
+            radioId == 1 ? _gettableText() : _gettimeOptions(),
+          ],
         ),
+        // body: Container(
+        //   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        //   child: Column(children: <Widget>[
+        //     Row(
+        //       children: <Widget>[
+        //         Spacer(),
+        //         Text(
+        //           "${widget.tablename}",
+        //           textAlign: TextAlign.end,
+        //           style: TextStyle(
+        //               fontSize: 16,
+        //               fontFamily: 'gotham',
+        //               fontWeight: FontWeight.w600,
+        //               color: greytheme100),
+        //         ),
+        //         SizedBox(
+        //           width: 15,
+        //         )
+        //       ],
+        //     ),
+        //     //SizedBox(height: 0,),
+        //     Divider(
+        //       thickness: 2,
+        //     ),
+        //     SizedBox(
+        //       height: 10,
+        //     ),
+        //     Expanded(
+        //       child: ListView.builder(
+        //           itemCount: widget.itemdata.length,
+        //           itemBuilder: (BuildContext context, int index) {
+        //             id = widget.itemdata[index].itemId;
+        //             //int userID = widget.itemdata[index].userId;
+        //             cartId = widget.itemdata[index].id;
+
+        //             return Container(
+        //                 child: Column(
+        //               mainAxisAlignment: MainAxisAlignment.start,
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: <Widget>[
+        //                 Row(
+        //                     mainAxisAlignment: MainAxisAlignment.start,
+        //                     crossAxisAlignment: CrossAxisAlignment.start,
+        //                     children: <Widget>[
+        //                       Padding(
+        //                         padding: EdgeInsets.only(left: 20),
+        //                         child: (widget.itemdata[index].items.menuType ==
+        //                                 "veg")
+        //                             ? Image.asset(
+        //                                 'assets/VegIcon/Group1661.png',
+        //                                 height: 25,
+        //                                 width: 25,
+        //                               )
+        //                             : Image.asset(
+        //                                 'assets/VegIcon/Group1661.png',
+        //                                 color: redtheme,
+        //                                 width: 25,
+        //                                 height: 25,
+        //                               ),
+        //                       ),
+        //                       SizedBox(width: 16),
+        //                       Column(
+        //                         mainAxisAlignment: MainAxisAlignment.start,
+        //                         crossAxisAlignment: CrossAxisAlignment.start,
+        //                         children: <Widget>[
+        //                           Container(
+        //                             width: MediaQuery.of(context).size.width *
+        //                                 0.65,
+        //                             child: Text(
+        //                               widget.itemdata[index].items.itemName ??
+        //                                   'Bacon & Cheese Burger',
+        //                               style: TextStyle(
+        //                                   fontFamily: 'gotham',
+        //                                   fontSize: 16,
+        //                                   color: greytheme700),
+        //                             ),
+        //                           ),
+        //                           SizedBox(
+        //                             height: 6,
+        //                           ),
+        //                           SizedBox(
+        //                             height: 30,
+        //                             width: 180,
+        //                             child: AutoSizeText(
+        //                               getExtra(widget.itemdata[index]),
+        //                               style: TextStyle(
+        //                                 color: greytheme1000,
+        //                                 fontSize: 14,
+        //                                 // fontFamily: 'gotham',
+        //                               ),
+        //                               // minFontSize: 8,
+        //                               maxFontSize: 12,
+        //                               maxLines: 2,
+        //                             ),
+        //                           ),
+        //                         ],
+        //                       ),
+        //                       Expanded(
+        //                         child: SizedBox(
+        //                           width: 0,
+        //                         ),
+        //                         // flex: 2,
+        //                       ),
+        //                       Padding(
+        //                         padding: EdgeInsets.only(
+        //                           right: 15,
+        //                         ),
+        //                         child: Column(
+        //                           children: <Widget>[
+        //                             Text(
+        //                               "\$ ${widget.itemdata[index].totalAmount}" ??
+        //                                   '',
+        //                               style: TextStyle(
+        //                                   color: greytheme700,
+        //                                   fontSize: 16,
+        //                                   fontWeight: FontWeight.w600),
+        //                             ),
+        //                             SizedBox(
+        //                               height: 10,
+        //                             ),
+        //                             Text(
+        //                               "Quantity:",
+        //                               // ${widget.itemdata[index].quantity}",
+        //                               style: TextStyle(
+        //                                   fontFamily: 'gotham',
+        //                                   fontSize: 10,
+        //                                   color: greytheme700),
+        //                             ),
+        //                             SizedBox(
+        //                               height: 5,
+        //                             ),
+        //                             Container(
+        //                               decoration: BoxDecoration(
+        //                                   color: getColorByHex(
+        //                                       Globle().colorscode),
+        //                                   borderRadius: BorderRadius.all(
+        //                                       Radius.circular(5))),
+        //                               width: 25,
+        //                               height: 25,
+        //                               child: Center(
+        //                                 child: Text(
+        //                                   "${widget.itemdata[index].quantity}",
+        //                                   textAlign: TextAlign.center,
+        //                                   style: TextStyle(
+        //                                       fontFamily: 'gotham',
+        //                                       fontSize: 10,
+        //                                       fontWeight: FontWeight.w500,
+        //                                       color: Colors.white),
+        //                                 ),
+        //                               ),
+        //                             ),
+        //                           ],
+        //                         ),
+        //                       )
+        //                     ]),
+        //                 SizedBox(height: 12),
+        //                 Divider(
+        //                   height: 2,
+        //                   thickness: 2,
+        //                 ),
+        //                 SizedBox(height: 8),
+        //               ],
+        //             ));
+        //           }),
+        //     ),
+        //   ]),
+        // ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             height: 90,
@@ -296,36 +296,37 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               children: <Widget>[
                 Container(
                   height: 35,
-                  child: FlatButton(
-                    child: Text(
-                      'Add More People',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          decoration: TextDecoration.underline,
-                          decorationColor: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: () async{
-                      int orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-                      showDialog(
-                          context: context,
-                          child: RadioDialogAddPeople(peopleList,
-                              widget.tableId, widget.restId, orderId));
+                  // child: FlatButton(
+                  //   child: Text(
+                  //     'Add More People',
+                  //     style: TextStyle(
+                  //         fontSize: 16,
+                  //         fontFamily: 'gotham',
+                  //         decoration: TextDecoration.underline,
+                  //         decorationColor: ((Globle().colorscode) != null)
+                  //             ? getColorByHex(Globle().colorscode)
+                  //             : orangetheme,
+                  //         color: ((Globle().colorscode) != null)
+                  //             ? getColorByHex(Globle().colorscode)
+                  //             : orangetheme,
+                  //         fontWeight: FontWeight.w600),
+                  //   ),
+                  //   onPressed: () async {
+                  //     int orderId = await Preference.getPrefValue<int>(
+                  //         PreferenceKeys.ORDER_ID);
+                  //     showDialog(
+                  //         context: context,
+                  //         child: RadioDialogAddPeople(peopleList,
+                  //             widget.tableId, widget.restId, orderId));
 
-                      // confirmationDineviewPresenter.addPeople(
-                      //     widget.mobilenumber,
-                      //     widget.tableId,
-                      //     widget.restId,
-                      //     widget.orderID,
-                      //     context);
-                    },
-                  ),
+                  //     // confirmationDineviewPresenter.addPeople(
+                  //     //     widget.mobilenumber,
+                  //     //     widget.tableId,
+                  //     //     widget.restId,
+                  //     //     widget.orderID,
+                  //     //     context);
+                  //   },
+                  // ),
                 ),
                 Container(
                   //margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -423,6 +424,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     return str.substring(0, str.length - 1);
   }
 
+  Widget _gettableAndPeople() {
+    _gettableText();
+  }
+
   Widget _gettableText() {
     return SliverToBoxAdapter(
       child: Container(
@@ -431,11 +436,25 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 150,
+              height: 50,
             ),
-            Text(
-              "Please help us with table number:" "${widget.tablename}",
-              style: TextStyle(fontSize: 15),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width * 0.80,
+              color: Color.fromRGBO(240, 240, 240, 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Table Number :", style: TextStyle(fontSize: 18)),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  Text(
+                    "${widget.tablename}",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 50),
             Row(
@@ -443,7 +462,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               children: <Widget>[
                 Icon(Icons.add),
                 RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      int orderId = await Preference.getPrefValue<int>(
+                          PreferenceKeys.ORDER_ID);
+
+                      showDialog(
+                          context: context,
+                          child: RadioDialogAddPeople(peopleList,
+                              widget.tableId, widget.restId, orderId));
+
                       // showDialog(
                       //     context: context, child: RadioDialogAddPeople());
                     },
@@ -812,7 +839,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       return;
     }
