@@ -27,9 +27,10 @@ import 'package:foodzi/widgets/imagewithloader.dart';
 class RestaurantView extends StatefulWidget {
   String title;
   int rest_Id;
+  String imageUrl;
 
   int categoryid;
-  RestaurantView({this.title, this.rest_Id, this.categoryid});
+  RestaurantView({this.title, this.rest_Id, this.categoryid, this.imageUrl});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -56,15 +57,19 @@ class _RestaurantViewState extends State<RestaurantView>
   int restaurantId;
 
   var tableID;
+  RestaurantItemsModel restaurantItemsModel;
 
   var abc;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantPresenter(this);
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    restaurantItemsModel = RestaurantItemsModel();
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     restaurantPresenter.getMenuList(widget.rest_Id, context,
         category_id: abc, menu: menutype);
+    print("image Url-->");
+    print(widget.imageUrl);
     super.initState();
   }
 
@@ -86,74 +91,83 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.info_outline,
-              color: greytheme100,
-            ),
-            onPressed: () {
-              // Navigator.pushNamed(context, '/RestaurantInfoView');
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: context)=>RestaurantInfoView(rest_Id: widget.rest_Id,));
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.info_outline,
+                color: greytheme100,
+              ),
+              onPressed: () {
+                // Navigator.pushNamed(context, '/RestaurantInfoView');
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(builder: context)=>RestaurantInfoView(rest_Id: widget.rest_Id,));
 
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RestaurantInfoView(
-                        rest_Id: widget.rest_Id,
-                      )));
-            },
-          )
-        ],
-      ),
-      body: CustomScrollView(
-        controller: _controller,
-        slivers: <Widget>[
-          _getmainviewTableno(),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-          ),
-          _getOptionsformenu(context),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-          ),
-          (_restaurantList != null)
-              ? _menuItemList()
-              : SliverToBoxAdapter(
-                  child: Center(
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                        ),
-                        Text(
-                          'No items found.',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
-                        ),
-                      ],
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RestaurantInfoView(
+                          rest_Id: widget.rest_Id,
+                        )));
+              },
+            )
+          ],
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(flex: 2, child: _restaurantLogo()),
+            Expanded(
+              flex: 7,
+              child: CustomScrollView(
+                controller: _controller,
+                slivers: <Widget>[
+                  // _getmainviewTableno(),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      child: SizedBox(
+                        height: 15,
+                      ),
                     ),
                   ),
-                )),
-        ],
-      ),
-    );
+                  _getOptionsformenu(context),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      child: SizedBox(
+                        height: 15,
+                      ),
+                    ),
+                  ),
+                  (_restaurantList != null)
+                      ? _menuItemList()
+                      : SliverToBoxAdapter(
+                          child: Center(
+                          child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                ),
+                                Text(
+                                  'No items found.',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontFamily: 'gotham',
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme700),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 
   // Widget getTableNumber() {
@@ -463,6 +477,21 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
+  Widget _restaurantLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
+      child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+          errorWidget: (context, url, error) => Image.asset(
+                "assets/HotelImages/Image12.png",
+                fit: BoxFit.fill,
+              )),
+    );
+  }
+
   Widget _menuItemList() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -484,6 +513,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           description:
                               '${_restaurantList[index].itemDescription}',
                           restName: widget.title,
+                          itemImage: '${_restaurantList[index].itemImage}',
                         ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
@@ -525,7 +555,7 @@ class _RestaurantViewState extends State<RestaurantView>
                               // ),
 
                               child: CachedNetworkImage(
-                                fit: BoxFit.contain,
+                                fit: BoxFit.fill,
                                 width: double.infinity,
                                 height: 100,
                                 placeholder: (context, url) => Center(
@@ -660,9 +690,11 @@ class _RestaurantViewState extends State<RestaurantView>
                                 child: Center(
                                   child: Text(
                                     (_restaurantList[index].sizePrizes.isEmpty)
-                                        ? '\$ ${_restaurantList[index].price}' ??
+                                        ? "${restaurantItemsModel.currencyCode} " +
+                                                '${_restaurantList[index].price}' ??
                                             ''
-                                        : "\$ ${_restaurantList[index].sizePrizes[0].price}" ??
+                                        : "${restaurantItemsModel.currencyCode} " +
+                                                "${_restaurantList[index].sizePrizes[0].price}" ??
                                             "",
                                     style: TextStyle(
                                         //fontFamily: FontNames.gotham,
@@ -685,6 +717,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                     //       context);
                                     // } else {
                                     print("button is Pressed");
+                                    print(_restaurantList[index].itemImage);
+
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
@@ -698,6 +732,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                                       '${_restaurantList[index].itemName}',
                                                   description:
                                                       '${_restaurantList[index].itemDescription}',
+                                                  itemImage:
+                                                      '${_restaurantList[index].itemImage}',
                                                 )));
                                     //}
                                     //   Globle().colorscode = _restaurantList[index]
@@ -750,14 +786,12 @@ class _RestaurantViewState extends State<RestaurantView>
 
   @override
   void getMenuListfailed() {
-    // TODO: implement getMenuListfailed
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
-    // TODO: implement getMenuListsuccess
-
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist,
+      RestaurantItemsModel _restaurantItemsModel1) {
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
@@ -765,10 +799,13 @@ class _RestaurantViewState extends State<RestaurantView>
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
+        restaurantItemsModel = _restaurantItemsModel1;
       } else {
         _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
+        restaurantItemsModel = _restaurantItemsModel1;
       }
+
       page++;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

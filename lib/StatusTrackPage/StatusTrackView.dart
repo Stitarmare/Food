@@ -47,6 +47,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   Timer _timer;
   StatusData statusInfo;
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
+  List<CheckBoxOptions> _checkBoxOptions = [];
 
   @override
   void initState() {
@@ -70,7 +71,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          centerTitle: true,
+          title: Text("Order Status"),
+          brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
           // automaticallyImplyLeading:true,
@@ -354,6 +357,16 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     print("data list --->");
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+  }
+
+  @override
+  void getInvitedPeopleFailed() {
+    // TODO: implement getInvitedPeopleFailed
+  }
+
+  @override
+  void getInvitedPeopleSuccess() {
+    // TODO: implement getInvitedPeopleSuccess
   }
 }
 

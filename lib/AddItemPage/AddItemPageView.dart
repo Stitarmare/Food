@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
+import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,13 +25,15 @@ class AddItemPageView extends StatefulWidget {
   int item_id;
   int rest_id;
   String restName;
+  String itemImage;
 
   AddItemPageView(
       {this.title,
       this.description,
       this.item_id,
       this.rest_id,
-      this.restName});
+      this.restName,
+      this.itemImage});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -45,6 +52,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   AddItemsToCartModel addMenuToCartModel;
 
   GetTableList getTableListModel;
+  AddItemPageModelList _addItemPageModelList;
 
   Item items;
 
@@ -82,20 +90,22 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   bool alreadyAdded = false;
   int restaurant;
- final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
-  int sizeid;
+  int sizesid;
 
   @override
   void initState() {
     _addItemPagepresenter =
         AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
+    _addItemPageModelList = AddItemPageModelList();
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     _addItemPagepresenter.getTableListno(widget.rest_id, context);
     itemIdValue = widget.item_id;
+    print("${widget.itemImage}");
     super.initState();
   }
 
@@ -145,7 +155,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<RadioButtonOptionsSizes> radiolistsize = [];
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
-        index: _addItemModelList.sizePrizes[i - 1].id,
+        index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
         title: _addItemModelList.sizePrizes[i - 1].size ?? '',
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
         //price: _addItemModelList.spreads[i - 1].price ?? '0'
@@ -329,7 +339,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         body: CustomScrollView(
           controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+          slivers: <Widget>[
+            _getmainviewTableno(),
+            // _getItemImage(),
+            _getOptions()
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
@@ -361,7 +375,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.spreads =
                       spread == null ? [] : [spread];
                   _updateOrderModel.items.switches = switches ?? [];
-                  _updateOrderModel.items.sizes = sizes ?? [];
+                  _updateOrderModel.items.sizes = size == null ? [] : [size];
                   print(_updateOrderModel.toJson());
                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
@@ -439,7 +453,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     addMenuToCartModel.items[0].switches = switches ?? [];
     addMenuToCartModel.items[0].quantity = count;
-    addMenuToCartModel.items[0].sizes = sizes ?? [];
+    addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
     // }
     //);
     print(addMenuToCartModel.toJson());
@@ -452,11 +466,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 : "Your unfinished order at previous hotel will be deleted.",
             context);
       } else {
-                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
-               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -501,7 +515,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                              DialogsIndicator.showLoadingDialog(
+                                  context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -547,90 +562,125 @@ class _AddItemPageViewState extends State<AddItemPageView>
             ));
   }
 
+  Widget _foodItemLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
+      child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          width: double.infinity,
+          height: 175,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
+          errorWidget: (context, url, error) => Image.asset(
+                "assets/HotelImages/Image12.png",
+                fit: BoxFit.fill,
+              )),
+    );
+  }
+
+  Widget _getItemImage() {
+    return CachedNetworkImage(
+      fit: BoxFit.fill,
+      height: 100,
+      placeholder: (context, url) => Center(
+        child: CircularProgressIndicator(),
+      ),
+      errorWidget: (context, url, error) => Image.asset(
+        "assets/PlaceholderFoodImage/MaskGroup55.png",
+        fit: BoxFit.contain,
+        width: double.infinity,
+        height: 100,
+      ),
+      imageUrl: BaseUrl.getBaseUrlImages() + '${widget.itemImage}',
+    );
+  }
+
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      widget.title ?? '',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Dine-in',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              //isTableList ? getTableNumber() : Container(),
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(width: 20),
-              //     Text(
-              //       'Add Table Number',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           decoration: TextDecoration.underline,
-              //           decorationColor: Colors.black,
-              //           fontSize: 14,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme100),
-              //     )
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // )
-            ],
-          ),
-        ),
-      ),
+      child: _foodItemLogo(),
+      // child: Container(
+      //   margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+      //   child: Card(
+      //     child: Column(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: <Widget>[
+      //         SizedBox(
+      //           height: 10,
+      //         ),
+      //         Row(
+      //           children: <Widget>[
+      //             SizedBox(
+      //               width: 20,
+      //             ),
+      //             Container(
+      //               width: MediaQuery.of(context).size.width * 0.8,
+      //               child: Text(
+      //                 widget.title ?? '',
+      //                 textAlign: TextAlign.start,
+      //                 style: TextStyle(
+      //                     fontSize: 20,
+      //                     fontFamily: 'gotham',
+      //                     fontWeight: FontWeight.w600,
+      //                     color: greytheme700),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         Divider(
+      //           thickness: 2,
+      //           //endIndent: 10,
+      //           //indent: 10,
+      //         ),
+      //         Row(
+      //           children: <Widget>[
+      //             // SizedBox(
+      //             //   width: 26,
+      //             // ),
+      //             // Image.asset('assets/DineInImage/Group1504.png'),
+      //             SizedBox(
+      //               width: 20,
+      //             ),
+      //             Text(
+      //               'Dine-in',
+      //               textAlign: TextAlign.start,
+      //               style: TextStyle(
+      //                   fontSize: 20,
+      //                   fontFamily: 'gotham',
+      //                   fontWeight: FontWeight.w600,
+      //                   color: ((Globle().colorscode) != null)
+      //                       ? getColorByHex(Globle().colorscode)
+      //                       : orangetheme),
+      //             )
+      //           ],
+      //         ),
+      //         SizedBox(
+      //           height: 10,
+      //         ),
+      //         //isTableList ? getTableNumber() : Container(),
+      //         // Row(
+      //         //   children: <Widget>[
+      //         //     SizedBox(width: 20),
+      //         //     Text(
+      //         //       'Add Table Number',
+      //         //       textAlign: TextAlign.start,
+      //         //       style: TextStyle(
+      //         //           decoration: TextDecoration.underline,
+      //         //           decorationColor: Colors.black,
+      //         //           fontSize: 14,
+      //         //           fontFamily: 'gotham',
+      //         //           fontWeight: FontWeight.w600,
+      //         //           color: greytheme100),
+      //         //     )
+      //         //   ],
+      //         // ),
+      //         // SizedBox(
+      //         //   height: 10,
+      //         // )
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 
@@ -886,7 +936,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: Text("${radionBtnsize.title}") ?? Text('data'),
                         secondary: Text("\$ ${radionBtnsize.secondary}") ??
                             Text('data'),
-                        groupValue: sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -894,13 +944,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             : orangetheme,
                         onChanged: (val) {
                           setState(() {
-                            if (sizes == null) {
+                            if (size == null) {
                               size = Sizes();
                             }
                             radioItemsize = radionBtnsize.title;
                             print(radionBtnsize.title);
-                            sizeid = radionBtnsize.index;
-                            size.sizeid = sizeid;
+                            sizesid = radionBtnsize.index;
+                            size.sizeid = sizesid;
                           });
                         },
                       ),
@@ -1125,7 +1175,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: const EdgeInsets.only(right: 40),
                           child: Text(
-                            checkBtn.price.toString() ?? '',
+                            "${_addItemPageModelList.currencySymbol} " +
+                                    checkBtn.price.toString() ??
+                                '',
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Color.fromRGBO(64, 64, 64, 1)),
@@ -1202,35 +1254,34 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addItemfailed() {
-    // TODO: implement addItemfailed
-  }
+  void addItemfailed() {}
 
   @override
-  void addItemsuccess(List<AddItemModelList> _additemlist) {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+  void addItemsuccess(List<AddItemModelList> _additemlist,
+      AddItemPageModelList addItemPageModelList1) {
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+
     getradiobtnsize(_addItemModelList.sizePrizes.length);
 
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-
+    setState(() {
+      _addItemPageModelList = addItemPageModelList1;
+    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement addItemsuccess
   }
 
   @override
-  void addMenuToCartfailed() {
-    // TODO: implement addMenuToCartfailed
-  }
+  void addMenuToCartfailed() {}
 
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1260,7 +1311,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -1276,7 +1327,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -1295,7 +1346,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }
@@ -1308,7 +1359,13 @@ class CheckBoxOptions {
   String price;
   // double price;
   bool isChecked;
-  CheckBoxOptions({this.index, this.title, this.price, this.isChecked});
+
+  CheckBoxOptions({
+    this.index,
+    this.title,
+    this.price,
+    this.isChecked,
+  });
 }
 
 class RadioButtonOptions {

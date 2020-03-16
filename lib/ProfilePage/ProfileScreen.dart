@@ -106,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
               // ),
             ),
+
             Positioned(
               left: MediaQuery.of(context).size.width / 2.5,
               top: MediaQuery.of(context).size.height * 0.35 - 141,
@@ -117,8 +118,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                       width: 83,
                       height: 83,
                       fit: BoxFit.fill,
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) => Image.asset(
+                        'assets/PlaceholderImage/placeholder.png',
+                        width: 83,
+                        height: 83,
+                        fit: BoxFit.fill,
                       ),
                       errorWidget: (context, url, error) => Image.asset(
                         'assets/PlaceholderImage/placeholder.png',
@@ -129,6 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       imageUrl: profilePic(),
                     ),
                   ),
+
                   //  FadeInImage.assetNetwork(
                   //   placeholder: 'assets/PlaceholderImage/placeholder.png',
                   //   image: profilePic(),

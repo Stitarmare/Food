@@ -141,7 +141,7 @@ class _DineViewState extends State<DineInView>
       child: Scaffold(
         key: this._scaffoldKey,
         appBar: AppBar(
-           brightness: Brightness.dark,
+            brightness: Brightness.dark,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -154,6 +154,31 @@ class _DineViewState extends State<DineInView>
                   color: greytheme1200),
             ),
             actions: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(
+                        "assets/Logo/foodzi_logo.jpg",
+                        height: 30,
+                      )),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'ORDER EASY',
+                      style: TextStyle(
+                          // fontFamily: 'HelveticaNeue',
+                          fontFamily: "gotham",
+                          fontSize: 6,
+                          color: greytheme400,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1),
+                    ),
+                  ),
+                ],
+              ),
               IconButton(
                 icon: Image.asset('assets/LevelsIcon/levels.png'),
                 onPressed: () {
@@ -467,6 +492,7 @@ class _DineViewState extends State<DineInView>
                               rest_Id: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
+                              imageUrl: _restaurantList[i].coverImage,
                             )));
                     setState(() {
 // selected[i] = !selected[i];

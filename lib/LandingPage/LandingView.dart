@@ -40,7 +40,7 @@ class _LandingStateView extends State<Landingview> {
       elevation: 100.0,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           //  title: Text(titleAppBar),
           actions: <Widget>[
             new IconButton(
@@ -93,11 +93,16 @@ class _LandingStateView extends State<Landingview> {
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
+        color: Colors.white,
         child: Column(
           children: <Widget>[
-            _buildimage(),
             SizedBox(
-              height: 25,
+              height: 30,
+            ),
+            _buildimage(),
+            _orderEasy(),
+            SizedBox(
+              height: 125,
             ),
             _buildMaintext(),
             SizedBox(
@@ -111,8 +116,30 @@ class _LandingStateView extends State<Landingview> {
   }
 
   Widget _buildimage() {
-    return Image.asset(
-      'assets/LandingImage/Group1561.png',
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: Image.asset(
+          "assets/Logo/foodzi_logo@3x.jpg",
+        ));
+  }
+
+  Widget _orderEasy() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 40.0, top: 5),
+      child: Container(
+        alignment: Alignment.topRight,
+        child: Text(
+          'ORDER EASY',
+          style: TextStyle(
+              // fontFamily: 'HelveticaNeue',
+              fontFamily: "gotham",
+              fontSize: 12,
+              color: greytheme400,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1),
+        ),
+      ),
     );
   }
 
@@ -209,16 +236,16 @@ class _LandingStateView extends State<Landingview> {
                 ),
                 Image.asset('assets/DineInImage/Group1504.png'),
                 SizedBox(
-                  width: 40,
+                  width: 36,
                 ),
                 _buildinningtext(),
                 SizedBox(
                   width: 40,
                 ),
-                Icon(
-                  Icons.navigate_next,
-                  color: greytheme600,
-                )
+                // Icon(
+                //   Icons.navigate_next,
+                //   color: greytheme600,
+                // )
               ],
             ),
           ),
@@ -237,16 +264,16 @@ class _LandingStateView extends State<Landingview> {
         ),
         Text('Dine-in',
             style: TextStyle(
-                fontSize: 20,
+                fontSize: 24,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
-          height: 15,
+          height: 2,
         ),
         Text('Get served in Restaurant',
             style: TextStyle(
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
@@ -311,10 +338,10 @@ class _LandingStateView extends State<Landingview> {
                 SizedBox(
                   width: 40,
                 ),
-                Icon(
-                  Icons.navigate_next,
-                  color: greytheme600,
-                )
+                // Icon(
+                //   Icons.navigate_next,
+                //   color: greytheme600,
+                // )
               ],
             ),
           ),
@@ -383,18 +410,19 @@ class _LandingStateView extends State<Landingview> {
         SizedBox(
           height: 20,
         ),
-        Text('Take Away',
+        Text('Collection',
             style: TextStyle(
-                fontSize: 20,
+                fontSize: 24,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
-          height: 15,
+          height: 2,
         ),
-        Text('Get you food packed',
+        // 'Get you food packed'
+        Text('Order to Collect',
             style: TextStyle(
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: 'gotham',
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),

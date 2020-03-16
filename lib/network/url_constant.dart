@@ -42,4 +42,5 @@ class UrlConstant {
   static const getPeopleListApi = "api/getPeopleList";
   static const checkoutPaymentStatus = "api/checkoutPaymentStatus";
   static const acceptInvitationApi = "api/acceptRejectInvitation";
+  static const getInvitedPeople = "api/getInvitedPeople";
 }

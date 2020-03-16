@@ -49,8 +49,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   AddItemPageTApresenter _addItemPagepresenter;
   bool alreadyAddedTA = false;
   int restaurantTA;
+  int sizesid;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  int sizeid;
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
@@ -98,7 +98,7 @@ int getradiobtnsize(int length) {
     List<RadioButtonOptionsSizes> radiolistsize = [];
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
-        index: _addItemModelList.sizePrizes[i - 1].id,
+        index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
         title: _addItemModelList.sizePrizes[i - 1].size ?? '',
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
         //price: _addItemModelList.spreads[i - 1].price ?? '0'
@@ -249,7 +249,7 @@ int getradiobtnsize(int length) {
                   spread == null ? [] : [spread];
               addMenuToCartModel.items[0].switches = switches ?? [];
               addMenuToCartModel.items[0].quantity = count;
-                addMenuToCartModel.items[0].sizes = sizes ?? [];
+                addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
 
               print(addMenuToCartModel.toJson());
 
@@ -663,7 +663,7 @@ _getRadioOptionsSizes() {
                         title: Text("${radionBtnsize.title}") ?? Text('data'),
                         secondary: Text("\$ ${radionBtnsize.secondary}") ??
                             Text('data'),
-                        groupValue: sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -671,13 +671,13 @@ _getRadioOptionsSizes() {
                             : orangetheme,
                         onChanged: (val) {
                           setState(() {
-                            if (sizes == null) {
+                            if (size == null) {
                               size = Sizes();
                             }
                             radioItemsize = radionBtnsize.title;
                             print(radionBtnsize.title);
-                            sizeid = radionBtnsize.index;
-                            size.sizeid = sizeid;
+                            sizesid = radionBtnsize.index;
+                            size.sizeid = sizesid;
                           });
                         },
                       ),

@@ -65,7 +65,6 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       onWillPop: () async => false,
       child: Scaffold(
         appBar: PreferredSize(
-          
             preferredSize: Size(MediaQuery.of(context).size.width,
                 MediaQuery.of(context).size.height * 0.2),
             child: Stack(overflow: Overflow.visible, children: <Widget>[
@@ -108,8 +107,11 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                       width: 83,
                       height: 83,
                       fit: BoxFit.fill,
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(),
+                      placeholder: (context, url) => Image.asset(
+                        'assets/PlaceholderImage/placeholder.png',
+                        width: 83,
+                        height: 83,
+                        fit: BoxFit.fill,
                       ),
                       imageUrl: profilePic(),
                       errorWidget: (context, url, error) => Image.asset(

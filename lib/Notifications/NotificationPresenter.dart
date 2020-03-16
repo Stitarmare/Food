@@ -1,4 +1,3 @@
-
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
@@ -12,16 +11,16 @@ class NotificationPresenter extends NotoficationContractor {
   NotificationModelView notificationModelView;
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 
   @override
   void getNotifications(BuildContext context) {
-    // TODO: implement getNotifications
-        ApiBaseHelper().get<GetNotificationListModel>(
-        UrlConstant.getNotificationApi, context,
-        ).then((value) {
+    ApiBaseHelper()
+        .get<GetNotificationListModel>(
+      UrlConstant.getNotificationApi,
+      context,
+    )
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -40,26 +39,27 @@ class NotificationPresenter extends NotoficationContractor {
   }
 
   @override
-  void acceptInvitation(int from_id, int invitation_id, String status, BuildContext context) {
-    // TODO: implement acceptInvitation
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.acceptInvitationApi, context,body: {
-      "from_id":from_id,
-      "invitation_id":invitation_id,
+  void acceptInvitation(
+      int from_id, int invitation_id, String status, BuildContext context) {
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.acceptInvitationApi, context, body: {
+      "from_id": from_id,
+      "invitation_id": invitation_id,
       // "table_id":table_id,
       // "rest_id":rest_id,
-      "status":status,
+      "status": status,
       // "order_id":order_id
-    }).then((value){
+    }).then((value) {
       print(value);
-      switch (value.result){
+      switch (value.result) {
         case SuccessType.success:
-        notificationModelView.acceptInvitationSuccess(value.model);
-        break;
+          notificationModelView.acceptInvitationSuccess(value.model);
+          break;
         case SuccessType.failed:
-        notificationModelView.acceptInvitationFailed(value.model);
-        break;
+          notificationModelView.acceptInvitationFailed(value.model);
+          break;
       }
-    }).catchError((error){
+    }).catchError((error) {
       print(error);
     });
   }
