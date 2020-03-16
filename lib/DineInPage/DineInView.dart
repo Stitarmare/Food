@@ -121,6 +121,7 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
+                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),

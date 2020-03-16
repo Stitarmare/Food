@@ -158,6 +158,8 @@ class _MyCartViewState extends State<MyCartView>
               }
               if (menuCartList.quantity == 0) {
                 // _cartItemList = null;
+                 DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, "Loading");
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
                 setState(() {
@@ -453,6 +455,7 @@ class _MyCartViewState extends State<MyCartView>
                 tableno = _dropdownItemsTable[i].name;
               }
             }
+                     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -738,7 +741,7 @@ class _MyCartViewState extends State<MyCartView>
 
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     //return;
@@ -746,6 +749,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void addTablebnoSuccces() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement addTablebnoSuccces
   }
 
@@ -761,6 +765,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -771,6 +776,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void updatequantitySuccess() {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(

@@ -3,7 +3,9 @@ import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/main.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -25,6 +27,13 @@ class Landingview extends DrawerContent {
 
 class _LandingStateView extends State<Landingview> {
   //String titleAppBar = "Testing";
+  bool isOrderRunning = false;
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -58,6 +67,27 @@ class _LandingStateView extends State<Landingview> {
         body: SingleChildScrollView(child: _getmainView()),
       ),
     );
+  }
+
+  getCurrentOrderID() async {
+    var currentOrderId =
+        await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
+    if (currentOrderId != null) {
+      setState(() {
+        isOrderRunning = true;
+      });
+       currentOrderId;
+    }
+    
+  }
+
+  getCurrentRestID() async {
+    var currentRestId = await Preference.getPrefValue<int>(
+        PreferenceKeys.CURRENT_RESTAURANT_ID);
+    if (currentRestId != null) {
+      return currentRestId;
+    }
+    return;
   }
 
   Widget _getmainView() {
@@ -171,7 +201,11 @@ class _LandingStateView extends State<Landingview> {
             SizedBox(
               height: 12,
             ),
-            _takeAwaycard()
+            _takeAwaycard(),
+            SizedBox(
+              height: 12,
+            ),
+            isOrderRunning ? _currentOrderCard() : Container()
           ],
         ),
       ),
@@ -247,6 +281,33 @@ class _LandingStateView extends State<Landingview> {
     );
   }
 
+  Widget _currentOrdertext() {
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 20,
+        ),
+        Text('Current Order',
+            style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w600,
+                color: greentheme100)),
+        SizedBox(
+          height: 15,
+        ),
+        Text('Track your current order',
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'gotham',
+                fontWeight: FontWeight.w500,
+                color: greytheme100)),
+      ],
+    );
+  }
+
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -281,6 +342,58 @@ class _LandingStateView extends State<Landingview> {
                 //   Icons.navigate_next,
                 //   color: greytheme600,
                 // )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _currentOrderCard() {
+    return Center(
+      child: Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          onTap: () {
+            // _goToNextPageDineIn(context);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => StatusTrackView()));
+            print('Card tapped.');
+          },
+          child: Container(
+            width: 345,
+            height: 90,
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 17,
+                ),
+                ClipOval(
+                  child: Container(
+                    width: 46.8,
+                    height: 46.8,
+                    child: Image.asset(
+                      'assets/OrderIcon/order.png',
+                      color: Colors.white,
+                    ),
+                    color: orangetheme,
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                _currentOrdertext(),
+                SizedBox(
+                  width: 40,
+                ),
+                Icon(
+                  Icons.navigate_next,
+                  color: greytheme600,
+                )
               ],
             ),
           ),

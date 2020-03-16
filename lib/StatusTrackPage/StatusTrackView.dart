@@ -70,7 +70,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          centerTitle: true,
+          title: Text("Order Status"),
+          brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
           // automaticallyImplyLeading:true,

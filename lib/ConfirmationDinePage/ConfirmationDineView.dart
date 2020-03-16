@@ -93,8 +93,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void initState() {
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+             
     confirmationDineviewPresenter.getPeopleList(context);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -814,6 +816,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       return;
     }

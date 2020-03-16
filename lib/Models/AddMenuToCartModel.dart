@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:foodzi/Models/RestaurantItemsList.dart';
+
 AddMenuToCartModel addMenuToCartModelFromJson(String str) =>
     AddMenuToCartModel.fromJson(json.decode(str));
 
@@ -148,6 +150,7 @@ class Item {
   List<Extras> extra;
   List<Spreads> spreads;
   List<Switches> switches;
+  List<Sizes> sizes;
 
   Item({
     this.itemId,
@@ -156,26 +159,34 @@ class Item {
     this.extra,
     this.spreads,
     this.switches,
+    this.sizes,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         itemId: json["item_id"],
         quantity: json["quantity"],
         sizePriceId: json["size_price_id"],
-        extra:json["extra"] != null ?  List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x))) : [],
+        extra: json["extra"] != null
+            ? List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x)))
+            : [],
         spreads:
             List<Spreads>.from(json["spreads"].map((x) => Spreads.fromJson(x))),
         switches: List<Switches>.from(
             json["switches"].map((x) => Switches.fromJson(x))),
+        sizes: List<Sizes>.from(json["sizes"].map((x) => Sizes.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "item_id": itemId,
         "quantity": quantity,
         "size_price_id": sizePriceId,
-        "extra": extra != null ? List<dynamic>.from(extra.map((x) => x.toJson())) : [],
+        "extra": extra != null
+            ? List<dynamic>.from(extra.map((x) => x.toJson()))
+            : [],
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
         "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
+        "sizes": List<dynamic>.from(sizes.map((x) => x.toJson())),
+
       };
 }
 
@@ -228,5 +239,21 @@ class Switches {
   Map<String, dynamic> toJson() => {
         "switch_id": switchId,
         "switch_option": switchOption,
+      };
+}
+
+class Sizes {
+  int sizeid;
+
+  Sizes({
+    this.sizeid,
+  });
+
+  factory Sizes.fromJson(Map<String, dynamic> json) => Sizes(
+        sizeid: json["size_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "size_id": sizeid,
       };
 }

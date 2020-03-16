@@ -52,6 +52,7 @@ class _EditProfileState extends State<EditProfileview>
   void initState() {
     super.initState();
     editprofilepresenter = EditProfilePresenter(this);
+             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     editprofilepresenter.editCountry(context);
     editprofilepresenter.editState(context);
     // setState(() {
@@ -452,7 +453,7 @@ class _EditProfileState extends State<EditProfileview>
                 stateID = value.id;
               }
             });
-
+                     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
             editprofilepresenter.editCity(stateID.toString(), context);
           });
         },
@@ -705,6 +706,7 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editCitySuccess(List<CityList> cityList) {
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (cityList.length == 0) {
       return;
     }
@@ -726,6 +728,7 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editCountrySuccess(List<CountryList> countryList) {
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement editCountrySuccess
     if (countryList.length == 0) {
       return;
@@ -747,6 +750,7 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editStateSuccess(List<StateList> stateList) {
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (stateList.length == 0) {
       return;
     }
@@ -769,6 +773,7 @@ class _EditProfileState extends State<EditProfileview>
   @override
   void profileUpdateSuccess() {
     // TODO: implement profileUpdateSuccess
+                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
 

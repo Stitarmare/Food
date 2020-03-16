@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 
 class MenuItem extends StatefulWidget {
   var restaurantId;
@@ -22,7 +23,7 @@ class MenuItemState extends State<MenuItem>
 
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
-
+   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void initState() {
     super.initState();
@@ -31,6 +32,7 @@ class MenuItemState extends State<MenuItem>
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
+                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
 
     controller.addListener(() {
@@ -124,6 +126,7 @@ class MenuItemState extends State<MenuItem>
 
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getMenuLCategorysuccess
     if (categoryData.length == 0) {
       return;

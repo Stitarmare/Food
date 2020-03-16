@@ -104,6 +104,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
+                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                       _paymentTipAndPayPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,

@@ -3,7 +3,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 
-abstract class MyOrderContractor {
+abstract class MyOrderTakeAwayContractor {
   void getOrderDetails(
     String order_type,
     BuildContext context,
@@ -14,9 +14,8 @@ abstract class MyOrderContractor {
   void onBackPresed();
 }
 
-abstract class MyOrderModelView {
+abstract class MyOrderTakeAwayModelView {
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList);
-  //List<CurrentOrderList> _orderdetailsList);
   void getOrderDetailsFailed();
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory);
