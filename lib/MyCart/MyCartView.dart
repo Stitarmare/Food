@@ -767,11 +767,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
-<<<<<<< HEAD
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-=======
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
->>>>>>> 3f413be87d2c2dc09757c738ac10b21d77aca386
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);

@@ -117,189 +117,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-<<<<<<< HEAD
         body: CustomScrollView(
           controller: _controller,
           slivers: <Widget>[
             _getorderOptions(),
             radioId == 1 ? _gettableText() : _gettimeOptions(),
           ],
-=======
-        // body: CustomScrollView(
-        //   controller: _controller,
-        //   slivers: <Widget>[
-        //     _getorderOptions(),
-        //     radioId == 1 ? _gettableText() : _gettimeOptions(),
-        //   ],
-        // ),
-        body: Container(
-          margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Column(children: <Widget>[
-            Row(
-              children: <Widget>[
-                Spacer(),
-                Text(
-                  "${widget.tablename}",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'gotham',
-                      fontWeight: FontWeight.w600,
-                      color: greytheme100),
-                ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
-            //SizedBox(height: 0,),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: widget.itemdata.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    id = widget.itemdata[index].itemId;
-                    //int userID = widget.itemdata[index].userId;
-                    cartId = widget.itemdata[index].id;
-
-                    return Container(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: (widget.itemdata[index].items.menuType ==
-                                        "veg")
-                                    ? Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        height: 25,
-                                        width: 25,
-                                      )
-                                    : Image.asset(
-                                        'assets/VegIcon/Group1661.png',
-                                        color: redtheme,
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                              ),
-                              SizedBox(width: 16),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.65,
-                                    child: Text(
-                                      widget.itemdata[index].items.itemName ??
-                                          'Bacon & Cheese Burger',
-                                      style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 16,
-                                          color: greytheme700),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 180,
-                                    child: AutoSizeText(
-                                      getExtra(widget.itemdata[index]),
-                                      style: TextStyle(
-                                        color: greytheme1000,
-                                        fontSize: 14,
-                                        // fontFamily: 'gotham',
-                                      ),
-                                      // minFontSize: 8,
-                                      maxFontSize: 12,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 0,
-                                ),
-                                // flex: 2,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "${widget.currencySymbol} " +
-                                              "${widget.itemdata[index].totalAmount}" ??
-                                          '',
-                                      style: TextStyle(
-                                          color: greytheme700,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "Quantity:",
-                                      // ${widget.itemdata[index].quantity}",
-                                      style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 10,
-                                          color: greytheme700),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: getColorByHex(
-                                              Globle().colorscode),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5))),
-                                      width: 25,
-                                      height: 25,
-                                      child: Center(
-                                        child: Text(
-                                          "${widget.itemdata[index].quantity}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontFamily: 'gotham',
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ]),
-                        SizedBox(height: 12),
-                        Divider(
-                          height: 2,
-                          thickness: 2,
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ));
-                  }),
-            ),
-          ]),
->>>>>>> 3f413be87d2c2dc09757c738ac10b21d77aca386
         ),
         // body: Container(
         //   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -475,7 +298,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               children: <Widget>[
                 Container(
                   height: 35,
-<<<<<<< HEAD
                   // child: FlatButton(
                   //   child: Text(
                   //     'Add More People',
@@ -498,30 +320,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                   //         context: context,
                   //         child: RadioDialogAddPeople(peopleList,
                   //             widget.tableId, widget.restId, orderId));
-=======
-                  child: FlatButton(
-                    child: Text(
-                      'Add More People',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          decoration: TextDecoration.underline,
-                          decorationColor: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: () async {
-                      int orderId = await Preference.getPrefValue<int>(
-                          PreferenceKeys.ORDER_ID);
-                      showDialog(
-                          context: context,
-                          child: RadioDialogAddPeople(peopleList,
-                              widget.tableId, widget.restId, orderId));
->>>>>>> 3f413be87d2c2dc09757c738ac10b21d77aca386
 
                   //     // confirmationDineviewPresenter.addPeople(
                   //     //     widget.mobilenumber,
@@ -1043,11 +841,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-<<<<<<< HEAD
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-=======
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
->>>>>>> 3f413be87d2c2dc09757c738ac10b21d77aca386
     if (data.length == 0) {
       return;
     }

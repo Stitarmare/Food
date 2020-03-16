@@ -45,12 +45,8 @@ class Data {
   String updatedAt;
   String latitude;
   String longitude;
-<<<<<<< HEAD
-  double distance;
-=======
   String distance;
   //ToId toId;
->>>>>>> 3f413be87d2c2dc09757c738ac10b21d77aca386
 
   Data({
     this.id,
