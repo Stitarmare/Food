@@ -778,12 +778,12 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void updatequantitySuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    //  Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantitySuccess
   }
