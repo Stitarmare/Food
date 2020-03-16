@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -42,6 +43,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   String radioItem = 'Mango';
   List<Data> addList = [];
   AddPeopleInterface addPeopleInterface;
+  List<CheckBoxOptions> _checkBoxOptions = [];
+  List<InvitePeople> invitedPeople;
 
   // Group Value for Radio Button.
   int id;
@@ -67,7 +70,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
         Container(
-            height: 350,
+            height: 500,
             width: 284,
             //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             decoration:
@@ -88,45 +91,83 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                   ),
                 ),
                 Expanded(
+                    flex: 4,
                     child: ListView.builder(
                         itemCount: widget.data.length,
                         itemBuilder: (BuildContext context, int i) {
-                          return CheckboxListTile(
-                              activeColor: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
-                              value: isChecked,
-                              controlAffinity: ListTileControlAffinity.leading,
-                              onChanged: (val) {
-                                // setState(() {
-                                //   bList[i].isChecked = val;
-                                //   if (val != false) {
-                                //     addList.add(bList[i]);
-                                //   } else {
-                                //     addList.remove(bList[i]);
-                                //   }
-                                // });
-                                setState(() {
-                                  isChecked = val;
-                                  id = i;
-                                  if (val != false) {
-                                    addList.add(widget.data[i]);
-                                  } else {
-                                    addList.remove(widget.data[i]);
-                                  }
-                                });
-                              },
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    widget.data[i].firstName ?? '',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(64, 64, 64, 1)),
-                                  ),
-                                ],
-                              ));
+                          return _checkBoxOptions.length > 0
+                              ? _checkBoxOptions.map((checkBtn) =>
+                                  CheckboxListTile(
+                                      activeColor: ((Globle().colorscode) !=
+                                              null)
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme,
+                                      value: checkBtn.isChecked,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      onChanged: (val) {
+                                        // setState(() {
+                                        //   bList[i].isChecked = val;
+                                        //   if (val != false) {
+                                        //     addList.add(bList[i]);
+                                        //   } else {
+                                        //     addList.remove(bList[i]);
+                                        //   }
+                                        // });
+
+                                        setState(() {
+                                          if (invitedPeople == null) {
+                                            invitedPeople = [];
+                                          }
+                                          if (invitedPeople.length > 0) {
+                                            if (val) {
+                                              var ext = InvitePeople();
+                                              ext.inviteId = checkBtn.index;
+                                              invitedPeople.add(ext);
+                                            } else {
+                                              for (int i = 0;
+                                                  i < invitedPeople.length;
+                                                  i++) {
+                                                if (checkBtn.index ==
+                                                    invitedPeople[i].inviteId) {
+                                                  invitedPeople.removeAt(i);
+                                                }
+                                              }
+                                            }
+                                          } else {
+                                            var ext = InvitePeople();
+                                            ext.inviteId = checkBtn.index;
+                                            invitedPeople.add(ext);
+                                          }
+                                          checkBtn.isChecked = val;
+                                        });
+                                      },
+                                      //   setState(() {
+                                      //     isChecked = val;
+                                      //     id = i;
+                                      //     if (val != false) {
+                                      //       addList.add(widget.data[i]);
+                                      //     } else {
+                                      //       addList.remove(widget.data[i]);
+                                      //     }
+                                      //   });
+                                      // },
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            widget.data[i].firstName ?? '',
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                color: Color.fromRGBO(
+                                                    64, 64, 64, 1)),
+                                          ),
+                                        ],
+                                      )))
+                              : Center(
+                                  child: Text("No data found."),
+                                );
                         })),
                 SizedBox(
                   height: 10,
@@ -167,11 +208,56 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       fontSize: 18,
                     ),
                   ),
-                ))
+                )),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text(
+                    "Joined people:",
+                    style: TextStyle(
+                        color: greytheme100,
+                        decoration: TextDecoration.underline,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text(
+                          "${index + 1}) Joined people",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: greytheme100,
+                            fontSize: 18,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
               ],
             ))
       ],
     );
+  }
+
+  int checkboxbtn(int length) {
+    List<CheckBoxOptions> _checkboxlist = [];
+    for (int i = 1; i <= length; i++) {
+      _checkboxlist.add(CheckBoxOptions(
+        isChecked: false,
+        index: widget.data[i].id ?? 0,
+        title: widget.data[i].firstName ?? '',
+      ));
+    }
+    setState(() {
+      _checkBoxOptions = _checkboxlist;
+    });
   }
 
   void showAddPeopleAlertSuccess(
@@ -250,10 +336,18 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
+    checkboxbtn(data.length);
     // TODO: implement getPeopleListonSuccess
   }
 }
 
 abstract class AddPeopleInterface {
   void getAddedpeople(List<AddPeople> list);
+}
+
+class CheckBoxOptions {
+  int index;
+  String title; // double price;
+  bool isChecked;
+  CheckBoxOptions({this.index, this.title, this.isChecked});
 }

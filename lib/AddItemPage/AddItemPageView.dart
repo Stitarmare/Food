@@ -1253,6 +1253,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _addItemPageModelList = addItemPageModelList1;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement addItemsuccess
   }
 
   @override

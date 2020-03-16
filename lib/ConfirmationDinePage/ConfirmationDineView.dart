@@ -96,7 +96,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-             
+
     confirmationDineviewPresenter.getPeopleList(context);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -816,7 +816,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       return;
     }
@@ -830,6 +830,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     print("data list --->");
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 }
 
