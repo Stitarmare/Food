@@ -688,7 +688,7 @@ class _DineViewState extends State<DineInView>
   void restaurantsuccess(List<RestaurantList> restlist) {
     isIgnoreTouch = false;
 // TODO: implement restaurantsuccess
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+   
     if (restlist.length == 0) {
       setState(() {
         _restaurantList = null;
@@ -704,6 +704,7 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

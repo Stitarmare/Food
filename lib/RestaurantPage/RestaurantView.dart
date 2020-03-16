@@ -79,7 +79,7 @@ class _RestaurantViewState extends State<RestaurantView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-          //DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+          DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
           restaurantPresenter.getMenuList(widget.rest_Id, context,
               category_id: abc, menu: menutype);
           print("Bottom");
