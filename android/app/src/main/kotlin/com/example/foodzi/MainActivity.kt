@@ -1,4 +1,4 @@
-package com.example.foodzi
+package com.international.foodzi
 
 import android.os.Bundle
 
