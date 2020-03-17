@@ -100,6 +100,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
     confirmationDineviewPresenter.getPeopleList(context);
 
+    print("table id-->");
+    print(widget.tableId);
+
+    print("paytippay length--->");
+    print(widget.itemdata);
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
   }
@@ -749,7 +755,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
-                        radioId = val;
+                        // radioId = val;
+
+                        if (val == 2) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PaymentTipAndPay(
+                                    itemdata: widget.itemdata,
+                                  )));
+                        }
+
                         // if (radioOrderItem == 'Dine-in') {
                         //   getTableAlert();
                         // }

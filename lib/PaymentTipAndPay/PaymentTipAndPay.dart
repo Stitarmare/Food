@@ -55,6 +55,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     // TODO: implement initState
     print(widget.items);
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    print("itemdata length--->");
+    print(widget.itemdata.length);
     super.initState();
   }
 
@@ -67,7 +69,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -104,7 +106,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
-                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "");
                       _paymentTipAndPayPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,
@@ -211,9 +214,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    
                     (widget.tablename != null)
-                        ? 'Selected Table : ${widget.tablename}' 
+                        ? 'Selected Table : ${widget.tablename}'
                         : "Table 1",
                     textAlign: TextAlign.start,
                     style: TextStyle(

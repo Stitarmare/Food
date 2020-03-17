@@ -74,7 +74,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     // print(widget.data.length);
 
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, 2, context);
+        Globle().loginModel.data.id,
+        //widget.tableId
+        2,
+        context);
+    print("table id addpeople--->");
+    print(widget.tableId);
   }
 
   Widget build(BuildContext context) {
