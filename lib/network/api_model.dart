@@ -9,6 +9,7 @@ import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -141,6 +142,8 @@ class GenericModel<T> {
       case PaymentCheckoutModel:
         return PaymentCheckoutModel.fromJson(json) as T;
 
+      case InvitePeopleModel:
+        return InvitePeopleModel.fromJson(json) as T;
       default:
         break;
     }

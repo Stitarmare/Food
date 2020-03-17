@@ -270,7 +270,23 @@ class _MyCartViewState extends State<MyCartView>
               SizedBox(
                 height: 5,
               ),
-              isTableList ? getTableNumber() : Container(),
+              isTableList
+                  ? getTableNumber()
+                  : Container(
+                      child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Text("No Tables available",
+                            style: TextStyle(
+                                // decoration: TextDecoration.underline,
+                                // decorationColor:
+                                //     getColorByHex(Globle().colorscode),
+                                fontSize: 14,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w600,
+                                color: getColorByHex(Globle().colorscode))),
+                      ],
+                    )),
               SizedBox(
                 height: 10,
               )
@@ -586,7 +602,7 @@ class _MyCartViewState extends State<MyCartView>
                                 // flex: 2,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 15, top: 30),
+                                padding: EdgeInsets.only(right: 12, top: 30),
                                 child: Text(
                                   "${myCart.currencySymbol} " +
                                           "${_cartItemList[index].totalAmount}" ??
@@ -778,12 +794,11 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void updatequantitySuccess() {
-    
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantitySuccess
   }

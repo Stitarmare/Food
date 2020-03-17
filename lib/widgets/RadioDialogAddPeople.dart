@@ -3,6 +3,10 @@ import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart'
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
+import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -16,7 +20,7 @@ class AddPeople {
 }
 
 class RadioDialogAddPeople extends StatefulWidget {
-  final List<Data> data;
+  // final List<Data> data;
   final int tableId;
   final int orderId;
   final int restId;
@@ -26,8 +30,7 @@ class RadioDialogAddPeople extends StatefulWidget {
   //     this.initialValue,
   //   });
 
-  const RadioDialogAddPeople(
-      this.data, this.tableId, this.restId, this.orderId);
+  const RadioDialogAddPeople(this.tableId, this.restId, this.orderId);
 
   // final String initialValue;
   // final void Function(String) onValueChange;
@@ -37,7 +40,7 @@ class RadioDialogAddPeople extends StatefulWidget {
 }
 
 class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
-    implements ConfirmationDineViewModelView {
+    implements ConfirmationDineViewModelView, StatusTrackViewModelView {
   String _selectedId;
   // Default Radio Button Item
   String radioItem = 'Mango';
@@ -45,15 +48,17 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   AddPeopleInterface addPeopleInterface;
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
-  List<Data> data1 = [];
+  List<Data> peopleList = [];
 
   // Group Value for Radio Button.
   int id;
   bool isChecked = false;
+  List<InvitePeopleList> invitePeopleList = [];
 
   // bool isChecked = false;
   String _currText = "";
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
+  StatusTrackViewPresenter statusTrackViewPresenter;
 
   @override
   void initState() {
@@ -61,10 +66,15 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
     // confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    statusTrackViewPresenter = StatusTrackViewPresenter(this);
+
     confirmationDineviewPresenter.getPeopleList(context);
     // _selectedId = widget.initialValue;
     print("addpeople list length-->");
-    print(widget.data.length);
+    // print(widget.data.length);
+
+    statusTrackViewPresenter.getInvitedPeople(
+        Globle().loginModel.data.id, 2, context);
   }
 
   Widget build(BuildContext context) {
@@ -97,6 +107,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     child: ListView.builder(
                         itemCount: _checkBoxOptions.length,
                         itemBuilder: (BuildContext context, int i) {
+                          id = i;
                           return CheckboxListTile(
                               activeColor: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
@@ -154,7 +165,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    widget.data[i].firstName ?? '',
+                                    peopleList[i].firstName ?? '',
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
@@ -180,14 +191,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     int orderId = await Preference.getPrefValue<int>(
                         PreferenceKeys.ORDER_ID);
                     confirmationDineviewPresenter.addPeople(
-                        widget.data[id].mobileNumber,
+                        peopleList[id].mobileNumber,
                         widget.tableId,
                         widget.restId,
                         orderId,
                         context);
                     Navigator.pop(context);
                     Toast.show(
-                        "Sending Invitation to ${widget.data[id].firstName}...",
+                        "Sending Invitation to ${peopleList[id].firstName}...",
                         context,
                         duration: Toast.LENGTH_SHORT,
                         gravity: Toast.BOTTOM);
@@ -221,20 +232,24 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                 ),
                 Expanded(
                   flex: 1,
-                  child: Center(
-                    child: ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Text(
-                          "${index + 1}) Joined people",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: greytheme100,
-                            fontSize: 18,
+                  child: ListView.builder(
+                    itemCount: invitePeopleList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "${index + 1}) " +
+                                "${invitePeopleList[index].toUser.firstName}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: greytheme100,
+                              fontSize: 18,
+                            ),
                           ),
-                        );
-                      },
-                    ),
+                        ],
+                      );
+                    },
                   ),
                 )
               ],
@@ -248,8 +263,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
         isChecked: false,
-        index: data1[i - 1].id,
-        title: data1[i - 1].firstName ?? '',
+        index: peopleList[i - 1].id,
+        title: peopleList[i - 1].firstName ?? '',
       ));
     }
     setState(() {
@@ -331,10 +346,38 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
+    if (data.length == 0) {
+      return;
+    }
     setState(() {
-      data1 = data;
+      if (peopleList == null) {
+        peopleList = data;
+      } else {
+        peopleList.addAll(data);
+      }
     });
+    print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
+  }
+
+  @override
+  void getInvitedPeopleFailed() {}
+
+  @override
+  void getOrderStatusfailed() {}
+
+  @override
+  void getOrderStatussuccess(StatusData statusData) {}
+
+  @override
+  void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
+    setState(() {
+      invitePeopleList = list;
+    });
+
+    print("invite peopl list length-->");
+    print(invitePeopleList.length);
+    print(invitePeopleList[0].toUser.firstName);
   }
 }
 

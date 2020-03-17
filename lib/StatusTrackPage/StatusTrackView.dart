@@ -6,6 +6,7 @@ import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
+import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
@@ -241,8 +242,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   onPressed: () {
                     showDialog(
                         context: context,
-                        child: RadioDialogAddPeople(peopleList, widget.tableId,
-                            widget.rest_id, widget.orderID));
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.rest_id, widget.orderID));
 
                     // SizedBox(
                     //   height: 50,
@@ -365,7 +366,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getInvitedPeopleSuccess() {
+  void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
     // TODO: implement getInvitedPeopleSuccess
   }
 }
