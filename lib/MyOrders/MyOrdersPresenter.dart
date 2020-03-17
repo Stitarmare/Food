@@ -25,12 +25,12 @@ class MyOrdersPresenter extends MyOrderContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Add People Success");
+          print("Order Detail success");
           print(value.model);
           _myOrderModelView.getOrderDetailsSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Add People Failed");
+          print("Order Detail failed");
           _myOrderModelView.getOrderDetailsFailed();
           break;
       }
