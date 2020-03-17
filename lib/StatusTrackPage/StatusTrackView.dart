@@ -242,8 +242,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   onPressed: () {
                     showDialog(
                         context: context,
-                        child: RadioDialogAddPeople(peopleList, widget.tableId,
-                            widget.rest_id, widget.orderID));
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.rest_id, widget.orderID));
 
                     // SizedBox(
                     //   height: 50,

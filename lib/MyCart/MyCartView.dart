@@ -602,7 +602,7 @@ class _MyCartViewState extends State<MyCartView>
                                 // flex: 2,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 15, top: 30),
+                                padding: EdgeInsets.only(right: 12, top: 30),
                                 child: Text(
                                   "${myCart.currencySymbol} " +
                                           "${_cartItemList[index].totalAmount}" ??
@@ -794,12 +794,11 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void updatequantitySuccess() {
-    
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     // TODO: implement updatequantitySuccess
   }
