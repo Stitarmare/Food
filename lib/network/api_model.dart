@@ -138,6 +138,7 @@ class GenericModel<T> {
 
       case GetPeopleListModel:
         return GetPeopleListModel.fromJson(json) as T;
+
       case PaymentCheckoutModel:
         return PaymentCheckoutModel.fromJson(json) as T;
 
