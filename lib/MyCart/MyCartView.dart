@@ -270,7 +270,23 @@ class _MyCartViewState extends State<MyCartView>
               SizedBox(
                 height: 5,
               ),
-              isTableList ? getTableNumber() : Container(),
+              isTableList
+                  ? getTableNumber()
+                  : Container(
+                      child: Row(
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Text("No Tables available",
+                            style: TextStyle(
+                                // decoration: TextDecoration.underline,
+                                // decorationColor:
+                                //     getColorByHex(Globle().colorscode),
+                                fontSize: 14,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w600,
+                                color: getColorByHex(Globle().colorscode))),
+                      ],
+                    )),
               SizedBox(
                 height: 10,
               )

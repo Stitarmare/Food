@@ -1,4 +1,5 @@
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
@@ -46,20 +47,20 @@ class StatusTrackViewPresenter extends StatusTrackViewContractor {
   }
 
   @override
-  void getInvitedPeople(
-      int orderId, int userId, int tableId, BuildContext context) {
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.getInvitedPeople, context,
-        body: {
-          "order_id": orderId,
-          "user_id": userId,
-          "table_id": tableId
-        }).then((value) {
+  void getInvitedPeople(int userId, int tableId, BuildContext context,
+      {int orderId}) {
+    ApiBaseHelper().post<InvitePeopleModel>(
+        UrlConstant.getInvitedPeople, context, body: {
+      "order_id": orderId,
+      "user_id": userId,
+      "table_id": tableId
+    }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
           print("Get Invited People success");
           print(value.model);
-          statusTrackModelView.getInvitedPeopleSuccess();
+          statusTrackModelView.getInvitedPeopleSuccess(value.model.data);
           break;
         case SuccessType.failed:
           print("Get Invited People failed");
