@@ -47,9 +47,9 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
 
   @override
   void getCheckoutDetails(String checkoutId, BuildContext context) {
-    ApiBaseHelper().post<PaymentCheckoutModel>(UrlConstant.checkoutPaymentStatus, context,body: {
-      "encrypted_checkout_id":checkoutId
-    }).then((value){
+    ApiBaseHelper().post<PaymentCheckoutModel>(
+        UrlConstant.checkoutPaymentStatus, context,
+        body: {"encrypted_checkout_id": checkoutId}).then((value) {
       switch (value.result) {
         case SuccessType.success:
           print("Order Detail success");
@@ -61,7 +61,7 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
           _paymentTipandPayDiModelView.paymentCheckoutFailed();
           break;
       }
-    }).catchError((error){
+    }).catchError((error) {
       print(error);
     });
   }
@@ -92,7 +92,7 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
       "payment_mode": payment_mode,
       "amount": amount,
       "total_amount": total_amount,
-      "transaction_id" : transacionId,
+      "transaction_id": transacionId,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -112,7 +112,6 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
   }
 }
 
-
 class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
   PayBillCheckoutModelView _paybillcheckoutModelView;
   PayBillCheckoutPresenter(PayBillCheckoutModelView _paybillcheckoutModelView) {
@@ -126,13 +125,13 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
     double amount,
     BuildContext context,
   ) {
-    ApiBaseHelper()
-        .post<PaycheckoutNetbanking>(UrlConstant.paycheckOutNetbankingApi, context, body: {
-      "rest_id": restId,
-      //"currency": currency,
-      "amount": amount,
-      
-    }).then((value) {
+    ApiBaseHelper().post<PaycheckoutNetbanking>(
+        UrlConstant.paycheckOutNetbankingApi, context,
+        body: {
+          "rest_id": restId,
+          //"currency": currency,
+          "amount": amount,
+        }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

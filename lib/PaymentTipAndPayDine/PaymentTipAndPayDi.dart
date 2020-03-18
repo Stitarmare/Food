@@ -16,7 +16,6 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
-import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
@@ -117,7 +116,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             child: new RadioDialog(
                               tableId: widget.tableId,
                               orderId: widget.orderID,
-                              orderData: myOrderData,
+                              elementList: myOrderData.list,
                             ));
                       },
                     ),

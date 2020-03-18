@@ -26,7 +26,7 @@ class RestaurantTAPresenter extends RestaurantTAContractor {
         case SuccessType.success:
           print("Restaurant get Menu success");
           print(value.model);
-          restaurantView.getMenuListsuccess(value.model.data);
+          restaurantView.getMenuListsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:
           print("Restaurant get Menu failed");

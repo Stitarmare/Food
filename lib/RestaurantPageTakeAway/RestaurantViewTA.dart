@@ -41,11 +41,13 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   bool _switchvalue = false;
   bool isselected = false;
   String menutype;
+  RestaurantItemsModel _restaurantItemsModel;
   var abc;
   @override
   void initState() {
     _detectScrollPosition();
     restaurantPresenter = RestaurantTAPresenter(this);
+    _restaurantItemsModel = RestaurantItemsModel();
     restaurantPresenter.getMenuList(widget.rest_Id, context,
         category_id: abc, menu: menutype);
     print(widget.imageUrl);
@@ -540,9 +542,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 child: Center(
                                   child: Text(
                                     (_restaurantList[index].sizePrizes.isEmpty)
-                                        ? '\$ ${_restaurantList[index].price}' ??
+                                        ? "${_restaurantItemsModel.currencyCode} " +
+                                                '${_restaurantList[index].price}' ??
                                             ''
-                                        : "\$ ${_restaurantList[index].sizePrizes[0].price}" ??
+                                        : "${_restaurantItemsModel.currencyCode} " +
+                                                "${_restaurantList[index].sizePrizes[0].price}" ??
                                             "",
                                     style: TextStyle(
                                         //fontFamily: FontNames.gotham,
@@ -648,9 +652,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   @override
-  void getMenuListsuccess(List<RestaurantMenuItem> menulist) {
-    // TODO: implement getMenuListsuccess
-
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist,
+      RestaurantItemsModel restaurantItemsModel1) {
     if (menulist.length == 0) {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
@@ -659,9 +662,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
+        _restaurantItemsModel = restaurantItemsModel1;
       } else {
         _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
+        _restaurantItemsModel = restaurantItemsModel1;
       }
       page++;
     });

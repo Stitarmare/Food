@@ -11,6 +11,7 @@ abstract class RestaurantTAContractor {
 abstract class RestaurantTAModelView {
   // void restaurantsuccess(List<RestaurantList> restlist);
   // void restaurantfailed();
-  void getMenuListsuccess(List<RestaurantMenuItem> menulist);
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist,
+      RestaurantItemsModel restaurantItemsModel);
   void getMenuListfailed();
 }
