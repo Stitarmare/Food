@@ -66,10 +66,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
     //GeoLocationTracking.load();
     // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
-    if(Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount ) != null){
-     Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount).then((value){
-       Globle().takeAwayCartItemCount = value;
-    });
+    if (Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount) !=
+        null) {
+      Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount)
+          .then((value) {
+        Globle().takeAwayCartItemCount = value;
+      });
     }
     // TODO: implement initState
     super.initState();
@@ -132,12 +134,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
       child: Scaffold(
         key: this._scaffoldKey,
         appBar: AppBar(
-           brightness: Brightness.dark,
+            brightness: Brightness.dark,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             title: Text(
-              "Take Away",
+              "Collection",
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'gotham',
@@ -428,7 +430,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Widget restaurantsInfo() {
     return RefreshIndicator(
       onRefresh: _refreshRstaurantList,
-          child: ListView.builder(
+      child: ListView.builder(
         controller: _controller,
         itemCount: _getint(),
         itemBuilder: (_, i) {
@@ -666,7 +668,7 @@ class BottomItemButton {
   int id;
   BottomItemButton({this.title, this.isSelected, this.id});
 }
-Future<Null> _refreshRstaurantList() async{
-    print('refreshing List...');
 
-  }
+Future<Null> _refreshRstaurantList() async {
+  print('refreshing List...');
+}

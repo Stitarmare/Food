@@ -55,7 +55,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
-             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     super.initState();
@@ -66,12 +66,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int count = 1;
   String radioItem;
   String radioItemsize;
-  
+
   String _selectedId;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
- List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
+  List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
 
   List<SwitchesItems> _switchOptions = [];
@@ -94,7 +94,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       _radioOptions = radiolist;
     });
   }
-int getradiobtnsize(int length) {
+
+  int getradiobtnsize(int length) {
     List<RadioButtonOptionsSizes> radiolistsize = [];
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
@@ -221,7 +222,7 @@ int getradiobtnsize(int length) {
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -249,7 +250,7 @@ int getradiobtnsize(int length) {
                   spread == null ? [] : [spread];
               addMenuToCartModel.items[0].switches = switches ?? [];
               addMenuToCartModel.items[0].quantity = count;
-                addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
+              addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
 
               print(addMenuToCartModel.toJson());
 
@@ -268,12 +269,12 @@ int getradiobtnsize(int length) {
                           : "Your unfinished order at previous hotel will be deleted.",
                       context);
                 } else {
-                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
-                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -350,7 +351,8 @@ int getradiobtnsize(int length) {
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                              DialogsIndicator.showLoadingDialog(
+                                  context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -441,7 +443,7 @@ int getradiobtnsize(int length) {
                     width: 20,
                   ),
                   Text(
-                    'Take Away',
+                    'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -596,7 +598,7 @@ int getradiobtnsize(int length) {
                 height: 10,
               ),
               togglebutton(),
-               SizedBox(
+              SizedBox(
                 height: 10,
               ),
               Divider(
@@ -650,7 +652,8 @@ int getradiobtnsize(int length) {
       ),
     );
   }
-_getRadioOptionsSizes() {
+
+  _getRadioOptionsSizes() {
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -980,7 +983,7 @@ _getRadioOptionsSizes() {
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -988,7 +991,7 @@ _getRadioOptionsSizes() {
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-getradiobtnsize(_addItemModelList.sizePrizes.length);
+    getradiobtnsize(_addItemModelList.sizePrizes.length);
     // TODO: implement addItemsuccess
   }
 
@@ -1000,14 +1003,14 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    
+
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }
@@ -1019,7 +1022,7 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
 
   @override
   void clearCartSuccess() {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -1043,6 +1046,7 @@ class RadioButtonOptions {
   String price;
   RadioButtonOptions({this.index, this.title, this.price});
 }
+
 class RadioButtonOptionsSizes {
   int index;
   String title;
@@ -1050,6 +1054,7 @@ class RadioButtonOptionsSizes {
 
   RadioButtonOptionsSizes({this.index, this.title, this.secondary});
 }
+
 class SwitchesItems {
   int index;
   String title;
