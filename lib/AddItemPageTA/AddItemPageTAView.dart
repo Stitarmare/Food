@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
@@ -7,6 +8,7 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class AddItemPageTAView extends StatefulWidget {
@@ -14,12 +16,14 @@ class AddItemPageTAView extends StatefulWidget {
   String description;
   int item_id;
   int rest_id;
+  String imageUrl;
   String restName;
   AddItemPageTAView(
       {this.title,
       this.description,
       this.item_id,
       this.rest_id,
+      this.imageUrl,
       String restName});
   _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
 }
@@ -55,7 +59,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
-             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _addItemPagepresenter.performAddItem(
         widget.item_id, widget.rest_id, context);
     super.initState();
@@ -66,12 +70,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int count = 1;
   String radioItem;
   String radioItemsize;
-  
+
   String _selectedId;
   // FLCountStepperController _stepperController =
   //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
- List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
+  List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
 
   List<SwitchesItems> _switchOptions = [];
@@ -94,7 +98,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       _radioOptions = radiolist;
     });
   }
-int getradiobtnsize(int length) {
+
+  int getradiobtnsize(int length) {
     List<RadioButtonOptionsSizes> radiolistsize = [];
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
@@ -221,7 +226,7 @@ int getradiobtnsize(int length) {
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -249,7 +254,7 @@ int getradiobtnsize(int length) {
                   spread == null ? [] : [spread];
               addMenuToCartModel.items[0].switches = switches ?? [];
               addMenuToCartModel.items[0].quantity = count;
-                addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
+              addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
 
               print(addMenuToCartModel.toJson());
 
@@ -268,12 +273,12 @@ int getradiobtnsize(int length) {
                           : "Your unfinished order at previous hotel will be deleted.",
                       context);
                 } else {
-                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
-                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -350,7 +355,8 @@ int getradiobtnsize(int length) {
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                              DialogsIndicator.showLoadingDialog(
+                                  context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.rest_id, PreferenceKeys.restaurantID);
@@ -397,86 +403,103 @@ int getradiobtnsize(int length) {
   }
 
   Widget _getmainviewTableno() {
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Take Away',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
-                  )
-                ],
-              ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(width: 20),
-              //     Text(
-              //       'Add Table Number',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           decoration: TextDecoration.underline,
-              //           decorationColor: Colors.black,
-              //           fontSize: 14,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme100),
-              //     )
-              //   ],
-              // ),
-              SizedBox(
-                height: 10,
-              )
-            ],
-          ),
-        ),
-      ),
+    return SliverToBoxAdapter(child: _foodItemLogo()
+        // Container(
+        //   margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        //   child: Card(
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: <Widget>[
+        //         SizedBox(
+        //           height: 10,
+        //         ),
+        //         Row(
+        //           children: <Widget>[
+        //             SizedBox(
+        //               width: 20,
+        //             ),
+        //             Container(
+        //               width: MediaQuery.of(context).size.width * 0.8,
+        //               child: Text(
+        //                 widget.title,
+        //                 textAlign: TextAlign.start,
+        //                 style: TextStyle(
+        //                     fontSize: 20,
+        //                     fontFamily: 'gotham',
+        //                     fontWeight: FontWeight.w600,
+        //                     color: greytheme700),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //         Divider(
+        //           thickness: 2,
+        //           //endIndent: 10,
+        //           //indent: 10,
+        //         ),
+        //         Row(
+        //           children: <Widget>[
+        //             // SizedBox(
+        //             //   width: 26,
+        //             // ),
+        //             // Image.asset('assets/DineInImage/Group1504.png'),
+        //             SizedBox(
+        //               width: 20,
+        //             ),
+        //             Text(
+        //               'Take Away',
+        //               textAlign: TextAlign.start,
+        //               style: TextStyle(
+        //                   fontSize: 20,
+        //                   fontFamily: 'gotham',
+        //                   fontWeight: FontWeight.w600,
+        //                   color: getColorByHex(Globle().colorscode)),
+        //             )
+        //           ],
+        //         ),
+        //         // SizedBox(
+        //         //   height: 20,
+        //         // ),
+        //         // Row(
+        //         //   children: <Widget>[
+        //         //     SizedBox(width: 20),
+        //         //     Text(
+        //         //       'Add Table Number',
+        //         //       textAlign: TextAlign.start,
+        //         //       style: TextStyle(
+        //         //           decoration: TextDecoration.underline,
+        //         //           decorationColor: Colors.black,
+        //         //           fontSize: 14,
+        //         //           fontFamily: 'gotham',
+        //         //           fontWeight: FontWeight.w600,
+        //         //           color: greytheme100),
+        //         //     )
+        //         //   ],
+        //         // ),
+        //         SizedBox(
+        //           height: 10,
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        );
+  }
+
+  Widget _foodItemLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
+      child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          width: double.infinity,
+          height: 175,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+          errorWidget: (context, url, error) => Image.asset(
+                "assets/HotelImages/Image12.png",
+                fit: BoxFit.fill,
+              )),
     );
   }
 
@@ -596,7 +619,7 @@ int getradiobtnsize(int length) {
                 height: 10,
               ),
               togglebutton(),
-               SizedBox(
+              SizedBox(
                 height: 10,
               ),
               Divider(
@@ -650,7 +673,8 @@ int getradiobtnsize(int length) {
       ),
     );
   }
-_getRadioOptionsSizes() {
+
+  _getRadioOptionsSizes() {
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -980,7 +1004,7 @@ _getRadioOptionsSizes() {
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -988,7 +1012,7 @@ _getRadioOptionsSizes() {
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-getradiobtnsize(_addItemModelList.sizePrizes.length);
+    getradiobtnsize(_addItemModelList.sizePrizes.length);
     // TODO: implement addItemsuccess
   }
 
@@ -1000,14 +1024,14 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    
+
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
   }
@@ -1019,7 +1043,7 @@ getradiobtnsize(_addItemModelList.sizePrizes.length);
 
   @override
   void clearCartSuccess() {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -1043,6 +1067,7 @@ class RadioButtonOptions {
   String price;
   RadioButtonOptions({this.index, this.title, this.price});
 }
+
 class RadioButtonOptionsSizes {
   int index;
   String title;
@@ -1050,6 +1075,7 @@ class RadioButtonOptionsSizes {
 
   RadioButtonOptionsSizes({this.index, this.title, this.secondary});
 }
+
 class SwitchesItems {
   int index;
   String title;

@@ -66,10 +66,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
     //GeoLocationTracking.load();
     // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
-    if(Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount ) != null){
-     Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount).then((value){
-       Globle().takeAwayCartItemCount = value;
-    });
+    if (Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount) !=
+        null) {
+      Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount)
+          .then((value) {
+        Globle().takeAwayCartItemCount = value;
+      });
     }
     // TODO: implement initState
     super.initState();
@@ -132,7 +134,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       child: Scaffold(
         key: this._scaffoldKey,
         appBar: AppBar(
-           brightness: Brightness.dark,
+            brightness: Brightness.dark,
             centerTitle: false,
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -145,6 +147,31 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   color: greytheme1200),
             ),
             actions: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(
+                        "assets/Logo/foodzi_logo.jpg",
+                        height: 30,
+                      )),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'ORDER EASY',
+                      style: TextStyle(
+                          // fontFamily: 'HelveticaNeue',
+                          fontFamily: "gotham",
+                          fontSize: 6,
+                          color: greytheme400,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1),
+                    ),
+                  ),
+                ],
+              ),
               IconButton(
                 icon: Image.asset('assets/LevelsIcon/levels.png'),
                 onPressed: () {
@@ -428,7 +455,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Widget restaurantsInfo() {
     return RefreshIndicator(
       onRefresh: _refreshRstaurantList,
-          child: ListView.builder(
+      child: ListView.builder(
         controller: _controller,
         itemCount: _getint(),
         itemBuilder: (_, i) {
@@ -457,6 +484,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               rest_Id: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
+                              imageUrl: _restaurantList[i].coverImage,
                             )));
                     setState(() {
 // selected[i] = !selected[i];
@@ -666,7 +694,7 @@ class BottomItemButton {
   int id;
   BottomItemButton({this.title, this.isSelected, this.id});
 }
-Future<Null> _refreshRstaurantList() async{
-    print('refreshing List...');
 
-  }
+Future<Null> _refreshRstaurantList() async {
+  print('refreshing List...');
+}

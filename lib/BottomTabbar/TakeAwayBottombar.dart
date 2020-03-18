@@ -19,7 +19,9 @@ class TakeAwayBottombar extends StatefulWidget {
   int rest_Id;
   String lat;
   String long;
-  TakeAwayBottombar({this.title, this.rest_Id, this.lat, this.long});
+  String imageUrl;
+  TakeAwayBottombar(
+      {this.title, this.rest_Id, this.lat, this.long, this.imageUrl});
   @override
   State<StatefulWidget> createState() {
     return _TakeAwayBottombarState();
@@ -50,6 +52,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
           RestaurantTAView(
             title: widget.title,
             rest_Id: widget.rest_Id,
+            imageUrl: widget.imageUrl,
           )
         ]);
       });
@@ -160,7 +163,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-               icon: Icon(
+                icon: Icon(
                   OMIcons.assignment,
                   color: greytheme100,
                   size: 30,
@@ -215,7 +218,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 // title: Text('')
                 ),
             BottomNavigationBarItem(
-               icon: Icon(
+                icon: Icon(
                   OMIcons.notifications,
                   color: greytheme100,
                   size: 30,

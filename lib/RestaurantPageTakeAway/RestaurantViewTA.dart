@@ -21,7 +21,8 @@ import 'package:foodzi/theme/colors.dart';
 class RestaurantTAView extends StatefulWidget {
   String title;
   int rest_Id;
-  RestaurantTAView({this.title, this.rest_Id});
+  String imageUrl;
+  RestaurantTAView({this.title, this.rest_Id, this.imageUrl});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -47,7 +48,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     restaurantPresenter = RestaurantTAPresenter(this);
     restaurantPresenter.getMenuList(widget.rest_Id, context,
         category_id: abc, menu: menutype);
-    // TODO: implement initState
+    print(widget.imageUrl);
     super.initState();
   }
 
@@ -69,7 +70,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         brightness: Brightness.dark,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[
@@ -89,50 +90,75 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           )
         ],
       ),
-      body: CustomScrollView(
-        controller: _controller,
-        slivers: <Widget>[
-          _getmainviewTableno(),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-          ),
-          _getOptionsformenu(context),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: 15,
-              ),
-            ),
-          ),
-          (_restaurantList != null)
-              ? _menuItemList()
-              : SliverToBoxAdapter(
-                  child: Center(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(flex: 2, child: _restaurantLogo()),
+          Expanded(
+            flex: 7,
+            child: CustomScrollView(
+              controller: _controller,
+              slivers: <Widget>[
+                // _getmainviewTableno(),
+                SliverToBoxAdapter(
                   child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                        ),
-                        Text(
-                          'No items found.',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'gotham',
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
-                        ),
-                      ],
+                    child: SizedBox(
+                      height: 15,
                     ),
                   ),
-                )),
+                ),
+                _getOptionsformenu(context),
+                SliverToBoxAdapter(
+                  child: Container(
+                    child: SizedBox(
+                      height: 15,
+                    ),
+                  ),
+                ),
+                (_restaurantList != null)
+                    ? _menuItemList()
+                    : SliverToBoxAdapter(
+                        child: Center(
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
+                              ),
+                              Text(
+                                'No items found.',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontFamily: 'gotham',
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _restaurantLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
+      child: CachedNetworkImage(
+          fit: BoxFit.fill,
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+          errorWidget: (context, url, error) => Image.asset(
+                "assets/HotelImages/Image12.png",
+                fit: BoxFit.fill,
+              )),
     );
   }
 
@@ -544,6 +570,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                                       '${_restaurantList[index].itemName}',
                                                   description:
                                                       '${_restaurantList[index].itemDescription}',
+                                                  imageUrl:
+                                                      _restaurantList[index]
+                                                          .itemImage,
                                                 )));
                                   },
                                   child: Container(
