@@ -64,7 +64,7 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
   // }
 
   @override
-  void getmyOrderBookingHistory(BuildContext context) {
+  void getmyOrderBookingHistory(String order_type, BuildContext context) {
     ApiBaseHelper()
         .get<GetMyOrdersBookingHistory>(
             UrlConstant.getMyOrdersBookingHistory, context)

@@ -144,6 +144,7 @@ class GenericModel<T> {
 
       case InvitePeopleModel:
         return InvitePeopleModel.fromJson(json) as T;
+
       default:
         break;
     }

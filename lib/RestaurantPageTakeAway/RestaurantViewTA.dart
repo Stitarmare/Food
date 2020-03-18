@@ -69,7 +69,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         brightness: Brightness.dark,
+        brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: <Widget>[
@@ -181,7 +181,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     width: 20,
                   ),
                   Text(
-                    'Take Away',
+                    'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,

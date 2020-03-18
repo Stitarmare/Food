@@ -9,6 +9,7 @@ abstract class MyOrderContractor {
     BuildContext context,
   );
   void getmyOrderBookingHistory(
+    String order_type,
     BuildContext context,
   );
   void onBackPresed();

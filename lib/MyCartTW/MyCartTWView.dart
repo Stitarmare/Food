@@ -283,7 +283,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     width: 20,
                   ),
                   Text(
-                    'Take Away',
+                    'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -334,7 +334,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       right: false,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           title: Text('My Cart'),
           backgroundColor: Colors.white,
           elevation: 0,
@@ -600,7 +600,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void getCartMenuListfailed() {
-           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     // TODO: implement getCartMenuListfailed
   }
@@ -612,14 +612,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
-      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-             Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+      Preference.setPersistData(
+          Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+      Preference.setPersistData(null, PreferenceKeys.restaurantID);
+      Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().takeAwayCartItemCount = menulist.length;
-      Preference.setPersistData( Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData(
+        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
       if (_cartItemList == null) {
@@ -640,7 +642,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void removeItemFailed() {
     // TODO: implement removeItemFailed
-           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -651,12 +653,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
     // TODO: implement removeItemSuccess
     _cartItemList = null;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    Globle().takeAwayCartItemCount -=1;
-           Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Globle().takeAwayCartItemCount -= 1;
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
   //   return Scaffold(
   //     body: _getmainview(),
