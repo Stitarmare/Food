@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class OrderItemsDialog extends StatefulWidget {
   int tableId;
   int orderId;
-  OrderItemsDialog({this.tableId, this.orderId});
+
+  List<ListElements> listElement;
+
+  OrderItemsDialog({this.tableId, this.orderId, this.listElement});
   @override
   _OrderItemsDialogState createState() => _OrderItemsDialogState();
 }
@@ -14,11 +21,15 @@ class OrderItemsDialog extends StatefulWidget {
 class _OrderItemsDialogState extends State<OrderItemsDialog> {
   List<InvitePeopleList> invitedPeopleList = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
-  List<InvitePeople> invitedPeople;
+  List<ItemList> itemOrderList;
   int index;
+  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
+
+  List<ListElements> elementList = [];
 
   @override
   void initState() {
+    checkboxbtn(widget.listElement.length);
     super.initState();
   }
 
@@ -50,56 +61,61 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                 ),
                 Expanded(
                     flex: 4,
-                    child: ListView.builder(
-                        itemCount: _checkBoxOptions.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          index = i;
-                          return CheckboxListTile(
-                              activeColor: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
-                              value: _checkBoxOptions[i].isChecked,
-                              controlAffinity: ListTileControlAffinity.leading,
-                              onChanged: (val) {
-                                setState(() {
-                                  if (invitedPeople == null) {
-                                    invitedPeople = [];
-                                  }
-                                  if (invitedPeople.length > 0) {
-                                    if (val) {
-                                      var ext = InvitePeople();
-                                      ext.inviteId = _checkBoxOptions[i].index;
-                                      invitedPeople.add(ext);
-                                    } else {
-                                      for (int i = 0;
-                                          i < invitedPeople.length;
-                                          i++) {
-                                        if (_checkBoxOptions[i].index ==
-                                            invitedPeople[i].inviteId) {
-                                          invitedPeople.removeAt(i);
-                                        }
+                    child: _checkBoxOptions.length != 0
+                        ? ListView.builder(
+                            itemCount: _checkBoxOptions.length,
+                            itemBuilder: (BuildContext context, int i) {
+                              index = i;
+                              return CheckboxListTile(
+                                  activeColor: ((Globle().colorscode) != null)
+                                      ? getColorByHex(Globle().colorscode)
+                                      : orangetheme,
+                                  value: _checkBoxOptions[i].isChecked,
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      if (itemOrderList == null) {
+                                        itemOrderList = [];
                                       }
-                                    }
-                                  } else {
-                                    var ext = InvitePeople();
-                                    ext.inviteId = _checkBoxOptions[i].index;
-                                    invitedPeople.add(ext);
-                                  }
-                                  _checkBoxOptions[i].isChecked = val;
-                                });
-                              },
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    invitedPeopleList[i].toUser.firstName ?? '',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(64, 64, 64, 1)),
-                                  ),
-                                ],
-                              ));
-                        })),
+                                      if (itemOrderList.length > 0) {
+                                        if (val) {
+                                          var ext = ItemList();
+                                          ext.itemId =
+                                              _checkBoxOptions[i].index;
+                                          itemOrderList.add(ext);
+                                        } else {
+                                          for (int i = 0;
+                                              i < itemOrderList.length;
+                                              i++) {
+                                            if (_checkBoxOptions[i].index ==
+                                                itemOrderList[i].itemId) {
+                                              itemOrderList.removeAt(i);
+                                            }
+                                          }
+                                        }
+                                      } else {
+                                        var ext = ItemList();
+                                        ext.itemId = _checkBoxOptions[i].index;
+                                        itemOrderList.add(ext);
+                                      }
+                                      _checkBoxOptions[i].isChecked = val;
+                                    });
+                                  },
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        _checkBoxOptions[i].title ?? '',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color:
+                                                Color.fromRGBO(64, 64, 64, 1)),
+                                      ),
+                                    ],
+                                  ));
+                            })
+                        : Container(child: Text(""))),
                 SizedBox(
                   height: 10,
                 ),
@@ -133,9 +149,9 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                           //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
-                        if (invitedPeople.length > 0) {
-                          print(invitedPeople[index].inviteId);
-                          print(invitedPeople.length);
+                        if (itemOrderList.length > 0) {
+                          print(itemOrderList[index].itemId);
+                          print(itemOrderList.length);
                         } else {
                           print("length not found");
                         }
@@ -160,17 +176,10 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-        isChecked: true,
-        index: invitedPeopleList[i - 1].id,
-        title: invitedPeopleList[i - 1].toUser.firstName ?? '',
+        isChecked: false,
+        index: widget.listElement[i - 1].items.id,
+        title: widget.listElement[i - 1].items.itemName ?? '',
       ));
-
-      if (invitedPeople == null) {
-        invitedPeople = [];
-        var inv = InvitePeople();
-        inv.inviteId = invitedPeopleList[i - 1].id;
-        invitedPeople.add(inv);
-      }
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -197,19 +206,19 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
 //   }
 }
 
-class InvitePeople {
-  int inviteId;
+class ItemList {
+  int itemId;
 
-  InvitePeople({
-    this.inviteId,
+  ItemList({
+    this.itemId,
   });
 
-  factory InvitePeople.fromJson(Map<String, dynamic> json) => InvitePeople(
-        inviteId: json["invite_id"],
+  factory ItemList.fromJson(Map<String, dynamic> json) => ItemList(
+        itemId: json["invite_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "invite_id": inviteId,
+        "invite_id": itemId,
       };
 }
 

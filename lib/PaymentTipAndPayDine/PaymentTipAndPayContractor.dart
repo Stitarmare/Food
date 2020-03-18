@@ -45,11 +45,9 @@ abstract class PayBillCheckoutContaractor {
       // String currency,
       double amount,
       BuildContext context);
-} 
+}
 
 abstract class PayBillCheckoutModelView {
   void payBillCheckoutSuccess(PaycheckoutNetbanking model);
   void payBillCheckoutFailed();
-  
 }
-

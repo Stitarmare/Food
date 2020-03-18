@@ -13,13 +13,14 @@ class BillList {
 class RadioDialog extends StatefulWidget {
   int tableId;
   int orderId;
-  OrderDetailData orderData;
+  List<ListElements> elementList;
+
   RadioDialog(
       {this.onValueChange,
       this.initialValue,
       this.tableId,
       this.orderId,
-      this.orderData});
+      this.elementList});
 
   final String initialValue;
   final void Function(String) onValueChange;
@@ -62,7 +63,6 @@ class RadioDialogState extends State<RadioDialog> {
 
     print("table id from split bill dialog--->");
     print(widget.tableId);
-    print(widget.orderData);
   }
 
   Widget build(BuildContext context) {
@@ -132,11 +132,13 @@ class RadioDialogState extends State<RadioDialog> {
                             tableId: widget.tableId,
                           ));
                     } else if (id == 3) {
+                      List<OrderDetailData> data = [];
                       showDialog(
                           context: context,
                           barrierDismissible: false,
                           child: OrderItemsDialog(
                             orderId: widget.orderId,
+                            listElement: widget.elementList,
                           ));
                     }
                   },
