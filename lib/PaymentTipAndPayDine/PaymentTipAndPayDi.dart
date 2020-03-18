@@ -58,6 +58,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
     print("table id from payandtipDi--->");
     print(widget.tableId);
+    print(widget.orderID);
     super.initState();
   }
 
@@ -115,6 +116,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             context: context,
                             child: new RadioDialog(
                               tableId: widget.tableId,
+                              orderId: widget.orderID,
+                              orderData: myOrderData,
                             ));
                       },
                     ),

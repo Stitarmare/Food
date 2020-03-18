@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
+import 'package:foodzi/widgets/OrdertemsDialogSplitBill.dart';
 
 class BillList {
   String name;
@@ -10,7 +12,14 @@ class BillList {
 
 class RadioDialog extends StatefulWidget {
   int tableId;
-  RadioDialog({this.onValueChange, this.initialValue, this.tableId});
+  int orderId;
+  OrderDetailData orderData;
+  RadioDialog(
+      {this.onValueChange,
+      this.initialValue,
+      this.tableId,
+      this.orderId,
+      this.orderData});
 
   final String initialValue;
   final void Function(String) onValueChange;
@@ -53,6 +62,7 @@ class RadioDialogState extends State<RadioDialog> {
 
     print("table id from split bill dialog--->");
     print(widget.tableId);
+    print(widget.orderData);
   }
 
   Widget build(BuildContext context) {
@@ -120,6 +130,13 @@ class RadioDialogState extends State<RadioDialog> {
                           barrierDismissible: false,
                           child: InvitedPeopleDialog(
                             tableId: widget.tableId,
+                          ));
+                    } else if (id == 3) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          child: OrderItemsDialog(
+                            orderId: widget.orderId,
                           ));
                     }
                   },

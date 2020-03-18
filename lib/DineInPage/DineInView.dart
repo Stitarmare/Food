@@ -121,7 +121,6 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
           print("Top");
         } else {
-                  
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
@@ -704,7 +703,6 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-    
   }
 }
 

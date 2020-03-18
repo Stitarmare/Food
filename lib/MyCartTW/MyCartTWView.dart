@@ -46,6 +46,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   MycartTWPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
+  int indx;
 
   int id;
   List<int> itemList = [];
@@ -403,15 +404,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
                                         restId: widget.restId,
-                                        //userId: widget.userID,
+                                        userId: _cartItemList[indx].userId,
+                                        price: _cartItemList[indx].totalAmount,
                                         items: itemList,
                                         totalAmount: myCart.grandTotal,
                                         orderType: widget.orderType,
                                         latitude: widget.lat,
                                         longitude: widget.long,
                                         itemdata: _cartItemList,
-
-                                        // tableId: _cartItemList[index].tableId,
+                                        currencySymbol: myCart.currencySymbol,
+                                        tableId: _cartItemList[indx].tableId,
                                       )))
                           : Constants.showAlert("My Cart",
                               "Please add items to your cart first.", context);
@@ -462,6 +464,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
+                indx = index;
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),
@@ -549,8 +552,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               Padding(
                                 padding: EdgeInsets.only(right: 20, top: 30),
                                 child: Text(
-                                  "\$ ${_cartItemList[index].totalAmount}" ??
-                                      '\$17',
+                                  "${myCart.currencySymbol} " +
+                                          "${_cartItemList[index].totalAmount}" ??
+                                      "${myCart.currencySymbol} " + '17',
                                   style: TextStyle(
                                       color: greytheme700,
                                       fontSize: 16,
