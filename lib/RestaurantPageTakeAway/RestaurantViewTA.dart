@@ -207,7 +207,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     width: 20,
                   ),
                   Text(
-                    'Take Away',
+                    'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,

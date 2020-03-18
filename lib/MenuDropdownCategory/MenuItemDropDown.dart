@@ -23,7 +23,7 @@ class MenuItemState extends State<MenuItem>
 
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
-   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   @override
   void initState() {
     super.initState();
@@ -32,7 +32,7 @@ class MenuItemState extends State<MenuItem>
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-                 DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
 
     controller.addListener(() {
@@ -121,12 +121,13 @@ class MenuItemState extends State<MenuItem>
 
   @override
   void getMenuLCategoryfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     // TODO: implement getMenuLCategoryfailed
   }
 
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getMenuLCategorysuccess
     if (categoryData.length == 0) {
       return;
@@ -140,7 +141,8 @@ class MenuItemState extends State<MenuItem>
       }
       // page++;
     });
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

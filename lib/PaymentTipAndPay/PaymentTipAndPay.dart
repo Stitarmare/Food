@@ -196,7 +196,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     width: 20,
                   ),
                   Text(
-                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Take Away',
+                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,

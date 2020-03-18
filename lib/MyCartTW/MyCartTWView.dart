@@ -283,7 +283,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     width: 20,
                   ),
                   Text(
-                    'Take Away',
+                    'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,

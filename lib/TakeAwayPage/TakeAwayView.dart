@@ -139,7 +139,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             title: Text(
-              "Take Away",
+              "Collection",
               style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'gotham',

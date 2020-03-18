@@ -806,13 +806,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void getOrderDetailsSuccess(OrderDetailData orderData) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsSuccess
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
       }
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     // showAlertSuccess(
     //     "Order Placed", "Your order has been successfully placed.", context);
@@ -852,7 +852,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     if (billModel == null) {
       billModel = model;
     }
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -861,7 +861,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 )));
     if (data['check_out_code'] != null) {
       var codec = latin1.fuse(base64);
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data['check_out_code']), context);
     } else {
@@ -879,7 +879,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (paymentCheckoutModel.statusCode == 200) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
