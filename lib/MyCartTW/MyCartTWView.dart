@@ -641,7 +641,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void removeItemFailed() {
-    // TODO: implement removeItemFailed
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -650,7 +649,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void removeItemSuccess() {
-    // TODO: implement removeItemSuccess
     _cartItemList = null;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
