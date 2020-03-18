@@ -1004,7 +1004,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -1013,6 +1012,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
     switchbtn(_addItemModelList.switches.length);
     getradiobtnsize(_addItemModelList.sizePrizes.length);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement addItemsuccess
   }
 

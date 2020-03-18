@@ -611,9 +611,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   void placeOrderfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     // TODO: implement placeOrderfailed
   }
 
@@ -630,10 +631,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     //Navigator.of(context).pushNamed('/ConfirmationDineView');
     // Navigator.pushReplacement(
