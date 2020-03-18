@@ -114,6 +114,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         showDialog(
                             context: context,
                             child: new RadioDialog(
+                              amount: (double.parse(myOrderData.totalAmount) +
+                                  sliderValue),
                               tableId: widget.tableId,
                               orderId: widget.orderID,
                               elementList: myOrderData.list,

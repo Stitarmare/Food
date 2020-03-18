@@ -8,7 +8,8 @@ import 'package:foodzi/theme/colors.dart';
 
 class InvitedPeopleDialog extends StatefulWidget {
   int tableId;
-  InvitedPeopleDialog({this.tableId});
+  double amount;
+  InvitedPeopleDialog({this.tableId, this.amount});
   @override
   _InvitedPeopleDialogState createState() => _InvitedPeopleDialogState();
 }
@@ -61,6 +62,8 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         fontWeight: FontWeight.w600),
                   ),
                 ),
+                SizedBox(height: 10),
+                Text("${widget.amount}"),
                 Expanded(
                     flex: 4,
                     child: ListView.builder(
