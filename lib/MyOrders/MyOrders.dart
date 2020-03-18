@@ -12,11 +12,10 @@ import 'package:foodzi/theme/colors.dart';
 
 class MyOrders extends StatefulWidget {
   String title;
+  String ordertype;
   // String lat;
   // String long;
-  MyOrders({
-    this.title,
-  });
+  MyOrders({this.title, this.ordertype});
   _MyOrdersState createState() => _MyOrdersState();
 }
 
@@ -36,10 +35,11 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     // TODO: implement initState
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
-     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     // _myOrdersPresenter.getOrderDetails(context);
     _myOrdersPresenter.getOrderDetails("dine_in", context);
-    _myOrdersPresenter.getmyOrderBookingHistory(context);
+    _myOrdersPresenter.getmyOrderBookingHistory(
+        "dine_in", context); // order type call is waiting
   }
 
   @override
@@ -604,9 +604,11 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList = _orderdetailsList;
       }
     });
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Preference.setPersistData<int>(_orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
-    Preference.setPersistData<int>(_orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Preference.setPersistData<int>(
+        _orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<int>(
+        _orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
 
     // TODO: implement getOrderDetailsSuccess
   }
@@ -632,7 +634,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (_getmyOrderBookingHistory.length == 0) {
       return;
     }

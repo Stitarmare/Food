@@ -40,7 +40,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
     super.initState();
 
     flutterWebviewPlugin.close();
-    
 
     // Add a listener to on destroy WebView, so you can make came actions.
     _onDestroy = flutterWebviewPlugin.onDestroy.listen((_) {
@@ -49,26 +48,24 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
-           if(state.type == WebViewState.startLoad){
-         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      if (state.type == WebViewState.startLoad) {
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       }
-     
+
       if (state.type == WebViewState.shouldStart &&
           state.url.contains("http://foodzi.php-dev.in/success")) {
-
-            //fetchJson(state.url);
-             print("onStateChanged: ${state.type} ${state.url}");
-            setState(() {
-              var urlsSplit = state.url.split("?");
-              var checkOutCode = urlsSplit[0].split("/").last;
-              Navigator.pop(context,{'check_out_code':checkOutCode});
-              flutterWebviewPlugin.stopLoading();
-              flutterWebviewPlugin.close();
-            });
-            
+        //fetchJson(state.url);
+        print("onStateChanged: ${state.type} ${state.url}");
+        setState(() {
+          var urlsSplit = state.url.split("?");
+          var checkOutCode = urlsSplit[0].split("/").last;
+          Navigator.pop(context, {'check_out_code': checkOutCode});
+          flutterWebviewPlugin.stopLoading();
+          flutterWebviewPlugin.close();
+        });
       }
-       if(state.type == WebViewState.finishLoad){
-            Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      if (state.type == WebViewState.finishLoad) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       }
     });
 
@@ -76,9 +73,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     _onUrlChanged = flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (mounted) {
         setState(() {
-     
           print("URL changed: $url");
-          
         });
       }
     });
@@ -92,11 +87,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
         url: loginUrl,
         appBar: new AppBar(
           // title: new Text("Payment"),
-           brightness: Brightness.dark,
-          title: new Text("Login to someservise..."),
+          brightness: Brightness.dark,
+          title: new Text("Payment"),
           backgroundColor: orangetheme,
         ));
   }
-
 }
- 

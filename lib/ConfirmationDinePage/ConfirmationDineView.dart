@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -98,6 +99,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
 
     confirmationDineviewPresenter.getPeopleList(context);
+
+    print("table id-->");
+    print(widget.tableId);
+
+    print("paytippay length--->");
+    print(widget.itemdata.length);
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     super.initState();
@@ -459,26 +466,63 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               ),
             ),
             SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            // Icon(Icons.add),
+            // RaisedButton(
+            //     onPressed: () async {
+            //       int orderId = await Preference.getPrefValue<int>(
+            //           PreferenceKeys.ORDER_ID);
+
+            //       showDialog(
+            //           context: context,
+            //           child: RadioDialogAddPeople(
+            //               widget.tableId, widget.restId, orderId));
+
+            //       // showDialog(
+            //       //     context: context, child: RadioDialogAddPeople());
+            //     },
+            //     child: Text('Add More People')),
+
+            Stack(
+              fit: StackFit.passthrough,
+              overflow: Overflow.visible,
               children: <Widget>[
-                Icon(Icons.add),
-                RaisedButton(
-                    onPressed: () async {
-                      int orderId = await Preference.getPrefValue<int>(
-                          PreferenceKeys.ORDER_ID);
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.add),
+                    RaisedButton(
+                        onPressed: () async {
+                          int orderId = await Preference.getPrefValue<int>(
+                              PreferenceKeys.ORDER_ID);
 
-                      showDialog(
-                          context: context,
-                          child: RadioDialogAddPeople(peopleList,
-                              widget.tableId, widget.restId, orderId));
-
-                      // showDialog(
-                      //     context: context, child: RadioDialogAddPeople());
-                    },
-                    child: Text('Add More People'))
+                          showDialog(
+                              context: context,
+                              child: RadioDialogAddPeople(
+                                  widget.tableId, widget.restId, orderId));
+                        },
+                        child: Text('Add More People')),
+                  ],
+                ),
+                (peopleList.length != null)
+                    ? peopleList.length > 0
+                        ? Positioned(
+                            top: -10,
+                            right: -10,
+                            child: Badge(
+                                badgeColor: redtheme,
+                                badgeContent: Text("${peopleList.length} ",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white))))
+                        : Text("")
+                    : Text("")
               ],
             )
+            //   ],
+            // )
           ],
         ),
       ),
@@ -711,7 +755,26 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
-                        radioId = val;
+                        // radioId = val;
+
+                        if (val == 2) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PaymentTipAndPay(
+                                    items: widget.items,
+                                    latitude: widget.latitude,
+                                    longitude: widget.longitude,
+                                    orderType: widget.orderType,
+                                    price: widget.price,
+                                    restId: widget.restId,
+                                    tableId: widget.tableId,
+                                    tablename: widget.tablename,
+                                    totalAmount: widget.totalAmount,
+                                    userId: widget.userId,
+                                    itemdata: widget.itemdata,
+                                    currencySymbol: widget.currencySymbol,
+                                  )));
+                        }
+
                         // if (radioOrderItem == 'Dine-in') {
                         //   getTableAlert();
                         // }

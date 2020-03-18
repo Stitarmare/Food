@@ -139,6 +139,7 @@ class GenericModel<T> {
 
       case GetPeopleListModel:
         return GetPeopleListModel.fromJson(json) as T;
+
       case PaymentCheckoutModel:
         return PaymentCheckoutModel.fromJson(json) as T;
 
@@ -146,6 +147,7 @@ class GenericModel<T> {
         return InvitePeopleModel.fromJson(json) as T;
         case RunningOrderModel:
         return RunningOrderModel.fromJson(json) as T;
+
       default:
         break;
     }

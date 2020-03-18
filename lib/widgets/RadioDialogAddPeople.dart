@@ -20,7 +20,7 @@ class AddPeople {
 }
 
 class RadioDialogAddPeople extends StatefulWidget {
-  final List<Data> data;
+  // final List<Data> data;
   final int tableId;
   final int orderId;
   final int restId;
@@ -30,8 +30,7 @@ class RadioDialogAddPeople extends StatefulWidget {
   //     this.initialValue,
   //   });
 
-  const RadioDialogAddPeople(
-      this.data, this.tableId, this.restId, this.orderId);
+  const RadioDialogAddPeople(this.tableId, this.restId, this.orderId);
 
   // final String initialValue;
   // final void Function(String) onValueChange;
@@ -49,7 +48,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   AddPeopleInterface addPeopleInterface;
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
-  List<Data> data1 = [];
+  List<Data> peopleList = [];
 
   // Group Value for Radio Button.
   int id;
@@ -72,13 +71,15 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     confirmationDineviewPresenter.getPeopleList(context);
     // _selectedId = widget.initialValue;
     print("addpeople list length-->");
-    print(widget.data.length);
+    // print(widget.data.length);
 
     statusTrackViewPresenter.getInvitedPeople(
-      3,
-      2,
-      context,
-    );
+        Globle().loginModel.data.id,
+        //widget.tableId
+        2,
+        context);
+    print("table id addpeople--->");
+    print(widget.tableId);
   }
 
   Widget build(BuildContext context) {
@@ -111,6 +112,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     child: ListView.builder(
                         itemCount: _checkBoxOptions.length,
                         itemBuilder: (BuildContext context, int i) {
+                          id = i;
                           return CheckboxListTile(
                               activeColor: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
@@ -127,8 +129,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 //   }
                                 // });
 
-                                // statusTrackViewPresenter.getInvitedPeople(
-                                //     0, 8, 4, context);
                                 setState(() {
                                   if (invitedPeople == null) {
                                     invitedPeople = [];
@@ -170,7 +170,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    widget.data[i].firstName ?? '',
+                                    peopleList[i].firstName ?? '',
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
@@ -196,14 +196,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     int orderId = await Preference.getPrefValue<int>(
                         PreferenceKeys.ORDER_ID);
                     confirmationDineviewPresenter.addPeople(
-                        widget.data[id].mobileNumber,
+                        peopleList[id].mobileNumber,
                         widget.tableId,
                         widget.restId,
                         orderId,
                         context);
                     Navigator.pop(context);
                     Toast.show(
-                        "Sending Invitation to ${widget.data[id].firstName}...",
+                        "Sending Invitation to ${peopleList[id].firstName}...",
                         context,
                         duration: Toast.LENGTH_SHORT,
                         gravity: Toast.BOTTOM);
@@ -268,8 +268,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
         isChecked: false,
-        index: data1[i - 1].id,
-        title: data1[i - 1].firstName ?? '',
+        index: peopleList[i - 1].id,
+        title: peopleList[i - 1].firstName ?? '',
       ));
     }
     setState(() {
@@ -351,9 +351,17 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
+    if (data.length == 0) {
+      return;
+    }
     setState(() {
-      data1 = data;
+      if (peopleList == null) {
+        peopleList = data;
+      } else {
+        peopleList.addAll(data);
+      }
     });
+    print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
   }
 

@@ -25,6 +25,7 @@ class PaymentTipAndPay extends StatefulWidget {
   String latitude;
   String longitude;
   List<MenuCartList> itemdata;
+  String currencySymbol;
   PaymentTipAndPay(
       {this.userId,
       this.price,
@@ -36,6 +37,7 @@ class PaymentTipAndPay extends StatefulWidget {
       this.orderType,
       this.tableId,
       this.totalAmount,
+      this.currencySymbol,
       this.itemdata});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
@@ -48,6 +50,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   ScrollController _controller = ScrollController();
   var sliderValue = 0.0;
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+  String currencySymb = "";
 
   OrderData myOrderData;
   @override
@@ -55,6 +58,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     // TODO: implement initState
     print(widget.items);
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    print("itemdata length--->");
+    print(widget.itemdata.length);
+    print(widget.currencySymbol);
+    currencySymb = widget.currencySymbol;
     super.initState();
   }
 
@@ -67,7 +74,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -104,7 +111,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
-                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "");
                       _paymentTipAndPayPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,
@@ -188,7 +196,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     width: 20,
                   ),
                   Text(
-                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Take Away',
+                    (widget.orderType == 'dine_in') ? 'Dine-in' : 'Collection',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -211,9 +219,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    
                     (widget.tablename != null)
-                        ? 'Selected Table : ${widget.tablename}' 
+                        ? 'Selected Table : ${widget.tablename}'
                         : "Table 1",
                     textAlign: TextAlign.start,
                     style: TextStyle(
@@ -332,7 +339,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       Padding(
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
-                          '\$ ${widget.itemdata[index].totalAmount}' ?? '\$17',
+                          currencySymb +
+                                  ' ${widget.itemdata[index].totalAmount}' ??
+                              currencySymb + ' 17',
                           style: TextStyle(
                               color: greytheme700,
                               fontSize: 16,
@@ -397,7 +406,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               right: 10,
             ),
             child: Text(
-              '\$ ${sliderValue.toInt()}',
+              currencySymb + ' ${sliderValue.toInt()}',
               style: TextStyle(
                   fontSize: 16,
                   color: greytheme700,
@@ -445,8 +454,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (widget.totalAmount) != null
-                      ? " \$ ${widget.totalAmount}"
-                      : '\$11.20',
+                      ? currencySymb + " ${widget.totalAmount}"
+                      : currencySymb + ' 11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
@@ -500,7 +509,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${sliderValue.toInt()}',
+                  currencySymb + ' ${sliderValue.toInt()}',
                   style: TextStyle(fontSize: 12, color: greytheme700),
                 ),
               ),
@@ -527,7 +536,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${widget.totalAmount + sliderValue.toInt()}',
+                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt()}',
                   // (widget.totalAmount) != null?
                   // " \$ ${widget.totalAmount}":'\$11.20',
                   style: TextStyle(fontSize: 12, color: greytheme700),

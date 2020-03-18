@@ -21,8 +21,9 @@ import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
   int restid;
+  int tableId;
 
-  PaymentTipAndPayDi({this.orderID, this.restid});
+  PaymentTipAndPayDi({this.orderID, this.restid, this.tableId});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayDiState createState() => _PaymentTipAndPayDiState();
 }
@@ -47,14 +48,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   PaycheckoutNetbanking billModel;
   @override
   void initState() {
-    // TODO: implement initState
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
-     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     selectedRadioTile = 1;
+
+    print("table id from payandtipDi--->");
+    print(widget.tableId);
     super.initState();
   }
 
@@ -73,7 +76,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           title: Text("Payment"),
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -108,7 +111,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        showDialog(context: context, child: new RadioDialog());
+                        showDialog(
+                            context: context,
+                            child: new RadioDialog(
+                              tableId: widget.tableId,
+                            ));
                       },
                     ),
                   ),
@@ -118,7 +125,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   // ),
                   GestureDetector(
                     onTap: () {
-                       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "");
                       _billCheckoutPresenter.payBillCheckOut(
                           myOrderData.restId,
                           (double.parse(myOrderData.totalAmount) + sliderValue),
@@ -798,13 +806,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void getOrderDetailsSuccess(OrderDetailData orderData) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsSuccess
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
       }
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     // showAlertSuccess(
     //     "Order Placed", "Your order has been successfully placed.", context);
@@ -818,7 +826,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payfinalBillSuccess() {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     print("payment Success");
     Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
     Preference.removeForKey(PreferenceKeys.ORDER_ID);
@@ -841,11 +849,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
-
     if (billModel == null) {
       billModel = model;
     }
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -854,7 +861,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 )));
     if (data['check_out_code'] != null) {
       var codec = latin1.fuse(base64);
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data['check_out_code']), context);
     } else {
@@ -872,9 +879,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (paymentCheckoutModel.statusCode == 200) {
-       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
           Globle().loginModel.data.id,
           myOrderData.restId,

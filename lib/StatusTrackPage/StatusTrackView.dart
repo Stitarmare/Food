@@ -61,6 +61,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     _timer = Timer.periodic(_duration, (Timer t) {
       statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     });
+
+    print("table from statustrackView---->");
+    print(widget.tableId);
   }
 
   @override
@@ -130,6 +133,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
               MaterialPageRoute(
                   builder: (context) => PaymentTipAndPayDi(
                         orderID: widget.orderID,
+                        tableId: widget.tableId,
                         //restid: widget.restID,
                         // restname: widget.restname,
                         //totalamount: widget.totalamount,
@@ -242,8 +246,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   onPressed: () {
                     showDialog(
                         context: context,
-                        child: RadioDialogAddPeople(peopleList, widget.tableId,
-                            widget.rest_id, widget.orderID));
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.rest_id, widget.orderID));
 
                     // SizedBox(
                     //   height: 50,

@@ -63,11 +63,10 @@ class MyOrdersPresenter extends MyOrderContractor {
   // }
 
   @override
-  void getmyOrderBookingHistory(BuildContext context) {
-    ApiBaseHelper()
-        .get<GetMyOrdersBookingHistory>(
-            UrlConstant.getMyOrdersBookingHistory, context)
-        .then((value) {
+  void getmyOrderBookingHistory(String order_type, BuildContext context) {
+    ApiBaseHelper().post<GetMyOrdersBookingHistory>(
+        UrlConstant.getMyOrdersBookingHistory, context,
+        body: {"order_type": order_type}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
