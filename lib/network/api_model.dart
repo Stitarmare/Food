@@ -37,6 +37,7 @@ import 'package:foodzi/Models/WriteRestaurantReview.dart';
 
 //import 'package:foodzi/models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/resetpwdwithotp.dart';
+import 'package:foodzi/Models/running_order_model.dart';
 
 enum SuccessType { success, failed }
 
@@ -143,6 +144,8 @@ class GenericModel<T> {
 
       case InvitePeopleModel:
         return InvitePeopleModel.fromJson(json) as T;
+        case RunningOrderModel:
+        return RunningOrderModel.fromJson(json) as T;
       default:
         break;
     }

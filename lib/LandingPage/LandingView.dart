@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
+import 'package:foodzi/LandingPage/landinViewPresenter.dart';
+import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
@@ -25,12 +27,15 @@ class Landingview extends DrawerContent {
   }
 }
 
-class _LandingStateView extends State<Landingview> {
+class _LandingStateView extends State<Landingview> implements LandingViewProtocol {
   //String titleAppBar = "Testing";
   bool isOrderRunning = false;
+  LandingViewPresenter _landingViewPresenter;
+  RunningOrderModel _model;
   @override
   void initState() {
-    
+    _landingViewPresenter = LandingViewPresenter(this);
+    _landingViewPresenter.getCurrentOrder(context);
     super.initState();
   }
 
@@ -71,7 +76,7 @@ class _LandingStateView extends State<Landingview> {
 
   getCurrentOrderID() async {
     var currentOrderId =
-        await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
+        await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
     if (currentOrderId != null) {
       setState(() {
         isOrderRunning = true;
@@ -83,7 +88,7 @@ class _LandingStateView extends State<Landingview> {
 
   getCurrentRestID() async {
     var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID);
+        PreferenceKeys.CURRENT_RESTAURANT_ID);//ORDER_ID
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -349,7 +354,14 @@ class _LandingStateView extends State<Landingview> {
       ),
     );
   }
-
+showStatusView() async{
+  var currentOrderId =
+        await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+         // _goToNextPageDineIn(context);
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,)));
+            print('Card tapped.');
+}
   Widget _currentOrderCard() {
     return Center(
       child: Card(
@@ -359,10 +371,7 @@ class _LandingStateView extends State<Landingview> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            // _goToNextPageDineIn(context);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => StatusTrackView()));
-            print('Card tapped.');
+            showStatusView();
           },
           child: Container(
             width: 345,
@@ -428,6 +437,27 @@ class _LandingStateView extends State<Landingview> {
                 color: greytheme100)),
       ],
     );
+  }
+
+  @override
+  void onFailedCurrentOrder() {
+    // TODO: implement onFailedCurrentOrder
+  }
+
+  @override
+  void onSuccessCurrentOrder(RunningOrderModel model) {
+    // TODO: implement onSuccessCurrentOrder
+    _model = model;
+    if (model.data.dineIn != null) {
+        Preference.setPersistData<int>(model.data.dineIn.restId, PreferenceKeys.restaurantID);
+        Preference.setPersistData<int>(model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+        
+        Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+        Future.delayed(Duration(microseconds: 500),(){
+            getCurrentOrderID();
+        });
+    }
+    
   }
   // _goToNextPageTakeAway(BuildContext context) {
   //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
