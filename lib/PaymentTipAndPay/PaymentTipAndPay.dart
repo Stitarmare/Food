@@ -748,6 +748,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     print("payment Success");
     Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
     Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Globle().dinecartValue = 0;
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);

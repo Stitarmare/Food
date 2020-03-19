@@ -36,7 +36,9 @@ class _LandingStateView extends State<Landingview>
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    _landingViewPresenter.getCurrentOrder(context);
+    setState(() {
+      _landingViewPresenter.getCurrentOrder(context);
+    });
     super.initState();
   }
 
@@ -82,7 +84,7 @@ class _LandingStateView extends State<Landingview>
       setState(() {
         isOrderRunning = true;
       });
-      currentOrderId;
+      //currentOrderId;
     }
   }
 
@@ -456,7 +458,7 @@ class _LandingStateView extends State<Landingview>
   void onSuccessCurrentOrder(RunningOrderModel model) {
     // TODO: implement onSuccessCurrentOrder
     _model = model;
-    if (model.data.dineIn != null) {
+    if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
       Preference.setPersistData<int>(
           model.data.dineIn.restId, PreferenceKeys.restaurantID);
       Preference.setPersistData<int>(
@@ -466,6 +468,17 @@ class _LandingStateView extends State<Landingview>
       Future.delayed(Duration(microseconds: 500), () {
         getCurrentOrderID();
       });
+    } else {
+      Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+      Preference.removeForKey(PreferenceKeys.ORDER_ID);
+      // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+      // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+      // Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+      // Preference.setPersistData<int>(
+      //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
+      Globle().dinecartValue = 0;
+      Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+      //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     }
   }
   // _goToNextPageTakeAway(BuildContext context) {
