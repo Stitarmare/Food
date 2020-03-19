@@ -569,7 +569,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Divider(
                 thickness: 2,
               ),
-              Padding(
+              _radioOptions.length==0?Container():
+              Column(mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
                 padding: EdgeInsets.only(left: 26, top: 15),
                 child: Text(
                   'Spreads',
@@ -592,7 +596,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Divider(
                 thickness: 2,
               ),
-              Padding(
+              ],),
+              _checkBoxOptions.length==0?Container():
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                     Padding(
                 padding: EdgeInsets.only(left: 26, top: 15),
                 child: Text(
                   'Additions',
@@ -615,20 +625,33 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Divider(
                 thickness: 2,
               ),
-              SizedBox(
-                height: 10,
+                ],
               ),
-              togglebutton(),
+             
+              // SizedBox(
+              //   height: 10,
+              // ),
+              _switchOptions.length ==0?Container():
+              Column(
+                children: <Widget>[
+                  togglebutton(),
               SizedBox(
                 height: 10,
               ),
               Divider(
                 thickness: 2,
               ),
+                ],
+              ),
+              
               SizedBox(
                 height: 10,
               ),
-              Padding(
+              _radioOptionsSizes.length==0?Container():
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                     Padding(
                 padding: EdgeInsets.only(left: 26, top: 15),
                 child: Text(
                   'Size',
@@ -648,6 +671,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               SizedBox(
                 height: 10,
               )
+                ],
+              ),
+             
               // Container(
               //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
               //   child: Row(
