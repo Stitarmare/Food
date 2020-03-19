@@ -190,7 +190,7 @@ _onTap(int index)async{
 
   @override
   void getNotificationsSuccess(List<Datum> getNotificationList) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
     // TODO: implement getNotificationsSuccess
           if (getNotificationList.length == 0) {
       return;
@@ -204,6 +204,7 @@ _onTap(int index)async{
       }
       page++;
     });
+     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

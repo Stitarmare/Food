@@ -27,7 +27,8 @@ class Landingview extends DrawerContent {
   }
 }
 
-class _LandingStateView extends State<Landingview> implements LandingViewProtocol {
+class _LandingStateView extends State<Landingview>
+    implements LandingViewProtocol {
   //String titleAppBar = "Testing";
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
@@ -35,7 +36,9 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    _landingViewPresenter.getCurrentOrder(context);
+    setState(() {
+      _landingViewPresenter.getCurrentOrder(context);
+    });
     super.initState();
   }
 
@@ -81,14 +84,13 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       setState(() {
         isOrderRunning = true;
       });
-       currentOrderId;
+      //currentOrderId;
     }
-    
   }
 
   getCurrentRestID() async {
     var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID);//ORDER_ID
+        PreferenceKeys.CURRENT_RESTAURANT_ID); //ORDER_ID
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -354,14 +356,22 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       ),
     );
   }
-showStatusView() async{
-  var currentOrderId =
+
+  showStatusView() async {
+    var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-         // _goToNextPageDineIn(context);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,flag: 3,)));
-            print('Card tapped.');
-}
+    // _goToNextPageDineIn(context);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => StatusTrackView(
+              orderID: currentOrderId,
+              rest_id: _model.data.dineIn.restId,
+              restname: _model.data.dineIn.restaurant.restName,
+              flag: 3,
+              tableId: _model.data.dineIn.tableId,
+            )));
+    print('Card tapped.');
+  }
+
   Widget _currentOrderCard() {
     return Center(
       child: Card(
@@ -448,16 +458,28 @@ showStatusView() async{
   void onSuccessCurrentOrder(RunningOrderModel model) {
     // TODO: implement onSuccessCurrentOrder
     _model = model;
-    if (model.data.dineIn != null) {
-        Preference.setPersistData<int>(model.data.dineIn.restId, PreferenceKeys.restaurantID);
-        Preference.setPersistData<int>(model.data.dineIn.id, PreferenceKeys.ORDER_ID);
-        
-        Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-        Future.delayed(Duration(microseconds: 500),(){
-            getCurrentOrderID();
-        });
+    if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
+      Preference.setPersistData<int>(
+          model.data.dineIn.restId, PreferenceKeys.restaurantID);
+      Preference.setPersistData<int>(
+          model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+
+      Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+      Future.delayed(Duration(microseconds: 500), () {
+        getCurrentOrderID();
+      });
+    } else {
+      Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+      Preference.removeForKey(PreferenceKeys.ORDER_ID);
+      // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+      // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+      // Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+      // Preference.setPersistData<int>(
+      //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
+      Globle().dinecartValue = 0;
+      Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+      //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     }
-    
   }
   // _goToNextPageTakeAway(BuildContext context) {
   //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {

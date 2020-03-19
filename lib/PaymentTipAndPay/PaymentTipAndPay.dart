@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/Otpverify.dart';
+import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -44,15 +52,25 @@ class PaymentTipAndPay extends StatefulWidget {
 }
 
 class _PaymentTipAndPayState extends State<PaymentTipAndPay>
-    implements PaymentTipAndPayModelView {
+    implements
+        PaymentTipAndPayModelView,
+        PaymentTipandPayDiModelView,
+        PayBillCheckoutModelView,
+        PayFinalBillModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
-  var sliderValue = 0.0;
+  var sliderValue = 0;
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+  PayBillCheckoutPresenter _billCheckoutPresenter;
+  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
+  PayFinalBillPresenter _finalBillPresenter;
+
   String currencySymb = "";
 
   OrderData myOrderData;
+
+  PaycheckoutNetbanking billModel;
   @override
   void initState() {
     // TODO: implement initState
@@ -62,6 +80,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     print(widget.itemdata.length);
     print(widget.currencySymbol);
     currencySymb = widget.currencySymbol;
+    _billCheckoutPresenter = PayBillCheckoutPresenter(this);
+    _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
+    _finalBillPresenter = PayFinalBillPresenter(this);
+
     super.initState();
   }
 
@@ -111,15 +133,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, '/PaymentMethod');
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "");
+                      // DialogsIndicator.showLoadingDialog(
+                      //  context, _keyLoader, "");
                       _paymentTipAndPayPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,
                           widget.orderType,
                           widget.tableId,
                           widget.items,
-                          widget.totalAmount,
+                          widget.totalAmount +
+                              (int.parse(sliderValue.toString()) ?? 0),
                           widget.latitude,
                           widget.longitude,
                           context);
@@ -134,7 +157,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       // color: getColorByHex(Globle().colorscode,
                       child: Center(
                         child: Text(
-                          'PAY BILL',
+                          'PLACED & PAY BILL',
                           style: TextStyle(
                               fontFamily: 'gotham',
                               fontWeight: FontWeight.w600,
@@ -391,11 +414,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 min: 0,
                 max: 20,
                 //divisions: 20,
-                value: sliderValue,
+                value: double.parse(sliderValue.toString()),
                 // label: '${sliderValue}',
                 onChanged: (newValue) {
                   setState(() {
-                    sliderValue = newValue;
+                    sliderValue = newValue.round();
                   });
                 },
               ),
@@ -406,7 +429,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               right: 10,
             ),
             child: Text(
-              currencySymb + ' ${sliderValue.toInt()}',
+              currencySymb + ' ${sliderValue}',
               style: TextStyle(
                   fontSize: 16,
                   color: greytheme700,
@@ -626,15 +649,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData = orderData;
       }
     });
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+
+    //Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    //Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    _billCheckoutPresenter.payBillCheckOut(
+        myOrderData.restId, (double.parse(myOrderData.totalAmount)), context);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
-    showAlertSuccess(
-        "Order Placed", "Your order has been successfully placed.", context);
+    //showAlertSuccess(
+    //"Order Placed", "Your order has been successfully placed.", context);
 
     //Navigator.of(context).pushNamed('/ConfirmationDineView');
     // Navigator.pushReplacement(
@@ -646,5 +673,91 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     //             )));
 
     // TODO: implement placeOrdersuccess
+  }
+
+  @override
+  void payBillCheckoutFailed() {
+    // TODO: implement payBillCheckoutFailed
+  }
+
+  @override
+  Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
+    if (billModel == null) {
+      billModel = model;
+    }
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    var data = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => WebViewScreen(
+                  url: billModel.url,
+                )));
+    if (data['check_out_code'] != null) {
+      var codec = latin1.fuse(base64);
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      _paymentTipandPayDiPresenter.getCheckoutDetails(
+          codec.encode(data['check_out_code']), context);
+    } else {
+      Constants.showAlert("Foodzi", "Payment Failed.", context);
+    }
+
+    // TODO: implement payBillCheckoutSuccess
+  }
+
+  @override
+  void getOrderDetailsFailed() {
+    // TODO: implement getOrderDetailsFailed
+  }
+
+  @override
+  void getOrderDetailsSuccess(OrderDetailData orderData) {
+    // TODO: implement getOrderDetailsSuccess
+  }
+
+  @override
+  void paymentCheckoutFailed() {
+    // TODO: implement paymentCheckoutFailed
+  }
+
+  @override
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
+    // TODO: implement paymentCheckoutSuccess
+    if (paymentCheckoutModel.statusCode == 200) {
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      _finalBillPresenter.payfinalOrderBill(
+          Globle().loginModel.data.id,
+          myOrderData.restId,
+          myOrderData.id,
+          'card',
+          double.parse(myOrderData.totalAmount),
+          double.parse(myOrderData.totalAmount) + sliderValue.toInt(),
+          paymentCheckoutModel.transactionId,
+          context);
+    } else {
+      Constants.showAlert("Foodzi", "Payment Failed.", context);
+    }
+  }
+
+  @override
+  void payfinalBillFailed() {
+    // TODO: implement payfinalBillFailed
+  }
+
+  @override
+  void payfinalBillSuccess() {
+    print("payment Success");
+    Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+    Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_RESTAURANT_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    showAlertSuccess("Payment Success",
+        "Your Transactions Has been Done Successfully", context);
+    // TODO: implement payfinalBillSuccess
   }
 }

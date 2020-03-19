@@ -634,13 +634,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
     if (_getmyOrderBookingHistory.length == 0) {
       return;
     }
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getmyOrderHistorySuccess
   }
 
