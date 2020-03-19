@@ -7,6 +7,7 @@ import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -83,7 +84,47 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   Widget build(BuildContext context) {
-    return new SimpleDialog(
+    if ((getPeopleListLength()== 0)) {
+      return 
+      //  showDialog(
+        // context: context,
+        // builder: (context) => 
+        SimpleDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          title: Text("No Record Found"),
+          children: <Widget>[
+            SimpleDialogOption(
+            onPressed: () { Navigator.pop(context); },
+            child: const Text('Ok'),
+          ),
+          ],
+        );
+        // WillPopScope(
+        //   onWillPop: () async => false,
+        //           child: AlertDialog(
+        //         title: Text("No Record Found"),
+        //         content: Text("Sorry, you can't add people."),
+        //         actions: <Widget>[
+        //           Divider(
+        //             endIndent: 15,
+        //             indent: 15,
+        //             color: Colors.black,
+        //           ),
+        //           FlatButton(
+        //             child: Text("Ok"),
+        //             onPressed: () {
+        //               Navigator.of(context).pop();
+        //             },
+        //           )
+        //         ],
+        //       ),
+        // ));
+      // return Constants.showAlert(
+      //                 "No Record Found",
+      //                 "Sorry, you can't add people.",
+      //                 context);
+    } else {
+      return new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
         Container(
@@ -110,7 +151,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                 Expanded(
                     flex: 4,
                     child: ListView.builder(
-                        itemCount: _checkBoxOptions.length,
+                        // itemCount: _checkBoxOptions.length,
+                        itemCount: getPeopleListLength(),
                         itemBuilder: (BuildContext context, int i) {
                           id = i;
                           return CheckboxListTile(
@@ -261,6 +303,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             ))
       ],
     );
+    }
+  }
+
+  int getPeopleListLength(){
+    if(_checkBoxOptions.length== 0){
+      return 0;
+    }
+    return _checkBoxOptions.length;
   }
 
   int checkboxbtn(int length) {
@@ -396,3 +446,6 @@ class CheckBoxOptions {
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
 }
+
+
+

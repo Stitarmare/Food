@@ -13,6 +13,7 @@ class BillList {
 class RadioDialog extends StatefulWidget {
   int tableId;
   int orderId;
+  double amount;
   List<ListElements> elementList;
 
   RadioDialog(
@@ -20,6 +21,7 @@ class RadioDialog extends StatefulWidget {
       this.initialValue,
       this.tableId,
       this.orderId,
+      this.amount,
       this.elementList});
 
   final String initialValue;
@@ -129,6 +131,7 @@ class RadioDialogState extends State<RadioDialog> {
                           context: context,
                           barrierDismissible: false,
                           child: InvitedPeopleDialog(
+                            amount: widget.amount,
                             tableId: widget.tableId,
                           ));
                     } else if (id == 3) {

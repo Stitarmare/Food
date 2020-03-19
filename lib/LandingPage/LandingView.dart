@@ -359,7 +359,7 @@ showStatusView() async{
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
          // _goToNextPageDineIn(context);
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,)));
+                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,flag: 3,)));
             print('Card tapped.');
 }
   Widget _currentOrderCard() {
