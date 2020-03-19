@@ -113,21 +113,21 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 children: <Widget>[
                   Container(
                     height: 35,
-                    child: FlatButton(
-                      child: Text(
-                        'Split Bill',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
-                            decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        // Navigator.pop(context);
-                      },
-                    ),
+                    // child: FlatButton(
+                    //   child: Text(
+                    //     'Split Bill',
+                    //     style: TextStyle(
+                    //         fontSize: 16,
+                    //         fontFamily: 'gotham',
+                    //         decoration: TextDecoration.underline,
+                    //         decorationColor: getColorByHex(Globle().colorscode),
+                    //         color: getColorByHex(Globle().colorscode),
+                    //         fontWeight: FontWeight.w600),
+                    //   ),
+                    //   onPressed: () {
+                    //     // Navigator.pop(context);
+                    //   },
+                    // ),
                   ),
                   // ),
                   GestureDetector(
