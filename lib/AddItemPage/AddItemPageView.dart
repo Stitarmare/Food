@@ -1383,7 +1383,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void updateOrderSuccess() {
-    // TODO: implement updateOrderSuccess
     Globle().dinecartValue += 1;
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
