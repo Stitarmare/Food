@@ -3,6 +3,7 @@ import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
 import 'package:foodzi/widgets/OrdertemsDialogSplitBill.dart';
+import 'package:foodzi/widgets/UserSpecificOrderDialogSplitBill.dart';
 
 class BillList {
   String name;
@@ -142,6 +143,15 @@ class RadioDialogState extends State<RadioDialog> {
                           child: OrderItemsDialog(
                             orderId: widget.orderId,
                             listElement: widget.elementList,
+                          ));
+                    } else if (id == 4) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          child: UserSpecificOrderDialog(
+                            orderId: widget.orderId,
+                            listElement: widget.elementList,
+                            tableId: widget.tableId,
                           ));
                     }
                   },
