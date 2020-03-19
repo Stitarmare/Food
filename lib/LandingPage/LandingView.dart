@@ -27,7 +27,8 @@ class Landingview extends DrawerContent {
   }
 }
 
-class _LandingStateView extends State<Landingview> implements LandingViewProtocol {
+class _LandingStateView extends State<Landingview>
+    implements LandingViewProtocol {
   //String titleAppBar = "Testing";
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
@@ -81,14 +82,13 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       setState(() {
         isOrderRunning = true;
       });
-       currentOrderId;
+      currentOrderId;
     }
-    
   }
 
   getCurrentRestID() async {
     var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID);//ORDER_ID
+        PreferenceKeys.CURRENT_RESTAURANT_ID); //ORDER_ID
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -354,14 +354,22 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       ),
     );
   }
-showStatusView() async{
-  var currentOrderId =
+
+  showStatusView() async {
+    var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-         // _goToNextPageDineIn(context);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,flag: 3,)));
-            print('Card tapped.');
-}
+    // _goToNextPageDineIn(context);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => StatusTrackView(
+              orderID: currentOrderId,
+              rest_id: _model.data.dineIn.restId,
+              restname: _model.data.dineIn.restaurant.restName,
+              flag: 3,
+              tableId: _model.data.dineIn.tableId,
+            )));
+    print('Card tapped.');
+  }
+
   Widget _currentOrderCard() {
     return Center(
       child: Card(
@@ -449,15 +457,16 @@ showStatusView() async{
     // TODO: implement onSuccessCurrentOrder
     _model = model;
     if (model.data.dineIn != null) {
-        Preference.setPersistData<int>(model.data.dineIn.restId, PreferenceKeys.restaurantID);
-        Preference.setPersistData<int>(model.data.dineIn.id, PreferenceKeys.ORDER_ID);
-        
-        Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-        Future.delayed(Duration(microseconds: 500),(){
-            getCurrentOrderID();
-        });
+      Preference.setPersistData<int>(
+          model.data.dineIn.restId, PreferenceKeys.restaurantID);
+      Preference.setPersistData<int>(
+          model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+
+      Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+      Future.delayed(Duration(microseconds: 500), () {
+        getCurrentOrderID();
+      });
     }
-    
   }
   // _goToNextPageTakeAway(BuildContext context) {
   //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {

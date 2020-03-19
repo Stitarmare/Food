@@ -84,12 +84,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   Widget build(BuildContext context) {
-    if ((getPeopleListLength()== 0)) {
-      return 
+    // (getPeopleListLength()== 0)? 
+       (_checkBoxOptions.length == 0)?
       //  showDialog(
         // context: context,
         // builder: (context) => 
-        SimpleDialog(
+         SimpleDialog(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           title: Text("No Record Found"),
           children: <Widget>[
@@ -98,7 +98,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             child: const Text('Ok'),
           ),
           ],
-        );
+        )
         // WillPopScope(
         //   onWillPop: () async => false,
         //           child: AlertDialog(
@@ -123,8 +123,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
       //                 "No Record Found",
       //                 "Sorry, you can't add people.",
       //                 context);
-    } else {
-      return new SimpleDialog(
+:new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
         Container(
@@ -151,8 +150,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                 Expanded(
                     flex: 4,
                     child: ListView.builder(
-                        // itemCount: _checkBoxOptions.length,
-                        itemCount: getPeopleListLength(),
+                        itemCount: _checkBoxOptions.length,
+                        // itemCount: getPeopleListLength(),
                         itemBuilder: (BuildContext context, int i) {
                           id = i;
                           return CheckboxListTile(
@@ -304,7 +303,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
       ],
     );
     }
-  }
+  // }
 
   int getPeopleListLength(){
     if(_checkBoxOptions.length== 0){

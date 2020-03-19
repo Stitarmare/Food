@@ -215,7 +215,7 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void getNotificationsSuccess(List<Datum> getNotificationList) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
     // TODO: implement getNotoficationsSuccess
     if (getNotificationList.length == 0) {
       return;
@@ -229,6 +229,7 @@ class _NotificationViewState extends State<NotificationView>
       }
       page++;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   String getNotificationDate(int index) {

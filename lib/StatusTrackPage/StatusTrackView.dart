@@ -257,6 +257,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                         fontWeight: FontWeight.w600),
                   ),
                   onPressed: () {
+                    print(widget.tableId);
                     showDialog(
                         context: context,
                         child: RadioDialogAddPeople(
