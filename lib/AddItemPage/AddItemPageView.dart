@@ -1296,14 +1296,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     // TODO: implement addMenuToCartsuccess
-    
+
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
@@ -1327,12 +1327,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
-     
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
-Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getTableListSuccess
   }
 
@@ -1358,14 +1357,14 @@ Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   @override
   void updateOrderSuccess() {
     // TODO: implement updateOrderSuccess
-    //Globle().dinecartValue += 1;
+    Globle().dinecartValue += 1;
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess("${widget.title}",
         "${widget.title} is successfully added to your cart.", context);
-         Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 
