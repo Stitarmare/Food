@@ -38,6 +38,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     BottomNotificationView(),
     BottomProfileScreen()
   ];
+
+  bool cartStatus = false;
   onTapIndex(int index) {
     setState(() {
       currentTabIndex = index;
@@ -46,6 +48,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
 
   @override
   void initState() {
+    getAlreadyInCart();
     if (widget.title != null) {
       setState(() {
         tabsHome.setAll(0, [
@@ -184,11 +187,14 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                           Positioned(
                               top: -11,
                               right: -11,
-                              child: Badge(
-                                  badgeColor: redtheme,
-                                  badgeContent: Text("1",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white))))
+                              child: (cartStatus == true)
+                                  ? Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text("1",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  : Container()),
                         ],
                       )
                     : Icon(
@@ -285,6 +291,27 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 title: Text('')),
           ]),
     );
+  }
+
+  getDineINcartvalue() {
+    if (Globle().dinecartValue != null) {
+      if (Globle().dinecartValue > 0) {
+        return Globle().dinecartValue;
+      }
+      return;
+    }
+    return;
+  }
+
+  getAlreadyInCart() async {
+    var alreadyIncartStatus =
+        await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
+    if (alreadyIncartStatus == true) {
+      //return alreadyIncartStatus;
+      setState(() {
+        cartStatus = true;
+      });
+    }
   }
 
   getOrderID() async {

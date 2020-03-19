@@ -6,6 +6,7 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/main.dart';
@@ -33,14 +34,26 @@ class _LandingStateView extends State<Landingview>
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    setState(() {
-      _landingViewPresenter.getCurrentOrder(context);
-    });
+    // setState(() {
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    _landingViewPresenter.getCurrentOrder(context);
+    // });
     super.initState();
   }
+
+  // @override
+  // void didUpdateWidget(Landingview oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   if (widget.body != oldWidget.body) {
+  //     _landingViewPresenter.getCurrentOrder(context);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -451,6 +464,8 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onFailedCurrentOrder() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     // TODO: implement onFailedCurrentOrder
   }
 
@@ -478,6 +493,8 @@ class _LandingStateView extends State<Landingview>
       //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
       Globle().dinecartValue = 0;
       Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
       //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     }
   }
