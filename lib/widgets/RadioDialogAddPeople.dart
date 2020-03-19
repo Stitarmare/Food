@@ -84,230 +84,236 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   Widget build(BuildContext context) {
-    if ((getPeopleListLength()== 0)) {
-      return 
-      //  showDialog(
-        // context: context,
-        // builder: (context) => 
-        SimpleDialog(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          title: Text("No Record Found"),
-          children: <Widget>[
-            SimpleDialogOption(
-            onPressed: () { Navigator.pop(context); },
+    if ((getPeopleListLength() == 0)) {
+      return
+          //  showDialog(
+          // context: context,
+          // builder: (context) =>
+          SimpleDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        title: Text("No Record Found"),
+        children: <Widget>[
+          SimpleDialogOption(
+            onPressed: () {
+              Navigator.pop(context);
+            },
             child: const Text('Ok'),
           ),
-          ],
-        );
-        // WillPopScope(
-        //   onWillPop: () async => false,
-        //           child: AlertDialog(
-        //         title: Text("No Record Found"),
-        //         content: Text("Sorry, you can't add people."),
-        //         actions: <Widget>[
-        //           Divider(
-        //             endIndent: 15,
-        //             indent: 15,
-        //             color: Colors.black,
-        //           ),
-        //           FlatButton(
-        //             child: Text("Ok"),
-        //             onPressed: () {
-        //               Navigator.of(context).pop();
-        //             },
-        //           )
-        //         ],
-        //       ),
-        // ));
+        ],
+      );
+      // WillPopScope(
+      //   onWillPop: () async => false,
+      //           child: AlertDialog(
+      //         title: Text("No Record Found"),
+      //         content: Text("Sorry, you can't add people."),
+      //         actions: <Widget>[
+      //           Divider(
+      //             endIndent: 15,
+      //             indent: 15,
+      //             color: Colors.black,
+      //           ),
+      //           FlatButton(
+      //             child: Text("Ok"),
+      //             onPressed: () {
+      //               Navigator.of(context).pop();
+      //             },
+      //           )
+      //         ],
+      //       ),
+      // ));
       // return Constants.showAlert(
       //                 "No Record Found",
       //                 "Sorry, you can't add people.",
       //                 context);
     } else {
       return new SimpleDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      children: <Widget>[
-        Container(
-            height: 500,
-            width: 284,
-            //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 5,
-                ),
-                Center(
-                  child: Text(
-                    'Add People',
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: greytheme700,
-                        fontFamily: 'gotham',
-                        fontWeight: FontWeight.w600),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        children: <Widget>[
+          Container(
+              height: 500,
+              width: 284,
+              //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-                Expanded(
-                    flex: 4,
-                    child: ListView.builder(
-                        // itemCount: _checkBoxOptions.length,
-                        itemCount: getPeopleListLength(),
-                        itemBuilder: (BuildContext context, int i) {
-                          id = i;
-                          return CheckboxListTile(
-                              activeColor: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
-                              value: _checkBoxOptions[i].isChecked,
-                              controlAffinity: ListTileControlAffinity.leading,
-                              onChanged: (val) {
-                                // setState(() {
-                                //   bList[i].isChecked = val;
-                                //   if (val != false) {
-                                //     addList.add(bList[i]);
-                                //   } else {
-                                //     addList.remove(bList[i]);
-                                //   }
-                                // });
+                  Center(
+                    child: Text(
+                      'Add People',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: greytheme700,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 4,
+                      child: ListView.builder(
+                          // itemCount: _checkBoxOptions.length,
+                          itemCount: getPeopleListLength(),
+                          itemBuilder: (BuildContext context, int i) {
+                            id = i;
+                            return CheckboxListTile(
+                                activeColor: ((Globle().colorscode) != null)
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
+                                value: _checkBoxOptions[i].isChecked,
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                onChanged: (val) {
+                                  // setState(() {
+                                  //   bList[i].isChecked = val;
+                                  //   if (val != false) {
+                                  //     addList.add(bList[i]);
+                                  //   } else {
+                                  //     addList.remove(bList[i]);
+                                  //   }
+                                  // });
 
-                                setState(() {
-                                  if (invitedPeople == null) {
-                                    invitedPeople = [];
-                                  }
-                                  if (invitedPeople.length > 0) {
-                                    if (val) {
+                                  setState(() {
+                                    if (invitedPeople == null) {
+                                      invitedPeople = [];
+                                    }
+                                    if (invitedPeople.length > 0) {
+                                      if (val) {
+                                        var ext = InvitePeople();
+                                        ext.inviteId =
+                                            _checkBoxOptions[i].index;
+                                        invitedPeople.add(ext);
+                                      } else {
+                                        for (int i = 0;
+                                            i < invitedPeople.length;
+                                            i++) {
+                                          if (_checkBoxOptions[i].index ==
+                                              invitedPeople[i].inviteId) {
+                                            invitedPeople.removeAt(i);
+                                          }
+                                        }
+                                      }
+                                    } else {
                                       var ext = InvitePeople();
                                       ext.inviteId = _checkBoxOptions[i].index;
                                       invitedPeople.add(ext);
-                                    } else {
-                                      for (int i = 0;
-                                          i < invitedPeople.length;
-                                          i++) {
-                                        if (_checkBoxOptions[i].index ==
-                                            invitedPeople[i].inviteId) {
-                                          invitedPeople.removeAt(i);
-                                        }
-                                      }
                                     }
-                                  } else {
-                                    var ext = InvitePeople();
-                                    ext.inviteId = _checkBoxOptions[i].index;
-                                    invitedPeople.add(ext);
-                                  }
-                                  _checkBoxOptions[i].isChecked = val;
-                                });
-                              },
-                              //   setState(() {
-                              //     isChecked = val;
-                              //     id = i;
-                              //     if (val != false) {
-                              //       addList.add(widget.data[i]);
-                              //     } else {
-                              //       addList.remove(widget.data[i]);
-                              //     }
-                              //   });
-                              // },
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    peopleList[i].firstName ?? '',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Color.fromRGBO(64, 64, 64, 1)),
-                                  ),
-                                ],
-                              ));
-                          // ? _checkBoxOptions
-                          //     .map((checkBtn) =>
-                          //         )
-                          //     .toList()
-                        })),
-                SizedBox(
-                  height: 10,
-                ),
-                Center(
-                    child: RaisedButton(
-                  color: getColorByHex(Globle().colorscode),
-                  shape: RoundedRectangleBorder(
-                      // side: BorderSide(
-                      //     color: Color.fromRGBO(170, 170, 170, 1)),
-                      borderRadius: BorderRadius.circular(8)),
-                  onPressed: () async {
-                    int orderId = await Preference.getPrefValue<int>(
-                        PreferenceKeys.ORDER_ID);
-                    confirmationDineviewPresenter.addPeople(
-                        peopleList[id].mobileNumber,
-                        widget.tableId,
-                        widget.restId,
-                        orderId,
-                        context);
-                    Navigator.pop(context);
-                    Toast.show(
-                        "Sending Invitation to ${peopleList[id].firstName}...",
-                        context,
-                        duration: Toast.LENGTH_SHORT,
-                        gravity: Toast.BOTTOM);
-                    showAddPeopleAlertSuccess("Invitation Send",
-                        "Invitation has been send Successfully!!", context);
-                    print("Added people-->");
-                    print(addList.length);
-                  },
-                  child: Text(
-                    addList.length != 0
-                        ? 'Add ${addList.length} People'
-                        : 'Add',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                                    _checkBoxOptions[i].isChecked = val;
+                                  });
+                                },
+                                //   setState(() {
+                                //     isChecked = val;
+                                //     id = i;
+                                //     if (val != false) {
+                                //       addList.add(widget.data[i]);
+                                //     } else {
+                                //       addList.remove(widget.data[i]);
+                                //     }
+                                //   });
+                                // },
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      peopleList[i].firstName ?? '',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: Color.fromRGBO(64, 64, 64, 1)),
+                                    ),
+                                  ],
+                                ));
+                            // ? _checkBoxOptions
+                            //     .map((checkBtn) =>
+                            //         )
+                            //     .toList()
+                          })),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                      child: RaisedButton(
+                    color: getColorByHex(Globle().colorscode),
+                    shape: RoundedRectangleBorder(
+                        // side: BorderSide(
+                        //     color: Color.fromRGBO(170, 170, 170, 1)),
+                        borderRadius: BorderRadius.circular(8)),
+                    onPressed: () async {
+                      int orderId = await Preference.getPrefValue<int>(
+                          PreferenceKeys.ORDER_ID);
+                      confirmationDineviewPresenter.addPeople(
+                          peopleList[id].mobileNumber,
+                          widget.tableId,
+                          widget.restId,
+                          orderId,
+                          context);
+                      Navigator.pop(context);
+                      Toast.show(
+                          "Sending Invitation to ${peopleList[id].firstName}...",
+                          context,
+                          duration: Toast.LENGTH_SHORT,
+                          gravity: Toast.BOTTOM);
+                      showAddPeopleAlertSuccess("Invitation Send",
+                          "Invitation has been send Successfully!!", context);
+                      print("Added people-->");
+                      print(addList.length);
+                    },
+                    child: Text(
+                      addList.length != 0
+                          ? 'Add ${addList.length} People'
+                          : 'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: Text(
+                      "Joined people:",
+                      style: TextStyle(
+                          color: greytheme100,
+                          decoration: TextDecoration.underline,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
-                )),
-                SizedBox(
-                  height: 10,
-                ),
-                Center(
-                  child: Text(
-                    "Joined people:",
-                    style: TextStyle(
-                        color: greytheme100,
-                        decoration: TextDecoration.underline,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: ListView.builder(
-                    itemCount: invitePeopleList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "${index + 1}) " +
-                                "${invitePeopleList[index].toUser.firstName}",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: greytheme100,
-                              fontSize: 18,
+                  Expanded(
+                    flex: 1,
+                    child: ListView.builder(
+                      itemCount: invitePeopleList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "${index + 1}) " +
+                                  "${invitePeopleList[index].toUser.firstName}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: greytheme100,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                )
-              ],
-            ))
-      ],
-    );
+                          ],
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ))
+        ],
+      );
     }
   }
 
-  int getPeopleListLength(){
-    if(_checkBoxOptions.length== 0){
+  int getPeopleListLength() {
+    if (_checkBoxOptions.length == 0) {
       return 0;
     }
     return _checkBoxOptions.length;
@@ -446,6 +452,3 @@ class CheckBoxOptions {
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
 }
-
-
-

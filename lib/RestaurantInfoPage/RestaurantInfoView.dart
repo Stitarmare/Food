@@ -1006,11 +1006,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+     
     setState(() {
       _getReviewData = getReviewList;
       print(_getReviewData);
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

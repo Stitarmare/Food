@@ -6,6 +6,7 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/main.dart';
@@ -27,17 +28,32 @@ class Landingview extends DrawerContent {
   }
 }
 
-class _LandingStateView extends State<Landingview> implements LandingViewProtocol {
+class _LandingStateView extends State<Landingview>
+    implements LandingViewProtocol {
   //String titleAppBar = "Testing";
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
+    // setState(() {
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _landingViewPresenter.getCurrentOrder(context);
+    // });
     super.initState();
   }
+
+  // @override
+  // void didUpdateWidget(Landingview oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   if (widget.body != oldWidget.body) {
+  //     _landingViewPresenter.getCurrentOrder(context);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,14 +97,13 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       setState(() {
         isOrderRunning = true;
       });
-       currentOrderId;
+      //currentOrderId;
     }
-    
   }
 
   getCurrentRestID() async {
     var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID);//ORDER_ID
+        PreferenceKeys.CURRENT_RESTAURANT_ID); //ORDER_ID
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -354,14 +369,22 @@ class _LandingStateView extends State<Landingview> implements LandingViewProtoco
       ),
     );
   }
-showStatusView() async{
-  var currentOrderId =
+
+  showStatusView() async {
+    var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-         // _goToNextPageDineIn(context);
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => StatusTrackView(orderID: currentOrderId,rest_id: _model.data.dineIn.restId,restname:_model.data.dineIn.restaurant.restName ,flag: 3,)));
-            print('Card tapped.');
-}
+    // _goToNextPageDineIn(context);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => StatusTrackView(
+              orderID: currentOrderId,
+              rest_id: _model.data.dineIn.restId,
+              restname: _model.data.dineIn.restaurant.restName,
+              flag: 3,
+              tableId: _model.data.dineIn.tableId,
+            )));
+    print('Card tapped.');
+  }
+
   Widget _currentOrderCard() {
     return Center(
       child: Card(
@@ -441,6 +464,8 @@ showStatusView() async{
 
   @override
   void onFailedCurrentOrder() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
     // TODO: implement onFailedCurrentOrder
   }
 
@@ -448,16 +473,30 @@ showStatusView() async{
   void onSuccessCurrentOrder(RunningOrderModel model) {
     // TODO: implement onSuccessCurrentOrder
     _model = model;
-    if (model.data.dineIn != null) {
-        Preference.setPersistData<int>(model.data.dineIn.restId, PreferenceKeys.restaurantID);
-        Preference.setPersistData<int>(model.data.dineIn.id, PreferenceKeys.ORDER_ID);
-        
-        Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-        Future.delayed(Duration(microseconds: 500),(){
-            getCurrentOrderID();
-        });
+    if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
+      Preference.setPersistData<int>(
+          model.data.dineIn.restId, PreferenceKeys.restaurantID);
+      Preference.setPersistData<int>(
+          model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+
+      Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+      Future.delayed(Duration(microseconds: 500), () {
+        getCurrentOrderID();
+      });
+    } else {
+      Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+      Preference.removeForKey(PreferenceKeys.ORDER_ID);
+      // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+      // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+      // Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+      // Preference.setPersistData<int>(
+      //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
+      Globle().dinecartValue = 0;
+      Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
+      //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     }
-    
   }
   // _goToNextPageTakeAway(BuildContext context) {
   //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {

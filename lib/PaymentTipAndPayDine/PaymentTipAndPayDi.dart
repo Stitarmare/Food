@@ -856,7 +856,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     if (billModel == null) {
       billModel = model;
     }
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
         MaterialPageRoute(

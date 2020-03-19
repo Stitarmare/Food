@@ -854,15 +854,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
               Divider(
                 thickness: 2,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 15),
-                child: Text(
-                  'Spreads',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
-                ),
-              ),
-              Padding(
+             _radioOptions.length==0?Container() :Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only( left: 26,top: 15),
+                    child: Text(
+                      'Spreads',
+                      style: TextStyle(
+                          fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+                    ),
+                  ),
+                  Padding(
                 padding: EdgeInsets.only(left: 26, top: 8),
                 child: Text(
                   'Please select any one option',
@@ -877,15 +881,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
               Divider(
                 thickness: 2,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 15),
-                child: Text(
-                  'Additions',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
-                ),
+                ],
               ),
-              Padding(
+              
+              
+             _checkBoxOptions.length ==0?Container(): Column(
+               mainAxisAlignment: MainAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 26,top: 15),
+                    child: Text(
+                      'Additions',
+                      style: TextStyle(
+                          fontFamily: 'gotham', fontSize: 16, color: greytheme700),
+                    ),
+                  ),
+                   Padding(
                 padding: EdgeInsets.only(left: 26, top: 8),
                 child: Text(
                   'You can select multiple options',
@@ -893,27 +905,39 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
                 ),
               ),
-              _getCheckBoxOptions(),
+               _getCheckBoxOptions(),
               SizedBox(
                 height: 10,
               ),
               Divider(
                 thickness: 2,
               ),
-              SizedBox(
-                height: 10,
+                ],
               ),
-              togglebutton(),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
+             
+             
+              // SizedBox(
+              //   height: 10,
+              // ),
+              _switchOptions.length == 0? Container():Column(
+                children: <Widget>[
+                  togglebutton(),
+                   Divider(
                 thickness: 2,
               ),
+                ],
+              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+             
               SizedBox(
                 height: 10,
               ),
-              Padding(
+              _radioOptionsSizes.length==0?Container(): Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                   Padding(
                 padding: EdgeInsets.only(left: 26, top: 15),
                 child: Text(
                   'Size',
@@ -929,6 +953,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
                 ),
               ),
+                ],
+              ),
+             
               _getRadioOptionsSizes(),
               SizedBox(
                 height: 10,
@@ -1356,7 +1383,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void updateOrderSuccess() {
-    // TODO: implement updateOrderSuccess
     Globle().dinecartValue += 1;
     //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
     //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
