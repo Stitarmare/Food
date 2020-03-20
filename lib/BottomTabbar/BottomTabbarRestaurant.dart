@@ -60,6 +60,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         ]);
       });
     }
+    getCartCount();
     super.initState();
   }
 
@@ -322,6 +323,19 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
     if (orderId != null) {
       return orderId;
+    }
+    return;
+  }
+
+  getCartCount() async {
+    var cartCount =
+        await Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount);
+    if (cartCount != null) {
+      setState(() {
+        Globle().dinecartValue = cartCount;
+      });
+      //Globle().dinecartValue = cartCount;
+      return cartCount;
     }
     return;
   }

@@ -756,7 +756,9 @@ class _MyCartViewState extends State<MyCartView>
   void removeItemSuccess() {
     // TODO: implement removeItemSuccess
     _cartItemList = null;
-
+    Globle().dinecartValue -= 1;
+    Preference.setPersistData<int>(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

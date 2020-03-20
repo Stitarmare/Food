@@ -11,6 +11,7 @@ import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -57,6 +58,15 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
         ]);
       });
     }
+
+    // if (Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount) !=
+    //     null) {
+    //   Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount)
+    //       .then((value) {
+    //     Globle().takeAwayCartItemCount = value;
+    //   });
+    // }
+    getCartCount();
   }
 
   @override
@@ -125,13 +135,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                                           "${Globle().takeAwayCartItemCount} ",
                                           textAlign: TextAlign.center,
                                           style:
-                                              TextStyle(color: Colors.white)))
-                                  //    Container(
-                                  //   height: 20,
-                                  //   width: 20,
-                                  //   decoration: BoxDecoration(color: Colors.red),
-                                  // )
-                                  )
+                                              TextStyle(color: Colors.white))))
                               : Text("")
                           : Text("")
                     ],
@@ -275,5 +279,18 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 title: Text('')),
           ]),
     );
+  }
+
+  getCartCount() async {
+    var cartCount =
+        await Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount);
+    if (cartCount != null) {
+      setState(() {
+        Globle().takeAwayCartItemCount = cartCount;
+      });
+      // Globle().takeAwayCartItemCount = cartCount;
+      return cartCount;
+    }
+    return;
   }
 }
