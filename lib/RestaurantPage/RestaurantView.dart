@@ -583,7 +583,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         ),
                         Expanded(
                             child: Padding(
-                          padding: EdgeInsets.only(left: 10, top: 2),
+                          padding: EdgeInsets.only(left: 10, top: 8),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -626,7 +626,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 ),
 
                                 SizedBox(
-                                  height: 5,
+                                  height: 8,
                                 ),
                                 // Expanded(
                                 //   flex: 1,
@@ -672,6 +672,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                 // ),
                               ]),
                         )),
+                         SizedBox(
+                                  height: 2,
+                                ),
                         Container(
                           height: MediaQuery.of(context).size.width * 0.09,
                           child: Row(
