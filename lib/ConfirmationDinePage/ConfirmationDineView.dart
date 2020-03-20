@@ -755,25 +755,25 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
-                        // radioId = val;
+                        radioId = val;
 
-                        if (val == 2) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => PaymentTipAndPay(
-                                    items: widget.items,
-                                    latitude: widget.latitude,
-                                    longitude: widget.longitude,
-                                    orderType: widget.orderType,
-                                    price: widget.price,
-                                    restId: widget.restId,
-                                    tableId: widget.tableId,
-                                    tablename: widget.tablename,
-                                    totalAmount: widget.totalAmount,
-                                    userId: widget.userId,
-                                    itemdata: widget.itemdata,
-                                    currencySymbol: widget.currencySymbol,
-                                  )));
-                        }
+                        // if (val == 2) {
+                        //   Navigator.of(context).push(MaterialPageRoute(
+                        //       builder: (_) => PaymentTipAndPay(
+                        //             items: widget.items,
+                        //             latitude: widget.latitude,
+                        //             longitude: widget.longitude,
+                        //             orderType: widget.orderType,
+                        //             price: widget.price,
+                        //             restId: widget.restId,
+                        //             tableId: widget.tableId,
+                        //             tablename: widget.tablename,
+                        //             totalAmount: widget.totalAmount,
+                        //             userId: widget.userId,
+                        //             itemdata: widget.itemdata,
+                        //             currencySymbol: widget.currencySymbol,
+                        //           )));
+                        // }
 
                         // if (radioOrderItem == 'Dine-in') {
                         //   getTableAlert();

@@ -86,6 +86,13 @@ class _LandingStateView extends State<Landingview>
           ),
         ),
         body: SingleChildScrollView(child: _getmainView()),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            color: greytheme1300,
+            height: 40,
+            child: _currentOrdertext(),
+          ),
+        ),
       ),
     );
   }
@@ -222,10 +229,12 @@ class _LandingStateView extends State<Landingview>
               height: 12,
             ),
             _takeAwaycard(),
-            SizedBox(
-              height: 12,
-            ),
-            isOrderRunning ? _currentOrderCard() : Container()
+            // SizedBox(
+            //   height: 12,
+            // ),
+            // isOrderRunning ?
+            // _currentOrderCard()
+            // : Container()
           ],
         ),
       ),
@@ -302,29 +311,48 @@ class _LandingStateView extends State<Landingview>
   }
 
   Widget _currentOrdertext() {
-    return Column(
-      //mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          height: 20,
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      child: InkWell(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 38.0),
+                child: Center(
+                  child: Text('View Your Order',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greentheme100)),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Icon(
+                Icons.navigate_next,
+                color: greytheme600,
+              ),
+            )
+
+            // Text('Track your current order',
+            //     style: TextStyle(
+            //         fontSize: 14,
+            //         fontFamily: 'gotham',
+            //         fontWeight: FontWeight.w500,
+            //         color: greytheme100)),
+          ],
         ),
-        Text('Current Order',
-            style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greentheme100)),
-        SizedBox(
-          height: 15,
-        ),
-        Text('Track your current order',
-            style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w500,
-                color: greytheme100)),
-      ],
+        onTap: () {
+          showStatusView();
+        },
+      ),
     );
   }
 
@@ -425,7 +453,7 @@ class _LandingStateView extends State<Landingview>
                 SizedBox(
                   width: 40,
                 ),
-                _currentOrdertext(),
+                // _currentOrdertext(),
                 SizedBox(
                   width: 40,
                 ),

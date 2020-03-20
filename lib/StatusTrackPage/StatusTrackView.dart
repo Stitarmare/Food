@@ -88,14 +88,14 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 Navigator.popUntil(
                     context, (Route<dynamic> route) => route.isFirst);
               }
-               if (widget.flag == 2) {
+              if (widget.flag == 2) {
                 // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
                 Navigator.pop(context);
-               }
-                 if (widget.flag == 3) {
+              }
+              if (widget.flag == 3) {
                 // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
                 Navigator.pop(context);
-               }
+              }
             },
           ),
         ),
@@ -223,7 +223,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                   title: widget.title,
                                 )));
                   }
-                   if (widget.flag == 3) {
+                  if (widget.flag == 3) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
