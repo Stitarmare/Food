@@ -377,10 +377,17 @@ class _LandingStateView extends State<Landingview>
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => StatusTrackView(
               orderID: currentOrderId,
-              rest_id: _model.data.dineIn.restId,
-              restname: _model.data.dineIn.restaurant.restName,
+              rest_id: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.restId
+                  : _model.data.takeAway.restId,
+              //restname: _model.data.dineIn.restaurant.restName,
+              title: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.restaurant.restName
+                  : _model.data.takeAway.restaurant.restName,
               flag: 3,
-              tableId: _model.data.dineIn.tableId,
+              tableId: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.tableId
+                  : 0,
             )));
     print('Card tapped.');
   }
@@ -473,29 +480,49 @@ class _LandingStateView extends State<Landingview>
   void onSuccessCurrentOrder(RunningOrderModel model) {
     // TODO: implement onSuccessCurrentOrder
     _model = model;
-    if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
-      Preference.setPersistData<int>(
-          model.data.dineIn.restId, PreferenceKeys.restaurantID);
-      Preference.setPersistData<int>(
-          model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+    if (model != null) {
+      if (model.data.dineIn.status != "paid") {
+        if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
+          Preference.setPersistData<int>(
+              model.data.dineIn.restId, PreferenceKeys.restaurantID);
+          Preference.setPersistData<int>(
+              model.data.dineIn.id, PreferenceKeys.ORDER_ID);
 
-      Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-      Future.delayed(Duration(microseconds: 500), () {
-        getCurrentOrderID();
-      });
-    } else {
-      Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-      Preference.removeForKey(PreferenceKeys.ORDER_ID);
-      // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-      // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-      // Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
-      // Preference.setPersistData<int>(
-      //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
-      Globle().dinecartValue = 0;
-      Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
-      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+          Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
+        } else {
+          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.removeForKey(PreferenceKeys.ORDER_ID);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+        }
+      } else if (model.data.takeAway.orderType != "paid") {
+        if (model.data.takeAway != null &&
+            model.data.takeAway.status != "paid") {
+          Preference.setPersistData<int>(
+              model.data.takeAway.restId, PreferenceKeys.restaurantID);
+          Preference.setPersistData<int>(
+              model.data.takeAway.id, PreferenceKeys.ORDER_ID);
 
-      //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+          //Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
+        } else {
+          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.removeForKey(PreferenceKeys.ORDER_ID);
+          //Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+        }
+      }
+      //For Dine current order
+
+      //For Take away current order
+
     }
   }
   // _goToNextPageTakeAway(BuildContext context) {
