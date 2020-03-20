@@ -141,33 +141,35 @@ class _MyCartViewState extends State<MyCartView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: () {
-            if (menuCartList.quantity > 0) {
-              setState(() {
-                menuCartList.quantity -= 1;
-                print(menuCartList.quantity);
-              });
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, "Loading");
-              if (menuCartList.quantity > 0) {
-                _myCartpresenter.updateQauntityCount(
-                    menuCartList.id,
-                    menuCartList.quantity,
-                    menuCartList.totalAmount / menuCartList.quantity,
-                    context);
-              }
-              if (menuCartList.quantity == 0) {
-                // _cartItemList = null;
-                DialogsIndicator.showLoadingDialog(
-                    context, _keyLoader, "Loading");
-                _myCartpresenter.removeItemfromCart(
-                    menuCartList.id, Globle().loginModel.data.id, context);
-                setState(() {
-                  _cartItemList.removeAt(menuCartList.id);
-                });
-              }
-            }
-          },
+          onTap: (menuCartList.quantity == 1)
+              ? () {}
+              : () {
+                  if (menuCartList.quantity > 0) {
+                    setState(() {
+                      menuCartList.quantity -= 1;
+                      print(menuCartList.quantity);
+                    });
+                    DialogsIndicator.showLoadingDialog(
+                        context, _keyLoader, "Loading");
+                    if (menuCartList.quantity > 0) {
+                      _myCartpresenter.updateQauntityCount(
+                          menuCartList.id,
+                          menuCartList.quantity,
+                          menuCartList.totalAmount / menuCartList.quantity,
+                          context);
+                    }
+                    if (menuCartList.quantity == 0) {
+                      // _cartItemList = null;
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, "Loading");
+                      _myCartpresenter.removeItemfromCart(menuCartList.id,
+                          Globle().loginModel.data.id, context);
+                      setState(() {
+                        _cartItemList.removeAt(menuCartList.id);
+                      });
+                    }
+                  }
+                },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(

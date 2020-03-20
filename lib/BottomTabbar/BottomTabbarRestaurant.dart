@@ -60,6 +60,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         ]);
       });
     }
+    super.initState();
   }
 
   @override
@@ -185,16 +186,16 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             size: 30,
                           ),
                           Positioned(
-                              top: -11,
-                              right: -11,
-                              child: (cartStatus == true)
-                                  ? Badge(
-                                      badgeColor: redtheme,
-                                      badgeContent: Text("1",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: Colors.white)))
-                                  : Container()),
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
                         ],
                       )
                     : Icon(
@@ -218,13 +219,16 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             size: 30,
                           ),
                           Positioned(
-                              top: -11,
-                              right: -11,
-                              child: Badge(
-                                  badgeColor: redtheme,
-                                  badgeContent: Text("1",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white))))
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
                         ],
                       )
                     : Icon(

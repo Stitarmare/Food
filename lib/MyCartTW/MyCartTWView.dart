@@ -76,16 +76,18 @@ class _MyCartTWViewState extends State<MyCartTWView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: () {
-            if (count > 1) {
-              setState(() {
-                --count;
-                _cartItemList[i].quantity = count;
+          onTap: (_cartItemList[i].quantity == 1)
+              ? () {}
+              : () {
+                  if (count > 1) {
+                    setState(() {
+                      --count;
+                      _cartItemList[i].quantity = count;
 
-                print(count);
-              });
-            }
-          },
+                      print(count);
+                    });
+                  }
+                },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
