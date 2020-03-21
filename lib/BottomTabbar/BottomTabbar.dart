@@ -15,7 +15,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbar extends StatefulWidget {
   int tabValue = 0;
-  BottomTabbar({this.tabValue});
+  String tableName;
+  BottomTabbar({this.tabValue, this.tableName});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarState();
@@ -40,6 +41,26 @@ class _BottomTabbarState extends State<BottomTabbar> {
     setState(() {
       currentTabIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    if (widget.tableName != null) {
+      setState(() {
+        tabsDineIn.setAll(1, [
+          MyOrders(
+            tableName: widget.tableName,
+          )
+        ]);
+
+        tabsDineIn.setAll(0, [
+          DineInView(
+            tableName: widget.tableName,
+          )
+        ]);
+      });
+    }
+    super.initState();
   }
 
   @override

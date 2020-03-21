@@ -23,6 +23,7 @@ class StatusTrackView extends StatefulWidget {
   int flag;
   int rest_id;
   String restname;
+  String tableName;
   //   String lat;
   // String long;
   String title;
@@ -32,7 +33,8 @@ class StatusTrackView extends StatefulWidget {
       this.rest_id,
       this.title,
       this.restname,
-      this.tableId});
+      this.tableId,
+      this.tableName});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -64,6 +66,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
     print("table from statustrackView---->");
     print(widget.tableId);
+
+    print("table name from statustrackView--->");
+    print(widget.tableName);
   }
 
   @override
@@ -286,7 +291,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
           child: Column(
             children: <Widget>[
               AutoSizeText(
-                  "Order for table number 8 is confirmed. Please wait while kitchen updates time for prepration. You will be notified about the status.",
+                  "Order for ${widget.tableName} is confirmed. Please wait while kitchen updates time for prepration. You will be notified about the status.",
                   //maxFontSize: 12,
                   //maxLines: 2,
                   textAlign: TextAlign.center,

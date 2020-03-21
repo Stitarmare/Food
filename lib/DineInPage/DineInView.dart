@@ -20,6 +20,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {
+  String tableName;
+  DineInView({this.tableName});
   @override
   State<StatefulWidget> createState() {
     return _DineViewState();
@@ -492,6 +494,7 @@ class _DineViewState extends State<DineInView>
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
+                              tableName: widget.tableName,
                             )));
                     setState(() {
 // selected[i] = !selected[i];

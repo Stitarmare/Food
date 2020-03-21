@@ -21,8 +21,14 @@ class BottomTabbarHome extends StatefulWidget {
   String lat;
   String long;
   String imageUrl;
+  String tableName;
   BottomTabbarHome(
-      {this.title, this.rest_Id, this.lat, this.long, this.imageUrl});
+      {this.title,
+      this.rest_Id,
+      this.lat,
+      this.long,
+      this.imageUrl,
+      this.tableName});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -60,6 +66,13 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         ]);
       });
     }
+
+    if (widget.tableName != null) {
+      setState(() {
+        tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
+      });
+    }
+
     getCartCount();
     super.initState();
   }

@@ -432,8 +432,16 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
+    if (list.length == 0) {
+      return;
+    }
+
     setState(() {
-      invitePeopleList = list;
+      if (invitePeopleList == null) {
+        invitePeopleList = list;
+      } else {
+        invitePeopleList.addAll(list);
+      }
     });
 
     print("invite peopl list length-->");

@@ -252,7 +252,10 @@ class _LandingStateView extends State<Landingview>
           onTap: () {
             // _goToNextPageDineIn(context);
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 0)));
+                builder: (context) => BottomTabbar(
+                      tabValue: 0,
+                      tableName: _model.data.dineIn.table.tableName,
+                    )));
             print('Card tapped.');
           },
           child: Container(
@@ -366,7 +369,10 @@ class _LandingStateView extends State<Landingview>
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 1)));
+                builder: (context) => BottomTabbar(
+                      tabValue: 1,
+                      tableName: _model.data.dineIn.table.tableName,
+                    )));
             // _goToNextPageTakeAway(context);
             print('Card tapped.');
           },
@@ -416,6 +422,7 @@ class _LandingStateView extends State<Landingview>
               tableId: (_model.data.dineIn.status != "paid")
                   ? _model.data.dineIn.tableId
                   : 0,
+              tableName: _model.data.dineIn.table.tableName,
             )));
     print('Card tapped.');
   }
