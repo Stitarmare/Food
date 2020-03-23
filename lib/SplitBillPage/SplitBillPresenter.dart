@@ -8,6 +8,11 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 
 class SplitBillPresenter extends SplitBillContractor {
   SplitBillContractorModelView _splitBillContractorModelView;
+
+  SplitBillPresenter(
+      SplitBillContractorModelView _splitBillContractorModelView) {
+    this._splitBillContractorModelView = _splitBillContractorModelView;
+  }
   @override
   void getSPlitBill(
       int order_id, int user_id, int option, int amount, BuildContext context) {

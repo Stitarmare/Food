@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
+import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
+import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
 import 'package:foodzi/widgets/OrdertemsDialogSplitBill.dart';
 import 'package:foodzi/widgets/UserSpecificOrderDialogSplitBill.dart';
-
-class BillList {
-  String name;
-  int index;
-  BillList({this.name, this.index});
-}
 
 class RadioDialog extends StatefulWidget {
   int tableId;
@@ -32,7 +29,10 @@ class RadioDialog extends StatefulWidget {
   State createState() => new RadioDialogState();
 }
 
-class RadioDialogState extends State<RadioDialog> {
+class RadioDialogState extends State<RadioDialog>
+    implements SplitBillContractorModelView {
+  SplitBillPresenter _splitBillPresenter;
+
   String _selectedId;
   // Default Radio Button Item
   String radioItem = 'Mango';
@@ -62,6 +62,8 @@ class RadioDialogState extends State<RadioDialog> {
   @override
   void initState() {
     super.initState();
+    _splitBillPresenter = SplitBillPresenter(this);
+
     _selectedId = widget.initialValue;
 
     print("table id from split bill dialog--->");
@@ -126,8 +128,16 @@ class RadioDialogState extends State<RadioDialog> {
                       //     color: Color.fromRGBO(170, 170, 170, 1)),
                       borderRadius: BorderRadius.circular(5)),
                   onPressed: () {
+                    if (id == 1) {
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          1,
+                          widget.amount.toInt(),
+                          context);
+                    }
                     // Navigator.pop(context);
-                    if (id == 2) {
+                    else if (id == 2) {
                       showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -168,4 +178,20 @@ class RadioDialogState extends State<RadioDialog> {
       ],
     );
   }
+
+  @override
+  void getSplitBillFailed() {
+    // TODO: implement getSplitBillFailed
+  }
+
+  @override
+  void getSplitBillSuccess() {
+    // TODO: implement getSplitBillSuccess
+  }
+}
+
+class BillList {
+  String name;
+  int index;
+  BillList({this.name, this.index});
 }
