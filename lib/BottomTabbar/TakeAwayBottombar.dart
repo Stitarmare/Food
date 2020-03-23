@@ -108,6 +108,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyCartTWView(
+                                  restName: widget.title,
                                   restId: widget.rest_Id,
                                   lat: widget.lat,
                                   long: widget.long,
