@@ -410,7 +410,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         restName: widget.restName,
                                         restId: widget.restId,
                                         userId: _cartItemList[indx].userId,
-                                        price: _cartItemList[indx].totalAmount,
+                                        price: int.parse(
+                                            _cartItemList[indx].price),
                                         items: itemList,
                                         totalAmount: myCart.grandTotal,
                                         orderType: widget.orderType,
