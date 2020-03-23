@@ -13,6 +13,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MyCartTWView extends StatefulWidget {
+  String restName;
   int restId;
   int userID;
   String lat;
@@ -25,7 +26,8 @@ class MyCartTWView extends StatefulWidget {
       this.orderType,
       this.lat,
       this.long,
-      this.total});
+      this.total,
+      this.restName});
   //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -405,6 +407,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
+                                        restName: widget.restName,
                                         restId: widget.restId,
                                         userId: _cartItemList[indx].userId,
                                         price: _cartItemList[indx].totalAmount,

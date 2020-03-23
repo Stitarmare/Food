@@ -189,7 +189,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 //   size: 30,
                 // ),
 
-                icon: (getOrderID() != null)
+                icon: (getOrderID() == true)
                     ? Stack(
                         fit: StackFit.passthrough,
                         overflow: Overflow.visible,
@@ -222,7 +222,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 //   color: orangetheme,
                 //   size: 30,
                 // ),
-                activeIcon: (getOrderID() != null)
+                activeIcon: (getOrderID() == true)
                     ? Stack(
                         fit: StackFit.passthrough,
                         overflow: Overflow.visible,
@@ -333,9 +333,14 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   }
 
   getOrderID() async {
-    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-    if (orderId != null) {
-      return orderId;
+    var orderId =
+        await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
+    var orderType =
+        await Preference.getPrefValue<bool>(PreferenceKeys.ISDINEIN);
+    if (orderId != null && orderType) {
+      setState(() {
+        return orderType;
+      });
     }
     return;
   }

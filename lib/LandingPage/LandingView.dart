@@ -6,6 +6,7 @@ import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -43,6 +44,7 @@ class _LandingStateView extends State<Landingview>
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _landingViewPresenter.getCurrentOrder(context);
     // });
+    getCurrentOrderID();
     super.initState();
   }
 
@@ -374,7 +376,9 @@ class _LandingStateView extends State<Landingview>
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => BottomTabbar(
                       tabValue: 1,
-                      // tableName: _model.data.dineIn.table.tableName,
+                      tableName: (_model.data.dineIn != null)
+                          ? _model.data.dineIn.table.tableName
+                          : "",
                     )));
             // _goToNextPageTakeAway(context);
             print('Card tapped.');
@@ -411,22 +415,44 @@ class _LandingStateView extends State<Landingview>
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
     // _goToNextPageDineIn(context);
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => StatusTrackView(
-              orderID: currentOrderId,
-              rest_id: (_model.data.dineIn.status != "paid")
-                  ? _model.data.dineIn.restId
-                  : _model.data.takeAway.restId,
-              //restname: _model.data.dineIn.restaurant.restName,
-              title: (_model.data.dineIn.status != "paid")
-                  ? _model.data.dineIn.restaurant.restName
-                  : _model.data.takeAway.restaurant.restName,
-              flag: 3,
-              tableId: (_model.data.dineIn.status != "paid")
-                  ? _model.data.dineIn.tableId
-                  : 0,
-              tableName: _model.data.dineIn.table.tableName,
-            )));
+    if (_model != null) {
+      if (_model.data.dineIn != null) {
+        if (_model.data.dineIn.status != "paid") {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => StatusTrackView(
+                    orderID: currentOrderId,
+                    rest_id: (_model.data.dineIn.status != "paid")
+                        ? _model.data.dineIn.restId
+                        : _model.data.takeAway.restId,
+                    //restname: _model.data.dineIn.restaurant.restName,
+                    title: (_model.data.dineIn.status != "paid")
+                        ? _model.data.dineIn.restaurant.restName
+                        : _model.data.takeAway.restaurant.restName,
+                    flag: 3,
+                    tableId: (_model.data.dineIn.status != "paid")
+                        ? _model.data.dineIn.tableId
+                        : 0,
+                    tableName: _model.data.dineIn.table.tableName,
+                  )));
+        }
+      }
+      if (_model.data.takeAway != null) {
+        if (_model.data.takeAway.orderType != "paid") {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => StatusTakeAwayView(
+                    orderID: currentOrderId,
+                    rest_id: (_model.data.takeAway.status != "paid")
+                        ? _model.data.takeAway.restId
+                        : _model.data.dineIn.restId,
+                    //restname: _model.data.dineIn.restaurant.restName,
+                    title: (_model.data.takeAway.status != "paid")
+                        ? _model.data.takeAway.restaurant.restName
+                        : _model.data.dineIn.restaurant.restName,
+                  )));
+        }
+      }
+    }
+
     print('Card tapped.');
   }
 
@@ -509,7 +535,8 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onFailedCurrentOrder() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    print("object");
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     // TODO: implement onFailedCurrentOrder
   }
@@ -525,13 +552,16 @@ class _LandingStateView extends State<Landingview>
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
               model.data.dineIn.id, PreferenceKeys.ORDER_ID);
-
+          Preference.setPersistData<bool>(true, PreferenceKeys.ISDINEIN);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
         } else {
           Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
           Preference.removeForKey(PreferenceKeys.ORDER_ID);
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
@@ -544,7 +574,9 @@ class _LandingStateView extends State<Landingview>
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
               model.data.takeAway.id, PreferenceKeys.ORDER_ID);
-
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
           //Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -552,7 +584,7 @@ class _LandingStateView extends State<Landingview>
         } else {
           Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
           Preference.removeForKey(PreferenceKeys.ORDER_ID);
-          //Globle().dinecartValue = 0;
+          Globle().dinecartValue = 0;
           Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
           //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
         }

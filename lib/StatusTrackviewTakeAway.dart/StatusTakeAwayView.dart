@@ -84,18 +84,20 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
           leading: GestureDetector(
             child: Icon(Icons.arrow_back),
             onTap: () {
-              if (widget.flag == 1) {
-                Navigator.popUntil(
-                    context, (Route<dynamic> route) => route.isFirst);
-              }
-              if (widget.flag == 2) {
-                // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
-                Navigator.pop(context);
-              }
-              if (widget.flag == 3) {
-                // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
-                Navigator.pop(context);
-              }
+              Navigator.of(context).popUntil((route) => route.isFirst);
+
+              // if (widget.flag == 1) {
+              //   Navigator.popUntil(
+              //       context, (Route<dynamic> route) => route.isFirst);
+              // }
+              // if (widget.flag == 2) {
+              //   // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
+              //   Navigator.pop(context);
+              // }
+              // if (widget.flag == 3) {
+              //   // Navigator.pushNamedAndRemoveUntil(context, '/RestaurantView', (_) => false);
+              //   Navigator.pop(context);
+              // }
             },
           ),
         ),
@@ -145,57 +147,57 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
               indent: 15,
               color: Colors.black,
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                child: Text(
-                  'Add more Items',
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'gotham',
-                      decoration: TextDecoration.underline,
-                      decorationColor: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      color: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      fontWeight: FontWeight.w600),
-                ),
-                onPressed: () {
-                  Preference.setPersistData<int>(
-                      widget.orderID, PreferenceKeys.ORDER_ID);
+            // Align(
+            //   alignment: Alignment.bottomRight,
+            //   child: FlatButton(
+            //     child: Text(
+            //       'Add more Items',
+            //       style: TextStyle(
+            //           fontSize: 16,
+            //           fontFamily: 'gotham',
+            //           decoration: TextDecoration.underline,
+            //           decorationColor: (Globle().colorscode != null)
+            //               ? getColorByHex(Globle().colorscode)
+            //               : orangetheme,
+            //           color: (Globle().colorscode != null)
+            //               ? getColorByHex(Globle().colorscode)
+            //               : orangetheme,
+            //           fontWeight: FontWeight.w600),
+            //     ),
+            //     onPressed: () {
+            //       Preference.setPersistData<int>(
+            //           widget.orderID, PreferenceKeys.ORDER_ID);
 
-                  if (widget.flag == 1) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  }
-                  if (widget.flag == 2) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  rest_Id: widget.rest_id,
-                                  title: widget.title,
-                                )));
-                  }
-                  if (widget.flag == 3) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  rest_Id: widget.rest_id,
-                                  title: widget.title,
-                                )));
-                  }
-                  //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
+            //       if (widget.flag == 1) {
+            //         Navigator.pop(context);
+            //         Navigator.pop(context);
+            //         Navigator.pop(context);
+            //         Navigator.pop(context);
+            //       }
+            //       if (widget.flag == 2) {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => RestaurantView(
+            //                       rest_Id: widget.rest_id,
+            //                       title: widget.title,
+            //                     )));
+            //       }
+            //       if (widget.flag == 3) {
+            //         Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => RestaurantView(
+            //                       rest_Id: widget.rest_id,
+            //                       title: widget.title,
+            //                     )));
+            //       }
+            //       //Navigator.popUntil(context, ModalRoute.withName('/RestaurantView'));
 
-                  //Navigator.pushNamed(context, '/OrderConfirmation2View');
-                },
-              ),
-            ),
+            //       //Navigator.pushNamed(context, '/OrderConfirmation2View');
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

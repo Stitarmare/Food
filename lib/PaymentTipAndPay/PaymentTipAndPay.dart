@@ -14,6 +14,7 @@ import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -22,6 +23,7 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
+  String restName;
   int price;
   int restId;
   int userId;
@@ -46,7 +48,8 @@ class PaymentTipAndPay extends StatefulWidget {
       this.tableId,
       this.totalAmount,
       this.currencySymbol,
-      this.itemdata});
+      this.itemdata,
+      this.restName});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
 }
@@ -621,6 +624,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => StatusTakeAwayView(
+                      //           orderID: myOrderData.id,
+                      //           title: widget.restName,
+                      //         )));
                       Navigator.of(context).popUntil((route) => route.isFirst);
                       //  (widget.orderType == 'dine_in');
                       // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
