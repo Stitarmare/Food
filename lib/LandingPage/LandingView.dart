@@ -86,13 +86,15 @@ class _LandingStateView extends State<Landingview>
           ),
         ),
         body: SingleChildScrollView(child: _getmainView()),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            color: greytheme1300,
-            height: 40,
-            child: _currentOrdertext(),
-          ),
-        ),
+        bottomNavigationBar: (isOrderRunning)
+            ? BottomAppBar(
+                child: Container(
+                  color: greytheme1300,
+                  height: 40,
+                  child: _currentOrdertext(),
+                ),
+              )
+            : Text(""),
       ),
     );
   }
@@ -106,6 +108,7 @@ class _LandingStateView extends State<Landingview>
       });
       //currentOrderId;
     }
+    return;
   }
 
   getCurrentRestID() async {
@@ -254,7 +257,7 @@ class _LandingStateView extends State<Landingview>
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => BottomTabbar(
                       tabValue: 0,
-                      tableName: _model.data.dineIn.table.tableName,
+                      //tableName: _model.data.dineIn.table.tableName,
                     )));
             print('Card tapped.');
           },
