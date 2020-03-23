@@ -21,8 +21,14 @@ class BottomTabbarHome extends StatefulWidget {
   String lat;
   String long;
   String imageUrl;
+  String tableName;
   BottomTabbarHome(
-      {this.title, this.rest_Id, this.lat, this.long, this.imageUrl});
+      {this.title,
+      this.rest_Id,
+      this.lat,
+      this.long,
+      this.imageUrl,
+      this.tableName});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarHomeState();
@@ -60,6 +66,15 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         ]);
       });
     }
+
+    if (widget.tableName != null) {
+      setState(() {
+        tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
+      });
+    }
+
+    getCartCount();
+    super.initState();
   }
 
   @override
@@ -185,16 +200,16 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             size: 30,
                           ),
                           Positioned(
-                              top: -11,
-                              right: -11,
-                              child: (cartStatus == true)
-                                  ? Badge(
-                                      badgeColor: redtheme,
-                                      badgeContent: Text("1",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: Colors.white)))
-                                  : Container()),
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
                         ],
                       )
                     : Icon(
@@ -218,13 +233,16 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             size: 30,
                           ),
                           Positioned(
-                              top: -11,
-                              right: -11,
-                              child: Badge(
-                                  badgeColor: redtheme,
-                                  badgeContent: Text("1",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white))))
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
                         ],
                       )
                     : Icon(
@@ -318,6 +336,19 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
     if (orderId != null) {
       return orderId;
+    }
+    return;
+  }
+
+  getCartCount() async {
+    var cartCount =
+        await Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount);
+    if (cartCount != null) {
+      setState(() {
+        Globle().dinecartValue = cartCount;
+      });
+      //Globle().dinecartValue = cartCount;
+      return cartCount;
     }
     return;
   }

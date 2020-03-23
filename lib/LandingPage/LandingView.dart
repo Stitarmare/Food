@@ -86,6 +86,13 @@ class _LandingStateView extends State<Landingview>
           ),
         ),
         body: SingleChildScrollView(child: _getmainView()),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            color: greytheme1300,
+            height: 40,
+            child: _currentOrdertext(),
+          ),
+        ),
       ),
     );
   }
@@ -222,10 +229,12 @@ class _LandingStateView extends State<Landingview>
               height: 12,
             ),
             _takeAwaycard(),
-            SizedBox(
-              height: 12,
-            ),
-            isOrderRunning ? _currentOrderCard() : Container()
+            // SizedBox(
+            //   height: 12,
+            // ),
+            // isOrderRunning ?
+            // _currentOrderCard()
+            // : Container()
           ],
         ),
       ),
@@ -243,7 +252,10 @@ class _LandingStateView extends State<Landingview>
           onTap: () {
             // _goToNextPageDineIn(context);
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 0)));
+                builder: (context) => BottomTabbar(
+                      tabValue: 0,
+                      tableName: _model.data.dineIn.table.tableName,
+                    )));
             print('Card tapped.');
           },
           child: Container(
@@ -302,29 +314,48 @@ class _LandingStateView extends State<Landingview>
   }
 
   Widget _currentOrdertext() {
-    return Column(
-      //mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          height: 20,
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+      child: InkWell(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              flex: 9,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 38.0),
+                child: Center(
+                  child: Text('View Your Order',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          fontWeight: FontWeight.w600,
+                          color: greentheme100)),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Icon(
+                Icons.navigate_next,
+                color: greytheme600,
+              ),
+            )
+
+            // Text('Track your current order',
+            //     style: TextStyle(
+            //         fontSize: 14,
+            //         fontFamily: 'gotham',
+            //         fontWeight: FontWeight.w500,
+            //         color: greytheme100)),
+          ],
         ),
-        Text('Current Order',
-            style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w600,
-                color: greentheme100)),
-        SizedBox(
-          height: 15,
-        ),
-        Text('Track your current order',
-            style: TextStyle(
-                fontSize: 14,
-                fontFamily: 'gotham',
-                fontWeight: FontWeight.w500,
-                color: greytheme100)),
-      ],
+        onTap: () {
+          showStatusView();
+        },
+      ),
     );
   }
 
@@ -338,7 +369,10 @@ class _LandingStateView extends State<Landingview>
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(tabValue: 1)));
+                builder: (context) => BottomTabbar(
+                      tabValue: 1,
+                      tableName: _model.data.dineIn.table.tableName,
+                    )));
             // _goToNextPageTakeAway(context);
             print('Card tapped.');
           },
@@ -377,10 +411,18 @@ class _LandingStateView extends State<Landingview>
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => StatusTrackView(
               orderID: currentOrderId,
-              rest_id: _model.data.dineIn.restId,
-              restname: _model.data.dineIn.restaurant.restName,
+              rest_id: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.restId
+                  : _model.data.takeAway.restId,
+              //restname: _model.data.dineIn.restaurant.restName,
+              title: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.restaurant.restName
+                  : _model.data.takeAway.restaurant.restName,
               flag: 3,
-              tableId: _model.data.dineIn.tableId,
+              tableId: (_model.data.dineIn.status != "paid")
+                  ? _model.data.dineIn.tableId
+                  : 0,
+              tableName: _model.data.dineIn.table.tableName,
             )));
     print('Card tapped.');
   }
@@ -418,7 +460,7 @@ class _LandingStateView extends State<Landingview>
                 SizedBox(
                   width: 40,
                 ),
-                _currentOrdertext(),
+                // _currentOrdertext(),
                 SizedBox(
                   width: 40,
                 ),
@@ -473,29 +515,49 @@ class _LandingStateView extends State<Landingview>
   void onSuccessCurrentOrder(RunningOrderModel model) {
     // TODO: implement onSuccessCurrentOrder
     _model = model;
-    if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
-      Preference.setPersistData<int>(
-          model.data.dineIn.restId, PreferenceKeys.restaurantID);
-      Preference.setPersistData<int>(
-          model.data.dineIn.id, PreferenceKeys.ORDER_ID);
+    if (model != null) {
+      if (model.data.dineIn.status != "paid") {
+        if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
+          Preference.setPersistData<int>(
+              model.data.dineIn.restId, PreferenceKeys.restaurantID);
+          Preference.setPersistData<int>(
+              model.data.dineIn.id, PreferenceKeys.ORDER_ID);
 
-      Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-      Future.delayed(Duration(microseconds: 500), () {
-        getCurrentOrderID();
-      });
-    } else {
-      Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-      Preference.removeForKey(PreferenceKeys.ORDER_ID);
-      // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-      // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-      // Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
-      // Preference.setPersistData<int>(
-      //     null, PreferenceKeys.CURRENT_RESTAURANT_ID);
-      Globle().dinecartValue = 0;
-      Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
-      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+          Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
+        } else {
+          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.removeForKey(PreferenceKeys.ORDER_ID);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+        }
+      } else if (model.data.takeAway.orderType != "paid") {
+        if (model.data.takeAway != null &&
+            model.data.takeAway.status != "paid") {
+          Preference.setPersistData<int>(
+              model.data.takeAway.restId, PreferenceKeys.restaurantID);
+          Preference.setPersistData<int>(
+              model.data.takeAway.id, PreferenceKeys.ORDER_ID);
 
-      //Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+          //Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
+        } else {
+          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.removeForKey(PreferenceKeys.ORDER_ID);
+          //Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+        }
+      }
+      //For Dine current order
+
+      //For Take away current order
+
     }
   }
   // _goToNextPageTakeAway(BuildContext context) {

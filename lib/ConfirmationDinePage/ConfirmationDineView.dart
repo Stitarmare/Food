@@ -5,12 +5,16 @@ import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
+import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -55,7 +59,10 @@ class ConfirmationDineView extends StatefulWidget {
 }
 
 class _ConfirmationDineViewState extends State<ConfirmationDineView>
-    implements PaymentTipAndPayModelView, ConfirmationDineViewModelView {
+    implements
+        PaymentTipAndPayModelView,
+        ConfirmationDineViewModelView,
+        StatusTrackViewModelView {
   int i;
   bool isselected = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -67,7 +74,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         index: 2, title: "Collection", subtitle: 'Order to Collect'),
   ];
 
+  StatusTrackViewPresenter statusTrackViewPresenter;
+
   List<Data> peopleList = [];
+  List<InvitePeopleList> invitePeopleList = [];
 
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
@@ -97,8 +107,14 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    statusTrackViewPresenter = StatusTrackViewPresenter(this);
+    statusTrackViewPresenter.getInvitedPeople(
+        Globle().loginModel.data.id,
+        //widget.tableId
+        2,
+        context);
 
-    confirmationDineviewPresenter.getPeopleList(context);
+    // confirmationDineviewPresenter.getPeopleList(context);
 
     print("table id-->");
     print(widget.tableId);
@@ -507,18 +523,23 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         child: Text('Add More People')),
                   ],
                 ),
-                (peopleList.length != null)
-                    ? peopleList.length > 0
+                (invitePeopleList.length != null)
+                    ? invitePeopleList.length > 0
                         ? Positioned(
                             top: -10,
                             right: -10,
                             child: Badge(
                                 badgeColor: redtheme,
-                                badgeContent: Text("${peopleList.length} ",
+                                badgeContent: Text(
+                                    "${invitePeopleList.length} ",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(color: Colors.white))))
-                        : Text("")
-                    : Text("")
+                        : Text(
+                            "",
+                          )
+                    : Text(
+                        "",
+                      )
               ],
             )
             //   ],
@@ -755,25 +776,25 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                         radioOrderItem = radionOrderBtn.title;
                         radioOrderItemsub = radionOrderBtn.subtitle;
                         radioOrderId = radionOrderBtn.index;
-                        // radioId = val;
+                        radioId = val;
 
-                        if (val == 2) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => PaymentTipAndPay(
-                                    items: widget.items,
-                                    latitude: widget.latitude,
-                                    longitude: widget.longitude,
-                                    orderType: widget.orderType,
-                                    price: widget.price,
-                                    restId: widget.restId,
-                                    tableId: widget.tableId,
-                                    tablename: widget.tablename,
-                                    totalAmount: widget.totalAmount,
-                                    userId: widget.userId,
-                                    itemdata: widget.itemdata,
-                                    currencySymbol: widget.currencySymbol,
-                                  )));
-                        }
+                        // if (val == 2) {
+                        //   Navigator.of(context).push(MaterialPageRoute(
+                        //       builder: (_) => PaymentTipAndPay(
+                        //             items: widget.items,
+                        //             latitude: widget.latitude,
+                        //             longitude: widget.longitude,
+                        //             orderType: widget.orderType,
+                        //             price: widget.price,
+                        //             restId: widget.restId,
+                        //             tableId: widget.tableId,
+                        //             tablename: widget.tablename,
+                        //             totalAmount: widget.totalAmount,
+                        //             userId: widget.userId,
+                        //             itemdata: widget.itemdata,
+                        //             currencySymbol: widget.currencySymbol,
+                        //           )));
+                        // }
 
                         // if (radioOrderItem == 'Dine-in') {
                         //   getTableAlert();
@@ -844,6 +865,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                               tableId: widget.tableId,
                               orderID: myOrderData.id,
                               title: widget.restName,
+                              tableName: widget.tablename,
                               // restID: widget.restId,
                               flag: 1,
                               // totalamount: double.parse(
@@ -887,39 +909,63 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   }
 
   @override
-  void addPeopleFailed() {
-    // TODO: implement addPeopleFailed
-  }
+  void addPeopleFailed() {}
 
   @override
   void addPeopleSuccess() {
     // showAddPeopleAlertSuccess("Invitation Send","Invitation has been send Successfully!!",context);
-    // TODO: implement addPeopleSuccess
   }
 
   @override
-  void getPeopleListonFailed() {
-    // TODO: implement getPeopleListonFailed
-  }
+  void getPeopleListonFailed() {}
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    if (data.length == 0) {
+    // if (data.length == 0) {
+    //   return;
+    // }
+    // setState(() {
+    //   if (peopleList == null) {
+    //     peopleList = data;
+    //   } else {
+    //     peopleList.addAll(data);
+    //   }
+    // });
+    // print("data list --->");
+    // print(peopleList.length);
+    // print(peopleList.elementAt(0).firstName);
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void getInvitedPeopleFailed() {
+    // TODO: implement getInvitedPeopleFailed
+  }
+
+  @override
+  void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
+    if (list.length == 0) {
       return;
     }
+
     setState(() {
-      if (peopleList == null) {
-        peopleList = data;
+      if (invitePeopleList == null) {
+        invitePeopleList = list;
       } else {
-        peopleList.addAll(data);
+        invitePeopleList.addAll(list);
       }
     });
-    print("data list --->");
-    print(peopleList.length);
-    print(peopleList.elementAt(0).firstName);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
+    print("invite peopl list length-->");
+    print(invitePeopleList.length);
+    print(invitePeopleList[0].toUser.firstName);
   }
+
+  @override
+  void getOrderStatusfailed() {}
+
+  @override
+  void getOrderStatussuccess(StatusData statusData) {}
 }
 
 class RadioButtonOptions {

@@ -569,111 +569,129 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Divider(
                 thickness: 2,
               ),
-              _radioOptions.length==0?Container():
-              Column(mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                padding: EdgeInsets.only(left: 26, top: 15),
-                child: Text(
-                  'Spreads',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 8),
-                child: Text(
-                  'Please select any one option',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
-                ),
-              ),
-              _getRadioOptions(),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              ],),
-              _checkBoxOptions.length==0?Container():
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                     Padding(
-                padding: EdgeInsets.only(left: 26, top: 15),
-                child: Text(
-                  'Additions',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 8),
-                child: Text(
-                  'You can select multiple options',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
-                ),
-              ),
-              _getCheckBoxOptions(),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                thickness: 2,
-              ),
-                ],
-              ),
-             
+              _radioOptions.length == 0
+                  ? Container()
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            'Spreads',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 16,
+                                color: greytheme700),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 8),
+                          child: Text(
+                            'Please select any one option',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 12,
+                                color: greytheme1000),
+                          ),
+                        ),
+                        _getRadioOptions(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                      ],
+                    ),
+              _checkBoxOptions.length == 0
+                  ? Container()
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            'Additions',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 16,
+                                color: greytheme700),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 8),
+                          child: Text(
+                            'You can select multiple options',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 12,
+                                color: greytheme1000),
+                          ),
+                        ),
+                        _getCheckBoxOptions(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                      ],
+                    ),
+
               // SizedBox(
               //   height: 10,
               // ),
-              _switchOptions.length ==0?Container():
-              Column(
-                children: <Widget>[
-                  togglebutton(),
+              _switchOptions.length == 0
+                  ? Container()
+                  : Column(
+                      children: <Widget>[
+                        togglebutton(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Divider(
+                          thickness: 2,
+                        ),
+                      ],
+                    ),
+
               SizedBox(
                 height: 10,
               ),
-              Divider(
-                thickness: 2,
-              ),
-                ],
-              ),
-              
-              SizedBox(
-                height: 10,
-              ),
-              _radioOptionsSizes.length==0?Container():
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                     Padding(
-                padding: EdgeInsets.only(left: 26, top: 15),
-                child: Text(
-                  'Size',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 16, color: greytheme700),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 26, top: 8),
-                child: Text(
-                  'Please select any one option',
-                  style: TextStyle(
-                      fontFamily: 'gotham', fontSize: 12, color: greytheme1000),
-                ),
-              ),
-              _getRadioOptionsSizes(),
-              SizedBox(
-                height: 10,
-              )
-                ],
-              ),
-             
+              _radioOptionsSizes.length == 0
+                  ? Container()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            'Size',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 16,
+                                color: greytheme700),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 8),
+                          child: Text(
+                            'Please select any one option',
+                            style: TextStyle(
+                                fontFamily: 'gotham',
+                                fontSize: 12,
+                                color: greytheme1000),
+                          ),
+                        ),
+                        _getRadioOptionsSizes(),
+                        SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
+
               // Container(
               //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
               //   child: Row(
@@ -936,7 +954,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           checkBtn.title ?? '',
                           style: TextStyle(
                               fontSize: 13,
-                              color: Color.fromRGBO(64, 64, 64, 1)),
+                              color: greytheme700),
                         ),
                         Expanded(
                           child: SizedBox(
@@ -944,13 +962,16 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           ),
                           flex: 2,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 40),
-                          child: Text(
-                            checkBtn.price.toString() ?? '',
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Color.fromRGBO(64, 64, 64, 1)),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: Text(
+                              checkBtn.price.toString() ?? '',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: greytheme700),
+                            ),
                           ),
                         ),
                       ],

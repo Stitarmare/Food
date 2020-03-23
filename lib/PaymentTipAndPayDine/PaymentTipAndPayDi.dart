@@ -848,6 +848,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void payBillCheckoutFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement payBillCheckoutFailed
   }
 

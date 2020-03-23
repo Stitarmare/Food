@@ -76,16 +76,18 @@ class _MyCartTWViewState extends State<MyCartTWView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: () {
-            if (count > 1) {
-              setState(() {
-                --count;
-                _cartItemList[i].quantity = count;
+          onTap: (_cartItemList[i].quantity == 1)
+              ? () {}
+              : () {
+                  if (count > 1) {
+                    setState(() {
+                      --count;
+                      _cartItemList[i].quantity = count;
 
-                print(count);
-              });
-            }
-          },
+                      print(count);
+                    });
+                  }
+                },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
@@ -656,6 +658,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
     _cartItemList = null;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
+    Preference.setPersistData<int>(
+        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(

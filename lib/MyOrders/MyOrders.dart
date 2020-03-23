@@ -13,9 +13,10 @@ import 'package:foodzi/theme/colors.dart';
 class MyOrders extends StatefulWidget {
   String title;
   String ordertype;
+  String tableName;
   // String lat;
   // String long;
-  MyOrders({this.title, this.ordertype});
+  MyOrders({this.title, this.ordertype, this.tableName});
   _MyOrdersState createState() => _MyOrdersState();
 }
 
@@ -40,6 +41,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     _myOrdersPresenter.getOrderDetails("dine_in", context);
     _myOrdersPresenter.getmyOrderBookingHistory(
         "dine_in", context); // order type call is waiting
+
+    print("table name--->");
+    print(widget.tableName);
   }
 
   @override
@@ -171,6 +175,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                               rest_id: _orderDetailList[index].restId,
                               title:
                                   _orderDetailList[index].restaurant.restName,
+                              tableName: widget.tableName,
                             )));
               },
               child: Card(
@@ -634,7 +639,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-    
     if (_getmyOrderBookingHistory.length == 0) {
       return;
     }
