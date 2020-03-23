@@ -374,7 +374,7 @@ class _LandingStateView extends State<Landingview>
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => BottomTabbar(
                       tabValue: 1,
-                      tableName: _model.data.dineIn.table.tableName,
+                      // tableName: _model.data.dineIn.table.tableName,
                     )));
             // _goToNextPageTakeAway(context);
             print('Card tapped.');
