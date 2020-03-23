@@ -373,7 +373,7 @@ class _MyCartViewState extends State<MyCartView>
                                     restId: widget.restId,
                                     tablename: tableno,
                                     restName: widget.restName,
-                                    // price: _cartItemList[0].totalAmount,
+                                    //price: _cartItemList[0].totalAmount,
                                     tableId: _dropdownTableNumber,
                                     // userId: widget.userID,
                                     totalAmount: myCart.grandTotal,

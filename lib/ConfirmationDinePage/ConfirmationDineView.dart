@@ -391,18 +391,38 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       //             latitude: widget.latitude,
                       //             longitude: widget.longitude)));
                       //Navigator.of(context).pushNamed('/StatusTrackView');
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
-                      _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
+                      if (radioOrderId == 2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentTipAndPay(
+                                      restName: widget.restName,
+                                      restId: widget.restId,
+                                      userId: Globle().loginModel.data.id,
+                                      //price: widget.itemdata[index].totalAmount,
+                                      items: widget.items,
+                                      totalAmount: widget.totalAmount,
+                                      orderType: "take_away",
+                                      latitude: widget.latitude,
+                                      longitude: widget.longitude,
+                                      itemdata: widget.itemdata,
+                                      currencySymbol: widget.currencySymbol,
+                                      // tableId: _cartItemList[indx].tableId,
+                                    )));
+                      } else if (radioOrderId == 1) {
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "Loading");
+                        _paymentTipAndPayPresenter.placeOrder(
+                            widget.restId,
+                            Globle().loginModel.data.id,
+                            widget.orderType,
+                            widget.tableId,
+                            widget.items,
+                            widget.totalAmount,
+                            widget.latitude,
+                            widget.longitude,
+                            context);
+                      }
                     },
                   ),
                 ),
