@@ -38,6 +38,7 @@ class BottomTabbarHome extends StatefulWidget {
 class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   var title;
   int currentTabIndex = 0;
+  bool isAlreadyOrder = false;
   List<Widget> tabsHome = [
     RestaurantView(),
     MyOrders(),
@@ -189,7 +190,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 //   size: 30,
                 // ),
 
-                icon: (getOrderID() == true)
+                icon: (isAlreadyOrder)
                     ? Stack(
                         fit: StackFit.passthrough,
                         overflow: Overflow.visible,
@@ -222,7 +223,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 //   color: orangetheme,
                 //   size: 30,
                 // ),
-                activeIcon: (getOrderID() == true)
+                activeIcon: (isAlreadyOrder)
                     ? Stack(
                         fit: StackFit.passthrough,
                         overflow: Overflow.visible,
@@ -333,16 +334,13 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   }
 
   getOrderID() async {
-    var orderId =
-        await Preference.getPrefValue<int>(PreferenceKeys.CURRENT_ORDER_ID);
-    var orderType =
-        await Preference.getPrefValue<bool>(PreferenceKeys.ISDINEIN);
-    if (orderId != null && orderType) {
-      setState(() {
-        return orderType;
-      });
+    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+    if (orderId != null) {
+       setState(() {
+         isAlreadyOrder = true;
+       });
     }
-    return;
+    
   }
 
   getCartCount() async {

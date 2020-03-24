@@ -536,17 +536,18 @@ class _LandingStateView extends State<Landingview>
   @override
   void onFailedCurrentOrder() {
     print("object");
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     // TODO: implement onFailedCurrentOrder
   }
 
   @override
-  void onSuccessCurrentOrder(RunningOrderModel model) {
+  void onSuccessCurrentOrder(RunningOrderModel model) async{
     // TODO: implement onSuccessCurrentOrder
     _model = model;
     if (model != null) {
-      if (model.data.dineIn.status != "paid") {
+      if (model.data.dineIn != null) {
         if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
           Preference.setPersistData<int>(
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
@@ -560,14 +561,10 @@ class _LandingStateView extends State<Landingview>
             getCurrentOrderID();
           });
         } else {
-          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
-          Preference.removeForKey(PreferenceKeys.ORDER_ID);
-          Globle().dinecartValue = 0;
-          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          setDefaultData();
           //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
         }
-      } else if (model.data.takeAway.orderType != "paid") {
+      } else if (model.data.dineIn != null) {
         if (model.data.takeAway != null &&
             model.data.takeAway.status != "paid") {
           Preference.setPersistData<int>(
@@ -582,18 +579,29 @@ class _LandingStateView extends State<Landingview>
             getCurrentOrderID();
           });
         } else {
-          Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-          Preference.removeForKey(PreferenceKeys.ORDER_ID);
-          Globle().dinecartValue = 0;
-          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          setDefaultData();
           //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
         }
-      }
+      }  else {
+          setDefaultData();
+          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+        }
+
       //For Dine current order
 
       //For Take away current order
 
     }
+  }
+  setDefaultData() {
+    Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
+          Preference.removeForKey(PreferenceKeys.ORDER_ID);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
+          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
   }
   // _goToNextPageTakeAway(BuildContext context) {
   //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {

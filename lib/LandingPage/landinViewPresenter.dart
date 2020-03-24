@@ -27,8 +27,6 @@ class LandingViewPresenter {
           protocol.onFailedCurrentOrder();
           break;
       }
-    }).catchError((error){
-      protocol.onFailedCurrentOrder();
     });
   }
 
