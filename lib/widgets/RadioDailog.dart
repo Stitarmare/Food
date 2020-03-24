@@ -142,27 +142,41 @@ class RadioDialogState extends State<RadioDialog>
                           context: context,
                           barrierDismissible: false,
                           child: InvitedPeopleDialog(
+                            orderID: widget.orderId,
                             amount: widget.amount,
                             tableId: widget.tableId,
                           ));
                     } else if (id == 3) {
-                      List<OrderDetailData> data = [];
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          child: OrderItemsDialog(
-                            orderId: widget.orderId,
-                            listElement: widget.elementList,
-                          ));
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          3,
+                          widget.amount.toInt(),
+                          context);
+                      //  List<OrderDetailData> data = [];
+                      // showDialog(
+                      //     context: context,
+                      //     barrierDismissible: false,
+                      //     child: OrderItemsDialog(
+                      //       orderId: widget.orderId,
+                      //       listElement: widget.elementList,
+                      //     ));
                     } else if (id == 4) {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          child: UserSpecificOrderDialog(
-                            orderId: widget.orderId,
-                            listElement: widget.elementList,
-                            tableId: widget.tableId,
-                          ));
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          4,
+                          widget.amount.toInt(),
+                          context);
+
+                      // showDialog(
+                      //     context: context,
+                      //     barrierDismissible: false,
+                      //     child: UserSpecificOrderDialog(
+                      //       orderId: widget.orderId,
+                      //       listElement: widget.elementList,
+                      //       tableId: widget.tableId,
+                      //     ));
                     }
                   },
                   child: Text(

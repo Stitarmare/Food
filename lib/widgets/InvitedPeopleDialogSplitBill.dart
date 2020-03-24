@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
+import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -9,21 +11,25 @@ import 'package:foodzi/theme/colors.dart';
 class InvitedPeopleDialog extends StatefulWidget {
   int tableId;
   double amount;
-  InvitedPeopleDialog({this.tableId, this.amount});
+  int orderID;
+  InvitedPeopleDialog({this.tableId, this.amount, this.orderID});
   @override
   _InvitedPeopleDialogState createState() => _InvitedPeopleDialogState();
 }
 
 class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
-    implements StatusTrackViewModelView {
+    implements StatusTrackViewModelView, SplitBillContractorModelView {
   StatusTrackViewPresenter statusTrackViewPresenter;
   List<InvitePeopleList> invitedPeopleList = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
   int index;
 
+  SplitBillPresenter _billPresenter;
+
   @override
   void initState() {
+    _billPresenter = SplitBillPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id,
@@ -149,6 +155,12 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                           //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
+                        _billPresenter.getSPlitBill(
+                            widget.orderID,
+                            Globle().loginModel.data.id,
+                            2,
+                            widget.amount.toInt(),
+                            context);
                         if (invitedPeople.length > 0) {
                           print(invitedPeople[index].inviteId);
                           print(invitedPeople.length);
@@ -217,6 +229,16 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
 
   @override
   void getOrderStatussuccess(StatusData statusData) {}
+
+  @override
+  void getSplitBillFailed() {
+    // TODO: implement getSplitBillFailed
+  }
+
+  @override
+  void getSplitBillSuccess() {
+    // TODO: implement getSplitBillSuccess
+  }
 }
 
 class InvitePeople {
