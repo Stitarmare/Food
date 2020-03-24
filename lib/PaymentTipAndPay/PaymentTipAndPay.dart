@@ -24,6 +24,7 @@ import 'package:foodzi/theme/colors.dart';
 
 class PaymentTipAndPay extends StatefulWidget {
   String restName;
+  int flag;
   int price;
   int restId;
   int userId;
@@ -49,7 +50,8 @@ class PaymentTipAndPay extends StatefulWidget {
       this.totalAmount,
       this.currencySymbol,
       this.itemdata,
-      this.restName});
+      this.restName,
+      this.flag});
   // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
 }
@@ -144,8 +146,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           widget.orderType,
                           widget.tableId,
                           widget.items,
-                          widget.totalAmount +
-                              (int.parse(sliderValue.toString()) ?? 0),
+                          // (widget.flag == 2)
+                          //     ? widget.totalAmount
+                          //:
+                          widget.totalAmount,
                           widget.latitude,
                           widget.longitude,
                           context);
@@ -661,6 +665,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     //Preference.setPersistData(null, PreferenceKeys.restaurantID);
     //Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    widget.items = [];
+    widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _billCheckoutPresenter.payBillCheckOut(
@@ -733,14 +739,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     if (paymentCheckoutModel.statusCode == 200) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
-          Globle().loginModel.data.id,
-          myOrderData.restId,
-          myOrderData.id,
-          'card',
-          double.parse(myOrderData.totalAmount),
-          double.parse(myOrderData.totalAmount) + sliderValue.toInt(),
-          paymentCheckoutModel.transactionId,
-          context);
+        Globle().loginModel.data.id,
+        myOrderData.restId,
+        myOrderData.id,
+        'card',
+        int.parse(myOrderData.totalAmount),
+        int.parse(myOrderData.totalAmount) + sliderValue,
+        paymentCheckoutModel.transactionId,
+        context,
+        sliderValue ?? 0,
+      );
     } else {
       Constants.showAlert("Foodzi", "Payment Failed.", context);
     }

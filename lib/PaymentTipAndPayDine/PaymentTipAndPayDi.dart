@@ -892,8 +892,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           myOrderData.restId,
           myOrderData.id,
           'card',
-          double.parse(myOrderData.totalAmount),
-          double.parse(myOrderData.totalAmount) + sliderValue.toInt(),
+          int.parse(myOrderData.totalAmount),
+          int.parse(myOrderData.totalAmount) + sliderValue.toInt(),
           paymentCheckoutModel.transactionId,
           context);
     } else {

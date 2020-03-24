@@ -396,6 +396,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PaymentTipAndPay(
+                                      flag: 2,
                                       restName: widget.restName,
                                       restId: widget.restId,
                                       userId: Globle().loginModel.data.id,

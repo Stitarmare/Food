@@ -407,6 +407,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(
+                                        flag: 1,
                                         restName: widget.restName,
                                         restId: widget.restId,
                                         userId: _cartItemList[indx].userId,
