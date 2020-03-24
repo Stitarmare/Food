@@ -670,7 +670,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Globle().orderNumber = orderData.orderNumber;
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _billCheckoutPresenter.payBillCheckOut(
-        myOrderData.restId, (double.parse(myOrderData.totalAmount)), context);
+        myOrderData.restId, (int.parse(myOrderData.totalAmount)), context);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 

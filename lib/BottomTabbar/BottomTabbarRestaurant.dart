@@ -73,7 +73,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
       });
     }
-
+    getOrderID();
     getCartCount();
     super.initState();
   }
@@ -336,11 +336,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   getOrderID() async {
     var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
     if (orderId != null) {
-       setState(() {
-         isAlreadyOrder = true;
-       });
+      setState(() {
+        isAlreadyOrder = true;
+      });
     }
-    
   }
 
   getCartCount() async {

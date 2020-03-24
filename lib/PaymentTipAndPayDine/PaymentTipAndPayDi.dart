@@ -35,7 +35,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
-  var sliderValue = 0.0;
+  var sliderValue = 0;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
@@ -131,10 +131,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     onTap: () {
                       DialogsIndicator.showLoadingDialog(
                           context, _keyLoader, "");
-                      _billCheckoutPresenter.payBillCheckOut(
-                          myOrderData.restId,
-                          (double.parse(myOrderData.totalAmount) + sliderValue),
-                          context);
+                      _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+                          (int.parse(myOrderData.totalAmount)), context);
                       // _finalBillPresenter.payfinalOrderBill(
                       //     Globle().loginModel.data.id,
                       //     myOrderData.restId,
@@ -468,11 +466,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 min: 0,
                 max: 20,
                 //divisions: 20,
-                value: sliderValue,
+                value: double.parse(sliderValue.toString()),
                 // label: '${sliderValue}',
                 onChanged: (newValue) {
                   setState(() {
-                    sliderValue = newValue;
+                    sliderValue = newValue.round();
                   });
                 },
               ),
@@ -895,7 +893,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           int.parse(myOrderData.totalAmount),
           int.parse(myOrderData.totalAmount) + sliderValue.toInt(),
           paymentCheckoutModel.transactionId,
-          context);
+          context,
+          sliderValue);
     } else {
       Constants.showAlert("Foodzi", "Payment Failed.", context);
     }

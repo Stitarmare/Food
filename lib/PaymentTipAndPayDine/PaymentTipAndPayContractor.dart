@@ -45,7 +45,7 @@ abstract class PayBillCheckoutContaractor {
   void payBillCheckOut(
       int restId,
       // String currency,
-      double amount,
+      int amount,
       BuildContext context);
 }
 
