@@ -599,6 +599,8 @@ class _LandingStateView extends State<Landingview>
           Globle().dinecartValue = 0;
           Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
           Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+          Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+          Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
