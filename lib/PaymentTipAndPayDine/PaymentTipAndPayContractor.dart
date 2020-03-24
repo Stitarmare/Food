@@ -24,14 +24,16 @@ abstract class PaymentTipandPayDiModelView {
 
 abstract class PayFinalBillContaractor {
   void payfinalOrderBill(
-      int restId,
-      int userId,
-      int order_id,
-      String payment_mode,
-      double amount,
-      double total_amount,
-      String transacionId,
-      BuildContext context);
+    int restId,
+    int userId,
+    int order_id,
+    String payment_mode,
+    int amount,
+    int total_amount,
+    String transacionId,
+    BuildContext context, [
+    int tip,
+  ]);
 }
 
 abstract class PayFinalBillModelView {
