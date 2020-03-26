@@ -255,12 +255,9 @@ class _LandingStateView extends State<Landingview>
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
+            //TODO: add await here
             // _goToNextPageDineIn(context);
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(
-                      tabValue: 0,
-                      //tableName: _model.data.dineIn.table.tableName,
-                    )));
+            goToDineIn();
             print('Card tapped.');
           },
           child: Container(
@@ -289,6 +286,19 @@ class _LandingStateView extends State<Landingview>
         ),
       ),
     );
+  }
+
+  goToDineIn() async{
+    var val = await  Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BottomTabbar(
+                      tabValue: 0,
+                      //tableName: _model.data.dineIn.table.tableName,
+                    )));
+
+getCurrentOrderID();
+    print("fa gsas gsaggsafh");
+    
+    
   }
 
   Widget _buildinningtext() {
@@ -373,15 +383,11 @@ class _LandingStateView extends State<Landingview>
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(
-                      tabValue: 1,
-                      // tableName: (_model.data.dineIn != null)
-                      //     ? _model.data.dineIn.table.tableName
-                      //     : "",
-                    )));
-            // _goToNextPageTakeAway(context);
+            //TODO: add wait here 
+            
+            goToTakeAway();
             print('Card tapped.');
+            getCurrentOrderID();
           },
           child: Container(
             width: 345,
@@ -409,6 +415,15 @@ class _LandingStateView extends State<Landingview>
         ),
       ),
     );
+  }
+
+  goToTakeAway() async {
+   var val = await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BottomTabbar(
+                      tabValue: 1,
+                    )));
+
+    print("take away back");
   }
 
   showStatusView() async {

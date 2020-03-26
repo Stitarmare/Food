@@ -920,9 +920,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         myOrderData = orderData;
       }
     });
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    // Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(orderData.id, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     showAlertSuccess(
