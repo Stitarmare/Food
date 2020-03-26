@@ -1,22 +1,18 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
-import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class DineInView extends StatefulWidget {

@@ -30,7 +30,7 @@ const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
     'This should be only 8 characters long.';
 const KEY_THIS_SHOULD_BE_ONLY_30_CHAR_LONG =
     'This should be only 30 characters long.';
-    const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
+const KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG =
     'This should be only 20 characters long.';
 const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
     'This should be more than 10 characters';
@@ -92,3 +92,51 @@ const KEY_CITY = 'City';
 const KEY_POSTAL_CODE = 'Postal Code';
 const KEY_UPDATE = 'UPDATE';
 const KEY_CANCEL_UC = 'CANCEL';
+
+//font-sizes
+const double FONTSIZE_15 = 15;
+const double FONTSIZE_16 = 16;
+const double FONTSIZE_17 = 17;
+const double FONTSIZE_12 = 12;
+const double FONTSIZE_14 = 14;
+const double FONTSIZE_13 = 13;
+const double FONTSIZE_18 = 18;
+const double FONTSIZE_22 = 22;
+const double FONTSIZE_20 = 20;
+
+// AddItemPageView & AddItemPageViewTA
+const KEY_FONTFAMILY = 'gotham';
+const KEY_INVALIDORDER = "Invalid Order";
+const KEY_ORDERFROMREST =
+    "Sorry, you can't order from this restaurant right now.";
+const KEY_ADDTOCART = "Add To Cart";
+const STR_STARTNEWORDER = "Start a new order?";
+const STR_YOURUNFINIHEDORDER = "Your unfinished order at ";
+const STR_WILLDELETE = "will be deleted.";
+const STR_UNFINISHEDORDER =
+    "Your unfinished order at previous hotel will be deleted.";
+const STR_NEWORDER = "NEW ORDER";
+const STR_CANCEL = "CANCEL";
+const RESTAURANT_IMAGE_PATH = "assets/HotelImages/Image12.png";
+const STR_QUANTITY = 'Quantity:';
+const STR_SPREADS = 'Spreads';
+const STR_SELECT_OPTION = 'Please select any one option';
+const STR_ADDITIONS = 'Additions';
+const STR_MULIPLE_OPTIONS = 'You can select multiple options';
+const STR_SIZE = 'Size';
+const STR_DATA = "data";
+const STR_OK = "Ok";
+const STR_CARTADDED = "is successfully added to your cart.";
+const SUCCESS_IMAGE_PATH = 'assets/SuccessIcon/success.png';
+
+// ChangePassword Page
+const STR_CHANGE_PASSWORD = 'Change Your Password';
+const STR_GROUP_IMAGE = 'assets/LockImage/Group_1560.png';
+const double PI_VALUE = 3.14;
+const STR_PWD_NOT_MATCHED = 'Password does not match with confirm password.';
+const STR_PWD_CHANGED_SUCCESS = 'Your password has been successfully change. ';
+const JSON_STR_OLD_PWD = 'old_password';
+const JSON_STR_NEW_PWD = 'new_password';
+const JSON_STR_PWD_CONFIRM = 'new_password_confirmation';
+
+// DineInPage

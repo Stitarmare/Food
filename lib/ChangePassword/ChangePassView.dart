@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/ChangePassword/ChangePasswordContractor.dart';
 import 'package:foodzi/ChangePassword/ChangePasswordPresenter.dart';
-//import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
-//import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
-
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -41,7 +38,6 @@ class _ChangePasswordview extends State<ChangePasswordview>
 
   @override
   void initState() {
-    // TODO: implement initState
     changepasswordPresenter = ChangePasswordPresenter(this);
     super.initState();
   }
@@ -50,10 +46,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.black,
           ),
           backgroundColor: Colors.white70,
         ),
@@ -110,11 +106,11 @@ class _ChangePasswordview extends State<ChangePasswordview>
                     height: 15,
                   ),
                   Text(
-                    'Change Your Password',
+                    STR_CHANGE_PASSWORD,
                     style: TextStyle(
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         color: greytheme300,
-                        fontSize: 18,
+                        fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
@@ -140,15 +136,13 @@ class _ChangePasswordview extends State<ChangePasswordview>
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset('assets/LockImage/Group_1560.png'
-            //height: 100,
-            ),
+        Image.asset(STR_GROUP_IMAGE),
       ],
     );
   }
 
   Widget _buildTextField() {
-    const pi = 3.14;
+    const pi = PI_VALUE;
     return Column(
       children: <Widget>[
         AppTextField(
@@ -220,8 +214,6 @@ class _ChangePasswordview extends State<ChangePasswordview>
           onSaved: (String value) {
             print(value);
             _changePassData[enterConfirmPass] = value;
-            // _signInData[enterPass] = value;
-            // print('Details are : $_signInData');
           },
         ),
       ],
@@ -238,13 +230,12 @@ class _ChangePasswordview extends State<ChangePasswordview>
   }
 
   String validatConfirmPassword(String value) {
-    // if (value == _newPassword) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     } else if (value != _newPassword) {
-      return 'Password does not match with confirm password.';
+      return STR_PWD_NOT_MATCHED;
     }
     return null;
   }
@@ -259,7 +250,9 @@ class _ChangePasswordview extends State<ChangePasswordview>
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'gotham'),
+              fontSize: FONTSIZE_16,
+              fontWeight: FontWeight.w700,
+              fontFamily: KEY_FONTFAMILY),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -277,42 +270,36 @@ class _ChangePasswordview extends State<ChangePasswordview>
       context: context,
       builder: (_) => WillPopScope(
         onWillPop: () async => false,
-              child: AlertDialog(
+        child: AlertDialog(
           title: const Text(
-            "Change Password",
+            KEY_CHANGE_PASSWORD,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greentheme100,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'gotham',
-                fontSize: 22),
+                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_22),
           ),
           content: Text(
-            'Your password has been successfully change. ',
-            // _newPassword == _confirmPassword
-            //     ? 'Your password has been successfully change. '
-            //     : 'Password does not match with confirm password.',
+            STR_PWD_CHANGED_SUCCESS,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'gotham',
-                fontSize: 20),
+                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_20),
           ),
           actions: [
             FlatButton(
               child: const Text(
-                "OK",
+                STR_OK,
                 style: TextStyle(
                     color: greentheme100,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'gotham',
-                    fontSize: 20),
+                    fontFamily: KEY_FONTFAMILY,
+                    fontSize: FONTSIZE_20),
               ),
               onPressed: () {
-                // _newPassword == _confirmPassword
-                //     ? Navigator.of(context).pushReplacementNamed('/MainWidget')
-                //     : Navigator.pop(context);
                 Navigator.of(context).pushReplacementNamed('/MainWidget');
               },
             ),
@@ -324,13 +311,11 @@ class _ChangePasswordview extends State<ChangePasswordview>
 
   @override
   void changePasswordfailed() {
-    // TODO: implement changePassowrdfailed
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void changePasswordsuccess() {
-    // TODO: implement changePassowrdsuccess
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
