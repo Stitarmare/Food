@@ -37,8 +37,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   var enterOTPScreenPresenter;
   @override
   void initState() {
-    // TODO: implement initState
-
     enterOTPScreenPresenter = EnterOTPScreenPresenter(this);
     super.initState();
   }
@@ -47,10 +45,10 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.black,
           ),
           backgroundColor: Colors.white70,
         ),
@@ -94,7 +92,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
-        // Navigator.pushNamed(context, '/OTPScreen');
       }
     } else {
       setState(() {
@@ -105,8 +102,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   Widget _buildmainview() {
     return LimitedBox(
-      // child: KeyboardActions(
-      //   config: _buildConfig(context),
       child: Container(
         child: Column(
           children: <Widget>[
@@ -126,9 +121,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       style: TextStyle(
-                          fontFamily: 'SegoeUI',
+                          fontFamily: KEY_FONT_SEGOEUI,
                           fontWeight: FontWeight.w400,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                           color: greytheme200),
                     ),
                   ),
@@ -145,9 +140,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                           color: greentheme100,
                         ),
                         keyboardType: TextInputType.phone,
-                        placeHolderName: "Code",
+                        placeHolderName: STR_CODE,
                         onChanged: (text) {
-                          //  countrycoder = text;
                           if (text.contains('+')) {
                             countrycode = text;
                           } else {
@@ -165,7 +159,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       child: AppTextField(
                         onChanged: (text) {
                           this._mobileNumber = countrycode + text;
-                          ;
                         },
                         keyboardType: TextInputType.phone,
                         focusNode: _nodeText1,
@@ -180,24 +173,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                         },
                       ),
                     ),
-                    //         Expanded(
-                    //   flex: 5,
-                    //   child: AppTextField(
-                    //     onChanged: (text) {
-                    //       mobilenumber = countrycode + text;
-                    //     },
-                    //     keyboardType: TextInputType.phone,
-                    //     icon: Icon(
-                    //       Icons.call,
-                    //       color: greentheme100,
-                    //     ),
-                    //     placeHolderName: KEY_MOBILE_NUMBER,
-                    //     validator: validatemobno,
-                    //     onSaved: (String value) {
-                    //       _signInData[mobno] = countrycode+value;
-                    //     },
-                    //   ),
-                    // ),
                   ]),
                   SizedBox(
                     height: 90,
@@ -216,15 +191,13 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset('assets/PhoneImage/Group_295.png'
-            //height: 100,
-            ),
+        Image.asset(OTP_LOGO_PATH),
       ],
     );
   }
 
   String validatemobno(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_MOBILE_NUMBER_REQUIRED;
@@ -233,7 +206,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
-    // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
@@ -241,7 +213,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   String validatecountrycode(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_COUNTRY_CODE;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_COUNTRYCODE_REQUIRED;
@@ -265,7 +237,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
-              fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w700),
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
+              fontWeight: FontWeight.w700),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -279,7 +253,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void onRequestOtpFailed() {
-    // TODO: implement onRequestOtpFailed
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -297,13 +270,10 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void requestforloginotpfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement requestforloginotpfailed
   }
 
   @override
   void requestforloginotpsuccess() {
-    //Navigator.pushReplacementNamed(context, '/MainWidget');
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
@@ -311,7 +281,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
               isFromFogetPass: true,
               value: 1,
             )));
-    // TODO: implement requestforloginotpsuccess
   }
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
@@ -324,7 +293,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
           focusNode: _nodeText1,
           closeWidget: Padding(
             padding: EdgeInsets.all(5.0),
-            child: Text("Done"),
+            child: Text(STR_DONE),
           ),
         ),
       ],

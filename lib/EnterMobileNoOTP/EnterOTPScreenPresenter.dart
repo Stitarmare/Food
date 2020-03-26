@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
@@ -17,8 +18,6 @@ abstract class EnterOTPScreenPresenterView {
 }
 
 class EnterOTPScreenPresenter extends EnterOtpContractor {
-  //EnterOTPScreenPresenter({this.view});
-
   EnterOTPModelView enterotpview;
 
   EnterOTPScreenPresenter(EnterOTPModelView mView) {
@@ -27,26 +26,19 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
 
   requestforloginOTP(String mobileno, BuildContext context) {
     ApiBaseHelper().post<LoginWithOtpModel>(UrlConstant.loginwithOTP, context,
-        body: {"mobile_number": mobileno}).then((value) {
+        body: {JSON_STR_MOB_NO: mobileno}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Success");
           print(value.model);
           var userloginotp = json.encode(value.model);
           Preference.setPersistData(userloginotp, PreferenceKeys.User_data);
           enterotpview.onRequestOtpSuccess();
           break;
         case SuccessType.failed:
-          print("Failed");
           enterotpview.onRequestOtpFailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   view.requestforloginotpsuccess();
-      // } else {
-      //   view.requestforloginotpfailed();
-      // }
     }).catchError((error) {
       print(error);
     });
@@ -57,27 +49,19 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
 
   requestForOTP(String mobileNumber, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.resetPasswordWithOTP, context,
-        body: {"mobile_number": mobileNumber}).then((value) {
+        body: {JSON_STR_MOB_NO: mobileNumber}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Success");
           print(value.model);
           enterotpview.requestforloginotpsuccess();
           break;
         case SuccessType.failed:
-          print("Failed");
           enterotpview.requestforloginotpfailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   view.onRequestOtpSuccess();
-      // } else {
-      //   view.onRequestOtpFailed();
-      // }
     }).catchError((error) {
       print(error);
-      // view.onRequestOtpFailed();
     });
   }
 }

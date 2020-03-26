@@ -4,11 +4,9 @@ import 'package:foodzi/EditProfile/EditProfilePresenter.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
-import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
-
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -32,14 +30,9 @@ class _EditProfileState extends State<EditProfileview>
   final formKey = new GlobalKey<FormState>();
   bool _validate = false;
   final GlobalKey<FormState> _editprofileFormKey = GlobalKey<FormState>();
-  // CountryList _dropdownCountryValue = CountryList();
-  // StateList _dropdownStateValue = StateList();
-  // CityList _dropdownCityValue = CityList();
   String _dropdownCountryValue;
   String _dropdownStateValue;
   String _dropdownCityValue;
-  String _errorText;
-  //var stateId;
   var firstName = '';
   var lastName = '';
   var streetAddress = '';
@@ -52,41 +45,24 @@ class _EditProfileState extends State<EditProfileview>
   void initState() {
     super.initState();
     editprofilepresenter = EditProfilePresenter(this);
-             DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     editprofilepresenter.editCountry(context);
     editprofilepresenter.editState(context);
-    // setState(() {
-    //   editprofilepresenter.editCountry(context);
-    //   editprofilepresenter.editState(context);
-    //   editprofilepresenter.editCity(stateId, context);
-    //   // _dropdownItemsCountry.add(_dropdownCountryValue);
-    //   // _dropdownItemsState.add(_dropdownStateValue);
-    //   // _dropdownItemsCity.add(_dropdownCityValue);
-
-    //   // _dropdownItems.add(CountryModel(country: 'India', countryCode: '+91'));
-    //   // _dropdownItems.add(CountryModel(country: 'USA', countryCode: '+1'));
-    //   // _dropdownItemsState.add(StateModel(state: 'MH'));
-    //   // _dropdownItemsState.add(StateModel(state: 'UP'));
-    //   // _dropdownItemsCity.add(CityModel(city: 'Mumbai'));
-    //   // _dropdownItemsCity.add(CityModel(city: 'Navi Mumbai'));
-    //   //_dropdownCountryValue = _dropdownItems[0];
-    // }
-    // );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           elevation: 0.0,
           backgroundColor: Colors.white,
           centerTitle: false,
           title: Text(KEY_EDIT_PROFILE,
               style: TextStyle(
                   color: greytheme700,
-                  fontSize: 18,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_18,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500)),
         ),
         body: KeyboardActions(
@@ -99,7 +75,6 @@ class _EditProfileState extends State<EditProfileview>
 
   void updateButtonClicked() {
     if (_editprofileFormKey.currentState.validate()) {
-      print("Validation Successful");
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       editprofilepresenter
         ..performUpdate(firstName, lastName, streetAddress, countryID, stateID,
@@ -123,8 +98,8 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 firstName = text;
               },
-              //placeHolderName: KEY_FIRST_NAME,
-              placeHolderName: Globle().loginModel.data.firstName ?? KEY_FIRST_NAME,
+              placeHolderName:
+                  Globle().loginModel.data.firstName ?? KEY_FIRST_NAME,
               validator: validatename,
             ),
             SizedBox(
@@ -134,18 +109,10 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 lastName = text;
               },
-              placeHolderName: Globle().loginModel.data.lastName ?? KEY_LAST_NAME,
-              //placeHolderName: KEY_LAST_NAME,
+              placeHolderName:
+                  Globle().loginModel.data.lastName ?? KEY_LAST_NAME,
               validator: validatename,
             ),
-            // SizedBox(
-            //   height: 28,
-            // ),
-            // BoxAppTextField(
-            //   placeHolderName: KEY_MOBILE_NUMBER,
-            //   keyboardType: TextInputType.number,
-            //   validator: validatemobno,
-            // ),
             SizedBox(
               height: 28,
             ),
@@ -153,8 +120,7 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 streetAddress = text;
               },
-              //placeHolderName: KEY_STREET,
-              placeHolderName:  KEY_STREET,
+              placeHolderName: KEY_STREET,
               validator: validateStreetname,
             ),
             SizedBox(
@@ -164,16 +130,10 @@ class _EditProfileState extends State<EditProfileview>
             SizedBox(
               height: 28,
             ),
-            // BoxAppTextField(
-            //   placeHolderName: KEY_STATE,
-            // ),
             _buildState(),
             SizedBox(
               height: 28,
             ),
-            // BoxAppTextField(
-            //   placeHolderName: KEY_CITY,
-            // ),
             _buildCity(),
             SizedBox(
               height: 28,
@@ -205,14 +165,13 @@ class _EditProfileState extends State<EditProfileview>
                       KEY_UPDATE,
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'gotham',
-                          fontSize: 18,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_18,
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () => updateButtonClicked(),
                   ),
                 ),
-                // SizedBox(width:14,),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.39,
                   height: 43,
@@ -225,8 +184,8 @@ class _EditProfileState extends State<EditProfileview>
                       KEY_CANCEL_UC,
                       style: TextStyle(
                           color: greytheme1000,
-                          fontFamily: 'gotham',
-                          fontSize: 18,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_18,
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
@@ -242,69 +201,9 @@ class _EditProfileState extends State<EditProfileview>
     );
   }
 
-  // Widget _buildCountry() {
-  //   return FormField(
-  //     builder: (FormFieldState state) {
-  //       return DropdownButtonHideUnderline(
-  //         child: new Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             new InputDecorator(
-  //               decoration: InputDecoration(
-  //                 contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-  //                 focusedBorder: OutlineInputBorder(
-  //                   borderSide: BorderSide(color: greentheme100, width: 2),
-  //                 ),
-  //                 enabledBorder: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: greytheme900, width: 2)),
-  //                 border: OutlineInputBorder(
-  //                     borderRadius: BorderRadius.circular(6.0)),
-  //                 filled: false,
-  //                 hintText: 'Choose Country',
-  //                 prefixIcon: Icon(
-  //                   Icons.location_on,
-  //                   size: 20,
-  //                   color: greytheme1000,
-  //                 ),
-  //                 labelText: _dropdownCountryValue.name == null
-  //                     ? 'Where are you from'
-  //                     : 'From',
-  //                 errorText: _errorText,
-  //                 labelStyle: TextStyle(
-  //                     color: greytheme1000,
-  //                     fontSize: 16,
-  //                     fontFamily: 'gotham',
-  //                     fontWeight: FontWeight.w500),
-  //               ),
-  //               isEmpty: _dropdownCountryValue == null,
-  //               child: new DropdownButton<CountryList>(
-  //                 value: _dropdownCountryValue,
-  //                 isDense: true,
-  //                 onChanged: (CountryList newValue) {
-  //                   print('value change');
-  //                   print(newValue);
-  //                   setState(() {
-  //                     _dropdownCountryValue = newValue;
-  //                   });
-  //                 },
-  //                 items: _dropdownItemsCountry.map((CountryList value) {
-  //                   return DropdownMenuItem<CountryList>(
-  //                     value: value,
-  //                     child: Text(value.name),
-  //                   );
-  //                 }).toList(),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
   Widget _buildCountry() {
     return FormField(builder: (FormFieldState state) {
       return DropdownButtonFormField(
-        //itemHeight: Constants.getScreenHeight(context) * 0.06,
         items: _dropdownItemsCountry.map((CountryList country) {
           return new DropdownMenuItem(
               value: country.name,
@@ -329,16 +228,7 @@ class _EditProfileState extends State<EditProfileview>
             });
           });
         },
-
         value: _dropdownCountryValue,
-        // decoration: InputDecoration(
-        //   border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        //       borderSide: BorderSide(color: Colors.blue)),
-        //   enabledBorder: UnderlineInputBorder(
-        //       borderSide: BorderSide(color: Colors.white)),
-        //   hintText: "Select table number",
-        // ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
@@ -348,89 +238,26 @@ class _EditProfileState extends State<EditProfileview>
               borderSide: BorderSide(color: greytheme900, width: 2)),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
           filled: false,
-          hintText: 'Choose Country',
+          hintText: STR_CHOOSE_COUNTRY,
           prefixIcon: Icon(
             Icons.location_on,
             size: 20,
             color: greytheme1000,
           ),
-          labelText:
-              _dropdownCountryValue == null ? 'Where are you from' : 'From',
-          // errorText: _errorText,
+          labelText: _dropdownCountryValue == null ? STR_WHERE_FROM : STR_FROM,
           labelStyle: TextStyle(
               color: greytheme1000,
-              fontSize: 16,
-              fontFamily: 'gotham',
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
               fontWeight: FontWeight.w500),
         ),
       );
     });
   }
 
-  // Widget _buildState() {
-  //   return FormField(
-  //     builder: (FormFieldState state) {
-  //       return DropdownButtonHideUnderline(
-  //         child: new Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             new InputDecorator(
-  //               decoration: InputDecoration(
-  //                 contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-  //                 focusedBorder: OutlineInputBorder(
-  //                   borderSide: BorderSide(color: greentheme100, width: 2),
-  //                 ),
-  //                 enabledBorder: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: greytheme900, width: 2)),
-  //                 border: OutlineInputBorder(
-  //                     borderRadius: BorderRadius.circular(6.0)),
-  //                 filled: false,
-  //                 hintText: 'Choose State',
-  //                 prefixIcon: Icon(
-  //                   Icons.pin_drop,
-  //                   size: 20,
-  //                   color: greytheme1000,
-  //                 ),
-  //                 labelText: _dropdownStateValue.name == null
-  //                     ? 'Where are you from'
-  //                     : 'From',
-  //                // errorText: _errorText,
-  //                 labelStyle: TextStyle(
-  //                     color: greytheme1000,
-  //                     fontSize: 16,
-  //                     fontFamily: 'gotham',
-  //                     fontWeight: FontWeight.w500),
-  //               ),
-  //               isEmpty: _dropdownStateValue == null,
-  //               child: new DropdownButton<StateList>(
-  //                 value: _dropdownStateValue,
-  //                 isDense: true,
-  //                 onChanged: (StateList newValue) {
-  //                   print('value change');
-  //                   print(newValue);
-  //                   setState(() {
-  //                     _dropdownStateValue = newValue;
-  //                     stateId = newValue.id;
-  //                   });
-  //                 },
-  //                 items: _dropdownItemsState.map((StateList value) {
-  //                   return DropdownMenuItem<StateList>(
-  //                     value: value,
-  //                     child: Text(value.name),
-  //                   );
-  //                 }).toList(),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
   Widget _buildState() {
     return FormField(builder: (FormFieldState state) {
       return DropdownButtonFormField(
-        //itemHeight: Constants.getScreenHeight(context) * 0.06,
         items: _dropdownItemsState.map((StateList state) {
           return new DropdownMenuItem<String>(
               value: state.name,
@@ -443,7 +270,6 @@ class _EditProfileState extends State<EditProfileview>
               ));
         }).toList(),
         onChanged: (newValue) {
-          // do other stuff with _category
           setState(() {
             _dropdownStateValue = newValue;
             _dropdownItemsState.forEach((value) {
@@ -453,19 +279,11 @@ class _EditProfileState extends State<EditProfileview>
                 stateID = value.id;
               }
             });
-                     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+            DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
             editprofilepresenter.editCity(stateID.toString(), context);
           });
         },
         value: _dropdownStateValue,
-        // decoration: InputDecoration(
-        //   border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        //       borderSide: BorderSide(color: Colors.blue)),
-        //   enabledBorder: UnderlineInputBorder(
-        //       borderSide: BorderSide(color: Colors.white)),
-        //   hintText: "Select table number",
-        // ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
@@ -475,88 +293,26 @@ class _EditProfileState extends State<EditProfileview>
               borderSide: BorderSide(color: greytheme900, width: 2)),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
           filled: false,
-          hintText: 'Choose State',
+          hintText: STR_CHOOSE_STATE,
           prefixIcon: Icon(
             Icons.pin_drop,
             size: 20,
             color: greytheme1000,
           ),
-          labelText:
-              _dropdownStateValue == null ? 'Where are you from' : 'From',
-          // errorText: _errorText,
+          labelText: _dropdownStateValue == null ? STR_WHERE_FROM : STR_FROM,
           labelStyle: TextStyle(
               color: greytheme1000,
-              fontSize: 16,
-              fontFamily: 'gotham',
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
               fontWeight: FontWeight.w500),
         ),
       );
     });
   }
 
-  // Widget _buildCity() {
-  //   return FormField(
-  //     builder: (FormFieldState state) {
-  //       return DropdownButtonHideUnderline(
-  //         child: new Column(
-  //           crossAxisAlignment: CrossAxisAlignment.stretch,
-  //           children: <Widget>[
-  //             new InputDecorator(
-  //               decoration: InputDecoration(
-  //                 contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-  //                 focusedBorder: OutlineInputBorder(
-  //                   borderSide: BorderSide(color: greentheme100, width: 2),
-  //                 ),
-  //                 enabledBorder: OutlineInputBorder(
-  //                     borderSide: BorderSide(color: greytheme900, width: 2)),
-  //                 border: OutlineInputBorder(
-  //                     borderRadius: BorderRadius.circular(6.0)),
-  //                 filled: false,
-  //                 hintText: 'Choose City',
-  //                 prefixIcon: Icon(
-  //                   Icons.location_city,
-  //                   size: 20,
-  //                   color: greytheme1000,
-  //                 ),
-  //                 labelText: _dropdownCityValue.name == null
-  //                     ? 'Where are you from'
-  //                     : 'From',
-  //                 //errorText: _errorText,
-  //                 labelStyle: TextStyle(
-  //                     color: greytheme1000,
-  //                     fontSize: 16,
-  //                     fontFamily: 'gotham',
-  //                     fontWeight: FontWeight.w500),
-  //               ),
-  //               isEmpty: _dropdownCityValue == null ,
-  //               child: new DropdownButton<CityList>(
-  //                 value: _dropdownCityValue,
-  //                 isDense: true,
-  //                 onChanged: (CityList newValue) {
-  //                   print('value change');
-  //                   print(newValue);
-  //                   setState(() {
-  //                     _dropdownCityValue = newValue;
-  //                   });
-  //                 },
-  //                 items: _dropdownItemsCity.map((CityList value) {
-  //                   return DropdownMenuItem<CityList>(
-  //                     value: value,
-  //                     child: Text(value.name),
-  //                   );
-  //                 }).toList(),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
   Widget _buildCity() {
     return FormField(builder: (FormFieldState state) {
       return DropdownButtonFormField(
-        //itemHeight: Constants.getScreenHeight(context) * 0.06,
         items: _dropdownItemsCity.map((CityList city) {
           return new DropdownMenuItem(
               value: city.name,
@@ -581,15 +337,6 @@ class _EditProfileState extends State<EditProfileview>
           });
         },
         value: _dropdownCityValue,
-
-        // decoration: InputDecoration(
-        //   border: OutlineInputBorder(
-        //       borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        //       borderSide: BorderSide(color: Colors.blue)),
-        //   enabledBorder: UnderlineInputBorder(
-        //       borderSide: BorderSide(color: Colors.white)),
-        //   hintText: "Select table number",
-        // ),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
@@ -599,18 +346,17 @@ class _EditProfileState extends State<EditProfileview>
               borderSide: BorderSide(color: greytheme900, width: 2)),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
           filled: false,
-          hintText: 'Choose City',
+          hintText: STR_CHOOSE_CITY,
           prefixIcon: Icon(
             Icons.location_city,
             size: 20,
             color: greytheme1000,
           ),
-          labelText: _dropdownCityValue == null ? 'Where are you from' : 'From',
-          // errorText: _errorText,
+          labelText: _dropdownCityValue == null ? STR_WHERE_FROM : STR_FROM,
           labelStyle: TextStyle(
               color: greytheme1000,
-              fontSize: 16,
-              fontFamily: 'gotham',
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
               fontWeight: FontWeight.w500),
         ),
       );
@@ -618,7 +364,7 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   String validatename(String value) {
-    String validCharacters = r'^[a-zA-Z]';
+    String validCharacters = STR_VALIDATE_NAME;
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
@@ -640,7 +386,7 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   String validatePinCode(String value) {
-    String pattern = r'(^[1-9][0-9]{5}$)';
+    String pattern = STR_VALIDATE_PIN;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_PINCODE_NUMBER_REQUIRED;
@@ -658,38 +404,38 @@ class _EditProfileState extends State<EditProfileview>
       context: context,
       builder: (_) => WillPopScope(
         onWillPop: () async => false,
-              child: AlertDialog(
+        child: AlertDialog(
           title: const Text(
-            "Edit Profile",
+            STR_EDIT_PROFILE,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greentheme100,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'gotham',
-                fontSize: 22),
+                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_22),
           ),
           content: Text(
-            'Your account details has been successfully updated. ',
+            STR_ACCOUNT_UPDATED,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'gotham',
-                fontSize: 20),
+                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_20),
           ),
           actions: [
             FlatButton(
               child: const Text(
-                "OK",
+                STR_OK,
                 style: TextStyle(
                     color: greentheme100,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'gotham',
-                    fontSize: 20),
+                    fontFamily: KEY_FONTFAMILY,
+                    fontSize: FONTSIZE_20),
               ),
               onPressed: () {
                 Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-                   .pop();
+                    .pop();
                 Navigator.pushReplacementNamed(context, '/MainWidget');
               },
             ),
@@ -700,80 +446,53 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void editCityFailed() {
-    // TODO: implement editCityFailed
-  }
+  void editCityFailed() {}
 
   @override
   void editCitySuccess(List<CityList> cityList) {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (cityList.length == 0) {
       return;
     }
     setState(() {
-      //  if (_dropdownItemsCity == null) {
-      //   _dropdownItemsCity = cityList;
-      // } else {
-      //   _dropdownItemsCity.addAll(cityList);
-      // }
       _dropdownItemsCity.addAll(cityList);
     });
-    // TODO: implement editCitySuccess
   }
 
   @override
-  void editCountryFailed() {
-    // TODO: implement editCountryFailed
-  }
+  void editCountryFailed() {}
 
   @override
   void editCountrySuccess(List<CountryList> countryList) {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement editCountrySuccess
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (countryList.length == 0) {
       return;
     }
     setState(() {
-      //       if (_dropdownItemsCountry == null) {
-      //   _dropdownItemsCountry = countryList;
-      // } else {
-      //   _dropdownItemsCountry.addAll(countryList);
-      // }
       _dropdownItemsCountry.addAll(countryList);
     });
   }
 
   @override
-  void editStateFailed() {
-    // TODO: implement editStateFailed
-  }
+  void editStateFailed() {}
 
   @override
   void editStateSuccess(List<StateList> stateList) {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (stateList.length == 0) {
       return;
     }
     setState(() {
-      //   if (_dropdownItemsState == null) {
-      //   _dropdownItemsState = stateList;
-      // } else {
-      //   _dropdownItemsState.addAll(stateList);
-      // }
       _dropdownItemsState.addAll(stateList);
     });
-    // TODO: implement editStateSuccess
   }
 
   @override
-  void profileUpdateFailed() {
-    // TODO: implement profileUpdateFailed
-  }
+  void profileUpdateFailed() {}
 
   @override
   void profileUpdateSuccess() {
-    // TODO: implement profileUpdateSuccess
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
 
@@ -787,34 +506,10 @@ class _EditProfileState extends State<EditProfileview>
           focusNode: _nodeText1,
           closeWidget: Padding(
             padding: EdgeInsets.all(5.0),
-            child: Text("Done"),
+            child: Text(STR_DONE),
           ),
         ),
       ],
     );
   }
 }
-
-// class CountryModel {
-//   String country = '';
-//   String countryCode = '';
-
-//   CountryModel({
-//     this.country,
-//     this.countryCode,
-//   });
-// }
-
-// class StateModel {
-//   String state = '';
-//   StateModel({
-//     this.state,
-//   });
-// }
-
-// class CityModel {
-//   String city = '';
-//   CityModel({
-//     this.city,
-//   });
-// }

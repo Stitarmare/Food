@@ -41,7 +41,6 @@ class DrawerItem extends StatelessWidget {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(left: 16, right: 8),
-                  // padding: EdgeInsets.only(left: 25, right: 16),
                   child: icon,
                 ),
                 text
@@ -175,12 +174,10 @@ class _HiddenDrawerState extends State<HiddenDrawer>
       child: Stack(
         children: <Widget>[
           Container(
-            //decoration: widget.decoration,
             decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
-                    image: AssetImage('assets/BackgroundImage/Group1649.png'),
-                    fit: BoxFit.fitHeight)),
+                    image: AssetImage(STR_IMAGE_PATH), fit: BoxFit.fitHeight)),
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 66.0),
               child: ListView(
@@ -196,20 +193,16 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: drawerItems()),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                  //SizedBox(height: 163,),
                   DrawerItem(
                       text: Text(
                         KEY_SIGN_OUT,
                         style: TextStyle(
                             color: greytheme800,
-                            fontFamily: 'gotham',
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15),
+                            fontSize: FONTSIZE_15),
                       ),
-                      icon: Image.asset('assets/SignOutIcon/Group1349.png'),
-                      // page: Landingview(
-                      //   title: 'SETTINGS',
-                      // ),
+                      icon: Image.asset(STR_IMAGE_PATH1),
                       onPressed: () {
                         Preference.removeAllPref();
                         Navigator.pushReplacementNamed(context, '/LoginView');
@@ -219,12 +212,12 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                           left: 50,
                           top: MediaQuery.of(context).size.height * 0.01),
                       child: Text(
-                        "Version 1.2",
+                        STR_VERSION_NO,
                         style: TextStyle(
                             color: greytheme100,
-                            fontFamily: 'gotham',
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
-                            fontSize: 12),
+                            fontSize: FONTSIZE_12),
                       ))
                 ],
               ),
@@ -248,9 +241,6 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(44)),
-                                // child: Container(
-                                //   color: Colors.white.withAlpha(128),
-                                // ),
                               ),
                             ),
                           )
