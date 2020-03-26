@@ -83,9 +83,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   List<RadioButtonOptions> _radioOptions = [
     RadioButtonOptions(index: 1, title: 'ASAP'),
-    RadioButtonOptions(index: 2, title: '02:30 PM'),
-    RadioButtonOptions(index: 3, title: '03:00PM'),
-    RadioButtonOptions(index: 4, title: '03:30 PM'),
+    RadioButtonOptions(index: 2, title: 'Within 1 hour'),
+    RadioButtonOptions(index: 3, title: 'Within 2 hour'),
+    RadioButtonOptions(index: 4, title: 'Within 3 hour'),
   ];
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
   ScrollController _controller = ScrollController();
