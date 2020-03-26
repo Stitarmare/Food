@@ -42,12 +42,12 @@ class AddItemPagepresenter extends AddItemPageContractor {
   void onBackPresed() {}
 
   @override
-  void performAddItem(int item_id, int rest_id, BuildContext context) {
+  void performAddItem(int itemId, int restId, BuildContext context) {
     ApiBaseHelper().post<AddItemPageModelList>(
         UrlConstant.getmenudetailsApi, context,
         body: {
-          "item_id": item_id,
-          "rest_id": rest_id,
+          "item_id": itemId,
+          "rest_id": restId,
         }).then((value) {
       print(value);
       switch (value.result) {
@@ -64,15 +64,13 @@ class AddItemPagepresenter extends AddItemPageContractor {
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
-  void getTableListno(int rest_id, BuildContext context) {
+  void getTableListno(int restId, BuildContext context) {
     ApiBaseHelper()
         .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
-      "rest_id": rest_id,
+      "rest_id": restId,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -88,8 +86,6 @@ class AddItemPagepresenter extends AddItemPageContractor {
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
@@ -118,11 +114,11 @@ class AddItemPagepresenter extends AddItemPageContractor {
 
   @override
   void addTablenoToCart(
-      int user_id, int rest_id, int table_id, BuildContext context) {
+      int userId, int restId, int tableId, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {
-      "user_id": user_id,
-      "table_id": table_id,
-      "rest_id": rest_id,
+      "user_id": userId,
+      "table_id": tableId,
+      "rest_id": restId,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -138,13 +134,10 @@ class AddItemPagepresenter extends AddItemPageContractor {
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
   void clearCart(BuildContext context) {
-    // TODO: implement getNotifications
     ApiBaseHelper()
         .get<ErrorModel>(
       UrlConstant.clearCartApi,
@@ -154,12 +147,10 @@ class AddItemPagepresenter extends AddItemPageContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Clear cart success");
           print(value.model);
           clearCartModelView.clearCartSuccess();
           break;
         case SuccessType.failed:
-          print("Clear cart failed");
           clearCartModelView.clearCartFailed();
           break;
       }
@@ -178,11 +169,9 @@ class AddItemPagepresenter extends AddItemPageContractor {
       switch (value.result) {
         case SuccessType.success:
           updateCartModelView.updateOrderSuccess();
-          print("success");
           break;
         case SuccessType.failed:
           updateCartModelView.updateOrderFailed();
-          print("failed");
           break;
       }
     }).catchError((error) {

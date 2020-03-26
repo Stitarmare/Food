@@ -665,6 +665,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     //Preference.setPersistData(null, PreferenceKeys.restaurantID);
     //Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
+    Globle().takeAwayCartItemCount = 0;
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;

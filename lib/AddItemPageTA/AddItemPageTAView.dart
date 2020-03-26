@@ -1,10 +1,10 @@
-import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -14,15 +14,15 @@ import 'package:foodzi/theme/colors.dart';
 class AddItemPageTAView extends StatefulWidget {
   String title;
   String description;
-  int item_id;
-  int rest_id;
+  int itemId;
+  int restId;
   String imageUrl;
   String restName;
   AddItemPageTAView(
       {this.title,
       this.description,
-      this.item_id,
-      this.rest_id,
+      this.itemId,
+      this.restId,
       this.imageUrl,
       String restName});
   _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
@@ -47,8 +47,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Switches> switches;
 
   AddItemModelList _addItemModelList;
-  int item_id;
-  int rest_id;
+  int itemId;
+  int restId;
   ScrollController _controller = ScrollController();
   AddItemPageTApresenter _addItemPagepresenter;
   bool alreadyAddedTA = false;
@@ -60,31 +60,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    _addItemPagepresenter.performAddItem(
-        widget.item_id, widget.rest_id, context);
+    _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     super.initState();
   }
 
-  // double _defaultValue = 1;
   int id = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
-
-  String _selectedId;
-  // FLCountStepperController _stepperController =
-  //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
   List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
-
   List<SwitchesItems> _switchOptions = [];
-
-  void _onValueChange(String value) {
-    setState(() {
-      _selectedId = value;
-    });
-  }
 
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
@@ -93,10 +80,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           index: _addItemModelList.spreads[i - 1].id,
           title: _addItemModelList.spreads[i - 1].name ?? ''));
     }
-    //radiolist.add(RadioButtonOptions(title: "None"));
     setState(() {
       _radioOptions = radiolist;
     });
+
+    return radiolist.length;
   }
 
   int getradiobtnsize(int length) {
@@ -106,20 +94,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
         title: _addItemModelList.sizePrizes[i - 1].size ?? '',
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
-        //price: _addItemModelList.spreads[i - 1].price ?? '0'
       ));
     }
-    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
-    // for (int i = length; i <= length+1; i++) {
-    //   radiolist.add(RadioButtonOptions(
-    //       index: _addItemModelList.spreads[i].id,
-    //       title: 'none')
-    //       );
-
-    // }
     setState(() {
       _radioOptionsSizes = radiolistsize;
     });
+    return radiolistsize.length;
   }
 
   int checkboxbtn(int length) {
@@ -134,6 +114,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
 
   int switchbtn(int length) {
@@ -150,6 +132,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       _switchOptions = _switchlist;
     });
+
+    return _switchlist.length;
   }
 
   Widget steppercount() {
@@ -185,8 +169,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           child: Text(
             count.toString(),
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -241,14 +225,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 addMenuToCartModel = AddItemsToCartModel();
               }
               addMenuToCartModel.userId = Globle().loginModel.data.id;
-              addMenuToCartModel.restId = widget.rest_id;
+              addMenuToCartModel.restId = widget.restId;
               addMenuToCartModel.tableId = null;
               if (items == null) {
                 items = Item();
               }
 
               addMenuToCartModel.items = [items];
-              addMenuToCartModel.items[0].itemId = widget.item_id;
+              addMenuToCartModel.items[0].itemId = widget.itemId;
               addMenuToCartModel.items[0].extra = extra ?? [];
               addMenuToCartModel.items[0].spreads =
                   spread == null ? [] : [spread];
@@ -265,12 +249,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               var restaurantName = await (Preference.getPrefValue<String>(
                   PreferenceKeys.restaurantName));
               if (alreadyAddedTA != null && restaurantTA != null) {
-                if ((widget.rest_id != restaurantTA) && (alreadyAddedTA)) {
+                if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
                   cartAlert(
-                      "Start a new order?",
+                      STR_STARTNEWORDER,
                       (restaurantName != null)
-                          ? "Your unfinished order at $restaurantName will be deleted."
-                          : "Your unfinished order at previous hotel will be deleted.",
+                          ? STR_YOURUNFINIHEDORDER +
+                              "$restaurantName" +
+                              STR_WILLDELETE
+                          : STR_UNFINISHEDORDER,
                       context);
                 } else {
                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
@@ -282,15 +268,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
-
-              // Navigator.pushNamed(context, '/OrderConfirmationView');
-              // print("button is pressed");
-              // showDialog(
-              //   context: context,
-              //   child: new RadioDialog(
-              //     onValueChange: _onValueChange,
-              //     initialValue: _selectedId,
-              //   ));
             },
             child: Container(
               height: 54,
@@ -299,14 +276,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
-              // color: redtheme,
               child: Center(
                 child: Text(
-                  'Add To Cart',
+                  KEY_ADDTOCART,
                   style: TextStyle(
-                      fontFamily: 'gotham',
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: FONTSIZE_16,
                       color: Colors.white),
                 ),
               ),
@@ -346,11 +322,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
-                              "NEW ORDER",
+                              STR_NEWORDER,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'gotham',
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -359,7 +335,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
-                                  widget.rest_id, PreferenceKeys.restaurantID);
+                                  widget.restId, PreferenceKeys.restaurantID);
                               Preference.setPersistData<bool>(
                                   true, PreferenceKeys.isAlreadyINCart);
                               Preference.setPersistData<String>(widget.restName,
@@ -371,7 +347,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.04,
-                          //width: 10,
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.32,
@@ -382,10 +357,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 side: BorderSide(color: greytheme100),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
-                              "CANCEL",
+                              STR_CANCEL,
                               style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'gotham',
+                                  fontSize: FONTSIZE_17,
+                                  fontFamily: KEY_FONTFAMILY,
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -403,87 +378,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget _getmainviewTableno() {
-    return SliverToBoxAdapter(child: _foodItemLogo()
-        // Container(
-        //   margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        //   child: Card(
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: <Widget>[
-        //         SizedBox(
-        //           height: 10,
-        //         ),
-        //         Row(
-        //           children: <Widget>[
-        //             SizedBox(
-        //               width: 20,
-        //             ),
-        //             Container(
-        //               width: MediaQuery.of(context).size.width * 0.8,
-        //               child: Text(
-        //                 widget.title,
-        //                 textAlign: TextAlign.start,
-        //                 style: TextStyle(
-        //                     fontSize: 20,
-        //                     fontFamily: 'gotham',
-        //                     fontWeight: FontWeight.w600,
-        //                     color: greytheme700),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //         Divider(
-        //           thickness: 2,
-        //           //endIndent: 10,
-        //           //indent: 10,
-        //         ),
-        //         Row(
-        //           children: <Widget>[
-        //             // SizedBox(
-        //             //   width: 26,
-        //             // ),
-        //             // Image.asset('assets/DineInImage/Group1504.png'),
-        //             SizedBox(
-        //               width: 20,
-        //             ),
-        //             Text(
-        //               'Take Away',
-        //               textAlign: TextAlign.start,
-        //               style: TextStyle(
-        //                   fontSize: 20,
-        //                   fontFamily: 'gotham',
-        //                   fontWeight: FontWeight.w600,
-        //                   color: getColorByHex(Globle().colorscode)),
-        //             )
-        //           ],
-        //         ),
-        //         // SizedBox(
-        //         //   height: 20,
-        //         // ),
-        //         // Row(
-        //         //   children: <Widget>[
-        //         //     SizedBox(width: 20),
-        //         //     Text(
-        //         //       'Add Table Number',
-        //         //       textAlign: TextAlign.start,
-        //         //       style: TextStyle(
-        //         //           decoration: TextDecoration.underline,
-        //         //           decorationColor: Colors.black,
-        //         //           fontSize: 14,
-        //         //           fontFamily: 'gotham',
-        //         //           fontWeight: FontWeight.w600,
-        //         //           color: greytheme100),
-        //         //     )
-        //         //   ],
-        //         // ),
-        //         SizedBox(
-        //           height: 10,
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        );
+    return SliverToBoxAdapter(child: _foodItemLogo());
   }
 
   Widget _foodItemLogo() {
@@ -497,7 +392,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Center(child: CircularProgressIndicator()),
           imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
           errorWidget: (context, url, error) => Image.asset(
-                "assets/HotelImages/Image12.png",
+                RESTAURANT_IMAGE_PATH,
                 fit: BoxFit.fill,
               )),
     );
@@ -516,21 +411,19 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
               ),
-              // ),
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
                 child: Text(
                   widget.description,
                   style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
-                      // fontWeight: FontWeight.w500,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
               ),
@@ -550,10 +443,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   Padding(
                     padding: EdgeInsets.only(left: 26),
                     child: Text(
-                      'Quantity:',
+                      STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 16,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
                   ),
@@ -578,20 +471,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Spreads',
+                            STR_SPREADS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'Please select any one option',
+                            STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -613,20 +506,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Additions',
+                            STR_ADDITIONS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'You can select multiple options',
+                            STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -639,10 +532,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                       ],
                     ),
-
-              // SizedBox(
-              //   height: 10,
-              // ),
               _switchOptions.length == 0
                   ? Container()
                   : Column(
@@ -656,7 +545,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                       ],
                     ),
-
               SizedBox(
                 height: 10,
               ),
@@ -668,20 +556,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Size',
+                            STR_SIZE,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'Please select any one option',
+                            STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -691,28 +579,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         )
                       ],
                     ),
-
-              // Container(
-              //   margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-              //   child: Row(
-              //     children: <Widget>[
-              //       SizedBox(width: 28),
-              //       Text(
-              //         'Dressing',
-              //         textAlign: TextAlign.start,
-              //         style: TextStyle(
-              //             fontSize: 16,
-              //             fontFamily: 'gotham',
-              //             fontWeight: FontWeight.w500,
-              //             color: greytheme700),
-              //       ),
-              //       SizedBox(
-              //         width: 34,
-              //       ),
-              //       togglebutton()
-              //     ],
-              //   ),
-              //),
             ]),
       ),
     );
@@ -722,15 +588,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
         children: _radioOptionsSizes.length > 0
             ? _radioOptionsSizes
                 .map((radionBtnsize) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtnsize.title}") ?? Text('data'),
+                        title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
                         secondary: Text("\$ ${radionBtnsize.secondary}") ??
-                            Text('data'),
+                            Text(STR_DATA),
                         groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
@@ -758,13 +623,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
         children: _radioOptions.length > 0
             ? _radioOptions
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtn.title}") ?? Text('data'),
+                        title: Text("${radionBtn.title}") ?? Text(STR_DATA),
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
@@ -807,8 +671,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 switchs.title ?? "",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'gotham',
+                                    fontSize: FONTSIZE_16,
+                                    fontFamily: KEY_FONTFAMILY,
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -834,8 +698,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     "${switchs.option1}" ?? "",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
+                                        fontFamily: KEY_FONTFAMILY,
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -848,8 +712,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     '${switchs.option2}' ?? "",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
+                                        fontFamily: KEY_FONTFAMILY,
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -952,9 +816,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       children: <Widget>[
                         Text(
                           checkBtn.title ?? '',
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: greytheme700),
+                          style: TextStyle(fontSize: 13, color: greytheme700),
                         ),
                         Expanded(
                           child: SizedBox(
@@ -969,8 +831,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             child: Text(
                               checkBtn.price.toString() ?? '',
                               style: TextStyle(
-                                  fontSize: 13,
-                                  color: greytheme700),
+                                  fontSize: FONTSIZE_13, color: greytheme700),
                             ),
                           ),
                         ),
@@ -991,15 +852,15 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
                 content:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Image.asset(
-                    'assets/SuccessIcon/success.png',
+                    SUCCESS_IMAGE_PATH,
                     width: 75,
                     height: 75,
                   ),
@@ -1011,7 +872,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1023,20 +884,15 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     color: Colors.black,
                   ),
                   FlatButton(
-                    child: Text("Ok",
+                    child: Text(STR_OK,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      // Navigator.pushReplacement(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => RestaurantView()));
-                      //Navigator.of(context, rootNavigator: true).pop();
                     },
                   )
                 ],
@@ -1045,9 +901,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void addItemfailed() {
-    // TODO: implement addItemfailed
-  }
+  void addItemfailed() {}
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
@@ -1060,33 +914,26 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     switchbtn(_addItemModelList.switches.length);
     getradiobtnsize(_addItemModelList.sizePrizes.length);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement addItemsuccess
   }
 
   @override
-  void addMenuToCartfailed() {
-    // TODO: implement addMenuToCartfailed
-  }
+  void addMenuToCartfailed() {}
 
   @override
   void addMenuToCartsuccess() {
-    // TODO: implement addMenuToCartsuccess
-
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    showAlertSuccess("${widget.title}",
-        "${widget.title} is successfully added to your cart.", context);
+    showAlertSuccess(
+        "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 
   @override
-  void clearCartFailed() {
-    // TODO: implement clearCartFailed
-  }
+  void clearCartFailed() {}
 
   @override
   void clearCartSuccess() {
@@ -1094,7 +941,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    // TODO: implement clearCartSuccess
   }
 }
 
@@ -1103,7 +949,6 @@ class CheckBoxOptions {
   int index;
   String title;
   String price;
-  // double price;
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.price, this.isChecked});
 }

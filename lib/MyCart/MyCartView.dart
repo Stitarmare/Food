@@ -365,6 +365,9 @@ class _MyCartViewState extends State<MyCartView>
                         Constants.showAlert("My Cart",
                             "Please select table number first.", context);
                       } else {
+                        Globle().dinecartValue = 0;
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.dineCartItemCount);
                         (_cartItemList != null)
                             ? Navigator.push(
                                 context,

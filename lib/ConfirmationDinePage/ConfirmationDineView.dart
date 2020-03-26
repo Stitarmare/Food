@@ -83,9 +83,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   List<RadioButtonOptions> _radioOptions = [
     RadioButtonOptions(index: 1, title: 'ASAP'),
-    RadioButtonOptions(index: 2, title: '02:30 PM'),
-    RadioButtonOptions(index: 3, title: '03:00PM'),
-    RadioButtonOptions(index: 4, title: '03:30 PM'),
+    RadioButtonOptions(index: 2, title: 'Within 1 hour'),
+    RadioButtonOptions(index: 3, title: 'Within 2 hour'),
+    RadioButtonOptions(index: 4, title: 'Within 3 hour'),
   ];
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
   ScrollController _controller = ScrollController();
@@ -392,6 +392,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       //             longitude: widget.longitude)));
                       //Navigator.of(context).pushNamed('/StatusTrackView');
                       if (radioOrderId == 2) {
+                        Globle().takeAwayCartItemCount = 0;
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -924,6 +925,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(orderData.id, PreferenceKeys.ORDER_ID);
     Globle().orderNumber = orderData.orderNumber;
+    Globle().dinecartValue = 0;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     showAlertSuccess(
         "Order Placed", "Your order has been successfully placed.", context);

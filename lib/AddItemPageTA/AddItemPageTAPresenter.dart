@@ -26,12 +26,12 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
   void onBackPresed() {}
 
   @override
-  void performAddItem(int item_id, int rest_id, BuildContext context) {
+  void performAddItem(int itemId, int restId, BuildContext context) {
     ApiBaseHelper().post<AddItemPageModelList>(
         UrlConstant.getmenudetailsApi, context,
         body: {
-          "item_id": item_id,
-          "rest_id": rest_id,
+          "item_id": itemId,
+          "rest_id": restId,
         }).then((value) {
       print(value);
       switch (value.result) {
@@ -72,16 +72,16 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
   void clearCart(BuildContext context) {
-    // TODO: implement getNotifications
-        ApiBaseHelper().get<ErrorModel>(
-        UrlConstant.clearCartApi, context,
-        ).then((value) {
+    ApiBaseHelper()
+        .get<ErrorModel>(
+      UrlConstant.clearCartApi,
+      context,
+    )
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
