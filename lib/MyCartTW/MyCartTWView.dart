@@ -402,6 +402,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       //       onValueChange: _onValueChange,
                       //       initialValue: _selectedId,
                       //     ));
+                      Globle().takeAwayCartItemCount = 0;
+                      Preference.setPersistData<int>(
+                          0, PreferenceKeys.takeAwayCartCount);
                       (_cartItemList != null)
                           ? Navigator.push(
                               context,
