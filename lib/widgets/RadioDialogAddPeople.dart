@@ -85,23 +85,24 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   Widget build(BuildContext context) {
     if ((getPeopleListLength() == 0)) {
-      return
-          //  showDialog(
-          // context: context,
-          // builder: (context) =>
-          SimpleDialog(
+      return SimpleDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        title: Text("No Record Found"),
+        // title: Text("No Record Found"),
         children: <Widget>[
-          SimpleDialogOption(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Ok'),
+          Container(
+            height: 500,
+            width: 284,
+            child: SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              //   child: const Text('Ok'),
+            ),
           ),
         ],
       );
+
       // WillPopScope(
       //   onWillPop: () async => false,
       //           child: AlertDialog(

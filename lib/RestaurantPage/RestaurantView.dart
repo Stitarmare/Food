@@ -507,8 +507,8 @@ class _RestaurantViewState extends State<RestaurantView>
               return GestureDetector(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageView(
-                          item_id: _restaurantList[index].id,
-                          rest_id: _restaurantList[index].restId,
+                          itemId: _restaurantList[index].id,
+                          restId: _restaurantList[index].restId,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
@@ -672,9 +672,9 @@ class _RestaurantViewState extends State<RestaurantView>
                                 // ),
                               ]),
                         )),
-                         SizedBox(
-                                  height: 2,
-                                ),
+                        SizedBox(
+                          height: 2,
+                        ),
                         Container(
                           height: MediaQuery.of(context).size.width * 0.09,
                           child: Row(
@@ -726,11 +726,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 AddItemPageView(
-                                                  item_id:
+                                                  itemId:
                                                       _restaurantList[index].id,
-                                                  rest_id:
-                                                      _restaurantList[index]
-                                                          .restId,
+                                                  restId: _restaurantList[index]
+                                                      .restId,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:

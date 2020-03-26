@@ -1,37 +1,33 @@
-import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
-import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
-import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
-import 'package:foodzi/MyCart/MyCartView.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddItemPageView extends StatefulWidget {
   String title;
   String description;
-  int item_id;
-  int rest_id;
+  int itemId;
+  int restId;
   String restName;
   String itemImage;
 
   AddItemPageView(
       {this.title,
       this.description,
-      this.item_id,
-      this.rest_id,
+      this.itemId,
+      this.restId,
       this.restName,
       this.itemImage});
   _AddItemPageViewState createState() => _AddItemPageViewState();
@@ -46,52 +42,36 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ClearCartModelView,
         UpdateCartModelView {
   List<bool> isSelected;
-
-  int table_id;
-
+  int tableId;
   AddItemsToCartModel addMenuToCartModel;
-
   GetTableList getTableListModel;
   AddItemPageModelList _addItemPageModelList;
-
   Item items;
-
   List<Extras> extra;
   UpdateOrderModel _updateOrderModel;
-
   Spreads spread;
   Sizes size;
   List<Sizes> sizes;
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-
   List<Switches> switches;
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
   int itemIdValue;
-  //String strDefaultTxt = 'ADD \$24';
-
   bool getttingLocation = false;
-  StreamController<Position> _controllerPosition = new StreamController();
-
   AddItemModelList _addItemModelList;
-  int item_id;
-  int rest_id;
+  int itemId;
+  int restId;
   ScrollController _controller = ScrollController();
-
   AddItemPagepresenter _addItemPagepresenter;
   List<TableList> _dropdownItemsTable = [];
-  List<AddTableno> _addtableno = [];
-
   int _dropdownTableNumber;
-
   int tableID;
   bool alreadyAdded = false;
   int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-
   int sizesid;
 
   @override
@@ -101,33 +81,22 @@ class _AddItemPageViewState extends State<AddItemPageView>
     isSelected = [true, false];
     _addItemPageModelList = AddItemPageModelList();
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    _addItemPagepresenter.performAddItem(
-        widget.item_id, widget.rest_id, context);
-    _addItemPagepresenter.getTableListno(widget.rest_id, context);
-    itemIdValue = widget.item_id;
+    _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
+    _addItemPagepresenter.getTableListno(widget.restId, context);
+    itemIdValue = widget.itemId;
     print("${widget.itemImage}");
     super.initState();
   }
 
-  // double _defaultValue = 1;
   int id = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
-  String _selectedId;
 
-  // FLCountStepperController _stepperController =
-  //     FLCountStepperController(defaultValue: 1, min: 1, max: 10, step: 1);
   List<RadioButtonOptions> _radioOptions = [];
   List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
-
-  void _onValueChange(String value) {
-    setState(() {
-      _selectedId = value;
-    });
-  }
 
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
@@ -135,20 +104,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
       radiolist.add(RadioButtonOptions(
         index: _addItemModelList.spreads[i - 1].id,
         title: _addItemModelList.spreads[i - 1].name ?? '',
-        //price: _addItemModelList.spreads[i - 1].price ?? '0'
       ));
     }
-    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
-    // for (int i = length; i <= length+1; i++) {
-    //   radiolist.add(RadioButtonOptions(
-    //       index: _addItemModelList.spreads[i].id,
-    //       title: 'none')
-    //       );
 
-    // }
     setState(() {
       _radioOptions = radiolist;
     });
+
+    return radiolist.length;
   }
 
   int getradiobtnsize(int length) {
@@ -158,20 +121,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
         index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
         title: _addItemModelList.sizePrizes[i - 1].size ?? '',
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
-        //price: _addItemModelList.spreads[i - 1].price ?? '0'
       ));
     }
-    //radiolist.add(RadioButtonOptions(index:0,title: "None" ,price: '0'));
-    // for (int i = length; i <= length+1; i++) {
-    //   radiolist.add(RadioButtonOptions(
-    //       index: _addItemModelList.spreads[i].id,
-    //       title: 'none')
-    //       );
 
-    // }
     setState(() {
       _radioOptionsSizes = radiolistsize;
     });
+    return radiolistsize.length;
   }
 
   int gettablelist(List<GetTableList> getlist) {
@@ -179,7 +135,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     for (int i = 0; i < getlist.length; i++) {
       _tablelist.add(TableList(
         id: getlist[i].id,
-        restid: widget.rest_id,
+        restid: widget.restId,
         name: getlist[i].tableName,
       ));
     }
@@ -187,40 +143,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _dropdownItemsTable = _tablelist;
     });
     getlistoftable();
+    return _tablelist.length;
   }
-
-  // _getLocationtablelist(int length) async {
-  //   setState(() {
-  //     getttingLocation = false;
-  //   });
-  //   var strim = await GeoLocationTracking.load(context, _controllerPosition);
-  //   _controllerPosition.stream.listen((position) {
-  //     print(position);
-  //     _position = position;
-  //     if (_position != null) {
-  //       setState(() {
-  //         getttingLocation = true;
-  //       });
-  //       // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
-  //       _addItemPagepresenter.getTableListno(_position.latitude.toString(),
-  //           widget.rest_id, _position.longitude.toString(), context);
-
-  //       List<TableList> _tablelist = [];
-  //       for (int i; i < _tablelist.length; i++) {
-  //         _tablelist.add(TableList(
-  //           restid: widget.rest_id,
-  //         ));
-  //       }
-  //       setState(() {
-  //         _tablelist = _dropdownItemsTable;
-  //       });
-  //     } else {
-  //       setState(() {
-  //         getttingLocation = false;
-  //       });
-  //     }
-  //   });
-  // }
 
   int checkboxbtn(int length) {
     List<CheckBoxOptions> _checkboxlist = [];
@@ -234,6 +158,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
 
   int switchbtn(int length) {
@@ -250,6 +176,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _switchOptions = _switchlist;
     });
+
+    return _switchlist.length;
   }
 
   Widget steppercount() {
@@ -289,8 +217,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
           child: Text(
             count.toString(),
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -339,11 +267,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         body: CustomScrollView(
           controller: _controller,
-          slivers: <Widget>[
-            _getmainviewTableno(),
-            // _getItemImage(),
-            _getOptions()
-          ],
+          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
@@ -357,8 +281,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               var orderId =
                   await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
               if (orderId != null) {
-                if (restauran == widget.rest_id) {
-                  print("object");
+                if (restauran == widget.restId) {
                   if (_updateOrderModel == null) {
                     _updateOrderModel = UpdateOrderModel();
                   }
@@ -370,7 +293,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
                   _updateOrderModel.items = items;
                   _updateOrderModel.items.quantity = count;
-                  _updateOrderModel.items.itemId = widget.item_id;
+                  _updateOrderModel.items.itemId = widget.itemId;
                   _updateOrderModel.items.extra = extra ?? null;
                   _updateOrderModel.items.spreads =
                       spread == null ? [] : [spread];
@@ -380,34 +303,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
-                  //pop up
                   Constants.showAlert(
-                      "Invalid Order",
-                      "Sorry, you can't order from this restaurant right now.",
-                      context);
+                      KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
                 }
               } else {
                 checkForItemIsAlreadyInCart(
                     alreadyAdde, restauran, restaurantName);
               }
-
-              // if (Globle().orderNumber != null) {
-              //   if (widget.rest_id == ) {
-
-              //   } else {
-              //   }
-              // } else {
-
-              // }
-              // setState(() {
-              // Navigator.pushNamed(context, '/OrderConfirmationView');
-              // print("button is pressed");
-              // showDialog(
-              //   context: context,
-              //   child: new RadioDialog(
-              //     onValueChange: _onValueChange,
-              //     initialValue: _selectedId,
-              //   ));
             },
             child: Container(
                 height: 54,
@@ -418,14 +320,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
                         topRight: Radius.circular(15))),
-                // color: redtheme,
                 child: Center(
                   child: Text(
-                    "Add To Cart",
+                    KEY_ADDTOCART,
                     style: TextStyle(
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: Colors.white),
                   ),
                 )),
@@ -441,29 +342,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
       addMenuToCartModel = AddItemsToCartModel();
     }
     addMenuToCartModel.userId = Globle().loginModel.data.id;
-    addMenuToCartModel.restId = widget.rest_id;
+    addMenuToCartModel.restId = widget.restId;
     addMenuToCartModel.tableId = _dropdownTableNumber;
     if (items == null) {
       items = Item();
     }
 
     addMenuToCartModel.items = [items];
-    addMenuToCartModel.items[0].itemId = widget.item_id;
+    addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].extra = extra ?? [];
     addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     addMenuToCartModel.items[0].switches = switches ?? [];
     addMenuToCartModel.items[0].quantity = count;
     addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
-    // }
-    //);
     print(addMenuToCartModel.toJson());
     if (alreadyAdde != null && restauran != null) {
-      if ((widget.rest_id != restauran) && (alreadyAdde)) {
+      if ((widget.restId != restauran) && (alreadyAdde)) {
         cartAlert(
-            "Start a new order?",
+            STR_STARTNEWORDER,
             (restaurantName != null)
-                ? "Your unfinished order at $restaurantName will be deleted."
-                : "Your unfinished order at previous hotel will be deleted.",
+                ? STR_YOURUNFINIHEDORDER + "$restaurantName" + STR_WILLDELETE
+                : STR_UNFINISHEDORDER,
             context);
       } else {
         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
@@ -506,11 +405,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
-                              "NEW ORDER",
+                              STR_NEWORDER,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'gotham',
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -519,7 +418,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   context, _keyLoader, "");
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
-                                  widget.rest_id, PreferenceKeys.restaurantID);
+                                  widget.restId, PreferenceKeys.restaurantID);
                               Preference.setPersistData<bool>(
                                   true, PreferenceKeys.isAlreadyINCart);
                               Preference.setPersistData<String>(widget.restName,
@@ -531,7 +430,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.04,
-                          //width: 10,
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.32,
@@ -542,10 +440,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 side: BorderSide(color: greytheme100),
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
-                              "CANCEL",
+                              STR_CANCEL,
                               style: TextStyle(
-                                  fontSize: 17,
-                                  fontFamily: 'gotham',
+                                  fontSize: FONTSIZE_17,
+                                  fontFamily: KEY_FONTFAMILY,
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -573,129 +471,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
               Center(child: CircularProgressIndicator()),
           imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
           errorWidget: (context, url, error) => Image.asset(
-                "assets/HotelImages/Image12.png",
+                RESTAURANT_IMAGE_PATH,
                 fit: BoxFit.fill,
               )),
-    );
-  }
-
-  Widget _getItemImage() {
-    return CachedNetworkImage(
-      fit: BoxFit.fill,
-      height: 100,
-      placeholder: (context, url) => Center(
-        child: CircularProgressIndicator(),
-      ),
-      errorWidget: (context, url, error) => Image.asset(
-        "assets/PlaceholderFoodImage/MaskGroup55.png",
-        fit: BoxFit.contain,
-        width: double.infinity,
-        height: 100,
-      ),
-      imageUrl: BaseUrl.getBaseUrlImages() + '${widget.itemImage}',
     );
   }
 
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
       child: _foodItemLogo(),
-      // child: Container(
-      //   margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-      //   child: Card(
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       children: <Widget>[
-      //         SizedBox(
-      //           height: 10,
-      //         ),
-      //         Row(
-      //           children: <Widget>[
-      //             SizedBox(
-      //               width: 20,
-      //             ),
-      //             Container(
-      //               width: MediaQuery.of(context).size.width * 0.8,
-      //               child: Text(
-      //                 widget.title ?? '',
-      //                 textAlign: TextAlign.start,
-      //                 style: TextStyle(
-      //                     fontSize: 20,
-      //                     fontFamily: 'gotham',
-      //                     fontWeight: FontWeight.w600,
-      //                     color: greytheme700),
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //         Divider(
-      //           thickness: 2,
-      //           //endIndent: 10,
-      //           //indent: 10,
-      //         ),
-      //         Row(
-      //           children: <Widget>[
-      //             // SizedBox(
-      //             //   width: 26,
-      //             // ),
-      //             // Image.asset('assets/DineInImage/Group1504.png'),
-      //             SizedBox(
-      //               width: 20,
-      //             ),
-      //             Text(
-      //               'Dine-in',
-      //               textAlign: TextAlign.start,
-      //               style: TextStyle(
-      //                   fontSize: 20,
-      //                   fontFamily: 'gotham',
-      //                   fontWeight: FontWeight.w600,
-      //                   color: ((Globle().colorscode) != null)
-      //                       ? getColorByHex(Globle().colorscode)
-      //                       : orangetheme),
-      //             )
-      //           ],
-      //         ),
-      //         SizedBox(
-      //           height: 10,
-      //         ),
-      //         //isTableList ? getTableNumber() : Container(
-      //  child: Row(
-      //                 children: <Widget>[
-      //                   SizedBox(width: 20),
-      //                   Text("No Tables available",
-      //                       style: TextStyle(
-      //                           // decoration: TextDecoration.underline,
-      //                           // decorationColor:
-      //                           //     getColorByHex(Globle().colorscode),
-      //                           fontSize: 14,
-      //                           fontFamily: 'gotham',
-      //                           fontWeight: FontWeight.w600,
-      //                           color: getColorByHex(Globle().colorscode))),
-      //                 ],
-      //               )
-      // );
-      //         // Row(
-      //         //   children: <Widget>[
-      //         //     SizedBox(width: 20),
-      //         //     Text(
-      //         //       'Add Table Number',
-      //         //       textAlign: TextAlign.start,
-      //         //       style: TextStyle(
-      //         //           decoration: TextDecoration.underline,
-      //         //           decorationColor: Colors.black,
-      //         //           fontSize: 14,
-      //         //           fontFamily: 'gotham',
-      //         //           fontWeight: FontWeight.w600,
-      //         //           color: greytheme100),
-      //         //     )
-      //         //   ],
-      //         // ),
-      //         // SizedBox(
-      //         //   height: 10,
-      //         // )
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 
@@ -716,78 +500,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
     });
   }
 
-  // Widget getTableNumber() {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 20),
-  //     height: 50,
-  //     width: MediaQuery.of(context).size.width * 0.8,
-  //     child: FormField(builder: (FormFieldState state) {
-  //       return DropdownButtonFormField(
-  //         //itemHeight: Constants.getScreenHeight(context) * 0.06,
-  //         items: _dropdownItemsTable.map((tableNumber) {
-  //           return new DropdownMenuItem(
-  //               value: tableNumber.id,
-  //               child: Row(
-  //                 children: <Widget>[
-  //                   Container(
-  //                       width: MediaQuery.of(context).size.width * 0.4,
-  //                       child: Text(
-  //                         "Table Number: ${tableNumber.name}",
-  //                         style: TextStyle(
-  //                             decoration: TextDecoration.underline,
-  //                             decorationColor:
-  //                                 getColorByHex(Globle().colorscode),
-  //                             fontSize: 14,
-  //                             fontFamily: 'gotham',
-  //                             fontWeight: FontWeight.w600,
-  //                             color: getColorByHex(Globle().colorscode)),
-  //                       )),
-  //                 ],
-  //               ));
-  //         }).toList(),
-  //         onChanged: (newValue) {
-  //           // do other stuff with _category
-  //           setState(() {
-  //             _dropdownTableNumber = newValue;
-  //           });
-  //           _addItemPagepresenter.addTablenoToCart(Globle().loginModel.data.id,
-  //               widget.rest_id, _dropdownTableNumber, context);
-  //         },
-
-  //         value: _dropdownTableNumber,
-  //         decoration: InputDecoration(
-  //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-  //           focusedBorder: OutlineInputBorder(
-  //             borderSide: BorderSide(color: greentheme100, width: 2),
-  //           ),
-  //           enabledBorder: OutlineInputBorder(
-  //               borderSide: BorderSide(color: greytheme900, width: 2)),
-  //           border:
-  //               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-  //           filled: false,
-  //           hintText: 'Choose Table',
-  //           // prefixIcon: Icon(
-  //           //   Icons.location_on,
-  //           //   size: 20,
-  //           //   color: greytheme1000,
-  //           // ),
-  //           labelText: _dropdownTableNumber == null
-  //               ? "Add Table Number "
-  //               : "Table Number",
-  //           // errorText: _errorText,
-  //           labelStyle: TextStyle(
-  //               decoration: TextDecoration.underline,
-  //               decorationColor: Colors.black,
-  //               fontSize: 14,
-  //               fontFamily: 'gotham',
-  //               fontWeight: FontWeight.w600,
-  //               color: greytheme100),
-  //         ),
-  //       );
-  //     }),
-  //   );
-  // }
-
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
@@ -801,8 +513,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 child: Text(
                   widget.title,
                   style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -813,9 +525,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 child: Text(
                   widget.description,
                   style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
-                      // fontWeight: FontWeight.w500,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
               ),
@@ -835,10 +546,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   Padding(
                     padding: EdgeInsets.only(left: 26),
                     child: Text(
-                      'Quantity:',
+                      STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 16,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
                   ),
@@ -863,20 +574,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Spreads',
+                            STR_SPREADS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'Please select any one option',
+                            STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -899,20 +610,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Additions',
+                            STR_ADDITIONS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'You can select multiple options',
+                            STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -926,9 +637,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       ],
                     ),
 
-              // SizedBox(
-              //   height: 10,
-              // ),
               _switchOptions.length == 0
                   ? Container()
                   : Column(
@@ -939,9 +647,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         ),
                       ],
                     ),
-              // SizedBox(
-              //   height: 10,
-              // ),
 
               SizedBox(
                 height: 10,
@@ -954,20 +659,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            'Size',
+                            STR_SIZE,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
                                 color: greytheme700),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 8),
                           child: Text(
-                            'Please select any one option',
+                            STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: 'gotham',
-                                fontSize: 12,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
                         ),
@@ -987,15 +692,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
         children: _radioOptionsSizes.length > 0
             ? _radioOptionsSizes
                 .map((radionBtnsize) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtnsize.title}") ?? Text('data'),
+                        title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
                         secondary: Text("\$ ${radionBtnsize.secondary}") ??
-                            Text('data'),
+                            Text(STR_DATA),
                         groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
@@ -1023,7 +727,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.baseline,
         children: _radioOptions.length > 0
             ? _radioOptions
                 .map((radionBtn) => Padding(
@@ -1073,8 +776,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 switchs.title ?? "",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    fontFamily: 'gotham',
+                                    fontSize: FONTSIZE_16,
+                                    fontFamily: KEY_FONTFAMILY,
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -1102,8 +805,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                     "${switchs.option1}" ?? "",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
+                                        fontFamily: KEY_FONTFAMILY,
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -1116,8 +819,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                     '${switchs.option2}' ?? "",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
+                                        fontFamily: KEY_FONTFAMILY,
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -1222,9 +925,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       children: <Widget>[
                         Text(
                           checkBtn.title ?? '',
-                          style: TextStyle(
-                              fontSize: 13,
-                              color: greytheme700),
+                          style: TextStyle(fontSize: 13, color: greytheme700),
                         ),
                         Expanded(
                           child: SizedBox(
@@ -1232,9 +933,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           ),
                           flex: 2,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(right: 40),
-                        //   child:
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
@@ -1244,8 +942,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                       checkBtn.price.toString() ??
                                   '',
                               style: TextStyle(
-                                  fontSize: 13,
-                                  color:greytheme700),
+                                  fontSize: FONTSIZE_13, color: greytheme700),
                             ),
                           ),
                         ),
@@ -1267,8 +964,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1286,8 +983,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     message,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_15,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1299,20 +996,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     color: Colors.black,
                   ),
                   FlatButton(
-                    child: Text("Ok",
+                    child: Text(STR_OK,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      // Navigator.pushReplacement(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => RestaurantView()));
-                      //Navigator.of(context, rootNavigator: true).pop();
                     },
                   )
                 ],
@@ -1339,7 +1031,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
       _addItemPageModelList = addItemPageModelList1;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement addItemsuccess
   }
 
   @override
@@ -1347,35 +1038,26 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void addMenuToCartsuccess() {
-    // TODO: implement addMenuToCartsuccess
-
     Globle().dinecartValue += 1;
     Preference.setPersistData(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
+    Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
-    showAlertSuccess("${widget.title}",
-        "${widget.title} is successfully added to your cart.", context);
-//Navigator.of(context).pop();
+    showAlertSuccess(
+        "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 
   @override
-  void addTablebnoSuccces() {
-    // TODO: implement addTablebnoSuccces
-  }
+  void addTablebnoSuccces() {}
 
   @override
-  void addTablenofailed() {
-    // TODO: implement addTablenofailed
-  }
+  void addTablenofailed() {}
 
   @override
-  void getTableListFailed() {
-    // TODO: implement getTableListFailed
-  }
+  void getTableListFailed() {}
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
@@ -1384,13 +1066,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
       gettablelist(_getlist);
     }
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement getTableListSuccess
   }
 
   @override
-  void clearCartFailed() {
-    // TODO: implement clearCartFailed
-  }
+  void clearCartFailed() {}
 
   @override
   void clearCartSuccess() {
@@ -1398,24 +1077,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    // TODO: implement clearCartSuccess
   }
 
   @override
-  void updateOrderFailed() {
-    // TODO: implement updateOrderFailed
-  }
+  void updateOrderFailed() {}
 
   @override
   void updateOrderSuccess() {
     Globle().dinecartValue += 1;
-    //Preference.setPersistData(widget.rest_id, PreferenceKeys.restaurantID);
-    //Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
-    //Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    showAlertSuccess("${widget.title}",
-        "${widget.title} is successfully added to your cart.", context);
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    showAlertSuccess(
+        "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 }
 
@@ -1424,7 +1096,6 @@ class CheckBoxOptions {
   int index;
   String title;
   String price;
-  // double price;
   bool isChecked;
 
   CheckBoxOptions({
@@ -1461,7 +1132,6 @@ class SwitchesItems {
 }
 
 class TableList {
-  //geolocation(){}
   String name;
   int restid;
   int id;
@@ -1469,9 +1139,9 @@ class TableList {
 }
 
 class AddTableno {
-  int user_id;
-  int table_id;
-  int rest_id;
+  int userId;
+  int tableId;
+  int restId;
 
-  AddTableno({this.rest_id, this.table_id, this.user_id});
+  AddTableno({this.restId, this.tableId, this.userId});
 }
