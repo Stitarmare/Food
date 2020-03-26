@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class OtpVerifyModel {
   String status;
   int statusCode;

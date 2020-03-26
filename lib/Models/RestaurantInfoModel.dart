@@ -169,22 +169,22 @@ class RestaurantInfoData {
 
 class Categories {
   int id;
-  int workstation_id;
+  int workstationId;
   String name;
-  int rest_id;
+  int restId;
 
   Categories({
     this.id,
     this.name,
-    this.workstation_id,
-    this.rest_id,
+    this.workstationId,
+    this.restId,
   });
   factory Categories.fromJson(Map<String, dynamic> json) {
     return Categories(
       id: json["id"],
       name: json["name"],
-      workstation_id: json["workstation_id"],
-      rest_id: json["rest_id"],
+      workstationId: json["workstation_id"],
+      restId: json["rest_id"],
     );
   }
 }

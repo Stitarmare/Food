@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 
 class MenuItem extends StatefulWidget {
@@ -16,10 +17,8 @@ class MenuItemState extends State<MenuItem>
     implements MenuDropdownModelView {
   AnimationController controller;
   Animation<double> scaleAnimation;
-  // List<Item> _menu = <Item>[];
-  // Item selectedMenu;
   int _selectedMenu = 0;
-  int rest_Id;
+  int restId;
 
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
@@ -91,7 +90,7 @@ class MenuItemState extends State<MenuItem>
                       ),
                       trailing: Text(
                           _categorydata[index].menuCount.toString() == null
-                              ? "0"
+                              ? STR_ZERO
                               : _categorydata[index].menuCount.toString()),
                       onTap: () {
                         if (index == 0) {
@@ -122,13 +121,10 @@ class MenuItemState extends State<MenuItem>
   @override
   void getMenuLCategoryfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement getMenuLCategoryfailed
   }
 
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
-    // TODO: implement getMenuLCategorysuccess
     if (categoryData.length == 0) {
       return;
     }
@@ -136,22 +132,13 @@ class MenuItemState extends State<MenuItem>
       if (_categorydata == null) {
         _categorydata = categoryData;
       } else {
-        //_categorydata.removeRange(0, (_categorydata.length));
         _categorydata.addAll(categoryData);
       }
-      // page++;
     });
 
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
-
-// int _getint() {
-//     if (_categorydata != null) {
-//       return _categorydata.length;
-//     }
-//     return 0;
-//   }
 
 class Item {
   String itemName;

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Registermodel {
   String status;
   int statusCode;

@@ -46,7 +46,6 @@ class Data {
   String latitude;
   String longitude;
   String distance;
-  //ToId toId;
 
   Data({
     this.id,
@@ -67,7 +66,6 @@ class Data {
     this.latitude,
     this.longitude,
     this.distance,
-    //this.toId
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -89,7 +87,6 @@ class Data {
     latitude = json['latitude'];
     longitude = json['longitude'];
     distance = json['distance'];
-    //toId = ToId.fromJson(json["to_id"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -112,34 +109,10 @@ class Data {
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['distance'] = this.distance;
-    //data["to_id"] = this.toId;
     return data;
   }
 }
 
-// class ToId {
-//   int id;
-//   String status;
-//   int toId;
-
-//   ToId({
-//     this.id,
-//     this.status,
-//     this.toId,
-//   });
-
-//   factory ToId.fromJson(Map<String, dynamic> json) => ToId(
-//         id: json["id"],
-//         status: json["status"],
-//         toId: json["to_id"],
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "status": status,
-//         "to_id": toId,
-//       };
-// }
 class InvitePeople {
   int inviteId;
 

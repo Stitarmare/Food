@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
-import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
-import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
-//import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-// import 'package:foodzi/widgets/DailogBox.dart';
-import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class MyCartView extends StatefulWidget {
@@ -26,7 +21,6 @@ class MyCartView extends StatefulWidget {
   String orderType;
   double total;
   String restName;
-  // int orderId;
 
   MyCartView(
       {this.restId,
@@ -36,7 +30,6 @@ class MyCartView extends StatefulWidget {
       this.long,
       this.total,
       this.restName});
-  //MyCartView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _MyCartViewState();
@@ -45,14 +38,10 @@ class MyCartView extends StatefulWidget {
 
 class _MyCartViewState extends State<MyCartView>
     implements MyCartModelView, GetTableListModelView, AddTablenoModelView {
-  ScrollController _controller = ScrollController();
-  final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
-  List<ItemInfo> _itemInfo = [];
   List<TableList> _dropdownItemsTable = [];
 
-  String _selectedId;
   bool isTableList = false;
 
   bool isloading = false;
@@ -68,7 +57,6 @@ class _MyCartViewState extends State<MyCartView>
   List<MenuCartList> _cartItemList;
   int cartId;
   MenuCartDisplayModel myCart;
-  MenuCartList _cartList;
   int page = 1;
 
   int id;
@@ -80,19 +68,12 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void initState() {
-    // TODO: implement initState
     _myCartpresenter = MycartPresenter(this, this, this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
     super.initState();
-  }
-
-  void _onValueChange(String value) {
-    setState(() {
-      _selectedId = value;
-    });
   }
 
   int gettablelist(List<GetTableList> getlist) {
@@ -108,6 +89,7 @@ class _MyCartViewState extends State<MyCartView>
       _dropdownItemsTable = _tablelist;
     });
     getlistoftable();
+    return _tablelist.length;
   }
 
   getlistoftable() {
@@ -127,14 +109,6 @@ class _MyCartViewState extends State<MyCartView>
     });
   }
 
-  // List list;
-
-  // void removeItem(int index) {
-  //   setState(() {
-  //     list = List.from(list)..removeAt(index);
-  //   });
-  // }
-
   Widget steppercount(MenuCartList menuCartList) {
     return Container(
       height: 24,
@@ -150,7 +124,7 @@ class _MyCartViewState extends State<MyCartView>
                       print(menuCartList.quantity);
                     });
                     DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, "Loading");
+                        context, _keyLoader, STR_LOADING);
                     if (menuCartList.quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
@@ -159,9 +133,8 @@ class _MyCartViewState extends State<MyCartView>
                           context);
                     }
                     if (menuCartList.quantity == 0) {
-                      // _cartItemList = null;
                       DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
+                          context, _keyLoader, STR_LOADING);
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -188,8 +161,8 @@ class _MyCartViewState extends State<MyCartView>
           child: Text(
             menuCartList.quantity.toString(),
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -202,7 +175,7 @@ class _MyCartViewState extends State<MyCartView>
                 print(menuCartList.quantity);
               });
               DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, "Loading");
+                  context, _keyLoader, STR_LOADING);
 
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
@@ -231,10 +204,7 @@ class _MyCartViewState extends State<MyCartView>
   @override
   Widget build(BuildContext context) {
     Widget _getmainviewTableno() {
-      return
-          // SliverToBoxAdapter(
-          //   child:
-          Container(
+      return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Card(
           child: Column(
@@ -245,19 +215,15 @@ class _MyCartViewState extends State<MyCartView>
               ),
               Row(
                 children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
                   SizedBox(
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    STR_DINEIN_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_20,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -278,13 +244,10 @@ class _MyCartViewState extends State<MyCartView>
                       child: Row(
                       children: <Widget>[
                         SizedBox(width: 20),
-                        Text("No Tables available",
+                        Text(STR_NO_TABLE,
                             style: TextStyle(
-                                // decoration: TextDecoration.underline,
-                                // decorationColor:
-                                //     getColorByHex(Globle().colorscode),
-                                fontSize: 14,
-                                fontFamily: 'gotham',
+                                fontSize: FONTSIZE_14,
+                                fontFamily: KEY_FONTFAMILY,
                                 fontWeight: FontWeight.w600,
                                 color: getColorByHex(Globle().colorscode))),
                       ],
@@ -306,7 +269,7 @@ class _MyCartViewState extends State<MyCartView>
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
-          title: Text('My Cart'),
+          title: Text(STR_MYCART),
           backgroundColor: Colors.white,
           elevation: 0,
         ),
@@ -325,15 +288,6 @@ class _MyCartViewState extends State<MyCartView>
             isloading ? Container() : _getAddedListItem()
           ],
         ),
-        // CustomScrollView(
-        //   controller: _controller,
-        //   slivers: <Widget>[
-        //     _getmainviewTableno(),
-        //     // Divider(height: 2,),
-        //     _getAddedListItem()
-        //   // _getOptions()
-        //   ],
-        // ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
               height: 102,
@@ -343,10 +297,10 @@ class _MyCartViewState extends State<MyCartView>
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
                       child: Text(
-                        'Add More Items',
+                        STR_ADD_MORE_ITEM,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -354,16 +308,14 @@ class _MyCartViewState extends State<MyCartView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-
-                        //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
                       if (_dropdownTableNumber == null) {
-                        Constants.showAlert("My Cart",
-                            "Please select table number first.", context);
+                        Constants.showAlert(
+                            STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
                         Globle().dinecartValue = 0;
                         Preference.setPersistData<int>(
@@ -376,9 +328,7 @@ class _MyCartViewState extends State<MyCartView>
                                     restId: widget.restId,
                                     tablename: tableno,
                                     restName: widget.restName,
-                                    //price: _cartItemList[0].totalAmount,
                                     tableId: _dropdownTableNumber,
-                                    // userId: widget.userID,
                                     totalAmount: myCart.grandTotal,
                                     items: itemList,
                                     itemdata: _cartItemList,
@@ -386,13 +336,10 @@ class _MyCartViewState extends State<MyCartView>
                                     latitude: widget.lat,
                                     longitude: widget.long,
                                     currencySymbol: myCart.currencySymbol,
-                                    // orderID: widget.orderId
                                   ),
                                 ))
                             : Constants.showAlert(
-                                "My Cart",
-                                "Please add items to your cart first.",
-                                context);
+                                STR_MYCART, STR_ADD_ITEM_CART, context);
                       }
                     },
                     child: Container(
@@ -402,14 +349,13 @@ class _MyCartViewState extends State<MyCartView>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
-                          'PLACE ORDER',
+                          STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: 'gotham',
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                              fontSize: FONTSIZE_16,
                               color: Colors.white),
                         ),
                       ),
@@ -422,20 +368,6 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
-  // int getItemName(int length) {
-  //   List<ItemInfo> itemInfolist = [];
-  //   for (int i = 1; i <= length; i++) {
-  //     itemInfolist.add(ItemInfo(
-  //       itemName: _cartItemList[i - 1].items[i - 1].itemName,
-  //       itemDescription: _cartItemList[i - 1].items[i - 1].itemDescription,
-  //       itemId: _cartItemList[i - 1].items[i - 1].id,
-  //     ));
-  //   }
-  //   setState(() {
-  //     _itemInfo = itemInfolist;
-  //   });
-  // }
-
   Widget getTableNumber() {
     return Container(
       margin: EdgeInsets.only(left: 20),
@@ -443,7 +375,6 @@ class _MyCartViewState extends State<MyCartView>
       width: MediaQuery.of(context).size.width * 0.8,
       child: FormField(builder: (FormFieldState state) {
         return DropdownButtonFormField(
-          //itemHeight: Constants.getScreenHeight(context) * 0.06,
           items: _dropdownItemsTable.map((tableNumber) {
             return new DropdownMenuItem(
                 value: tableNumber.id,
@@ -457,8 +388,8 @@ class _MyCartViewState extends State<MyCartView>
                               decoration: TextDecoration.underline,
                               decorationColor:
                                   getColorByHex(Globle().colorscode),
-                              fontSize: 14,
-                              fontFamily: 'gotham',
+                              fontSize: FONTSIZE_14,
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode)),
                         )),
@@ -466,7 +397,6 @@ class _MyCartViewState extends State<MyCartView>
                 ));
           }).toList(),
           onChanged: (newValue) {
-            // do other stuff with _category
             setState(() {
               _dropdownTableNumber = newValue;
             });
@@ -480,7 +410,6 @@ class _MyCartViewState extends State<MyCartView>
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
-
           value: _dropdownTableNumber,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
@@ -492,21 +421,14 @@ class _MyCartViewState extends State<MyCartView>
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
             filled: false,
-            hintText: 'Choose Table',
-            // prefixIcon: Icon(
-            //   Icons.location_on,
-            //   size: 20,
-            //   color: greytheme1000,
-            // ),
-            labelText: _dropdownTableNumber == null
-                ? "Add Table Number "
-                : "Table Number",
-            // errorText: _errorText,
+            hintText: STR_CHOOSE_TABLE,
+            labelText:
+                _dropdownTableNumber == null ? STR_ADD_TABLE : STR_TABLE_NO,
             labelStyle: TextStyle(
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
-                fontSize: 14,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_14,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme100),
           ),
@@ -522,7 +444,6 @@ class _MyCartViewState extends State<MyCartView>
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
-                //int userID = _cartItemList[index].userId;
                 cartId = _cartItemList[index].id;
 
                 return Dismissible(
@@ -531,7 +452,7 @@ class _MyCartViewState extends State<MyCartView>
                   onDismissed: (direction) {
                     int cartIdnew = _cartItemList[index].id;
                     DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, "Loading");
+                        context, _keyLoader, STR_LOADING);
 
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
@@ -548,14 +469,14 @@ class _MyCartViewState extends State<MyCartView>
                               Padding(
                                 padding: EdgeInsets.only(left: 20),
                                 child: (_cartItemList[index].items.menuType ==
-                                        "veg")
+                                        STR_VEG)
                                     ? Image.asset(
-                                        'assets/VegIcon/Group1661.png',
+                                        STR_VEG_ICON,
                                         height: 25,
                                         width: 25,
                                       )
                                     : Image.asset(
-                                        'assets/VegIcon/Group1661.png',
+                                        STR_VEG_ICON,
                                         color: redtheme,
                                         width: 25,
                                         height: 25,
@@ -571,10 +492,10 @@ class _MyCartViewState extends State<MyCartView>
                                         0.65,
                                     child: Text(
                                       _cartItemList[index].items.itemName ??
-                                          'Bacon & Cheese Burger',
+                                          STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 16,
+                                          fontFamily: KEY_FONTFAMILY,
+                                          fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
                                   ),
@@ -588,10 +509,8 @@ class _MyCartViewState extends State<MyCartView>
                                       getExtra(_cartItemList[index]),
                                       style: TextStyle(
                                         color: greytheme1000,
-                                        fontSize: 14,
-                                        // fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
                                       ),
-                                      // minFontSize: 8,
                                       maxFontSize: 12,
                                       maxLines: 2,
                                     ),
@@ -604,7 +523,6 @@ class _MyCartViewState extends State<MyCartView>
                                 child: SizedBox(
                                   width: 0,
                                 ),
-                                // flex: 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 12, top: 30),
@@ -614,7 +532,7 @@ class _MyCartViewState extends State<MyCartView>
                                       '',
                                   style: TextStyle(
                                       color: greytheme700,
-                                      fontSize: 16,
+                                      fontSize: FONTSIZE_16,
                                       fontWeight: FontWeight.w600),
                                 ),
                               )
@@ -635,11 +553,11 @@ class _MyCartViewState extends State<MyCartView>
         : Expanded(
             child: Center(
               child: Text(
-                "Nothing in the Cart",
+                STR_NOTHING_CART,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: 'gotham',
+                    fontSize: FONTSIZE_22,
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
@@ -696,7 +614,6 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void getCartMenuListfailed() {
-    // TODO: implement getCartMenuListfailed\
     setState(() {
       _cartItemList = null;
     });
@@ -706,8 +623,6 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) {
-    // TODO: implement getCartMenuListsuccess
-
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData(
@@ -729,16 +644,9 @@ class _MyCartViewState extends State<MyCartView>
           itemList.add(_cartItemList[i].id);
           print(itemList);
         }
-        // for (var i = 0; i < _cartItemList.length; i++) {
-        //   itemData.add(_cartItemList[i].items);
-        //   print(itemData);
-        // }
       } else {
-        //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
         myCart = model;
-
-        //getcartitemlist();
       }
       page++;
     });
@@ -747,56 +655,41 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void removeItemFailed() {
-    // TODO: implement removeItemFailed
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    //Preference.setPersistData(null, PreferenceKeys.ORDER_ID);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void removeItemSuccess() {
-    // TODO: implement removeItemSuccess
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    //return;
   }
 
   @override
   void addTablebnoSuccces() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement addTablebnoSuccces
   }
 
   @override
   void addTablenofailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement addTablenofailed
   }
 
   @override
-  void getTableListFailed() {
-    // TODO: implement getTableListFailed
-  }
+  void getTableListFailed() {}
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
-
-    // TODO: implement getTableListSuccess
   }
 
   @override
@@ -806,41 +699,12 @@ class _MyCartViewState extends State<MyCartView>
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-    // TODO: implement updatequantitySuccess
   }
 
   @override
   void updatequantityfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-    // TODO: implement updatequantityfailed
   }
-
-  //   return Scaffold(
-  //     body: _getmainview(),
-  //   );
-  // }
-
-//   Widget _getmainview() {
-//     return Container(
-//       child: Column(
-//         children: <Widget>[
-//           Padding(padding: EdgeInsets.fromLTRB(15, 200, 0, 0)),
-//           Center(child: Text('data')),
-//           //_getmainviewTableno(),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           Divider(
-//             thickness: 3,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 }
 
 class ItemInfo {
@@ -860,9 +724,9 @@ class TableList {
 }
 
 class AddTableno {
-  int user_id;
-  int table_id;
-  int rest_id;
+  int userId;
+  int tableId;
+  int restId;
 
-  AddTableno({this.rest_id, this.table_id, this.user_id});
+  AddTableno({this.restId, this.tableId, this.userId});
 }

@@ -4,10 +4,7 @@ import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
-import 'package:foodzi/Utils/globle.dart';
-//import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'LoginPresenter.dart';
@@ -22,7 +19,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
-  // static String countrycode = "";
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
   var mobilenumber = '';
@@ -35,7 +31,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var loginPresenter;
   @override
   void initState() {
-    // TODO: implement initState
     loginPresenter = LoginPresenter(this);
     super.initState();
   }
@@ -77,7 +72,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (_signInFormKey.currentState.validate()) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       loginPresenter.performLogin(mobilenumber, password, context);
-      // _signInFormKey.currentState.save();
     } else {
       setState(() {
         _validate = true;
@@ -129,15 +123,14 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     return Column(
       children: <Widget>[
         Image.asset(
-          'assets/Logo/foodzi_logo.jpg',
-          //height: 100,
+          FOODZI_LOGO_PATH,
         ),
         SizedBox(height: 10),
         Text(
-          'ORDER EASY',
+          STR_ORDER_EASY,
           style: TextStyle(
-              fontFamily: 'HelveticaNeue',
-              fontSize: 11,
+              fontFamily: KEY_FONT_HELVETICANEUE,
+              fontSize: FONTSIZE_11,
               color: greytheme400,
               fontWeight: FontWeight.w700,
               letterSpacing: 1),
@@ -167,20 +160,19 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               child: AppTextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(4),
-                  BlacklistingTextInputFormatter(RegExp('[ ]'))
+                  BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
                 ],
                 icon: Icon(
                   Icons.language,
                   color: greentheme100,
                 ),
                 keyboardType: TextInputType.phone,
-                placeHolderName: "Code",
+                placeHolderName: STR_CODE,
                 onChanged: (text) {
-                  //  countrycoder = text;
-                  if (text.contains('+')) {
+                  if (text.contains(STR_PLUS_SIGN)) {
                     countrycode = text;
                   } else {
-                    countrycode = "+" + text;
+                    countrycode = STR_PLUS_SIGN + text;
                   }
                 },
                 validator: validatecountrycode,
@@ -194,7 +186,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               child: AppTextField(
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
-                  BlacklistingTextInputFormatter(RegExp('[ ]')),
+                  BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
                   WhitelistingTextInputFormatter.digitsOnly
                 ],
                 onChanged: (text) {
@@ -218,7 +210,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         AppTextField(
           inputFormatters: [
             LengthLimitingTextInputFormatter(15),
-            BlacklistingTextInputFormatter(RegExp('[ ]'))
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {
             password = text;
@@ -239,7 +231,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           validator: validatepassword,
           onSaved: (String value) {
             _signInData[enterPass] = value;
-            print('Details are : $_signInData');
           },
         ),
       ],
@@ -247,7 +238,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   String validatemobno(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_MOBILE_NUMBER_REQUIRED;
@@ -256,7 +247,6 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
-    // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
@@ -264,13 +254,13 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   String validatecountrycode(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_COUNTRY_CODE;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_COUNTRYCODE_REQUIRED;
     } else if (value.length > 4) {
       return KEY_COUNTRY_CODE_LIMIT;
-    } else if (!value.startsWith('+')) {
+    } else if (!value.startsWith(STR_PLUS_SIGN)) {
       if (!regExp.hasMatch(value)) {
         return KEY_COUNTRY_CODE_TEXT;
       }
@@ -307,8 +297,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             child: Text(
               KEY_FORGET_PASSWORD,
               style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_12,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   color: greentheme100),
             ),
@@ -328,7 +318,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         child: Text(
           KEY_SIGN_IN,
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'gotham'),
+              fontSize: FONTSIZE_16,
+              fontWeight: FontWeight.w700,
+              fontFamily: KEY_FONTFAMILY),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -355,8 +347,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         child: Text(
           KEY_OTP_SIGN_IN,
           style: TextStyle(
-            fontSize: 16,
-            fontFamily: 'gotham',
+            fontSize: FONTSIZE_16,
+            fontFamily: KEY_FONTFAMILY,
             fontWeight: FontWeight.w600,
             color: greentheme100,
           ),
@@ -371,12 +363,12 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Don't have an account?",
+            STR_ACCOUNT,
             style: TextStyle(
-                fontFamily: 'gotham',
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme100,
-                fontSize: 16),
+                fontSize: FONTSIZE_16),
           ),
           SizedBox(
             width: 3,
@@ -390,8 +382,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               style: TextStyle(
                   color: greentheme100,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_16),
             ),
           )
         ],
@@ -401,14 +393,11 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   @override
   void loginFailed() {
-    // TODO: implement loginFailed
-    print("pop f close");
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void loginSuccess() {
-    // TODO: implement loginSuccess
     _signInFormKey.currentState.save();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, '/MainWidget');

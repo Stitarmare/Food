@@ -106,6 +106,9 @@ const double FONTSIZE_18 = 18;
 const double FONTSIZE_22 = 22;
 const double FONTSIZE_20 = 20;
 const double FONTSIZE_25 = 25;
+const double FONTSIZE_32 = 32;
+const double FONTSIZE_24 = 24;
+const double FONTSIZE_11 = 11;
 
 // AddItemPageView & AddItemPageViewTA
 const KEY_FONTFAMILY = 'gotham';
@@ -200,3 +203,78 @@ const OTP_LOGO_PATH = 'assets/PhoneImage/Group_295.png';
 const STR_VALIDATE_MOB_NO = r'(^[0-9]*$)';
 const STR_VALIDATE_COUNTRY_CODE = r'(^[0-9]*$)';
 const JSON_STR_MOB_NO = "mobile_number";
+
+// LandingView Page
+const MENU_IAMGE_PATH = 'assets/MenuIcon/menu.png';
+const FODDZI_LOGO_3X = "assets/Logo/foodzi_logo@3x.jpg";
+const STR_HELLO = 'Hello';
+const STR_FAV_FINGERTIP = 'All your favourites at your fingertip !!';
+const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';
+const STR_DINEIN_TITLE = 'Dine-in';
+const STR_SERVED_RESTAUTRANT = 'Get served in Restaurant';
+const STR_VIEW_YOUR_ORDER = 'View Your Order';
+const TAKE_AWAY_IMAGE_PATH = 'assets/TakeAwayImage/Group1505.png';
+const STR_PAID = "paid";
+const STR_COLLECTION = 'Collection';
+const STR_ORDER_TO_COLLECT = 'Order to Collect';
+const STR_MAIN = 'main';
+const STR_HOME = 'Home';
+const STR_SETTING = 'Settings';
+const STR_GALLERY = 'Gallery';
+const STR_TERMS_CONDITION = 'Terms & Conditions';
+const STR_FAVORITE_TITLE = 'Favorites';
+const STR_PRIVACY_POLICY = 'Privacy Policy';
+const STR_NOTIFICATION = 'Notification';
+const STR_ABOUT_US = 'About Us';
+const STR_INVITE = 'invite';
+const STR_HELP = 'Help';
+const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
+
+// Login Page
+const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';
+const STR_PLUS_SIGN = '+';
+const STR_ACCOUNT = "Don't have an account?";
+const STR_INPUTFORMAT = '[ ]';
+const JSON_STR_PWD = 'password';
+
+// MenuItemDropDown Page
+const STR_ZERO = "0";
+const JSON_STR_REST_ID = "rest_id";
+
+// MyCartView Page and MyCartTakeAway
+const STR_LOADING = "Loading";
+const STR_NO_TABLE = "No Tables available";
+const STR_MYCART = 'My Cart';
+const STR_ADD_MORE_ITEM = 'Add More Items';
+const STR_SELECT_TABLE = "Please select table number first.";
+const STR_ADD_ITEM_CART = "Please add items to your cart first.";
+const STR_PLACE_ORDER = 'PLACE ORDER';
+const STR_CHOOSE_TABLE = 'Choose Table';
+const STR_ADD_TABLE = "Add Table Number ";
+const STR_TABLE_NO = "Table Number";
+const STR_VEG = "veg";
+const STR_VEG_ICON = 'assets/VegIcon/Group1661.png';
+const STR_ITEM_NAME = 'Bacon & Cheese Burger';
+const STR_NOTHING_CART = "Nothing in the Cart";
+const JSON_STR_USER_ID = "user_id";
+const JSON_STR_CART_ID = 'cart_id';
+const JSON_STR_TABLE_ID = "table_id";
+const JSON_STR_QUANTITY = "quantity";
+const JSON_STR_AMOUNT = "amount";
+const STR_SUMBIT = 'SUBMIT';
+const STR_ITEM_DESC = " Lorem Epsom is simply dummy text";
+const STR_SEVENTEEN = '17';
+
+// MyOrders Page
+const STR_SMALL_DINEIN = "dine_in";
+const STR_YOUR_ORDERS = "Your Orders";
+const STR_CURRENT_ORDER = 'Current Orders';
+const STR_BOOKING_HISTORY = 'Booking History';
+const STR_ITEMS = 'ITEMS';
+const STR_ORDERED_ON = 'ORDERED ON ';
+const STR_ORDER_TYPE = 'ORDERED TYPE';
+const STR_TOTAL_AMOUNT = 'TOTAL AMOUNT';
+const STR_VIEW_ORDER_DETAILS = "VIEW ORDER DETAILS";
+const STR_TIME = '06 Feb 2020 at 12:05 PM';
+const STR_REPEAT_ORDER = 'Repeat Order';
+const JSON_STR_ORDER_TYPE = "order_type";

@@ -1,10 +1,4 @@
-// To parse this JSON data, do
-//
-//     final addMenuToCartModel = addMenuToCartModelFromJson(jsonString);
-
 import 'dart:convert';
-
-import 'package:foodzi/Models/RestaurantItemsList.dart';
 
 AddMenuToCartModel addMenuToCartModelFromJson(String str) =>
     AddMenuToCartModel.fromJson(json.decode(str));
@@ -106,14 +100,6 @@ class AddMenuToCartList {
       };
 }
 
-// To parse this JSON data, do
-//
-//     final addItemsToCartModel = addItemsToCartModelFromJson(jsonString);
-
-// AddItemsToCartModel addItemsToCartModelFromJson(String str) => AddItemsToCartModel.fromJson(json.decode(str));
-
-// String addItemsToCartModelToJson(AddItemsToCartModel data) => json.encode(data.toJson());
-
 class AddItemsToCartModel {
   int userId;
   int restId;
@@ -186,7 +172,6 @@ class Item {
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
         "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
         "sizes": List<dynamic>.from(sizes.map((x) => x.toJson())),
-
       };
 }
 

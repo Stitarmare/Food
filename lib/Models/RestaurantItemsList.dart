@@ -1,11 +1,3 @@
-import 'dart:convert';
-
-// RestaurantItemsModel restaurantItemsModelFromJson(String str) =>
-//     RestaurantItemsModel.fromJson(json.decode(str));
-
-// String restaurantItemsModelToJson(RestaurantItemsModel data) =>
-//     json.encode(data.toJson());
-
 class RestaurantItemsModel {
   String status;
   int statusCode;

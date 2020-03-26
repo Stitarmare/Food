@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'dart:convert';
-
 import 'package:foodzi/Models/UpdateprofileModel.dart';
 
 class LoginModel {
@@ -84,7 +80,9 @@ class Data {
         emailVerifiedAt: json["email_verified_at"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        userDetails: json["user_details"] != null ? UserDetails.fromJson(json["user_details"]) : null,
+        userDetails: json["user_details"] != null
+            ? UserDetails.fromJson(json["user_details"])
+            : null,
 //colourCode: json["colour_code"],
       );
 
@@ -104,6 +102,5 @@ class Data {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "user_details": userDetails != null ? userDetails.toJson() : null,
-//"colour_code": colourCode,
       };
 }

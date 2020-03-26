@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final paycheckoutNetbanking = paycheckoutNetbankingFromJson(jsonString);
-
 import 'dart:convert';
 
 PaycheckoutNetbanking paycheckoutNetbankingFromJson(String str) =>
