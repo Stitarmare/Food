@@ -164,20 +164,21 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           controller: _controller,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StatusTrackView(
-                              tableId: _orderDetailList[index].tableId,
-                              orderID: _orderDetailList[index].id,
-                              flag: 2,
-                              rest_id: _orderDetailList[index].restId,
-                              title:
-                                  _orderDetailList[index].restaurant.restName,
-                              tableName: widget.tableName,
-                            )));
-              },
+              onTap: null,
+              // () {
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => StatusTrackView(
+              //                 tableId: _orderDetailList[index].tableId,
+              //                 orderID: _orderDetailList[index].id,
+              //                 flag: 2,
+              //                 rest_id: _orderDetailList[index].restId,
+              //                 title:
+              //                     _orderDetailList[index].restaurant.restName,
+              //                 tableName: widget.tableName,
+              //               )));
+              // },
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(4),
@@ -342,13 +343,59 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       indent: 10,
                       endIndent: 10,
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, top: 8, bottom: 8),
-                      child: Text(
-                        'Status : ${_orderDetailList[index].status}',
-                        style: TextStyle(color: greytheme400, fontSize: 18),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    // Padding(
+                    //   padding:
+                    //       const EdgeInsets.only(left: 15, top: 8, bottom: 8),
+                    //   child: Text(
+                    //     'Status : ${_orderDetailList[index].status}',
+                    //     style: TextStyle(color: greytheme400, fontSize: 18),
+                    //   ),
+                    // )
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: 40,
+                        child: RaisedButton(
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          //color: orangetheme,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            "VIEW ORDER DETAILS",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'gotham',
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StatusTrackView(
+                                          tableId:
+                                              _orderDetailList[index].tableId,
+                                          orderID: _orderDetailList[index].id,
+                                          flag: 2,
+                                          rest_id:
+                                              _orderDetailList[index].restId,
+                                          title: _orderDetailList[index]
+                                              .restaurant
+                                              .restName,
+                                          tableName: widget.tableName,
+                                        )));
+                          },
+                        ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
                     )
                   ],
                 ),

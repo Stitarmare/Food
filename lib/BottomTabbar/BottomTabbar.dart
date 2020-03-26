@@ -10,6 +10,7 @@ import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
@@ -25,6 +26,8 @@ class BottomTabbar extends StatefulWidget {
 
 class _BottomTabbarState extends State<BottomTabbar> {
   int currentTabIndex = 0;
+  bool isAlreadyOrder = false;
+  bool cartStatus = false;
   List<Widget> tabsDineIn = [
     DineInView(),
     MyOrders(),
@@ -60,6 +63,8 @@ class _BottomTabbarState extends State<BottomTabbar> {
         ]);
       });
     }
+    getOrderID();
+    getAlreadyInCart();
     super.initState();
   }
 
@@ -132,57 +137,62 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon: Icon(
-                  OMIcons.assignment,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                activeIcon: Icon(
-                  OMIcons.assignment,
-                  color: orangetheme,
-                  size: 30,
-                ),
-                //icon: Image.asset('assets/OrderIcon/order.png'),
-                // icon: Icon(
-                //   OMIcons.assignment,
-                //   color: greytheme100,
-                //   size: 30,
-                // ),
-                // icon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.assignment, color: greytheme100,size: 30,),
-                //     Positioned(
-                //         top: -11,
-                //         right: -11,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
-                // // activeIcon: Icon(
-                // //   OMIcons.assignment,
-                // //   color: orangetheme,
-                // //   size: 30,
-                // // ),
-                // activeIcon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.assignment, color: orangetheme,size: 30,),
-                //     Positioned(
-                //         top: -11,
-                //         right: -11,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
+                icon: (isAlreadyOrder && widget.tabValue == 0)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.assignment,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.assignment,
+                        color: greytheme100,
+                        size: 30,
+                      ),
+                activeIcon: (isAlreadyOrder && widget.tabValue == 0)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.assignment,
+                            color: orangetheme,
+                            size: 30,
+                          ),
+                          Positioned(
+                            top: -11,
+                            right: -11,
+                            child: (cartStatus)
+                                ? Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text("1",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                : Text(""),
+                          )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.assignment,
+                        color: orangetheme,
+                        size: 30,
+                      ),
                 title: Text('')),
             BottomNavigationBarItem(
                 icon: Icon(
@@ -242,5 +252,25 @@ class _BottomTabbarState extends State<BottomTabbar> {
                 title: Text('')),
           ]),
     );
+  }
+
+  getAlreadyInCart() async {
+    var alreadyIncartStatus =
+        await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
+    if (alreadyIncartStatus == true) {
+      //return alreadyIncartStatus;
+      setState(() {
+        cartStatus = true;
+      });
+    }
+  }
+
+  getOrderID() async {
+    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+    if (orderId != null) {
+      setState(() {
+        isAlreadyOrder = true;
+      });
+    }
   }
 }
