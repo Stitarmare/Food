@@ -136,7 +136,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset(STR_GROUP_IMAGE),
+        Image.asset(IMAGE_LOCK_PATH),
       ],
     );
   }

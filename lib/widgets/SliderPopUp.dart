@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class SliderDialog extends StatefulWidget {
@@ -12,34 +13,19 @@ class SliderDialog extends StatefulWidget {
 }
 
 class SliderDialogState extends State<SliderDialog> {
-  // String _selectedId;
-// Default Radio Button Item
-  // String radioItem = 'Mango';
-
-// Group Value for Radio Button.
   int id = 1;
   var sliderValue = 0.0;
 
   @override
   void initState() {
     super.initState();
-    // _selectedId = widget.initialValue;
   }
 
   Widget build(BuildContext context) {
     return new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
-        // AlertDialog(
-        //       title:
-
-        //       //titleTextStyle: TextStyle(),
-        //       content:
         Container(
-          // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          // width: MediaQuery.of(context).size.width * 0.8,
-          // height: 100,
-          // width: 280,
           height: 190,
           width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
@@ -47,13 +33,13 @@ class SliderDialogState extends State<SliderDialog> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top:10.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Text(
-                  'SELECT RATING',
+                  STR_SELECT_RATING,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 20,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontSize: FONTSIZE_20,
                     fontWeight: FontWeight.w600,
                     color: greentheme100,
                   ),
@@ -63,7 +49,7 @@ class SliderDialogState extends State<SliderDialog> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15,right: 15,bottom: 10),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
                 child: Slider(
                   activeColor: greentheme100,
                   inactiveColor: greytheme100,
@@ -71,41 +57,38 @@ class SliderDialogState extends State<SliderDialog> {
                   max: 5.0,
                   divisions: 5,
                   value: sliderValue,
-                  label: '${sliderValue}',
+                  label: '$sliderValue',
                   onChanged: (newValue) {
                     setState(() {
                       sliderValue = newValue;
                     });
                   },
                 ),
-                
               ),
-               Text(
-                  'SELECTED RATING: $sliderValue/5.0',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'gotham',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: greytheme700,
-                  ),
+              Text(
+                STR_SELECTED_RATING + '$sliderValue' + STR_FIVE,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_16,
+                  fontWeight: FontWeight.w500,
+                  color: greytheme700,
                 ),
+              ),
               SizedBox(
                 height: 12,
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                              child: FlatButton(
+                child: FlatButton(
                   onPressed: () {
-                    // Use the second argument of Navigator.pop(...) to pass
-                    // back a result to the page that opened the dialog
-                    Navigator.pop(context,sliderValue.toString());
+                    Navigator.pop(context, sliderValue.toString());
                   },
                   child: Text(
-                    'DONE',
+                    STR_DONE_TITLE,
                     style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 18,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_18,
                       fontWeight: FontWeight.w600,
                       color: greentheme100,
                     ),
@@ -114,20 +97,6 @@ class SliderDialogState extends State<SliderDialog> {
               )
             ],
           ),
-          //Slider(
-          // activeColor:greentheme100 ,
-          //   value: _slider2Val,
-          //   min: 0.0,
-          //   max: 100.0,
-          //   divisions: 5,
-          //   label: '${_slider2Val.round()}',
-          //   onChanged: (double value) {
-          //     setState(() => _slider2Val = value);
-          //   }),
-          // ),
-          // actions: <Widget>[
-
-          // ],
         )
       ],
     );

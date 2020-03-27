@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 
 class DialogsIndicator {
   static Future<void> showLoadingDialog(
@@ -22,9 +23,9 @@ class DialogsIndicator {
                             SizedBox(
                               height: 10,
                             ),
-                            text != ""
+                            text != STR_BLANK
                                 ? Text(
-                                    text ?? "",
+                                    text ?? STR_BLANK,
                                     style: TextStyle(color: Colors.blueAccent),
                                   )
                                 : Container()
@@ -33,6 +34,4 @@ class DialogsIndicator {
                   ]));
         });
   }
-
-  
 }

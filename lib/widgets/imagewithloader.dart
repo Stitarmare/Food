@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:http/http.dart' as http;
 
 class ImageWithLoader extends StatefulWidget {
@@ -12,7 +13,6 @@ class ImageWithLoader extends StatefulWidget {
       {this.placeholder, this.height, this.width, this.radiusValue, this.fit});
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return ImageWithLoaderState();
   }
 }
@@ -20,18 +20,16 @@ class ImageWithLoader extends StatefulWidget {
 class ImageWithLoaderState extends State<ImageWithLoader> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       borderRadius: BorderRadius.circular(widget.radiusValue ?? 0),
       child: FutureBuilder(
-        // Paste your image URL inside the htt.get method as a parameter
-        future: http.get(widget.url ?? ""),
+        future: http.get(widget.url ?? STR_BLANK),
         builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return Image.asset(
-                widget.placeholder ?? "",
+                widget.placeholder ?? STR_BLANK,
                 height: widget.height ?? double.infinity,
                 width: widget.width ?? double.infinity,
               );
@@ -42,11 +40,10 @@ class ImageWithLoaderState extends State<ImageWithLoader> {
             case ConnectionState.done:
               if (snapshot.hasError)
                 return Image.asset(
-                  widget.placeholder ?? "",
+                  widget.placeholder ?? STR_BLANK,
                   height: widget.height ?? double.infinity,
                   width: widget.width ?? double.infinity,
                 );
-              // when we get the data from the http call, we give the bodyBytes to Image.memory for showing the image
               return Image.memory(
                 snapshot.data.bodyBytes,
                 fit: BoxFit.cover,
@@ -54,7 +51,7 @@ class ImageWithLoaderState extends State<ImageWithLoader> {
                 width: widget.width ?? double.infinity,
               );
           }
-          return null; // unreachable
+          return null;
         },
       ),
     );

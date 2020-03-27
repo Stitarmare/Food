@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'dart:math' as math;
-
 import 'package:foodzi/Utils/String.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
-
 import 'package:foodzi/RegistrationPage/RegisterPresenter.dart';
-
 import 'RegisterContractor.dart';
 
 class Registerview extends StatefulWidget {
@@ -25,7 +21,6 @@ class _RegisterviewState extends State<Registerview>
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
   static String name = Key_USER_NAME;
-
   final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -41,7 +36,6 @@ class _RegisterviewState extends State<Registerview>
   var registerPresenter;
   @override
   void initState() {
-    // TODO: implement initState
     registerPresenter = RegisterPresenter(this);
     super.initState();
   }
@@ -79,8 +73,6 @@ class _RegisterviewState extends State<Registerview>
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, context);
-      // _goToNextPageDineIn(context);
-
       _signUpFormKey.currentState.save();
     } else {
       setState(() {
@@ -125,15 +117,14 @@ class _RegisterviewState extends State<Registerview>
     return Column(
       children: <Widget>[
         Image.asset(
-          'assets/Logo/foodzi_logo.jpg',
-          //height: 100,
+          FOODZI_LOGO_PATH,
         ),
         SizedBox(height: 10),
         Text(
-          'ORDER EASY',
+          STR_ORDER_EASY,
           style: TextStyle(
-              fontFamily: 'HelveticaNeue',
-              fontSize: 11,
+              fontFamily: KEY_FONT_HELVETICANEUE,
+              fontSize: FONTSIZE_11,
               color: greytheme400,
               fontWeight: FontWeight.w700,
               letterSpacing: 1),
@@ -164,7 +155,7 @@ class _RegisterviewState extends State<Registerview>
         AppTextField(
           inputFormatters: [
             LengthLimitingTextInputFormatter(20),
-            BlacklistingTextInputFormatter(RegExp('[ ]'))
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {
             _firstname = text;
@@ -186,7 +177,7 @@ class _RegisterviewState extends State<Registerview>
         AppTextField(
           inputFormatters: [
             LengthLimitingTextInputFormatter(20),
-            BlacklistingTextInputFormatter(RegExp('[ ]'))
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {
             _lastname = text;
@@ -211,20 +202,19 @@ class _RegisterviewState extends State<Registerview>
             child: AppTextField(
               inputFormatters: [
                 LengthLimitingTextInputFormatter(4),
-                BlacklistingTextInputFormatter(RegExp('[ ]'))
+                BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
               ],
               icon: Icon(
                 Icons.language,
                 color: greentheme100,
               ),
               keyboardType: TextInputType.phone,
-              placeHolderName: "Code",
+              placeHolderName: STR_CODE,
               onChanged: (text) {
-                //  countrycoder = text;
-                if (text.contains('+')) {
+                if (text.contains(STR_PLUS_SIGN)) {
                   countrycode = text;
                 } else {
-                  countrycode = "+" + text;
+                  countrycode = STR_PLUS_SIGN + text;
                 }
               },
               validator: validatecountrycode,
@@ -238,7 +228,7 @@ class _RegisterviewState extends State<Registerview>
             child: AppTextField(
               inputFormatters: [
                 LengthLimitingTextInputFormatter(10),
-                BlacklistingTextInputFormatter(RegExp('[ ]')),
+                BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
                 WhitelistingTextInputFormatter.digitsOnly
               ],
               onChanged: (text) {
@@ -258,7 +248,7 @@ class _RegisterviewState extends State<Registerview>
         AppTextField(
           inputFormatters: [
             LengthLimitingTextInputFormatter(15),
-            BlacklistingTextInputFormatter(RegExp('[ ]'))
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {
             _password = text;
@@ -276,7 +266,7 @@ class _RegisterviewState extends State<Registerview>
           validator: validatepassword,
           onSaved: (String value) {
             _signUpData[enterPass] = value;
-            print('Details are : $_signUpData');
+            print(STR_DETAILS_ARE + '$_signUpData');
           },
         ),
       ],
@@ -284,7 +274,7 @@ class _RegisterviewState extends State<Registerview>
   }
 
   String validatename(String value) {
-    String validCharacters = r'^[a-zA-Z0-9]';
+    String validCharacters = STR_VALIDATE_NAME_TITLE;
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
@@ -297,7 +287,7 @@ class _RegisterviewState extends State<Registerview>
   }
 
   String validatemobno(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_MOBILE_NUMBER_REQUIRED;
@@ -306,7 +296,6 @@ class _RegisterviewState extends State<Registerview>
     } else if (value.length > 13) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
-    // if(value.trim().length <= 0){
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
@@ -323,13 +312,13 @@ class _RegisterviewState extends State<Registerview>
   }
 
   String validatecountrycode(String value) {
-    String pattern = r'(^[0-9]*$)';
+    String pattern = STR_VALIDATE_COUNTRY_CODE;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_COUNTRYCODE_REQUIRED;
     } else if (value.length > 4) {
       return KEY_COUNTRY_CODE_LIMIT;
-    } else if (!value.startsWith('+')) {
+    } else if (!value.startsWith(STR_PLUS_SIGN)) {
       if (!regExp.hasMatch(value)) {
         return KEY_COUNTRY_CODE_TEXT;
       }
@@ -347,7 +336,9 @@ class _RegisterviewState extends State<Registerview>
         child: Text(
           KEY_SIGN_UP,
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'gotham'),
+              fontSize: FONTSIZE_16,
+              fontWeight: FontWeight.w600,
+              fontFamily: KEY_FONTFAMILY),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -362,16 +353,15 @@ class _RegisterviewState extends State<Registerview>
   Widget _signinbutton() {
     return LimitedBox(
       child: Row(
-        //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Already have an Account?",
+            STR_ALREADY_ACCOUNT,
             style: TextStyle(
-                fontFamily: 'gotham',
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme100,
-                fontSize: 16),
+                fontSize: FONTSIZE_16),
           ),
           SizedBox(
             width: 3,
@@ -385,8 +375,8 @@ class _RegisterviewState extends State<Registerview>
               style: TextStyle(
                   color: greentheme100,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'gotham',
-                  fontSize: 16),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_16),
             ),
           )
         ],
@@ -408,15 +398,10 @@ class _RegisterviewState extends State<Registerview>
     _signUpFormKey.currentState.save();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _goToNextPageDineIn(context);
-    //Navigator.pushNamed(context, '/OTPScreen');
-    // TODO: implement registerSuccess
   }
 
   @override
   void registerfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    print("Registration Failed");
-    // Constants.showAlert("Incorrect Credentials", context);
-    // TODO: implement registerfailed
   }
 }

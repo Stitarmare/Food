@@ -9,20 +9,17 @@ import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
-
-//import 'package:foodzi/widgets/MenuItemDropDown.dart';
-
 import 'package:foodzi/theme/colors.dart';
-//import 'package:foodzi/widgets/MenuItemDropDown.dart';
 
 class RestaurantTAView extends StatefulWidget {
   String title;
-  int rest_Id;
+  int restId;
   String imageUrl;
-  RestaurantTAView({this.title, this.rest_Id, this.imageUrl});
+  RestaurantTAView({this.title, this.restId, this.imageUrl});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -34,7 +31,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   RestaurantTAPresenter restaurantPresenter;
   List<RestaurantMenuItem> _restaurantList;
   int page = 1;
-  final GlobalKey _menuKey = new GlobalKey();
   ScrollController _controller = ScrollController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -48,8 +44,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     _detectScrollPosition();
     restaurantPresenter = RestaurantTAPresenter(this);
     _restaurantItemsModel = RestaurantItemsModel();
-    restaurantPresenter.getMenuList(widget.rest_Id, context,
-        category_id: abc, menu: menutype);
+    restaurantPresenter.getMenuList(widget.restId, context,
+        categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     super.initState();
   }
@@ -58,11 +54,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
-          print("Top");
         } else {
-          restaurantPresenter.getMenuList(widget.rest_Id, context,
-              category_id: abc, menu: menutype);
-          print("Bottom");
+          restaurantPresenter.getMenuList(widget.restId, context,
+              categoryId: abc, menu: menutype);
         }
       }
     });
@@ -82,11 +76,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               color: greytheme100,
             ),
             onPressed: () {
-              //  Navigator.pushNamed(context, '/HotelInfoView');
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => RestaurantInfoView(
-                        // title: "${_restaurantList[i].restName}",
-                        rest_Id: widget.rest_Id,
+                        restId: widget.restId,
                       )));
             },
           )
@@ -101,7 +93,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             child: CustomScrollView(
               controller: _controller,
               slivers: <Widget>[
-                // _getmainviewTableno(),
                 SliverToBoxAdapter(
                   child: Container(
                     child: SizedBox(
@@ -129,11 +120,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                     MediaQuery.of(context).size.height * 0.25,
                               ),
                               Text(
-                                'No items found.',
+                                STR_NO_ITEMS_FOUND,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontSize: 25,
-                                    fontFamily: 'gotham',
+                                    fontSize: FONTSIZE_25,
+                                    fontFamily: KEY_FONTFAMILY,
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -158,7 +149,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               Center(child: CircularProgressIndicator()),
           imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
           errorWidget: (context, url, error) => Image.asset(
-                "assets/HotelImages/Image12.png",
+                RESTAURANT_IMAGE_PATH,
                 fit: BoxFit.fill,
               )),
     );
@@ -186,8 +177,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       widget.title,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
+                          fontSize: FONTSIZE_20,
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600,
                           color: greytheme700),
                     ),
@@ -196,24 +187,18 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               ),
               Divider(
                 thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
               ),
               Row(
                 children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),Œ
-                  // Image.asset('assets/DineInImage/Group1504.png'),
                   SizedBox(
                     width: 20,
                   ),
                   Text(
-                    'Collection',
+                    STR_COLLECTION,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_20,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -222,25 +207,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               SizedBox(
                 height: 10,
               ),
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(width: 20),
-              //     Text(
-              //       'Add Table Number',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           decoration: TextDecoration.underline,
-              //           decorationColor: Colors.black,
-              //           fontSize: 14,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme100),
-              //     )
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // )
             ],
           ),
         ),
@@ -255,11 +221,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           children: <Widget>[
             SizedBox(width: 15),
             Text(
-              'veg only',
+              STR_VEG_ONLY,
               textAlign: TextAlign.start,
               style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_12,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500,
                   color: greytheme1000),
             ),
@@ -273,17 +239,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     if (this._switchvalue) {
                       _restaurantList = null;
                       DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
-                      menutype = 'veg';
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc, menu: menutype);
+                          context, _keyLoader, STR_LOADING);
+                      menutype = STR_VEG;
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
                     } else {
                       _restaurantList = null;
                       DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
+                          context, _keyLoader, STR_LOADING);
                       menutype = null;
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc, menu: menutype);
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
                     }
                   });
                 },
@@ -296,10 +262,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             SizedBox(
               child: OutlineButton(
                   child: Text(
-                    "Menu",
+                    STR_MENU,
                     style: TextStyle(
-                        fontSize: 12,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_12,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: (isselected)
                             ? getColorByHex(Globle().colorscode)
@@ -308,7 +274,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   borderSide: (isselected)
                       ? BorderSide(color: getColorByHex(Globle().colorscode))
                       : BorderSide(color: greytheme100),
-                  //borderSide: BorderSide(color:redtheme),
                   onPressed: () async {
                     setState(() {
                       if (isselected == false) {
@@ -320,7 +285,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     abc = await showDialog(
                         context: context,
                         child: MenuItem(
-                          restaurantId: widget.rest_Id,
+                          restaurantId: widget.restId,
                         ),
                         barrierDismissible: true);
                     setState(() {
@@ -333,17 +298,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     if (abc != null) {
                       _restaurantList = null;
                       DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
-                      restaurantPresenter.getMenuList(widget.rest_Id, context,
-                          category_id: abc, menu: menutype);
+                          context, _keyLoader, STR_LOADING);
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
                       print(abc);
-
-                      print("abc");
                     }
-                    // else {
-                    //   Constants.showAlert(
-                    //       "No Records", "No items found.", context);
-                    // }
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -393,23 +352,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
-                            // bottomLeft: Radius.circular(10.0),
-                            //bottomRight: Radius.circular(10.0),
                           ),
-                          // child: Align(
-                          //   alignment: Alignment.bottomRight,
-                          //   heightFactor: 1,
-                          //   child: Image.network(
-                          //       "https://static.vinepair.com/wp-content/uploads/2017/03/darts-int.jpg"),
-                          // ),
-                          // child: ImageWithLoader(
-                          //     BaseUrl.getBaseUrlImages() +
-                          //         '${_restaurantList[index].itemImage}',
-                          //     fit: BoxFit.fitWidth,
-                          //     width: double.infinity,
-                          //     height: 100,
-                          //   ),
-
                           child: CachedNetworkImage(
                             fit: BoxFit.contain,
                             width: double.infinity,
@@ -418,7 +361,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               child: CircularProgressIndicator(),
                             ),
                             errorWidget: (context, url, error) => Image.asset(
-                              "assets/PlaceholderFoodImage/MaskGroup55.png",
+                              FOOD_IMAGE_PATH,
                               fit: BoxFit.contain,
                               width: double.infinity,
                               height: 100,
@@ -426,13 +369,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             imageUrl: BaseUrl.getBaseUrlImages() +
                                 '${_restaurantList[index].itemImage}',
                           ),
-                          // Image.network(
-                          //   BaseUrl.getBaseUrlImages() +
-                          //       '${_restaurantList[index].itemImage}',
-                          //   fit: BoxFit.fitWidth,
-                          //   width: double.infinity,
-                          //   height: 100,
-                          // ),
                         ),
                         Expanded(
                             child: Padding(
@@ -443,15 +379,14 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    (_restaurantList[index].menuType == "veg")
+                                    (_restaurantList[index].menuType == STR_VEG)
                                         ? Image.asset(
-                                            'assets/VegIcon/Group1661.png',
-                                            //color: greentheme,
+                                            IMAGE_VEG_ICON_PATH,
                                             width: 14,
                                             height: 14,
                                           )
                                         : Image.asset(
-                                            'assets/VegIcon/Group1661.png',
+                                            IMAGE_VEG_ICON_PATH,
                                             color: redtheme,
                                             width: 14,
                                             height: 14,
@@ -464,61 +399,32 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                           0.36,
                                       child: AutoSizeText(
                                         "${_restaurantList[index].itemName}" ??
-                                            " ",
+                                            STR_SPACE,
                                         maxLines: 2,
-                                        minFontSize: 10,
-                                        maxFontSize: 13,
+                                        minFontSize: FONTSIZE_10,
+                                        maxFontSize: FONTSIZE_13,
                                         style: TextStyle(
-                                            fontSize: 13,
-                                            fontFamily: 'gotham',
+                                            fontSize: FONTSIZE_13,
+                                            fontFamily: KEY_FONTFAMILY,
                                             fontWeight: FontWeight.w600,
                                             color: greytheme700),
                                       ),
                                     ),
-                                    // Text(
-                                    //   "${_restaurantList[index].itemName}" ??
-                                    //       " ",
-                                    //   maxLines: 1,
-                                    //   style: TextStyle(
-                                    //       fontSize: 13,
-                                    //       fontFamily: 'gotham',
-                                    //       fontWeight: FontWeight.w600,
-                                    //       color: greytheme700),
-                                    // ),
                                   ],
                                 ),
                                 SizedBox(
                                   height: 8,
                                 ),
-                                // Expanded(
-                                //   flex: 1,
-                                //   child: SingleChildScrollView(
-                                //     child: AutoSizeText(
-                                //       "${_restaurantList[index].itemDescription}" ??
-                                //           " ",
-                                //       //maxLines: 1,
-                                //       style: TextStyle(
-                                //         color: greytheme1000,
-                                //         fontSize: 10,
-                                //         fontFamily: 'gotham',
-                                //         fontWeight: FontWeight.w500,
-                                //       ),
-                                //       // minFontSize: 8,
-                                //       //maxFontSize: 5,
-                                //       // maxLines: 3,
-                                //     ),
-                                //   ),
-                                // ),
                                 AutoSizeText(
                                   "${_restaurantList[index].itemDescription}" ??
-                                      " ",
+                                      STR_SPACE,
                                   maxLines: 2,
-                                  minFontSize: 10,
-                                  maxFontSize: 12,
+                                  minFontSize: FONTSIZE_10,
+                                  maxFontSize: FONTSIZE_12,
                                   softWrap: true,
                                   style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'gotham',
+                                      fontSize: FONTSIZE_12,
+                                      fontFamily: KEY_FONTFAMILY,
                                       fontWeight: FontWeight.w500,
                                       color: greytheme1000),
                                 ),
@@ -533,7 +439,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             children: <Widget>[
                               Container(
                                 decoration: new BoxDecoration(
-                                  //color: Colors.white,
                                   border: Border(
                                     top: BorderSide(
                                       color: Colors.grey,
@@ -547,13 +452,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                     (_restaurantList[index].sizePrizes.isEmpty)
                                         ? "${_restaurantItemsModel.currencyCode} " +
                                                 '${_restaurantList[index].price}' ??
-                                            ''
+                                            STR_BLANK
                                         : "${_restaurantItemsModel.currencyCode} " +
                                                 "${_restaurantList[index].sizePrizes[0].price}" ??
-                                            "",
+                                            STR_BLANK,
                                     style: TextStyle(
-                                        //fontFamily: FontNames.gotham,
-                                        fontSize: 14,
+                                        fontSize: FONTSIZE_14,
                                         fontStyle: FontStyle.normal,
                                         fontWeight: FontWeight.w600,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
@@ -563,7 +467,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("button is Pressed");
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
@@ -592,10 +495,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         MediaQuery.of(context).size.width * 0.1,
                                     child: Center(
                                       child: Text(
-                                        "+ ADD",
+                                        STR_ADD,
                                         style: TextStyle(
-                                            //fontFamily: FontNames.gotham,
-                                            fontSize: 14,
+                                            fontSize: FONTSIZE_14,
                                             fontStyle: FontStyle.normal,
                                             fontWeight: FontWeight.w600,
                                             color: Colors.white),
@@ -627,29 +529,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   @override
-  void restaurantfailed() {
-    // TODO: implement restaurantfailed
-  }
+  void restaurantfailed() {}
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) {
-    // if (restlist.length == 0) {
-    //   return;
-    // }
-
-    // setState(() {
-    //   if (_restaurantList == null) {
-    //     _restaurantList = restlist;
-    //   } else {
-    //     _restaurantList.addAll(restlist);
-    //   }
-    //   page++;
-    // });
-    // TODO: implement restaurantsuccess
-  }
+  void restaurantsuccess(List<RestaurantList> restlist) {}
   @override
   void getMenuListfailed() {
-    // TODO: implement getMenuListfailed
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -675,9 +560,3 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
-
-// class Item {
-//   String itemName;
-//   String itemCount;
-//   Item({this.itemName, this.itemCount});
-// }

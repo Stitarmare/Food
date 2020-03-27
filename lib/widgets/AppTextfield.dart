@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodzi/Utils/KeyboardActions.dart';
 
 class AppTextField extends StatefulWidget {
   final String tfValue;
@@ -19,7 +18,6 @@ class AppTextField extends StatefulWidget {
   final Function(String) onChanged;
   final FocusNode focusNode;
   final String initialvalue;
-  //final Widget inputFormatters;
   final List<TextInputFormatter> inputFormatters;
 
   const AppTextField({
@@ -39,7 +37,6 @@ class AppTextField extends StatefulWidget {
     this.icon,
     this.autovalidate = false,
     this.focusNode,
-    // this.inputFormatters,
     this.inputFormatters,
   });
 
@@ -59,19 +56,13 @@ class _AppTextFieldState extends State<AppTextField> {
       initialValue: widget.tfValue,
       decoration: InputDecoration(
         labelText: widget.placeHolderName,
-        // prefixText: widget.prefixText,
         prefixIcon: widget.icon,
-        // hintText: widget.hintText,
-        //  icon: widget.icon),
       ),
       autovalidate: widget.autovalidate,
       validator: widget.validator,
       onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
       focusNode: widget.focusNode,
-      // inputFormatters: [
-      //   new LengthLimitingTextInputFormatter(10),
-      // ],
     );
 
     if (widget.flexible) {

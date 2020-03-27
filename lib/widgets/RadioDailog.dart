@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
-import 'package:foodzi/widgets/OrdertemsDialogSplitBill.dart';
-import 'package:foodzi/widgets/UserSpecificOrderDialogSplitBill.dart';
 
 class RadioDialog extends StatefulWidget {
   int tableId;
@@ -32,30 +31,24 @@ class RadioDialog extends StatefulWidget {
 class RadioDialogState extends State<RadioDialog>
     implements SplitBillContractorModelView {
   SplitBillPresenter _splitBillPresenter;
-
-  String _selectedId;
-  // Default Radio Button Item
-  String radioItem = 'Mango';
-
-  // Group Value for Radio Button.
+  String radioItem = STR_MANGO;
   int id = 1;
-
   List<BillList> bList = [
     BillList(
       index: 1,
-      name: "Split equally among all",
+      name: STR_SPLIT_BILL_AMONG_ALL,
     ),
     BillList(
       index: 2,
-      name: "Split between certain members by clicking the checkbox",
+      name: STR_SPLIT_BILL_CERTAIN_MEMB,
     ),
     BillList(
       index: 3,
-      name: "Split based on order items",
+      name: STR_SPLIT_BILL_ORDER_ITEMS,
     ),
     BillList(
       index: 4,
-      name: "Split for order made from user specific order items ",
+      name: STR_SPLIT_BILL_USER_SPECIFIC,
     ),
   ];
 
@@ -63,11 +56,6 @@ class RadioDialogState extends State<RadioDialog>
   void initState() {
     super.initState();
     _splitBillPresenter = SplitBillPresenter(this);
-
-    _selectedId = widget.initialValue;
-
-    print("table id from split bill dialog--->");
-    print(widget.tableId);
   }
 
   Widget build(BuildContext context) {
@@ -77,7 +65,6 @@ class RadioDialogState extends State<RadioDialog>
         Container(
             height: 350,
             width: 284,
-            //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: Column(
@@ -87,11 +74,11 @@ class RadioDialogState extends State<RadioDialog>
                 ),
                 Center(
                   child: Text(
-                    'Split Bill',
+                    STR_SPLIT_BILL,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -101,9 +88,9 @@ class RadioDialogState extends State<RadioDialog>
                             title: Text(
                               data.name,
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: FONTSIZE_15,
                                   color: greytheme700,
-                                  fontFamily: 'gotham'),
+                                  fontFamily: KEY_FONTFAMILY),
                             ),
                             groupValue: id,
                             value: data.index,
@@ -124,8 +111,6 @@ class RadioDialogState extends State<RadioDialog>
                     child: RaisedButton(
                   color: redtheme,
                   shape: RoundedRectangleBorder(
-                      // side: BorderSide(
-                      //     color: Color.fromRGBO(170, 170, 170, 1)),
                       borderRadius: BorderRadius.circular(5)),
                   onPressed: () {
                     if (id == 1) {
@@ -135,9 +120,7 @@ class RadioDialogState extends State<RadioDialog>
                           1,
                           widget.amount.toInt(),
                           context);
-                    }
-                    // Navigator.pop(context);
-                    else if (id == 2) {
+                    } else if (id == 2) {
                       showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -153,14 +136,6 @@ class RadioDialogState extends State<RadioDialog>
                           3,
                           widget.amount.toInt(),
                           context);
-                      //  List<OrderDetailData> data = [];
-                      // showDialog(
-                      //     context: context,
-                      //     barrierDismissible: false,
-                      //     child: OrderItemsDialog(
-                      //       orderId: widget.orderId,
-                      //       listElement: widget.elementList,
-                      //     ));
                     } else if (id == 4) {
                       _splitBillPresenter.getSPlitBill(
                           widget.orderId,
@@ -168,22 +143,13 @@ class RadioDialogState extends State<RadioDialog>
                           4,
                           widget.amount.toInt(),
                           context);
-
-                      // showDialog(
-                      //     context: context,
-                      //     barrierDismissible: false,
-                      //     child: UserSpecificOrderDialog(
-                      //       orderId: widget.orderId,
-                      //       listElement: widget.elementList,
-                      //       tableId: widget.tableId,
-                      //     ));
                     }
                   },
                   child: Text(
-                    'CONFIRM',
+                    STR_CONFIRM,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: FONTSIZE_18,
                     ),
                   ),
                 ))
@@ -194,14 +160,10 @@ class RadioDialogState extends State<RadioDialog>
   }
 
   @override
-  void getSplitBillFailed() {
-    // TODO: implement getSplitBillFailed
-  }
+  void getSplitBillFailed() {}
 
   @override
-  void getSplitBillSuccess() {
-    // TODO: implement getSplitBillSuccess
-  }
+  void getSplitBillSuccess() {}
 }
 
 class BillList {

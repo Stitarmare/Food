@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -8,13 +7,8 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/ClipOvalImageLoader.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:transparent_image/transparent_image.dart';
-import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -24,9 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     implements ProfileScreenModelView {
-  //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   File _image;
   bool isempty = false;
@@ -41,7 +33,6 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
     setState(() {
       _image = image;
-      //setProfilePic();
     });
     if (image != null) {
       profileScreenPresenter.updateProfileImage(_image, context);
@@ -50,17 +41,12 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     profileScreenPresenter = ProfileScreenPresenter(this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // SafeArea(
-    // top: true,
-    // bottom: true,
-    // child:
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width,
@@ -68,26 +54,19 @@ class _ProfileScreenState extends State<ProfileScreen>
           child: Stack(overflow: Overflow.visible, children: <Widget>[
             Center(
                 child: Image.asset(
-              'assets/BlurImage/Group1612.png',
+              ITEM_IMAGE_PATH,
               height: MediaQuery.of(context).size.height * 0.35,
               fit: BoxFit.fill,
               width: MediaQuery.of(context).size.width,
             )),
-            // Container(
-            //   child:
             Container(
               margin: EdgeInsets.fromLTRB(0, 25, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // SizedBox(
-                  //   width: 6,
-                  // ),
                   FlatButton(
-                    child: Image.asset('assets/BackButtonIcon/Path1621.png'),
+                    child: Image.asset(BACK_ARROW_IMAGE_PATH),
                     onPressed: () {
-                      // Navigator.pop(context);
                       Navigator.pushReplacementNamed(context, '/MainWidget');
                     },
                   ),
@@ -95,18 +74,16 @@ class _ProfileScreenState extends State<ProfileScreen>
                     width: 10.2,
                   ),
                   Text(
-                    "My Profile",
+                    STR_MY_PROFILE,
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: FONTSIZE_18,
                         color: Colors.white,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-              // ),
             ),
-
             Positioned(
               left: MediaQuery.of(context).size.width / 2.5,
               top: MediaQuery.of(context).size.height * 0.35 - 141,
@@ -119,13 +96,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                       height: 83,
                       fit: BoxFit.fill,
                       placeholder: (context, url) => Image.asset(
-                        'assets/PlaceholderImage/placeholder.png',
+                        PROFILE_IMAGE_PATH,
                         width: 83,
                         height: 83,
                         fit: BoxFit.fill,
                       ),
                       errorWidget: (context, url, error) => Image.asset(
-                        'assets/PlaceholderImage/placeholder.png',
+                        PROFILE_IMAGE_PATH,
                         width: 83,
                         height: 83,
                         fit: BoxFit.fill,
@@ -133,59 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                       imageUrl: profilePic(),
                     ),
                   ),
-
-                  //  FadeInImage.assetNetwork(
-                  //   placeholder: 'assets/PlaceholderImage/placeholder.png',
-                  //   image: profilePic(),
-                  //   fit: BoxFit.cover,
-                  //   width: 82.5,
-                  //   height: 82.5,
-                  // ),
-                  //     Image.network(profilePic(),
-                  //         fit: BoxFit.cover,
-                  //         width: 82.5,
-                  //         height: 82.5, loadingBuilder: (BuildContext context,
-                  //             Widget child, ImageChunkEvent loadingProgress) {
-                  //   if (loadingProgress == null || profilePic() == null) return child;
-                  //   return Center(
-                  //     child: CircularProgressIndicator(
-                  //       value: loadingProgress.expectedTotalBytes != null
-                  //           ? loadingProgress.cumulativeBytesLoaded /
-                  //               loadingProgress.expectedTotalBytes
-                  //           : null,
-                  //     ),
-                  //   );
-                  // }),
-
-                  //setProfilePic(),
-                  //ClipOvalImageWithLoader(profilePic(),width: 83,height: 83,),
-
-                  //   CachedNetworkImage(
-                  // imageUrl: profilePic(),
-                  // placeholder: (context, url) =>
-                  //     CircularProgressIndicator(),
-                  // errorWidget: (context, url, error) => Icon(Icons.error),
-                  // fit: BoxFit.cover,
-                  // width: 82.5,
-                  // height: 82.5,
-
-                  // child: _image == null
-                  //     //Globle().loginModel.data.userDetails.profileImage == null
-                  //     ? Image.asset(
-                  //         'assets/ProfileImage/MaskGroup15.png',
-                  //         fit: BoxFit.cover,
-                  //         width: 82.5,
-                  //         height: 82.5,
-                  //       )
-
-                  //     : Image.file(
-                  //         _image,
-                  //         //BaseUrl.getBaseUrlImages()+'${Globle().loginModel.data.userDetails.profileImage},',
-                  //         fit: BoxFit.cover,
-                  //         width: 82.5,
-                  //         height: 82.5,
-                  //       )
-
                   Positioned(
                     right: 0.0,
                     top: 5.0,
@@ -193,18 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
                         showDialooxg();
-                        //  DialogsIndicator.showLoadingDialog(
-                        // context, _keyLoader, "Loading");
                       },
-                      // child: Container(
-                      //   width: 23,
-                      //   height: 23,
-                      //   foregroundDecoration: BoxDecoration(
-                      //     shape: BoxShape.circle,`
-                      //     image: DecorationImage(
-                      //       image: AssetImage('assets/DineInImage/Group1504.png')),
-                      //     )
-                      //   ),
                       child: ClipOval(
                         child: Container(
                           width: 22,
@@ -237,9 +150,9 @@ class _ProfileScreenState extends State<ProfileScreen>
               Text(
                 '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: FONTSIZE_16,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(
@@ -248,23 +161,20 @@ class _ProfileScreenState extends State<ProfileScreen>
               Text(
                 "${Globle().loginModel.data.mobileNumber}",
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: FONTSIZE_14,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(
                 height: 15,
               ),
               Text(
-                // (Globle().loginModel.data.userDetails != null )
-                //     ? "${Globle().loginModel.data.userDetails.country.name} | ${Globle().loginModel.data.userDetails.addressLine1}"
-                //     : "N.A.",
                 address(),
                 style: TextStyle(
-                    fontSize: 14,
+                    fontSize: FONTSIZE_14,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
@@ -298,8 +208,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
           SizedBox(
@@ -314,8 +224,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
           SizedBox(
@@ -330,8 +240,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
           SizedBox(
@@ -346,8 +256,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
         ],
@@ -365,49 +275,45 @@ class _ProfileScreenState extends State<ProfileScreen>
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15))),
             title: Text(
-              'Select One',
+              STR_SELECT_ONE,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 22,
+                  fontSize: FONTSIZE_22,
                   color: greentheme100,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w700),
             ),
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  //Camera
                   getImage(true);
-                  print("Camera");
                   Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.camera),
                   title: Text(
-                    'Camera',
+                    STR_CAMERA,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
               SimpleDialogOption(
                 onPressed: () {
-                  //Gallery
                   getImage(false);
-                  print("Gallery");
                   Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.image),
                   title: Text(
-                    'Gallery',
+                    STR_GALLERY,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -418,9 +324,9 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   address() {
-    String userAddress = "N.A.";
-    String address1 = "N.A..";
-    String address2 = "N.A.";
+    String userAddress = STR_NA;
+    String address1 = STR_NA;
+    String address2 = STR_NA;
     if (Globle().loginModel.data.userDetails != null) {
       if (Globle().loginModel.data.userDetails.country != null) {
         if (Globle().loginModel.data.userDetails.country.name != null) {
@@ -429,7 +335,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       }
       address2 = (Globle().loginModel.data.userDetails.addressLine1 != null)
           ? Globle().loginModel.data.userDetails.addressLine1
-          : "N.A.";
+          : STR_NA;
       userAddress = "$address1 | $address2";
       return userAddress;
     }
@@ -442,59 +348,19 @@ class _ProfileScreenState extends State<ProfileScreen>
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +
               '${Globle().loginModel.data.userDetails.profileImage}'
-          : 'assets/PlaceholderImage/placeholder.png';
+          : PROFILE_IMAGE_PATH;
       return imageUrl;
     }
     return imageUrl;
   }
 
-  // Widget setProfilePic() {
-  //   return ClipOval(
-  //     child: FutureBuilder(
-  //       // Paste your image URL inside the htt.get method as a parameter
-  //       future: http.get(
-  //         profilePic(),
-  //       ),
-  //       builder: (BuildContext context, AsyncSnapshot<http.Response> snapshot) {
-  //         switch (snapshot.connectionState) {
-  //           case ConnectionState.none:
-  //             return Text('Press button to start.');
-  //           case ConnectionState.active:
-  //           case ConnectionState.waiting:
-  //             return CircularProgressIndicator();
-  //           case ConnectionState.done:
-  //             if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-  //             // when we get the data from the http call, we give the bodyBytes to Image.memory for showing the image
-  //             return Image.memory(
-  //               snapshot.data.bodyBytes,
-  //               fit: BoxFit.cover,
-  //               width: 82.5,
-  //               height: 82.5,
-  //             );
-  //         }
-  //         return null; // unreachable
-  //       },
-  //     ),
-  //   );
-  // }
-
   @override
-  void profileImageUpdateFailed() {
-    // TODO: implement profileImageUpdateFailed
-  }
+  void profileImageUpdateFailed() {}
   @override
   void profileImageUpdateSuccess() {
     setState(() {
       imageURL = BaseUrl.getBaseUrlImages() +
           '${Globle().loginModel.data.userDetails.profileImage}';
     });
-    //setProfilePic();
-
-    //CircularProgressIndicator();
-    //  DialogsIndicator.showLoadingDialog(
-    //                   context, _keyLoader, "Loading");
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    //   SnackBar(content: Text("Profile updated successfully."));
-    // }
   }
 }

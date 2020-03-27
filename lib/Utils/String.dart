@@ -1,5 +1,3 @@
-//import 'dart:ffi';
-
 // API_BASE_HELPER Page
 
 // URLs
@@ -36,10 +34,13 @@ const STR_INVALID_INPUT = "Invalid Input: ";
 // MIX_STRING
 const KEY_APP_NAME = 'foodZi';
 const KEY_FONTFAMILY = 'gotham';
+const STR_DOLLAR_SIGN = "\$ ";
+const double PI_VALUE = 3.14;
 const KEY_APP_SLOGAN = 'Loading, please wait...';
 const KEY_FIRST_NAME = 'First Name';
 const KEY_LAST_NAME = 'Last Name';
 const KEY_EMAIL_ID = 'Email ID';
+const STR_NULL = "null";
 const KEY_PASSWORD = 'Password';
 const KEY_EDIT_PROFILE = 'Edit Profile';
 const KEY_MOBILE_NUMBER = 'Mobile Number';
@@ -168,11 +169,11 @@ const STR_DATA = "data";
 const STR_OK = "Ok";
 const STR_CARTADDED = "is successfully added to your cart.";
 const SUCCESS_IMAGE_PATH = 'assets/SuccessIcon/success.png';
+const JSON_STR_ITEM_ID = "item_id";
 
 // ChangePassword Page
 const STR_CHANGE_PASSWORD = 'Change Your Password';
-const STR_GROUP_IMAGE = 'assets/LockImage/Group_1560.png';
-const double PI_VALUE = 3.14;
+const IMAGE_LOCK_PATH = 'assets/LockImage/Group_1560.png';
 const STR_PWD_NOT_MATCHED = 'Password does not match with confirm password.';
 const STR_PWD_CHANGED_SUCCESS = 'Your password has been successfully change. ';
 const JSON_STR_OLD_PWD = 'old_password';
@@ -353,3 +354,173 @@ const STR_CUSTOMER = "customer";
 const STR_ONE = "1";
 const STR_DSA = "dsa";
 const STR_RANDOM = 'gfgfg';
+
+// PaymentTipandPay Page and PaymentTipandPay Take Away
+const STR_PAYMENT = "Payment";
+const STR_PLACED_PAY_BILL = 'PLACED & PAY BILL';
+const STR_BILL_DETAILS = 'Bill Details';
+const STR_SUBTOTAL = 'Subtotal';
+const STR_ELEVEN = ' 11.20';
+const STR_TIP = 'Tip';
+const STR_TOTAL = 'Total';
+const STR_CHECKOUT_CODE = 'check_out_code';
+const STR_FOODZI_TITLE = "Foodzi";
+const STR_PAYMENT_FAILED = "Payment Failed.";
+const STR_CARD = 'card';
+const STR_PAYMENT_SUCCESS = "Payment Success";
+const STR_TRANSACTION_DONE = "Your Transactions Has been Done Successfully";
+const JSON_STR_TOTAL_AMOUNT = "total_amount";
+const JSON_STR_LATITUDE = "latitude";
+const JSON_STR_LONGITUDE = "longitude";
+const JSON_STR_ITEMS = "items";
+
+const STR_SPLIT_BILL = 'Split Bill';
+const STR_PAY_BILL = 'PAY BILL';
+const STR_SELECT_TBL = "Selected Table : ";
+const STR_TABLE_1 = "Table 1";
+const STR_ELEVEN_TITLE = '\$11.20';
+const JSON_STR_ORDER_ID = "order_id";
+const JSON_STR_ENCRYPTED_CODE = "encrypted_checkout_id";
+const JSON_STR_PAYMENT_MODE = "payment_mode";
+const JSON_STR_TIP = "tip";
+const JSON_STR_TRANSACTION_ID = "transaction_id";
+
+// ProfilePage
+const BACK_ARROW_IMAGE_PATH = 'assets/BackButtonIcon/Path1621.png';
+const JSON_STR_PROFILE_IMAGE = "profile_image";
+
+// RegistrationPage
+const STR_DETAILS_ARE = "Details are : ";
+const STR_VALIDATE_NAME_TITLE = r'^[a-zA-Z0-9]';
+const STR_ALREADY_ACCOUNT = "Already have an Account?";
+const JSON_STR_PASSWORD = 'password';
+
+// ResetPassView Page
+const STR_RESET_PASSWORD = 'Reset Your Password';
+const STR_PWD_CHANGED = 'Your password has been successfully reset. ';
+const JSON_STR_PWD_CONFIRMATION = 'password_confirmation';
+
+// RestaurantInfoView Page
+const HOTEL_IMAGE_PATH = "assets/HotelImages/Image31.png";
+const HOTEL_IMAGE_PATH_1 = "assets/HotelImages/MaskGroup20.png";
+const NAVIGATE_IMAGE_PATH = 'assets/NavigateButton/next(2).png';
+const STR_REVIEWS = "Reviews";
+const STR_FETCHING_INFO = "Please wait, fetching Restaurant Info!";
+const BACK_BTN_ICON_PATH = 'assets/BackButtonIcon/Path1621.png';
+const STR_OPENING_HOURS = 'Opening Hours';
+const STR_NO_SCHDUL_AVL = 'No Schedule Available';
+const STR_DASH_SIGN = "-";
+const STR_WRITE_REVIEWS = 'Write Review';
+const STR_NO_REVIEWS = 'No Reviews';
+const STR_RESTAURANT_INFO = 'Restaurants Info';
+const STR_BLANK = "";
+const JSON_STR_DESC = "description";
+const JSON_STR_RATING = "rating";
+const STR_ADD_REVIEW = "Add Review";
+const STR_ADD_REVIEW_RATING = "Add Review & Ratings";
+const STR_REVIEW_SUMBITTED = "Review Submitted";
+
+// RestaurantView Page and RestaurantViewTakeAway
+const STR_NO_ITEM_FOUND = 'No items found.';
+const STR_VEG_ONLY = 'veg only';
+const STR_MENU = "Menu";
+const FOOD_IMAGE_PATH = "assets/PlaceholderFoodImage/MaskGroup55.png";
+const STR_ADD = "+ ADD";
+const JSON_STR_MENU_TYPE = "menu_type";
+const JSON_STR_CATEGORY_ID = "category_id";
+const STR_NO_ITEMS_FOUND = 'No items found.';
+
+// SplashScreen Page
+const STR_SMALL_NOTIFI = 'notification';
+const STR_SMALL_TITLE = 'title';
+const STR_BODY = 'body';
+const SPLASH_SCREEN_IAMGE_PATH = 'assets/SplashScreen/LauncherScreen.png';
+
+// SplitBill Page
+const JSON_STR_OPTION = "option";
+
+// SplitBillNotification Page
+const JSON_STR_USERS = "users";
+
+// StatusTrackView Page and StatusTrackView Take Away
+const STR_ORDER_STATUS = "Order Status";
+const STR_BILL_PAYMENT = 'BILL PAYMENT';
+const STR_ADD_MORE_PEOPLE = 'Add More People';
+const STR_ORDER_FOR = "Order for ";
+const STR_ORDER_CONFIRM =
+    " is confirmed. Please wait while kitchen updates time for prepration. You will be notified about the status.";
+const STR_STATUS_NOTIFIED = "You will be notified about the status.";
+const STR_PLEASE_WAIT_NOTIFI =
+    "Please wait while kitchen updates time for prepration. You will be notified about the status.";
+
+// ConfirmationDineView Page
+const STR_ASAP = 'ASAP';
+const STR_WITHIN_1_HOUR = 'Within 1 hour';
+const STR_WITHIN_2_HOUR = 'Within 2 hour';
+const STR_WITHIN_3_HOUR = 'Within 3 hour';
+const STR_CONFIRM_PLACE_ORDER = 'CONFIRM & PLACE ORDER';
+const STR_TABLE_NUMBER = "Table Number :";
+const STR_HOW_SOON_WANT = 'How soon do you want it ?';
+const STR_SELECT_TABLE_TITLE = "Select Table";
+const STR_ORDER_PLACED = "Order Placed";
+const STR_ORDER_SUCCESS = "Your order has been successfully placed.";
+
+// GeoLOcationTracking Page
+const STR_ACCESS_DENIED = "Access Denied";
+const STR_ENABLE_LOCATION =
+    "Please enable location services to show you nearby restaurants and hotels";
+const STR_ALLOW_LOCATION = "Please Allow The Loaction Services On";
+const STR_ALLOW_LOCATION_SERVICE =
+    "Please Allow The Loaction Service Enabled To Get Info";
+
+// InvitePeopleDialogSpliBill Page
+const STR_SPLIT_BILL_BTWN = 'Split Bill between Members';
+const STR_CANCEL_TITLE = 'Cancel';
+const STR_INVITE_ID = "invite_id";
+
+// NotificationDialog Page
+const STR_JOINING_TABLE = 'Joining a table?';
+const STR_IS_TRYING_TO_ADD = 'is trying to add you for';
+const STR_TABLE_NUMBER_SMALL = 'table number';
+const STR_JOIN = 'JOIN';
+const STR_REJECT = 'REJECT';
+
+// OrderItemDialogSplitBill Page
+const STR_SPLIT_BILL_ON_ORDER = 'Split Bill On Order Items';
+
+// RadioDialog Page
+const STR_MANGO = 'Mango';
+const STR_SPLIT_BILL_AMONG_ALL = "Split equally among all";
+const STR_SPLIT_BILL_CERTAIN_MEMB =
+    "Split between certain members by clicking the checkbox";
+const STR_SPLIT_BILL_ORDER_ITEMS = "Split based on order items";
+const STR_SPLIT_BILL_USER_SPECIFIC =
+    "Split for order made from user specific order items ";
+const STR_CONFIRM = 'CONFIRM';
+
+// SliderPOP Page
+const STR_SELECT_RATING = 'SELECT RATING';
+const STR_SELECTED_RATING = "SELECTED RATING: ";
+const STR_FIVE = "/5.0";
+const STR_DONE_TITLE = 'DONE';
+
+// UserSpecificOrderDialogSplitBill Page
+const STR_SPLIT_BILL_USER_SPECIFIC_TITLE = 'Split Bill on User Specific Items';
+const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
+
+// WebView Page
+const STR_GOOGLE_URL = "https://google.co.in";
+
+// KeyBoardAction Page
+const STR_CUSTOM_ACTION = "Custom Action";
+const STR_CLOSE = "CLOSE";
+const STR_CUSTOM_FOOTER = 'Custom Footer';
+
+// RadioDialogAddPeople
+const STR_ADD_PEOPLE = 'Add People';
+const STR_SENDING_INVITATION = "Sending Invitation to ";
+const STR_INVITATION_SEND = "Invitation Send";
+const STR_INVITATION_SUCCESS = "Invitation has been send Successfully!!";
+const STR_ADD_TITLE = "Add ";
+const STR_PEOPLE = "People";
+const STR_JOINED_PEOPLE = "Joined people:";

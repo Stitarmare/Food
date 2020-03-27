@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flui/flui.dart';
 
 class StepperCount extends StatelessWidget {
   @override
@@ -11,7 +10,7 @@ class StepperCount extends StatelessWidget {
 }
 
 Widget _getmainview() {
-  Row(children: <Widget>[
+  return Row(children: <Widget>[
     InkWell(
       onTap: () {},
       splashColor: Colors.redAccent.shade200,

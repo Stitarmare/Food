@@ -26,10 +26,10 @@ abstract class PayFinalBillContaractor {
   void payfinalOrderBill(
     int restId,
     int userId,
-    int order_id,
-    String payment_mode,
+    int orderId,
+    String paymentMode,
     int amount,
-    int total_amount,
+    int totalAmount,
     String transacionId,
     BuildContext context, [
     int tip,
@@ -42,11 +42,7 @@ abstract class PayFinalBillModelView {
 }
 
 abstract class PayBillCheckoutContaractor {
-  void payBillCheckOut(
-      int restId,
-      // String currency,
-      int amount,
-      BuildContext context);
+  void payBillCheckOut(int restId, int amount, BuildContext context);
 }
 
 abstract class PayBillCheckoutModelView {

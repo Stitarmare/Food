@@ -1,8 +1,8 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
-import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -15,63 +15,45 @@ class StatusTrackViewPresenter extends StatusTrackViewContractor {
   void getOrderStatus(int orderId, BuildContext context) {
     ApiBaseHelper()
         .post<OrderStatusModel>(UrlConstant.getOrderStatusApi, context, body: {
-      "order_id": orderId,
+      JSON_STR_ORDER_ID: orderId,
     }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Order status success");
           print(value.model);
           statusTrackModelView.getOrderStatussuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Order status failed");
           statusTrackModelView.getOrderStatusfailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   mregisterView.registerSuccess();
-      // } else {
-      //   mregisterView.registerfailed(value['message']);
-      // }
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 
   @override
   void getInvitedPeople(int userId, int tableId, BuildContext context,
       {int orderId}) {
     ApiBaseHelper().post<InvitePeopleModel>(
         UrlConstant.getInvitedPeople, context, body: {
-      "order_id": orderId,
-      "user_id": userId,
-      "table_id": tableId
+      JSON_STR_ORDER_ID: orderId,
+      JSON_STR_USER_ID: userId,
+      JSON_STR_TABLE_ID: tableId
     }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Get Invited People success");
           print(value.model);
           statusTrackModelView.getInvitedPeopleSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Get Invited People failed");
           statusTrackModelView.getInvitedPeopleFailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   mregisterView.registerSuccess();
-      // } else {
-      //   mregisterView.registerfailed(value['message']);
-      // }
     }).catchError((error) {
       print(error);
     });

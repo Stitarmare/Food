@@ -2,21 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
-//import 'package:rating_bar/rating_bar.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 
 class MyDialogRating extends StatefulWidget {
-  const MyDialogRating({this.onValueChange, this.initialValue, this.rest_id});
+  const MyDialogRating({this.onValueChange, this.initialValue, this.restId});
 
   final String initialValue;
   final void Function(String) onValueChange;
-  final int rest_id;
-
+  final int restId;
 
   @override
   State createState() => new MyDialogRatingState();
@@ -26,12 +24,10 @@ class MyDialogRatingState extends State<MyDialogRating>
     implements RestaurantInfoModelView {
   int _rating = 0;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  // TextEditingController _controller;
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
 
   void rate(int rating) {
-    //Other actions based on rating such as api calls.
     setState(() {
       if (_rating == rating) {
         _rating--;
@@ -43,7 +39,6 @@ class MyDialogRatingState extends State<MyDialogRating>
 
   @override
   void initState() {
-    // TODO: implement initState
     restaurantReviewPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     super.initState();
@@ -51,7 +46,6 @@ class MyDialogRatingState extends State<MyDialogRating>
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new SimpleDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -67,18 +61,17 @@ class MyDialogRatingState extends State<MyDialogRating>
                 ),
                 Center(
                   child: Text(
-                    'Write Review',
+                    STR_WRITE_REVIEWS,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: greytheme700,
                         fontWeight: FontWeight.w600,
-                        fontFamily: 'gotham'),
+                        fontFamily: KEY_FONTFAMILY),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                // Rating for Reviews
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -139,17 +132,6 @@ class MyDialogRatingState extends State<MyDialogRating>
                     ],
                   ),
                 ),
-                //                     RatingBar(
-                //   onRatingChanged: (rating) => setState(() => _rating = rating),
-                //   filledIcon: Icons.star,
-                //   emptyIcon: Icons.star_border,
-                //   halfFilledIcon: Icons.star_half,
-                //   isHalfAllowed: false,
-                //   filledColor: Colors.green,
-                //   emptyColor: Colors.redAccent,
-                //   halfFilledColor: Colors.amberAccent,
-                //   size: 20,
-                // ),
                 SizedBox(height: 20),
                 Center(
                   child: Container(
@@ -158,16 +140,14 @@ class MyDialogRatingState extends State<MyDialogRating>
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         border: Border.all(color: greytheme600)),
-                    // color: Color.fromRGBO(213, 213, 213, 1)),
                     padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
                     child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: "Write Review.",
+                          hintText: STR_WRITE_REVIEWS,
                           hintStyle: TextStyle(
-                            fontFamily: 'gotham',
+                            fontFamily: KEY_FONTFAMILY,
                             color: greytheme700,
-                            fontSize: 13,
-                            //fontWeight: FontWeight.w600),
+                            fontSize: FONTSIZE_13,
                           )),
                       maxLines: 3,
                       controller: _controller,
@@ -183,49 +163,29 @@ class MyDialogRatingState extends State<MyDialogRating>
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   onPressed: () {
-                    // restaurantIdInfoPresenter.writeRestaurantReview(
-                    //     context, widget.rest_Id, _controller.text, 3);
-                    // if (_rating != 0) {
-                    //   _controller.value.text == null
-                    //       ? restaurantReviewPresenter.writeRestaurantReview(
-                    //           context, widget.rest_id, " ", _rating)
-                    //       : restaurantReviewPresenter.writeRestaurantReview(
-                    //           context,
-                    //           widget.rest_id,
-                    //           _controller.value.text,
-                    //           _rating);
-                    // }else{
-                    //      Navigator.pop(context, false);
-                    // }
-
                     if (_rating != 0) {
-                     if( _controller.value.text == ""){ Toast.show("Add Review", context, duration: Toast.LENGTH_SHORT, 
-                      gravity:  Toast.BOTTOM);}
-                      else{
-                         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                         restaurantReviewPresenter.writeRestaurantReview(
-                              context,
-                              widget.rest_id,
-                              _controller.value.text,
-                              _rating);
-                              
+                      if (_controller.value.text == STR_BLANK) {
+                        Toast.show(STR_ADD_REVIEW, context,
+                            duration: Toast.LENGTH_SHORT,
+                            gravity: Toast.BOTTOM);
+                      } else {
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "");
+                        restaurantReviewPresenter.writeRestaurantReview(context,
+                            widget.restId, _controller.value.text, _rating);
                       }
-                    }else{
-                     Toast.show("Add Review & Ratings", context, duration: Toast.LENGTH_SHORT, 
-                      gravity:  Toast.BOTTOM);
-                        //  Navigator.pop(context, false);
+                    } else {
+                      Toast.show(STR_ADD_REVIEW_RATING, context,
+                          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
                     }
-
-                    
                     print(_rating);
                     print(_controller.value.text);
-                    //Write Review API Call
                   },
                   child: Text(
-                    'SUBMIT',
+                    STR_SUMBIT,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: FONTSIZE_18,
                     ),
                   ),
                 ))
@@ -236,42 +196,31 @@ class MyDialogRatingState extends State<MyDialogRating>
   }
 
   @override
-  void getReviewFailed() {
-    // TODO: implement getReviewFailed
-  }
+  void getReviewFailed() {}
 
   @override
-  void getReviewSuccess( List<RestaurantReviewList> getReviewList) {
-    // TODO: implement getReviewSuccess
-  }
+  void getReviewSuccess(List<RestaurantReviewList> getReviewList) {}
 
   @override
-  void restaurantInfoFailed() {
-    // TODO: implement restaurantInfoFailed
-  }
+  void restaurantInfoFailed() {}
 
   @override
-  void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
-    // TODO: implement restaurantInfoSuccess
-  }
+  void restaurantInfoSuccess(RestaurantInfoData restInfoData) {}
 
   @override
   void writeReviewFailed() {
-    // TODO: implement writeReviewFailed
-       Navigator.pop(context,false);
+    Navigator.pop(context, false);
   }
 
   @override
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
-    // TODO: implement writeReviewSuccess
-    //  Fluttertoast.showToast(
-    //       msg: 'Review Submitted',
-    //       toastLength: Toast.LENGTH_SHORT,
-    //     );
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    Toast.show("Review Submitted", context, duration: Toast.LENGTH_SHORT, 
-                      gravity:  Toast.BOTTOM,);
-    Navigator.pop(context,true);
-    
+    Toast.show(
+      STR_REVIEW_SUMBITTED,
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    Navigator.pop(context, true);
   }
 }

@@ -24,7 +24,7 @@ class BaseUrl {
       case Environment.LOCAL:
         return STR_LOCAL_URL;
       default:
-        return "";
+        return STR_BLANK;
     }
   }
 
@@ -37,7 +37,7 @@ class BaseUrl {
       case Environment.LOCAL:
         return STR_IMAGE_LOCAL_URL;
       default:
-        return "";
+        return STR_BLANK;
     }
   }
 }
@@ -64,14 +64,13 @@ class ApiBaseHelper {
     if (Globle().authKey != null) {
       return Globle().authKey;
     }
-    return "";
+    return STR_BLANK;
   }
 
   Map<String, String> getHeader(String url) {
     switch (url) {
       case UrlConstant.loginApi:
         return {
-          //HttpHeaders.authorizationHeader: "Barier " + getAuthToken(),
           HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
           HttpHeaders.acceptHeader: STR_HEADER_TYPE
         };

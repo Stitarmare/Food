@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 
 abstract class StatTrackTakeContractor {

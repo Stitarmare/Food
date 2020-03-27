@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class RegisterContract {
-  void performregister(String first_name, String last_name, String mobno,
+  void performregister(String firstName, String lastName, String mobno,
       String password, BuildContext context);
   void onBackPresed();
 }

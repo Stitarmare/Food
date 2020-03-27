@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
-
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
-
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
-
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
 
-//enum DailogAction { yes, abort }
 class CallService {
   void call(String number) => launch("tel:$number");
 }
@@ -35,8 +30,8 @@ void set() {
 }
 
 class RestaurantInfoView extends StatefulWidget {
-  int rest_Id;
-  RestaurantInfoView({this.rest_Id});
+  int restId;
+  RestaurantInfoView({this.restId});
 
   RestaurantInfoViewState createState() => RestaurantInfoViewState();
 }
@@ -64,19 +59,19 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   List<Gallary> gallaryImages = [
     Gallary(
         id: 0,
-        imagePath: "assets/HotelImages/Image31.png",
+        imagePath: HOTEL_IMAGE_PATH,
         createdAt: "",
         restId: 0,
         updatedAt: ""),
     Gallary(
         id: 0,
-        imagePath: "assets/HotelImages/Image12.png",
+        imagePath: RESTAURANT_IMAGE_PATH,
         createdAt: "",
         restId: 0,
         updatedAt: ""),
     Gallary(
         id: 0,
-        imagePath: "assets/HotelImages/MaskGroup20.png",
+        imagePath: HOTEL_IMAGE_PATH_1,
         createdAt: "",
         restId: 0,
         updatedAt: "")
@@ -89,7 +84,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     _getRestaurantInfo();
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
 
     super.initState();
   }
@@ -97,27 +91,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   _getRestaurantInfo() {
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
 
-    restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.rest_Id);
+    restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
   _getRestaurantReview() {
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    restaurantIdInfoPresenter.getRestaurantReview(context, widget.rest_Id);
-  }
-
-// _writeRestaurantReview(){
-//   restaurantIdInfoPresenter.writeRestaurantReview(context, widget.rest_Id, _controller.toString(), 3);
-// }
-
-  int _rating = 0;
-  // TextEditingController _controller;
-  final _controller = TextEditingController();
-
-  void rate(int rating) {
-    //Other actions based on rating such as api calls.
-    setState(() {
-      _rating = rating;
-    });
+    restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId);
   }
 
   @override
@@ -127,11 +106,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       for (var i = 0; i < list.length; i++) {
         result.add(handler(i, list[i]));
       }
-
       return result;
     }
 
-    Widget image_carousel = new Stack(
+    Widget imageCarousel = new Stack(
       children: <Widget>[
         Container(
           decoration: BoxDecoration(color: Colors.red),
@@ -155,18 +133,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       height: Constants.getSafeAreaHeight(context) * 0.35,
                       width: Constants.getScreenWidth(context),
                       decoration: BoxDecoration(color: Colors.grey[300]),
-                      // child: isInfoLoaded ?
-                      // Image.network(BaseUrl.getBaseUrlImages() + src.imagePath,fit: BoxFit.cover,)
-                      // // CachedNetworkImage(
-                      // //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                      // //   fit: BoxFit.cover,
-                      // //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                      // // )
-                      // : Image.asset(src.imagePath)
-                      // // Image.network(
-                      // //   src,
-                      // //   fit: BoxFit.cover,
-                      // //   )
                       child: isInfoLoaded
                           ? CachedNetworkImage(
                               fit: BoxFit.cover,
@@ -180,20 +146,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                               src.imagePath,
                               fit: BoxFit.cover,
                             ));
-                  // ImageWithLoader(
-                  //     BaseUrl.getBaseUrlImages() + src.imagePath,
-                  //     fit: BoxFit.cover,
-                  //   )
-                  //  Image.network(
-                  //     BaseUrl.getBaseUrlImages() + src.imagePath,
-                  //     fit: BoxFit.cover,
-                  //   )
-
-                  // CachedNetworkImage(
-                  //   imageUrl: BaseUrl.getBaseUrlImages() + src.imagePath,
-                  //   fit: BoxFit.cover,
-                  //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                  // )
                 },
               );
             }).toList(),
@@ -240,25 +192,15 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   padding: EdgeInsets.only(
                     left: 20,
                   ),
-                  // child: Text(
-                  //   _restaurantInfoData.restName,
-                  //   style: TextStyle(
-                  //       color: greytheme700,
-                  //       // color: Colors.red,
-                  //       fontFamily: 'gotham',
-                  //       fontWeight: FontWeight.w500,
-                  //       fontSize: 16),
-                  // ),
                   child: AutoSizeText(
                     getRestName(),
                     maxLines: 2,
-                    maxFontSize: 16,
+                    maxFontSize: FONTSIZE_16,
                     style: TextStyle(
                         color: greytheme700,
-                        // color: Colors.red,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
-                        fontSize: 16),
+                        fontSize: FONTSIZE_16),
                   ),
                 ),
                 Row(
@@ -271,19 +213,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           height: 30,
                           width: 260,
                           child: AutoSizeText(
-                            // 'Via in Arcione 115, 00187 Rome Italy',
                             getAddressText(),
                             style: TextStyle(
                               color: greytheme100,
-                              // fontSize: 14,
-                              fontFamily: 'gotham',
+                              fontFamily: KEY_FONTFAMILY,
                             ),
-                            // minFontSize: 8,
-                            maxFontSize: 14,
+                            maxFontSize: FONTSIZE_14,
                             maxLines: 2,
-
-                            // overflow: Overflow.visible,
-                            // overflow: Overflow.visible,
                           ),
                         ),
                       ),
@@ -300,7 +236,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           child: FlatButton(
                             child: ClipOval(
                               child: Image.asset(
-                                'assets/NavigateButton/next(2).png',
+                                NAVIGATE_IMAGE_PATH,
                                 color: getColorByHex(Globle().colorscode),
                                 width: 14,
                               ),
@@ -312,23 +248,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                         ),
                       ),
                     ]),
-                // SizedBox(
-                //   height: 5,
-                // ),
-                // Container(
-                //   width: MediaQuery.of(context).size.width,
-                //   margin: EdgeInsets.only(left: 20),
-                //   height: 20,
-                //   child: new ListView.builder(
-                //     scrollDirection: Axis.horizontal,
-                //     shrinkWrap: true,
-                //     physics: const ClampingScrollPhysics(),
-                //     itemCount: getCategoryLength(),
-                //     itemBuilder: (BuildContext context, int index) {
-                //       return menuButton(_restaurantInfoData.category[index]);
-                //     },
-                //   ),
-                // ),
                 SizedBox(
                   height: 8,
                 ),
@@ -342,11 +261,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     Container(
                       width: 49,
                       height: 18,
-                      // color: Colors.black,
                       decoration: BoxDecoration(
                           color: greytheme700,
                           borderRadius: BorderRadius.all(Radius.circular(4))),
-
                       child: Row(
                         children: <Widget>[
                           Padding(
@@ -361,11 +278,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             padding: const EdgeInsets.only(
                                 left: 4, top: 2, bottom: 2),
                             child: Text(
-                              // '_restaurantInfoData.averageRating.toString()',
                               getAverageRating(),
                               style: TextStyle(
-                                  fontFamily: 'gotham',
-                                  fontSize: 10,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontSize: FONTSIZE_10,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
@@ -377,13 +293,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       width: 12,
                     ),
                     Text(
-                      '(${getReviewsCount()}+ Reviews)',
-                      // _restaurantInfoData.reviewsCount.toString(),
-                      // "($_restaurantInfoData.reviewsCount.toString())",
-                      // _restaurantInfoData.reviewsCount.toString(),
+                      '(${getReviewsCount()}+' + STR_REVIEWS + ')',
                       style: TextStyle(
-                          fontSize: 13,
-                          fontFamily: 'gotham',
+                          fontSize: FONTSIZE_13,
+                          fontFamily: KEY_FONTFAMILY,
                           color: greytheme100),
                     )
                   ],
@@ -420,7 +333,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                     color: Colors.white,
                                   ),
                                 )),
-                            // Divider(thickness: 5,color: Colors.white,),
                             VerticalDivider(
                               thickness: 2,
                               width: 1,
@@ -431,10 +343,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                   right: 7, top: 6, bottom: 5, left: 7),
                               child: Text(
                                 getContactNumber(),
-                                // _restaurantInfoData.contactNumber,
                                 style: TextStyle(
-                                    fontFamily: 'gotham',
-                                    fontSize: 14,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontSize: FONTSIZE_14,
                                     color: Colors.white),
                               ),
                             )
@@ -459,11 +370,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 children: <Widget>[
                   Center(
                     child: Text(
-                      "Please wait, fetching Restaurant Info!",
+                      STR_FETCHING_INFO,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'gotham',
+                          fontSize: FONTSIZE_12,
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w500,
                           color: greytheme1200),
                     ),
@@ -473,17 +384,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ),
             )
           : Container(
-              // height: Constants.getSafeAreaHeight(context) * 0.35,
-              //             width: Constants.getScreenWidth(context),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 fit: StackFit.passthrough,
                 alignment: AlignmentDirectional.topStart,
-                // fit: StackFit.expand,
                 overflow: Overflow.visible,
                 children: <Widget>[
-                  Positioned(left: 0, right: 0, top: 0, child: image_carousel),
+                  Positioned(left: 0, right: 0, top: 0, child: imageCarousel),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Container(
@@ -494,7 +402,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           children: <Widget>[
                             FlatButton(
                               child: Image.asset(
-                                'assets/BackButtonIcon/Path1621.png',
+                                BACK_BTN_ICON_PATH,
                                 color: Colors.black,
                               ),
                               onPressed: () {
@@ -508,22 +416,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                               flex: 2,
                             ),
                           ],
-                        )
-
-                        // )
-                        ),
+                        )),
                   ),
-                  // Positioned(
-                  //   left: 3.0,
-                  //   top: 21.0,
-                  //   child: FlatButton(
-                  //     child:
-                  //         Image.asset('assets/BackButtonIcon/Path1621.png'),
-                  //     onPressed: () {
-                  //       Navigator.pop(context);
-                  //     },
-                  //   ),
-                  // ),
                   Positioned(
                     top: Constants.getSafeAreaHeight(context) * 0.3,
                     left: 0,
@@ -546,8 +440,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   mapview() async {
     final availableMaps = await MapLauncher.installedMaps;
-    print(
-        availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
+    print(availableMaps);
 
     await availableMaps.first.showMarker(
         coords: Coords(double.parse(_restaurantInfoData.latitude),
@@ -564,10 +457,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           padding: const EdgeInsets.all(4),
           child: Text(
             item.name,
-            // item.title,
             style: TextStyle(
-              fontFamily: 'gotham',
-              fontSize: 10,
+              fontFamily: KEY_FONTFAMILY,
+              fontSize: FONTSIZE_10,
               color: greytheme1000,
             ),
           ),
@@ -582,8 +474,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
             )),
         onPressed: () {},
       ),
-
-      // ),
     );
   }
 
@@ -596,11 +486,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           Padding(
             padding: EdgeInsets.only(left: 10, top: 12),
             child: Text(
-              'Opening Hours',
+              STR_OPENING_HOURS,
               style: TextStyle(
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w700,
-                  fontSize: 14,
+                  fontSize: FONTSIZE_14,
                   color: greytheme700),
             ),
           ),
@@ -611,11 +501,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ? Center(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
-                    child: Text('No Schedule Available'),
+                    child: Text(STR_NO_SCHDUL_AVL),
                   ),
                 )
               : Container(
-                  // height: 150,
                   child: ListView.builder(
                   controller: _scrollcontroller,
                   itemCount: getScheduleLength(),
@@ -635,7 +524,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                     _restaurantInfoData
                                         .schedule[index].dayOfWeek,
                                     style: TextStyle(
-                                        fontSize: 12, color: greytheme1000),
+                                        fontSize: FONTSIZE_12,
+                                        color: greytheme1000),
                                   ),
                                 ),
                                 Expanded(
@@ -647,9 +537,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                 Padding(
                                   padding: const EdgeInsets.only(right: 24),
                                   child: Text(
-                                      '${_restaurantInfoData.schedule[index].fromTime} - ${_restaurantInfoData.schedule[index].toTime}',
+                                      '${_restaurantInfoData.schedule[index].fromTime}' +
+                                          STR_DASH_SIGN +
+                                          '${_restaurantInfoData.schedule[index].toTime}',
                                       style: TextStyle(
-                                          fontSize: 12, color: greytheme1000)),
+                                          fontSize: FONTSIZE_12,
+                                          color: greytheme1000)),
                                 ),
                               ],
                             ),
@@ -674,7 +567,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          // widget(
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -682,11 +574,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               Padding(
                 padding: EdgeInsets.only(left: 20, top: 12),
                 child: Text(
-                  'Reviews',
+                  STR_REVIEWS,
                   style: TextStyle(
-                      fontFamily: 'gotham',
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w700,
-                      fontSize: 14,
+                      fontSize: FONTSIZE_14,
                       color: greytheme700),
                 ),
               ),
@@ -699,57 +591,47 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               GestureDetector(
                 child: Padding(
                   padding: EdgeInsets.only(top: 12, right: 20),
-                  child: Text('Write Review',
+                  child: Text(STR_WRITE_REVIEWS,
                       style: TextStyle(
-                          fontFamily: 'gotham',
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w700,
-                          fontSize: 14,
+                          fontSize: FONTSIZE_14,
                           color: getColorByHex(Globle().colorscode),
                           decoration: TextDecoration.underline,
-                          decorationThickness: 5.0
-                          // decorationStyle: TextDecorationStyle.solid,
-                          )),
+                          decorationThickness: 5.0)),
                 ),
                 onTap: () async {
                   var dailogValue = await showDialog(
                       context: context,
                       barrierDismissible: true,
                       child: MyDialogRating(
-                        rest_id: widget.rest_Id,
+                        restId: widget.restId,
                       ));
                   setState(() {
-                    print("success");
                     if (dailogValue != null) {
                       if (dailogValue == true) {
                         _getRestaurantReview();
                       }
                     }
                   });
-
-                  // await reviewPopup(context);
                 },
               ),
             ],
           ),
-          // ),
-          //
           getRestaurantReviewLength() == 0
               ? Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('No Reviews'),
+                    child: Text(STR_NO_REVIEWS),
                   ),
                 )
               : Container(
-                  // height: MediaQuery.of(context).size.height * 0.35,
                   child: ListView.builder(
                   controller: _scrollcontroller,
-                  // itemCount: _restaurantInfoData.reviews.length,
                   itemCount: getRestaurantReviewLength(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                        // height: 105,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -772,49 +654,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 18, top: 10),
                                               child: ClipOval(
-                                                  child:
-                                                      //                    CachedNetworkImage(
-                                                      //   imageUrl: BaseUrl.getBaseUrlImages() + _getReviewData.reviews[index].user.userDetails,
-                                                      //   fit: BoxFit.cover,
-                                                      //   //  placeholder: (context, url) => CircularProgressIndicator(),
-                                                      // )
-                                                      //     Image.asset(
-                                                      //   'assets/ProfileImage/MaskGroup15.png',
-                                                      //   height: 45,
-                                                      //   width: 45,
-                                                      // ),
-                                                      CachedNetworkImage(
-                                                imageUrl:
-                                                    BaseUrl.getBaseUrlImages() +
-                                                        getProfileImage(index),
-                                                fit: BoxFit.fill,
-                                                placeholder: (context, url) =>
-                                                    Image.asset(
-                                                  'assets/PlaceholderImage/placeholder.png',
-                                                  width: 45,
-                                                  height: 45,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Image.asset(
-                                                  'assets/PlaceholderImage/placeholder.png',
-                                                  width: 45,
-                                                  height: 45,
-                                                  fit: BoxFit.fill,
-                                                ),
+                                                  child: Image.network(
+                                                BaseUrl.getBaseUrlImages() +
+                                                    getProfileImage(index),
                                                 height: 45,
                                                 width: 45,
-                                              )
-                                                  //         Image.network(
-                                                  //   BaseUrl.getBaseUrlImages() +
-                                                  //       getProfileImage(index),
-                                                  //   height: 45,
-                                                  //   width: 45,
-                                                  // )
-                                                  )),
+                                              ))),
                                         ),
-
                                         Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -828,14 +674,15 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                   _getReviewData[index]
                                                           .user
                                                           .firstName +
-                                                      " " +
+                                                      STR_SPACE +
                                                       _getReviewData[index]
                                                           .user
                                                           .lastName,
                                                   style: TextStyle(
-                                                      fontSize: 13,
+                                                      fontSize: FONTSIZE_13,
                                                       color: greytheme1000,
-                                                      fontFamily: 'gotham',
+                                                      fontFamily:
+                                                          KEY_FONTFAMILY,
                                                       fontWeight:
                                                           FontWeight.w700)),
                                             ),
@@ -845,14 +692,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                               child: Container(
                                                 width: 39,
                                                 height: 18,
-                                                // color: Colors.black,
                                                 decoration: BoxDecoration(
                                                     color: greytheme700,
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(
                                                                 4))),
-
                                                 child: Row(
                                                   children: <Widget>[
                                                     Padding(
@@ -874,13 +719,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                       child: Text(
                                                         _getReviewData[index]
                                                             .rating
-                                                            // _getReviewData
-                                                            //     .reviews[index].rating
                                                             .toString(),
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'gotham',
-                                                            fontSize: 12,
+                                                                KEY_FONTFAMILY,
+                                                            fontSize:
+                                                                FONTSIZE_12,
                                                             fontWeight:
                                                                 FontWeight.w600,
                                                             color:
@@ -902,20 +746,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                           left: 18, top: 10),
                                                   child: ExpandableText(
                                                       _getReviewData[index]
-                                                          .description
-                                                      // 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Lorem Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem.',
-                                                      // maxLines: 5,)
-                                                      ),
+                                                          .description),
                                                 )),
                                             SizedBox(
                                               height: 10,
                                             )
                                           ],
                                         ),
-                                        // ),
-
-                                        //   ],
-                                        // )
                                       ])),
                               Divider(
                                 height: 2,
@@ -945,17 +782,16 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   tabs: <Widget>[
                     Tab(
                       child: Text(
-                        'Restaurants Info',
-                        style: TextStyle(fontFamily: 'gotham', fontSize: 15),
+                        STR_RESTAURANT_INFO,
+                        style:
+                            TextStyle(fontFamily: KEY_FONTFAMILY, fontSize: 15),
                       ),
                     ),
                     Tab(
                       child: Text(
-                        'Review',
+                        STR_REVIEWS,
                         style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 15,
-                        ),
+                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
                       ),
                     )
                   ],
@@ -968,7 +804,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   onTap: (index) {
                     switch (index) {
                       case 0:
-                        print('Restaurants Info');
                         setState(() {
                           isRestaurantViewed = true;
                           isReview = false;
@@ -976,7 +811,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
                         break;
                       case 1:
-                        print('Review');
                         setState(() {
                           isRestaurantViewed = false;
                           isReview = true;
@@ -995,42 +829,28 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void restaurantInfoFailed() {
-    // TODO: implement restaurantInfoFailed
-  }
+  void restaurantInfoFailed() {}
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
     setState(() {
-      if (restInfoData == null) {
-        // Dialogs.showLoadingDialog(context, _keyLoader, "");
-        //CircularProgressIndicator();
-      }
+      if (restInfoData == null) {}
       _restaurantInfoData = restInfoData;
       if (_restaurantInfoData.gallary != null &&
           _restaurantInfoData.gallary.length > 0) {
         gallaryImages = _restaurantInfoData.gallary;
         isInfoLoaded = true;
       }
-      //print(_restaurantInfoData.restName);
-      // print(_restaurantInfoData.schedule);
-      // _restaurantInfoData = restInfoData;
-      // _restInfoData = restInfoData;
     });
     _getRestaurantReview();
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement restaurantInfoSuccess
   }
 
   @override
-  void getReviewFailed() {
-    // TODO: implement getReviewFailed
-  }
+  void getReviewFailed() {}
 
   @override
   void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
-    // TODO: implement getReviewSuccess
-
     setState(() {
       _getReviewData = getReviewList;
       print(_getReviewData);
@@ -1039,36 +859,30 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void writeReviewFailed() {
-    // TODO: implement writeReviewFailed
-  }
+  void writeReviewFailed() {}
 
   @override
-  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
-    // TODO: implement writeReviewSuccess
-    print('Review Success');
-  }
+  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {}
 
   String getRestName() {
     if (_restaurantInfoData != null) {
       if (_restaurantInfoData.restName != null) {
         return _restaurantInfoData.restName;
       }
-      return "";
+      return STR_BLANK;
     }
 
-    return "";
+    return STR_BLANK;
   }
 
   String getAddressText() {
     if (_restaurantInfoData != null) {
       return _restaurantInfoData.addressLine1 ??
-          "" + " " + _restaurantInfoData.addressLine2 ??
-          "" + " " + _restaurantInfoData.addressLine3 ??
-          "";
+          STR_BLANK + STR_SPACE + _restaurantInfoData.addressLine2 ??
+          STR_BLANK + STR_SPACE + _restaurantInfoData.addressLine3 ??
+          STR_BLANK;
     }
-    return "";
-    // 'Via in Arcione 115, 00187 Rome Italy',
+    return STR_BLANK;
   }
 
   int getCategoryLength() {
@@ -1083,9 +897,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.averageRating != null) {
         return _restaurantInfoData.averageRating.toString();
       }
-      return "0";
+      return STR_ZERO;
     }
-    return "0";
+    return STR_ZERO;
   }
 
   String getReviewsCount() {
@@ -1093,12 +907,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.reviewsCount != null) {
         return _restaurantInfoData.reviewsCount.toString();
       }
-      return "0";
+      return STR_ZERO;
     }
-    return "0";
+    return STR_ZERO;
   }
 
-// _getReviewData[index].user.userDetails.profileImage
   String getProfileImage(int index) {
     if (_getReviewData != null) {
       if (_getReviewData[index].user != null) {
@@ -1106,13 +919,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           if (_getReviewData[index].user.userDetails.profileImage != null) {
             return _getReviewData[index].user.userDetails.profileImage;
           }
-          return " ";
+          return STR_SPACE;
         }
-        return " ";
+        return STR_SPACE;
       }
-      return " ";
+      return STR_SPACE;
     }
-    return " ";
+    return STR_SPACE;
   }
 
   String getContactNumber() {
@@ -1120,9 +933,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       if (_restaurantInfoData.contactNumber != null) {
         return _restaurantInfoData.contactNumber.toString();
       }
-      return "0";
+      return STR_ZERO;
     }
-    return "0";
+    return STR_ZERO;
   }
 
   int getScheduleLength() {

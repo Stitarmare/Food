@@ -1,45 +1,32 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
-
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
-
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/PaymentMethod/PaymentMethod.dart';
-
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
-
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
-import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import './Utils/String.dart';
-
 import './Login/LoginView.dart';
 import './LandingPage/LandingView.dart';
-
 import './RegistrationPage/RegisterView.dart';
 import './ResetPassword/ResetPassView.dart';
 import './SplashScreenPage/Splashscreen.dart';
-
 import './Otp/OtpView.dart';
 import './EnterMobileNoOTP/EnterOtp.dart';
 import './DineInPage/DineInView.dart';
-
 import './ProfilePage/ProfileScreen.dart';
 import './EditProfile/EditProfileView.dart';
 import './RestaurantPage/RestaurantView.dart';
 import './Notifications/NotificationView.dart';
 import 'ChangePassword/ChangePassView.dart';
-
-// import './OrderConfirmation/OrderConfirmationView.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/OrderConfirmation2/OrderConfirmation2.dart';
 
@@ -68,7 +55,6 @@ var routes = <String, WidgetBuilder>{
   '/AddItemPageView': (BuildContext context) => AddItemPageView(),
   '/AddItemPageTAView': (BuildContext context) => AddItemPageTAView(),
   '/MyCart': (BuildContext context) => MyCartView(),
-  // '/OrderConfirmationView': (BuildContext context) => OrderConfirmationView(),
   '/OrderConfirmation2View': (BuildContext context) => OrderConfirmation2View(),
   '/ConfirmationDineView': (BuildContext context) => ConfirmationDineView(),
   '/webview': (BuildContext context) => WebViewPage(),
@@ -82,7 +68,6 @@ void main() {
     title: KEY_APP_NAME,
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      //scaffoldBackgroundColor: Colors.white,
       brightness: Brightness.light,
       primaryColor: Color.fromRGBO(34, 180, 91, 1),
       accentColor: Color.fromRGBO(34, 180, 91, 1),

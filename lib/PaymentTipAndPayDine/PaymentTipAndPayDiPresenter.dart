@@ -3,8 +3,8 @@ import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
-import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -20,44 +20,37 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
   void getOrderDetails(int orderid, BuildContext context) {
     ApiBaseHelper()
         .post<OrderDetailsModel>(UrlConstant.getorderDetails, context, body: {
-      "order_id": orderid,
+      JSON_STR_ORDER_ID: orderid,
     }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Order Detail success");
           print(value.model);
           _paymentTipandPayDiModelView.getOrderDetailsSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Order Detail failed");
           _paymentTipandPayDiModelView.getOrderDetailsFailed();
           break;
       }
     }).catchError((error) {
       print(error);
     });
-    // TODO: implement getOrderDetails
   }
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 
   @override
   void getCheckoutDetails(String checkoutId, BuildContext context) {
     ApiBaseHelper().post<PaymentCheckoutModel>(
         UrlConstant.checkoutPaymentStatus, context,
-        body: {"encrypted_checkout_id": checkoutId}).then((value) {
+        body: {JSON_STR_ENCRYPTED_CODE: checkoutId}).then((value) {
       switch (value.result) {
         case SuccessType.success:
-          print("Order Detail success");
           print(value.model);
           _paymentTipandPayDiModelView.paymentCheckoutSuccess(value.model);
           break;
         case SuccessType.failed:
-          print("Order Detail failed");
           _paymentTipandPayDiModelView.paymentCheckoutFailed();
           break;
       }
@@ -77,34 +70,32 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
   void payfinalOrderBill(
     int userId,
     int restId,
-    int order_id,
-    String payment_mode,
+    int orderId,
+    String paymentMode,
     int amount,
-    int total_amount,
+    int totalAmount,
     String transacionId,
     BuildContext context, [
     int tip,
   ]) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.getFinalBillApi, context, body: {
-      "user_id": userId,
-      "rest_id": restId,
-      "order_id": order_id,
-      "payment_mode": payment_mode,
-      "amount": amount,
-      "tip": tip,
-      "total_amount": total_amount,
-      "transaction_id": transacionId,
+      JSON_STR_USER_ID: userId,
+      JSON_STR_REST_ID: restId,
+      JSON_STR_ORDER_ID: orderId,
+      JSON_STR_PAYMENT_MODE: paymentMode,
+      JSON_STR_AMOUNT: amount,
+      JSON_STR_TIP: tip,
+      JSON_STR_TOTAL_AMOUNT: totalAmount,
+      JSON_STR_TRANSACTION_ID: transacionId,
     }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Place Order success.");
           print(value.model);
           _payModelView.payfinalBillSuccess();
           break;
         case SuccessType.failed:
-          print("Place Order failed.");
           _payModelView.payfinalBillFailed();
           break;
       }
@@ -123,26 +114,22 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
   @override
   void payBillCheckOut(
     int restId,
-    // String currency,
     int amount,
     BuildContext context,
   ) {
     ApiBaseHelper().post<PaycheckoutNetbanking>(
         UrlConstant.paycheckOutNetbankingApi, context,
         body: {
-          "rest_id": restId,
-          //"currency": currency,
-          "amount": amount,
+          JSON_STR_REST_ID: restId,
+          JSON_STR_AMOUNT: amount,
         }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Place Order success.");
           print(value.model);
           _paybillcheckoutModelView.payBillCheckoutSuccess(value.model);
           break;
         case SuccessType.failed:
-          print("Place Order failed.");
           _paybillcheckoutModelView.payBillCheckoutFailed();
           break;
       }

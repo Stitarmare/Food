@@ -1,14 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
-import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:http/http.dart' as http;
 
 class WebViewScreen extends StatefulWidget {
   String url;
@@ -28,7 +23,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void dispose() {
-    // Every listener should be canceled, the same should be done with this stream.
     _onDestroy.cancel();
     _onUrlChanged.cancel();
     _onStateChanged.cancel();
@@ -39,13 +33,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
     super.initState();
-
     flutterWebviewPlugin.close();
-
-    // Add a listener to on destroy WebView, so you can make came actions.
-    _onDestroy = flutterWebviewPlugin.onDestroy.listen((_) {
-      print("destroy");
-    });
+    _onDestroy = flutterWebviewPlugin.onDestroy.listen((_) {});
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
@@ -55,7 +44,6 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
       if (state.type == WebViewState.shouldStart &&
           state.url.contains("${BaseUrl.getBaseUrl()}success")) {
-        //fetchJson(state.url);
         print("onStateChanged: ${state.type} ${state.url}");
         setState(() {
           var urlsSplit = state.url.split("?");

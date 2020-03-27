@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
-import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -14,9 +14,7 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
   }
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 
   @override
   void placeOrder(
@@ -30,27 +28,24 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
     String longitude,
     BuildContext context,
   ) {
-    // TODO: implement getMenuList
     ApiBaseHelper()
         .post<PlaceOrderModel>(UrlConstant.placeOrderApi, context, body: {
-      "user_id": userId,
-      "rest_id": restId,
-      "order_type": orderType,
-      "table_id": tableId,
-      "total_amount": totalAmount,
-      "latitude": latitude,
-      "longitude": longitude,
-      "items": items
+      JSON_STR_USER_ID: userId,
+      JSON_STR_REST_ID: restId,
+      JSON_STR_ORDER_TYPE: orderType,
+      JSON_STR_TABLE_ID: tableId,
+      JSON_STR_TOTAL_AMOUNT: totalAmount,
+      JSON_STR_LATITUDE: latitude,
+      JSON_STR_LONGITUDE: longitude,
+      JSON_STR_ITEMS: items
     }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Place Order success.");
           print(value.model);
           _paymentTipAndPayModelView.placeOrdersuccess(value.model.orderData);
           break;
         case SuccessType.failed:
-          print("Place Order failed.");
           _paymentTipAndPayModelView.placeOrderfailed();
           break;
       }

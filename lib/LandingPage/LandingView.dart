@@ -85,7 +85,7 @@ class _LandingStateView extends State<Landingview>
 
   getCurrentOrderID() async {
     var currentOrderId =
-        await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+        await Preference.getPrefValue<int>(PreferenceKeys.orderId);
     if (currentOrderId != null) {
       setState(() {
         isOrderRunning = true;
@@ -98,8 +98,8 @@ class _LandingStateView extends State<Landingview>
   }
 
   getCurrentRestID() async {
-    var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID);
+    var currentRestId =
+        await Preference.getPrefValue<int>(PreferenceKeys.currentRestaurantId);
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -378,14 +378,14 @@ class _LandingStateView extends State<Landingview>
 
   showStatusView() async {
     var currentOrderId =
-        await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+        await Preference.getPrefValue<int>(PreferenceKeys.orderId);
     if (_model != null) {
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTrackView(
                     orderID: currentOrderId,
-                    rest_id: (_model.data.dineIn.status != STR_PAID)
+                    restId: (_model.data.dineIn.status != STR_PAID)
                         ? _model.data.dineIn.restId
                         : _model.data.takeAway.restId,
                     title: (_model.data.dineIn.status != STR_PAID)
@@ -405,7 +405,7 @@ class _LandingStateView extends State<Landingview>
           await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTakeAwayView(
                     orderID: currentOrderId,
-                    rest_id: (_model.data.takeAway.status != STR_PAID)
+                    restId: (_model.data.takeAway.status != STR_PAID)
                         ? _model.data.takeAway.restId
                         : _model.data.dineIn.restId,
                     title: (_model.data.takeAway.status != STR_PAID)
@@ -456,8 +456,8 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
-              model.data.dineIn.id, PreferenceKeys.ORDER_ID);
-          Preference.setPersistData<bool>(true, PreferenceKeys.ISDINEIN);
+              model.data.dineIn.id, PreferenceKeys.orderId);
+          Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
@@ -473,10 +473,10 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
-              model.data.takeAway.id, PreferenceKeys.ORDER_ID);
+              model.data.takeAway.id, PreferenceKeys.orderId);
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
-          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
+          Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -490,11 +490,11 @@ class _LandingStateView extends State<Landingview>
   }
 
   setDefaultData() {
-    Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-    Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
-    Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
-    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Future.delayed(Duration(microseconds: 500), () {

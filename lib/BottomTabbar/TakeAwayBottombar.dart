@@ -52,7 +52,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
         tabsHome.setAll(0, [
           RestaurantTAView(
             title: widget.title,
-            rest_Id: widget.rest_Id,
+            restId: widget.rest_Id,
             imageUrl: widget.imageUrl,
           )
         ]);

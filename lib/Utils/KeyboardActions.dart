@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 
-
-class FocusNodes extends FocusNode{
+class FocusNodes extends FocusNode {
   static final FocusNode nodeText1 = FocusNode();
   static final FocusNode nodeText2 = FocusNode();
   static final FocusNode nodeText3 = FocusNode();
   static final FocusNode nodeText4 = FocusNode();
   static final FocusNode nodeText5 = FocusNode();
   static final FocusNode nodeText6 = FocusNode();
-  //final FocusNode _nodeText7 = FocusNode();
 
-  /// Creates the [KeyboardActionsConfig] to hook up the fields
-  /// and their focus nodes to our [FormKeyboardActions].
   static KeyboardActionsConfig buildConfig(BuildContext context) {
     return KeyboardActionsConfig(
       keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
@@ -36,10 +33,10 @@ class FocusNodes extends FocusNode{
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    content: Text("Custom Action"),
+                    content: Text(STR_CUSTOM_ACTION),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("OK"),
+                        child: Text(STR_OK),
                         onPressed: () => Navigator.of(context).pop(),
                       )
                     ],
@@ -55,7 +52,7 @@ class FocusNodes extends FocusNode{
           focusNode: nodeText5,
           closeWidget: Padding(
             padding: EdgeInsets.all(5.0),
-            child: Text("CLOSE"),
+            child: Text(STR_CLOSE),
           ),
         ),
         KeyboardAction(
@@ -64,7 +61,7 @@ class FocusNodes extends FocusNode{
               child: SizedBox(
                   height: 40,
                   child: Center(
-                    child: Text('Custom Footer'),
+                    child: Text(STR_CUSTOM_FOOTER),
                   )),
               preferredSize: Size.fromHeight(40)),
         ),
@@ -72,4 +69,3 @@ class FocusNodes extends FocusNode{
     );
   }
 }
-

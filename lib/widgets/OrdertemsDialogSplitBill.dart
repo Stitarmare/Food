@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
-import 'package:foodzi/Models/payment_Checkout_model.dart';
-import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
-import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -23,8 +21,6 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<ItemList> itemOrderList;
   int index;
-  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
-
   List<ListElements> elementList = [];
 
   @override
@@ -41,7 +37,6 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
         Container(
             height: 350,
             width: 200,
-            //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: Column(
@@ -51,11 +46,11 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                 ),
                 Center(
                   child: Text(
-                    'Split Bill On Order Items',
+                    STR_SPLIT_BILL_ON_ORDER,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -106,16 +101,16 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        _checkBoxOptions[i].title ?? '',
+                                        _checkBoxOptions[i].title ?? STR_BLANK,
                                         style: TextStyle(
-                                            fontSize: 13,
+                                            fontSize: FONTSIZE_13,
                                             color:
                                                 Color.fromRGBO(64, 64, 64, 1)),
                                       ),
                                     ],
                                   ));
                             })
-                        : Container(child: Text(""))),
+                        : Container(child: Text(STR_BLANK))),
                 SizedBox(
                   height: 10,
                 ),
@@ -126,17 +121,15 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Cancel',
+                        STR_CANCEL_TITLE,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                         ),
                       ),
                     )),
@@ -145,22 +138,18 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         if (itemOrderList.length > 0) {
                           print(itemOrderList[index].itemId);
                           print(itemOrderList.length);
-                        } else {
-                          print("length not found");
-                        }
+                        } else {}
                       },
                       child: Text(
                         'OK',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                         ),
                       ),
                     )),
@@ -184,26 +173,9 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
-
-//   @override
-//   void getInvitedPeopleFailed() {}
-
-//   @override
-//   void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
-//     if (list.length == 0) {
-//       return;
-//     }
-//     setState(() {
-//       if (invitedPeopleList == null) {
-//         invitedPeopleList = list;
-//         checkboxbtn(invitedPeopleList.length);
-//       } else {
-//         invitedPeopleList.addAll(list);
-//         checkboxbtn(invitedPeopleList.length);
-//       }
-//     });
-//   }
 }
 
 class ItemList {
@@ -214,11 +186,11 @@ class ItemList {
   });
 
   factory ItemList.fromJson(Map<String, dynamic> json) => ItemList(
-        itemId: json["invite_id"],
+        itemId: json[STR_INVITE_ID],
       );
 
   Map<String, dynamic> toJson() => {
-        "invite_id": itemId,
+        STR_INVITE_ID: itemId,
       };
 }
 

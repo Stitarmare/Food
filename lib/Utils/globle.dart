@@ -1,6 +1,6 @@
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Utils/String.dart';
 
 class Globle {
   static final Globle _globle = Globle.internal();
@@ -16,7 +16,7 @@ class Globle {
   String colorscode;
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
-  String restauranrtName = "";
-  String orderNumber = "";
+  String restauranrtName = STR_BLANK;
+  String orderNumber = STR_BLANK;
   var authKey;
 }

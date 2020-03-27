@@ -259,12 +259,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           : STR_UNFINISHEDORDER,
                       context);
                 } else {
-                  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                  DialogsIndicator.showLoadingDialog(
+                      context, _keyLoader, STR_BLANK);
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
-                DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                DialogsIndicator.showLoadingDialog(
+                    context, _keyLoader, STR_BLANK);
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
