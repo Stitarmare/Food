@@ -1,14 +1,10 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/Login/LoginView.dart';
-
 import 'package:foodzi/Models/authmodel.dart';
 import 'package:foodzi/Models/error_model.dart';
-
+import 'package:foodzi/Utils/String.dart';
 import './api_model.dart';
 import 'package:foodzi/Utils/globle.dart';
-
 import 'url_constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -22,11 +18,11 @@ class BaseUrl {
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
-        return "http://18.219.185.86/";
+        return STR_PRODUCTION_URL;
       case Environment.DEVLOPMENT:
-        return "http://foodzi.php-dev.in/";
+        return STR_DEVELOPEMENT_URL;
       case Environment.LOCAL:
-        return "https://jsonplaceholder.typicode.com/";
+        return STR_LOCAL_URL;
       default:
         return "";
     }
@@ -35,11 +31,11 @@ class BaseUrl {
   static String getBaseUrlImages() {
     switch (environment) {
       case Environment.PRODUCTION:
-        return "http://18.219.185.86/storage/";
+        return STR_IMAGE_PRODUCTION_URL;
       case Environment.DEVLOPMENT:
-        return "http://foodzi.php-dev.in/storage/";
+        return STR_IMAGE_DEVELOPEMENT_URL;
       case Environment.LOCAL:
-        return "https://jsonplaceholder.typicode.com/";
+        return STR_IMAGE_LOCAL_URL;
       default:
         return "";
     }
@@ -76,26 +72,26 @@ class ApiBaseHelper {
       case UrlConstant.loginApi:
         return {
           //HttpHeaders.authorizationHeader: "Barier " + getAuthToken(),
-          HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader: "application/json"
+          HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
+          HttpHeaders.acceptHeader: STR_HEADER_TYPE
         };
       case UrlConstant.getCustomer:
         return {
-          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
-          HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader: "application/json"
+          HttpHeaders.authorizationHeader: STR_BEARER + authToken(),
+          HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
+          HttpHeaders.acceptHeader: STR_HEADER_TYPE
         };
       case UrlConstant.updateProfileImage:
         return {
-          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
-          HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader: "multipart/form-data"
+          HttpHeaders.authorizationHeader: STR_BEARER + authToken(),
+          HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
+          HttpHeaders.acceptHeader: STR_ACCEPT_HEADER
         };
       default:
         return {
-          HttpHeaders.authorizationHeader: "Bearer " + authToken(),
-          HttpHeaders.contentTypeHeader: "application/json",
-          HttpHeaders.acceptHeader: "application/json"
+          HttpHeaders.authorizationHeader: STR_BEARER + authToken(),
+          HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
+          HttpHeaders.acceptHeader: STR_HEADER_TYPE
         };
     }
   }
@@ -112,8 +108,8 @@ class ApiBaseHelper {
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(
             context,
-            "Timeout",
-            "Looks like the server is taking to long to respond, please try again in sometime.",
+            STR_TIMEOUT,
+            STR_SERVER_MSG,
             () {
               Navigator.of(context).pop();
             },
@@ -124,11 +120,10 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(response, context);
     } on SocketException {
-      //throw FetchDataException('No Internet connection');
       _showAlert(
         context,
-        "Wifi/Internet",
-        "Wifi/Internet not detected. Please activate it.",
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
         () {
           Navigator.of(context).pop();
         },
@@ -151,8 +146,8 @@ class ApiBaseHelper {
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(
             context,
-            "Timeout",
-            "Looks like the server is taking to long to respond, please try again in sometime.",
+            STR_TIMEOUT,
+            STR_SERVER_MSG,
             () {
               Navigator.of(context).pop();
             },
@@ -164,8 +159,8 @@ class ApiBaseHelper {
     } on SocketException {
       _showAlert(
         context,
-        "Wifi/Internet",
-        "Wifi/Internet not detected. Please activate it.",
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
         () {
           Navigator.of(context).pop();
         },
@@ -178,7 +173,7 @@ class ApiBaseHelper {
       {Map<String, String> body, String key, File imageBody}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
-      final request = http.MultipartRequest("POST", postURL);
+      final request = http.MultipartRequest(STR_POST, postURL);
       request.headers.addAll(getHeader(url));
       if (body != null) {
         body.forEach((key, value) {
@@ -188,7 +183,7 @@ class ApiBaseHelper {
       var filePart = new http.MultipartFile.fromBytes(
         key,
         (await imageBody.readAsBytes()).buffer.asUint8List(),
-        filename: '$key.jpg', // use the real name if available, or omit
+        filename: '$key.jpg',
         contentType: MediaType('image', 'jpg'),
       );
       request.files.add(filePart);
@@ -199,8 +194,8 @@ class ApiBaseHelper {
     } on SocketException {
       _showAlert(
         context,
-        "Wifi/Internet",
-        "Wifi/Internet not detected. Please activate it.",
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
         () {
           Navigator.of(context).pop();
         },
@@ -220,7 +215,7 @@ class ApiBaseHelper {
                 content: Text(message),
                 actions: <Widget>[
                   FlatButton(
-                    child: Text("Ok"),
+                    child: Text(STR_OK),
                     onPressed: onPressed,
                   )
                 ],
@@ -260,7 +255,7 @@ class ApiBaseHelper {
         }
 
         Future.delayed(const Duration(milliseconds: 100), () {
-          _showAlert(context, "Error", msg, () {
+          _showAlert(context, STR_ERROR, msg, () {
             Navigator.of(context).pop();
           });
         });
@@ -278,7 +273,7 @@ class ApiBaseHelper {
           }
         }
         Future.delayed(const Duration(milliseconds: 100), () {
-          _showAlert(context, "Session", msg, () {
+          _showAlert(context, STR_SESSION, msg, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
         });
@@ -288,27 +283,22 @@ class ApiBaseHelper {
       case 404:
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
-        var responseJson = json.decode(response.body.toString());
-        //var errorModel = AuthModel.fromMap(responseJson);
+        json.decode(response.body.toString());
 
         Future.delayed(const Duration(milliseconds: 100), () {
-          _showAlert(context, "Error", "Could not access", () {
+          _showAlert(context, STR_ERROR, STR_COULD_NOT_ACCESS, () {
             Navigator.of(context).pushReplacementNamed('/LoginView');
           });
         });
         return apiModel;
 
-      //throw UnauthorisedException(response.body.toString());
       case 500:
       default:
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
-        //var responseJson = json.decode(response.body.toString());
-        //var errorModel = AuthModel.fromMap(responseJson);
         Future.delayed(const Duration(milliseconds: 100), () {
-          _showAlert(context, "Error",
-              'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
-              () {
+          _showAlert(
+              context, STR_ERROR, STR_ERROR_MSG + '${response.statusCode}', () {
             Navigator.of(context).pop();
           });
         });

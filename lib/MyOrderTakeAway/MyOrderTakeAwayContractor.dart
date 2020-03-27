@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
-import 'package:foodzi/Models/OrderDetailsModel.dart';
 
 abstract class MyOrderTakeAwayContractor {
   void getOrderDetails(
-    String order_type,
+    String orderType,
     BuildContext context,
   );
   void getmyOrderBookingHistory(

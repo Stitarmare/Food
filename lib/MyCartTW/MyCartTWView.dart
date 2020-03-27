@@ -389,12 +389,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                 child: (_cartItemList[index].items.menuType ==
                                         STR_VEG)
                                     ? Image.asset(
-                                        STR_VEG_ICON,
+                                        IMAGE_VEG_ICON_PATH,
                                         height: 25,
                                         width: 25,
                                       )
                                     : Image.asset(
-                                        STR_VEG_ICON,
+                                        IMAGE_VEG_ICON_PATH,
                                         color: redtheme,
                                         width: 25,
                                         height: 25,

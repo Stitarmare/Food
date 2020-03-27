@@ -180,30 +180,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                   // });
 
                                   setState(() {
-                                    if (invitedPeople == null) {
-                                      invitedPeople = [];
-                                    }
-                                    if (invitedPeople.length > 0) {
-                                      if (val) {
-                                        var ext = InvitePeople();
-                                        ext.inviteId =
-                                            _checkBoxOptions[i].index;
-                                        invitedPeople.add(ext);
-                                      } else {
-                                        for (int i = 0;
-                                            i < invitedPeople.length;
-                                            i++) {
-                                          if (_checkBoxOptions[i].index ==
-                                              invitedPeople[i].inviteId) {
-                                            invitedPeople.removeAt(i);
-                                          }
-                                        }
-                                      }
-                                    } else {
-                                      var ext = InvitePeople();
-                                      ext.inviteId = _checkBoxOptions[i].index;
-                                      invitedPeople.add(ext);
-                                    }
                                     _checkBoxOptions[i].isChecked = val;
                                   });
                                 },
@@ -246,9 +222,24 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     onPressed: () async {
                       int orderId = await Preference.getPrefValue<int>(
                           PreferenceKeys.ORDER_ID);
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "Loading");
-                      confirmationDineviewPresenter.addPeople(
+
+                      print(_checkBoxOptions);
+                      String numbers = "";
+                      if (_checkBoxOptions.length > 0) {
+                        for (int i = 0; i < _checkBoxOptions.length; i++) {
+                          if (_checkBoxOptions[i].isChecked == true) {
+                            numbers += "${peopleList[i].mobileNumber},";
+                          }
+                        }
+                      }
+                      if (numbers.isNotEmpty) {
+                        numbers = removeLastChars(numbers);
+                      print(numbers);
+                      }
+                      
+                      
+                      if (numbers.isNotEmpty) {
+confirmationDineviewPresenter.addPeople(
                           peopleList[id].mobileNumber,
                           widget.tableId,
                           widget.restId,
@@ -264,6 +255,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                           "Invitation has been send Successfully!!", context);
                       print("Added people-->");
                       print(addList.length);
+                      }
+                      
                     },
                     child: Text(
                       addList.length != 0
@@ -315,6 +308,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
         ],
       );
     }
+  }
+  static String removeLastChars(String str) {
+    return str.substring(0, str.length - 1);
   }
 
   int getPeopleListLength() {
