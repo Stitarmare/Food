@@ -783,12 +783,36 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                       //   height: 45,
                                                       //   width: 45,
                                                       // ),
-                                                      Image.network(
-                                                BaseUrl.getBaseUrlImages() +
-                                                    getProfileImage(index),
+                                                      CachedNetworkImage(
+                                                imageUrl:
+                                                    BaseUrl.getBaseUrlImages() +
+                                                        getProfileImage(index),
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>
+                                                    Image.asset(
+                                                  'assets/PlaceholderImage/placeholder.png',
+                                                  width: 45,
+                                                  height: 45,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Image.asset(
+                                                  'assets/PlaceholderImage/placeholder.png',
+                                                  width: 45,
+                                                  height: 45,
+                                                  fit: BoxFit.fill,
+                                                ),
                                                 height: 45,
                                                 width: 45,
-                                              ))),
+                                              )
+                                                  //         Image.network(
+                                                  //   BaseUrl.getBaseUrlImages() +
+                                                  //       getProfileImage(index),
+                                                  //   height: 45,
+                                                  //   width: 45,
+                                                  // )
+                                                  )),
                                         ),
 
                                         Column(
@@ -1006,7 +1030,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
     // TODO: implement getReviewSuccess
-     
+
     setState(() {
       _getReviewData = getReviewList;
       print(_getReviewData);

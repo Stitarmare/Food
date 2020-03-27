@@ -6,6 +6,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:http/http.dart' as http;
 
@@ -53,7 +54,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       }
 
       if (state.type == WebViewState.shouldStart &&
-          state.url.contains("http://foodzi.php-dev.in/success")) {
+          state.url.contains("${BaseUrl.getBaseUrl()}success")) {
         //fetchJson(state.url);
         print("onStateChanged: ${state.type} ${state.url}");
         setState(() {
