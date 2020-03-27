@@ -90,8 +90,11 @@ class _LandingStateView extends State<Landingview>
       setState(() {
         isOrderRunning = true;
       });
+    } else {
+      setState(() {
+        isOrderRunning = false;
+      });
     }
-    return;
   }
 
   getCurrentRestID() async {
@@ -379,7 +382,7 @@ class _LandingStateView extends State<Landingview>
     if (_model != null) {
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
-          Navigator.of(context).push(MaterialPageRoute(
+          await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTrackView(
                     orderID: currentOrderId,
                     rest_id: (_model.data.dineIn.status != STR_PAID)
@@ -394,11 +397,12 @@ class _LandingStateView extends State<Landingview>
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
                   )));
+          getCurrentOrderID();
         }
       }
       if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
-          Navigator.of(context).push(MaterialPageRoute(
+          await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTakeAwayView(
                     orderID: currentOrderId,
                     rest_id: (_model.data.takeAway.status != STR_PAID)
@@ -408,6 +412,7 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
                   )));
+          getCurrentOrderID();
         }
       }
     }
