@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -24,12 +25,10 @@ class NotificationPresenter extends NotoficationContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Notification success");
           print(value.model);
           notificationModelView.getNotificationsSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Notification failed");
           notificationModelView.getNotificationsFailed();
           break;
       }
@@ -40,15 +39,12 @@ class NotificationPresenter extends NotoficationContractor {
 
   @override
   void acceptInvitation(
-      int from_id, int invitation_id, String status, BuildContext context) {
+      int fromId, int invitationId, String status, BuildContext context) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.acceptInvitationApi, context, body: {
-      "from_id": from_id,
-      "invitation_id": invitation_id,
-      // "table_id":table_id,
-      // "rest_id":rest_id,
-      "status": status,
-      // "order_id":order_id
+      JSON_STR_FORM_ID: fromId,
+      JSON_STR_INVITATION_ID: invitationId,
+      JSON_STR_STATUS: status,
     }).then((value) {
       print(value);
       switch (value.result) {

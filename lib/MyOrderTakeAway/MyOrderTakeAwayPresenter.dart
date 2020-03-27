@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
-import 'package:foodzi/Models/OrderDetailsModel.dart';
-import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -17,11 +16,11 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
   }
 
   @override
-  void getOrderDetails(String order_type, BuildContext context) {
+  void getOrderDetails(String orderType, BuildContext context) {
     ApiBaseHelper().post<CurrentOrderDetailsModel>(
         UrlConstant.runningOrderApi, context,
         body: {
-          "order_type": order_type,
+          "order_type": orderType,
         }).then((value) {
       print(value);
       switch (value.result) {
@@ -40,45 +39,20 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
     });
   }
 
-  // @override
-  // void getOrderDetails(BuildContext context) {
-  //   ApiBaseHelper()
-  //       .get<CurrentOrderDetailsModel>(UrlConstant.runningOrderApi, context)
-  //       .then((value) {
-  //     print(value);
-  //     switch (value.result) {
-  //       case SuccessType.success:
-  //         print("Order Detail success");
-  //         print(value.model);
-  //         _myOrderModelView.getOrderDetailsSuccess(value.model.data);
-  //         break;
-  //       case SuccessType.failed:
-  //         print("Order Detail failed");
-  //         _myOrderModelView.getOrderDetailsFailed();
-  //         break;
-  //     }
-  //   }).catchError((error) {
-  //     print(error);
-  //   });
-  //   // TODO: implement getOrderDetails
-  // }
-
   @override
-  void getmyOrderBookingHistory(String order_type, BuildContext context) {
+  void getmyOrderBookingHistory(String orderType, BuildContext context) {
     ApiBaseHelper().post<GetMyOrdersBookingHistory>(
         UrlConstant.getMyOrdersBookingHistory, context,
         body: {
-          "order_type": order_type,
+          JSON_STR_ORDER_TYPE: orderType,
         }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Order History success");
           print(value.model);
           _myOrderModelView.getmyOrderHistorySuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Order History failed");
           _myOrderModelView.getmyOrderHistoryFailed();
           break;
       }
@@ -88,7 +62,5 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
   }
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 }

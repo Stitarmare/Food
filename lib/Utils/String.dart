@@ -1,6 +1,41 @@
 //import 'dart:ffi';
 
+// API_BASE_HELPER Page
+
+// URLs
+const STR_PRODUCTION_URL = "http://18.219.185.86/";
+const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
+const STR_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+
+// IMAGE_URLs
+const STR_IMAGE_PRODUCTION_URL = "http://18.219.185.86/storage/";
+const STR_IMAGE_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/storage/";
+const STR_IMAGE_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+
+const STR_HEADER_TYPE = "application/json";
+const STR_BEARER = "Bearer ";
+const STR_ACCEPT_HEADER = "multipart/form-data";
+const STR_TIMEOUT = "Timeout";
+const STR_SERVER_MSG =
+    "Looks like the server is taking to long to respond, please try again in sometime.";
+const STR_WIFI_INTERNET = "Wifi/Internet";
+const STR_NO_WIFI_INTERNET = "Wifi/Internet not detected. Please activate it.";
+const STR_POST = "POST";
+const STR_ERROR = "Error";
+const STR_SESSION = "Session";
+const STR_COULD_NOT_ACCESS = "Could not access";
+const STR_ERROR_MSG =
+    "Error occured while Communication with Server with StatusCode : ";
+
+// APPEXCEPTION
+const STR_ERROR_COMMUNICATION = "Error During Communication: ";
+const STR_INVALID_REQUEST = "Invalid Request: ";
+const STR_UNAUTHORISED = "Unauthorised: ";
+const STR_INVALID_INPUT = "Invalid Input: ";
+
+// MIX_STRING
 const KEY_APP_NAME = 'foodZi';
+const KEY_FONTFAMILY = 'gotham';
 const KEY_APP_SLOGAN = 'Loading, please wait...';
 const KEY_FIRST_NAME = 'First Name';
 const KEY_LAST_NAME = 'Last Name';
@@ -111,7 +146,6 @@ const double FONTSIZE_24 = 24;
 const double FONTSIZE_11 = 11;
 
 // AddItemPageView & AddItemPageViewTA
-const KEY_FONTFAMILY = 'gotham';
 const KEY_INVALIDORDER = "Invalid Order";
 const KEY_ORDERFROMREST =
     "Sorry, you can't order from this restaurant right now.";
@@ -253,7 +287,7 @@ const STR_CHOOSE_TABLE = 'Choose Table';
 const STR_ADD_TABLE = "Add Table Number ";
 const STR_TABLE_NO = "Table Number";
 const STR_VEG = "veg";
-const STR_VEG_ICON = 'assets/VegIcon/Group1661.png';
+const IMAGE_VEG_ICON_PATH = 'assets/VegIcon/Group1661.png';
 const STR_ITEM_NAME = 'Bacon & Cheese Burger';
 const STR_NOTHING_CART = "Nothing in the Cart";
 const JSON_STR_USER_ID = "user_id";
@@ -265,7 +299,7 @@ const STR_SUMBIT = 'SUBMIT';
 const STR_ITEM_DESC = " Lorem Epsom is simply dummy text";
 const STR_SEVENTEEN = '17';
 
-// MyOrders Page
+// MyOrders Page & MyOrderTake Away
 const STR_SMALL_DINEIN = "dine_in";
 const STR_YOUR_ORDERS = "Your Orders";
 const STR_CURRENT_ORDER = 'Current Orders';
@@ -278,3 +312,44 @@ const STR_VIEW_ORDER_DETAILS = "VIEW ORDER DETAILS";
 const STR_TIME = '06 Feb 2020 at 12:05 PM';
 const STR_REPEAT_ORDER = 'Repeat Order';
 const JSON_STR_ORDER_TYPE = "order_type";
+const STR_TAKE_AWAY = "take_away";
+const STR_STATUS = "Status :";
+
+// MyProfileBottomPage
+const ITEM_IMAGE_PATH = 'assets/BlurImage/Group1612.png';
+const STR_MY_PROFILE = "My Profile";
+const STR_SELECT_ONE = 'Select One';
+const STR_CAMERA = 'Camera';
+const STR_NA = "N.A.";
+
+// Notification Page
+const STR_NO_NOTIFICATION = "No Notifications!!";
+const STR_INVITATION = "invitation";
+const STR_COMMA = ",";
+const STR_SPACE = " ";
+
+// Notifications Page
+const STR_NOTIFICATION_TITLE = "Notifications";
+const STR_NO_NOTIFI_TITLE = " No Notification";
+const JSON_STR_FORM_ID = "from_id";
+const JSON_STR_INVITATION_ID = "invitation_id";
+const JSON_STR_STATUS = "status";
+
+// OrderConfirmation2 Page
+const STR_MAKE_PAYMENT = 'MAKE PAYMENT';
+const STR_WIMPY_TITLE = 'Wimpy';
+const STR_SEVENTEEN_TITLE = '\$17';
+
+// OTPView Page
+const STR_MOBILE_NUMBER = 'mobile number';
+const STR_NO_CODE = "Didn’t received the code?";
+const STR_RESEND = 'RESEND';
+const STR_RESEND_OTP = "Resend OTP";
+const JSON_STR_DEVICE_TOKEN = 'device_token';
+const JSON_STR_DEVICE_TYPE = 'device_type';
+const JSON_STR_USER_TYPE = 'user_type';
+const JSON_STR_OTP = 'otp';
+const STR_CUSTOMER = "customer";
+const STR_ONE = "1";
+const STR_DSA = "dsa";
+const STR_RANDOM = 'gfgfg';

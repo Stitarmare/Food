@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -8,12 +7,8 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/ClipOvalImageLoader.dart';
-import 'package:path_provider/path_provider.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 class BottomProfileScreen extends StatefulWidget {
   const BottomProfileScreen({Key key}) : super(key: key);
@@ -24,7 +19,6 @@ class BottomProfileScreen extends StatefulWidget {
 
 class _BottomProfileScreenState extends State<BottomProfileScreen>
     implements ProfileScreenModelView {
-  //int _currentTabIndex = 0;
   ProfileScreenPresenter profileScreenPresenter;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -42,25 +36,18 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       _image = image;
     });
     if (image != null) {
-              //  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       profileScreenPresenter.updateProfileImage(_image, context);
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     profileScreenPresenter = ProfileScreenPresenter(this);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // SafeArea(
-
-    // top: true,
-    // bottom: true,
-    // child:
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -70,31 +57,27 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
             child: Stack(overflow: Overflow.visible, children: <Widget>[
               Center(
                   child: Image.asset(
-                'assets/BlurImage/Group1612.png',
+                ITEM_IMAGE_PATH,
                 height: MediaQuery.of(context).size.height * 0.35,
                 fit: BoxFit.fill,
                 width: MediaQuery.of(context).size.width,
               )),
-              // Container(
-              //   child:
               Container(
                 margin: EdgeInsets.fromLTRB(
                     MediaQuery.of(context).size.width * 0.4, 40, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "My Profile",
+                      STR_MY_PROFILE,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                           color: Colors.white,
-                          fontFamily: 'gotham',
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
-                // ),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
@@ -108,32 +91,19 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                       height: 83,
                       fit: BoxFit.fill,
                       placeholder: (context, url) => Image.asset(
-                        'assets/PlaceholderImage/placeholder.png',
+                        PROFILE_IMAGE_PATH,
                         width: 83,
                         height: 83,
                         fit: BoxFit.fill,
                       ),
                       imageUrl: profilePic(),
                       errorWidget: (context, url, error) => Image.asset(
-                        'assets/PlaceholderImage/placeholder.png',
+                        PROFILE_IMAGE_PATH,
                         width: 83,
                         height: 83,
                         fit: BoxFit.fill,
                       ),
-                    )
-                        //  ClipOvalImageWithLoader(
-                        //   profilePic(),
-                        //   width: 83,
-                        //   height: 83,
-                        // ),
-                        //  FadeInImage.assetNetwork(
-                        //   placeholder: 'assets/PlaceholderImage/placeholder.png',
-                        //   image: profilePic(),
-                        //   fit: BoxFit.cover,
-                        //   width: 82.5,
-                        //   height: 82.5,
-                        // ),
-                        ),
+                    )),
                     Positioned(
                       right: 0.0,
                       top: 5.0,
@@ -142,15 +112,6 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                         onTap: () {
                           showDialooxg();
                         },
-                        // child: Container(
-                        //   width: 23,
-                        //   height: 23,
-                        //   foregroundDecoration: BoxDecoration(
-                        //     shape: BoxShape.circle,`
-                        //     image: DecorationImage(
-                        //       image: AssetImage('assets/DineInImage/Group1504.png')),
-                        //     )
-                        //   ),
                         child: ClipOval(
                           child: Container(
                             width: 22,
@@ -166,9 +127,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 ),
               ),
             ])),
-
         body: SingleChildScrollView(child: _getMainView()),
-        // ),
       ),
     );
   }
@@ -185,9 +144,9 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               Text(
                 '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: FONTSIZE_16,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(
@@ -198,7 +157,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(
@@ -209,7 +168,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
@@ -243,7 +202,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontSize: 18),
             ),
           ),
@@ -259,8 +218,8 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
           SizedBox(
@@ -275,8 +234,8 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
           SizedBox(
@@ -291,8 +250,8 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'gotham',
-                  fontSize: 18),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_18),
             ),
           ),
         ],
@@ -310,49 +269,45 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15))),
             title: Text(
-              'Select One',
+              STR_SELECT_ONE,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 22,
+                  fontSize: FONTSIZE_22,
                   color: greentheme100,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w700),
             ),
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
-                  //Camera
                   getImage(true);
-                  print("Camera");
                   Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.camera),
                   title: Text(
-                    'Camera',
+                    STR_CAMERA,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
               SimpleDialogOption(
                 onPressed: () {
-                  //Gallery
                   getImage(false);
-                  print("Gallery");
                   Navigator.pop(context);
                 },
                 child: ListTile(
                   leading: Icon(Icons.image),
                   title: Text(
-                    'Gallery',
+                    STR_GALLERY,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -363,9 +318,9 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
   }
 
   address() {
-    String userAddress = "N.A.";
-    String address1 = "N.A..";
-    String address2 = "N.A.";
+    String userAddress = STR_NA;
+    String address1 = STR_NA;
+    String address2 = STR_NA;
     if (Globle().loginModel.data.userDetails != null) {
       if (Globle().loginModel.data.userDetails.country != null) {
         if (Globle().loginModel.data.userDetails.country.name != null) {
@@ -374,7 +329,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       }
       address2 = (Globle().loginModel.data.userDetails.addressLine1 != null)
           ? Globle().loginModel.data.userDetails.addressLine1
-          : "N.A.";
+          : STR_NA;
       userAddress = "$address1 | $address2";
       return userAddress;
     }
@@ -387,21 +342,18 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +
               '${Globle().loginModel.data.userDetails.profileImage}'
-          : 'assets/PlaceholderImage/placeholder.png';
+          : PROFILE_IMAGE_PATH;
       return imageUrl;
     }
     return imageUrl;
   }
 
   @override
-  void profileImageUpdateFailed() {
-    // TODO: implement profileImageUpdateFailed
-  }
+  void profileImageUpdateFailed() {}
 
   @override
   void profileImageUpdateSuccess() {
-    // TODO: implement profileImageUpdateSuccess
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     setState(() {
       imageURL = BaseUrl.getBaseUrlImages() +
           '${Globle().loginModel.data.userDetails.profileImage}';

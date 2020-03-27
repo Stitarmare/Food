@@ -3,8 +3,8 @@ import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
-// import 'package:foodzi/widgets/DailogBox.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
@@ -22,7 +22,6 @@ class NotificationView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _NotificationViewState();
   }
 }
@@ -41,7 +40,6 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void initState() {
-    // notificationPresenter.getNotofications(context);
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     notificationPresenter.getNotifications(context);
@@ -56,12 +54,11 @@ class _NotificationViewState extends State<NotificationView>
           automaticallyImplyLeading: false,
           elevation: 0.0,
           backgroundColor: Colors.white,
-          //centerTitle: false,
-          title: Text("Notifications",
+          title: Text(STR_NOTIFICATION_TITLE,
               style: TextStyle(
                   color: greytheme1200,
-                  fontSize: 18,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_18,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500)),
           leading: IconButton(
             color: greytheme1200,
@@ -86,17 +83,16 @@ class _NotificationViewState extends State<NotificationView>
     return getNotificationLength() == 0
         ? Container(
             child: Center(
-              child: Text("No Notifications!!",
+              child: Text(STR_NO_NOTIFICATION,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_22,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w500,
                       color: greytheme1200)),
             ),
           )
         : ListView.builder(
-            //itemCount: europeanCountries.length,
             itemCount: getNotificationLength(),
             itemBuilder: (BuildContext context, int index) {
               return Padding(
@@ -106,37 +102,24 @@ class _NotificationViewState extends State<NotificationView>
                     title: Padding(
                       padding: const EdgeInsets.only(left: 8, right: 4, top: 7),
                       child: Text(
-                        // notificationData[index].notifText,
                         getNotificationText(index),
                         style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
                             color: greytheme1200),
                       ),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 21),
                       child: Text(
-                        // notificationData[index].createdAt ??
-                        // '05 May 2019',
                         getNotificationDate(index),
                         style: TextStyle(
-                            fontSize: 11,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_11,
+                            fontFamily: KEY_FONTFAMILY,
                             color: greytheme1400),
                       ),
                     ),
                     onTap: () {
-                      // _onSelected(index);
-                      // print(notificationData[index].notifType);
-                      // if(notificationData[index].notifType == NotificationType.invitation ){
-                      //     // status = await DailogBox.notification_1(context);
-                      //     status =  DailogBox.notification_1(context, recipientName, recipientMobno, tableno);
-                      //     print(status);
-                      //     notificationPresenter.acceptInvitation(notificationData[index].fromId, notificationData[index].invitationId, status, context);
-                      //     //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
-                      //     // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
-                      // }
                       _onTap(index);
                     },
                   ),
@@ -160,30 +143,14 @@ class _NotificationViewState extends State<NotificationView>
   _onTap(int index) async {
     _onSelected(index);
     print(notificationData[index].notifType);
-    if (notificationData[index].notifType == "invitation") {
-      // status = await DailogBox.notification_1(context);
+    if (notificationData[index].notifType == STR_INVITATION) {
       status = await DailogBox.notification_1(
           context, recipientName, recipientMobno, tableno);
       print(status);
       notificationPresenter.acceptInvitation(notificationData[index].fromId,
           notificationData[index].invitationId, status.toString(), context);
-      //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
-      // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
     }
   }
-// _onTap(int index)async{
-//   _onSelected(index);
-//                 print(notificationData[index].notifType);
-//                 if(notificationData[index].notifType == "invitation" ){
-//                     // status = await DailogBox.notification_1(context);
-//                     status = await DailogBox.notification_1(context, recipientName, recipientMobno, tableno);
-//                     print(status);
-//                              DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-//                     notificationPresenter.acceptInvitation(notificationData[index].fromId, notificationData[index].invitationId, status.toString(), context);
-//                     //  notificationPresenter.acceptInvitation( notificationData[index].fromId,  notificationData[index],, rest_id, order_id, status, context)
-//                     // notificationPresenter.acceptInvitation(notificationData[index].fromId, int.parse(tableno), rest_id, order_id, status, context);
-//                 }
-// }
 
   int getNotificationLength() {
     if (notificationData != null) {
@@ -195,8 +162,8 @@ class _NotificationViewState extends State<NotificationView>
   String getNotificationText(int index) {
     if (notificationData != null) {
       if (notificationData[index].notifText != null) {
-        if (notificationData[index].notifType == "invitation") {
-          notifytext = notificationData[index].notifText.split(",");
+        if (notificationData[index].notifType == STR_INVITATION) {
+          notifytext = notificationData[index].notifText.split(STR_COMMA);
           recipientName = notifytext[0];
           recipientMobno = notifytext[1];
           tableno = notifytext[3];
@@ -205,9 +172,9 @@ class _NotificationViewState extends State<NotificationView>
         }
         return notificationData[index].notifText.toString();
       }
-      return " No Notification";
+      return STR_NO_NOTIFI_TITLE;
     }
-    return " ";
+    return STR_SPACE;
   }
 
   @override
@@ -215,8 +182,6 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void getNotificationsSuccess(List<Datum> getNotificationList) {
-    
-    // TODO: implement getNotoficationsSuccess
     if (getNotificationList.length == 0) {
       return;
     }
@@ -224,7 +189,6 @@ class _NotificationViewState extends State<NotificationView>
       if (notificationData == null) {
         notificationData = getNotificationList;
       } else {
-        // notificationData.removeRange(0, (notificationData.length));
         notificationData.addAll(getNotificationList);
       }
       page++;
@@ -237,9 +201,9 @@ class _NotificationViewState extends State<NotificationView>
       if (notificationData[index].createdAt != null) {
         return notificationData[index].createdAt.toString();
       }
-      return " ";
+      return STR_SPACE;
     }
-    return " ";
+    return STR_SPACE;
   }
 
   @override
@@ -254,7 +218,6 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptInvitationSuccess(ErrorModel model) {
-    // TODO: implement acceptInvitationSuccess
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,

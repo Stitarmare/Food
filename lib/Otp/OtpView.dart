@@ -30,7 +30,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   String mobileNo;
   @override
   void initState() {
-    // TODO: implement initState
     otppresenter = OtpPresenter(this);
     super.initState();
     setState(() {
@@ -41,10 +40,10 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.black,
           ),
           backgroundColor: Colors.white70,
         ),
@@ -75,7 +74,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   void onsubmitButtonClicked() {
-    //  otppresenter.performOTP(widget.mobno, otpsave, context);
     if (widget.value == 0 && otpsave != null) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       otppresenter.performOTP(widget.mobno, otpsave, context);
@@ -85,16 +83,11 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
     }
-    // else if(widget.isFromFogetPass == true && widget.value != 0 && widget.value != 1){
-    //     otp
-    // }
-    // otppresenter.Navigator.pushNamed(context, '/EnterOTPScreen');
   }
 
   Widget _buildmainview() {
     return LimitedBox(
       child: Container(
-        // margin: EdgeInsets.fromLTRB(15, 0, 20, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -108,8 +101,8 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
                 Text(
                   KEY_VERFICATION_OTP,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -118,10 +111,10 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               direction: Axis.horizontal,
               children: <Widget>[
                 Text(
-                  'mobile number',
+                  STR_MOBILE_NUMBER,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -153,9 +146,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset('assets/PhoneImage/Group_295.png'
-            //height: 100,
-            ),
+        Image.asset(OTP_LOGO_PATH),
       ],
     );
   }
@@ -164,9 +155,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     return Container(
       alignment: Alignment.center,
       child: Padding(
-        //padding: const EdgeInsets.all(40.0),
         padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 42),
-
         child: PinCodeTextField(
           maxLength: 6,
           wrapAlignment: WrapAlignment.center,
@@ -179,7 +168,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           autofocus: false,
           onDone: (String value) {
             otpsave = value;
-            //otppresenter.performOTP(widget.mobno, value, context);
             print(value);
           },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -192,9 +180,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     return Text(mobileNo,
         style: TextStyle(
             color: greytheme300,
-            fontFamily: 'gotham',
+            fontFamily: KEY_FONTFAMILY,
             fontWeight: FontWeight.w600,
-            fontSize: 16));
+            fontSize: FONTSIZE_16));
   }
 
   Widget _submitButton() {
@@ -207,7 +195,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
-              fontSize: 16, fontFamily: 'gotham', fontWeight: FontWeight.w600),
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
+              fontWeight: FontWeight.w600),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -226,8 +216,8 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           KEY_PROVIDE_ANOTHER_NO,
           style: TextStyle(
               color: greentheme100,
-              fontFamily: 'gotham',
-              fontSize: 16,
+              fontFamily: KEY_FONTFAMILY,
+              fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w600),
         ),
         onPressed: () {
@@ -243,9 +233,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Didn’t received the code?",
+            STR_NO_CODE,
             style: TextStyle(
-                fontFamily: 'gotham',
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme200,
                 fontSize: 14),
@@ -257,52 +247,14 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
             onTap: () {
               DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
               otppresenter.resendOTP(widget.mobno, context);
-
-              // Navigator.pushNamed(context, '/Registerview');
-              // return showDialog(
-              //   context: context,
-              //   builder: (_) => AlertDialog(
-              //     title: const Text(
-              //       "OTP Sent",
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //           color: greentheme100,
-              //           fontWeight: FontWeight.w600,
-              //           fontFamily: 'gotham',
-              //           fontSize: 22),
-              //     ),
-              //     content: Text(
-              //       'OTP has been successfully send to your mobile number.',
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //           color: greytheme100,
-              //           fontWeight: FontWeight.w500,
-              //           fontFamily: 'gotham',
-              //           fontSize: 20),
-              //     ),
-              //     actions: [
-              //       FlatButton(
-              //         child: const Text(
-              //           "OK",
-              //           style: TextStyle(
-              //               color: greentheme100,
-              //               fontWeight: FontWeight.w600,
-              //               fontFamily: 'gotham',
-              //               fontSize: 20),
-              //         ),
-              //         onPressed: () => Navigator.of(context).pop(),
-              //       ),
-              //     ],
-              //   ),
-              // );
             },
             child: new Text(
-              'RESEND',
+              STR_RESEND,
               style: TextStyle(
                   color: greytheme200,
                   fontWeight: FontWeight.w900,
-                  fontFamily: 'gotham',
-                  fontSize: 14),
+                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_14),
             ),
           )
         ],
@@ -313,8 +265,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   @override
   void otpfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement otpfailed
   }
 
   @override
@@ -322,14 +272,11 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     Navigator.pushReplacementNamed(context, '/MainWidget');
-    // TODO: implement otpsuccess
   }
 
   @override
   void getFailedForForgetPass() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement getFailedForForgetPass
   }
 
   @override
@@ -345,27 +292,19 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   @override
   void resendotpfailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement resendotpfailed
   }
 
   @override
   void resendotpsuccess(message) {
-     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    //Navigator.pushReplacementNamed(context, '/OTPScreen');
-    Constants.showAlert("Resend OTP", message, context);
-    // TODO: implement resendotpsuccess
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Constants.showAlert(STR_RESEND_OTP, message, context);
   }
 
   @override
-  void loginwithotpfailed() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement loginwithotpfailed
-  }
+  void loginwithotpfailed() {}
 
   @override
   void loginwithotpsuccess() {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.pushNamed(context, '/MainWidget');
-    // TODO: implement loginwithotpsuccess
   }
 }

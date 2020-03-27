@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
-import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayPresenter.dart';
-import 'package:foodzi/MyOrders/MyOrderContractor.dart';
-import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
-import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class MyOrderTakeAway extends StatefulWidget {
   String title;
-  // String lat;
-  // String long;
   MyOrderTakeAway({
     this.title,
   });
@@ -26,19 +21,16 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   MyOrderTakeAwayPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
-  List<CurrentOrderList> _currentOrder;
-  List<CurrentOrderList> _orderHistory;
   int i;
 
   List<CurrentOrderList> _orderDetailList;
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _myOrdersPresenter = MyOrderTakeAwayPresenter(this);
-    _myOrdersPresenter.getOrderDetails("take_away", context);
-    _myOrdersPresenter.getmyOrderBookingHistory("take_away", context);
+    _myOrdersPresenter.getOrderDetails(STR_TAKE_AWAY, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context);
   }
 
   @override
@@ -53,10 +45,10 @@ class _MyOrdersState extends State<MyOrderTakeAway>
           automaticallyImplyLeading: false,
           elevation: 0.0,
           title: Text(
-            "Your Orders",
+            STR_YOUR_ORDERS,
             style: TextStyle(
-                fontSize: 18,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_18,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w500,
                 color: greytheme1200),
           ),
@@ -80,16 +72,17 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   tabs: <Widget>[
                     Tab(
                       child: Text(
-                        'Current Orders',
-                        style: TextStyle(fontFamily: 'gotham', fontSize: 15),
+                        STR_CURRENT_ORDER,
+                        style: TextStyle(
+                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
                       ),
                     ),
                     Tab(
                       child: Text(
-                        'Booking History',
+                        STR_BOOKING_HISTORY,
                         style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 15,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_15,
                         ),
                       ),
                     )
@@ -102,7 +95,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   onTap: (index) {
                     switch (index) {
                       case 0:
-                        print('Current Orders');
                         setState(() {
                           isCurrentOrders = true;
                           isBookingHistory = false;
@@ -110,7 +102,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
 
                         break;
                       case 1:
-                        print('Booking History');
                         setState(() {
                           isCurrentOrders = false;
                           isBookingHistory = true;
@@ -164,7 +155,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTrackView(
-                              //tableId: _orderDetailList[index].tableId,
                               orderID: _orderDetailList[index].id,
                               flag: 2,
                               rest_id: _orderDetailList[index].restId,
@@ -191,7 +181,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                           margin: const EdgeInsets.only(left: 15, top: 8),
                           child: ClipRRect(
                             child: Image.asset(
-                              'assets/HotelImages/Image12.png',
+                              RESTAURANT_IMAGE_PATH,
                               fit: BoxFit.fill,
                             ),
                             borderRadius:
@@ -213,17 +203,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left: 10),
-                            //   child: Text(
-                            //     'Airoli, Navi Mumbai', // address
-                            //     style: TextStyle(
-                            //       fontSize: 14,
-                            //       letterSpacing: 0.24,
-                            //       color: greytheme1000,
-                            //     ),
-                            //   ),
-                            // )
                           ],
                         )
                       ],
@@ -239,7 +218,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(top: 5, left: 15),
                       child: Text(
-                        'ITEMS',
+                        STR_ITEMS,
                         style: TextStyle(
                           fontSize: 14,
                           //letterSpacing: 0.24,
@@ -253,7 +232,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         '${getitemname(_orderDetailList[index].list)}',
                         style: TextStyle(
                           fontSize: 16,
-                          //letterSpacing: 0.24,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -262,10 +240,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'ORDERED ON ',
+                        STR_ORDERED_ON,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -275,8 +252,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       child: Text(
                         '${_orderDetailList[index].createdAt}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -285,10 +261,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'ORDERED TYPE',
+                        STR_ORDER_TYPE,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -298,8 +273,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       child: Text(
                         '${_orderDetailList[index].orderType}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -308,10 +282,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'TOTAL AMOUNT',
+                        STR_TOTAL_AMOUNT,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -321,8 +294,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       child: Text(
                         '${_orderDetailList[index].totalAmount}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -340,7 +312,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       padding:
                           const EdgeInsets.only(left: 15, top: 8, bottom: 8),
                       child: Text(
-                        'Status : ${_orderDetailList[index].status}',
+                        STR_STATUS + '${_orderDetailList[index].status}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                     )
@@ -401,7 +373,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         margin: const EdgeInsets.only(left: 15, top: 8),
                         child: ClipRRect(
                           child: Image.asset(
-                            'assets/HotelImages/Image12.png',
+                            RESTAURANT_IMAGE_PATH,
                             fit: BoxFit.fill,
                           ),
                           borderRadius:
@@ -423,17 +395,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 10),
-                          //   child: Text(
-                          //     'Airoli, Navi Mumbai',
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       letterSpacing: 0.24,
-                          //       color: greytheme1000,
-                          //     ),
-                          //   ),
-                          // )
                         ],
                       )
                     ],
@@ -449,10 +410,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(top: 5, left: 15),
                     child: Text(
-                      'ITEMS',
+                      STR_ITEMS,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -462,8 +422,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     child: Text(
                       '${getBookingHistoryitemname(getmyOrderBookingHistory[index].list)}',
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -472,10 +431,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'ORDERED ON ',
+                      STR_ORDERED_ON,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -483,10 +441,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '06 Feb 2020 at 12:05 PM',
+                      STR_TIME,
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -495,10 +452,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'ORDERED TYPE',
+                      STR_ORDER_TYPE,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -518,10 +474,9 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'TOTAL AMOUNT',
+                      STR_TOTAL_AMOUNT,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -531,8 +486,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     child: Text(
                       '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -569,10 +523,8 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                         child: GestureDetector(
-                          onTap: () {
-                            print("object");
-                          },
-                          child: Text('Repeat Order'),
+                          onTap: () {},
+                          child: Text(STR_REPEAT_ORDER),
                         ),
                       ),
                     ],
@@ -588,9 +540,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   }
 
   @override
-  void getOrderDetailsFailed() {
-    // TODO: implement getOrderDetailsFailed
-  }
+  void getOrderDetailsFailed() {}
 
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
@@ -605,23 +555,8 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     });
   }
 
-  //List<CurrentOrderList> _orderdetailsList)
-  // {
-  //   if (_orderdetailsList.length == 0) {
-  //     return;
-  //   }
-
-  //   setState(() {
-  //     _orderDetailList = _orderdetailsList;
-  //   });
-
-  //   // TODO: implement getOrderDetailsSuccess
-  //}
-
   @override
-  void getmyOrderHistoryFailed() {
-    // TODO: implement getmyOrderHistoryFailed
-  }
+  void getmyOrderHistoryFailed() {}
 
   @override
   void getmyOrderHistorySuccess(
@@ -632,11 +567,5 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
-    // TODO: implement getmyOrderHistorySuccess
   }
-
-  // Widget getOrderList() {
-  //   return
-  // }
-
 }
