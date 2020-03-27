@@ -4,25 +4,22 @@ import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
-import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
-import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
-import 'package:foodzi/main.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class Landingview extends DrawerContent {
-  Landingview({Key key, this.title, this.body});
-  String title;
+  final String title;
   final Widget body;
+  Landingview({Key key, this.title, this.body});
+
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
@@ -31,31 +28,17 @@ class Landingview extends DrawerContent {
 
 class _LandingStateView extends State<Landingview>
     implements LandingViewProtocol {
-  //String titleAppBar = "Testing";
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    // setState(() {
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _landingViewPresenter.getCurrentOrder(context);
-    // });
     getCurrentOrderID();
     super.initState();
   }
-
-  // @override
-  // void didUpdateWidget(Landingview oldWidget) {
-  //   // TODO: implement didUpdateWidget
-  //   super.didUpdateWidget(oldWidget);
-  //   if (widget.body != oldWidget.body) {
-  //     _landingViewPresenter.getCurrentOrder(context);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +47,6 @@ class _LandingStateView extends State<Landingview>
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
-          //  title: Text(titleAppBar),
           actions: <Widget>[
             new IconButton(
               icon: new Icon(
@@ -83,7 +65,7 @@ class _LandingStateView extends State<Landingview>
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Image.asset('assets/MenuIcon/menu.png'),
+            icon: Image.asset(MENU_IAMGE_PATH),
             onPressed: widget.onMenuPressed,
           ),
         ),
@@ -108,14 +90,13 @@ class _LandingStateView extends State<Landingview>
       setState(() {
         isOrderRunning = true;
       });
-      //currentOrderId;
     }
     return;
   }
 
   getCurrentRestID() async {
     var currentRestId = await Preference.getPrefValue<int>(
-        PreferenceKeys.CURRENT_RESTAURANT_ID); //ORDER_ID
+        PreferenceKeys.CURRENT_RESTAURANT_ID);
     if (currentRestId != null) {
       return currentRestId;
     }
@@ -152,7 +133,7 @@ class _LandingStateView extends State<Landingview>
         height: MediaQuery.of(context).size.height * 0.1,
         width: MediaQuery.of(context).size.width * 0.8,
         child: Image.asset(
-          "assets/Logo/foodzi_logo@3x.jpg",
+          FODDZI_LOGO_3X,
         ));
   }
 
@@ -162,11 +143,10 @@ class _LandingStateView extends State<Landingview>
       child: Container(
         alignment: Alignment.topRight,
         child: Text(
-          'ORDER EASY',
+          STR_ORDER_EASY,
           style: TextStyle(
-              // fontFamily: 'HelveticaNeue',
-              fontFamily: "gotham",
-              fontSize: 12,
+              fontFamily: KEY_FONTFAMILY,
+              fontSize: FONTSIZE_12,
               color: greytheme400,
               fontWeight: FontWeight.w700,
               letterSpacing: 1),
@@ -192,10 +172,10 @@ class _LandingStateView extends State<Landingview>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Hello',
+            STR_HELLO,
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w500,
                 color: greytheme100),
           ),
@@ -205,18 +185,18 @@ class _LandingStateView extends State<Landingview>
           Text(
             Globle().loginModel.data.firstName ?? '',
             style: TextStyle(
-                fontSize: 32,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_32,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme500),
           ),
           SizedBox(
             height: 12,
           ),
-          Text('All your favourites at your fingertip !!',
+          Text(STR_FAV_FINGERTIP,
               style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_14,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500,
                   color: greytheme100))
         ],
@@ -234,12 +214,6 @@ class _LandingStateView extends State<Landingview>
               height: 12,
             ),
             _takeAwaycard(),
-            // SizedBox(
-            //   height: 12,
-            // ),
-            // isOrderRunning ?
-            // _currentOrderCard()
-            // : Container()
           ],
         ),
       ),
@@ -255,10 +229,7 @@ class _LandingStateView extends State<Landingview>
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            //TODO: add await here
-            // _goToNextPageDineIn(context);
             goToDineIn();
-            print('Card tapped.');
           },
           child: Container(
             width: 345,
@@ -268,7 +239,7 @@ class _LandingStateView extends State<Landingview>
                 SizedBox(
                   width: 17,
                 ),
-                Image.asset('assets/DineInImage/Group1504.png'),
+                Image.asset(DINE_IN_IMAGE_PATH),
                 SizedBox(
                   width: 36,
                 ),
@@ -276,10 +247,6 @@ class _LandingStateView extends State<Landingview>
                 SizedBox(
                   width: 40,
                 ),
-                // Icon(
-                //   Icons.navigate_next,
-                //   color: greytheme600,
-                // )
               ],
             ),
           ),
@@ -288,17 +255,13 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  goToDineIn() async{
-    var val = await  Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(
-                      tabValue: 0,
-                      //tableName: _model.data.dineIn.table.tableName,
-                    )));
+  goToDineIn() async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => BottomTabbar(
+              tabValue: 0,
+            )));
 
-getCurrentOrderID();
-    print("fa gsas gsaggsafh");
-    
-    
+    getCurrentOrderID();
   }
 
   Widget _buildinningtext() {
@@ -309,19 +272,19 @@ getCurrentOrderID();
         SizedBox(
           height: 20,
         ),
-        Text('Dine-in',
+        Text(STR_DINEIN_TITLE,
             style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_24,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
           height: 2,
         ),
-        Text('Get served in Restaurant',
+        Text(STR_SERVED_RESTAUTRANT,
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -343,10 +306,10 @@ getCurrentOrderID();
               child: Padding(
                 padding: const EdgeInsets.only(left: 38.0),
                 child: Center(
-                  child: Text('View Your Order',
+                  child: Text(STR_VIEW_YOUR_ORDER,
                       style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
+                          fontSize: FONTSIZE_16,
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600,
                           color: greentheme100)),
                 ),
@@ -358,13 +321,6 @@ getCurrentOrderID();
                 color: greytheme600,
               ),
             )
-
-            // Text('Track your current order',
-            //     style: TextStyle(
-            //         fontSize: 14,
-            //         fontFamily: 'gotham',
-            //         fontWeight: FontWeight.w500,
-            //         color: greytheme100)),
           ],
         ),
         onTap: () {
@@ -383,10 +339,7 @@ getCurrentOrderID();
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            //TODO: add wait here 
-            
             goToTakeAway();
-            print('Card tapped.');
             getCurrentOrderID();
           },
           child: Container(
@@ -397,7 +350,7 @@ getCurrentOrderID();
                 SizedBox(
                   width: 17,
                 ),
-                Image.asset('assets/TakeAwayImage/Group1505.png'),
+                Image.asset(TAKE_AWAY_IMAGE_PATH),
                 SizedBox(
                   width: 40,
                 ),
@@ -405,10 +358,6 @@ getCurrentOrderID();
                 SizedBox(
                   width: 40,
                 ),
-                // Icon(
-                //   Icons.navigate_next,
-                //   color: greytheme600,
-                // )
               ],
             ),
           ),
@@ -418,33 +367,29 @@ getCurrentOrderID();
   }
 
   goToTakeAway() async {
-   var val = await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BottomTabbar(
-                      tabValue: 1,
-                    )));
-
-    print("take away back");
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => BottomTabbar(
+              tabValue: 1,
+            )));
   }
 
   showStatusView() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
-    // _goToNextPageDineIn(context);
     if (_model != null) {
       if (_model.data.dineIn != null) {
-        if (_model.data.dineIn.status != "paid") {
+        if (_model.data.dineIn.status != STR_PAID) {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTrackView(
                     orderID: currentOrderId,
-                    rest_id: (_model.data.dineIn.status != "paid")
+                    rest_id: (_model.data.dineIn.status != STR_PAID)
                         ? _model.data.dineIn.restId
                         : _model.data.takeAway.restId,
-                    //restname: _model.data.dineIn.restaurant.restName,
-                    title: (_model.data.dineIn.status != "paid")
+                    title: (_model.data.dineIn.status != STR_PAID)
                         ? _model.data.dineIn.restaurant.restName
                         : _model.data.takeAway.restaurant.restName,
                     flag: 3,
-                    tableId: (_model.data.dineIn.status != "paid")
+                    tableId: (_model.data.dineIn.status != STR_PAID)
                         ? _model.data.dineIn.tableId
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
@@ -452,96 +397,42 @@ getCurrentOrderID();
         }
       }
       if (_model.data.takeAway != null) {
-        if (_model.data.takeAway.orderType != "paid") {
+        if (_model.data.takeAway.orderType != STR_PAID) {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTakeAwayView(
                     orderID: currentOrderId,
-                    rest_id: (_model.data.takeAway.status != "paid")
+                    rest_id: (_model.data.takeAway.status != STR_PAID)
                         ? _model.data.takeAway.restId
                         : _model.data.dineIn.restId,
-                    //restname: _model.data.dineIn.restaurant.restName,
-                    title: (_model.data.takeAway.status != "paid")
+                    title: (_model.data.takeAway.status != STR_PAID)
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
                   )));
         }
       }
     }
-
-    print('Card tapped.');
-  }
-
-  Widget _currentOrderCard() {
-    return Center(
-      child: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          onTap: () {
-            showStatusView();
-          },
-          child: Container(
-            width: 345,
-            height: 90,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 17,
-                ),
-                ClipOval(
-                  child: Container(
-                    width: 46.8,
-                    height: 46.8,
-                    child: Image.asset(
-                      'assets/OrderIcon/order.png',
-                      color: Colors.white,
-                    ),
-                    color: orangetheme,
-                  ),
-                ),
-                SizedBox(
-                  width: 40,
-                ),
-                // _currentOrdertext(),
-                SizedBox(
-                  width: 40,
-                ),
-                Icon(
-                  Icons.navigate_next,
-                  color: greytheme600,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   Widget _buildTakeAwaytext() {
     return Column(
-      //mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
           height: 20,
         ),
-        Text('Collection',
+        Text(STR_COLLECTION,
             style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_24,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
           height: 2,
         ),
-        // 'Get you food packed'
-        Text('Order to Collect',
+        Text(STR_ORDER_TO_COLLECT,
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -549,21 +440,14 @@ getCurrentOrderID();
   }
 
   @override
-  void onFailedCurrentOrder() {
-    print("object");
-    
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-    // TODO: implement onFailedCurrentOrder
-  }
+  void onFailedCurrentOrder() {}
 
   @override
-  void onSuccessCurrentOrder(RunningOrderModel model) async{
-    // TODO: implement onSuccessCurrentOrder
+  void onSuccessCurrentOrder(RunningOrderModel model) async {
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {
-        if (model.data.dineIn != null && model.data.dineIn.status != "paid") {
+        if (model.data.dineIn != null && model.data.dineIn.status != STR_PAID) {
           Preference.setPersistData<int>(
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
@@ -577,11 +461,10 @@ getCurrentOrderID();
           });
         } else {
           setDefaultData();
-          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
         }
       } else if (model.data.dineIn != null) {
         if (model.data.takeAway != null &&
-            model.data.takeAway.status != "paid") {
+            model.data.takeAway.status != STR_PAID) {
           Preference.setPersistData<int>(
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
@@ -589,51 +472,30 @@ getCurrentOrderID();
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
           Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
-          //Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
         } else {
           setDefaultData();
-          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
         }
-      }  else {
-          setDefaultData();
-          //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-        }
-
-      //For Dine current order
-
-      //For Take away current order
-
+      } else {
+        setDefaultData();
+      }
     }
   }
+
   setDefaultData() {
     Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-          Preference.removeForKey(PreferenceKeys.ORDER_ID);
-          Globle().dinecartValue = 0;
-          Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
-          Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
-          Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-          Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-          Future.delayed(Duration(microseconds: 500), () {
-            getCurrentOrderID();
-          });
+    Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<bool>(null, PreferenceKeys.ISDINEIN);
+    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Future.delayed(Duration(microseconds: 500), () {
+      getCurrentOrderID();
+    });
   }
-  // _goToNextPageTakeAway(BuildContext context) {
-  //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  //     return DineInView(
-  //       title: 'Take Away',
-  //     );
-  //   }));
-  // }
-  // _goToNextPageDineIn(BuildContext context) {
-  //   return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-  //     return DineInView(
-  //       title: 'Dine-in',
-  //     );
-  //   }));
-  // }
 }
 
 class MainWidget extends StatefulWidget {
@@ -653,98 +515,98 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     super.initState();
     _drawerController = HiddenDrawerController(
       initialPage: Landingview(
-        title: 'main',
+        title: STR_MAIN,
       ),
       items: [
         DrawerItem(
-            text: Text('Home',
+            text: Text(STR_HOME,
                 style: TextStyle(
                     color: greytheme800,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
-                    fontSize: 15)),
+                    fontSize: FONTSIZE_15)),
             icon: Icon(Icons.home, size: 20, color: greytheme800),
             page: Landingview(
-              title: 'Home',
+              title: STR_HOME,
             ),
             onPressed: () {
-              widget.appbarTitle = 'Home';
+              widget.appbarTitle = STR_HOME;
               _opennewpage();
             }),
         DrawerItem(
-            text: Text('Settings',
+            text: Text(STR_SETTING,
                 style: TextStyle(
                     color: greytheme800,
-                    fontFamily: 'gotham',
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
-                    fontSize: 15)),
+                    fontSize: FONTSIZE_15)),
             icon: Icon(Icons.settings, size: 20, color: greytheme800),
             page: Landingview(
-              title: 'Gallery',
+              title: STR_GALLERY,
             ),
             onPressed: () {
-              widget.appbarTitle = 'Settings';
+              widget.appbarTitle = STR_SETTING;
               _opennewpage();
             }),
         DrawerItem(
             text: Text(
-              'Terms & Conditions',
+              STR_TERMS_CONDITION,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
-                  fontSize: 15),
+                  fontSize: FONTSIZE_15),
             ),
             icon: Icon(Icons.description, size: 20, color: greytheme800),
             page: Landingview(
-              title: 'Favorites',
+              title: STR_FAVORITE_TITLE,
             ),
             onPressed: () {
-              widget.appbarTitle = 'Favorites';
+              widget.appbarTitle = STR_FAVORITE_TITLE;
               _opennewpage();
             }),
         DrawerItem(
             text: Text(
-              'Privacy Policy',
+              STR_PRIVACY_POLICY,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
-                  fontSize: 15),
+                  fontSize: FONTSIZE_15),
             ),
             icon: Icon(Icons.verified_user, size: 20, color: greytheme800),
             page: Landingview(
-              title: 'Notification',
+              title: STR_NOTIFICATION,
             ),
             onPressed: () {
-              widget.appbarTitle = 'Privacy Policy';
+              widget.appbarTitle = STR_PRIVACY_POLICY;
               _opennewpage();
             }),
         DrawerItem(
             text: Text(
-              'About Us',
+              STR_ABOUT_US,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
             icon: Icon(Icons.info, size: 20, color: greytheme800),
             page: Landingview(
-              title: 'invite',
+              title: STR_INVITE,
             ),
             onPressed: () {
-              widget.appbarTitle = 'About Us';
+              widget.appbarTitle = STR_ABOUT_US;
               _opennewpage();
             }),
         DrawerItem(
             text: Text(
-              'Help',
+              STR_HELP,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: 'gotham',
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
-                  fontSize: 15),
+                  fontSize: FONTSIZE_15),
             ),
             icon: Icon(
               Icons.help,
@@ -752,10 +614,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               size: 20,
             ),
             page: Landingview(
-              title: 'SETTINGS',
+              title: STR_SETTING,
             ),
             onPressed: () {
-              widget.appbarTitle = "Help";
+              widget.appbarTitle = STR_HELP;
               _opennewpage();
             }),
       ],
@@ -768,7 +630,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +
               '${Globle().loginModel.data.userDetails.profileImage}'
-          : 'assets/PlaceholderImage/placeholder.png';
+          : PROFILE_IMAGE_PATH;
       return imageUrl;
     }
     return imageUrl;
@@ -796,27 +658,15 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   child: Container(
                     child: ClipOval(
                       child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/PlaceholderImage/placeholder.png',
+                        placeholder: PROFILE_IMAGE_PATH,
                         image: profilePic(),
                         fit: BoxFit.cover,
                         width: 82.5,
                         height: 82.5,
                       ),
-                      //     child: Image.asset(
-                      //   'assets/ProfileImage/MaskGroup15@3x.png',
-                      //   width: 70,
-                      //   height: 70,
-                      // )
-                      // child: CachedNetworkImage(
-                      //   imageUrl: BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',
-                      //   placeholder: (context, url)=> CircularProgressIndicator(),
-                      //   errorWidget: (context, url, error) => Icon(Icons.error),
-                      // ),
-                      //child: Image.network(BaseUrl.getBaseUrlImages() + '${Globle().loginModel.data.userDetails.profileImage}',width: 70,height: 70,),
                     ),
                   ),
                 ),
-                // ),
                 SizedBox(
                   height: 16,
                 ),
@@ -827,8 +677,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         color: greytheme700,
-                        fontSize: 16,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_16,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500),
                   ),
                 )
@@ -844,7 +694,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   }
 
   void _opennewpage() {
-    //Navigator.of(context).pushNamed('/webview');
     Navigator.push(
         context,
         MaterialPageRoute(

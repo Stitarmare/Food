@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
-import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -14,8 +14,6 @@ class MyOrders extends StatefulWidget {
   String title;
   String ordertype;
   String tableName;
-  // String lat;
-  // String long;
   MyOrders({this.title, this.ordertype, this.tableName});
   _MyOrdersState createState() => _MyOrdersState();
 }
@@ -25,25 +23,17 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   MyOrdersPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
-  List<CurrentOrderList> _currentOrder;
-  List<CurrentOrderList> _orderHistory;
   int i;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   List<CurrentOrderList> _orderDetailList;
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    // _myOrdersPresenter.getOrderDetails(context);
-    _myOrdersPresenter.getOrderDetails("dine_in", context);
-    _myOrdersPresenter.getmyOrderBookingHistory(
-        "dine_in", context); // order type call is waiting
-
-    print("table name--->");
-    print(widget.tableName);
+    _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
   }
 
   @override
@@ -58,10 +48,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           automaticallyImplyLeading: false,
           elevation: 0.0,
           title: Text(
-            "Your Orders",
+            STR_YOUR_ORDERS,
             style: TextStyle(
-                fontSize: 18,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_18,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w500,
                 color: greytheme1200),
           ),
@@ -85,16 +75,17 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   tabs: <Widget>[
                     Tab(
                       child: Text(
-                        'Current Orders',
-                        style: TextStyle(fontFamily: 'gotham', fontSize: 15),
+                        STR_CURRENT_ORDER,
+                        style: TextStyle(
+                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
                       ),
                     ),
                     Tab(
                       child: Text(
-                        'Booking History',
+                        STR_BOOKING_HISTORY,
                         style: TextStyle(
-                          fontFamily: 'gotham',
-                          fontSize: 15,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_15,
                         ),
                       ),
                     )
@@ -107,7 +98,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   onTap: (index) {
                     switch (index) {
                       case 0:
-                        print('Current Orders');
                         setState(() {
                           isCurrentOrders = true;
                           isBookingHistory = false;
@@ -115,7 +105,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
 
                         break;
                       case 1:
-                        print('Booking History');
                         setState(() {
                           isCurrentOrders = false;
                           isBookingHistory = true;
@@ -165,20 +154,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: null,
-              // () {
-              //   Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => StatusTrackView(
-              //                 tableId: _orderDetailList[index].tableId,
-              //                 orderID: _orderDetailList[index].id,
-              //                 flag: 2,
-              //                 rest_id: _orderDetailList[index].restId,
-              //                 title:
-              //                     _orderDetailList[index].restaurant.restName,
-              //                 tableName: widget.tableName,
-              //               )));
-              // },
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(4),
@@ -198,7 +173,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                           margin: const EdgeInsets.only(left: 15, top: 8),
                           child: ClipRRect(
                             child: Image.asset(
-                              'assets/HotelImages/Image12.png',
+                              RESTAURANT_IMAGE_PATH,
                               fit: BoxFit.fill,
                             ),
                             borderRadius:
@@ -220,17 +195,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                     fontWeight: FontWeight.w500),
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left: 10),
-                            //   child: Text(
-                            //     'Airoli, Navi Mumbai', // address
-                            //     style: TextStyle(
-                            //       fontSize: 14,
-                            //       letterSpacing: 0.24,
-                            //       color: greytheme1000,
-                            //     ),
-                            //   ),
-                            // )
                           ],
                         )
                       ],
@@ -246,10 +210,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(top: 5, left: 15),
                       child: Text(
-                        'ITEMS',
+                        STR_ITEMS,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -259,8 +222,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         '${getitemname(_orderDetailList[index].list)}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -269,10 +231,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'ORDERED ON ',
+                        STR_ORDERED_ON,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -282,8 +243,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         '${_orderDetailList[index].createdAt}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -292,10 +252,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'ORDERED TYPE',
+                        STR_ORDER_TYPE,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -305,8 +264,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         '${_orderDetailList[index].orderType}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -315,10 +273,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, left: 15),
                       child: Text(
-                        'TOTAL AMOUNT',
+                        STR_TOTAL_AMOUNT,
                         style: TextStyle(
-                          fontSize: 14,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_14,
                           color: greytheme1000,
                         ),
                       ),
@@ -328,8 +285,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         '${_orderDetailList[index].totalAmount}',
                         style: TextStyle(
-                          fontSize: 16,
-                          //letterSpacing: 0.24,
+                          fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
                           color: greytheme700,
                         ),
@@ -346,14 +302,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     SizedBox(
                       height: 5,
                     ),
-                    // Padding(
-                    //   padding:
-                    //       const EdgeInsets.only(left: 15, top: 8, bottom: 8),
-                    //   child: Text(
-                    //     'Status : ${_orderDetailList[index].status}',
-                    //     style: TextStyle(color: greytheme400, fontSize: 18),
-                    //   ),
-                    // )
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.5,
@@ -362,15 +310,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
                               : orangetheme,
-                          //color: orangetheme,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
-                            "VIEW ORDER DETAILS",
+                            STR_VIEW_ORDER_DETAILS,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 13,
-                                fontFamily: 'gotham',
+                                fontSize: FONTSIZE_13,
+                                fontFamily: KEY_FONTFAMILY,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white),
                           ),
@@ -454,7 +401,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         margin: const EdgeInsets.only(left: 15, top: 8),
                         child: ClipRRect(
                           child: Image.asset(
-                            'assets/HotelImages/Image12.png',
+                            RESTAURANT_IMAGE_PATH,
                             fit: BoxFit.fill,
                           ),
                           borderRadius:
@@ -470,23 +417,12 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             child: Text(
                               '${getmyOrderBookingHistory[index].restaurant.restName}',
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: FONTSIZE_18,
                                   letterSpacing: 0.32,
                                   color: greytheme700,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(left: 10),
-                          //   child: Text(
-                          //     'Airoli, Navi Mumbai',
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       letterSpacing: 0.24,
-                          //       color: greytheme1000,
-                          //     ),
-                          //   ),
-                          // )
                         ],
                       )
                     ],
@@ -502,10 +438,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(top: 5, left: 15),
                     child: Text(
-                      'ITEMS',
+                      STR_ITEMS,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -515,8 +450,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     child: Text(
                       '${getBookingHistoryitemname(getmyOrderBookingHistory[index].list)}',
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -525,10 +459,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'ORDERED ON ',
+                      STR_ORDERED_ON,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -536,10 +469,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '06 Feb 2020 at 12:05 PM',
+                      STR_TIME,
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -548,10 +480,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'ORDERED TYPE',
+                      STR_ORDER_TYPE,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -561,8 +492,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     child: Text(
                       '${getmyOrderBookingHistory[index].status}',
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -571,10 +501,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Text(
-                      'TOTAL AMOUNT',
+                      STR_TOTAL_AMOUNT,
                       style: TextStyle(
-                        fontSize: 14,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_14,
                         color: greytheme1000,
                       ),
                     ),
@@ -584,8 +513,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     child: Text(
                       '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
-                        fontSize: 16,
-                        //letterSpacing: 0.24,
+                        fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
@@ -622,10 +550,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                         child: GestureDetector(
-                          onTap: () {
-                            print("object");
-                          },
-                          child: Text('Repeat Order'),
+                          onTap: () {},
+                          child: Text(STR_REPEAT_ORDER),
                         ),
                       ),
                     ],
@@ -641,9 +567,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   }
 
   @override
-  void getOrderDetailsFailed() {
-    // TODO: implement getOrderDetailsFailed
-  }
+  void getOrderDetailsFailed() {}
 
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
@@ -661,27 +585,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
     Preference.setPersistData<int>(
         _orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
-
-    // TODO: implement getOrderDetailsSuccess
   }
-
-  //List<CurrentOrderList> _orderdetailsList)
-  // {
-  //   if (_orderdetailsList.length == 0) {
-  //     return;
-  //   }
-
-  //   setState(() {
-  //     _orderDetailList = _orderdetailsList;
-  //   });
-
-  //   // TODO: implement getOrderDetailsSuccess
-  //}
 
   @override
-  void getmyOrderHistoryFailed() {
-    // TODO: implement getmyOrderHistoryFailed
-  }
+  void getmyOrderHistoryFailed() {}
 
   @override
   void getmyOrderHistorySuccess(
@@ -693,11 +600,5 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement getmyOrderHistorySuccess
   }
-
-  // Widget getOrderList() {
-  //   return
-  // }
-
 }

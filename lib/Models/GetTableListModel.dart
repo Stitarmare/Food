@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class GetTableListModel {
   String status;
   int statusCode;

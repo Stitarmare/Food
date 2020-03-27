@@ -1,9 +1,3 @@
-// To parse this JSON data, do
-//
-//     final getMyOrdersBookingHistory = getMyOrdersBookingHistoryFromJson(jsonString);
-
-import 'dart:convert';
-
 class GetMyOrdersBookingHistory {
   String status;
   int statusCode;

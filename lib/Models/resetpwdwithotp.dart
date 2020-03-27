@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-// ResetpwdOtpModel resetpwdOtpModelFromJson(String str) => ResetpwdOtpModel.fromJson(json.decode(str));
-
-// String resetpwdOtpModelToJson(ResetpwdOtpModel data) => json.encode(data.toJson());
-
 class ResetpwdOtpModel {
   String status;
   int statusCode;

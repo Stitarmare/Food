@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/Models/AddMenuToCartModel.dart';
-import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 
 abstract class MyCartTWContarctor {

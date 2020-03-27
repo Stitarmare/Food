@@ -8,6 +8,7 @@ import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -50,7 +51,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
   List<Data> peopleList = [];
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  DialogsIndicator dialogs = DialogsIndicator();
   // Group Value for Radio Button.
   int id;
   bool isChecked = false;
@@ -68,7 +70,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     // confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
     confirmationDineviewPresenter.getPeopleList(context);
     // _selectedId = widget.initialValue;
     print("addpeople list length-->");
@@ -393,16 +395,20 @@ confirmationDineviewPresenter.addPeople(
 
   @override
   void addPeopleFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement addPeopleFailed
   }
 
   @override
   void addPeopleSuccess() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement addPeopleSuccess
   }
 
   @override
-  void getPeopleListonFailed() {}
+  void getPeopleListonFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
 
   @override
   void getPeopleListonSuccess(List<Data> data) {
@@ -418,6 +424,7 @@ confirmationDineviewPresenter.addPeople(
     });
     print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

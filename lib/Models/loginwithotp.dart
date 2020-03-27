@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class LoginWithOtpModel {
   String status;
   int statusCode;

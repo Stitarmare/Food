@@ -1,11 +1,3 @@
-// To parse this JSON data, do
-//
-//     final splitBillEqualModel = splitBillEqualModelFromJson(jsonString);
-
-// To parse this JSON data, do
-//
-//     final splitBillEqualModel = splitBillEqualModelFromJson(jsonString);
-
 import 'dart:convert';
 
 SplitBillEqualModel splitBillEqualModelFromJson(String str) =>
@@ -15,8 +7,6 @@ String splitBillEqualModelToJson(SplitBillEqualModel data) =>
     json.encode(data.toJson());
 
 class SplitBillEqualModel {
-  //if option is 1(split bill amount equal among all users)- amount is required
-
   String status;
   int statusCode;
   Data data;
@@ -61,13 +51,7 @@ class Data {
       };
 }
 
-// To parse this JSON data, do
-//
-//     final splitBillCertainPeopleModel = splitBillCertainPeopleModelFromJson(jsonString);
-
 class SplitBillCertainPeopleModel {
-  //if option is 2(split between certain members)
-
   String status;
   int statusCode;
   List<SplitBillCertainPeopleList> data;
@@ -187,10 +171,6 @@ class ListElement {
   Map<String, dynamic> toJson() => {};
 }
 
-// To parse this JSON data, do
-//
-//     final splitBillOrderItemsModel = splitBillOrderItemsModelFromJson(jsonString);
-
 class SplitBillOrderItemsModel {
   String status;
   int statusCode;
@@ -281,10 +261,6 @@ class SplitBillOrderItemsList {
         "updated_at": updatedAt.toIso8601String(),
       };
 }
-
-// To parse this JSON data, do
-//
-//     final splitBillOrderItemsByUserModel = splitBillOrderItemsByUserModelFromJson(jsonString);
 
 class SplitBillOrderItemsByUserModel {
   String status;
@@ -466,8 +442,6 @@ class SplitBillOrderItemsSplitList {
         "size_price": sizePrice,
       };
 }
-
-//if option is 3(split based on order items)
 
 class SplitBillOrderModel {
   String status;

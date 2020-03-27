@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ResendOtpModel {
   String status;
   int statusCode;

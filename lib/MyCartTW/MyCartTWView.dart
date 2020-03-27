@@ -5,6 +5,7 @@ import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
 import 'package:foodzi/MyCartTW/MyCartTWPresenter.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -28,7 +29,6 @@ class MyCartTWView extends StatefulWidget {
       this.long,
       this.total,
       this.restName});
-  //MyCartTWView({Key key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return _MyCartTWViewState();
@@ -37,38 +37,27 @@ class MyCartTWView extends StatefulWidget {
 
 class _MyCartTWViewState extends State<MyCartTWView>
     implements MyCartTWModelView {
-  ScrollController _controller = ScrollController();
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
-  List<ItemInfo> _itemInfo = [];
 
-  String _selectedId;
   int count = 0;
   MycartTWPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
   int page = 1;
   int indx;
-
   int id;
   List<int> itemList = [];
   MenuCartDisplayModel myCart;
 
   @override
   void initState() {
-    // TODO: implement initState
     _myCartpresenter = MycartTWPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 
     super.initState();
-  }
-
-  void _onValueChange(String value) {
-    setState(() {
-      _selectedId = value;
-    });
   }
 
   Widget steppercount(int i) {
@@ -108,8 +97,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
           child: Text(
             count.toString(),
             style: TextStyle(
-                fontSize: 16,
-                fontFamily: 'gotham',
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -165,10 +154,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       ),
                       Center(
                         child: Text(
-                          'Add a Table Number',
+                          STR_ADD_TABLE,
                           style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'gotham',
+                              fontSize: FONTSIZE_16,
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
                               color: greytheme700),
                         ),
@@ -176,22 +165,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       SizedBox(
                         height: 20,
                       ),
-                      // Center(
-                      //   child: TextFormField(
-                      //     keyboardType: TextInputType.number,
-                      //     autofocus: true,
-                      //     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                      //   )
-                      // ),
                       Center(
                         child: Container(
-                          // margin: EdgeInsets.only(left: 37, right: 27),
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(color: greytheme600)),
-                          // color: Color.fromRGBO(213, 213, 213, 1)),
                           padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
                           child: TextFormField(
                             keyboardType: TextInputType.number,
@@ -220,10 +200,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
                             child: Text(
-                              'SUBMIT',
+                              STR_SUMBIT,
                               style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'gotham',
+                                  fontSize: FONTSIZE_18,
+                                  fontFamily: KEY_FONTFAMILY,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
@@ -239,60 +219,26 @@ class _MyCartTWViewState extends State<MyCartTWView>
     }
 
     Widget _getmainviewTableno() {
-      return
-          // SliverToBoxAdapter(
-          //   child:
-          Container(
+      return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(
-              //       width: 20,
-              //     ),
-              // Container(
-              //   // width: MediaQuery.of(context).size.width * 0.8,
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(top: 12, bottom: 6, left: 20),
-              //     child: Text(
-              //       'Wimpy',
-              //       textAlign: TextAlign.start,
-              //       style: TextStyle(
-              //           fontSize: 20,
-              //           fontFamily: 'gotham',
-              //           fontWeight: FontWeight.w600,
-              //           color: greytheme700),
-              //     ),
-              //   ),
-              // ),
-              //   ],
-              // ),
-              // Divider(
-              //   thickness: 2,
-              //   //endIndent: 10,
-              //   //indent: 10,
-              // ),
               SizedBox(
                 height: 10,
               ),
               Row(
                 children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
                   SizedBox(
                     width: 20,
                   ),
                   Text(
-                    'Collection',
+                    STR_COLLECTION,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_20,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -301,35 +247,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
               SizedBox(
                 height: 10,
               ),
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(width: 20),
-              //     GestureDetector(
-              //       onTap: () {
-              //         //  await DailogBox.addTablePopUp(context);
-              //         addTablePopUp(context);
-              //       },
-              //       child: Text(
-              //         'Add Table Number',
-              //         textAlign: TextAlign.start,
-              //         style: TextStyle(
-              //             decoration: TextDecoration.underline,
-              //             decorationColor: Colors.black,
-              //             fontSize: 14,
-              //             fontFamily: 'gotham',
-              //             fontWeight: FontWeight.w600,
-              //             color: greytheme100),
-              //       ),
-              //     )
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // )
             ],
           ),
         ),
-        // ),
       );
     }
 
@@ -340,7 +260,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
-          title: Text('My Cart'),
+          title: Text(STR_MYCART),
           backgroundColor: Colors.white,
           elevation: 0,
         ),
@@ -359,15 +279,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
             _getAddedListItem()
           ],
         ),
-        // CustomScrollView(
-        //   controller: _controller,
-        //   slivers: <Widget>[
-        //     _getmainviewTableno(),
-        //     // Divider(height: 2,),
-        //     _getAddedListItem()
-        //   // _getOptions()
-        //   ],
-        // ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
               height: 102,
@@ -377,10 +288,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
                       child: Text(
-                        'Add More Items',
+                        STR_ADD_MORE_ITEM,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -388,20 +299,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        //Navigator.pushNamed(context, '/OrderConfirmation2View');
                       },
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/OrderConfirmationView');
-                      // print("button is pressed");
-                      // showDialog(
-                      //     context: context,
-                      //     child: new RadioDialog(
-                      //       onValueChange: _onValueChange,
-                      //       initialValue: _selectedId,
-                      //     ));
                       Globle().takeAwayCartItemCount = 0;
                       Preference.setPersistData<int>(
                           0, PreferenceKeys.takeAwayCartCount);
@@ -425,8 +327,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         currencySymbol: myCart.currencySymbol,
                                         tableId: _cartItemList[indx].tableId,
                                       )))
-                          : Constants.showAlert("My Cart",
-                              "Please add items to your cart first.", context);
+                          : Constants.showAlert(
+                              STR_MYCART, STR_ADD_ITEM_CART, context);
                     },
                     child: Container(
                       height: 54,
@@ -435,14 +337,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: getColorByHex(Globle().colorscode),
                       child: Center(
                         child: Text(
-                          'PLACE ORDER',
+                          STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: 'gotham',
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                              fontSize: FONTSIZE_16,
                               color: Colors.white),
                         ),
                       ),
@@ -455,18 +356,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
     );
   }
 
-// int getItemName(int length) {
-//     List<ItemInfo> itemInfolist = [];
-//     for (int i = 1; i <= length; i++) {
-//       itemInfolist.add(ItemInfo(
-//           itemName: _cartItemList[i-1].items[i - 1].itemName,
-//           itemDescription: _cartItemList[i-1].items[i - 1].itemDescription,
-//           itemId:_cartItemList[i-1].items[i - 1].id, ));
-//     }
-//     setState(() {
-//       _itemInfo = itemInfolist;
-//     });
-//   }
   Widget _getAddedListItem() {
     return (_cartItemList != null)
         ? Expanded(
@@ -481,7 +370,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                   onDismissed: (direction) {
                     int cartIdnew = _cartItemList[index].id;
                     DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, "Loading");
+                        context, _keyLoader, STR_LOADING);
 
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
@@ -498,14 +387,14 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               Padding(
                                 padding: EdgeInsets.only(left: 20),
                                 child: (_cartItemList[index].items.menuType ==
-                                        "veg")
+                                        STR_VEG)
                                     ? Image.asset(
-                                        'assets/VegIcon/Group1661.png',
+                                        STR_VEG_ICON,
                                         height: 25,
                                         width: 25,
                                       )
                                     : Image.asset(
-                                        'assets/VegIcon/Group1661.png',
+                                        STR_VEG_ICON,
                                         color: redtheme,
                                         width: 25,
                                         height: 25,
@@ -521,10 +410,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         0.65,
                                     child: Text(
                                       _cartItemList[index].items.itemName ??
-                                          'Bacon & Cheese Burger',
+                                          STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: 'gotham',
-                                          fontSize: 16,
+                                          fontFamily: KEY_FONTFAMILY,
+                                          fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
                                   ),
@@ -538,14 +427,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                       _cartItemList[index]
                                               .items
                                               .itemDescription ??
-                                          " Lorem Epsom is simply dummy text",
+                                          STR_ITEM_DESC,
                                       style: TextStyle(
                                         color: greytheme1000,
-                                        fontSize: 14,
-                                        // fontFamily: 'gotham',
+                                        fontSize: FONTSIZE_14,
                                       ),
-                                      // minFontSize: 8,
-                                      maxFontSize: 12,
+                                      maxFontSize: FONTSIZE_12,
                                       maxLines: 2,
                                     ),
                                   ),
@@ -564,10 +451,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                 child: Text(
                                   "${myCart.currencySymbol} " +
                                           "${_cartItemList[index].totalAmount}" ??
-                                      "${myCart.currencySymbol} " + '17',
+                                      "${myCart.currencySymbol} " +
+                                          STR_SEVENTEEN,
                                   style: TextStyle(
                                       color: greytheme700,
-                                      fontSize: 16,
+                                      fontSize: FONTSIZE_16,
                                       fontWeight: FontWeight.w600),
                                 ),
                               )
@@ -588,11 +476,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
         : Expanded(
             child: Center(
               child: Text(
-                "Nothing in the Cart",
+                STR_NOTHING_CART,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: 'gotham',
+                    fontSize: FONTSIZE_22,
+                    fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
@@ -616,14 +504,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
   void getCartMenuListfailed() {
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    // TODO: implement getCartMenuListfailed
   }
 
   @override
   void getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) {
-    // TODO: implement getCartMenuListsuccess
-
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData(
@@ -645,7 +530,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
           print(itemList);
         }
       } else {
-        //_cartItemList.removeRange(0, (_cartItemList.length));
         _cartItemList.addAll(menulist);
       }
       page++;
@@ -674,30 +558,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
         widget.restId, context, Globle().loginModel.data.id);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
-  //   return Scaffold(
-  //     body: _getmainview(),
-  //   );
-  // }
-
-//   Widget _getmainview() {
-//     return Container(
-//       child: Column(
-//         children: <Widget>[
-//           Padding(padding: EdgeInsets.fromLTRB(15, 200, 0, 0)),
-//           Center(child: Text('data')),
-//           //_getmainviewTableno(),
-//           SizedBox(
-//             height: 20,
-//           ),
-//           Divider(
-//             thickness: 3,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 }
 
 class ItemInfo {
