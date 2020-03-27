@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       }
 
       if (state.type == WebViewState.shouldStart &&
-          state.url.contains("http://foodzi.php-dev.in/success")) {
+          state.url.contains("${BaseUrl.getBaseUrl()}success")) {
         print("onStateChanged: ${state.type} ${state.url}");
         setState(() {
           var urlsSplit = state.url.split("?");
