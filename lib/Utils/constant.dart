@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'dart:io' as io;
-
 import 'package:foodzi/theme/colors.dart';
 
 class Constants {
@@ -19,7 +19,6 @@ class Constants {
 
   static getSafeAreaHeightWOStatusBar(BuildContext context) {
     var padding = MediaQuery.of(context).padding;
-// height without status bar
     return getScreenHeight(context) - padding.top;
   }
 
@@ -35,8 +34,8 @@ class Constants {
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
-          onWillPop: () async => false,
-                  child: AlertDialog(
+              onWillPop: () async => false,
+              child: AlertDialog(
                 title: Text(title),
                 content: Text(message),
                 actions: <Widget>[
@@ -46,14 +45,14 @@ class Constants {
                     color: Colors.black,
                   ),
                   FlatButton(
-                    child: Text("Ok"),
+                    child: Text(STR_OK),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   )
                 ],
               ),
-        ));
+            ));
   }
 
   static void showAlertSuccess(
@@ -61,27 +60,36 @@ class Constants {
     showDialog(
         context: context,
         builder: (context) => WillPopScope(
-          onWillPop: () async => false,
-                  child: AlertDialog(
-                title: Text(title,textAlign:TextAlign.center ,style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w600,
-                  color: greytheme700),),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Image.asset(
-                    'assets/SuccessIcon/success.png',
+                    SUCCESS_IMAGE_PATH,
                     width: 75,
                     height: 75,
                   ),
-                  SizedBox(height: 15,),
-                  Text(message,textAlign: TextAlign.center,style: TextStyle(
-                  fontSize: 15,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w500,
-                  color: greytheme700),)
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
                 ]),
                 actions: <Widget>[
                   Divider(
@@ -90,18 +98,19 @@ class Constants {
                     color: Colors.black,
                   ),
                   FlatButton(
-                    child: Text("Ok",style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'gotham',
-                  fontWeight: FontWeight.w600,
-                  color: greytheme700)),
+                    child: Text(STR_OK,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   )
                 ],
               ),
-        ));
+            ));
   }
 
   static Widget steppercount(int text) {

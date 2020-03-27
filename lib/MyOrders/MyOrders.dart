@@ -330,7 +330,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                               _orderDetailList[index].tableId,
                                           orderID: _orderDetailList[index].id,
                                           flag: 2,
-                                          rest_id:
+                                          restId:
                                               _orderDetailList[index].restId,
                                           title: _orderDetailList[index]
                                               .restaurant
@@ -582,9 +582,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(
-        _orderDetailList[0].id, PreferenceKeys.CURRENT_ORDER_ID);
+        _orderDetailList[0].id, PreferenceKeys.currentOrderId);
     Preference.setPersistData<int>(
-        _orderDetailList[0].restId, PreferenceKeys.CURRENT_RESTAURANT_ID);
+        _orderDetailList[0].restId, PreferenceKeys.currentRestaurantId);
   }
 
   @override

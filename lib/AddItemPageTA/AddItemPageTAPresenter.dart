@@ -3,6 +3,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/error_model.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -30,26 +31,22 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
     ApiBaseHelper().post<AddItemPageModelList>(
         UrlConstant.getmenudetailsApi, context,
         body: {
-          "item_id": itemId,
-          "rest_id": restId,
+          JSON_STR_ITEM_ID: itemId,
+          JSON_STR_REST_ID: restId,
         }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("AddItem success");
           print(value.model);
           addItemPageModelView.addItemsuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("AddItem failed");
           addItemPageModelView.addItemfailed();
           break;
       }
     }).catchError((error) {
       print(error);
     });
-//ApiCall
-    //;
   }
 
   @override
@@ -62,11 +59,9 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
       switch (value.result) {
         case SuccessType.success:
           addMenuToCartModel.addMenuToCartsuccess();
-          print("success");
           break;
         case SuccessType.failed:
           addMenuToCartModel.addMenuToCartfailed();
-          print("failed");
           break;
       }
     }).catchError((error) {
@@ -85,12 +80,10 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Clear cart success");
           print(value.model);
           clearCartModelView.clearCartSuccess();
           break;
         case SuccessType.failed:
-          print("Clear cart failed");
           clearCartModelView.clearCartFailed();
           break;
       }

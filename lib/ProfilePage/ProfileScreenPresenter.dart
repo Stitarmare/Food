@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -16,16 +17,14 @@ class ProfileScreenPresenter extends ProfileScreenContractor {
 
   @override
   void updateProfileImage(File profileImgUrl, BuildContext context) {
-    // TODO: implement updateProfileImage
     ApiBaseHelper()
         .imageUpload<UpdateProfileModel>(
             UrlConstant.updateProfileImage, context,
-            key: "profile_image", imageBody: profileImgUrl)
+            key: JSON_STR_PROFILE_IMAGE, imageBody: profileImgUrl)
         .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Profile image Update Successfully");
           print(value.model.data);
           Globle().loginModel.data = value.model.data;
           var userdata = json.encode(Globle().loginModel);
@@ -33,21 +32,14 @@ class ProfileScreenPresenter extends ProfileScreenContractor {
           view.profileImageUpdateSuccess();
           break;
         case SuccessType.failed:
-          print("failed");
           view..profileImageUpdateFailed();
           break;
       }
-      // if (value['status_code'] == 200) {
-      //   Globle().loginModel = LoginModel.fromJson(value);
-      //   otpView.otpsuccess();
-      // }
     }).catchError((error) {
       print(error);
     });
   }
 
   @override
-  void onBackPresed() {
-    // TODO: implement onBackPresed
-  }
+  void onBackPresed() {}
 }

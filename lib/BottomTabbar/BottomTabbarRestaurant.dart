@@ -61,7 +61,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(0, [
           RestaurantView(
             title: widget.title,
-            rest_Id: widget.rest_Id,
+            restId: widget.rest_Id,
             imageUrl: widget.imageUrl,
           )
         ]);
@@ -334,7 +334,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   }
 
   getOrderID() async {
-    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.orderId);
     if (orderId != null) {
       setState(() {
         isAlreadyOrder = true;

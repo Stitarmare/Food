@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 
 abstract class PaymentTipAndPayContarctor {

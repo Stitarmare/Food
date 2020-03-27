@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
-import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
-import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -22,20 +21,10 @@ class AddPeople {
 }
 
 class RadioDialogAddPeople extends StatefulWidget {
-  // final List<Data> data;
   final int tableId;
   final int orderId;
   final int restId;
-
-  // const RadioDialogAddPeople(
-  //     {this.onValueChange,
-  //     this.initialValue,
-  //   });
-
   const RadioDialogAddPeople(this.tableId, this.restId, this.orderId);
-
-  // final String initialValue;
-  // final void Function(String) onValueChange;
 
   @override
   State createState() => new RadioDialogAddPeopleState();
@@ -43,9 +32,7 @@ class RadioDialogAddPeople extends StatefulWidget {
 
 class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     implements ConfirmationDineViewModelView, StatusTrackViewModelView {
-  String _selectedId;
-  // Default Radio Button Item
-  String radioItem = 'Mango';
+  String radioItem = STR_MANGO;
   List<Data> addList = [];
   AddPeopleInterface addPeopleInterface;
   List<CheckBoxOptions> _checkBoxOptions = [];
@@ -53,36 +40,21 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   List<Data> peopleList = [];
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
-  // Group Value for Radio Button.
   int id;
   bool isChecked = false;
   List<InvitePeopleList> invitePeopleList = [];
-
-  // bool isChecked = false;
-  String _currText = "";
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
 
   @override
   void initState() {
     super.initState();
-
-    // confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     confirmationDineviewPresenter.getPeopleList(context);
-    // _selectedId = widget.initialValue;
-    print("addpeople list length-->");
-    // print(widget.data.length);
-
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id,
-        //widget.tableId
-        2,
-        context);
-    print("table id addpeople--->");
-    print(widget.tableId);
+        Globle().loginModel.data.id, 2, context);
   }
 
   Widget build(BuildContext context) {
@@ -90,7 +62,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
       return SimpleDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        // title: Text("No Record Found"),
         children: <Widget>[
           Container(
             height: 500,
@@ -99,36 +70,10 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
               onPressed: () {
                 Navigator.pop(context);
               },
-              //   child: const Text('Ok'),
             ),
           ),
         ],
       );
-
-      // WillPopScope(
-      //   onWillPop: () async => false,
-      //           child: AlertDialog(
-      //         title: Text("No Record Found"),
-      //         content: Text("Sorry, you can't add people."),
-      //         actions: <Widget>[
-      //           Divider(
-      //             endIndent: 15,
-      //             indent: 15,
-      //             color: Colors.black,
-      //           ),
-      //           FlatButton(
-      //             child: Text("Ok"),
-      //             onPressed: () {
-      //               Navigator.of(context).pop();
-      //             },
-      //           )
-      //         ],
-      //       ),
-      // ));
-      // return Constants.showAlert(
-      //                 "No Record Found",
-      //                 "Sorry, you can't add people.",
-      //                 context);
     } else {
       return new SimpleDialog(
         shape:
@@ -137,7 +82,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
           Container(
               height: 500,
               width: 284,
-              //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
               child: Column(
@@ -147,18 +91,17 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                   ),
                   Center(
                     child: Text(
-                      'Add People',
+                      STR_ADD_PEOPLE,
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: FONTSIZE_16,
                           color: greytheme700,
-                          fontFamily: 'gotham',
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600),
                     ),
                   ),
                   Expanded(
                       flex: 4,
                       child: ListView.builder(
-                          // itemCount: _checkBoxOptions.length,
                           itemCount: getPeopleListLength(),
                           itemBuilder: (BuildContext context, int i) {
                             id = i;
@@ -170,44 +113,21 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 controlAffinity:
                                     ListTileControlAffinity.leading,
                                 onChanged: (val) {
-                                  // setState(() {
-                                  //   bList[i].isChecked = val;
-                                  //   if (val != false) {
-                                  //     addList.add(bList[i]);
-                                  //   } else {
-                                  //     addList.remove(bList[i]);
-                                  //   }
-                                  // });
-
                                   setState(() {
                                     _checkBoxOptions[i].isChecked = val;
                                   });
                                 },
-                                //   setState(() {
-                                //     isChecked = val;
-                                //     id = i;
-                                //     if (val != false) {
-                                //       addList.add(widget.data[i]);
-                                //     } else {
-                                //       addList.remove(widget.data[i]);
-                                //     }
-                                //   });
-                                // },
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       peopleList[i].firstName ?? '',
                                       style: TextStyle(
-                                          fontSize: 13,
+                                          fontSize: FONTSIZE_13,
                                           color: Color.fromRGBO(64, 64, 64, 1)),
                                     ),
                                   ],
                                 ));
-                            // ? _checkBoxOptions
-                            //     .map((checkBtn) =>
-                            //         )
-                            //     .toList()
                           })),
                   SizedBox(
                     height: 10,
@@ -216,15 +136,13 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       child: RaisedButton(
                     color: getColorByHex(Globle().colorscode),
                     shape: RoundedRectangleBorder(
-                        // side: BorderSide(
-                        //     color: Color.fromRGBO(170, 170, 170, 1)),
                         borderRadius: BorderRadius.circular(8)),
                     onPressed: () async {
                       int orderId = await Preference.getPrefValue<int>(
-                          PreferenceKeys.ORDER_ID);
+                          PreferenceKeys.orderId);
 
                       print(_checkBoxOptions);
-                      String numbers = "";
+                      String numbers = STR_BLANK;
                       if (_checkBoxOptions.length > 0) {
                         for (int i = 0; i < _checkBoxOptions.length; i++) {
                           if (_checkBoxOptions[i].isChecked == true) {
@@ -234,37 +152,34 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       }
                       if (numbers.isNotEmpty) {
                         numbers = removeLastChars(numbers);
-                      print(numbers);
+                        print(numbers);
                       }
-                      
-                      
+
                       if (numbers.isNotEmpty) {
-confirmationDineviewPresenter.addPeople(
-                          peopleList[id].mobileNumber,
-                          widget.tableId,
-                          widget.restId,
-                          orderId,
-                          context);
-                      Navigator.pop(context);
-                      Toast.show(
-                          "Sending Invitation to ${peopleList[id].firstName}...",
-                          context,
-                          duration: Toast.LENGTH_SHORT,
-                          gravity: Toast.BOTTOM);
-                      showAddPeopleAlertSuccess("Invitation Send",
-                          "Invitation has been send Successfully!!", context);
-                      print("Added people-->");
-                      print(addList.length);
+                        confirmationDineviewPresenter.addPeople(
+                            peopleList[id].mobileNumber,
+                            widget.tableId,
+                            widget.restId,
+                            orderId,
+                            context);
+                        Navigator.pop(context);
+                        Toast.show(
+                            STR_SENDING_INVITATION +
+                                "${peopleList[id].firstName}...",
+                            context,
+                            duration: Toast.LENGTH_SHORT,
+                            gravity: Toast.BOTTOM);
+                        showAddPeopleAlertSuccess(STR_INVITATION_SEND,
+                            STR_INVITATION_SUCCESS, context);
                       }
-                      
                     },
                     child: Text(
                       addList.length != 0
-                          ? 'Add ${addList.length} People'
-                          : 'Add',
+                          ? STR_ADD_TITLE + '${addList.length} ' + STR_PEOPLE
+                          : STR_ADD_TITLE,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: FONTSIZE_18,
                       ),
                     ),
                   )),
@@ -273,7 +188,7 @@ confirmationDineviewPresenter.addPeople(
                   ),
                   Center(
                     child: Text(
-                      "Joined people:",
+                      STR_JOINED_PEOPLE,
                       style: TextStyle(
                           color: greytheme100,
                           decoration: TextDecoration.underline,
@@ -287,7 +202,6 @@ confirmationDineviewPresenter.addPeople(
                       itemCount: invitePeopleList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               "${index + 1}) " +
@@ -295,7 +209,7 @@ confirmationDineviewPresenter.addPeople(
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: greytheme100,
-                                fontSize: 18,
+                                fontSize: FONTSIZE_18,
                               ),
                             ),
                           ],
@@ -309,6 +223,7 @@ confirmationDineviewPresenter.addPeople(
       );
     }
   }
+
   static String removeLastChars(String str) {
     return str.substring(0, str.length - 1);
   }
@@ -326,12 +241,14 @@ confirmationDineviewPresenter.addPeople(
       _checkboxlist.add(CheckBoxOptions(
         isChecked: false,
         index: peopleList[i - 1].id,
-        title: peopleList[i - 1].firstName ?? '',
+        title: peopleList[i - 1].firstName ?? STR_BLANK,
       ));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
 
   void showAddPeopleAlertSuccess(
@@ -347,13 +264,13 @@ confirmationDineviewPresenter.addPeople(
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 18,
-                fontFamily: 'gotham',
+                fontFamily: KEY_FONTFAMILY,
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
           content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             Image.asset(
-              'assets/SuccessIcon/success.png',
+              SUCCESS_IMAGE_PATH,
               width: 75,
               height: 75,
             ),
@@ -364,8 +281,8 @@ confirmationDineviewPresenter.addPeople(
               message,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 15,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_15,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500,
                   color: greytheme700),
             )
@@ -377,10 +294,10 @@ confirmationDineviewPresenter.addPeople(
               color: Colors.black,
             ),
             FlatButton(
-              child: Text("Ok",
+              child: Text(STR_OK,
                   style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_16,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
@@ -396,13 +313,11 @@ confirmationDineviewPresenter.addPeople(
   @override
   void addPeopleFailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement addPeopleFailed
   }
 
   @override
   void addPeopleSuccess() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement addPeopleSuccess
   }
 
   @override
@@ -449,8 +364,6 @@ confirmationDineviewPresenter.addPeople(
         invitePeopleList.addAll(list);
       }
     });
-
-    print("invite peopl list length-->");
     print(invitePeopleList.length);
     print(invitePeopleList[0].toUser.firstName);
   }
@@ -462,7 +375,7 @@ abstract class AddPeopleInterface {
 
 class CheckBoxOptions {
   int index;
-  String title; // double price;
+  String title;
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
 }

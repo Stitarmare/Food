@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
-
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -46,10 +45,10 @@ class _ResetPasswordview extends State<ResetPasswordview>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-           brightness: Brightness.dark,
+          brightness: Brightness.dark,
           elevation: 0,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.black,
           ),
           backgroundColor: Colors.white70,
         ),
@@ -84,8 +83,6 @@ class _ResetPasswordview extends State<ResetPasswordview>
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
-      //_resetpasswordFormKey.currentState.save();
-      //Navigator.pushNamed(context, '/Landingview');
     } else {
       setState(() {
         _validate = true;
@@ -108,11 +105,11 @@ class _ResetPasswordview extends State<ResetPasswordview>
                     height: 15,
                   ),
                   Text(
-                    'Reset Your Password',
+                    STR_RESET_PASSWORD,
                     style: TextStyle(
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         color: greytheme300,
-                        fontSize: 18,
+                        fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
@@ -138,15 +135,13 @@ class _ResetPasswordview extends State<ResetPasswordview>
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset('assets/LockImage/Group_1560.png'
-            //height: 100,
-            ),
+        Image.asset(IMAGE_LOCK_PATH),
       ],
     );
   }
 
   Widget _buildTextField() {
-    const pi = 3.14;
+    const pi = PI_VALUE;
     return Column(
       children: <Widget>[
         AppTextField(
@@ -192,7 +187,6 @@ class _ResetPasswordview extends State<ResetPasswordview>
           validator: validatConfirmPassword,
           onSaved: (String value) {
             _signInData[enterPass] = value;
-            print('Details are : $_signInData');
           },
         ),
       ],
@@ -209,13 +203,11 @@ class _ResetPasswordview extends State<ResetPasswordview>
   }
 
   String validatConfirmPassword(String value) {
-    // if (value ==_password) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
       return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
-    // }
     return null;
   }
 
@@ -229,7 +221,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
         child: Text(
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w700, fontFamily: 'gotham'),
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              fontFamily: KEY_FONTFAMILY),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -247,36 +241,36 @@ class _ResetPasswordview extends State<ResetPasswordview>
       context: context,
       builder: (_) => WillPopScope(
         onWillPop: () async => false,
-              child: AlertDialog(
+        child: AlertDialog(
           title: const Text(
-            "Reset Password",
+            STR_RESET_PASSWORD,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greentheme100,
                 fontWeight: FontWeight.w600,
-                fontFamily: 'gotham',
+                fontFamily: KEY_FONTFAMILY,
                 fontSize: 22),
           ),
           content: Text(
             _password == _confirmPassword
-                ? 'Your password has been successfully reset. '
-                : 'Password does not match with confirm password.',
+                ? STR_PWD_CHANGED
+                : STR_PWD_NOT_MATCHED,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'gotham',
-                fontSize: 20),
+                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_20),
           ),
           actions: [
             FlatButton(
               child: const Text(
-                "OK",
+                STR_OK,
                 style: TextStyle(
                     color: greentheme100,
                     fontWeight: FontWeight.w600,
-                    fontFamily: 'gotham',
-                    fontSize: 20),
+                    fontFamily: KEY_FONTFAMILY,
+                    fontSize: FONTSIZE_20),
               ),
               onPressed: () {
                 _password == _confirmPassword
@@ -292,15 +286,12 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   @override
   void resetpassfailed() {
-    // TODO: implement resetpassfailed
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void resetpasssuccess() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
     showDialogBox(context);
-    // Navigator.of(context).pushReplacementNamed('/LoginView');
   }
 }

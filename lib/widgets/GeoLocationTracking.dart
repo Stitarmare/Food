@@ -1,7 +1,6 @@
 import 'dart:async';
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -19,22 +18,16 @@ class GeoLocationTracking {
       print(geolocationStatus);
       switch (geolocationStatus) {
         case GeolocationStatus.denied:
-          Constants.showAlert(
-              "Access Denied",
-              "Please enable location services to show you nearby restaurants and hotels",
-              context);
+          Constants.showAlert(STR_ACCESS_DENIED, STR_ENABLE_LOCATION, context);
           break;
         case GeolocationStatus.disabled:
-          Constants.showAlert("Access Denied",
-              "Please Allow The Loaction Services On", context);
+          Constants.showAlert(STR_ACCESS_DENIED, STR_ALLOW_LOCATION, context);
           break;
         case GeolocationStatus.granted:
-
-          //Dialogs.showLoadingDialog(context, _keyLoader, "");
           break;
         case GeolocationStatus.restricted:
-          Constants.showAlert("Access Denied",
-              "Please Allow The Loaction Service Enabled To Get Info", context);
+          Constants.showAlert(
+              STR_ACCESS_DENIED, STR_ALLOW_LOCATION_SERVICE, context);
           break;
         case GeolocationStatus.unknown:
         default:
@@ -43,18 +36,15 @@ class GeoLocationTracking {
     }
   }
 
-  //@override
   static Future<void> loadingPositionTrack() async {
-    Geolocator geolocator = Geolocator()..forceAndroidLocationManager = true;
-    GeolocationStatus geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
+    Geolocator()..forceAndroidLocationManager = true;
+    await Geolocator().checkGeolocationPermissionStatus();
   }
 
   Future<void> _loadingPlaceMarkTrack() async {
-    List<Placemark> placemark =
-        await Geolocator().placemarkFromCoordinates(52.2165157, 6.9437819);
+    await Geolocator().placemarkFromCoordinates(52.2165157, 6.9437819);
 
-    double distanceInMeters = await Geolocator()
+    await Geolocator()
         .distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
   }
 }

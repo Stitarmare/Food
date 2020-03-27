@@ -9,6 +9,7 @@ import 'package:foodzi/Models/payment_Checkout_model.dart';
 
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -23,7 +24,6 @@ class PaymentTipAndPayDi extends StatefulWidget {
   int tableId;
 
   PaymentTipAndPayDi({this.orderID, this.restid, this.tableId});
-  // PaymentTipAndPay({Key key}) : super(key: key);
   _PaymentTipAndPayDiState createState() => _PaymentTipAndPayDiState();
 }
 
@@ -40,10 +40,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   PayFinalBillPresenter _finalBillPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
   int selectedRadioTile;
-  // bool isSplitBillVisible = false;
-
   OrderDetailData myOrderData;
-
   PaycheckoutNetbanking billModel;
   @override
   void initState() {
@@ -52,10 +49,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
-    //_finalBillPresenter.payfinalOrderBill(Globle().loginModel.data.id, restId, widget.orderID, payment_mode, amount, total_amount, context)
     selectedRadioTile = 1;
-
-    print("table id from payandtipDi--->");
     print(widget.tableId);
     print(widget.orderID);
     super.initState();
@@ -77,7 +71,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
-          title: Text("Payment"),
+          title: Text(STR_PAYMENT),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -91,16 +85,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  // isSplitBillVisible?
-
                   Container(
                     height: 35,
                     child: FlatButton(
                       child: Text(
-                        'Split Bill',
+                        STR_SPLIT_BILL,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             decoration: TextDecoration.underline,
                             decorationColor: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
@@ -123,36 +115,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       },
                     ),
                   ),
-                  // : Container(
-                  //     height: 35,
-                  //   ),
-                  // ),
                   GestureDetector(
                     onTap: () {
                       DialogsIndicator.showLoadingDialog(
                           context, _keyLoader, "");
                       _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
                           (int.parse(myOrderData.totalAmount)), context);
-                      // _finalBillPresenter.payfinalOrderBill(
-                      //     Globle().loginModel.data.id,
-                      //     myOrderData.restId,
-                      //     myOrderData.id,
-                      //     "card",
-                      //     double.parse(myOrderData.totalAmount),
-                      //     double.parse(myOrderData.totalAmount) +
-                      //         sliderValue.toInt(),
-                      //     context);
-                      // Navigator.pushNamed(context, '/PaymentMethod');
-                      // _paymentTipAndPayPresenter.placeOrder(
-                      //     widget.restId,
-                      //     Globle().loginModel.data.id,
-                      //     widget.orderType,
-                      //     widget.tableId,
-                      //     widget.items,
-                      //     widget.totalAmount,
-                      //     widget.latitude,
-                      //     widget.longitude,
-                      //     context);
                     },
                     child: Container(
                       height: 45,
@@ -163,14 +131,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15))),
-                      // color: getColorByHex(Globle().colorscode,
                       child: Center(
                         child: Text(
-                          'PAY BILL',
+                          STR_PAY_BILL,
                           style: TextStyle(
-                              fontFamily: 'gotham',
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
-                              fontSize: 16,
+                              fontSize: FONTSIZE_16,
                               color: Colors.white),
                         ),
                       ),
@@ -191,48 +158,20 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Row(
-              //   children: <Widget>[
-              //     SizedBox(
-              //       width: 20,
-              //     ),
-              //     Container(
-              //       width: MediaQuery.of(context).size.width * 0.8,
-              //       child: Text(
-              //         'Wimpy',
-              //         textAlign: TextAlign.start,
-              //         style: TextStyle(
-              //             fontSize: 20,
-              //             fontFamily: 'gotham',
-              //             fontWeight: FontWeight.w600,
-              //             color: greytheme700),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // Divider(
-              //   thickness: 2,
-              //   //endIndent: 10,
-              //   //indent: 10,
-              // ),
               SizedBox(
                 height: 10,
               ),
               Row(
                 children: <Widget>[
-                  // SizedBox(
-                  //   width: 26,
-                  // ),
-                  // Image.asset('assets/DineInImage/Group1504.png'),
                   SizedBox(
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    STR_DINEIN_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'gotham',
+                      fontSize: FONTSIZE_20,
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: ((Globle().colorscode) != null)
                           ? getColorByHex(Globle().colorscode)
@@ -255,14 +194,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   SizedBox(width: 20),
                   Text(
                     (getTableName() != null)
-                        ? 'Selected Table : ${myOrderData.tableName}'
-                        : "Table 1",
+                        ? STR_SELECT_TBL + '${myOrderData.tableName}'
+                        : STR_TABLE_1,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_14,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: greytheme100),
                   )
@@ -326,12 +265,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         padding: EdgeInsets.only(left: 20),
                         child: (myOrderData.list[index].items.menuType == 'veg')
                             ? Image.asset(
-                                'assets/VegIcon/Group1661.png',
+                                IMAGE_VEG_ICON_PATH,
                                 height: 20,
                                 width: 20,
                               )
                             : Image.asset(
-                                'assets/VegIcon/Group1661.png',
+                                IMAGE_VEG_ICON_PATH,
                                 height: 20,
                                 width: 20,
                                 color: redtheme,
@@ -346,11 +285,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
                               myOrderData.list[index].items.itemName ??
-                                  'Bacon & Cheese Burger',
+                                  STR_ITEM_NAME,
                               style: TextStyle(
-                                  // fontFamily: 'gotham',
-                                  fontSize: 18,
-                                  color: greytheme700),
+                                  fontSize: FONTSIZE_18, color: greytheme700),
                             ),
                           ),
                           SizedBox(
@@ -361,14 +298,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             width: 180,
                             child: AutoSizeText(
                               myOrderData.list[index].items.itemDescription ??
-                                  "  Lorem Epsom is simply dummy text Lorem Epsom is simply dummy text",
+                                  STR_ITEM_DESC,
                               style: TextStyle(
                                 color: greytheme1000,
-                                fontSize: 14,
-                                // fontFamily: 'gotham',
+                                fontSize: FONTSIZE_14,
                               ),
-                              // minFontSize: 8,
-                              maxFontSize: 12,
+                              maxFontSize: FONTSIZE_12,
                               maxLines: 2,
                             ),
                           ),
@@ -385,10 +320,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         child: Text(
                           (getTotalAmount(index) != null)
                               ? '\$ ${myOrderData.list[index].totalAmount}'
-                              : '\$17',
+                              : STR_SEVENTEEN_TITLE,
                           style: TextStyle(
                               color: greytheme700,
-                              fontSize: 16,
+                              fontSize: FONTSIZE_16,
                               fontWeight: FontWeight.w600),
                         ),
                       )
@@ -447,9 +382,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Tip',
+              STR_TIP,
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: FONTSIZE_16,
                   color: greytheme700,
                   fontWeight: FontWeight.w600),
             ),
@@ -465,9 +400,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 inactiveColor: greytheme100,
                 min: 0,
                 max: 20,
-                //divisions: 20,
                 value: double.parse(sliderValue.toString()),
-                // label: '${sliderValue}',
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
@@ -481,9 +414,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               right: 10,
             ),
             child: Text(
-              '\$ ${sliderValue.toInt()}',
+              STR_DOLLAR_SIGN + '${sliderValue.toInt()}',
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: FONTSIZE_16,
                   color: greytheme700,
                   fontWeight: FontWeight.w600),
             ),
@@ -503,8 +436,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Bill Details',
-              style: TextStyle(fontSize: 16, color: greytheme700),
+              STR_BILL_DETAILS,
+              style: TextStyle(fontSize: FONTSIZE_16, color: greytheme700),
             ),
           ),
           SizedBox(
@@ -515,8 +448,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Subtotal',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                  STR_SUBTOTAL,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
               Expanded(
@@ -529,9 +462,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? " \$ ${myOrderData.totalAmount}"
-                      : '\$11.20',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                      ? STR_DOLLAR_SIGN + "${myOrderData.totalAmount}"
+                      : STR_ELEVEN_TITLE,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
             ],
@@ -539,40 +472,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           SizedBox(
             height: 13,
           ),
-          // Row(
-          //   children: <Widget>[
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 20),
-          //       child: Text(
-          //         'VAT (7.7%)',
-          //         style: TextStyle(fontSize: 12, color: greytheme700),
-          //       ),
-          //     ),
-          //     Expanded(
-          //       child: SizedBox(
-          //         width: 120,
-          //       ),
-          //       flex: 2,
-          //     ),
-          //     Padding(
-          //       padding: const EdgeInsets.only(right: 20),
-          //       child: Text(
-          //         '\$ 0.0',
-          //         style: TextStyle(fontSize: 12, color: greytheme700),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(
-          //   height: 13,
-          // ),
           Row(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Tip',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                  STR_TIP,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
               Expanded(
@@ -584,8 +490,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '\$ ${sliderValue.toInt()}',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                  STR_DOLLAR_SIGN + '${sliderValue.toInt()}',
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
             ],
@@ -598,8 +504,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  'Total',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                  STR_TOTAL,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
               Expanded(
@@ -612,93 +518,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? '\$ ${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
-                      : "\$ ",
-                  // (widget.totalAmount) != null?
-                  // " \$ ${widget.totalAmount}":'\$11.20',
-                  style: TextStyle(fontSize: 12, color: greytheme700),
+                      ? STR_DOLLAR_SIGN +
+                          '${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
+                      : STR_DOLLAR_SIGN,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
             ],
           ),
-          // SizedBox(height: 10),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 15.0, right: 15),
-          //   child: Divider(
-          //     thickness: 0.4,
-          //     color: greytheme300,
-          //   ),
-          // ),
-          // SizedBox(height: 5),
-          // Row(
-          //   children: <Widget>[
-          //     Expanded(
-          //       flex: 5,
-          //       child: RadioListTile(
-          //         value: 1,
-          //         groupValue: selectedRadioTile,
-          //         title: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: <Widget>[
-          //             Padding(
-          //               padding: const EdgeInsets.only(left: 12.0),
-          //               child: Text(
-          //                 "Pay",
-          //                 style: TextStyle(color: greytheme300),
-          //               ),
-          //             ),
-          //             Text(
-          //               "By Cash",
-          //               style: TextStyle(color: greytheme300),
-          //             ),
-          //           ],
-          //         ),
-          //         onChanged: (val) {
-          //           print("Radio Tile pressed $val");
-          //           setSelectedRadioTile(val);
-          //           // isSplitBillVisible = false;
-          //         },
-          //         activeColor: ((Globle().colorscode) != null)
-          //             ? getColorByHex(Globle().colorscode)
-          //             : orangetheme,
-          //       ),
-          //     ),
-          //     Expanded(
-          //         child: Container(
-          //             height: 30, child: VerticalDivider(color: greytheme300))),
-          //     Expanded(
-          //       flex: 5,
-          //       child: RadioListTile(
-          //         value: 2,
-          //         groupValue: selectedRadioTile,
-          //         title: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: <Widget>[
-          //             Padding(
-          //               padding: const EdgeInsets.only(left: 14.0),
-          //               child: Text(
-          //                 "Net",
-          //                 style: TextStyle(color: greytheme300),
-          //               ),
-          //             ),
-          //             Text(
-          //               "Banking",
-          //               style: TextStyle(color: greytheme300),
-          //             ),
-          //           ],
-          //         ),
-          //         onChanged: (val) {
-          //           print("Radio Tile pressed $val");
-          //           setSelectedRadioTile(val);
-          //           // isSplitBillVisible = true;
-          //         },
-          //         activeColor: ((Globle().colorscode) != null)
-          //             ? getColorByHex(Globle().colorscode)
-          //             : orangetheme,
-          //       ),
-          //     )
-          //   ],
-          // )
         ],
       ),
     );
@@ -715,14 +542,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
-                      fontFamily: 'gotham',
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
                 content:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Image.asset(
-                    'assets/SuccessIcon/success.png',
+                    SUCCESS_IMAGE_PATH,
                     width: 75,
                     height: 75,
                   ),
@@ -733,8 +560,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     message,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_15,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -746,17 +573,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     color: Colors.black,
                   ),
                   FlatButton(
-                    child: Text("Ok",
+                    child: Text(STR_OK,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      //  (widget.orderType == 'dine_in');
-                      // ?  Navigator.of(context).pushReplacementNamed('/DineInView')
-                      // : Navigator.of(context).pushReplacementNamed('/TakeAwayView');
                     },
                   )
                 ],
@@ -764,90 +588,39 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             ));
   }
 
-  // @override
-  // void placeOrderfailed() {
-  //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-  //   Preference.setPersistData(null, PreferenceKeys.restaurantID);
-  //   Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-  //   // TODO: implement placeOrderfailed
-  // }
-
-  // @override
-  // void placeOrdersuccess(OrderData orderData) {
-  //   print("Place ORDER SUCCESS.");
-  //   setState(() {
-  //     if (myOrderData == null) {
-  //       myOrderData = orderData;
-  //     }
-  //   });
-  //   Preference.setPersistData(null, PreferenceKeys.restaurantID);
-  //   Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-  //   Globle().orderNumber = orderData.orderNumber;
-  //   DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-
-  //   showAlertSuccess(
-  //       "Order Placed", "Your order has been successfully placed.", context);
-  //   Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-
-  //Navigator.of(context).pushNamed('/ConfirmationDineView');
-  // Navigator.pushReplacement(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => DineInView(
-
-  //             //restId: widget.restId
-  //             )));
-
-  // TODO: implement placeOrdersuccess
-  // }
-
   @override
-  void getOrderDetailsFailed() {
-    // TODO: implement getOrderDetailsFailed
-  }
+  void getOrderDetailsFailed() {}
 
   @override
   void getOrderDetailsSuccess(OrderDetailData orderData) {
-    // TODO: implement getOrderDetailsSuccess
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
       }
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "Loading");
-    // showAlertSuccess(
-    //     "Order Placed", "Your order has been successfully placed.", context);
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void payfinalBillFailed() {
-    // TODO: implement payfinalBillFailed
-  }
+  void payfinalBillFailed() {}
 
   @override
   void payfinalBillSuccess() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    print("payment Success");
-    Preference.setPersistData<int>(null, PreferenceKeys.ORDER_ID);
-    Preference.removeForKey(PreferenceKeys.ORDER_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Preference.removeForKey(PreferenceKeys.orderId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_RESTAURANT_ID);
-    Preference.setPersistData<int>(null, PreferenceKeys.CURRENT_ORDER_ID);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    showAlertSuccess("Payment Success",
-        "Your Transactions Has been Done Successfully", context);
-    // Navigator.of(context).pushNamed('/WebViewScreen');
-    // TODO: implement payfinalBillSuccess
+    showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
 
   @override
   void payBillCheckoutFailed() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement payBillCheckoutFailed
   }
 
   @override
@@ -862,43 +635,34 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             builder: (context) => WebViewScreen(
                   url: billModel.url,
                 )));
-    if (data['check_out_code'] != null) {
+    if (data[STR_CHECKOUT_CODE] != null) {
       var codec = latin1.fuse(base64);
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _paymentTipandPayDiPresenter.getCheckoutDetails(
-          codec.encode(data['check_out_code']), context);
+          codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert("Foodzi", "Payment Failed.", context);
+      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
     }
-
-    //Navigator.of(context).pushNamed('/WebViewScreen');
-    // TODO: implement payBillCheckoutSuccess
   }
 
   @override
-  void paymentCheckoutFailed() {
-    // TODO: implement paymentCheckoutFailed
-  }
+  void paymentCheckoutFailed() {}
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (paymentCheckoutModel.statusCode == 200) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
           Globle().loginModel.data.id,
           myOrderData.restId,
           myOrderData.id,
-          'card',
+          STR_CARD,
           int.parse(myOrderData.totalAmount),
           int.parse(myOrderData.totalAmount) + sliderValue.toInt(),
           paymentCheckoutModel.transactionId,
           context,
           sliderValue);
     } else {
-      Constants.showAlert("Foodzi", "Payment Failed.", context);
+      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
     }
-
-    // TODO: implement paymentCheckoutSuccess
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentMethod extends StatefulWidget {
@@ -39,11 +40,11 @@ class _PaymentmethodState extends State<PaymentMethod> {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Text(
-                      'Wimpy',
+                      STR_WIMPY_TITLE,
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'gotham',
+                          fontSize: FONTSIZE_20,
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600,
                           color: greytheme700),
                     ),
@@ -52,8 +53,6 @@ class _PaymentmethodState extends State<PaymentMethod> {
               ),
               Divider(
                 thickness: 2,
-                //endIndent: 10,
-                //indent: 10,
               ),
               Row(
                 children: <Widget>[
@@ -61,11 +60,11 @@ class _PaymentmethodState extends State<PaymentMethod> {
                     width: 20,
                   ),
                   Text(
-                    'Dine-in',
+                    STR_DINEIN_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_20,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: redtheme),
                   )
@@ -78,13 +77,13 @@ class _PaymentmethodState extends State<PaymentMethod> {
                 children: <Widget>[
                   SizedBox(width: 20),
                   Text(
-                    'Add Table Number',
+                    STR_ADD_TABLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
-                        fontSize: 14,
-                        fontFamily: 'gotham',
+                        fontSize: FONTSIZE_14,
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: greytheme100),
                   )

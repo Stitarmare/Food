@@ -266,7 +266,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
   }
 
   getOrderID() async {
-    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.ORDER_ID);
+    var orderId = await Preference.getPrefValue<int>(PreferenceKeys.orderId);
     if (orderId != null) {
       setState(() {
         isAlreadyOrder = true;

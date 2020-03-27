@@ -5,6 +5,7 @@ import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -32,12 +33,8 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     _billPresenter = SplitBillPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id,
-        //widget.tableId
-        2,
-        context);
+        Globle().loginModel.data.id, 2, context);
 
-    print("table id from invitedpeoplelist dialog--->");
     print(widget.tableId);
     super.initState();
   }
@@ -50,7 +47,6 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
         Container(
             height: 350,
             width: 200,
-            //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: Column(
@@ -60,11 +56,11 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                 ),
                 Center(
                   child: Text(
-                    'Split Bill between Members',
+                    STR_SPLIT_BILL_BTWN,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -114,9 +110,10 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    invitedPeopleList[i].toUser.firstName ?? '',
+                                    invitedPeopleList[i].toUser.firstName ??
+                                        STR_BLANK,
                                     style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: FONTSIZE_13,
                                         color: Color.fromRGBO(64, 64, 64, 1)),
                                   ),
                                 ],
@@ -132,17 +129,15 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Cancel',
+                        STR_CANCEL_TITLE,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                         ),
                       ),
                     )),
@@ -151,8 +146,6 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         _billPresenter.getSPlitBill(
@@ -164,16 +157,12 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         if (invitedPeople.length > 0) {
                           print(invitedPeople[index].inviteId);
                           print(invitedPeople.length);
-                        } else {
-                          print("length not found");
-                        }
+                        } else {}
                       },
                       child: Text(
-                        'OK',
+                        STR_OK,
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
+                            color: Colors.white, fontSize: FONTSIZE_18),
                       ),
                     )),
                   ],
@@ -231,14 +220,10 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   void getOrderStatussuccess(StatusData statusData) {}
 
   @override
-  void getSplitBillFailed() {
-    // TODO: implement getSplitBillFailed
-  }
+  void getSplitBillFailed() {}
 
   @override
-  void getSplitBillSuccess() {
-    // TODO: implement getSplitBillSuccess
-  }
+  void getSplitBillSuccess() {}
 }
 
 class InvitePeople {
@@ -249,17 +234,17 @@ class InvitePeople {
   });
 
   factory InvitePeople.fromJson(Map<String, dynamic> json) => InvitePeople(
-        inviteId: json["invite_id"],
+        inviteId: json[STR_INVITE_ID],
       );
 
   Map<String, dynamic> toJson() => {
-        "invite_id": inviteId,
+        STR_INVITE_ID: inviteId,
       };
 }
 
 class CheckBoxOptions {
   int index;
-  String title; // double price;
+  String title;
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
 }

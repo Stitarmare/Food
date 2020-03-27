@@ -157,7 +157,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         builder: (context) => StatusTrackView(
                               orderID: _orderDetailList[index].id,
                               flag: 2,
-                              rest_id: _orderDetailList[index].restId,
+                              restId: _orderDetailList[index].restId,
                               title:
                                   _orderDetailList[index].restaurant.restName,
                             )));

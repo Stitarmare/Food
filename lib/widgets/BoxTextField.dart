@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class BoxAppTextField extends StatefulWidget {
@@ -19,8 +20,6 @@ class BoxAppTextField extends StatefulWidget {
   final Function(String) onChanged;
   final FocusNode focusNode;
 
-  //final Widget inputFormatters;
-
   const BoxAppTextField({
     this.onChanged,
     this.tfValue,
@@ -37,7 +36,6 @@ class BoxAppTextField extends StatefulWidget {
     this.icon,
     this.autovalidate = false,
     this.focusNode,
-    // this.inputFormatters,
   });
 
   @override
@@ -61,24 +59,17 @@ class _AppTextFieldState extends State<BoxAppTextField> {
           labelText: widget.placeHolderName,
           labelStyle: TextStyle(
               color: greytheme1000,
-              fontSize: 16,
-              fontFamily: 'gotham',
+              fontSize: FONTSIZE_16,
+              fontFamily: KEY_FONTFAMILY,
               fontWeight: FontWeight.w500),
-           //prefixText: widget.prefixText,
           prefixIcon: widget.icon,
-          // hintText: widget.hintText,
-          //  icon: widget.icon),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: greytheme900, width: 2))),
-
       autovalidate: widget.autovalidate,
       validator: widget.validator,
       onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
       focusNode: widget.focusNode,
-      // inputFormatters: [
-      //   new LengthLimitingTextInputFormatter(10),
-      // ],
     );
 
     if (widget.flexible) {

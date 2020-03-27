@@ -1,13 +1,11 @@
 import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayContractor.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
-import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -15,9 +13,7 @@ import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
-import 'package:foodzi/widgets/imagewithloader.dart';
 import 'package:geolocator/geolocator.dart';
-
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class TakeAwayView extends StatefulWidget {
@@ -42,19 +38,18 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Position _position;
   String sortedBy = '';
   String filteredBy = '';
-  //List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
-      title: "Distance",
+      title: STR_DISTANCE,
       id: 1,
       isSelected: false,
     ),
-    BottomItemButton(title: "Popularity", id: 2, isSelected: false),
+    BottomItemButton(title: STR_POPULARITY, id: 2, isSelected: false),
   ];
 
   List<BottomItemButton> optionFilterBy = [
-    BottomItemButton(title: "Ratings", id: 1, isSelected: false),
-    BottomItemButton(title: "Favourites Only ", id: 2, isSelected: false),
+    BottomItemButton(title: STR_RATINGS, id: 1, isSelected: false),
+    BottomItemButton(title: STR_FAVORITE, id: 2, isSelected: false),
   ];
   var sliderValue;
   bool isIgnoreTouch = true;
@@ -63,8 +58,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
   void initState() {
     locator();
     _detectScrollPosition();
-    //GeoLocationTracking.load();
-    // GeoLocationTracking.loadingPositionTrack();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
     if (Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount) !=
         null) {
@@ -73,7 +66,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
         Globle().takeAwayCartItemCount = value;
       });
     }
-    // TODO: implement initState
     super.initState();
   }
 
@@ -81,7 +73,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
     setState(() {
       getttingLocation = false;
     });
-    var strim = await GeoLocationTracking.load(context, _controllerPosition);
+    await GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) {
       print(position);
       _position = position;
@@ -89,13 +81,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
         setState(() {
           getttingLocation = true;
         });
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, "Please Wait");
+        DialogsIndicator.showLoadingDialog(
+            context, _keyLoader, STR_PLEASE_WAIT);
 
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            //"18.579622",
-            //"73.738691",
             sortedBy,
             filteredBy,
             page,
@@ -112,17 +103,14 @@ class _TakeAwayViewState extends State<TakeAwayView>
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
-          print("Top");
         } else {
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
-              "",
-              "",
+              STR_BLANK,
+              STR_BLANK,
               page,
               context);
-
-          print("Bottom");
         }
       }
     });
@@ -139,10 +127,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             title: Text(
-              "Collection",
+              STR_COLLECTION,
               style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: 'gotham',
+                  fontSize: FONTSIZE_18,
+                  fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500,
                   color: greytheme1200),
             ),
@@ -154,17 +142,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   Align(
                       alignment: Alignment.centerRight,
                       child: Image.asset(
-                        "assets/Logo/foodzi_logo.jpg",
+                        FOODZI_LOGO_PATH,
                         height: 30,
                       )),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'ORDER EASY',
+                      STR_ORDER_EASY,
                       style: TextStyle(
-                          // fontFamily: 'HelveticaNeue',
-                          fontFamily: "gotham",
-                          fontSize: 6,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontSize: FONTSIZE_6,
                           color: greytheme400,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1),
@@ -173,7 +160,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 ],
               ),
               IconButton(
-                icon: Image.asset('assets/LevelsIcon/levels.png'),
+                icon: Image.asset(LEVEL_IMAGE_PATH),
                 onPressed: () {
                   showModalBottomSheet(
                       context: context,
@@ -182,9 +169,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               topLeft: Radius.circular(18.0),
                               topRight: Radius.circular(18.0))),
                       builder: (context) {
-                        return StatefulBuilder(builder: (BuildContext context,
-                            StateSetter
-                                setBottomState /*You can rename this!*/) {
+                        return StatefulBuilder(builder:
+                            (BuildContext context, StateSetter setBottomState) {
                           Future<double> getRatingValue() async {
                             var val = await showDialog(
                                 context: context, child: new SliderDialog());
@@ -206,30 +192,23 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                 tile.isSelected = true;
                                 if (bottomList == optionSortBy) {
                                   sortedBy = bottomItem.title;
-                                  if (bottomItem.title == "Distance") {
-                                    print('Distance selected');
-                                    sortedBy = "distance";
+                                  if (bottomItem.title == STR_DISTANCE) {
+                                    sortedBy = STR_SMALL_DISTANCE;
                                   } else {
-                                    print('popularity');
-                                    sortedBy = "rating";
+                                    sortedBy = STR_SMALL_RATING;
                                   }
                                 }
                                 if (bottomList == optionFilterBy) {
                                   filteredBy = bottomItem.title;
-                                  if (bottomItem.title == "Ratings") {
+                                  if (bottomItem.title == STR_RATINGS) {
                                     getRatingValue().then((onValue) {
-                                      filteredBy =
-                                          "rating${onValue.toString()}+";
+                                      filteredBy = STR_SMALL_RATING +
+                                          "${onValue.toString()}+";
                                       print(sliderValue.toString());
                                     });
-
-                                    //ShowDialogBox
-                                    // showDialogBox(context);
-
                                   }
                                 } else {
-                                  print('Favourites only');
-                                  filteredBy = "favourite";
+                                  filteredBy = STR_SMALL_FAVOURITE;
                                 }
                               });
                             }
@@ -259,7 +238,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                   child: Text(
                                     item.title,
                                     style: TextStyle(
-                                        fontFamily: 'gotham',
+                                        fontFamily: KEY_FONTFAMILY,
                                         color: item.isSelected
                                             ? Colors.white
                                             : greytheme1000,
@@ -281,19 +260,13 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                           38,
                                   child: FloatingActionButton(
                                       onPressed: () {
-                                        // dinerestaurantPresenter
-                                        //     .getrestaurantspage(
-                                        //         _position.latitude.toString(),
-                                        //         _position.longitude.toString(),
-                                        //         sortedBy,
-                                        //         filteredBy,
-                                        //         page,
-                                        //         context);
                                         Navigator.of(context,
                                                 rootNavigator: true)
                                             .pop();
                                         DialogsIndicator.showLoadingDialog(
-                                            context, _keyLoader, "Please Wait");
+                                            context,
+                                            _keyLoader,
+                                            STR_PLEASE_WAIT);
 
                                         dinerestaurantPresenter
                                             .getrestaurantspage(
@@ -303,14 +276,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                                 filteredBy,
                                                 page,
                                                 context);
-                                        // if (_restaurantList.length != null) {
-                                        //
-                                        // } else {
-                                        //   Navigator.of(_keyLoader.currentContext,
-                                        //       rootNavigator: true);
-                                        // }
-
-                                        //     .pop();
                                       },
                                       child: IconTheme(
                                           data: IconThemeData(
@@ -331,9 +296,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                           padding: const EdgeInsets.only(
                                               top: 20, left: 28),
                                           child: Text(
-                                            'Sorted By',
+                                            STR_SORT_BY,
                                             style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: FONTSIZE_16,
                                                 fontWeight: FontWeight.w500,
                                                 color: greytheme700),
                                           ),
@@ -360,15 +325,14 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                       ),
                                       Divider(),
                                       Align(
-                                        // padding: EdgeInsets.only(left: 8, top: 10),
                                         alignment: Alignment.topLeft,
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               top: 8.5, left: 28),
                                           child: Text(
-                                            'Filter By',
+                                            STR_FLITER_BY,
                                             style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: FONTSIZE_16,
                                                 fontWeight: FontWeight.w500,
                                                 color: greytheme700),
                                           ),
@@ -413,11 +377,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   children: <Widget>[
                     Center(
                       child: Text(
-                        "Please wait, while Fetching your current location!",
+                        STR_CURRENT_LOCATION,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -431,11 +395,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 : Container(
                     child: Center(
                       child: Text(
-                        'No restaurants found.',
+                        STR_NO_RESTAURANT,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: 'gotham',
+                            fontSize: FONTSIZE_25,
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w500,
                             color: greytheme700),
                       ),
@@ -486,11 +450,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
                             )));
-                    setState(() {
-// selected[i] = !selected[i];
-                    }
-// reverse bool value
-                        );
+                    setState(() {});
                   }));
         },
       ),
@@ -510,11 +470,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
           child: Container(
               height: 150,
               width: MediaQuery.of(context).size.width,
-              // decoration: new BoxDecoration(
-              //   image: DecorationImage(
-              //       image: NetworkImage(BaseUrl.getBaseUrlImages() + '$imageurl'),
-              //       fit: BoxFit.fitWidth),
-              // ),
               child: CachedNetworkImage(
                 fit: BoxFit.fill,
                 placeholder: (context, url) => Center(
@@ -522,13 +477,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 ),
                 imageUrl: BaseUrl.getBaseUrlImages() + '$imageurl',
                 errorWidget: (context, url, error) => Image.asset(
-                  "assets/HotelImages/Image12.png",
+                  RESTAURANT_IMAGE_PATH,
                   fit: BoxFit.fill,
                 ),
-              )
-              // child: ImageWithLoader(BaseUrl.getBaseUrlImages() + '$imageurl',
-              //     fit: BoxFit.fitWidth),
-              ),
+              )),
         ),
         _getdetails(merchantName, distance, shortdatetime, cLosingtime, rating)
       ],
@@ -554,8 +506,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   merchantName,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontFamily: 'gotham',
-                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -579,8 +531,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   Text(
                     "${(shortdatetime == null || shortdatetime == "00:00") ? "- -" : shortdatetime} - ${(cLosingtime == null || cLosingtime == "00:00") ? "- -" : cLosingtime}",
                     style: TextStyle(
-                        fontFamily: 'gotham',
-                        fontSize: 12,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
                   )
@@ -590,12 +542,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
             SizedBox(
               height: 13,
             ),
-            // ConstrainedBox(
-            //   constraints: new BoxConstraints(
-            //     minHeight: 0.0,
-            //     maxHeight: 13.0,
-            //   ),
-            // ),
           ],
         ),
         Expanded(
@@ -620,10 +566,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     width: 10,
                   ),
                   Text(
-                    '${distance} km',
+                    '$distance ' + STR_KM,
                     style: TextStyle(
-                        fontFamily: 'gotham',
-                        fontSize: 12,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
                   ),
@@ -640,10 +586,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    (rating == "null") ? '-' : "$rating",
+                    (rating == STR_NULL) ? STR_DASH_SIGN : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -661,13 +607,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   @override
-  void restaurantfailed() {
-    // TODO: implement restaurantfailed
-  }
+  void restaurantfailed() {}
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
-    // TODO: implement restaurantsuccess
     isIgnoreTouch = false;
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
@@ -695,6 +638,4 @@ class BottomItemButton {
   BottomItemButton({this.title, this.isSelected, this.id});
 }
 
-Future<Null> _refreshRstaurantList() async {
-  print('refreshing List...');
-}
+Future<Null> _refreshRstaurantList() async {}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:foodzi/Utils/String.dart';
 
 enum DailogAction { yes, abort }
 
@@ -31,9 +31,10 @@ class DailogBox {
                     ),
                     Center(
                       child: Text(
-                        'Joining a table?',
+                        STR_JOINING_TABLE,
                         style: TextStyle(
-                            fontSize: 16, color: Color.fromRGBO(64, 64, 64, 1)),
+                            fontSize: FONTSIZE_16,
+                            color: Color.fromRGBO(64, 64, 64, 1)),
                       ),
                     ),
                     SizedBox(
@@ -45,10 +46,10 @@ class DailogBox {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              '${recipientName},',
+                              '$recipientName,',
                               style: TextStyle(
                                   color: Color.fromRGBO(55, 180, 76, 1),
-                                  fontSize: 16),
+                                  fontSize: FONTSIZE_16),
                             ),
                           ),
                           Align(
@@ -57,7 +58,7 @@ class DailogBox {
                               recipientMobno,
                               style: TextStyle(
                                   color: Color.fromRGBO(64, 64, 64, 1),
-                                  fontSize: 14),
+                                  fontSize: FONTSIZE_14),
                             ),
                           ),
                           SizedBox(
@@ -66,18 +67,18 @@ class DailogBox {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              'is trying to add you for',
+                              STR_IS_TRYING_TO_ADD,
                               style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: FONTSIZE_13,
                                   color: Color.fromRGBO(64, 64, 64, 1)),
                             ),
                           ),
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              'table number',
+                              STR_TABLE_NUMBER_SMALL,
                               style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: FONTSIZE_13,
                                   color: Color.fromRGBO(64, 64, 64, 1)),
                             ),
                           ),
@@ -89,7 +90,7 @@ class DailogBox {
                             child: Text(
                               tableno,
                               style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: FONTSIZE_24,
                                   color: Color.fromRGBO(55, 180, 76, 1)),
                             ),
                           ),
@@ -102,11 +103,7 @@ class DailogBox {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        // SizedBox(
-                        //   width:10,
-                        // ),
                         RaisedButton(
                           color: Color.fromRGBO(55, 180, 76, 1),
                           shape: RoundedRectangleBorder(
@@ -114,45 +111,39 @@ class DailogBox {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
                             child: Text(
-                              'JOIN',
+                              STR_JOIN,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: FONTSIZE_18,
                               ),
                             ),
                           ),
                           onPressed: () {
-                            // action = DailogAction.yes;
-                            Navigator.pop(context,DailogAction.yes);
+                            Navigator.pop(context, DailogAction.yes);
                           },
                         ),
                         SizedBox(
                           width: 12,
                         ),
                         RaisedButton(
-                          // color: Color.fromRGBO(170, 170, 170, 1),
                           shape: RoundedRectangleBorder(
                               side: BorderSide(
                                   color: Color.fromRGBO(170, 170, 170, 1)),
                               borderRadius: BorderRadius.circular(5)),
                           onPressed: () {
-                            Navigator.pop(context,DailogAction.abort);
+                            Navigator.pop(context, DailogAction.abort);
                           },
-
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
                             child: Text(
-                              'REJECT',
+                              STR_REJECT,
                               style: TextStyle(
                                 color: Color.fromRGBO(118, 118, 118, 1),
-                                fontSize: 18,
+                                fontSize: FONTSIZE_18,
                               ),
                             ),
                           ),
                         ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
                       ],
                     )
                   ],
@@ -163,6 +154,4 @@ class DailogBox {
         });
     return (action != null) ? action : DailogAction.abort;
   }
-
-  
 }

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
-import 'package:foodzi/Models/payment_Checkout_model.dart';
-import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -27,12 +26,9 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
   List<InvitePeopleList> invitedPeopleList = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<CheckBoxOptions> _checkBoxOptionsInvitedPeople = [];
-
   List<ItemList> itemOrderList;
   int index;
-  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
-
   List<ListElements> elementList = [];
   List<InvitePeople> invitedPeople;
 
@@ -41,10 +37,7 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
     checkboxbtn(widget.listElement.length);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id,
-        //widget.tableId
-        2,
-        context);
+        Globle().loginModel.data.id, 2, context);
     super.initState();
   }
 
@@ -56,7 +49,6 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
         Container(
             height: 350,
             width: 200,
-            //  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
             child: Column(
@@ -66,11 +58,11 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                 ),
                 Center(
                   child: Text(
-                    'Split Bill on User Specific Items',
+                    STR_SPLIT_BILL_USER_SPECIFIC_TITLE,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: 'gotham',
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -129,9 +121,10 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text(
-                                            _checkBoxOptions[i].title ?? '',
+                                            _checkBoxOptions[i].title ??
+                                                STR_BLANK,
                                             style: TextStyle(
-                                                fontSize: 13,
+                                                fontSize: FONTSIZE_13,
                                                 color: Color.fromRGBO(
                                                     64, 64, 64, 1)),
                                           ),
@@ -157,7 +150,7 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                                               (BuildContext context, int i) {
                                             return Column(
                                               children: <Widget>[
-                                                Text("People for the Item"),
+                                                Text(STR_PEOPLE_FOR_THE_ITEM),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -243,7 +236,8 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                                                                     .title ??
                                                                 '',
                                                             style: TextStyle(
-                                                                fontSize: 13,
+                                                                fontSize:
+                                                                    FONTSIZE_13,
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         64,
@@ -272,17 +266,15 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        'Cancel',
+                        STR_CANCEL_TITLE,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                         ),
                       ),
                     )),
@@ -291,22 +283,18 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                         child: RaisedButton(
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
-                          // side: BorderSide(
-                          //     color: Color.fromRGBO(170, 170, 170, 1)),
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
                         if (itemOrderList.length > 0) {
                           print(itemOrderList[index].itemId);
                           print(itemOrderList.length);
-                        } else {
-                          print("length not found");
-                        }
+                        } else {}
                       },
                       child: Text(
-                        'OK',
+                        STR_OK,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_18,
                         ),
                       ),
                     )),
@@ -324,12 +312,14 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
       _checkboxlist.add(CheckBoxOptions(
         isChecked: false,
         index: widget.listElement[i - 1].items.id,
-        title: widget.listElement[i - 1].items.itemName ?? '',
+        title: widget.listElement[i - 1].items.itemName ?? STR_BLANK,
       ));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
 
   int checkBoxbtnInvitedPeople(int length) {
@@ -338,12 +328,14 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
       _checkboxlist.add(CheckBoxOptions(
         isChecked: false,
         index: invitedPeopleList[i - 1].id,
-        title: invitedPeopleList[i - 1].toUser.firstName ?? '',
+        title: invitedPeopleList[i - 1].toUser.firstName ?? STR_BLANK,
       ));
     }
     setState(() {
       _checkBoxOptionsInvitedPeople = _checkboxlist;
     });
+
+    return _checkboxlist.length;
   }
 
   @override
@@ -366,14 +358,10 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
   }
 
   @override
-  void getOrderStatusfailed() {
-    // TODO: implement getOrderStatusfailed
-  }
+  void getOrderStatusfailed() {}
 
   @override
-  void getOrderStatussuccess(StatusData statusData) {
-    // TODO: implement getOrderStatussuccess
-  }
+  void getOrderStatussuccess(StatusData statusData) {}
 }
 
 class ItemList {
@@ -384,11 +372,11 @@ class ItemList {
   });
 
   factory ItemList.fromJson(Map<String, dynamic> json) => ItemList(
-        itemId: json["invite_id"],
+        itemId: json[STR_INVITE_ID],
       );
 
   Map<String, dynamic> toJson() => {
-        "invite_id": itemId,
+        STR_INVITE_ID: itemId,
       };
 }
 
@@ -400,17 +388,17 @@ class InvitePeople {
   });
 
   factory InvitePeople.fromJson(Map<String, dynamic> json) => InvitePeople(
-        inviteId: json["invite_id"],
+        inviteId: json[STR_INVITE_ID],
       );
 
   Map<String, dynamic> toJson() => {
-        "invite_id": inviteId,
+        STR_INVITE_ID: inviteId,
       };
 }
 
 class CheckBoxOptions {
   int index;
-  String title; // double price;
+  String title;
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
 }
