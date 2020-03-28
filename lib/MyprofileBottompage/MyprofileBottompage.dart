@@ -195,7 +195,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
         children: <Widget>[
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/EditProfileview');
+              Navigator.pushNamed(context, STR_EDIT_PROFILE_PAGE);
             },
             child: new Text(
               KEY_EDIT_PROFILE,
@@ -211,7 +211,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/ChangePasswordview');
+              Navigator.pushNamed(context, STR_CHANGE_PWD_PAGE);
             },
             child: new Text(
               KEY_CHANGE_PASSWORD,

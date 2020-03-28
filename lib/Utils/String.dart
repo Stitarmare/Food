@@ -1,3 +1,35 @@
+// Main Page
+const STR_SPLASH_SCREEN_PAGE_INITIAL = '/';
+const STR_SPLASH_SCREEN_PAGE = '/SplashScreen';
+const STR_LOGIN_PAGE = '/LoginView';
+const STR_MAIN_WIDGET_PAGE = '/MainWidget';
+const STR_REGISTRATION_PAGE = '/Registerview';
+const STR_RESET_PWD_PAGE = '/ResetPasswordview';
+const STR_CHANGE_PWD_PAGE = '/ChangePasswordview';
+const STR_OTP_SCREEN_PAGE = '/OTPScreen';
+const STR_ENTER_OTP_PAGE = '/EnterOTPScreen';
+const STR_DINE_IN_PAGE = '/DineInView';
+const STR_TAKE_AWAY_PAGE = '/TakeAwayView';
+const STR_PROFILE_PAGE = '/ProfileScreen';
+const STR_EDIT_PROFILE_PAGE = '/EditProfileview';
+const STR_RETAURANT_PAGE = '/RestaurantView';
+const STR_RESTAURANT_TAKE_AWAY_PAGE = '/RestaurantTAView';
+const STR_NOTIFICATION_PAGE = '/NotificationView';
+const STR_MYORDER_PAGE = '/MyOrders';
+const STR_MYORDER_TAKE_AWAY_PAGE = '/MyOrderTakeAway';
+const STR_BOTTOM_PROFILE_PAGE = '/BottomProfileScreen';
+const STR_BOTTOM_NOTIFICATION_PAGE = '/BottomNotificationView';
+const STR_RETAURANT_INFO_PAGE = '/RestaurantInfoView';
+const STR_ADD_ITEM_PAGE = '/AddItemPageView';
+const STR_ADD_ITEM_TAKE_AWAY_PAGE = '/AddItemPageTAView';
+const STR_MY_CART_PAGE = '/MyCart';
+const STR_ORDER_CONFIRM_2_PAGE = '/OrderConfirmation2View';
+const STR_CONFIRMATION_DINE_PAGE = '/ConfirmationDineView';
+const STR_WEB_VIEW_PAGE = '/webview';
+const STR_PAYMENT_PAGE = '/PaymentMethod';
+const STR_STATUS_TRACK_PAGE = '/StatusTrackView';
+const STR_WEB_VIEW_SCREEN_PAGE = '/WebViewScreen';
+
 // API_BASE_HELPER Page
 
 // URLs

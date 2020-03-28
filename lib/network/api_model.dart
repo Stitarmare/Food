@@ -28,15 +28,6 @@ import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginwithotp.dart';
 import 'package:foodzi/Models/UpdateprofileModel.dart';
-
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
-
-import 'package:foodzi/Models/RestaurantInfoModel.dart';
-import 'package:foodzi/Models/GetRestaurantReview.dart';
-import 'package:foodzi/Models/WriteRestaurantReview.dart';
-
-//import 'package:foodzi/models/RestaurantInfoModel.dart';
-import 'package:foodzi/Models/resetpwdwithotp.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 
 enum SuccessType { success, failed }
@@ -60,9 +51,6 @@ class GenericModel<T> {
 
       case OtpVerifyModel:
         return OtpVerifyModel.fromJson(json) as T;
-
-      case ResetpwdOtpModel:
-        return ResetpwdOtpModel.fromJson(json) as T;
 
       case ResendOtpModel:
         return ResendOtpModel.fromJson(json) as T;
@@ -145,7 +133,7 @@ class GenericModel<T> {
 
       case InvitePeopleModel:
         return InvitePeopleModel.fromJson(json) as T;
-        case RunningOrderModel:
+      case RunningOrderModel:
         return RunningOrderModel.fromJson(json) as T;
 
       default:

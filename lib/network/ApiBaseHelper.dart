@@ -273,7 +273,7 @@ class ApiBaseHelper {
         }
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, STR_SESSION, msg, () {
-            Navigator.of(context).pushReplacementNamed('/LoginView');
+            Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
           });
         });
         return apiModel;
@@ -286,7 +286,7 @@ class ApiBaseHelper {
 
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, STR_ERROR, STR_COULD_NOT_ACCESS, () {
-            Navigator.of(context).pushReplacementNamed('/LoginView');
+            Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
           });
         });
         return apiModel;

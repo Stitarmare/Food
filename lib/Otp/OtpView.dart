@@ -221,7 +221,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               fontWeight: FontWeight.w600),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, '/EnterOTPScreen');
+          Navigator.pushNamed(context, STR_ENTER_OTP_PAGE);
         },
       ),
     );
@@ -271,7 +271,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void otpsuccess() {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
-    Navigator.pushReplacementNamed(context, '/MainWidget');
+    Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
   @override
@@ -305,6 +305,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void loginwithotpsuccess() {
-    Navigator.pushNamed(context, '/MainWidget');
+    Navigator.pushNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 }

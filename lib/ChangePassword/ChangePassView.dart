@@ -300,7 +300,8 @@ class _ChangePasswordview extends State<ChangePasswordview>
                     fontSize: FONTSIZE_20),
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/MainWidget');
+                Navigator.of(context)
+                    .pushReplacementNamed(STR_MAIN_WIDGET_PAGE);
               },
             ),
           ],
