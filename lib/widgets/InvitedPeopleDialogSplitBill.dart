@@ -3,6 +3,8 @@ import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
+import 'package:foodzi/SplitBllNotification/SplitBillContractor.dart';
+import 'package:foodzi/SplitBllNotification/SplitBillNotificationPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -19,7 +21,10 @@ class InvitedPeopleDialog extends StatefulWidget {
 }
 
 class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
-    implements StatusTrackViewModelView, SplitBillContractorModelView {
+    implements
+        StatusTrackViewModelView,
+        SplitBillContractorModelView,
+        SplitBillNotificationContractorModelView {
   StatusTrackViewPresenter statusTrackViewPresenter;
   List<InvitePeopleList> invitedPeopleList = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
@@ -27,11 +32,13 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   int index;
 
   SplitBillPresenter _billPresenter;
+  SplitBillNotificationPresenter _splitBillNotificationPresenter;
 
   @override
   void initState() {
     _billPresenter = SplitBillPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
+    _splitBillNotificationPresenter = SplitBillNotificationPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, 2, context);
 
@@ -154,10 +161,19 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                             2,
                             widget.amount.toInt(),
                             context);
+                        _splitBillNotificationPresenter
+                            .getSPlitBillNotification(
+                                widget.orderID,
+                                Globle().loginModel.data.id,
+                                2,
+                                widget.amount.toInt(),
+                                context);
                         if (invitedPeople.length > 0) {
                           print(invitedPeople[index].inviteId);
                           print(invitedPeople.length);
-                        } else {}
+                        } else {
+                          print(invitedPeople[index].inviteId);
+                        }
                       },
                       child: Text(
                         STR_OK,
@@ -224,6 +240,16 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
 
   @override
   void getSplitBillSuccess() {}
+
+  @override
+  void getSplitBillNotificationFailed() {
+    // TODO: implement getSplitBillNotificationFailed
+  }
+
+  @override
+  void getSplitBillNotificationSuccess() {
+    // TODO: implement getSplitBillNotificationSuccess
+  }
 }
 
 class InvitePeople {
