@@ -36,8 +36,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
   StreamController<Position> _controllerPosition = new StreamController();
   bool getttingLocation = false;
   Position _position;
-  String sortedBy = '';
-  String filteredBy = '';
+  String sortedBy = STR_BLANK;
+  String filteredBy = STR_BLANK;
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
       title: STR_DISTANCE,
@@ -67,6 +67,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
       });
     }
     super.initState();
+  }
+
+  @override
+  dispose() {
+    _controllerPosition.close();
+    super.dispose();
   }
 
   locator() async {
@@ -445,7 +451,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TakeAwayBottombar(
                               title: _restaurantList[i].restName,
-                              rest_Id: _restaurantList[i].id,
+                              restId: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,

@@ -33,15 +33,13 @@ class _DineViewState extends State<DineInView>
   List<RestaurantList> _restaurantList;
 
   int page = 1;
-  String sortedBy = '';
-  String filteredBy = '';
+  String sortedBy = STR_BLANK;
+  String filteredBy = STR_BLANK;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   bool getttingLocation = false;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
-
-//List<bool> _selected = List.generate(20, (i) => false);
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
       title: STR_DISTANCE,
@@ -453,7 +451,7 @@ class _DineViewState extends State<DineInView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: _restaurantList[i].restName,
-                              rest_Id: _restaurantList[i].id,
+                              restId: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
@@ -613,6 +611,12 @@ class _DineViewState extends State<DineInView>
         )
       ],
     );
+  }
+
+  @override
+  dispose() {
+    _controllerPosition.close();
+    super.dispose();
   }
 
   @override

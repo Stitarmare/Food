@@ -1,12 +1,8 @@
 import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
-import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
-import 'package:foodzi/Models/Otpverify.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
@@ -70,7 +66,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
 
-  String currencySymb = "";
+  String currencySymb = STR_BLANK;
 
   OrderData myOrderData;
 
@@ -321,7 +317,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Text(
-              'Tip',
+              STR_TIP,
               style: TextStyle(
                   fontSize: 16,
                   color: greytheme700,
@@ -337,9 +333,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 inactiveColor: greytheme100,
                 min: 0,
                 max: 20,
-                //divisions: 20,
                 value: double.parse(sliderValue.toString()),
-                // label: '${sliderValue}',
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
@@ -542,7 +536,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _billCheckoutPresenter.payBillCheckOut(
         myOrderData.restId, (int.parse(myOrderData.totalAmount)), context);
   }
@@ -583,7 +577,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
     if (paymentCheckoutModel.statusCode == 200) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       _finalBillPresenter.payfinalOrderBill(
         Globle().loginModel.data.id,
         myOrderData.restId,

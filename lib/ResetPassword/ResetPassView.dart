@@ -32,8 +32,8 @@ class _ResetPasswordview extends State<ResetPasswordview>
   };
 
   var resetpasswordPresenter;
-  var _password = '';
-  var _confirmPassword = '';
+  var _password = STR_BLANK;
+  var _confirmPassword = STR_BLANK;
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
     } else {

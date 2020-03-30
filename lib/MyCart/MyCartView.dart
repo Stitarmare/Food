@@ -406,7 +406,7 @@ class _MyCartViewState extends State<MyCartView>
                 tableno = _dropdownItemsTable[i].name;
               }
             }
-            DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+            DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -578,7 +578,7 @@ class _MyCartViewState extends State<MyCartView>
   }
 
   String getExtra(MenuCartList menuCartList) {
-    var extras = "";
+    var extras = STR_BLANK;
     for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
       if (menuCartList.cartExtraItems[i].spreads.length > 0) {
         for (int j = 0;

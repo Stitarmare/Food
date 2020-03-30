@@ -26,7 +26,7 @@ class _RegisterviewState extends State<Registerview>
   DialogsIndicator dialogs = DialogsIndicator();
 
   bool _validate = false;
-  var countrycode = '';
+  var countrycode = STR_BLANK;
 
   final Map<String, dynamic> _signUpData = {
     mobno: null,
@@ -70,7 +70,7 @@ class _RegisterviewState extends State<Registerview>
 
   void onSignUpButtonClicked() {
     if (_signUpFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, context);
       _signUpFormKey.currentState.save();
@@ -143,10 +143,10 @@ class _RegisterviewState extends State<Registerview>
     );
   }
 
-  var _firstname = "";
-  var _lastname = "";
-  var _phoneno = '';
-  var _password = '';
+  var _firstname = STR_BLANK;
+  var _lastname = STR_BLANK;
+  var _phoneno = STR_BLANK;
+  var _password = STR_BLANK;
 
   Widget _buildTextField() {
     const pi = 3.14;

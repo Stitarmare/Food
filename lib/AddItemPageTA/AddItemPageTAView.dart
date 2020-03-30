@@ -59,7 +59,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     super.initState();
   }
@@ -78,7 +78,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
           index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? ''));
+          title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK));
     }
     setState(() {
       _radioOptions = radiolist;
@@ -92,8 +92,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
         index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
-        title: _addItemModelList.sizePrizes[i - 1].size ?? '',
-        secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
+        title: _addItemModelList.sizePrizes[i - 1].size ?? STR_BLANK,
+        secondary: _addItemModelList.sizePrizes[i - 1].price ?? STR_BLANK,
       ));
     }
     setState(() {
@@ -106,10 +106,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-          price: _addItemModelList.extras[i - 1].price ?? '',
+          price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
           isChecked: false,
           index: _addItemModelList.extras[i - 1].id ?? 0,
-          title: _addItemModelList.extras[i - 1].name ?? ''));
+          title: _addItemModelList.extras[i - 1].name ?? STR_BLANK));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -122,10 +122,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<SwitchesItems> _switchlist = [];
     for (int i = 1; i <= length; i++) {
       _switchlist.add(SwitchesItems(
-          option1: _addItemModelList.switches[i - 1].option1 ?? "",
-          option2: _addItemModelList.switches[i - 1].option2 ?? "",
+          option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
+          option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
           index: _addItemModelList.switches[i - 1].id,
-          title: _addItemModelList.switches[i - 1].name ?? '',
+          title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
           isSelected: [true, false]));
     }
 
@@ -334,7 +334,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             ),
                             onPressed: () {
                               DialogsIndicator.showLoadingDialog(
-                                  context, _keyLoader, "");
+                                  context, _keyLoader, STR_BLANK);
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -670,7 +670,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                switchs.title ?? "",
+                                switchs.title ?? STR_BLANK,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
@@ -697,7 +697,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 Container(
                                   width: 85,
                                   child: Text(
-                                    "${switchs.option1}" ?? "",
+                                    "${switchs.option1}" ?? STR_BLANK,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
@@ -711,7 +711,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 Container(
                                   width: 85,
                                   child: Text(
-                                    '${switchs.option2}' ?? "",
+                                    '${switchs.option2}' ?? STR_BLANK,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
@@ -817,7 +817,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          checkBtn.title ?? '',
+                          checkBtn.title ?? STR_BLANK,
                           style: TextStyle(fontSize: 13, color: greytheme700),
                         ),
                         Expanded(
@@ -831,7 +831,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15),
                             child: Text(
-                              checkBtn.price.toString() ?? '',
+                              checkBtn.price.toString() ?? STR_BLANK,
                               style: TextStyle(
                                   fontSize: FONTSIZE_13, color: greytheme700),
                             ),

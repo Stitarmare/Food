@@ -41,7 +41,7 @@ class _NotificationViewState extends State<NotificationView>
   @override
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     notificationPresenter.getNotifications(context);
     super.initState();
   }

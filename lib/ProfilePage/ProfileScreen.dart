@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   File _image;
   bool isempty = false;
 
-  String imageURL = "";
+  String imageURL = STR_BLANK;
   Future getImage(bool isCamera) async {
     File image;
     if (isCamera) {
@@ -149,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 height: 53,
               ),
               Text(
-                '${Globle().loginModel.data.firstName ?? ""} ${Globle().loginModel.data.lastName ?? ""}',
+                '${Globle().loginModel.data.firstName ?? STR_BLANK} ${Globle().loginModel.data.lastName ?? STR_BLANK}',
                 style: TextStyle(
                     fontSize: FONTSIZE_16,
                     color: greytheme1200,

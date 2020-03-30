@@ -80,7 +80,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
     _addItemPageModelList = AddItemPageModelList();
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
@@ -103,7 +103,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
         index: _addItemModelList.spreads[i - 1].id,
-        title: _addItemModelList.spreads[i - 1].name ?? '',
+        title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
       ));
     }
 
@@ -119,8 +119,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     for (int i = 1; i <= length; i++) {
       radiolistsize.add(RadioButtonOptionsSizes(
         index: _addItemModelList.sizePrizes[i - 1].id ?? 0,
-        title: _addItemModelList.sizePrizes[i - 1].size ?? '',
-        secondary: _addItemModelList.sizePrizes[i - 1].price ?? "",
+        title: _addItemModelList.sizePrizes[i - 1].size ?? STR_BLANK,
+        secondary: _addItemModelList.sizePrizes[i - 1].price ?? STR_BLANK,
       ));
     }
 
@@ -150,10 +150,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-          price: _addItemModelList.extras[i - 1].price ?? '',
+          price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
           isChecked: false,
           index: _addItemModelList.extras[i - 1].id ?? 0,
-          title: _addItemModelList.extras[i - 1].name ?? ''));
+          title: _addItemModelList.extras[i - 1].name ?? STR_BLANK));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -166,10 +166,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<SwitchesItems> _switchlist = [];
     for (int i = 1; i <= length; i++) {
       _switchlist.add(SwitchesItems(
-          option1: _addItemModelList.switches[i - 1].option1 ?? "",
-          option2: _addItemModelList.switches[i - 1].option2 ?? "",
+          option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
+          option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
           index: _addItemModelList.switches[i - 1].id ?? 0,
-          title: _addItemModelList.switches[i - 1].name ?? '',
+          title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
           isSelected: [true, false]));
     }
 
@@ -300,7 +300,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.switches = switches ?? [];
                   _updateOrderModel.items.sizes = size == null ? [] : [size];
                   print(_updateOrderModel.toJson());
-                  DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                  DialogsIndicator.showLoadingDialog(
+                      context, _keyLoader, STR_BLANK);
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   Constants.showAlert(
@@ -365,11 +366,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 : STR_UNFINISHEDORDER,
             context);
       } else {
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+        DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -732,7 +733,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtn.title}") ?? Text('data'),
+                        title: Text("${radionBtn.title}") ?? Text(STR_DATA),
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
@@ -773,7 +774,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                switchs.title ?? "",
+                                switchs.title ?? STR_BLANK,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
@@ -802,7 +803,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 Container(
                                   width: 85,
                                   child: Text(
-                                    "${switchs.option1}" ?? "",
+                                    "${switchs.option1}" ?? STR_BLANK,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
@@ -816,7 +817,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 Container(
                                   width: 85,
                                   child: Text(
-                                    '${switchs.option2}' ?? "",
+                                    '${switchs.option2}' ?? STR_BLANK,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
@@ -940,7 +941,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             child: Text(
                               "${_addItemPageModelList.currencySymbol} " +
                                       checkBtn.price.toString() ??
-                                  '',
+                                  STR_BLANK,
                               style: TextStyle(
                                   fontSize: FONTSIZE_13, color: greytheme700),
                             ),
@@ -972,7 +973,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 content:
                     Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                   Image.asset(
-                    'assets/SuccessIcon/success.png',
+                    SUCCESS_IMAGE_PATH,
                     width: 75,
                     height: 75,
                   ),
@@ -1091,7 +1092,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 }
 
-// OrderConfirmationView
 class CheckBoxOptions {
   int index;
   String title;

@@ -1,22 +1,22 @@
 import 'dart:convert';
-
+import 'package:foodzi/Utils/String.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart' as crypto;
 
 class PreferenceKeys {
-  static const AUTH_KEY = "AUTH_KEY";
-  static const User_data = 'USER_DATA';
-  static final dineCartItemCount = "DINE_CART_ITEM_COUNT";
-  static final takeAwayCartCount = "TAKE_AWAY_ITEM_COUNT";
-  static final isAlreadyINCart = "IS_ALREADY_IN_CART";
-  static final restaurantID = "RESTAURANT_ID";
-  static final isAlreadyINCartTA = "IS_ALREADY_IN_CART_TA";
-  static final restaurantIDTA = "RESTAURANT_ID_TA";
-  static final restaurantName = "RESTAURANT_NAME";
-  static final orderId = "ORDER_ID";
-  static final currentOrderId = "CURRENT_ORDER_ID";
-  static final currentRestaurantId = "CURRENT_RESTAURANT_ID";
-  static final isDineIn = "ISDINEIN";
+  static const AUTH_KEY = STR_AUTH_KEY;
+  static const User_data = STR_USER_DATA;
+  static final dineCartItemCount = STR_CART_ITEM_COUNT;
+  static final takeAwayCartCount = STR_TAKE_AWAY_ITEM_COUNT;
+  static final isAlreadyINCart = STR_IS_ALREADY_IN_CART;
+  static final restaurantID = STR_RESTAURANT_ID;
+  static final isAlreadyINCartTA = STR_IS_ALREADY_IN_CART_TA;
+  static final restaurantIDTA = STR_RESTAURANT_ID_TA;
+  static final restaurantName = STR_RETAURANT_NAME;
+  static final orderId = STR_ORDER_ID;
+  static final currentOrderId = STR_CURRENT_ORDER_ID;
+  static final currentRestaurantId = STR_CURRENT_REST_ID;
+  static final isDineIn = STR_IS_DINE_IN;
 }
 
 class Preference {
@@ -24,7 +24,6 @@ class Preference {
     SharedPreferences _sharedPreferences;
     _sharedPreferences = await SharedPreferences.getInstance();
     _sharedPreferences.setString(PreferenceKeys.AUTH_KEY, value);
-    _sharedPreferences.commit();
   }
 
   static removeForKey(String key) async {

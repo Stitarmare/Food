@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
+import 'package:foodzi/SplitBllNotification/SplitBillContractor.dart';
+import 'package:foodzi/SplitBllNotification/SplitBillNotificationPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -29,8 +31,11 @@ class RadioDialog extends StatefulWidget {
 }
 
 class RadioDialogState extends State<RadioDialog>
-    implements SplitBillContractorModelView {
+    implements
+        SplitBillContractorModelView,
+        SplitBillNotificationContractorModelView {
   SplitBillPresenter _splitBillPresenter;
+  SplitBillNotificationPresenter _splitBillNotificationPresenter;
   String radioItem = STR_MANGO;
   int id = 1;
   List<BillList> bList = [
@@ -56,6 +61,7 @@ class RadioDialogState extends State<RadioDialog>
   void initState() {
     super.initState();
     _splitBillPresenter = SplitBillPresenter(this);
+    _splitBillNotificationPresenter = SplitBillNotificationPresenter(this);
   }
 
   Widget build(BuildContext context) {
@@ -120,6 +126,12 @@ class RadioDialogState extends State<RadioDialog>
                           1,
                           widget.amount.toInt(),
                           context);
+                      _splitBillNotificationPresenter.getSPlitBillNotification(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          1,
+                          widget.amount.toInt(),
+                          context);
                     } else if (id == 2) {
                       showDialog(
                           context: context,
@@ -136,8 +148,22 @@ class RadioDialogState extends State<RadioDialog>
                           3,
                           widget.amount.toInt(),
                           context);
+
+                      _splitBillNotificationPresenter.getSPlitBillNotification(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          3,
+                          widget.amount.toInt(),
+                          context);
                     } else if (id == 4) {
                       _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          4,
+                          widget.amount.toInt(),
+                          context);
+
+                      _splitBillNotificationPresenter.getSPlitBillNotification(
                           widget.orderId,
                           Globle().loginModel.data.id,
                           4,
@@ -164,6 +190,16 @@ class RadioDialogState extends State<RadioDialog>
 
   @override
   void getSplitBillSuccess() {}
+
+  @override
+  void getSplitBillNotificationFailed() {
+    // TODO: implement getSplitBillNotificationFailed
+  }
+
+  @override
+  void getSplitBillNotificationSuccess() {
+    // TODO: implement getSplitBillNotificationSuccess
+  }
 }
 
 class BillList {

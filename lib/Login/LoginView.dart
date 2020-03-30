@@ -21,10 +21,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   static String enterPass = KEY_ENTER_PASSWORD;
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
   var name;
-  var mobilenumber = '';
-  var countrycoder = '';
-  var password = '';
-  var countrycode = '';
+  var mobilenumber = STR_BLANK;
+  var countrycoder = STR_BLANK;
+  var password = STR_BLANK;
+  var countrycode = STR_BLANK;
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       loginPresenter.performLogin(mobilenumber, password, context);
     } else {
       setState(() {

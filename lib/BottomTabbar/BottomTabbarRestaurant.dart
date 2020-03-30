@@ -4,12 +4,8 @@ import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
-//import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
-import 'package:foodzi/Notifications/NotificationView.dart';
-import 'package:foodzi/ProfilePage/ProfileScreen.dart';
-import 'package:foodzi/ResetPassword/ResetPassView.dart';
-import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -17,14 +13,14 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
-  int rest_Id;
+  int restId;
   String lat;
   String long;
   String imageUrl;
   String tableName;
   BottomTabbarHome(
       {this.title,
-      this.rest_Id,
+      this.restId,
       this.lat,
       this.long,
       this.imageUrl,
@@ -61,7 +57,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(0, [
           RestaurantView(
             title: widget.title,
-            restId: widget.rest_Id,
+            restId: widget.restId,
             imageUrl: widget.imageUrl,
           )
         ]);
@@ -81,16 +77,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: Container(
-      //   width: 60,
-      //   height: 60,
-      //   child: FittedBox(
-      //     child: FloatingActionButton(
-      //         backgroundColor: orangetheme,
-      //         onPressed: () {},
-      //         child: Image.asset('assets/ClockIcon/clock.png')),
-      //   ),
-      // ),
       floatingActionButton: Container(
         width: 60,
         height: 120,
@@ -99,11 +85,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
             FittedBox(
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
-                  onPressed: () {
-                    print("1");
-                  },
-                  heroTag: "btnBuzzer",
-                  child: Image.asset('assets/ClockIcon/clock.png')),
+                  onPressed: () {},
+                  heroTag: STR_BTN_BUZZER,
+                  child: Image.asset(CLOCK_IMAGE_PATH)),
             ),
             SizedBox(
               height: 5,
@@ -112,21 +96,18 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
-                    print("2");
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MyCartView(
-                                  restId: widget.rest_Id,
+                                  restId: widget.restId,
                                   lat: widget.lat,
                                   long: widget.long,
-                                  orderType: "dine_in",
+                                  orderType: STR_SMALL_DINEIN,
                                   restName: widget.title,
                                 )));
-                    //Navigator.pushNamed(context, '/OrderConfirmationView');
                   },
-                  heroTag: "btnAddCart",
+                  heroTag: STR_BTN_ADD_CART,
                   child: Stack(
                     fit: StackFit.passthrough,
                     overflow: Overflow.visible,
@@ -143,15 +124,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                                           "${Globle().dinecartValue} ",
                                           textAlign: TextAlign.center,
                                           style:
-                                              TextStyle(color: Colors.white)))
-                                  //    Container(
-                                  //   height: 20,
-                                  //   width: 20,
-                                  //   decoration: BoxDecoration(color: Colors.red),
-                                  // )
-                                  )
-                              : Text("")
-                          : Text("")
+                                              TextStyle(color: Colors.white))))
+                              : Text(STR_BLANK)
+                          : Text(STR_BLANK)
                     ],
                   )),
             ),
@@ -163,13 +138,11 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          //selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                //icon: Image.asset('assets/HomeIcon/home(2).png'),
                 icon: Icon(
                   OMIcons.home,
                   color: greytheme100,
@@ -182,14 +155,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-
-                //icon: Image.asset('assets/OrderIcon/order.png'),
-                // icon: Icon(
-                //   OMIcons.assignment,
-                //   color: greytheme100,
-                //   size: 30,
-                // ),
-
                 icon: (isAlreadyOrder)
                     ? Stack(
                         fit: StackFit.passthrough,
@@ -206,10 +171,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             child: (cartStatus)
                                 ? Badge(
                                     badgeColor: redtheme,
-                                    badgeContent: Text("1",
+                                    badgeContent: Text(STR_ONE,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white)))
-                                : Text(""),
+                                : Text(STR_BLANK),
                           )
                         ],
                       )
@@ -218,11 +183,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                         color: greytheme100,
                         size: 30,
                       ),
-                // activeIcon: Icon(
-                //   OMIcons.assignment,
-                //   color: orangetheme,
-                //   size: 30,
-                // ),
                 activeIcon: (isAlreadyOrder)
                     ? Stack(
                         fit: StackFit.passthrough,
@@ -239,10 +199,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                             child: (cartStatus)
                                 ? Badge(
                                     badgeColor: redtheme,
-                                    badgeContent: Text("1",
+                                    badgeContent: Text(STR_ONE,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white)))
-                                : Text(""),
+                                : Text(STR_BLANK),
                           )
                         ],
                       )
@@ -251,7 +211,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                         color: orangetheme,
                         size: 30,
                       ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
             BottomNavigationBarItem(
                 icon: Icon(
                   OMIcons.notifications,
@@ -263,40 +223,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   color: orangetheme,
                   size: 30,
                 ),
-                //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                // icon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.notifications, color: greytheme100,size: 30,),
-                //     Positioned(
-                //         top: -10,
-                //         right: -10,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
-                // activeIcon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.notifications, color: orangetheme,size: 30,),
-                //     Positioned(
-                //         top: -10,
-                //         right: -10,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
                 title: Text('')),
             BottomNavigationBarItem(
-                //icon: Image.asset('assets/UserIcon/Group3.png'),
                 icon: Icon(
                   OMIcons.personOutline,
                   color: greytheme100,
@@ -307,7 +235,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
                   color: orangetheme,
                   size: 30,
                 ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
           ]),
     );
   }
@@ -326,7 +254,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
     if (alreadyIncartStatus == true) {
-      //return alreadyIncartStatus;
       setState(() {
         cartStatus = true;
       });
@@ -349,7 +276,6 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       setState(() {
         Globle().dinecartValue = cartCount;
       });
-      //Globle().dinecartValue = cartCount;
       return cartCount;
     }
     return;
