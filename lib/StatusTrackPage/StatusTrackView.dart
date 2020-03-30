@@ -14,6 +14,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/OrderItemsDialogBox.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
@@ -252,26 +253,27 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   }),
             ),
             Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    print(widget.tableId);
-                  }),
-            )
+                alignment: Alignment.bottomRight,
+                child: FlatButton(
+                    child: Text(
+                      'View Order Details',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'gotham',
+                          decoration: TextDecoration.underline,
+                          decorationColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      print(widget.tableId);
+                      showDialog(
+                          context: context, child: OrderItemsDialogBox());
+                    })),
           ],
         ),
       ),
