@@ -5,11 +5,8 @@ import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
-import 'package:foodzi/Notifications/NotificationView.dart';
-import 'package:foodzi/ProfilePage/ProfileScreen.dart';
-import 'package:foodzi/ResetPassword/ResetPassView.dart';
-import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
+import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -71,60 +68,17 @@ class _BottomTabbarState extends State<BottomTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton:
-      // FloatingActionButton(
-      //             backgroundColor: orangetheme,
-      //             onPressed: () {
-      //               print("1");
-      //             },
-      //             heroTag: "btnBuzzer",
-      //             child: Image.asset('assets/ClockIcon/clock.png')),
-
-      //           Container(
-      // width: 60,
-      // height: 120,
-      // child:
-      // Column(
-      //   children: <Widget>[
-      //     FittedBox(
-      //       child:
-      // FloatingActionButton(
-      //     backgroundColor: orangetheme,
-      //     onPressed: () {
-      //       print("1");
-      //     },
-      //     heroTag: "btnBuzzer",
-      //     child: Image.asset('assets/ClockIcon/clock.png')),
-      // ),
-      // SizedBox(
-      //   height: 5,
-      // ),
-      // FittedBox(
-      //   child: FloatingActionButton(
-      //       backgroundColor: orangetheme,
-      //       onPressed: () {
-      //         print("2");
-      //         Navigator.pushNamed(context, '/MyCart');
-      //       },
-      //       heroTag: "btnAddCart",
-      //       child: Icon(Icons.shopping_cart, color: Colors.white)),
-      // ),
-      //     ],
-      //   ),
-      // ),
       body: widget.tabValue == 0
           ? tabsDineIn[currentTabIndex]
           : tabsTakeAway[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          //selectedItemColor: orangetheme,
           onTap: onTapIndex,
           currentIndex: currentTabIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                //icon: Image.asset('assets/HomeIcon/home(2).png'),
                 icon: Icon(
                   OMIcons.home,
                   color: greytheme100,
@@ -135,7 +89,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                   color: orangetheme,
                   size: 30,
                 ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
             BottomNavigationBarItem(
                 icon: (isAlreadyOrder && widget.tabValue == 0)
                     ? Stack(
@@ -153,10 +107,10 @@ class _BottomTabbarState extends State<BottomTabbar> {
                             child: (cartStatus)
                                 ? Badge(
                                     badgeColor: redtheme,
-                                    badgeContent: Text("1",
+                                    badgeContent: Text(STR_ONE,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white)))
-                                : Text(""),
+                                : Text(STR_BLANK),
                           )
                         ],
                       )
@@ -181,10 +135,10 @@ class _BottomTabbarState extends State<BottomTabbar> {
                             child: (cartStatus)
                                 ? Badge(
                                     badgeColor: redtheme,
-                                    badgeContent: Text("1",
+                                    badgeContent: Text(STR_ONE,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white)))
-                                : Text(""),
+                                : Text(STR_BLANK),
                           )
                         ],
                       )
@@ -193,7 +147,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                         color: orangetheme,
                         size: 30,
                       ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
             BottomNavigationBarItem(
                 icon: Icon(
                   OMIcons.notifications,
@@ -205,40 +159,8 @@ class _BottomTabbarState extends State<BottomTabbar> {
                   color: orangetheme,
                   size: 30,
                 ),
-                //icon: Image.asset('assets/NotificationIcon/Path1159.png'),
-                // icon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.notifications, color: greytheme100,size: 30,),
-                //     Positioned(
-                //         top: -10,
-                //         right: -10,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
-                // activeIcon: Stack(
-                //   fit: StackFit.passthrough,
-                //   overflow: Overflow.visible,
-                //   children: <Widget>[
-                //     Icon(OMIcons.notifications, color: orangetheme,size: 30,),
-                //     Positioned(
-                //         top: -10,
-                //         right: -10,
-                //         child: Badge(
-                //             badgeColor: redtheme,
-                //             badgeContent: Text("1",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(color: Colors.white))))
-                //   ],
-                // ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                //icon: Image.asset('assets/UserIcon/Group3.png'),
                 icon: Icon(
                   OMIcons.personOutline,
                   color: greytheme100,
@@ -249,7 +171,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
                   color: orangetheme,
                   size: 30,
                 ),
-                title: Text('')),
+                title: Text(STR_BLANK)),
           ]),
     );
   }
@@ -258,7 +180,6 @@ class _BottomTabbarState extends State<BottomTabbar> {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
     if (alreadyIncartStatus == true) {
-      //return alreadyIncartStatus;
       setState(() {
         cartStatus = true;
       });

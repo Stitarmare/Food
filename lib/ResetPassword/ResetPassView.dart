@@ -274,7 +274,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
               ),
               onPressed: () {
                 _password == _confirmPassword
-                    ? Navigator.of(context).pushReplacementNamed('/LoginView')
+                    ? Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE)
                     : Navigator.pop(context);
               },
             ),

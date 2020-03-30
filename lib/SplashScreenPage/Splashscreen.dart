@@ -32,15 +32,15 @@ class _SplashScreenState extends State<SplashScreen> {
           if (userData.data.id != null && userData.token != null) {
             Globle().loginModel = userData;
             Globle().authKey = userData.token;
-            Navigator.pushReplacementNamed(context, '/MainWidget');
+            Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
           } else {
-            Navigator.pushReplacementNamed(context, '/LoginView');
+            Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
           }
         } else {
-          Navigator.pushReplacementNamed(context, '/LoginView');
+          Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
         }
       }).catchError(() {
-        Navigator.pushReplacementNamed(context, '/LoginView');
+        Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
       });
     });
   }

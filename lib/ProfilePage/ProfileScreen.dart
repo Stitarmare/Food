@@ -67,7 +67,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                   FlatButton(
                     child: Image.asset(BACK_ARROW_IMAGE_PATH),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/MainWidget');
+                      Navigator.pushReplacementNamed(
+                          context, STR_MAIN_WIDGET_PAGE);
                     },
                   ),
                   SizedBox(
@@ -201,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         children: <Widget>[
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/EditProfileview');
+              Navigator.pushNamed(context, STR_EDIT_PROFILE_PAGE);
             },
             child: new Text(
               KEY_EDIT_PROFILE,
@@ -217,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/ChangePasswordview');
+              Navigator.pushNamed(context, STR_CHANGE_PWD_PAGE);
             },
             child: new Text(
               KEY_CHANGE_PASSWORD,
