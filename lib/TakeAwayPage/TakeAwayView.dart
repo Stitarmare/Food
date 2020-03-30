@@ -36,8 +36,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
   StreamController<Position> _controllerPosition = new StreamController();
   bool getttingLocation = false;
   Position _position;
-  String sortedBy = '';
-  String filteredBy = '';
+  String sortedBy = STR_BLANK;
+  String filteredBy = STR_BLANK;
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
       title: STR_DISTANCE,
@@ -67,6 +67,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
       });
     }
     super.initState();
+  }
+
+  @override
+  dispose() {
+    _controllerPosition.close();
+    super.dispose();
   }
 
   locator() async {

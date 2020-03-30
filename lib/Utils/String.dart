@@ -57,6 +57,21 @@ const STR_COULD_NOT_ACCESS = "Could not access";
 const STR_ERROR_MSG =
     "Error occured while Communication with Server with StatusCode : ";
 
+// SharedPreference Page
+const STR_AUTH_KEY = "AUTH_KEY";
+const STR_USER_DATA = 'USER_DATA';
+const STR_CART_ITEM_COUNT = "DINE_CART_ITEM_COUNT";
+const STR_TAKE_AWAY_ITEM_COUNT = "TAKE_AWAY_ITEM_COUNT";
+const STR_IS_ALREADY_IN_CART = "IS_ALREADY_IN_CART";
+const STR_RESTAURANT_ID = "RESTAURANT_ID";
+const STR_IS_ALREADY_IN_CART_TA = "IS_ALREADY_IN_CART_TA";
+const STR_RESTAURANT_ID_TA = "RESTAURANT_ID_TA";
+const STR_RETAURANT_NAME = "RESTAURANT_NAME";
+const STR_ORDER_ID = "ORDER_ID";
+const STR_CURRENT_ORDER_ID = "CURRENT_ORDER_ID";
+const STR_CURRENT_REST_ID = "CURRENT_RESTAURANT_ID";
+const STR_IS_DINE_IN = "ISDINEIN";
+
 // APPEXCEPTION
 const STR_ERROR_COMMUNICATION = "Error During Communication: ";
 const STR_INVALID_REQUEST = "Invalid Request: ";

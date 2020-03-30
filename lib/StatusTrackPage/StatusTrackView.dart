@@ -270,16 +270,6 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
-
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
                   }),
             )
           ],

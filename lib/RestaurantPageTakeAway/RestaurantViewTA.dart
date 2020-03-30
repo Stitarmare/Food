@@ -155,65 +155,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     );
   }
 
-  Widget _getmainviewTableno() {
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_20,
-                          fontFamily: KEY_FONTFAMILY,
-                          fontWeight: FontWeight.w600,
-                          color: greytheme700),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    STR_COLLECTION,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
-                        fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _getOptionsformenu(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(

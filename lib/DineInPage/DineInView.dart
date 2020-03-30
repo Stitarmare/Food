@@ -614,6 +614,12 @@ class _DineViewState extends State<DineInView>
   }
 
   @override
+  dispose() {
+    _controllerPosition.close();
+    super.dispose();
+  }
+
+  @override
   void restaurantfailed() {}
 
   @override
