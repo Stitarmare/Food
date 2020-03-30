@@ -19,6 +19,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/OrderItemsDialogBox.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
@@ -344,7 +345,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         width: MediaQuery.of(context).size.height * 0.7,
         height: MediaQuery.of(context).size.height * 0.5,
         child: AlertDialog(
-          title: Text("LIST OF ITEMS"),
+          title: Center(child: Text("LIST OF ITEMS")),
           content: itemList(),
           actions: <Widget>[
             Divider(
