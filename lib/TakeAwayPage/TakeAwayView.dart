@@ -445,7 +445,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TakeAwayBottombar(
                               title: _restaurantList[i].restName,
-                              rest_Id: _restaurantList[i].id,
+                              restId: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,

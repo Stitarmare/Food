@@ -31,7 +31,7 @@ class MenuItemState extends State<MenuItem>
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
 
     controller.addListener(() {
@@ -81,7 +81,7 @@ class MenuItemState extends State<MenuItem>
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(
-                        _categorydata[index].name ?? "",
+                        _categorydata[index].name ?? STR_BLANK,
                         style: TextStyle(
                           color: _selectedMenu != null && _selectedMenu == index
                               ? Color.fromRGBO(237, 29, 37, 1)

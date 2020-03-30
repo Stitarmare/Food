@@ -556,3 +556,8 @@ const STR_INVITATION_SUCCESS = "Invitation has been send Successfully!!";
 const STR_ADD_TITLE = "Add ";
 const STR_PEOPLE = "People";
 const STR_JOINED_PEOPLE = "Joined people:";
+
+// TakeAwayBottombar Page
+const STR_BTN_BUZZER = "btnBuzzer";
+const CLOCK_IMAGE_PATH = 'assets/ClockIcon/clock.png';
+const STR_BTN_ADD_CART = "btnAddCart";

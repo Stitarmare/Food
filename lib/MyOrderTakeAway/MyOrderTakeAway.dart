@@ -465,7 +465,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       '${getmyOrderBookingHistory[index].status}',
                       style: TextStyle(
                         fontSize: 16,
-                        //letterSpacing: 0.24,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),

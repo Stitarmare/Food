@@ -20,17 +20,15 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
     ApiBaseHelper().post<CurrentOrderDetailsModel>(
         UrlConstant.runningOrderApi, context,
         body: {
-          "order_type": orderType,
+          JSON_STR_ORDER_TYPE: orderType,
         }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
-          print("Add People Success");
           print(value.model);
           _myOrderModelView.getOrderDetailsSuccess(value.model.data);
           break;
         case SuccessType.failed:
-          print("Add People Failed");
           _myOrderModelView.getOrderDetailsFailed();
           break;
       }

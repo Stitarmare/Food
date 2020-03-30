@@ -75,12 +75,12 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   void onsubmitButtonClicked() {
     if (widget.value == 0 && otpsave != null) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       otppresenter.performOTP(widget.mobno, otpsave, context);
     } else if (widget.isFromFogetPass == true &&
         widget.value != 0 &&
         otpsave != null) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
     }
   }
@@ -245,7 +245,8 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           ),
           new GestureDetector(
             onTap: () {
-              DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, STR_BLANK);
               otppresenter.resendOTP(widget.mobno, context);
             },
             child: new Text(
