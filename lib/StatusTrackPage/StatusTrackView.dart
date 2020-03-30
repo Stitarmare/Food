@@ -3,14 +3,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/MyOrders/MyOrderContractor.dart';
+import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -40,9 +45,14 @@ class StatusTrackView extends StatefulWidget {
 }
 
 class _StatusTrackingViewState extends State<StatusTrackView>
-    implements StatusTrackViewModelView, ConfirmationDineViewModelView {
+    implements
+        StatusTrackViewModelView,
+        ConfirmationDineViewModelView,
+        MyOrderModelView {
   List<Data> peopleList = [];
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  List<CurrentOrderList> _orderDetailList;
+  MyOrdersPresenter _myOrdersPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
@@ -52,6 +62,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void initState() {
     super.initState();
+    _myOrdersPresenter = MyOrdersPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
@@ -253,27 +264,40 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   }),
             ),
             Align(
-                alignment: Alignment.bottomRight,
-                child: FlatButton(
-                    child: Text(
-                      'View Order Details',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'gotham',
-                          decoration: TextDecoration.underline,
-                          decorationColor: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: () {
-                      print(widget.tableId);
-                      showDialog(
-                          context: context, child: OrderItemsDialogBox());
-                    })),
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                  child: Text(
+                    'View Order Details',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        decoration: TextDecoration.underline,
+                        decorationColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onPressed: () {
+                    //print(widget.tableId);
+                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    _myOrdersPresenter.getOrderDetails(
+                        STR_SMALL_DINEIN, context);
+                    itemListDialog();
+                    // showDialog(
+                    //     context: context,
+                    //     child:
+                    //     RadioDialogAddPeople(
+                    //         widget.tableId, widget.rest_id, widget.orderID));
+
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // _billPayment(),
+                  }),
+            )
           ],
         ),
       ),
@@ -314,6 +338,151 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     );
   }
 
+  itemListDialog() {
+    return showDialog(
+      context: context,
+      child: Container(
+        width: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.5,
+        child: AlertDialog(
+          title: Text("LIST OF ITEMS"),
+          content: itemList(),
+          actions: <Widget>[
+            Divider(
+              endIndent: 15,
+              indent: 15,
+              color: Colors.black,
+            ),
+            FlatButton(
+              child: Text(STR_OK),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemList() {
+    return (_orderDetailList[0].list.isEmpty)
+        ? Container(
+            child: Center(
+              child: Text("No items found."),
+            ),
+          )
+        : Container(
+            //margin: EdgeInsets.only(top: 15),
+            width: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: ListView.builder(
+              itemCount: getlength(),
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: (_orderDetailList[0]
+                                          .list[index]
+                                          .items
+                                          .menuType ==
+                                      'veg')
+                                  ? Image.asset(
+                                      IMAGE_VEG_ICON_PATH,
+                                      height: 20,
+                                      width: 20,
+                                    )
+                                  : Image.asset(
+                                      IMAGE_VEG_ICON_PATH,
+                                      height: 20,
+                                      width: 20,
+                                      color: redtheme,
+                                    ),
+                            ),
+                            SizedBox(width: 5),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                  child: Text(
+                                    _orderDetailList[0]
+                                            .list[index]
+                                            .items
+                                            .itemName ??
+                                        STR_ITEM_NAME,
+                                    style: TextStyle(
+                                        fontSize: FONTSIZE_18,
+                                        color: greytheme700),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 6,
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  width: 180,
+                                  child: AutoSizeText(
+                                    _orderDetailList[0]
+                                            .list[index]
+                                            .items
+                                            .itemDescription ??
+                                        STR_ITEM_DESC,
+                                    style: TextStyle(
+                                      color: greytheme1000,
+                                      fontSize: FONTSIZE_14,
+                                    ),
+                                    maxFontSize: FONTSIZE_12,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                width: 80,
+                              ),
+                              flex: 2,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(right: 5, top: 15),
+                              child: Text(
+                                // (getTotalAmount(index) != null)
+                                //     ? '\$ ${myOrderData.list[index].totalAmount}'
+                                //     : STR_SEVENTEEN_TITLE,
+                                _orderDetailList[0].list[index].items.price,
+                                style: TextStyle(
+                                    color: greytheme700,
+                                    fontSize: FONTSIZE_16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )
+                          ]),
+                      SizedBox(height: 6),
+                      Divider(
+                        height: 2,
+                        thickness: 2,
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                );
+              },
+            ),
+            // ),
+          );
+  }
+
   String getStatus() {
     if (statusInfo != null) {
       if (statusInfo.status != null) {
@@ -321,6 +490,15 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       }
     }
     return STR_STATUS_NOTIFIED;
+  }
+
+  getlength() {
+    if (_orderDetailList != null) {
+      if (_orderDetailList[0].list != null) {
+        return _orderDetailList[0].list.length;
+      }
+    }
+    return 0;
   }
 
   @override
@@ -371,6 +549,37 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getInvitedPeopleSuccess(List<InvitePeopleList> list) {}
-}
 
-String name;
+  @override
+  void getOrderDetailsFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement getOrderDetailsFailed
+  }
+
+  @override
+  void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
+    if (_orderdetailsList.length == 0) {
+      return;
+    }
+
+    setState(() {
+      if (_orderdetailsList.length != null) {
+        _orderDetailList = _orderdetailsList;
+      }
+    });
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //itemListDialog();
+    // TODO: implement getOrderDetailsSuccess
+  }
+
+  @override
+  void getmyOrderHistoryFailed() {
+    // TODO: implement getmyOrderHistoryFailed
+  }
+
+  @override
+  void getmyOrderHistorySuccess(
+      List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
+    // TODO: implement getmyOrderHistorySuccess
+  }
+}
