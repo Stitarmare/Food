@@ -42,7 +42,7 @@ class GetTableList {
   factory GetTableList.fromJson(Map<String, dynamic> json) => GetTableList(
         id: json["id"],
         tableName: json["table_name"],
-        restId: json["rest_id"],
+        //restId: json["rest_id"],
         // createdAt: DateTime.parse(json["created_at"]),
         // updatedAt: DateTime.parse(json["updated_at"]),
       );
