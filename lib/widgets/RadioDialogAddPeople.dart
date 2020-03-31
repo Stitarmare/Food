@@ -121,7 +121,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      peopleList[i].firstName ?? '',
+                                      peopleList[i].firstName ?? STR_BLANK,
                                       style: TextStyle(
                                           fontSize: FONTSIZE_13,
                                           color: Color.fromRGBO(64, 64, 64, 1)),
