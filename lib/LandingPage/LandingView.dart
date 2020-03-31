@@ -630,7 +630,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   }
 
   profilePic() {
-    String imageUrl = '';
+    String imageUrl = STR_BLANK;
     if (Globle().loginModel.data.userDetails != null) {
       imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
           ? BaseUrl.getBaseUrlImages() +

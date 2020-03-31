@@ -137,12 +137,23 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      status = await DailogBox.notification_1(
+      if (notificationData[index].invitationStatus.isEmpty) {
+          status = await DailogBox.notification_1(
           context, recipientName, recipientMobno, tableno);
       print(status);
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-      notificationPresenter.acceptInvitation(notificationData[index].fromId,
-          notificationData[index].invitationId, status.toString(), context);
+      if (status == DailogAction.abort || status == DailogAction.yes) {
+        var statusStr = "";
+        if (status == DailogAction.abort){
+          statusStr = "reject"; 
+        }
+        if (status == DailogAction.yes){
+          statusStr = "accept"; 
+        }
+notificationPresenter.acceptInvitation(notificationData[index].fromId,
+          notificationData[index].invitationId, statusStr, context);
+      }
+      }
+    
     }
   }
 

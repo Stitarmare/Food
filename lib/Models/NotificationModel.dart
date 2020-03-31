@@ -39,6 +39,7 @@ class Datum {
     DateTime createdAt;
     DateTime updatedAt;
     int invitationId;
+    String invitationStatus;
 
     Datum({
         this.id,
@@ -51,6 +52,7 @@ class Datum {
         this.createdAt,
         this.updatedAt,
         this.invitationId,
+        this.invitationStatus
     });
 
     factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -64,6 +66,7 @@ class Datum {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         invitationId: json["invitation_id"] == null ? null : json["invitation_id"],
+        invitationStatus: json["invitation_status"] == null ? null : json["invitation_status"]
     );
 
     Map<String, dynamic> toJson() => {

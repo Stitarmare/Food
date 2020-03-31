@@ -144,11 +144,23 @@ class _NotificationViewState extends State<NotificationView>
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      status = await DailogBox.notification_1(
+      if (notificationData[index].invitationStatus.isEmpty) {
+          status = await DailogBox.notification_1(
           context, recipientName, recipientMobno, tableno);
       print(status);
-      notificationPresenter.acceptInvitation(notificationData[index].fromId,
-          notificationData[index].invitationId, status.toString(), context);
+      if (status == DailogAction.abort || status == DailogAction.yes) {
+        var statusStr = "";
+        if (status == DailogAction.abort){
+          statusStr = "reject"; 
+        }
+        if (status == DailogAction.yes){
+          statusStr = "accept"; 
+        }
+notificationPresenter.acceptInvitation(notificationData[index].fromId,
+          notificationData[index].invitationId, statusStr, context);
+      }
+      }
+    
     }
   }
 
@@ -208,6 +220,7 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptInvitationFailed(ErrorModel model) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,
       context,
