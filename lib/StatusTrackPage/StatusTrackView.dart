@@ -19,7 +19,6 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/OrderItemsDialogBox.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class StatusTrackView extends StatefulWidget {
