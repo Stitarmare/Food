@@ -28,10 +28,7 @@ dependencies:
   # Http 
   http: ^0.12.0+2
   pin_code_text_field: ^1.5.1
-<<<<<<< HEAD
-=======
   
->>>>>>> d0b8050f55766637415711c3cc80382962abf9eb
   crypto:
 
   outline_material_icons: ^0.1.1
