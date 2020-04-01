@@ -306,34 +306,31 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   Widget _getstatus() {
     return LimitedBox(
       child: Container(
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30),
-          child: Column(
-            children: <Widget>[
-              AutoSizeText(
-                  STR_ORDER_FOR + "${widget.tableName}" + STR_ORDER_CONFIRM,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme700)),
-              SizedBox(
-                height: 15,
-              ),
-              AutoSizeText((STR_STATUS + "${getStatus()}"),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme700)),
-            ],
-          ),
-        ),
-      ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: Column(children: <Widget>[
+                AutoSizeText(
+                    STR_ORDER_FOR + "${widget.tableName}" + STR_ORDER_CONFIRM,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_18,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700)),
+                SizedBox(
+                  height: 15,
+                ),
+                AutoSizeText((STR_STATUS + "${getStatus()}"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_18,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700)),
+                IconButton(icon: Icon(Icons.refresh), onPressed: () {})
+              ]))),
     );
   }
 
