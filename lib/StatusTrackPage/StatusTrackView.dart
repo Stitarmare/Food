@@ -54,13 +54,14 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         ConfirmationDineViewModelView,
         PaymentTipandPayDiModelView {
   List<PeopleData> peopleList = [];
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<_StatusTrackingViewState> _keyLoader = GlobalKey<_StatusTrackingViewState>();
   OrderDetailData _orderDetailList;
   StatusTrackViewPresenter statusTrackViewPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
+  bool isStart = false;
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
   @override
@@ -68,17 +69,25 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     super.initState();
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter.getPeopleList(context);
 
-    _timer = Timer.periodic(_duration, (Timer t) {
-      statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
-    });
-
+    
+callApi();
     print(widget.tableId);
 
     print(widget.tableName);
+  }
+
+  callApi() {
+    isStart = true;
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    _timer = Timer.periodic(_duration, (Timer t) {
+      isStart = false;
+      statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    });
   }
 
   @override
@@ -90,6 +99,22 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    _timer.cancel();
+                    callApi();
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+                SizedBox(width: 60,)
+              ],
+            )
+          ],
           centerTitle: true,
           title: Text(STR_ORDER_STATUS),
           brightness: Brightness.dark,
@@ -194,6 +219,46 @@ class _StatusTrackingViewState extends State<StatusTrackView>
               indent: 15,
               color: Colors.black,
             ),
+            Row(
+              children: <Widget>[
+                 Align(
+              alignment: Alignment.bottomRight,
+              child: FlatButton(
+                  child: Text(
+                    'View Order Details',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        decoration: TextDecoration.underline,
+                        decorationColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onPressed: () {
+                    //print(widget.tableId);
+                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    // _myOrdersPresenter.getOrderDetails(
+                    //   STR_SMALL_DINEIN, context);
+                    _paymentTipandPayDiPresenter.getOrderDetails(
+                        widget.orderID, context);
+                    
+                    // showDialog(
+                    //     context: context,
+                    //     child:
+                    //     RadioDialogAddPeople(
+                    //         widget.tableId, widget.rest_id, widget.orderID));
+
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // _billPayment(),
+                  }),
+            ),
+            Flexible(child: Container()),
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -242,6 +307,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 },
               ),
             ),
+              ],
+            ),
+            
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -267,43 +335,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             widget.tableId, widget.restId, widget.orderID));
                   }),
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    //print(widget.tableId);
-                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    // _myOrdersPresenter.getOrderDetails(
-                    //   STR_SMALL_DINEIN, context);
-                    _paymentTipandPayDiPresenter.getOrderDetails(
-                        widget.orderID, context);
-                    itemListDialog();
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
-
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
-                  }),
-            )
+           
           ],
         ),
       ),
@@ -336,7 +368,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
-                IconButton(icon: Icon(Icons.refresh), onPressed: () {})
+                
               ]))),
     );
   }
@@ -502,10 +534,21 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderStatusfailed() {}
+  void getOrderStatusfailed() {
+    if (isStart) {
+      if (_keyLoader.currentContext != null) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      }
+    }
+  }
 
   @override
   void getOrderStatussuccess(StatusData statusData) {
+    if (isStart) {
+      if (_keyLoader.currentContext != null) {
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      }
+    }
     if (statusData != null) {
       setState(() {
         statusInfo = statusData;
@@ -558,6 +601,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getOrderDetailsSuccess(OrderDetailData orderData) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;
     }
@@ -567,8 +611,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         _orderDetailList = orderData;
       }
     });
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    //itemListDialog();
+    
+    itemListDialog();
     // TODO: implement getOrderDetailsSuccess
   }
 
