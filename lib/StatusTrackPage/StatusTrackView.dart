@@ -600,7 +600,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;

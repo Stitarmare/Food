@@ -386,7 +386,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
     if (orderData.list.length == 0) {
       return;
     }
