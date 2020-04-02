@@ -20,6 +20,7 @@ import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -54,8 +55,10 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         ConfirmationDineViewModelView,
         PaymentTipandPayDiModelView {
   List<PeopleData> peopleList = [];
-  final GlobalKey<_StatusTrackingViewState> _keyLoader = GlobalKey<_StatusTrackingViewState>();
+  final GlobalKey<_StatusTrackingViewState> _keyLoader =
+      GlobalKey<_StatusTrackingViewState>();
   OrderDetailData _orderDetailList;
+  OrderDetailsModel _detailsModel;
   StatusTrackViewPresenter statusTrackViewPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   Duration _duration = Duration(seconds: 30);
@@ -69,12 +72,11 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     super.initState();
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    
-    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    confirmationDineviewPresenter.getPeopleList(context);
 
+    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     
-callApi();
+
+    callApi();
     print(widget.tableId);
 
     print(widget.tableName);
@@ -111,7 +113,9 @@ callApi();
                   },
                   child: Icon(Icons.refresh),
                 ),
-                SizedBox(width: 60,)
+                SizedBox(
+                  width: 60,
+                )
               ],
             )
           ],
@@ -221,95 +225,95 @@ callApi();
             ),
             Row(
               children: <Widget>[
-                 Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    //print(widget.tableId);
-                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    // _myOrdersPresenter.getOrderDetails(
-                    //   STR_SMALL_DINEIN, context);
-                    _paymentTipandPayDiPresenter.getOrderDetails(
-                        widget.orderID, context);
-                    
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                      child: Text(
+                        'View Order Details',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            decoration: TextDecoration.underline,
+                            decorationColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () {
+                        //print(widget.tableId);
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "");
+                        // _myOrdersPresenter.getOrderDetails(
+                        //   STR_SMALL_DINEIN, context);
+                        _paymentTipandPayDiPresenter.getOrderDetails(
+                            widget.orderID, context);
 
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
-                  }),
-            ),
-            Flexible(child: Container()),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                child: Text(
-                  STR_ADD_MORE_ITEM,
-                  style: TextStyle(
-                      fontSize: FONTSIZE_16,
-                      fontFamily: KEY_FONTFAMILY,
-                      decoration: TextDecoration.underline,
-                      decorationColor: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      color: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      fontWeight: FontWeight.w600),
+                        // showDialog(
+                        //     context: context,
+                        //     child:
+                        //     RadioDialogAddPeople(
+                        //         widget.tableId, widget.rest_id, widget.orderID));
+
+                        // SizedBox(
+                        //   height: 50,
+                        // ),
+                        // _billPayment(),
+                      }),
                 ),
-                onPressed: () {
-                  Preference.setPersistData<int>(
-                      widget.orderID, PreferenceKeys.orderId);
+                Flexible(child: Container()),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                    child: Text(
+                      STR_ADD_MORE_ITEM,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_16,
+                          fontFamily: KEY_FONTFAMILY,
+                          decoration: TextDecoration.underline,
+                          decorationColor: (Globle().colorscode != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: (Globle().colorscode != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      Preference.setPersistData<int>(
+                          widget.orderID, PreferenceKeys.orderId);
 
-                  if (widget.flag == 1) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  }
-                  if (widget.flag == 2) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  restId: widget.restId,
-                                  title: widget.title,
-                                )));
-                  }
-                  if (widget.flag == 3) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  restId: widget.restId,
-                                  title: widget.title,
-                                )));
-                  }
-                },
-              ),
-            ),
+                      if (widget.flag == 1) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+                      if (widget.flag == 2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RestaurantView(
+                                      restId: widget.restId,
+                                      title: widget.title,
+                                    )));
+                      }
+                      if (widget.flag == 3) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RestaurantView(
+                                      restId: widget.restId,
+                                      title: widget.title,
+                                    )));
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
-            
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -329,13 +333,10 @@ callApi();
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    showDialog(
-                        context: context,
-                        child: RadioDialogAddPeople(
-                            widget.tableId, widget.restId, widget.orderID));
+                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    confirmationDineviewPresenter.getPeopleList(context);
                   }),
             ),
-           
           ],
         ),
       ),
@@ -368,7 +369,6 @@ callApi();
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
-                
               ]))),
     );
   }
@@ -490,7 +490,7 @@ callApi();
                             Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: AutoSizeText(
-                                "R ${_orderDetailList.list[index].items.price}",
+                                "${_detailsModel.currencySymbol ?? ""} ${_orderDetailList.list[index].totalAmount}",
                                 style: TextStyle(
                                     color: greytheme700,
                                     fontSize: FONTSIZE_16,
@@ -569,11 +569,15 @@ callApi();
   void addPeopleSuccess() {}
 
   @override
-  void getPeopleListonFailed() {}
+  void getPeopleListonFailed() {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
+  }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
     if (data.length == 0) {
+      Constants.showAlert("", "No record found!", context);
       return;
     }
     setState(() {
@@ -585,6 +589,10 @@ callApi();
     });
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+    showDialog(
+                        context: context,
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.restId, widget.orderID));
   }
 
   @override
@@ -600,7 +608,7 @@ callApi();
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;
@@ -609,9 +617,10 @@ callApi();
     setState(() {
       if (orderData.list.length != null) {
         _orderDetailList = orderData;
+        _detailsModel = model;
       }
     });
-    
+
     itemListDialog();
     // TODO: implement getOrderDetailsSuccess
   }

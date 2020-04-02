@@ -462,19 +462,30 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   Widget _foodItemLogo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
-      child: CachedNetworkImage(
-          fit: BoxFit.fill,
-          width: double.infinity,
-          height: 175,
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
-          errorWidget: (context, url, error) => Image.asset(
-                RESTAURANT_IMAGE_PATH,
-                fit: BoxFit.fill,
-              )),
+    return Container(
+      child: new Container(
+        decoration: new BoxDecoration(
+            color: Colors.white,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(40.0),
+              topRight: const Radius.circular(40.0),
+            )),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 12),
+          child: CachedNetworkImage(
+              fit: BoxFit.fill,
+              width: double.infinity,
+              height: 175,
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
+              errorWidget: (context, url, error) => Image.asset(
+                    RESTAURANT_IMAGE_PATH,
+                    fit: BoxFit.fill,
+                  )),
+        ),
+      ),
     );
   }
 

@@ -318,7 +318,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             style: TextStyle(
                                 fontSize: FONTSIZE_13,
                                 fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white),
                           ),
                           onPressed: () {
@@ -326,17 +326,18 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => StatusTrackView(
-                                          tableId:
-                                              _orderDetailList[index].tableId,
-                                          orderID: _orderDetailList[index].id,
-                                          flag: 2,
-                                          restId:
-                                              _orderDetailList[index].restId,
-                                          title: _orderDetailList[index]
-                                              .restaurant
-                                              .restName,
-                                          tableName: widget.tableName,
-                                        )));
+                                        tableId:
+                                            _orderDetailList[index].tableId,
+                                        orderID: _orderDetailList[index].id,
+                                        flag: 2,
+                                        restId: _orderDetailList[index].restId,
+                                        title: _orderDetailList[index]
+                                            .restaurant
+                                            .restName,
+                                        tableName: _orderDetailList[index]
+                                            .table
+                                            .tableName
+                                            .toString())));
                           },
                         ),
                       ),

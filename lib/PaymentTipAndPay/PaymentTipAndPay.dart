@@ -569,7 +569,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   void getOrderDetailsFailed() {}
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {}
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {}
 
   @override
   void paymentCheckoutFailed() {}
