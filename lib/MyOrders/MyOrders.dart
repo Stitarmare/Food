@@ -318,7 +318,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             style: TextStyle(
                                 fontSize: FONTSIZE_13,
                                 fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.white),
                           ),
                           onPressed: () {
