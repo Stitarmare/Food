@@ -59,6 +59,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     selectedRadioTile = 1;
     print(widget.tableId);
     print(widget.orderID);
+    _model = OrderDetailsModel();
 
     print("list data from status track view page----->");
 
@@ -342,7 +343,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
                           (getTotalAmount(index) != null)
-                              ? '${_model.currencySymbol}' +
+                              ? '${_model.currencySymbol} ' +
                                   '${myOrderData.list[index].totalAmount}'
                               : STR_SEVENTEEN_TITLE,
                           style: TextStyle(
@@ -438,7 +439,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               right: 10,
             ),
             child: Text(
-              _model.currencySymbol + '${sliderValue.toInt()}',
+              '${_model.currencySymbol} ' + '${sliderValue.toInt()}',
               style: TextStyle(
                   fontSize: FONTSIZE_16,
                   color: greytheme700,
@@ -486,7 +487,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? _model.currencySymbol + "${myOrderData.totalAmount}"
+                      ? '${_model.currencySymbol} ' +
+                          "${myOrderData.totalAmount}"
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -514,7 +516,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  _model.currencySymbol + '${sliderValue.toInt()}',
+                  '${_model.currencySymbol} ' + '${sliderValue.toInt()}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -542,9 +544,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? _model.currencySymbol +
+                      ? '${_model.currencySymbol} ' +
                           '${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
-                      : _model.currencySymbol,
+                      : '${_model.currencySymbol}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
