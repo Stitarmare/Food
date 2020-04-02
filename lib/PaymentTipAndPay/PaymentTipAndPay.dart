@@ -67,8 +67,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   PayFinalBillPresenter _finalBillPresenter;
 
   String currencySymb = STR_BLANK;
+  OrderDetailsModel _model;
 
   OrderData myOrderData;
+  OrderDetailData myOrderDataDetails;
 
   PaycheckoutNetbanking billModel;
   @override
@@ -569,7 +571,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   void getOrderDetailsFailed() {}
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {}
+  void getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model) {
+    setState(() {
+      if (myOrderDataDetails == null) {
+        myOrderDataDetails = orderData;
+        _model = model;
+      }
+    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   void paymentCheckoutFailed() {}

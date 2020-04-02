@@ -1,4 +1,5 @@
 import 'dart:convert';
+//import 'dart:html';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
 
+  OrderDetailsModel _model;
   List<AddPeopleList> addedPeopleList = [];
 
   @override
@@ -340,7 +342,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
                           (getTotalAmount(index) != null)
-                              ? '\$ ${myOrderData.list[index].totalAmount}'
+                              ? '${_model.currencySymbol}' +
+                                  '${myOrderData.list[index].totalAmount}'
                               : STR_SEVENTEEN_TITLE,
                           style: TextStyle(
                               color: greytheme700,
@@ -435,7 +438,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               right: 10,
             ),
             child: Text(
-              STR_DOLLAR_SIGN + '${sliderValue.toInt()}',
+              _model.currencySymbol + '${sliderValue.toInt()}',
               style: TextStyle(
                   fontSize: FONTSIZE_16,
                   color: greytheme700,
@@ -483,7 +486,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? STR_DOLLAR_SIGN + "${myOrderData.totalAmount}"
+                      ? _model.currencySymbol + "${myOrderData.totalAmount}"
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -511,7 +514,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  STR_DOLLAR_SIGN + '${sliderValue.toInt()}',
+                  _model.currencySymbol + '${sliderValue.toInt()}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -539,9 +542,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? STR_DOLLAR_SIGN +
+                      ? _model.currencySymbol +
                           '${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
-                      : STR_DOLLAR_SIGN,
+                      : _model.currencySymbol,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -636,6 +639,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
+        _model = model;
       }
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
