@@ -69,7 +69,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         index: 2, title: STR_COLLECTION, subtitle: STR_ORDER_TO_COLLECT),
   ];
   StatusTrackViewPresenter statusTrackViewPresenter;
-  List<Data> peopleList = [];
+  List<PeopleData> peopleList = [];
   List<InvitePeopleList> invitePeopleList = [];
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   List<RadioButtonOptions> _radioOptions = [
@@ -556,7 +556,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   void getPeopleListonFailed() {}
 
   @override
-  void getPeopleListonSuccess(List<Data> data) {}
+  void getPeopleListonSuccess(List<PeopleData> data) {}
 
   @override
   void getInvitedPeopleFailed() {}
