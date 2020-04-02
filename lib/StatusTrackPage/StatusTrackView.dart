@@ -57,6 +57,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   final GlobalKey<_StatusTrackingViewState> _keyLoader =
       GlobalKey<_StatusTrackingViewState>();
   OrderDetailData _orderDetailList;
+  OrderDetailsModel _detailsModel;
   StatusTrackViewPresenter statusTrackViewPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   Duration _duration = Duration(seconds: 30);
@@ -490,7 +491,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: AutoSizeText(
-                                "R ${_orderDetailList.list[index].items.price}",
+                                "${_detailsModel.currencySymbol ?? ""} ${_orderDetailList.list[index].totalAmount}",
                                 style: TextStyle(
                                     color: greytheme700,
                                     fontSize: FONTSIZE_16,
@@ -609,6 +610,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     setState(() {
       if (orderData.list.length != null) {
         _orderDetailList = orderData;
+        _detailsModel = model;
       }
     });
 

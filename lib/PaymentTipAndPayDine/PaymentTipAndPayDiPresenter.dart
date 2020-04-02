@@ -26,7 +26,7 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
-          _paymentTipandPayDiModelView.getOrderDetailsSuccess(value.model.data);
+          _paymentTipandPayDiModelView.getOrderDetailsSuccess(value.model.data,value.model);
           break;
         case SuccessType.failed:
           _paymentTipandPayDiModelView.getOrderDetailsFailed();
