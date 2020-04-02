@@ -343,8 +343,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         padding: EdgeInsets.only(right: 20, top: 15),
                         child: Text(
                           (getTotalAmount(index) != null)
-                              ? '${_model.currencySymbol} ' +
-                                  '${myOrderData.list[index].totalAmount}'
+                              ? _model.currencySymbol != null
+                                  ? '${_model.currencySymbol} ' +
+                                      '${myOrderData.list[index].totalAmount}'
+                                  : ""
                               : STR_SEVENTEEN_TITLE,
                           style: TextStyle(
                               color: greytheme700,
@@ -486,9 +488,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  (getAmount() != null)
-                      ? '${_model.currencySymbol} ' +
-                          "${myOrderData.totalAmount}"
+                  getAmount() != null
+                      ? _model.currencySymbol != null
+                          ? '${_model.currencySymbol} ' +
+                              "${myOrderData.totalAmount}"
+                          : ""
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -516,7 +520,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  '${_model.currencySymbol} ' + '${sliderValue.toInt()}',
+                  _model.currencySymbol != null
+                      ? '${_model.currencySymbol} ' + '${sliderValue.toInt()}'
+                      : "",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
