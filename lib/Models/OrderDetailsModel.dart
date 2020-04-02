@@ -11,12 +11,14 @@ class OrderDetailsModel {
   int statusCode;
   OrderDetailData data;
   int grandTotal;
+  String currencySymbol;
 
   OrderDetailsModel({
     this.status,
     this.statusCode,
     this.data,
     this.grandTotal,
+    this.currencySymbol
   });
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -25,6 +27,7 @@ class OrderDetailsModel {
         statusCode: json["status_code"],
         data: OrderDetailData.fromJson(json["data"]),
         grandTotal: json["grandTotal"],
+        currencySymbol:json["currency_symbol"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +35,7 @@ class OrderDetailsModel {
         "status_code": statusCode,
         "data": data.toJson(),
         "grandTotal": grandTotal,
+        "currency_symbol":currencySymbol
       };
 }
 
