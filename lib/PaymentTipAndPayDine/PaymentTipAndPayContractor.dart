@@ -16,7 +16,7 @@ abstract class PaymentTipandPayDiContractor {
 }
 
 abstract class PaymentTipandPayDiModelView {
-  void getOrderDetailsSuccess(OrderDetailData orderData);
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model);
   void getOrderDetailsFailed();
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel);
   void paymentCheckoutFailed();

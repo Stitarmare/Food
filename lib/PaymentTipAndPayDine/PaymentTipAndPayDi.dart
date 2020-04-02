@@ -612,7 +612,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void getOrderDetailsFailed() {}
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;

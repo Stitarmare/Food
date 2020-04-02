@@ -20,6 +20,7 @@ import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -57,6 +58,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   final GlobalKey<_StatusTrackingViewState> _keyLoader =
       GlobalKey<_StatusTrackingViewState>();
   OrderDetailData _orderDetailList;
+  OrderDetailsModel _detailsModel;
   StatusTrackViewPresenter statusTrackViewPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   Duration _duration = Duration(seconds: 30);
@@ -72,7 +74,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    confirmationDineviewPresenter.getPeopleList(context);
+    
 
     callApi();
     print(widget.tableId);
@@ -331,10 +333,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    showDialog(
-                        context: context,
-                        child: RadioDialogAddPeople(
-                            widget.tableId, widget.restId, widget.orderID));
+                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    confirmationDineviewPresenter.getPeopleList(context);
                   }),
             ),
           ],
@@ -490,7 +490,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: AutoSizeText(
-                                "R ${_orderDetailList.list[index].items.price}",
+                                "${_detailsModel.currencySymbol ?? ""} ${_orderDetailList.list[index].totalAmount}",
                                 style: TextStyle(
                                     color: greytheme700,
                                     fontSize: FONTSIZE_16,
@@ -569,11 +569,15 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   void addPeopleSuccess() {}
 
   @override
-  void getPeopleListonFailed() {}
+  void getPeopleListonFailed() {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
+  }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
     if (data.length == 0) {
+      Constants.showAlert("", "No record found!", context);
       return;
     }
     setState(() {
@@ -585,6 +589,10 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     });
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+    showDialog(
+                        context: context,
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.restId, widget.orderID));
   }
 
   @override
@@ -600,7 +608,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData) {
+  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;
@@ -609,6 +617,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     setState(() {
       if (orderData.list.length != null) {
         _orderDetailList = orderData;
+        _detailsModel = model;
       }
     });
 
