@@ -45,7 +45,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
 
-  // List<String> addedPeopleList = [];
   List<AddPeopleList> addedPeopleList = [];
 
   @override
@@ -103,42 +102,44 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   Container(
                     height: 35,
-                    child: addedPeopleList != null
-                        ? FlatButton(
-                            child: Text(
-                              STR_SPLIT_BILL,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_16,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor:
-                                      ((Globle().colorscode) != null)
-                                          ? getColorByHex(Globle().colorscode)
-                                          : orangetheme,
-                                  color: ((Globle().colorscode) != null)
-                                      ? getColorByHex(Globle().colorscode)
-                                      : orangetheme,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  child: new RadioDialog(
-                                    amount:
-                                        (double.parse(myOrderData.totalAmount) +
-                                            sliderValue),
-                                    tableId: widget.tableId,
-                                    orderId: widget.orderID,
-                                    elementList: myOrderData.list,
-                                  ));
-                            },
-                          )
-                        : Container(),
+                    child: FlatButton(
+                      child: Text(
+                        STR_SPLIT_BILL,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            decoration: TextDecoration.underline,
+                            decorationColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () {
+                        addedPeopleList != null
+                            ? showDialog(
+                                context: context,
+                                child: new RadioDialog(
+                                  amount:
+                                      (double.parse(myOrderData.totalAmount) +
+                                          sliderValue),
+                                  tableId: widget.tableId,
+                                  orderId: widget.orderID,
+                                  elementList: myOrderData.list,
+                                ))
+                            : _showAlert(context,
+                                STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
+                                Navigator.of(context).pop();
+                              });
+                      },
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
                       DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, "");
+                          context, _keyLoader, STR_BLANK);
                       _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
                           (int.parse(myOrderData.totalAmount)), context);
                     },
@@ -551,6 +552,24 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     );
   }
 
+  void _showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
+  }
+
   void showAlertSuccess(String title, String message, BuildContext context) {
     showDialog(
         context: context,
@@ -612,7 +631,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void getOrderDetailsFailed() {}
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
+  void getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model) {
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -636,11 +656,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     setState(() {
-      Future.delayed(Duration(seconds: 2), () {
-        if (RadioDialogAddPeopleState.addPeopleList != null) {
-          RadioDialogAddPeopleState.addPeopleList.clear();
-        }
-      });
+      if (RadioDialogAddPeopleState.addPeopleList != null) {
+        RadioDialogAddPeopleState.addPeopleList.clear();
+        RadioDialogAddPeopleState.addPeopleList = null;
+      }
     });
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }

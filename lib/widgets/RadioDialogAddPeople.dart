@@ -45,9 +45,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   List<InvitePeopleList> invitePeopleList = [];
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
-
-  static List<String> listCommon = [];
-  static List<String> listStrCommon = [];
   static List<AddPeopleList> addPeopleList;
 
   @override
@@ -111,7 +108,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                           itemCount: getPeopleListLength(),
                           itemBuilder: (BuildContext context, int i) {
                             id = i;
-
                             return CheckboxListTile(
                                 activeColor: ((Globle().colorscode) != null)
                                     ? getColorByHex(Globle().colorscode)
@@ -166,7 +162,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                   ),
                   Center(
                       child: RaisedButton(
-                    color: getColorByHex(Globle().colorscode),
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     onPressed: () async {
