@@ -40,7 +40,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     _splitBillNotificationPresenter = SplitBillNotificationPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, 2, context);
+        Globle().loginModel.data.id, widget.tableId, context);
 
     print(widget.tableId);
     super.initState();

@@ -96,7 +96,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, 2, context);
+        Globle().loginModel.data.id, widget.tableId, context);
+
+    print(widget.tableId);
     super.initState();
   }
 

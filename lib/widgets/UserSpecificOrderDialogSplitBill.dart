@@ -37,7 +37,7 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
     checkboxbtn(widget.listElement.length);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, 2, context);
+        Globle().loginModel.data.id, widget.tableId, context);
     super.initState();
   }
 

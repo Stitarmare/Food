@@ -58,7 +58,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     confirmationDineviewPresenter.getPeopleList(context);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, 2, context);
+        Globle().loginModel.data.id, widget.tableId, context);
+
+    print(widget.tableId);
   }
 
   Widget build(BuildContext context) {
