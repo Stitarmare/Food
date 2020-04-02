@@ -459,12 +459,17 @@ _landingViewPresenter.getCurrentOrder(context);
 
   @override
   void onFailedCurrentOrder() {
-    Navigator.of(_scaffoldKey.currentContext, rootNavigator: true).pop();
+   if (_scaffoldKey.currentContext != null) {
+        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    }
   }
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
-    Navigator.of(_scaffoldKey.currentContext, rootNavigator: true).pop();
+    if (_scaffoldKey.currentContext != null) {
+        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    }
+    
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {

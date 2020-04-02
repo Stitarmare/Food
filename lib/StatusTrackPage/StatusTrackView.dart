@@ -49,7 +49,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         ConfirmationDineViewModelView,
         MyOrderModelView {
   List<Data> peopleList = [];
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  final GlobalKey<_StatusTrackingViewState> _keyLoader = GlobalKey<_StatusTrackingViewState>();
   List<CurrentOrderList> _orderDetailList;
   MyOrdersPresenter _myOrdersPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
@@ -63,17 +63,30 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    
+    callOrderApi();
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter.getPeopleList(context);
-
-    _timer = Timer.periodic(_duration, (Timer t) {
-      statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
-    });
+     
+    
 
     print(widget.tableId);
 
     print(widget.tableName);
+  }
+
+
+  callGetOrderApi() {
+    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    _myOrdersPresenter.getOrderDetails(
+                        STR_SMALL_DINEIN, context);
+  }
+
+  callOrderApi() {
+    statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    _timer = Timer.periodic(_duration, (Timer t) {
+      statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
+    });
   }
 
   @override
@@ -85,6 +98,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
       bottom: true,
       child: Scaffold(
         appBar: AppBar(
+
           centerTitle: true,
           title: Text(STR_ORDER_STATUS),
           brightness: Brightness.dark,
@@ -105,6 +119,22 @@ class _StatusTrackingViewState extends State<StatusTrackView>
               }
             },
           ),
+          actions: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                    _timer.cancel();
+                    callOrderApi();
+                  },
+                  child: Icon(Icons.refresh),
+                ),
+                SizedBox(width: 60,)
+              ],
+            )
+          ],
         ),
         body: _getmainview(),
         bottomNavigationBar:
@@ -189,8 +219,45 @@ class _StatusTrackingViewState extends State<StatusTrackView>
               indent: 15,
               color: Colors.black,
             ),
+            Row(
+              children: <Widget>[
+                Align(
+              alignment: Alignment.centerLeft,
+              child: FlatButton(
+                  child: Text(
+                    'View Order Details',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'gotham',
+                        decoration: TextDecoration.underline,
+                        decorationColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onPressed: () {
+                    //print(widget.tableId);
+                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                   
+                    callGetOrderApi();
+                    // showDialog(
+                    //     context: context,
+                    //     child:
+                    //     RadioDialogAddPeople(
+                    //         widget.tableId, widget.rest_id, widget.orderID));
+
+                    // SizedBox(
+                    //   height: 50,
+                    // ),
+                    // _billPayment(),
+                  }),
+            ),
+            Flexible(child: Container()),
             Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.centerRight,
               child: FlatButton(
                 child: Text(
                   STR_ADD_MORE_ITEM,
@@ -237,6 +304,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 },
               ),
             ),
+              ],
+            ),
+            
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -262,41 +332,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             widget.tableId, widget.restId, widget.orderID));
                   }),
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    //print(widget.tableId);
-                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    _myOrdersPresenter.getOrderDetails(
-                        STR_SMALL_DINEIN, context);
-                    itemListDialog();
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
-
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
-                  }),
-            )
+            
           ],
         ),
       ),
@@ -329,7 +365,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
-                IconButton(icon: Icon(Icons.refresh), onPressed: () {})
+                
               ]))),
     );
   }
@@ -338,6 +374,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     return showDialog(
       context: context,
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100)
+        ),
         width: MediaQuery.of(context).size.height * 0.7,
         height: MediaQuery.of(context).size.height * 0.5,
         child: AlertDialog(
@@ -363,12 +402,13 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   Widget itemList() {
     return (_orderDetailList[0].list.isEmpty)
-        ? Container(
-            child: Center(
+        ? Center(
               child: Text("No items found."),
-            ),
-          )
+            )
         : Container(
+          decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100)
+        ),
             //margin: EdgeInsets.only(top: 15),
             width: MediaQuery.of(context).size.height * 0.7,
             height: MediaQuery.of(context).size.height * 0.35,
@@ -456,7 +496,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                 // (getTotalAmount(index) != null)
                                 //     ? '\$ ${myOrderData.list[index].totalAmount}'
                                 //     : STR_SEVENTEEN_TITLE,
-                                _orderDetailList[0].list[index].items.price,
+                                "${_orderDetailList} ${_orderDetailList[0].list[index].items.price}",
                                 style: TextStyle(
                                     color: greytheme700,
                                     fontSize: FONTSIZE_16,
@@ -554,6 +594,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (_orderdetailsList.length == 0) {
       return;
     }
@@ -563,9 +604,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         _orderDetailList = _orderdetailsList;
       }
     });
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    //itemListDialog();
-    // TODO: implement getOrderDetailsSuccess
+    itemListDialog();
   }
 
   @override
