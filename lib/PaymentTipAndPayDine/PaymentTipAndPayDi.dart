@@ -17,6 +17,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
+import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
@@ -42,6 +43,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   int selectedRadioTile;
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
+
+  List<String> addedPeopleList = [];
+
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
@@ -52,6 +56,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     selectedRadioTile = 1;
     print(widget.tableId);
     print(widget.orderID);
+
+    print("list data from status track view page----->");
+    print(RadioDialogAddPeopleState.listStrCommon);
+    if (RadioDialogAddPeopleState.listStrCommon.length > 0) {
+      addedPeopleList = RadioDialogAddPeopleState.listStrCommon;
+      print(addedPeopleList.elementAt(0));
+    } else {
+      addedPeopleList.addAll(RadioDialogAddPeopleState.listStrCommon);
+    }
+
     super.initState();
   }
 
@@ -87,33 +101,37 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   Container(
                     height: 35,
-                    child: FlatButton(
-                      child: Text(
-                        STR_SPLIT_BILL,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
-                            decoration: TextDecoration.underline,
-                            decorationColor: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            color: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            child: new RadioDialog(
-                              amount: (double.parse(myOrderData.totalAmount) +
-                                  sliderValue),
-                              tableId: widget.tableId,
-                              orderId: widget.orderID,
-                              elementList: myOrderData.list,
-                            ));
-                      },
-                    ),
+                    child: addedPeopleList.length > 0
+                        ? FlatButton(
+                            child: Text(
+                              STR_SPLIT_BILL,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_16,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor:
+                                      ((Globle().colorscode) != null)
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme,
+                                  color: ((Globle().colorscode) != null)
+                                      ? getColorByHex(Globle().colorscode)
+                                      : orangetheme,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  child: new RadioDialog(
+                                    amount:
+                                        (double.parse(myOrderData.totalAmount) +
+                                            sliderValue),
+                                    tableId: widget.tableId,
+                                    orderId: widget.orderID,
+                                    elementList: myOrderData.list,
+                                  ));
+                            },
+                          )
+                        : Container(),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -615,6 +633,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+    setState(() {
+      RadioDialogAddPeopleState.listStrCommon.clear();
+      RadioDialogAddPeopleState.listCommon.clear();
+    });
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
 
