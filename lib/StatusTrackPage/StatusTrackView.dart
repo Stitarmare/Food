@@ -54,7 +54,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
         ConfirmationDineViewModelView,
         PaymentTipandPayDiModelView {
   List<PeopleData> peopleList = [];
-  final GlobalKey<_StatusTrackingViewState> _keyLoader = GlobalKey<_StatusTrackingViewState>();
+  final GlobalKey<_StatusTrackingViewState> _keyLoader =
+      GlobalKey<_StatusTrackingViewState>();
   OrderDetailData _orderDetailList;
   StatusTrackViewPresenter statusTrackViewPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
@@ -69,12 +70,11 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     super.initState();
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    
+
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     confirmationDineviewPresenter.getPeopleList(context);
 
-    
-callApi();
+    callApi();
     print(widget.tableId);
 
     print(widget.tableName);
@@ -111,7 +111,9 @@ callApi();
                   },
                   child: Icon(Icons.refresh),
                 ),
-                SizedBox(width: 60,)
+                SizedBox(
+                  width: 60,
+                )
               ],
             )
           ],
@@ -221,95 +223,95 @@ callApi();
             ),
             Row(
               children: <Widget>[
-                 Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    //print(widget.tableId);
-                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    // _myOrdersPresenter.getOrderDetails(
-                    //   STR_SMALL_DINEIN, context);
-                    _paymentTipandPayDiPresenter.getOrderDetails(
-                        widget.orderID, context);
-                    
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                      child: Text(
+                        'View Order Details',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'gotham',
+                            decoration: TextDecoration.underline,
+                            decorationColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () {
+                        //print(widget.tableId);
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, "");
+                        // _myOrdersPresenter.getOrderDetails(
+                        //   STR_SMALL_DINEIN, context);
+                        _paymentTipandPayDiPresenter.getOrderDetails(
+                            widget.orderID, context);
 
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
-                  }),
-            ),
-            Flexible(child: Container()),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                child: Text(
-                  STR_ADD_MORE_ITEM,
-                  style: TextStyle(
-                      fontSize: FONTSIZE_16,
-                      fontFamily: KEY_FONTFAMILY,
-                      decoration: TextDecoration.underline,
-                      decorationColor: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      color: (Globle().colorscode != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
-                      fontWeight: FontWeight.w600),
+                        // showDialog(
+                        //     context: context,
+                        //     child:
+                        //     RadioDialogAddPeople(
+                        //         widget.tableId, widget.rest_id, widget.orderID));
+
+                        // SizedBox(
+                        //   height: 50,
+                        // ),
+                        // _billPayment(),
+                      }),
                 ),
-                onPressed: () {
-                  Preference.setPersistData<int>(
-                      widget.orderID, PreferenceKeys.orderId);
+                Flexible(child: Container()),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton(
+                    child: Text(
+                      STR_ADD_MORE_ITEM,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_16,
+                          fontFamily: KEY_FONTFAMILY,
+                          decoration: TextDecoration.underline,
+                          decorationColor: (Globle().colorscode != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          color: (Globle().colorscode != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      Preference.setPersistData<int>(
+                          widget.orderID, PreferenceKeys.orderId);
 
-                  if (widget.flag == 1) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  }
-                  if (widget.flag == 2) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  restId: widget.restId,
-                                  title: widget.title,
-                                )));
-                  }
-                  if (widget.flag == 3) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RestaurantView(
-                                  restId: widget.restId,
-                                  title: widget.title,
-                                )));
-                  }
-                },
-              ),
-            ),
+                      if (widget.flag == 1) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+                      if (widget.flag == 2) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RestaurantView(
+                                      restId: widget.restId,
+                                      title: widget.title,
+                                    )));
+                      }
+                      if (widget.flag == 3) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RestaurantView(
+                                      restId: widget.restId,
+                                      title: widget.title,
+                                    )));
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
-            
             Align(
               alignment: Alignment.bottomRight,
               child: FlatButton(
@@ -335,7 +337,6 @@ callApi();
                             widget.tableId, widget.restId, widget.orderID));
                   }),
             ),
-           
           ],
         ),
       ),
@@ -368,7 +369,6 @@ callApi();
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
-                
               ]))),
     );
   }
@@ -611,7 +611,7 @@ callApi();
         _orderDetailList = orderData;
       }
     });
-    
+
     itemListDialog();
     // TODO: implement getOrderDetailsSuccess
   }
