@@ -7,6 +7,7 @@ import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -31,10 +32,13 @@ class _LandingStateView extends State<Landingview>
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
+  final GlobalKey<_LandingStateView> _scaffoldKey = GlobalKey<_LandingStateView>();
 
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
+    DialogsIndicator.showLoadingDialog(
+            context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
     getCurrentOrderID();
     super.initState();
@@ -263,8 +267,9 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-
-    getCurrentOrderID();
+  DialogsIndicator.showLoadingDialog(
+            context, _scaffoldKey, STR_PLEASE_WAIT);
+     _landingViewPresenter.getCurrentOrder(context);
   }
 
   Widget _buildinningtext() {
@@ -343,7 +348,7 @@ class _LandingStateView extends State<Landingview>
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             goToTakeAway();
-            getCurrentOrderID();
+            
           },
           child: Container(
             width: 345,
@@ -374,6 +379,10 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
+            DialogsIndicator.showLoadingDialog(
+            context, _scaffoldKey, STR_PLEASE_WAIT);
+_landingViewPresenter.getCurrentOrder(context);
+
   }
 
   showStatusView() async {
@@ -397,7 +406,9 @@ class _LandingStateView extends State<Landingview>
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
                   )));
-          getCurrentOrderID();
+                  DialogsIndicator.showLoadingDialog(
+            context, _scaffoldKey, STR_PLEASE_WAIT);
+           _landingViewPresenter.getCurrentOrder(context);
         }
       }
       if (_model.data.takeAway != null) {
@@ -412,7 +423,9 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
                   )));
-          getCurrentOrderID();
+                  DialogsIndicator.showLoadingDialog(
+            context, _scaffoldKey, STR_PLEASE_WAIT);
+           _landingViewPresenter.getCurrentOrder(context);
         }
       }
     }
@@ -445,10 +458,18 @@ class _LandingStateView extends State<Landingview>
   }
 
   @override
-  void onFailedCurrentOrder() {}
+  void onFailedCurrentOrder() {
+   if (_scaffoldKey.currentContext != null) {
+        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    }
+  }
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
+    if (_scaffoldKey.currentContext != null) {
+        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    }
+    
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {
