@@ -48,6 +48,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   static List<String> listCommon = [];
   static List<String> listStrCommon = [];
+  static List<AddPeopleList> addPeopleList;
+
   @override
   void initState() {
     super.initState();
@@ -117,21 +119,32 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                     ListTileControlAffinity.leading,
                                 onChanged: (val) {
                                   setState(() {
-                                    _checkBoxOptions[i].isChecked = val;
-                                    if (listCommon.length > 0) {
+                                    if (addPeopleList == null) {
+                                      addPeopleList = [];
+                                    }
+                                    if (addPeopleList.length > 0) {
                                       if (val) {
-                                        listCommon
-                                            .add(_checkBoxOptions[i].title);
+                                        var ext = AddPeopleList();
+                                        ext.addPeopleId =
+                                            _checkBoxOptions[i].index;
+                                        addPeopleList.add(ext);
                                       } else {
-                                        listCommon
-                                            .remove(_checkBoxOptions[i].title);
+                                        for (int i = 0;
+                                            i < addPeopleList.length;
+                                            i++) {
+                                          if (_checkBoxOptions[i].index ==
+                                              addPeopleList[i].addPeopleId) {
+                                            addPeopleList.removeAt(i);
+                                          }
+                                        }
                                       }
                                     } else {
-                                      if (val) {
-                                        listCommon
-                                            .add(_checkBoxOptions[i].title);
-                                      }
+                                      var ext = AddPeopleList();
+                                      ext.addPeopleId =
+                                          _checkBoxOptions[i].index;
+                                      addPeopleList.add(ext);
                                     }
+                                    _checkBoxOptions[i].isChecked = val;
                                   });
                                 },
                                 title: Row(
@@ -164,9 +177,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                         for (int i = 0; i < _checkBoxOptions.length; i++) {
                           if (_checkBoxOptions[i].isChecked == true) {
                             numbers += "${peopleList[i].mobileNumber},";
-                            setState(() {
-                              listStrCommon.addAll(listCommon);
-                            });
                           }
                         }
                       }
@@ -398,4 +408,20 @@ class CheckBoxOptions {
   String title;
   bool isChecked;
   CheckBoxOptions({this.index, this.title, this.isChecked});
+}
+
+class AddPeopleList {
+  int addPeopleId;
+
+  AddPeopleList({
+    this.addPeopleId,
+  });
+
+  factory AddPeopleList.fromJson(Map<String, dynamic> json) => AddPeopleList(
+        addPeopleId: json["extra_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "extra_id": addPeopleId,
+      };
 }

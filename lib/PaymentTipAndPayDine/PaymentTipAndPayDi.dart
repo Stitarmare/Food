@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/AddItemPageModel.dart';
 
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -44,7 +45,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
 
-  List<String> addedPeopleList = [];
+  // List<String> addedPeopleList = [];
+  List<AddPeopleList> addedPeopleList = [];
 
   @override
   void initState() {
@@ -58,12 +60,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     print(widget.orderID);
 
     print("list data from status track view page----->");
-    print(RadioDialogAddPeopleState.listStrCommon);
-    if (RadioDialogAddPeopleState.listStrCommon.length > 0) {
-      addedPeopleList = RadioDialogAddPeopleState.listStrCommon;
-      print(addedPeopleList.elementAt(0));
+
+    print(RadioDialogAddPeopleState.addPeopleList);
+    if (RadioDialogAddPeopleState.addPeopleList != null) {
+      addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     } else {
-      addedPeopleList.addAll(RadioDialogAddPeopleState.listStrCommon);
+      addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     }
 
     super.initState();
@@ -101,7 +103,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 children: <Widget>[
                   Container(
                     height: 35,
-                    child: addedPeopleList.length > 0
+                    child: addedPeopleList != null
                         ? FlatButton(
                             child: Text(
                               STR_SPLIT_BILL,
@@ -634,8 +636,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     setState(() {
-      RadioDialogAddPeopleState.listStrCommon.clear();
-      RadioDialogAddPeopleState.listCommon.clear();
+      Future.delayed(Duration(seconds: 2), () {
+        if (RadioDialogAddPeopleState.addPeopleList != null) {
+          RadioDialogAddPeopleState.addPeopleList.clear();
+        }
+      });
     });
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
