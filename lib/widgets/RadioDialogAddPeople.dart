@@ -46,6 +46,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
 
+  static List<String> listCommon = [];
+  static List<String> listStrCommon = [];
   @override
   void initState() {
     super.initState();
@@ -105,6 +107,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                           itemCount: getPeopleListLength(),
                           itemBuilder: (BuildContext context, int i) {
                             id = i;
+
                             return CheckboxListTile(
                                 activeColor: ((Globle().colorscode) != null)
                                     ? getColorByHex(Globle().colorscode)
@@ -115,13 +118,27 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                 onChanged: (val) {
                                   setState(() {
                                     _checkBoxOptions[i].isChecked = val;
+                                    if (listCommon.length > 0) {
+                                      if (val) {
+                                        listCommon
+                                            .add(_checkBoxOptions[i].title);
+                                      } else {
+                                        listCommon
+                                            .remove(_checkBoxOptions[i].title);
+                                      }
+                                    } else {
+                                      if (val) {
+                                        listCommon
+                                            .add(_checkBoxOptions[i].title);
+                                      }
+                                    }
                                   });
                                 },
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      peopleList[i].firstName ?? '',
+                                      peopleList[i].firstName ?? STR_BLANK,
                                       style: TextStyle(
                                           fontSize: FONTSIZE_13,
                                           color: Color.fromRGBO(64, 64, 64, 1)),
@@ -147,6 +164,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                         for (int i = 0; i < _checkBoxOptions.length; i++) {
                           if (_checkBoxOptions[i].isChecked == true) {
                             numbers += "${peopleList[i].mobileNumber},";
+                            setState(() {
+                              listStrCommon.addAll(listCommon);
+                            });
                           }
                         }
                       }

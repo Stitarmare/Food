@@ -4,6 +4,8 @@ import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class MenuItem extends StatefulWidget {
   var restaurantId;
@@ -84,7 +86,7 @@ class MenuItemState extends State<MenuItem>
                         _categorydata[index].name ?? STR_BLANK,
                         style: TextStyle(
                           color: _selectedMenu != null && _selectedMenu == index
-                              ? Color.fromRGBO(237, 29, 37, 1)
+                              ? getColorByHex(Globle().colorscode)
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       ),
