@@ -12,6 +12,6 @@ abstract class ConfirmationDineViewModelView {
   void addPeopleSuccess();
   void addPeopleFailed();
 
-  void getPeopleListonSuccess(List<Data> data);
+  void getPeopleListonSuccess(List<PeopleData> data);
   void getPeopleListonFailed();
 }

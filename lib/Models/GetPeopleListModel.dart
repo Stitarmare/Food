@@ -1,7 +1,7 @@
 class GetPeopleListModel {
   String status;
   int statusCode;
-  List<Data> data;
+  List<PeopleData> data;
 
   GetPeopleListModel({this.status, this.statusCode, this.data});
 
@@ -9,9 +9,9 @@ class GetPeopleListModel {
     status = json['status'];
     statusCode = json['status_code'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<PeopleData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new PeopleData.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class GetPeopleListModel {
   }
 }
 
-class Data {
+class PeopleData {
   int id;
   String firstName;
   String lastName;
@@ -47,7 +47,7 @@ class Data {
   String longitude;
   String distance;
 
-  Data({
+  PeopleData({
     this.id,
     this.firstName,
     this.lastName,
@@ -68,7 +68,7 @@ class Data {
     this.distance,
   });
 
-  Data.fromJson(Map<String, dynamic> json) {
+  PeopleData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];

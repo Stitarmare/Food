@@ -5,9 +5,13 @@ import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
+import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakeContractor.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakePresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -35,12 +39,14 @@ class StatusTakeAwayView extends StatefulWidget {
 }
 
 class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
-    implements StatTrackTakeModelView, MyOrderModelView {
-  List<Data> peopleList = [];
+    implements StatTrackTakeModelView, PaymentTipandPayDiModelView {
+  List<PeopleData> peopleList = [];
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  List<CurrentOrderList> _orderDetailList;
+  OrderDetailData _orderDetailList;
   MyOrdersPresenter _myOrdersPresenter;
   StatTrackTakePresenter statusTrackViewPresenter;
+  PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
+
   Duration _duration = Duration(seconds: 30);
   Timer _timer;
   StatusData statusInfo;
@@ -49,7 +55,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   @override
   void initState() {
     super.initState();
-    _myOrdersPresenter = MyOrdersPresenter(this);
+    _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     statusTrackViewPresenter = StatTrackTakePresenter(this);
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
 
@@ -145,7 +151,8 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                   onPressed: () {
                     //print(widget.tableId);
                     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    _myOrdersPresenter.getOrderDetails(STR_TAKE_AWAY, context);
+                    _paymentTipandPayDiPresenter.getOrderDetails(
+                        widget.orderID, context);
                     itemListDialog();
                     // showDialog(
                     //     context: context,
@@ -193,7 +200,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   }
 
   Widget itemList() {
-    return (_orderDetailList[0].list.isEmpty)
+    return (_orderDetailList.list.isEmpty)
         ? Container(
             child: Center(
               child: Text("No items found."),
@@ -217,10 +224,8 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 5),
-                              child: (_orderDetailList[0]
-                                          .list[index]
-                                          .items
-                                          .menuType ==
+                              child: (_orderDetailList
+                                          .list[index].items.menuType ==
                                       'veg')
                                   ? Image.asset(
                                       IMAGE_VEG_ICON_PATH,
@@ -243,10 +248,8 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                                   width:
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: Text(
-                                    _orderDetailList[0]
-                                            .list[index]
-                                            .items
-                                            .itemName ??
+                                    _orderDetailList
+                                            .list[index].items.itemName ??
                                         STR_ITEM_NAME,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_18,
@@ -260,9 +263,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                                   height: 30,
                                   width: 180,
                                   child: AutoSizeText(
-                                    _orderDetailList[0]
-                                            .list[index]
-                                            .items
+                                    _orderDetailList.list[index].items
                                             .itemDescription ??
                                         STR_ITEM_DESC,
                                     style: TextStyle(
@@ -287,7 +288,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                                 // (getTotalAmount(index) != null)
                                 //     ? '\$ ${myOrderData.list[index].totalAmount}'
                                 //     : STR_SEVENTEEN_TITLE,
-                                _orderDetailList[0].list[index].items.price,
+                                _orderDetailList.list[index].items.price,
                                 style: TextStyle(
                                     color: greytheme700,
                                     fontSize: FONTSIZE_16,
@@ -312,8 +313,8 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
 
   getlength() {
     if (_orderDetailList != null) {
-      if (_orderDetailList[0].list != null) {
-        return _orderDetailList[0].list.length;
+      if (_orderDetailList.list != null) {
+        return _orderDetailList.list.length;
       }
     }
     return 0;
@@ -385,18 +386,25 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   }
 
   @override
-  void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
-    // TODO: implement getOrderDetailsSuccess
+  void getOrderDetailsSuccess(OrderDetailData orderData) {
+    if (orderData.list.length == 0) {
+      return;
+    }
+
+    setState(() {
+      if (orderData.list.length != null) {
+        _orderDetailList = orderData;
+      }
+    }); // TODO: implement getOrderDetailsSuccess
   }
 
   @override
-  void getmyOrderHistoryFailed() {
-    // TODO: implement getmyOrderHistoryFailed
+  void paymentCheckoutFailed() {
+    // TODO: implement paymentCheckoutFailed
   }
 
   @override
-  void getmyOrderHistorySuccess(
-      List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-    // TODO: implement getmyOrderHistorySuccess
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
+    // TODO: implement paymentCheckoutSuccess
   }
 }

@@ -33,11 +33,11 @@ class RadioDialogAddPeople extends StatefulWidget {
 class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     implements ConfirmationDineViewModelView, StatusTrackViewModelView {
   String radioItem = STR_MANGO;
-  List<Data> addList = [];
+  List<PeopleData> addList = [];
   AddPeopleInterface addPeopleInterface;
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
-  List<Data> peopleList = [];
+  List<PeopleData> peopleList = [];
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   int id;
@@ -326,7 +326,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   @override
-  void getPeopleListonSuccess(List<Data> data) {
+  void getPeopleListonSuccess(List<PeopleData> data) {
     if (data.length == 0) {
       return;
     }
