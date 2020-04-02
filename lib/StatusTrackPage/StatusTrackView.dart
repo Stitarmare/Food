@@ -20,6 +20,7 @@ import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -73,7 +74,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    confirmationDineviewPresenter.getPeopleList(context);
+    
 
     callApi();
     print(widget.tableId);
@@ -332,10 +333,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    showDialog(
-                        context: context,
-                        child: RadioDialogAddPeople(
-                            widget.tableId, widget.restId, widget.orderID));
+                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    confirmationDineviewPresenter.getPeopleList(context);
                   }),
             ),
           ],
@@ -570,11 +569,15 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   void addPeopleSuccess() {}
 
   @override
-  void getPeopleListonFailed() {}
+  void getPeopleListonFailed() {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
+  }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
+    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
     if (data.length == 0) {
+      Constants.showAlert("", "No record found!", context);
       return;
     }
     setState(() {
@@ -586,6 +589,10 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     });
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
+    showDialog(
+                        context: context,
+                        child: RadioDialogAddPeople(
+                            widget.tableId, widget.restId, widget.orderID));
   }
 
   @override
