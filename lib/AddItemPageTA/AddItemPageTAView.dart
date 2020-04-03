@@ -45,6 +45,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Sizes size;
   List<Sizes> sizes;
   List<Switches> switches;
+  bool isLoding = false;
 
   AddItemModelList _addItemModelList;
   int itemId;
@@ -59,7 +60,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
     isSelected = [true, false];
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    setState(() {
+      isLoding = true;
+    });
+   // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     super.initState();
   }
@@ -214,7 +218,29 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
+        body:  isLoding ? 
+        Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Loading",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              )
+        
+        :CustomScrollView(
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
@@ -903,10 +929,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void addItemfailed() {}
+  void addItemfailed() {
+    setState(() {
+      isLoding = false;
+    });
+  }
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist) {
+    setState(() {
+      isLoding = false;
+    });
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);

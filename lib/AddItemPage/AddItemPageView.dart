@@ -73,14 +73,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid;
+  bool isLoding = false;
 
   @override
   void initState() {
     _addItemPagepresenter =
         AddItemPagepresenter(this, this, this, this, this, this);
     isSelected = [true, false];
+    setState(() {
+      isLoding = true;
+    });
+    
     _addItemPageModelList = AddItemPageModelList();
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+   // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
@@ -265,7 +270,29 @@ class _AddItemPageViewState extends State<AddItemPageView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
+        body: isLoding ? 
+        Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Loading",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              )
+        
+        :CustomScrollView(
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
@@ -1025,11 +1052,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addItemfailed() {}
+  void addItemfailed() {
+    setState(() {
+      isLoding = false;
+    });
+  }
 
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist,
       AddItemPageModelList addItemPageModelList1) {
+        setState(() {
+      isLoding = false;
+    });
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
@@ -1042,7 +1076,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _addItemPageModelList = addItemPageModelList1;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+   // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
