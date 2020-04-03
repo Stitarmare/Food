@@ -52,7 +52,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     super.initState();
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     confirmationDineviewPresenter.getPeopleList(context);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
@@ -186,6 +185,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       }
 
                       if (numbers.isNotEmpty) {
+                        DialogsIndicator.showLoadingDialog(
+                            context, _keyLoader, STR_LOADING);
                         confirmationDineviewPresenter.addPeople(
                             peopleList[id].mobileNumber,
                             widget.tableId,
@@ -358,6 +359,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
     if (data.length == 0) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     setState(() {

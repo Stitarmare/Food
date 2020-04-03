@@ -15,6 +15,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakeContractor.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakePresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -150,7 +151,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                   ),
                   onPressed: () {
                     //print(widget.tableId);
-                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                     _paymentTipandPayDiPresenter.getOrderDetails(
                         widget.orderID, context);
                     itemListDialog();
@@ -386,8 +387,10 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
+  void getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model) {
     if (orderData.list.length == 0) {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
 
@@ -395,7 +398,8 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
       if (orderData.list.length != null) {
         _orderDetailList = orderData;
       }
-    }); // TODO: implement getOrderDetailsSuccess
+    });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

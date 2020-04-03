@@ -41,7 +41,7 @@ class _NotificationViewState extends State<NotificationView>
   @override
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     notificationPresenter.getNotifications(context);
     super.initState();
   }
@@ -145,22 +145,22 @@ class _NotificationViewState extends State<NotificationView>
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
       if (notificationData[index].invitationStatus.isEmpty) {
-          status = await DailogBox.notification_1(
-          context, recipientName, recipientMobno, tableno);
-      print(status);
-      if (status == DailogAction.abort || status == DailogAction.yes) {
-        var statusStr = "";
-        if (status == DailogAction.abort){
-          statusStr = "reject"; 
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno, tableno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+          notificationPresenter.acceptInvitation(notificationData[index].fromId,
+              notificationData[index].invitationId, statusStr, context);
         }
-        if (status == DailogAction.yes){
-          statusStr = "accept"; 
-        }
-notificationPresenter.acceptInvitation(notificationData[index].fromId,
-          notificationData[index].invitationId, statusStr, context);
       }
-      }
-    
     }
   }
 

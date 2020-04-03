@@ -40,7 +40,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   @override
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     notificationPresenter.getNotifications(context);
     super.initState();
   }
@@ -113,7 +113,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                       ),
                     ),
                     onTap: () {
-                      _onTap(index);
+                      _onTap(index, context);
                     },
                   ),
                   decoration: BoxDecoration(
@@ -133,27 +133,27 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           );
   }
 
-  _onTap(int index) async {
+  _onTap(int index, context) async {
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
       if (notificationData[index].invitationStatus.isEmpty) {
-          status = await DailogBox.notification_1(
-          context, recipientName, recipientMobno, tableno);
-      print(status);
-      if (status == DailogAction.abort || status == DailogAction.yes) {
-        var statusStr = "";
-        if (status == DailogAction.abort){
-          statusStr = "reject"; 
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno, tableno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+          notificationPresenter.acceptInvitation(notificationData[index].fromId,
+              notificationData[index].invitationId, statusStr, context);
         }
-        if (status == DailogAction.yes){
-          statusStr = "accept"; 
-        }
-notificationPresenter.acceptInvitation(notificationData[index].fromId,
-          notificationData[index].invitationId, statusStr, context);
       }
-      }
-    
     }
   }
 

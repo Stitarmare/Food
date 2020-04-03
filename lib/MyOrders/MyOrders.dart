@@ -31,7 +31,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   void initState() {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
     _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
   }

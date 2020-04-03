@@ -45,7 +45,7 @@ class _EditProfileState extends State<EditProfileview>
   void initState() {
     super.initState();
     editprofilepresenter = EditProfilePresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     editprofilepresenter.editCountry(context);
     editprofilepresenter.editState(context);
   }

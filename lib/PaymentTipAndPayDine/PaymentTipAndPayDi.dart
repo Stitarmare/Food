@@ -54,7 +54,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
     print(widget.tableId);

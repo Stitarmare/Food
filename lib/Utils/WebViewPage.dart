@@ -38,9 +38,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
     _onStateChanged =
         flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) {
-      if (state.type == WebViewState.startLoad) {
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-      }
+      if (state.type == WebViewState.startLoad) {}
 
       if (state.type == WebViewState.shouldStart &&
           state.url.contains("${BaseUrl.getBaseUrl()}success")) {

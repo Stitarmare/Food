@@ -53,7 +53,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void initState() {
     _myCartpresenter = MycartTWPresenter(this);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 
@@ -548,7 +548,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void removeItemSuccess() {
     _cartItemList = null;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
@@ -556,7 +556,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

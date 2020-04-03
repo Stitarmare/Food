@@ -33,7 +33,7 @@ class MenuItemState extends State<MenuItem>
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     menudropdownPresenter.getMenuLCategory(widget.restaurantId, context);
 
     controller.addListener(() {

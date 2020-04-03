@@ -32,13 +32,14 @@ class _LandingStateView extends State<Landingview>
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
-  final GlobalKey<_LandingStateView> _scaffoldKey = GlobalKey<_LandingStateView>();
+  final GlobalKey<_LandingStateView> _scaffoldKey =
+      GlobalKey<_LandingStateView>();
 
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    DialogsIndicator.showLoadingDialog(
-            context, _scaffoldKey, STR_PLEASE_WAIT);
+    // DialogsIndicator.showLoadingDialog(
+    //         context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
     getCurrentOrderID();
     super.initState();
@@ -267,9 +268,8 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-  DialogsIndicator.showLoadingDialog(
-            context, _scaffoldKey, STR_PLEASE_WAIT);
-     _landingViewPresenter.getCurrentOrder(context);
+    DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    _landingViewPresenter.getCurrentOrder(context);
   }
 
   Widget _buildinningtext() {
@@ -348,7 +348,6 @@ class _LandingStateView extends State<Landingview>
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             goToTakeAway();
-            
           },
           child: Container(
             width: 345,
@@ -379,10 +378,8 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
-            DialogsIndicator.showLoadingDialog(
-            context, _scaffoldKey, STR_PLEASE_WAIT);
-_landingViewPresenter.getCurrentOrder(context);
-
+    DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    _landingViewPresenter.getCurrentOrder(context);
   }
 
   showStatusView() async {
@@ -406,9 +403,9 @@ _landingViewPresenter.getCurrentOrder(context);
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
                   )));
-                  DialogsIndicator.showLoadingDialog(
-            context, _scaffoldKey, STR_PLEASE_WAIT);
-           _landingViewPresenter.getCurrentOrder(context);
+          DialogsIndicator.showLoadingDialog(
+              context, _scaffoldKey, STR_PLEASE_WAIT);
+          _landingViewPresenter.getCurrentOrder(context);
         }
       }
       if (_model.data.takeAway != null) {
@@ -423,9 +420,9 @@ _landingViewPresenter.getCurrentOrder(context);
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
                   )));
-                  DialogsIndicator.showLoadingDialog(
-            context, _scaffoldKey, STR_PLEASE_WAIT);
-           _landingViewPresenter.getCurrentOrder(context);
+          DialogsIndicator.showLoadingDialog(
+              context, _scaffoldKey, STR_PLEASE_WAIT);
+          _landingViewPresenter.getCurrentOrder(context);
         }
       }
     }
@@ -459,17 +456,17 @@ _landingViewPresenter.getCurrentOrder(context);
 
   @override
   void onFailedCurrentOrder() {
-   if (_scaffoldKey.currentContext != null) {
-        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    if (_scaffoldKey.currentContext != null) {
+      Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
     }
   }
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
     if (_scaffoldKey.currentContext != null) {
-        Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+      Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
     }
-    
+
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {

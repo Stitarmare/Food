@@ -116,6 +116,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   ),
                   GestureDetector(
                     onTap: () {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, STR_BLANK);
                       _paymentTipAndPayPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,

@@ -110,6 +110,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
+          DialogsIndicator.showLoadingDialog(
+              context, _keyLoader, STR_PLEASE_WAIT);
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
