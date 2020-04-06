@@ -554,7 +554,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_HOME;
-              _opennewpage();
+              _opennewpage("HOME");
             }),
         DrawerItem(
             text: Text(STR_SETTING,
@@ -569,7 +569,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_SETTING;
-              _opennewpage();
+              _opennewpage("SETTING");
             }),
         DrawerItem(
             text: Text(
@@ -586,7 +586,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_FAVORITE_TITLE;
-              _opennewpage();
+              _opennewpage("FAVORITE");
             }),
         DrawerItem(
             text: Text(
@@ -603,7 +603,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_PRIVACY_POLICY;
-              _opennewpage();
+              _opennewpage("PRIVACY");
             }),
         DrawerItem(
             text: Text(
@@ -620,7 +620,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_ABOUT_US;
-              _opennewpage();
+              _opennewpage("ABOUT");
             }),
         DrawerItem(
             text: Text(
@@ -641,7 +641,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_HELP;
-              _opennewpage();
+              _opennewpage("HELP");
             }),
       ],
     );
@@ -716,12 +716,24 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     );
   }
 
-  void _opennewpage() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => WebViewPage(
-                  title: widget.appbarTitle,
-                )));
+  void _opennewpage(String title) {
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => WebViewPage(
+    //               title: widget.appbarTitle,
+    //             )));
+
+    if (title.contains("HOME")) {
+      Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+    } else if (title.contains("SETTING")) {
+      Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WebViewPage(
+                    title: widget.appbarTitle,
+                  )));
+    }
   }
 }
