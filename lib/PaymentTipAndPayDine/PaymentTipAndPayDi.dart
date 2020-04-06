@@ -693,12 +693,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             builder: (context) => WebViewScreen(
                   url: billModel.url,
                 )));
-    if (data[STR_CHECKOUT_CODE] != null) {
+    if (data != null && data[STR_CHECKOUT_CODE] != null) {
       var codec = latin1.fuse(base64);
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
+      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
     }
   }
 

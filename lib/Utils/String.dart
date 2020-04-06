@@ -413,6 +413,7 @@ const STR_TOTAL = 'Total';
 const STR_CHECKOUT_CODE = 'check_out_code';
 const STR_FOODZI_TITLE = "Foodzi";
 const STR_PAYMENT_FAILED = "Payment Failed.";
+const STR_PAYMENT_CANCELLED = "Payment Cancelled.";
 const STR_CARD = 'card';
 const STR_PAYMENT_SUCCESS = "Payment Success";
 const STR_TRANSACTION_DONE = "Your Transactions Has been Done Successfully";
