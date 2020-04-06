@@ -548,7 +548,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void removeItemSuccess() {
     _cartItemList = null;
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
