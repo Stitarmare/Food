@@ -546,7 +546,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  void payBillCheckoutFailed() {}
+  void payBillCheckoutFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
@@ -607,6 +609,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       );
     } else {
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 

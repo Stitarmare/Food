@@ -654,7 +654,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   @override
-  void payfinalBillFailed() {}
+  void payfinalBillFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   void payfinalBillSuccess() {
@@ -704,7 +706,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   @override
-  void paymentCheckoutFailed() {}
+  void paymentCheckoutFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
@@ -722,6 +726,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           sliderValue);
     } else {
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 }
