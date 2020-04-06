@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyCartTW/MyCartTWView.dart';
+import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
@@ -30,7 +31,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   int currentTabIndex = 0;
   List<Widget> tabsHome = [
     RestaurantTAView(),
-    MyOrders(),
+    MyOrderTakeAway(),
     BottomNotificationView(),
     BottomProfileScreen()
   ];

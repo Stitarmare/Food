@@ -4,6 +4,7 @@ import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
+import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -154,13 +155,19 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTrackView(
-                              orderID: _orderDetailList[index].id,
-                              flag: 2,
-                              restId: _orderDetailList[index].restId,
+                        builder: (context) => StatusTakeAwayView(
                               title:
                                   _orderDetailList[index].restaurant.restName,
+                              orderID: _orderDetailList[index].id,
+                              restId: _orderDetailList[index].restId,
                             )));
+                // builder: (context) => StatusTrackView(
+                //       orderID: _orderDetailList[index].id,
+                //       flag: 2,
+                //       restId: _orderDetailList[index].restId,
+                //       title:
+                //           _orderDetailList[index].restaurant.restName,
+                //     )));
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -462,7 +469,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].status}',
+                      '${getmyOrderBookingHistory[index].orderType}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
