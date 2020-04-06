@@ -31,7 +31,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   void initState() {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
     _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
   }
@@ -548,13 +547,13 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Text(STR_REPEAT_ORDER),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      //   child: GestureDetector(
+                      //     onTap: () {},
+                      //     child: Text(STR_REPEAT_ORDER),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
