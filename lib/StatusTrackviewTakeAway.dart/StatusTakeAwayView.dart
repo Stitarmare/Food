@@ -132,41 +132,41 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
               indent: 15,
               color: Colors.black,
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: FlatButton(
-                  child: Text(
-                    'View Order Details',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'gotham',
-                        decoration: TextDecoration.underline,
-                        decorationColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        color: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () {
-                    //print(widget.tableId);
-                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    _paymentTipandPayDiPresenter.getOrderDetails(
-                        widget.orderID, context);
-                    itemListDialog();
-                    // showDialog(
-                    //     context: context,
-                    //     child:
-                    //     RadioDialogAddPeople(
-                    //         widget.tableId, widget.rest_id, widget.orderID));
+            // Align(
+            //   alignment: Alignment.bottomRight,
+            //   child: FlatButton(
+            //       child: Text(
+            //         'View Order Details',
+            //         style: TextStyle(
+            //             fontSize: 16,
+            //             fontFamily: 'gotham',
+            //             decoration: TextDecoration.underline,
+            //             decorationColor: ((Globle().colorscode) != null)
+            //                 ? getColorByHex(Globle().colorscode)
+            //                 : orangetheme,
+            //             color: ((Globle().colorscode) != null)
+            //                 ? getColorByHex(Globle().colorscode)
+            //                 : orangetheme,
+            //             fontWeight: FontWeight.w600),
+            //       ),
+            //       onPressed: () {
+            //         //print(widget.tableId);
+            //         DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+            //         _paymentTipandPayDiPresenter.getOrderDetails(
+            //             widget.orderID, context);
+            //         itemListDialog();
+            //         // showDialog(
+            //         //     context: context,
+            //         //     child:
+            //         //     RadioDialogAddPeople(
+            //         //         widget.tableId, widget.rest_id, widget.orderID));
 
-                    // SizedBox(
-                    //   height: 50,
-                    // ),
-                    // _billPayment(),
-                  }),
-            )
+            //         // SizedBox(
+            //         //   height: 50,
+            //         // ),
+            //         // _billPayment(),
+            //       }),
+            // )
           ],
         ),
       ),

@@ -530,7 +530,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                         child: GestureDetector(
                           onTap: () {},
-                          child: Text(STR_REPEAT_ORDER),
+                          // child: Text(STR_REPEAT_ORDER),
                         ),
                       ),
                     ],
