@@ -69,7 +69,6 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void initState() {
     _myCartpresenter = MycartPresenter(this, this, this);
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);

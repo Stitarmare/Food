@@ -699,6 +699,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 

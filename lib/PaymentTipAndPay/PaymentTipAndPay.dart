@@ -585,7 +585,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  void paymentCheckoutFailed() {}
+  void paymentCheckoutFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
@@ -608,7 +610,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  void payfinalBillFailed() {}
+  void payfinalBillFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
 
   @override
   void payfinalBillSuccess() {

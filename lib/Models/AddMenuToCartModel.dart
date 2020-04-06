@@ -28,7 +28,9 @@ class AddMenuToCartModel {
         status: json["status"],
         statusCode: json["status_code"],
         message: json["message"],
-        data: AddMenuToCartList.fromJson(json["data"]),
+        data: json["data"] != null
+            ? AddMenuToCartList.fromJson(json["data"])
+            : null,
         totalAmount: json["totalAmount"],
         colourCode: json["colour_code"],
       );
