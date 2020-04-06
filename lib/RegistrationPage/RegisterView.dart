@@ -120,20 +120,20 @@ class _RegisterviewState extends State<Registerview>
           FOODZI_LOGO_PATH,
         ),
         SizedBox(height: 10),
-        Text(
-          STR_ORDER_EASY,
-          style: TextStyle(
-              fontFamily: KEY_FONT_HELVETICANEUE,
-              fontSize: FONTSIZE_11,
-              color: greytheme400,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1),
-        ),
+        // Text(
+        //   STR_ORDER_EASY,
+        //   style: TextStyle(
+        //       fontFamily: KEY_FONT_HELVETICANEUE,
+        //       fontSize: FONTSIZE_11,
+        //       color: greytheme400,
+        //       fontWeight: FontWeight.w700,
+        //       letterSpacing: 1),
+        // ),
         SizedBox(
           height: 5,
         ),
         Divider(
-          color: Colors.green,
+          color: greentheme,
           indent: 138,
           endIndent: 135,
           height: 10,

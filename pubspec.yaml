@@ -60,9 +60,7 @@ flutter:
       - assets/SplashScreen/LauncherScreen@2x.png
       - assets/SplashScreen/LauncherScreen@3x.png
       #Logo Images  
-      - assets/Logo/foodzi_logo.jpg
-      - assets/Logo/foodzi_logo@2x.jpg
-      - assets/Logo/foodzi_logo@3x.jpg
+      - assets/Logo/foodzi_logo.png
       #Lock Images
       - assets/LockImage/Group_1560.png
       - assets/LockImage/Group_1560@2x.png

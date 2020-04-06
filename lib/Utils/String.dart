@@ -235,7 +235,7 @@ const STR_RATINGS = "Ratings";
 const STR_FAVORITE = "Favourites Only ";
 const STR_PLEASE_WAIT = "Please Wait";
 const STR_DINE_IN = "Dine In";
-const FOODZI_LOGO_PATH = "assets/Logo/foodzi_logo.jpg";
+const FOODZI_LOGO_PATH = "assets/Logo/foodzi_logo.png";
 const STR_ORDER_EASY = 'ORDER EASY';
 const LEVEL_IMAGE_PATH = 'assets/LevelsIcon/levels.png';
 const STR_SMALL_DISTANCE = "distance";
@@ -288,7 +288,7 @@ const JSON_STR_MOB_NO = "mobile_number";
 
 // LandingView Page
 const MENU_IAMGE_PATH = 'assets/MenuIcon/menu.png';
-const FODDZI_LOGO_3X = "assets/Logo/foodzi_logo@3x.jpg";
+const FODDZI_LOGO_3X = "assets/Logo/foodzi_logo.png";
 const STR_HELLO = 'Hello';
 const STR_FAV_FINGERTIP = 'All your favourites at your fingertip !!';
 const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';

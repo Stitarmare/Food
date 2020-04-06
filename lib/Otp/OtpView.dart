@@ -162,7 +162,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           pinBoxWidth: 36.0,
           pinBoxHeight: 41.0,
           defaultBorderColor: Colors.grey[300],
-          hasTextBorderColor: Colors.green,
+          hasTextBorderColor: greentheme,
           pinTextStyle: TextStyle(color: Colors.grey[600]),
           pinBoxRadius: 8.0,
           autofocus: false,

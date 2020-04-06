@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/theme/colors.dart';
 
 class StepperCount extends StatelessWidget {
   @override
@@ -49,7 +50,7 @@ Widget _getmainview() {
           padding: const EdgeInsets.all(6.0),
           child: Icon(
             Icons.add,
-            color: Colors.green,
+            color: greentheme,
             size: 20,
           ),
         ),

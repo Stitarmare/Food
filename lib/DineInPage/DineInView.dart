@@ -151,18 +151,18 @@ class _DineViewState extends State<DineInView>
                         FOODZI_LOGO_PATH,
                         height: 30,
                       )),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      STR_ORDER_EASY,
-                      style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
-                          fontSize: FONTSIZE_6,
-                          color: greytheme400,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.centerRight,
+                  //   child: Text(
+                  //     STR_ORDER_EASY,
+                  //     style: TextStyle(
+                  //         fontFamily: KEY_FONTFAMILY,
+                  //         fontSize: FONTSIZE_6,
+                  //         color: greytheme400,
+                  //         fontWeight: FontWeight.w700,
+                  //         letterSpacing: 1),
+                  //   ),
+                  // ),
                 ],
               ),
               IconButton(
@@ -529,7 +529,7 @@ class _DineViewState extends State<DineInView>
                 children: <Widget>[
                   Icon(
                     OMIcons.accessTime,
-                    color: Colors.green,
+                    color: greentheme,
                     size: 15,
                   ),
                   SizedBox(

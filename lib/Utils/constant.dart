@@ -157,7 +157,7 @@ class Constants {
             padding: const EdgeInsets.all(6.0),
             child: Icon(
               Icons.add,
-              color: Colors.green,
+              color: greentheme,
               size: 20,
             ),
           ),

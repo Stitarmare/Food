@@ -19,7 +19,7 @@ const themeAppSurfaceWhite = const Color(0xFFFFFBFA);
 const themeAppBackgroundWhite = Colors.white;
 
 //Green themes
-const greentheme = Color.fromRGBO(15, 22, 35, 1);
+const greentheme = Color.fromRGBO(0, 153, 53, 1);
 const greentheme100 = Color.fromRGBO(55, 180, 76, 1);
 const greentheme200 = Color.fromRGBO(24, 214, 101, 1);
 //Grey themes
@@ -40,7 +40,10 @@ const greytheme1400 = Color.fromRGBO(152, 152, 152, 1);
 const greytheme1500 = Color.fromRGBO(112, 112, 112, 0.2);
 
 //Orange themes
-const orangetheme = Color.fromRGBO(242, 154, 41, 1);
+const orangetheme = Color.fromRGBO(255, 105, 58, 1);
+
+//Green Themes
+//const greentheme = Color.fromRGBO(0, 153, 53, 1);
 
 //Red Theme
 const redtheme = Color.fromRGBO(237, 29, 37, 1);

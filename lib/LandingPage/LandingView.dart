@@ -150,15 +150,15 @@ class _LandingStateView extends State<Landingview>
       padding: const EdgeInsets.only(right: 40.0, top: 5),
       child: Container(
         alignment: Alignment.topRight,
-        child: Text(
-          STR_ORDER_EASY,
-          style: TextStyle(
-              fontFamily: KEY_FONTFAMILY,
-              fontSize: FONTSIZE_12,
-              color: greytheme400,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1),
-        ),
+        // child: Text(
+        //   STR_ORDER_EASY,
+        //   style: TextStyle(
+        //       fontFamily: KEY_FONTFAMILY,
+        //       fontSize: FONTSIZE_12,
+        //       color: greytheme400,
+        //       fontWeight: FontWeight.w700,
+        //       letterSpacing: 1),
+        // ),
       ),
     );
   }
