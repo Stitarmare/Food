@@ -65,4 +65,26 @@ class MycartTWPresenter extends MyCartTWContarctor {
       print(error);
     });
   }
+
+  void updateQauntityCount(
+      int cartId, int quantity, double amount, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.updatequantityApi, context,
+        body: {
+          JSON_STR_CART_ID: cartId,
+          JSON_STR_QUANTITY: quantity,
+          JSON_STR_AMOUNT: amount
+        }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          _cartModelView.updatequantitySuccess();
+          break;
+        case SuccessType.failed:
+          _cartModelView.updatequantityfailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
 }

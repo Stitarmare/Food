@@ -40,7 +40,7 @@ class _LandingStateView extends State<Landingview>
     _landingViewPresenter = LandingViewPresenter(this);
     _landingViewPresenter.getCurrentOrder(context);
     getCurrentOrderID();
-    Preference.getPrefValue<String>("currencySymbol").then((value) {
+    Preference.getPrefValue<String>(STR_CURRENCY_SYMBOL).then((value) {
       if (value != null) {
         Globle().currencySymb = value;
       }

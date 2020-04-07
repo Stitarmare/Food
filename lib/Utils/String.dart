@@ -79,6 +79,7 @@ const STR_UNAUTHORISED = "Unauthorised: ";
 const STR_INVALID_INPUT = "Invalid Input: ";
 
 // MIX_STRING
+const STR_R_CURRENCY_SYMBOL = "R";
 const KEY_APP_NAME = 'foodZi';
 const KEY_FONTFAMILY = 'gotham';
 const STR_DOLLAR_SIGN = "\$ ";
@@ -468,6 +469,9 @@ const JSON_STR_RATING = "rating";
 const STR_ADD_REVIEW = "Add Review";
 const STR_ADD_REVIEW_RATING = "Add Review & Ratings";
 const STR_REVIEW_SUMBITTED = "Review Submitted";
+
+// Restaurant View
+const STR_CURRENCY_SYMBOL = "currencySymbol";
 
 // RestaurantView Page and RestaurantViewTakeAway
 const STR_NO_ITEM_FOUND = 'No items found.';

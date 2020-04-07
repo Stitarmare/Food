@@ -70,14 +70,39 @@ class _MyCartTWViewState extends State<MyCartTWView>
           onTap: (_cartItemList[i].quantity == 1)
               ? () {}
               : () {
-                  if (count > 1) {
+                  if (_cartItemList[i].quantity > 0) {
                     setState(() {
-                      --count;
-                      _cartItemList[i].quantity = count;
-
-                      print(count);
+                      _cartItemList[i].quantity -= 1;
+                      print(_cartItemList[i].quantity);
                     });
+                    DialogsIndicator.showLoadingDialog(
+                        context, _keyLoader, STR_LOADING);
+                    if (_cartItemList[i].quantity > 0) {
+                      _myCartpresenter.updateQauntityCount(
+                          _cartItemList[i].id,
+                          _cartItemList[i].quantity,
+                          _cartItemList[i].totalAmount /
+                              _cartItemList[i].quantity,
+                          context);
+                    }
+                    if (_cartItemList[i].quantity == 0) {
+                      DialogsIndicator.showLoadingDialog(
+                          context, _keyLoader, STR_LOADING);
+                      _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
+                          Globle().loginModel.data.id, context);
+                      setState(() {
+                        _cartItemList.removeAt(_cartItemList[i].id);
+                      });
+                    }
                   }
+                  // if (count > 1) {
+                  //   setState(() {
+                  //     --count;
+                  //     _cartItemList[i].quantity = count;
+
+                  //     print(count);
+                  //   });
+                  // }
                 },
           splashColor: Colors.redAccent.shade200,
           child: Container(
@@ -105,13 +130,27 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () {
-            if (count < 100) {
+            if (_cartItemList[i].quantity < 100) {
               setState(() {
-                ++count;
-                print(count);
-                _cartItemList[i].quantity = count;
+                _cartItemList[i].quantity += 1;
+                print(_cartItemList[i].quantity);
               });
+              DialogsIndicator.showLoadingDialog(
+                  context, _keyLoader, STR_LOADING);
+
+              _myCartpresenter.updateQauntityCount(
+                  _cartItemList[i].id,
+                  _cartItemList[i].quantity,
+                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
+                  context);
             }
+            // if (count < 100) {
+            //   setState(() {
+            //     ++count;
+            //     print(count);
+            //     _cartItemList[i].quantity = count;
+            //   });
+            // }
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -316,8 +355,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         restName: widget.restName,
                                         restId: widget.restId,
                                         userId: _cartItemList[indx].userId,
-                                        price: int.parse(
-                                            _cartItemList[indx].price),
+                                        // price: int.parse(
+                                        //     _cartItemList[indx].price),
                                         items: itemList,
                                         totalAmount: myCart.grandTotal,
                                         orderType: widget.orderType,
@@ -451,8 +490,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                 child: Text(
                                   "${myCart.currencySymbol} " +
                                           "${_cartItemList[index].totalAmount}" ??
-                                      "${myCart.currencySymbol} " +
-                                          STR_SEVENTEEN,
+                                      "",
                                   style: TextStyle(
                                       color: greytheme700,
                                       fontSize: FONTSIZE_16,
@@ -531,6 +569,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         }
       } else {
         _cartItemList.addAll(menulist);
+        myCart = model;
       }
       page++;
     });
@@ -557,6 +596,22 @@ class _MyCartTWViewState extends State<MyCartTWView>
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void updatequantitySuccess() {
+    _cartItemList = null;
+    Globle().takeAwayCartItemCount -= 1;
+    _myCartpresenter.getCartMenuList(
+        widget.restId, context, Globle().loginModel.data.id);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // TODO: implement updatequantitySuccess
+  }
+
+  @override
+  void updatequantityfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // TODO: implement updatequantityfailed
   }
 }
 
