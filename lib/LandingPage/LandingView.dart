@@ -138,7 +138,7 @@ class _LandingStateView extends State<Landingview>
 
   Widget _buildimage() {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.2,
+        width: MediaQuery.of(context).size.width / 1.32,
         child: Image.asset(
           FODDZI_LOGO_3X,
         ));
