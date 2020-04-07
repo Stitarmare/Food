@@ -300,8 +300,11 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${Globle().currencySymb} ' +
-                            '${_orderDetailList[index].totalAmount}',
+                        Globle().currencySymb != null
+                            ? '${Globle().currencySymb} ' +
+                                '${_orderDetailList[index].totalAmount}'
+                            : STR_R_CURRENCY_SYMBOL +
+                                '${_orderDetailList[index].totalAmount}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -492,8 +495,11 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${Globle().currencySymb} ' +
-                          '${getmyOrderBookingHistory[index].totalAmount}',
+                      Globle().currencySymb != null
+                          ? '${Globle().currencySymb} ' +
+                              '${getmyOrderBookingHistory[index].totalAmount}'
+                          : STR_R_CURRENCY_SYMBOL +
+                              '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
