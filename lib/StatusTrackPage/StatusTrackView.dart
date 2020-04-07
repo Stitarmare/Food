@@ -513,7 +513,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                             //   flex: 1,
                             // ),
                             Padding(
-                              padding: EdgeInsets.only(top: 20, left: 15),
+                              padding: EdgeInsets.only(top: 20, left: 5),
                               child: AutoSizeText(
                                 "${_detailsModel.currencySymbol ?? ""} ${_orderDetailList.list[index].totalAmount}",
                                 style: TextStyle(
