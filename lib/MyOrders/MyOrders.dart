@@ -282,7 +282,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].totalAmount}',
+                        '${Globle().currencySymb} ' +
+                            '${_orderDetailList[index].totalAmount}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -511,7 +512,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].totalAmount}',
+                      '${Globle().currencySymb} ' +
+                          '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,

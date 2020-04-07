@@ -91,7 +91,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void initState() {
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);

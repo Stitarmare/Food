@@ -83,9 +83,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       isLoding = true;
     });
-    
+
     _addItemPageModelList = AddItemPageModelList();
-   // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
@@ -270,8 +270,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: isLoding ? 
-        Container(
+        body: isLoding
+            ? Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -291,11 +291,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ],
                 ),
               )
-        
-        :CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-        ),
+            : CustomScrollView(
+                controller: _controller,
+                slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+              ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () async {
@@ -1061,7 +1060,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addItemsuccess(List<AddItemModelList> _additemlist,
       AddItemPageModelList addItemPageModelList1) {
-        setState(() {
+    setState(() {
       isLoding = false;
     });
     _addItemModelList = _additemlist[0];
@@ -1076,7 +1075,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       _addItemPageModelList = addItemPageModelList1;
     });
-   // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
