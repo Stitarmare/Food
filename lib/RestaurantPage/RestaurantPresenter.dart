@@ -31,7 +31,7 @@ class RestaurantPresenter extends RestaurantContractor {
         case SuccessType.success:
           print(value.model);
           Globle().currencySymb = value.model.currencyCode;
-          Preference.setPersistData(Globle().currencySymb, "currencySymbol");
+          Preference.setPersistData(Globle().currencySymb, STR_CURRENCY_SYMBOL);
           restaurantView.getMenuListsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:

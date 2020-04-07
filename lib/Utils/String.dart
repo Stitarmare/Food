@@ -469,6 +469,9 @@ const STR_ADD_REVIEW = "Add Review";
 const STR_ADD_REVIEW_RATING = "Add Review & Ratings";
 const STR_REVIEW_SUMBITTED = "Review Submitted";
 
+// Restaurant View
+const STR_CURRENCY_SYMBOL = "currencySymbol";
+
 // RestaurantView Page and RestaurantViewTakeAway
 const STR_NO_ITEM_FOUND = 'No items found.';
 const STR_VEG_ONLY = 'veg only';
