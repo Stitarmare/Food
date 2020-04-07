@@ -79,6 +79,7 @@ const STR_UNAUTHORISED = "Unauthorised: ";
 const STR_INVALID_INPUT = "Invalid Input: ";
 
 // MIX_STRING
+const STR_R_CURRENCY_SYMBOL = "R";
 const KEY_APP_NAME = 'foodZi';
 const KEY_FONTFAMILY = 'gotham';
 const STR_DOLLAR_SIGN = "\$ ";
