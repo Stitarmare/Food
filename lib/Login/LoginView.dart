@@ -107,7 +107,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   ),
                   _otptext(),
                   SizedBox(
-                    height: 80,
+                    height: 60,
                   ),
                   _signupbutton()
                 ],
@@ -122,19 +122,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset(
-          FOODZI_LOGO_PATH,
-        ),
-        SizedBox(height: 10),
-        // Text(
-        //   STR_ORDER_EASY,
-        //   style: TextStyle(
-        //       fontFamily: KEY_FONT_HELVETICANEUE,
-        //       fontSize: FONTSIZE_11,
-        //       color: greytheme400,
-        //       fontWeight: FontWeight.w700,
-        //       letterSpacing: 1),
-        // ),
+        Center(
+            child:
+                Image.asset(FOODZI_LOGO_PATH, fit: BoxFit.fill, height: 100)),
         SizedBox(
           height: 5,
         ),
