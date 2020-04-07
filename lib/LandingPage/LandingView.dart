@@ -121,9 +121,8 @@ class _LandingStateView extends State<Landingview>
               height: 30,
             ),
             _buildimage(),
-            _orderEasy(),
             SizedBox(
-              height: 125,
+              height: 100,
             ),
             _buildMaintext(),
             SizedBox(
@@ -138,28 +137,12 @@ class _LandingStateView extends State<Landingview>
 
   Widget _buildimage() {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.32,
+        //width: MediaQuery.of(context).size.width / 1.32,
+        height: MediaQuery.of(context).size.height * 0.15,
         child: Image.asset(
           FODDZI_LOGO_3X,
+          fit: BoxFit.fill,
         ));
-  }
-
-  Widget _orderEasy() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 40.0, top: 5),
-      child: Container(
-        alignment: Alignment.topRight,
-        // child: Text(
-        //   STR_ORDER_EASY,
-        //   style: TextStyle(
-        //       fontFamily: KEY_FONTFAMILY,
-        //       fontSize: FONTSIZE_12,
-        //       color: greytheme400,
-        //       fontWeight: FontWeight.w700,
-        //       letterSpacing: 1),
-        // ),
-      ),
-    );
   }
 
   Widget _buildMaintext() {
@@ -239,7 +222,7 @@ class _LandingStateView extends State<Landingview>
             goToDineIn();
           },
           child: Container(
-            width: 345,
+            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
             height: 90,
             child: Row(
               children: <Widget>[
@@ -349,7 +332,7 @@ class _LandingStateView extends State<Landingview>
             goToTakeAway();
           },
           child: Container(
-            width: 345,
+            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
             height: 90,
             child: Row(
               children: <Widget>[
