@@ -529,7 +529,7 @@ class _DineViewState extends State<DineInView>
                 children: <Widget>[
                   Icon(
                     OMIcons.accessTime,
-                    color: greentheme,
+                    color: Colors.green,
                     size: 15,
                   ),
                   SizedBox(
