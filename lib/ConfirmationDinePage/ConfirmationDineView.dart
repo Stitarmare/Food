@@ -526,13 +526,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void placeOrderfailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    
   }
 
   @override
   void placeOrdersuccess(OrderData orderData) {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -543,7 +545,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 

@@ -27,8 +27,8 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
     String latitude,
     String longitude,
     BuildContext context,
-  ) {
-    ApiBaseHelper()
+  ) async {
+   var value = await ApiBaseHelper()
         .post<PlaceOrderModel>(UrlConstant.placeOrderApi, context, body: {
       JSON_STR_USER_ID: userId,
       JSON_STR_REST_ID: restId,
@@ -38,8 +38,9 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
       JSON_STR_LATITUDE: latitude,
       JSON_STR_LONGITUDE: longitude,
       JSON_STR_ITEMS: items
-    }).then((value) {
-      print(value);
+    });
+
+    print(value);
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
@@ -49,8 +50,5 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
           _paymentTipAndPayModelView.placeOrderfailed();
           break;
       }
-    }).catchError((error) {
-      print(error);
-    });
   }
 }
