@@ -559,6 +559,8 @@ const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
 
 // WebView Page
 const STR_GOOGLE_URL = "https://google.co.in";
+const STR_URL_TERMS_CONDITION = "http://api.watslive.com/terms_and_conditions";
+const STR_URL_PRIVACY_POLICY = "https://api.watslive.com/privacy_policy";
 
 // KeyBoardAction Page
 const STR_CUSTOM_ACTION = "Custom Action";

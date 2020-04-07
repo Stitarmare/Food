@@ -74,7 +74,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(animationController)
       ..addListener(() {
         setState(() {});
