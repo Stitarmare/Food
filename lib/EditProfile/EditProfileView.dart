@@ -76,9 +76,8 @@ class _EditProfileState extends State<EditProfileview>
   void updateButtonClicked() {
     if (_editprofileFormKey.currentState.validate()) {
       DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      editprofilepresenter
-        ..performUpdate(firstName, lastName, streetAddress, countryID, stateID,
-            cityID, pinCode, context);
+      editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
+          countryID, stateID, cityID, pinCode, context);
     } else {
       setState(() {
         _validate = true;
@@ -433,8 +432,8 @@ class _EditProfileState extends State<EditProfileview>
                     fontSize: FONTSIZE_20),
               ),
               onPressed: () {
-                Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-                    .pop();
+                // Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+                //     .pop();
                 Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
               },
             ),
@@ -449,13 +448,13 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editCitySuccess(List<CityList> cityList) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (cityList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -463,13 +462,13 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editCountrySuccess(List<CountryList> countryList) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (countryList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -477,13 +476,13 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void editStateSuccess(List<StateList> stateList) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (stateList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override

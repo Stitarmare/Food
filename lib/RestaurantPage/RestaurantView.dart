@@ -361,7 +361,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.36,
+                                          0.30,
                                       child: AutoSizeText(
                                         "${_restaurantList[index].itemName}" ??
                                             STR_SPACE,
@@ -384,8 +384,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                   "${_restaurantList[index].itemDescription}" ??
                                       STR_SPACE,
                                   maxLines: 2,
-                                  minFontSize: 10,
-                                  maxFontSize: 12,
+                                  minFontSize: FONTSIZE_10,
+                                  maxFontSize: FONTSIZE_12,
                                   softWrap: true,
                                   style: TextStyle(
                                       fontSize: FONTSIZE_12,
@@ -396,7 +396,7 @@ class _RestaurantViewState extends State<RestaurantView>
                               ]),
                         )),
                         SizedBox(
-                          height: 2,
+                          height: 1,
                         ),
                         Container(
                           height: MediaQuery.of(context).size.width * 0.09,

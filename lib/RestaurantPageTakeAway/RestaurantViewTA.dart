@@ -372,7 +372,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               ]),
                         )),
                         SizedBox(
-                          height: 2,
+                          height: 1,
                         ),
                         Container(
                           height: MediaQuery.of(context).size.width * 0.09,

@@ -85,7 +85,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
     });
 
     _addItemPageModelList = AddItemPageModelList();
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
@@ -490,26 +489,31 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Widget _foodItemLogo() {
     return Container(
       child: new Container(
-        decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(40.0),
-              topRight: const Radius.circular(40.0),
-            )),
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12),
           child: CachedNetworkImage(
+            // fit: BoxFit.fill,
+            placeholder: (context, url) =>
+                Center(child: CircularProgressIndicator()),
+            imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
+            errorWidget: (context, url, error) => Image.asset(
+              RESTAURANT_IMAGE_PATH,
               fit: BoxFit.fill,
+            ),
+            imageBuilder: (context, imageProvider) => Container(
+              height: 195,
               width: double.infinity,
-              height: 175,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
-              errorWidget: (context, url, error) => Image.asset(
-                    RESTAURANT_IMAGE_PATH,
-                    fit: BoxFit.fill,
-                  )),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10.0),
+                  topRight: const Radius.circular(10.0),
+                  bottomLeft: const Radius.circular(10.0),
+                  bottomRight: const Radius.circular(10.0),
+                ),
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              ),
+            ),
+          ),
         ),
       ),
     );

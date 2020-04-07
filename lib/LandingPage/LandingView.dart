@@ -38,10 +38,13 @@ class _LandingStateView extends State<Landingview>
   @override
   void initState() {
     _landingViewPresenter = LandingViewPresenter(this);
-    // DialogsIndicator.showLoadingDialog(
-    //         context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
     getCurrentOrderID();
+    Preference.getPrefValue<String>(STR_CURRENCY_SYMBOL).then((value) {
+      if (value != null) {
+        Globle().currencySymb = value;
+      }
+    });
     super.initState();
   }
 
@@ -708,8 +711,26 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
           MaterialPageRoute(
               builder: (context) => WebViewPage(
                     title: widget.appbarTitle,
+                    strURL: STR_GOOGLE_URL,
                   )));
     } else if (title.contains(STR_PRIVACY_POLICY)) {
-    } else if (title.contains(STR_TERMS_CONDITION)) {}
+      Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WebViewPage(
+                    title: widget.appbarTitle,
+                    strURL: STR_URL_PRIVACY_POLICY,
+                  )));
+    } else if (title.contains(STR_TERMS_CONDITION)) {
+      Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WebViewPage(
+                    title: widget.appbarTitle,
+                    strURL: STR_URL_TERMS_CONDITION,
+                  )));
+    }
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -28,6 +30,8 @@ class RestaurantPresenter extends RestaurantContractor {
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
+          Globle().currencySymb = value.model.currencyCode;
+          Preference.setPersistData(Globle().currencySymb, STR_CURRENCY_SYMBOL);
           restaurantView.getMenuListsuccess(value.model.data, value.model);
           break;
         case SuccessType.failed:

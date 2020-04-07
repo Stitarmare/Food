@@ -5,7 +5,8 @@ import 'package:foodzi/theme/colors.dart';
 
 class WebViewPage extends StatefulWidget {
   String title;
-  WebViewPage({this.title});
+  String strURL;
+  WebViewPage({this.title, this.strURL});
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
@@ -15,7 +16,7 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-      url: STR_GOOGLE_URL,
+      url: widget.strURL,
       appBar: new AppBar(
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,

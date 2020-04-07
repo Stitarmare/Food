@@ -74,7 +74,6 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    
 
     callApi();
     print(widget.tableId);
@@ -444,7 +443,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                       color: redtheme,
                                     ),
                             ),
-                            SizedBox(width: 5),
+                            SizedBox(width: 1),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,8 +464,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                   height: 6,
                                 ),
                                 SizedBox(
-                                  height: 30,
-                                  width: 180,
+                                  height: 20,
+                                  width: 150,
                                   child: AutoSizeText(
                                     _orderDetailList.list[index].items
                                             .itemDescription ??
@@ -479,16 +478,42 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                     maxLines: 2,
                                   ),
                                 ),
+                                SizedBox(
+                                  height: 15,
+                                  width: 150,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        "Quantity: ",
+                                        style: TextStyle(
+                                          color: greytheme1000,
+                                          fontSize: FONTSIZE_11,
+                                        ),
+                                      ),
+                                      AutoSizeText(
+                                        _orderDetailList.list[index].quantity
+                                                .toString() ??
+                                            "",
+                                        style: TextStyle(
+                                          color: greytheme1000,
+                                          fontSize: FONTSIZE_14,
+                                        ),
+                                        maxFontSize: FONTSIZE_12,
+                                        maxLines: 2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 80,
-                              ),
-                              flex: 2,
-                            ),
+                            // Expanded(
+                            //   child: SizedBox(
+                            //       // width: 80,
+                            //       ),
+                            //   flex: 1,
+                            // ),
                             Padding(
-                              padding: EdgeInsets.only(top: 20),
+                              padding: EdgeInsets.only(top: 20, left: 5),
                               child: AutoSizeText(
                                 "${_detailsModel.currencySymbol ?? ""} ${_orderDetailList.list[index].totalAmount}",
                                 style: TextStyle(
@@ -570,12 +595,12 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getPeopleListonFailed() {
-    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
-    Navigator.of(_keyLoader.currentContext,rootNavigator: true)..pop();
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       Constants.showAlert("", "No record found!", context);
       return;
@@ -590,9 +615,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     print(peopleList.length);
     print(peopleList.elementAt(0).firstName);
     showDialog(
-                        context: context,
-                        child: RadioDialogAddPeople(
-                            widget.tableId, widget.restId, widget.orderID));
+        context: context,
+        child: RadioDialogAddPeople(
+            widget.tableId, widget.restId, widget.orderID));
   }
 
   @override
@@ -608,7 +633,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model) {
+  void getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model) {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;

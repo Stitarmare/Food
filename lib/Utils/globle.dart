@@ -18,5 +18,6 @@ class Globle {
   int takeAwayCartItemCount = 0;
   String restauranrtName = STR_BLANK;
   String orderNumber = STR_BLANK;
+  String currencySymb = STR_BLANK;
   var authKey;
 }
