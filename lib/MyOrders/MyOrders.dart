@@ -536,7 +536,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         child: Container(
                           height: 10,
                           width: 10,
-                          color: greentheme,
+                          color: Colors.green,
                         ),
                       ),
                       SizedBox(
