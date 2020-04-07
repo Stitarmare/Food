@@ -17,4 +17,6 @@ abstract class MyCartTWModelView {
   void getCartMenuListfailed();
   void removeItemSuccess();
   void removeItemFailed();
+  void updatequantitySuccess();
+  void updatequantityfailed();
 }
