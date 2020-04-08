@@ -141,6 +141,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                               ),
                               imageUrl:
                                   BaseUrl.getBaseUrlImages() + src.imagePath,
+                              errorWidget: (context, url, error) => Image.asset(
+                                RESTAURANT_IMAGE_PATH,
+                                fit: BoxFit.fill,
+                              ),
                             )
                           : Image.asset(
                               src.imagePath,
@@ -403,7 +407,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             FlatButton(
                               child: Image.asset(
                                 BACK_BTN_ICON_PATH,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                               onPressed: () {
                                 Navigator.pop(context);
