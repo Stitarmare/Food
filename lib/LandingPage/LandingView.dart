@@ -124,9 +124,8 @@ class _LandingStateView extends State<Landingview>
               height: 30,
             ),
             _buildimage(),
-            _orderEasy(),
             SizedBox(
-              height: 125,
+              height: 100,
             ),
             _buildMaintext(),
             SizedBox(
@@ -141,28 +140,12 @@ class _LandingStateView extends State<Landingview>
 
   Widget _buildimage() {
     return Container(
-        width: MediaQuery.of(context).size.width / 1.32,
+        //width: MediaQuery.of(context).size.width / 1.32,
+        height: MediaQuery.of(context).size.height * 0.15,
         child: Image.asset(
           FODDZI_LOGO_3X,
+          fit: BoxFit.fill,
         ));
-  }
-
-  Widget _orderEasy() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 40.0, top: 5),
-      child: Container(
-        alignment: Alignment.topRight,
-        // child: Text(
-        //   STR_ORDER_EASY,
-        //   style: TextStyle(
-        //       fontFamily: KEY_FONTFAMILY,
-        //       fontSize: FONTSIZE_12,
-        //       color: greytheme400,
-        //       fontWeight: FontWeight.w700,
-        //       letterSpacing: 1),
-        // ),
-      ),
-    );
   }
 
   Widget _buildMaintext() {
@@ -242,7 +225,7 @@ class _LandingStateView extends State<Landingview>
             goToDineIn();
           },
           child: Container(
-            width: 345,
+            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
             height: 90,
             child: Row(
               children: <Widget>[
@@ -352,7 +335,7 @@ class _LandingStateView extends State<Landingview>
             goToTakeAway();
           },
           child: Container(
-            width: 345,
+            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
             height: 90,
             child: Row(
               children: <Widget>[
@@ -557,56 +540,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             onPressed: () {
               widget.appbarTitle = STR_HOME;
               _opennewpage(STR_HOME);
-            }),
-        DrawerItem(
-            text: Text(STR_SETTING,
-                style: TextStyle(
-                    color: greytheme800,
-                    fontFamily: KEY_FONTFAMILY,
-                    fontWeight: FontWeight.w600,
-                    fontSize: FONTSIZE_15)),
-            icon: Icon(Icons.settings, size: 20, color: greytheme800),
-            page: Landingview(
-              title: STR_GALLERY,
-            ),
-            onPressed: () {
-              widget.appbarTitle = STR_SETTING;
-              _opennewpage(STR_SETTING);
-            }),
-        DrawerItem(
-            text: Text(
-              STR_TERMS_CONDITION,
-              style: TextStyle(
-                  color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w600,
-                  fontSize: FONTSIZE_15),
-            ),
-            icon: Icon(Icons.description, size: 20, color: greytheme800),
-            page: Landingview(
-              title: STR_FAVORITE_TITLE,
-            ),
-            onPressed: () {
-              widget.appbarTitle = STR_TERMS_CONDITION;
-              _opennewpage(STR_TERMS_CONDITION);
-            }),
-        DrawerItem(
-            text: Text(
-              STR_PRIVACY_POLICY,
-              style: TextStyle(
-                  color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w600,
-                  fontSize: FONTSIZE_15),
-            ),
-            icon: Icon(Icons.verified_user, size: 20, color: greytheme800),
-            page: Landingview(
-              title: STR_NOTIFICATION,
-            ),
-            onPressed: () {
-              widget.appbarTitle = STR_PRIVACY_POLICY;
-              _opennewpage(STR_PRIVACY_POLICY);
-            }),
+            }), //HOME
         DrawerItem(
             text: Text(
               STR_ABOUT_US,
@@ -623,7 +557,57 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             onPressed: () {
               widget.appbarTitle = STR_ABOUT_US;
               _opennewpage(STR_ABOUT_US);
-            }),
+            }), //ABOUT US
+        DrawerItem(
+            text: Text(
+              STR_TERMS_CONDITION,
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  fontSize: FONTSIZE_15),
+            ),
+            icon: Icon(Icons.description, size: 20, color: greytheme800),
+            page: Landingview(
+              title: STR_FAVORITE_TITLE,
+            ),
+            onPressed: () {
+              widget.appbarTitle = STR_TERMS_CONDITION;
+              _opennewpage(STR_TERMS_CONDITION);
+            }), //TERMS & CONDITIONS
+        DrawerItem(
+            text: Text(
+              STR_PRIVACY_POLICY,
+              style: TextStyle(
+                  color: greytheme800,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  fontSize: FONTSIZE_15),
+            ),
+            icon: Icon(Icons.verified_user, size: 20, color: greytheme800),
+            page: Landingview(
+              title: STR_NOTIFICATION,
+            ),
+            onPressed: () {
+              widget.appbarTitle = STR_PRIVACY_POLICY;
+              _opennewpage(STR_PRIVACY_POLICY);
+            }), //PRIVACY POLICY
+        DrawerItem(
+            text: Text(STR_SETTING,
+                style: TextStyle(
+                    color: greytheme800,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w600,
+                    fontSize: FONTSIZE_15)),
+            icon: Icon(Icons.settings, size: 20, color: greytheme800),
+            page: Landingview(
+              title: STR_GALLERY,
+            ),
+            onPressed: () {
+              widget.appbarTitle = STR_SETTING;
+              _opennewpage(STR_SETTING);
+            }), //SETTING
+
         DrawerItem(
             text: Text(
               STR_HELP,
@@ -644,7 +628,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             onPressed: () {
               widget.appbarTitle = STR_HELP;
               _opennewpage(STR_HELP);
-            }),
+            }), //HELP
       ],
     );
   }

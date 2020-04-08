@@ -740,11 +740,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
                         title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
-                        secondary: Text(_addItemPageModelList.currencySymbol !=
-                                    null
-                                ? "${_addItemPageModelList.currencySymbol} " +
-                                    "${radionBtnsize.secondary}"
-                                : STR_R_CURRENCY_SYMBOL +
+                        secondary: Text(
+                                '${_addItemPageModelList.currencySymbol}' +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,

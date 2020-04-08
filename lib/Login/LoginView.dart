@@ -123,8 +123,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     return Column(
       children: <Widget>[
         Center(
-            child:
-                Image.asset(FOODZI_LOGO_PATH, fit: BoxFit.fill, height: 100)),
+            child: Image.asset(FOODZI_LOGO_PATH,
+                fit: BoxFit.fill,
+                height: MediaQuery.of(context).size.height * 0.15)),
         SizedBox(
           height: 5,
         ),

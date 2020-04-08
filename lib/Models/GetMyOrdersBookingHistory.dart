@@ -1,3 +1,11 @@
+import 'dart:convert';
+
+GetMyOrdersBookingHistory getMyOrdersBookingHistoryFromJson(String str) =>
+    GetMyOrdersBookingHistory.fromJson(json.decode(str));
+
+String getMyOrdersBookingHistoryToJson(GetMyOrdersBookingHistory data) =>
+    json.encode(data.toJson());
+
 class GetMyOrdersBookingHistory {
   String status;
   int statusCode;
@@ -31,11 +39,13 @@ class GetMyOrderBookingHistoryList {
   int userId;
   dynamic additionalComments;
   int restId;
-  String orderNumber;
   String status;
   String totalAmount;
+  dynamic timeToPickupOrder;
+  dynamic waiterId;
   DateTime createdAt;
   DateTime updatedAt;
+  String orderNumber;
   bool isRunning;
   Restaurant restaurant;
   List<GetMyOrderBookingList> list;
@@ -47,11 +57,13 @@ class GetMyOrderBookingHistoryList {
     this.userId,
     this.additionalComments,
     this.restId,
-    this.orderNumber,
     this.status,
     this.totalAmount,
+    this.timeToPickupOrder,
+    this.waiterId,
     this.createdAt,
     this.updatedAt,
+    this.orderNumber,
     this.isRunning,
     this.restaurant,
     this.list,
@@ -65,11 +77,13 @@ class GetMyOrderBookingHistoryList {
         userId: json["user_id"],
         additionalComments: json["additional_comments"],
         restId: json["rest_id"],
-        orderNumber: json["order_number"],
         status: json["status"],
         totalAmount: json["total_amount"],
+        timeToPickupOrder: json["time_to_pickup_order"],
+        waiterId: json["waiter_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        orderNumber: json["order_number"],
         isRunning: json["is_running"],
         restaurant: Restaurant.fromJson(json["restaurant"]),
         list: List<GetMyOrderBookingList>.from(
@@ -83,11 +97,13 @@ class GetMyOrderBookingHistoryList {
         "user_id": userId,
         "additional_comments": additionalComments,
         "rest_id": restId,
-        "order_number": orderNumber,
         "status": status,
         "total_amount": totalAmount,
+        "time_to_pickup_order": timeToPickupOrder,
+        "waiter_id": waiterId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "order_number": orderNumber,
         "is_running": isRunning,
         "restaurant": restaurant.toJson(),
         "list": List<dynamic>.from(list.map((x) => x.toJson())),
@@ -104,11 +120,12 @@ class GetMyOrderBookingList {
   int orderId;
   int userId;
   int restId;
+  dynamic waiterId;
   String price;
   String status;
+  dynamic sizePrice;
   DateTime createdAt;
   DateTime updatedAt;
-  dynamic sizePrice;
   Items items;
 
   GetMyOrderBookingList({
@@ -121,11 +138,12 @@ class GetMyOrderBookingList {
     this.orderId,
     this.userId,
     this.restId,
+    this.waiterId,
     this.price,
     this.status,
+    this.sizePrice,
     this.createdAt,
     this.updatedAt,
-    this.sizePrice,
     this.items,
   });
 
@@ -140,11 +158,12 @@ class GetMyOrderBookingList {
         orderId: json["order_id"],
         userId: json["user_id"],
         restId: json["rest_id"],
-        price: json["price"],
+        waiterId: json["waiter_id"],
+        price: json["price"] == null ? null : json["price"],
         status: json["status"],
+        sizePrice: json["size_price"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sizePrice: json["size_price"],
         items: Items.fromJson(json["items"]),
       );
 
@@ -158,11 +177,12 @@ class GetMyOrderBookingList {
         "order_id": orderId,
         "user_id": userId,
         "rest_id": restId,
-        "price": price,
+        "waiter_id": waiterId,
+        "price": price == null ? null : price,
         "status": status,
+        "size_price": sizePrice,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        "size_price": sizePrice,
         "items": items.toJson(),
       };
 }
@@ -172,13 +192,11 @@ class Items {
   String itemName;
   String price;
   String itemDescription;
-  int workstationId;
-  int restId;
   String menuType;
-  String availability;
   String defaultPreparationTime;
   String itemCode;
   String itemImage;
+  int workstationId;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -187,13 +205,11 @@ class Items {
     this.itemName,
     this.price,
     this.itemDescription,
-    this.workstationId,
-    this.restId,
     this.menuType,
-    this.availability,
     this.defaultPreparationTime,
     this.itemCode,
     this.itemImage,
+    this.workstationId,
     this.createdAt,
     this.updatedAt,
   });
@@ -203,13 +219,11 @@ class Items {
         itemName: json["item_name"],
         price: json["price"],
         itemDescription: json["item_description"],
-        workstationId: json["workstation_id"],
-        restId: json["rest_id"],
         menuType: json["menu_type"],
-        availability: json["availability"],
         defaultPreparationTime: json["default_preparation_time"],
         itemCode: json["item_code"],
         itemImage: json["item_image"],
+        workstationId: json["workstation_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
@@ -219,13 +233,11 @@ class Items {
         "item_name": itemName,
         "price": price,
         "item_description": itemDescription,
-        "workstation_id": workstationId,
-        "rest_id": restId,
         "menu_type": menuType,
-        "availability": availability,
         "default_preparation_time": defaultPreparationTime,
         "item_code": itemCode,
         "item_image": itemImage,
+        "workstation_id": workstationId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
       };
@@ -236,7 +248,8 @@ class Restaurant {
   String restName;
   String addressLine1;
   dynamic addressLine2;
-  String addressLine3;
+  dynamic addressLine3;
+  String coverImage;
 
   Restaurant({
     this.id,
@@ -244,6 +257,7 @@ class Restaurant {
     this.addressLine1,
     this.addressLine2,
     this.addressLine3,
+    this.coverImage,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
@@ -252,6 +266,7 @@ class Restaurant {
         addressLine1: json["address_line_1"],
         addressLine2: json["address_line_2"],
         addressLine3: json["address_line_3"],
+        coverImage: json["cover_image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -260,5 +275,6 @@ class Restaurant {
         "address_line_1": addressLine1,
         "address_line_2": addressLine2,
         "address_line_3": addressLine3,
+        "cover_image": coverImage,
       };
 }
