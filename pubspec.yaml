@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_slider:
+  basic_utils: ^2.5.3
 
   cupertino_icons: ^0.1.2
   http: ^0.12.0+2
@@ -189,7 +190,4 @@ flutter:
 
 
 module:
-  androidX: true 
-    
-   
-    
+  androidX: true
