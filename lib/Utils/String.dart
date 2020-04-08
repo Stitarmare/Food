@@ -405,7 +405,7 @@ const STR_RANDOM = 'gfgfg';
 
 // PaymentTipandPay Page and PaymentTipandPay Take Away
 const STR_PAYMENT = "Payment";
-const STR_PLACED_PAY_BILL = 'PLACED & PAY BILL';
+const STR_PLACE_ORDER_PAY_BILL = 'PLACE ORDER & PAY BILL';
 const STR_BILL_DETAILS = 'Bill Details';
 const STR_SUBTOTAL = 'Subtotal';
 const STR_ELEVEN = ' 11.20';
@@ -475,7 +475,7 @@ const STR_CURRENCY_SYMBOL = "currencySymbol";
 
 // RestaurantView Page and RestaurantViewTakeAway
 const STR_NO_ITEM_FOUND = 'No items found.';
-const STR_VEG_ONLY = 'veg only';
+const STR_VEG_ONLY = 'Veg only';
 const STR_MENU = "Menu";
 const FOOD_IMAGE_PATH = "assets/PlaceholderFoodImage/MaskGroup55.png";
 const STR_ADD = "+ ADD";
@@ -578,7 +578,7 @@ const STR_INVITATION_SEND = "Invitation Send";
 const STR_INVITATION_SUCCESS = "Invitation has been send Successfully!!";
 const STR_ADD_TITLE = "Add ";
 const STR_PEOPLE = "People";
-const STR_JOINED_PEOPLE = "Joined people:";
+const STR_JOINED_PEOPLE = "Joined People";
 
 // TakeAwayBottombar Page
 const STR_BTN_BUZZER = "btnBuzzer";

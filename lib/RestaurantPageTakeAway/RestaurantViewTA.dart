@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -144,14 +145,25 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
       child: CachedNetworkImage(
-          fit: BoxFit.fill,
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-          errorWidget: (context, url, error) => Image.asset(
-                RESTAURANT_IMAGE_PATH,
-                fit: BoxFit.fill,
-              )),
+        fit: BoxFit.fill,
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+        errorWidget: (context, url, error) => Image.asset(
+          RESTAURANT_IMAGE_PATH,
+        ),
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+              bottomLeft: const Radius.circular(10.0),
+              bottomRight: const Radius.circular(10.0),
+            ),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+          ),
+        ),
+      ),
     );
   }
 
@@ -339,8 +351,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                       width: MediaQuery.of(context).size.width *
                                           0.36,
                                       child: AutoSizeText(
-                                        "${_restaurantList[index].itemName}" ??
-                                            STR_SPACE,
+                                        _restaurantList[index].itemName != null
+                                            ? StringUtils.capitalize(
+                                                "${_restaurantList[index].itemName}")
+                                            : STR_SPACE,
                                         maxLines: 2,
                                         minFontSize: FONTSIZE_10,
                                         maxFontSize: FONTSIZE_13,
@@ -357,8 +371,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                   height: 8,
                                 ),
                                 AutoSizeText(
-                                  "${_restaurantList[index].itemDescription}" ??
-                                      STR_SPACE,
+                                  _restaurantList[index].itemDescription != null
+                                      ? StringUtils.capitalize(
+                                          "${_restaurantList[index].itemDescription}")
+                                      : STR_SPACE,
                                   maxLines: 2,
                                   minFontSize: FONTSIZE_10,
                                   maxFontSize: FONTSIZE_12,

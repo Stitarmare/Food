@@ -63,7 +63,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       isLoding = true;
     });
-   // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     super.initState();
   }
@@ -218,8 +218,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body:  isLoding ? 
-        Container(
+        body: isLoding
+            ? Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -239,11 +239,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   ],
                 ),
               )
-        
-        :CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-        ),
+            : CustomScrollView(
+                controller: _controller,
+                slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+              ),
         bottomNavigationBar: BottomAppBar(
           child: GestureDetector(
             onTap: () async {
@@ -413,16 +412,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
       child: CachedNetworkImage(
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+        errorWidget: (context, url, error) => Image.asset(
+          RESTAURANT_IMAGE_PATH,
           fit: BoxFit.fill,
-          width: double.infinity,
+        ),
+        imageBuilder: (context, imageProvider) => Container(
           height: 175,
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-          errorWidget: (context, url, error) => Image.asset(
-                RESTAURANT_IMAGE_PATH,
-                fit: BoxFit.fill,
-              )),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+              bottomLeft: const Radius.circular(10.0),
+              bottomRight: const Radius.circular(10.0),
+            ),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+          ),
+        ),
+      ),
     );
   }
 
@@ -622,7 +632,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
                         title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
-                        secondary: Text("\$ ${radionBtnsize.secondary}") ??
+                        secondary: Text(Globle().currencySymb != null
+                                ? "${Globle().currencySymb} " +
+                                    "${radionBtnsize.secondary}"
+                                : STR_R_CURRENCY_SYMBOL +
+                                    "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
                         value: radionBtnsize.index,

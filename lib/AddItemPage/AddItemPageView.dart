@@ -510,7 +510,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   bottomLeft: const Radius.circular(10.0),
                   bottomRight: const Radius.circular(10.0),
                 ),
-                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
               ),
             ),
           ),
