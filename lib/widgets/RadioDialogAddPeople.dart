@@ -82,14 +82,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         children: <Widget>[
           Container(
-              height: 500,
+              height: 400,
               width: 284,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
               child: Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 5,
+                    height: 4,
                   ),
                   Center(
                     child: Text(
@@ -102,7 +102,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     ),
                   ),
                   Expanded(
-                      flex: 4,
+                      flex: (_checkBoxOptions.length > 2) ? 5 : 4,
                       child: ListView.builder(
                           itemCount: getPeopleListLength(),
                           itemBuilder: (BuildContext context, int i) {
@@ -148,10 +148,11 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      peopleList[i].firstName ?? STR_BLANK,
+                                      "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
+                                          STR_BLANK,
                                       style: TextStyle(
                                           fontSize: FONTSIZE_13,
-                                          color: Color.fromRGBO(64, 64, 64, 1)),
+                                          color: greytheme700),
                                     ),
                                   ],
                                 ));
@@ -221,14 +222,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                     child: Text(
                       STR_JOINED_PEOPLE,
                       style: TextStyle(
-                          color: greytheme100,
-                          decoration: TextDecoration.underline,
-                          fontSize: 18,
+                          fontSize: FONTSIZE_16,
+                          color: greytheme700,
+                          fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600),
                     ),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child: ListView.builder(
                       itemCount: invitePeopleList.length,
                       itemBuilder: (BuildContext context, int index) {
@@ -236,7 +237,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                           children: <Widget>[
                             Text(
                               "${index + 1}) " +
-                                  "${invitePeopleList[index].toUser.firstName}",
+                                  "${invitePeopleList[index].toUser.firstName ?? ""} ${invitePeopleList[index].toUser.lastName ?? ""}",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: greytheme100,
@@ -322,7 +323,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             Divider(
               endIndent: 15,
               indent: 15,
-              color: Colors.black,
+              color: greytheme700,
             ),
             FlatButton(
               child: Text(STR_OK,

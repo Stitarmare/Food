@@ -578,7 +578,7 @@ const STR_INVITATION_SEND = "Invitation Send";
 const STR_INVITATION_SUCCESS = "Invitation has been send Successfully!!";
 const STR_ADD_TITLE = "Add ";
 const STR_PEOPLE = "People";
-const STR_JOINED_PEOPLE = "Joined people:";
+const STR_JOINED_PEOPLE = "Joined People";
 
 // TakeAwayBottombar Page
 const STR_BTN_BUZZER = "btnBuzzer";
