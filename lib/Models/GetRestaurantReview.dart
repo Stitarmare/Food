@@ -1,63 +1,68 @@
 import 'dart:convert';
 
-GetRestaurantReview getRestaurantReviewFromJson(String str) => GetRestaurantReview.fromJson(json.decode(str));
+GetRestaurantReview getRestaurantReviewFromJson(String str) =>
+    GetRestaurantReview.fromJson(json.decode(str));
 
-String getRestaurantReviewToJson(GetRestaurantReview data) => json.encode(data.toJson());
+String getRestaurantReviewToJson(GetRestaurantReview data) =>
+    json.encode(data.toJson());
 
 class GetRestaurantReview {
-    String status;
-    int statusCode;
-    int page;
-    int totalPages;
-    List<RestaurantReviewList> data;
+  String status;
+  int statusCode;
+  int page;
+  int totalPages;
+  List<RestaurantReviewList> data;
 
-    GetRestaurantReview({
-        this.status,
-        this.statusCode,
-        this.page,
-        this.totalPages,
-        this.data,
-    });
+  GetRestaurantReview({
+    this.status,
+    this.statusCode,
+    this.page,
+    this.totalPages,
+    this.data,
+  });
 
-    factory GetRestaurantReview.fromJson(Map<String, dynamic> json) => GetRestaurantReview(
+  factory GetRestaurantReview.fromJson(Map<String, dynamic> json) =>
+      GetRestaurantReview(
         status: json["status"],
         statusCode: json["status_code"],
         page: json["page"],
         totalPages: json["totalPages"],
-        data: List<RestaurantReviewList>.from(json["data"].map((x) => RestaurantReviewList.fromJson(x))),
-    );
+        data: List<RestaurantReviewList>.from(
+            json["data"].map((x) => RestaurantReviewList.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
         "page": page,
         "totalPages": totalPages,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    };
+      };
 }
 
 class RestaurantReviewList {
-    int id;
-    int userId;
-    int restId;
-    String description;
-    int rating;
-    DateTime createdAt;
-    DateTime updatedAt;
-    User user;
+  int id;
+  int userId;
+  int restId;
+  String description;
+  int rating;
+  DateTime createdAt;
+  DateTime updatedAt;
+  User user;
 
-    RestaurantReviewList({
-        this.id,
-        this.userId,
-        this.restId,
-        this.description,
-        this.rating,
-        this.createdAt,
-        this.updatedAt,
-        this.user,
-    });
+  RestaurantReviewList({
+    this.id,
+    this.userId,
+    this.restId,
+    this.description,
+    this.rating,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+  });
 
-    factory RestaurantReviewList.fromJson(Map<String, dynamic> json) => RestaurantReviewList(
+  factory RestaurantReviewList.fromJson(Map<String, dynamic> json) =>
+      RestaurantReviewList(
         id: json["id"],
         userId: json["user_id"],
         restId: json["rest_id"],
@@ -66,9 +71,9 @@ class RestaurantReviewList {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         user: User.fromJson(json["user"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "user_id": userId,
         "rest_id": restId,
@@ -77,57 +82,55 @@ class RestaurantReviewList {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "user": user.toJson(),
-    };
+      };
 }
 
 class User {
-    int id;
-    String firstName;
-    String lastName;
-    UserDetails userDetails;
+  int id;
+  String firstName;
+  String lastName;
+  UserDetails userDetails;
 
-    User({
-        this.id,
-        this.firstName,
-        this.lastName,
-        this.userDetails,
-    });
+  User({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.userDetails,
+  });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-         userDetails: UserDetails.fromJson(json["user_details"]),
-    );
+        userDetails: json["user_details"] != null
+            ? UserDetails.fromJson(json["user_details"])
+            : null,
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "first_name": firstName,
         "last_name": lastName,
-       "user": userDetails.toJson(),
-    };
+        "user": userDetails.toJson(),
+      };
 }
-class UserDetails{
+
+class UserDetails {
   int id;
   String profileImage;
   int userId;
 
-   UserDetails({
-     this.id,
-     this.profileImage,
-     this.userId
-   });
-   
-   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
+  UserDetails({this.id, this.profileImage, this.userId});
+
+  factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["id"],
         profileImage: json["profile_image"],
         userId: json["user_id"],
       );
 
-      Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "profile_image": profileImage,
         "user_id": userId,
-    };
-     
+      };
 }
