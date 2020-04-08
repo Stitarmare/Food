@@ -412,7 +412,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
       child: CachedNetworkImage(
-        // fit: BoxFit.fill,
         placeholder: (context, url) =>
             Center(child: CircularProgressIndicator()),
         imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
@@ -633,7 +632,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
                         title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
-                        secondary: Text("\$ ${radionBtnsize.secondary}") ??
+                        secondary: Text(Globle().currencySymb != null
+                                ? "${Globle().currencySymb} " +
+                                    "${radionBtnsize.secondary}"
+                                : STR_R_CURRENCY_SYMBOL +
+                                    "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
                         value: radionBtnsize.index,

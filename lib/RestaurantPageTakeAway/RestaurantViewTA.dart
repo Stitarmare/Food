@@ -371,8 +371,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                   height: 8,
                                 ),
                                 AutoSizeText(
-                                  "${_restaurantList[index].itemDescription}" ??
-                                      STR_SPACE,
+                                  _restaurantList[index].itemDescription != null
+                                      ? StringUtils.capitalize(
+                                          "${_restaurantList[index].itemDescription}")
+                                      : STR_SPACE,
                                   maxLines: 2,
                                   minFontSize: FONTSIZE_10,
                                   maxFontSize: FONTSIZE_12,

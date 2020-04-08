@@ -138,7 +138,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                               topRight: Radius.circular(15))),
                       child: Center(
                         child: Text(
-                          STR_PLACED_PAY_BILL,
+                          STR_PLACE_ORDER_PAY_BILL,
                           style: TextStyle(
                               fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,

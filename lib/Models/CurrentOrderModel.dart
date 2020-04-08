@@ -91,7 +91,7 @@ class CurrentOrderList {
         restaurant: Restaurant.fromJson(json["restaurant"]),
         list: List<ListElement>.from(
             json["list"].map((x) => ListElement.fromJson(x))),
-        table: Table.fromJson(json["table"]),
+        table: json["table"] != null ? Table.fromJson(json["table"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
