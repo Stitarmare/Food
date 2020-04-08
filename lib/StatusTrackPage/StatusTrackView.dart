@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
@@ -453,8 +454,12 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: Text(
                                     _orderDetailList
-                                            .list[index].items.itemName ??
-                                        STR_ITEM_NAME,
+                                                .list[index].items.itemName !=
+                                            null
+                                        ? StringUtils.capitalize(
+                                            _orderDetailList
+                                                .list[index].items.itemName)
+                                        : STR_ITEM_NAME,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_18,
                                         color: greytheme700),
@@ -468,8 +473,12 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                   width: 150,
                                   child: AutoSizeText(
                                     _orderDetailList.list[index].items
-                                            .itemDescription ??
-                                        STR_ITEM_DESC,
+                                                .itemDescription !=
+                                            null
+                                        ? StringUtils.capitalize(
+                                            _orderDetailList.list[index].items
+                                                .itemDescription)
+                                        : STR_ITEM_DESC,
                                     style: TextStyle(
                                       color: greytheme1000,
                                       fontSize: FONTSIZE_14,

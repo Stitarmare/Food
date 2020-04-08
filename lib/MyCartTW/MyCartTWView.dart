@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
@@ -53,7 +54,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   void initState() {
     _myCartpresenter = MycartTWPresenter(this);
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 
@@ -448,8 +448,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     width: MediaQuery.of(context).size.width *
                                         0.65,
                                     child: Text(
-                                      _cartItemList[index].items.itemName ??
-                                          STR_ITEM_NAME,
+                                      _cartItemList[index].items.itemName !=
+                                              null
+                                          ? StringUtils.capitalize(
+                                              _cartItemList[index]
+                                                  .items
+                                                  .itemName)
+                                          : STR_ITEM_NAME,
                                       style: TextStyle(
                                           fontFamily: KEY_FONTFAMILY,
                                           fontSize: FONTSIZE_16,
@@ -464,9 +469,14 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     width: 180,
                                     child: AutoSizeText(
                                       _cartItemList[index]
-                                              .items
-                                              .itemDescription ??
-                                          STR_ITEM_DESC,
+                                                  .items
+                                                  .itemDescription !=
+                                              null
+                                          ? StringUtils.capitalize(
+                                              _cartItemList[index]
+                                                  .items
+                                                  .itemDescription)
+                                          : STR_ITEM_DESC,
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: FONTSIZE_14,

@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
@@ -490,8 +491,13 @@ class _MyCartViewState extends State<MyCartView>
                                     width: MediaQuery.of(context).size.width *
                                         0.65,
                                     child: Text(
-                                      _cartItemList[index].items.itemName ??
-                                          STR_ITEM_NAME,
+                                      _cartItemList[index].items.itemName !=
+                                              null
+                                          ? StringUtils.capitalize(
+                                              _cartItemList[index]
+                                                  .items
+                                                  .itemName)
+                                          : STR_ITEM_NAME,
                                       style: TextStyle(
                                           fontFamily: KEY_FONTFAMILY,
                                           fontSize: FONTSIZE_16,
