@@ -180,8 +180,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                               placeholder: (context, url) => Center(
                                 child: CircularProgressIndicator(),
                               ),
-                              imageUrl:
-                                  BaseUrl.getBaseUrlImages() + '$imageurl',
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_orderDetailList[index].restaurant.coverImage}',
                               errorWidget: (context, url, error) => Image.asset(
                                 RESTAURANT_IMAGE_PATH,
                                 fit: BoxFit.fill,
