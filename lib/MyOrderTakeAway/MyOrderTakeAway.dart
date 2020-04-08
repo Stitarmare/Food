@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
@@ -7,6 +8,7 @@ import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class MyOrderTakeAway extends StatefulWidget {
@@ -188,9 +190,17 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                           width: 40,
                           margin: const EdgeInsets.only(left: 15, top: 8),
                           child: ClipRRect(
-                            child: Image.asset(
-                              RESTAURANT_IMAGE_PATH,
+                            child: CachedNetworkImage(
                               fit: BoxFit.fill,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_orderDetailList[index].restaurant.coverImage}',
+                              errorWidget: (context, url, error) => Image.asset(
+                                RESTAURANT_IMAGE_PATH,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(8)),
@@ -384,9 +394,17 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         width: 40,
                         margin: const EdgeInsets.only(left: 15, top: 8),
                         child: ClipRRect(
-                          child: Image.asset(
-                            RESTAURANT_IMAGE_PATH,
+                          child: CachedNetworkImage(
                             fit: BoxFit.fill,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            imageUrl: BaseUrl.getBaseUrlImages() +
+                                '${getmyOrderBookingHistory[index].restaurant.coverImage}',
+                            errorWidget: (context, url, error) => Image.asset(
+                              RESTAURANT_IMAGE_PATH,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                           borderRadius:
                               new BorderRadius.all(Radius.circular(8)),
