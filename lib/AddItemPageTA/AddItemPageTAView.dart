@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
@@ -63,7 +64,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       isLoding = true;
     });
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     super.initState();
   }
@@ -278,7 +278,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   cartAlert(
                       STR_STARTNEWORDER,
                       (restaurantName != null)
-                          ? STR_YOURUNFINIHEDORDER +
+                          ? STR_YOUR_UNFINIHED_ORDER +
                               "$restaurantName" +
                               STR_WILLDELETE
                           : STR_UNFINISHEDORDER,
@@ -447,7 +447,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Padding(
                 padding: EdgeInsets.only(top: 25, left: 26),
                 child: Text(
-                  widget.title,
+                  StringUtils.capitalize(widget.title),
                   style: TextStyle(
                       fontFamily: KEY_FONTFAMILY,
                       fontSize: FONTSIZE_16,
@@ -458,7 +458,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
                 child: Text(
-                  widget.description,
+                  StringUtils.capitalize(widget.description),
                   style: TextStyle(
                       fontFamily: KEY_FONTFAMILY,
                       fontSize: FONTSIZE_16,
@@ -631,7 +631,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 .map((radionBtnsize) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
+                        title: radionBtnsize.title != null
+                            ? Text(StringUtils.capitalize(
+                                "${radionBtnsize.title}"))
+                            : Text(STR_DATA),
                         secondary: Text(Globle().currencySymb != null
                                 ? "${Globle().currencySymb} " +
                                     "${radionBtnsize.secondary}"
@@ -670,7 +673,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtn.title}") ?? Text(STR_DATA),
+                        title: radionBtn.title != null
+                            ? Text(StringUtils.capitalize("${radionBtn.title}"))
+                            : Text(STR_DATA),
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
@@ -857,7 +862,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          checkBtn.title ?? STR_BLANK,
+                          checkBtn.title != null
+                              ? StringUtils.capitalize(checkBtn.title)
+                              : STR_BLANK,
                           style: TextStyle(fontSize: 13, color: greytheme700),
                         ),
                         Expanded(
@@ -871,7 +878,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15),
                             child: Text(
-                              checkBtn.price.toString() ?? STR_BLANK,
+                              Globle().currencySymb != null
+                                  ? Globle().currencySymb +
+                                      STR_SPACE +
+                                      checkBtn.price.toString()
+                                  : STR_BLANK,
                               style: TextStyle(
                                   fontSize: FONTSIZE_13, color: greytheme700),
                             ),
@@ -891,7 +902,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               onWillPop: () async => false,
               child: AlertDialog(
                 title: Text(
-                  title,
+                  StringUtils.capitalize(title),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
@@ -910,7 +921,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     height: 15,
                   ),
                   Text(
-                    message,
+                    StringUtils.capitalize(message),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,

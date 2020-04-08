@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -253,8 +254,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           Container(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
-                              widget.itemdata[index].items.itemName ??
-                                  STR_ITEM_NAME,
+                              widget.itemdata[index].items.itemName != null
+                                  ? StringUtils.capitalize(
+                                      widget.itemdata[index].items.itemName)
+                                  : STR_ITEM_NAME,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18, color: greytheme700),
                             ),
@@ -266,8 +269,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              widget.itemdata[index].items.itemDescription ??
-                                  STR_ITEM_DESC,
+                              widget.itemdata[index].items.itemDescription !=
+                                      null
+                                  ? StringUtils.capitalize(widget
+                                      .itemdata[index].items.itemDescription)
+                                  : STR_ITEM_DESC,
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
