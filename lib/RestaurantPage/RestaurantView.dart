@@ -262,14 +262,25 @@ class _RestaurantViewState extends State<RestaurantView>
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
       child: CachedNetworkImage(
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+        errorWidget: (context, url, error) => Image.asset(
+          RESTAURANT_IMAGE_PATH,
           fit: BoxFit.fill,
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-          errorWidget: (context, url, error) => Image.asset(
-                RESTAURANT_IMAGE_PATH,
-                fit: BoxFit.fill,
-              )),
+        ),
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(10.0),
+              topRight: const Radius.circular(10.0),
+              bottomLeft: const Radius.circular(10.0),
+              bottomRight: const Radius.circular(10.0),
+            ),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+          ),
+        ),
+      ),
     );
   }
 
