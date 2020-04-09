@@ -368,6 +368,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               Preference.setPersistData<String>(widget.restName,
                                   PreferenceKeys.restaurantName);
                               Globle().dinecartValue = 0;
+                              Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
                               Navigator.of(context).pop();
                             },
                           ),
@@ -982,7 +983,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   void addMenuToCartsuccess() {
     Globle().takeAwayCartItemCount += 1;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);

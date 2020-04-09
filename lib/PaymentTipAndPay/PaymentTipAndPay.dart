@@ -540,9 +540,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
+        Globle().takeAwayCartItemCount = 0;
       }
     });
-    Globle().takeAwayCartItemCount = 0;
+    
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;

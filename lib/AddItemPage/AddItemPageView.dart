@@ -1097,11 +1097,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     Globle().dinecartValue += 1;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(widget.restName, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
     showAlertSuccess(
