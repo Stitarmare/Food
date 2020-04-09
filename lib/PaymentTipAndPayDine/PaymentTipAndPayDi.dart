@@ -703,8 +703,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      _paymentTipandPayDiPresenter.onCancelledPayment(widget.orderID, "dine_in", context);
+      
     }
   }
 
@@ -731,5 +731,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
+  }
+
+  @override
+  void cancelledPaymentFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      
+    // TODO: implement cancelledPaymentSuccess
   }
 }
