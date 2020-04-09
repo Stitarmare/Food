@@ -159,6 +159,8 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     context,
                     MaterialPageRoute(
                         builder: (context) => StatusTakeAwayView(
+                              imgUrl:
+                                  _orderDetailList[index].restaurant.coverImage,
                               title:
                                   _orderDetailList[index].restaurant.restName,
                               orderID: _orderDetailList[index].id,
