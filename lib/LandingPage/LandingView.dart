@@ -461,8 +461,13 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(
               model.data.dineIn.id, PreferenceKeys.orderId);
           Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+          Globle().takeAwayCartItemCount = 0;
+    
+    Preference.setPersistData<int>(
+        0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -479,6 +484,11 @@ class _LandingStateView extends State<Landingview>
               model.data.takeAway.id, PreferenceKeys.orderId);
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+          Globle().takeAwayCartItemCount = 0;
+    
+    Preference.setPersistData<int>(
+        0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -496,7 +506,13 @@ class _LandingStateView extends State<Landingview>
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+    
+    Preference.setPersistData<int>(
+        0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);

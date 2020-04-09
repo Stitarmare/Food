@@ -58,6 +58,23 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
       print(error);
     });
   }
+
+  onCancelledPayment(int orderId,String orderType,BuildContext context) async{
+    var value = await ApiBaseHelper().post<ErrorModel>(UrlConstant.cancelledOrderPayment, context,body: {
+      "order_type":orderType,
+      "order_id":orderId,
+      "status":"payment cancelled"
+    });
+    switch (value.result) {
+        case SuccessType.success:
+          print(value.model);
+          _paymentTipandPayDiModelView.cancelledPaymentSuccess();
+          break;
+        case SuccessType.failed:
+          _paymentTipandPayDiModelView.cancelledPaymentFailed();
+          break;
+      }
+  }
 }
 
 class PayFinalBillPresenter extends PayFinalBillContaractor {

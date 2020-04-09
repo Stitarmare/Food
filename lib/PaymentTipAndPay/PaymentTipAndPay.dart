@@ -540,9 +540,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
+        Globle().takeAwayCartItemCount = 0;
       }
     });
-    Globle().takeAwayCartItemCount = 0;
+    
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
@@ -573,8 +574,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      
+      
+      _paymentTipandPayDiPresenter.onCancelledPayment(myOrderData.id, widget.orderType, context);
     }
   }
 
@@ -637,5 +639,18 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
+  }
+
+  @override
+  void cancelledPaymentFailed() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+    // TODO: implement cancelledPaymentSuccess
   }
 }

@@ -318,6 +318,7 @@ class _MyCartViewState extends State<MyCartView>
                             STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
                         Globle().dinecartValue = 0;
+                        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
                         Preference.setPersistData<int>(
                             0, PreferenceKeys.dineCartItemCount);
                         (_cartItemList != null)
@@ -630,14 +631,14 @@ class _MyCartViewState extends State<MyCartView>
       List<MenuCartList> menulist, MenuCartDisplayModel model) {
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
-      Preference.setPersistData(
+      Preference.setPersistData<int>(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
 
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().dinecartValue = menulist.length;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
 
     setState(() {
@@ -660,9 +661,9 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void removeItemFailed() {
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

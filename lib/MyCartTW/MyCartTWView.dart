@@ -559,15 +559,15 @@ class _MyCartTWViewState extends State<MyCartTWView>
       List<MenuCartList> menulist, MenuCartDisplayModel model) {
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
-      Preference.setPersistData(
+      Preference.setPersistData<int>(
           Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-      Preference.setPersistData(null, PreferenceKeys.restaurantID);
-      Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+      Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+      Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().takeAwayCartItemCount = menulist.length;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
@@ -601,8 +601,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Globle().takeAwayCartItemCount -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

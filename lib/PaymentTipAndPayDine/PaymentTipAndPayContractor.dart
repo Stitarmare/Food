@@ -20,6 +20,8 @@ abstract class PaymentTipandPayDiModelView {
   void getOrderDetailsFailed();
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel);
   void paymentCheckoutFailed();
+  void cancelledPaymentSuccess();
+  void cancelledPaymentFailed();
 }
 
 abstract class PayFinalBillContaractor {
