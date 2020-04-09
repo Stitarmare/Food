@@ -15,6 +15,7 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class AddItemPageView extends StatefulWidget {
   String title;
@@ -75,6 +76,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid;
   bool isLoding = false;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -259,6 +261,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return SafeArea(
       left: false,
       top: false,
@@ -326,8 +329,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   _updateOrderModel.items.switches = switches ?? [];
                   _updateOrderModel.items.sizes = size == null ? [] : [size];
                   print(_updateOrderModel.toJson());
-                  DialogsIndicator.showLoadingDialog(
-                      context, _keyLoader, STR_BLANK);
+                  // DialogsIndicator.showLoadingDialog(
+                  //     context, _keyLoader, STR_BLANK);
+                  progressDialog.show();
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   Constants.showAlert(
@@ -392,11 +396,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 : STR_UNFINISHEDORDER,
             context);
       } else {
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -441,8 +447,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                              DialogsIndicator.showLoadingDialog(
-                                  context, _keyLoader, "");
+                              // DialogsIndicator.showLoadingDialog(
+                              //    context, _keyLoader, "");
+                              progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -1099,11 +1106,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(widget.restName, PreferenceKeys.restaurantName);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+    Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
@@ -1123,7 +1130,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -1131,10 +1139,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    progressDialog.hide();
   }
 
   @override
@@ -1143,7 +1152,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void updateOrderSuccess() {
     Globle().dinecartValue += 1;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }

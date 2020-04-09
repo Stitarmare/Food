@@ -26,13 +26,15 @@ class StatusTakeAwayView extends StatefulWidget {
   int restId;
   String restname;
   String title;
+  String imgUrl;
   StatusTakeAwayView(
       {this.orderID,
       this.flag,
       this.restId,
       this.title,
       this.restname,
-      this.tableId});
+      this.tableId,
+      this.imgUrl});
   @override
   State<StatefulWidget> createState() {
     return _StatusTakeAwayViewState();

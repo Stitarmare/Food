@@ -8,6 +8,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class MyDialogRating extends StatefulWidget {
   const MyDialogRating({this.onValueChange, this.initialValue, this.restId});
@@ -26,6 +27,7 @@ class MyDialogRatingState extends State<MyDialogRating>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
+  ProgressDialog progressDialog;
 
   void rate(int rating) {
     setState(() {
@@ -46,6 +48,8 @@ class MyDialogRatingState extends State<MyDialogRating>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+
     return new SimpleDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -169,8 +173,9 @@ class MyDialogRatingState extends State<MyDialogRating>
                             duration: Toast.LENGTH_SHORT,
                             gravity: Toast.BOTTOM);
                       } else {
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "");
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, "");
+                        progressDialog.show();
                         restaurantReviewPresenter.writeRestaurantReview(context,
                             widget.restId, _controller.value.text, _rating);
                       }
@@ -214,7 +219,8 @@ class MyDialogRatingState extends State<MyDialogRating>
 
   @override
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Toast.show(
       STR_REVIEW_SUMBITTED,
       context,

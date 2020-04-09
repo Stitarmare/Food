@@ -122,7 +122,7 @@ class MenuItemState extends State<MenuItem>
 
   @override
   void getMenuLCategoryfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -138,7 +138,7 @@ class MenuItemState extends State<MenuItem>
       }
     });
 
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

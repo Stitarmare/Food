@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class OTPScreen extends StatefulWidget {
   String mobno;
@@ -28,6 +29,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   DialogsIndicator dialogs = DialogsIndicator();
   var otppresenter;
   String mobileNo;
+  ProgressDialog progressDialog;
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
@@ -38,6 +40,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -75,12 +78,14 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   void onsubmitButtonClicked() {
     if (widget.value == 0 && otpsave != null) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       otppresenter.performOTP(widget.mobno, otpsave, context);
     } else if (widget.isFromFogetPass == true &&
         widget.value != 0 &&
         otpsave != null) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
     }
   }
@@ -245,8 +250,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           ),
           new GestureDetector(
             onTap: () {
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, STR_BLANK);
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_BLANK);
+              progressDialog.show();
               otppresenter.resendOTP(widget.mobno, context);
             },
             child: new Text(
@@ -265,25 +271,27 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void otpfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void otpsuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
   @override
   void getFailedForForgetPass() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void getSuccesForForgetPass() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => ResetPasswordview(
               mobno: widget.mobno,
@@ -292,12 +300,14 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   void resendotpfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void resendotpsuccess(message) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_RESEND_OTP, message, context);
   }
 

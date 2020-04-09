@@ -341,6 +341,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => StatusTrackView(
+                                        imgUrl: _orderDetailList[index]
+                                            .restaurant
+                                            .coverImage,
                                         tableId:
                                             _orderDetailList[index].tableId,
                                         orderID: _orderDetailList[index].id,
@@ -608,7 +611,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList = _orderdetailsList;
       }
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(
         _orderDetailList[0].id, PreferenceKeys.currentOrderId);
     Preference.setPersistData<int>(

@@ -8,6 +8,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:foodzi/RegistrationPage/RegisterPresenter.dart';
 import 'RegisterContractor.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Registerview extends StatefulWidget {
   @override
@@ -24,6 +25,7 @@ class _RegisterviewState extends State<Registerview>
   final GlobalKey<FormState> _signUpFormKey = GlobalKey<FormState>();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
+  ProgressDialog progressDialog;
 
   bool _validate = false;
   var countrycode = STR_BLANK;
@@ -41,6 +43,7 @@ class _RegisterviewState extends State<Registerview>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
@@ -70,7 +73,8 @@ class _RegisterviewState extends State<Registerview>
 
   void onSignUpButtonClicked() {
     if (_signUpFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, context);
       _signUpFormKey.currentState.save();
@@ -387,12 +391,14 @@ class _RegisterviewState extends State<Registerview>
   @override
   void registerSuccess() {
     _signUpFormKey.currentState.save();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _goToNextPageDineIn(context);
   }
 
   @override
   void registerfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

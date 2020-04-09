@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'LoginPresenter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
+  ProgressDialog progressDialog;
   var loginPresenter;
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   };
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
@@ -70,7 +73,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   void onSignInButtonClicked() {
     if (_signInFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       loginPresenter.performLogin(mobilenumber, password, context);
     } else {
       setState(() {
@@ -384,13 +388,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   @override
   void loginFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void loginSuccess() {
     _signInFormKey.currentState.save();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 }

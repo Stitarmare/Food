@@ -26,7 +26,8 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
-          _paymentTipandPayDiModelView.getOrderDetailsSuccess(value.model.data,value.model);
+          _paymentTipandPayDiModelView.getOrderDetailsSuccess(
+              value.model.data, value.model);
           break;
         case SuccessType.failed:
           _paymentTipandPayDiModelView.getOrderDetailsFailed();
@@ -59,21 +60,23 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
     });
   }
 
-  onCancelledPayment(int orderId,String orderType,BuildContext context) async{
-    var value = await ApiBaseHelper().post<ErrorModel>(UrlConstant.cancelledOrderPayment, context,body: {
-      "order_type":orderType,
-      "order_id":orderId,
-      "status":"payment cancelled"
+  onCancelledPayment(
+      int orderId, String orderType, BuildContext context) async {
+    var value = await ApiBaseHelper().post<ErrorModel>(
+        UrlConstant.cancelledOrderPayment, context, body: {
+      "order_type": orderType,
+      "order_id": orderId,
+      "status": "payment cancelled"
     });
     switch (value.result) {
-        case SuccessType.success:
-          print(value.model);
-          _paymentTipandPayDiModelView.cancelledPaymentSuccess();
-          break;
-        case SuccessType.failed:
-          _paymentTipandPayDiModelView.cancelledPaymentFailed();
-          break;
-      }
+      case SuccessType.success:
+        print(value.model);
+        _paymentTipandPayDiModelView.cancelledPaymentSuccess();
+        break;
+      case SuccessType.failed:
+        _paymentTipandPayDiModelView.cancelledPaymentFailed();
+        break;
+    }
   }
 }
 
@@ -132,14 +135,15 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
   void payBillCheckOut(
     int restId,
     int amount,
+    String currency,
     BuildContext context,
   ) {
     ApiBaseHelper().post<PaycheckoutNetbanking>(
-        UrlConstant.paycheckOutNetbankingApi, context,
-        body: {
-          JSON_STR_REST_ID: restId,
-          JSON_STR_AMOUNT: amount,
-        }).then((value) {
+        UrlConstant.paycheckOutNetbankingApi, context, body: {
+      JSON_STR_REST_ID: restId,
+      JSON_STR_AMOUNT: amount,
+      JSON_STR_CURRENCY: currency
+    }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

@@ -344,6 +344,8 @@ const JSON_STR_CART_ID = 'cart_id';
 const JSON_STR_TABLE_ID = "table_id";
 const JSON_STR_QUANTITY = "quantity";
 const JSON_STR_AMOUNT = "amount";
+const JSON_STR_CURRENCY = "currency";
+
 const STR_SUMBIT = 'SUBMIT';
 const STR_ITEM_DESC = " Lorem Epsom is simply dummy text";
 const STR_SEVENTEEN = '17';

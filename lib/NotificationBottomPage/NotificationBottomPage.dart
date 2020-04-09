@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 enum NotificationType {
   order_item_status,
@@ -37,6 +38,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   String tableno;
   List notifytext;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  ProgressDialog progressDialog;
   @override
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
@@ -47,6 +49,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -137,7 +140,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      if (notificationData[index].invitationStatus == null ||notificationData[index].invitationStatus.isEmpty) {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
@@ -149,7 +153,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+          progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
         }
@@ -208,11 +213,13 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void acceptInvitationFailed(ErrorModel model) {
+    progressDialog.hide();
     Toast.show(
       model.message,
       context,
@@ -223,7 +230,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   void acceptInvitationSuccess(ErrorModel model) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,
       context,
