@@ -47,4 +47,5 @@ class UrlConstant {
   static const getSplitBillOption = "api/getSplitBillOption";
   static const getSPlitBillNotification =
       "api/sendNotificationToCertainMembers";
+  static const cancelledOrderPayment = "api/cancelledOrderPayment";
 }

@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
@@ -325,6 +326,8 @@ class _MyCartViewState extends State<MyCartView>
                         Globle().dinecartValue = 0;
                         Preference.setPersistData<int>(
                             0, PreferenceKeys.dineCartItemCount);
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.dineCartItemCount);
                         (_cartItemList != null)
                             ? Navigator.push(
                                 context,
@@ -497,8 +500,13 @@ class _MyCartViewState extends State<MyCartView>
                                     width: MediaQuery.of(context).size.width *
                                         0.65,
                                     child: Text(
-                                      _cartItemList[index].items.itemName ??
-                                          STR_ITEM_NAME,
+                                      _cartItemList[index].items.itemName !=
+                                              null
+                                          ? StringUtils.capitalize(
+                                              _cartItemList[index]
+                                                  .items
+                                                  .itemName)
+                                          : STR_ITEM_NAME,
                                       style: TextStyle(
                                           fontFamily: KEY_FONTFAMILY,
                                           fontSize: FONTSIZE_16,
@@ -632,14 +640,14 @@ class _MyCartViewState extends State<MyCartView>
       List<MenuCartList> menulist, MenuCartDisplayModel model) {
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
-      Preference.setPersistData(
+      Preference.setPersistData<int>(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
       progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().dinecartValue = menulist.length;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
 
     setState(() {

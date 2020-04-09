@@ -65,7 +65,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
         null) {
       Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount)
           .then((value) {
-        Globle().takeAwayCartItemCount = value;
+            setState(() {
+              Globle().takeAwayCartItemCount = value;
+            });
+        
       });
     }
     super.initState();
@@ -455,6 +458,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   ),
                   onTap: () {
                     Globle().takeAwayCartItemCount = 0;
+                    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
                     Globle().colorscode = _restaurantList[i].colourCode;
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TakeAwayBottombar(

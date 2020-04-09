@@ -514,7 +514,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].status}',
+                      '${getmyOrderBookingHistory[index].orderType}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,

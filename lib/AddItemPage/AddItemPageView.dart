@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
@@ -391,7 +392,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         cartAlert(
             STR_STARTNEWORDER,
             (restaurantName != null)
-                ? STR_YOURUNFINIHEDORDER + "$restaurantName" + STR_WILLDELETE
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
                 : STR_UNFINISHEDORDER,
             context);
       } else {
@@ -499,7 +500,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
         child: Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: CachedNetworkImage(
-            // fit: BoxFit.fill,
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
             imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
@@ -560,7 +560,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               Padding(
                 padding: EdgeInsets.only(top: 10, left: 26),
                 child: Text(
-                  widget.title,
+                  StringUtils.capitalize(widget.title),
                   style: TextStyle(
                       fontFamily: KEY_FONTFAMILY,
                       fontSize: FONTSIZE_16,
@@ -572,7 +572,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
                 child: Text(
-                  widget.description,
+                  StringUtils.capitalize(widget.description),
                   style: TextStyle(
                       fontFamily: KEY_FONTFAMILY,
                       fontSize: FONTSIZE_16,
@@ -746,9 +746,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 .map((radionBtnsize) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtnsize.title}") ?? Text(STR_DATA),
+                        title: radionBtnsize.title != null
+                            ? Text(StringUtils.capitalize(
+                                "${radionBtnsize.title}"))
+                            : Text(STR_DATA),
                         secondary: Text(
-                                '${_addItemPageModelList.currencySymbol}' +
+                                '${_addItemPageModelList.currencySymbol} ' +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
@@ -783,7 +786,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: RadioListTile(
-                        title: Text("${radionBtn.title}") ?? Text(STR_DATA),
+                        title: radionBtn.title != null
+                            ? Text(StringUtils.capitalize("${radionBtn.title}"))
+                            : Text(STR_DATA),
                         groupValue: id,
                         value: radionBtn.index,
                         dense: true,
@@ -975,7 +980,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          checkBtn.title ?? '',
+                          checkBtn.title != null
+                              ? StringUtils.capitalize(checkBtn.title)
+                              : STR_BLANK,
                           style: TextStyle(fontSize: 13, color: greytheme700),
                         ),
                         Expanded(
@@ -1012,7 +1019,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               onWillPop: () async => false,
               child: AlertDialog(
                 title: Text(
-                  title,
+                  StringUtils.capitalize(title),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
@@ -1031,7 +1038,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     height: 15,
                   ),
                   Text(
-                    message,
+                    StringUtils.capitalize(message),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
@@ -1097,7 +1104,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void addMenuToCartsuccess() {
     Globle().dinecartValue += 1;
-    Preference.setPersistData(
+    Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);

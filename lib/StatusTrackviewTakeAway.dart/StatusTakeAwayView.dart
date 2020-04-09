@@ -411,4 +411,14 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
     // TODO: implement paymentCheckoutSuccess
   }
+
+  @override
+  void cancelledPaymentFailed() {
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    // TODO: implement cancelledPaymentSuccess
+  }
 }

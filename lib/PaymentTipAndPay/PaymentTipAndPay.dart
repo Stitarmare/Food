@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -257,8 +258,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           Container(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
-                              widget.itemdata[index].items.itemName ??
-                                  STR_ITEM_NAME,
+                              widget.itemdata[index].items.itemName != null
+                                  ? StringUtils.capitalize(
+                                      widget.itemdata[index].items.itemName)
+                                  : STR_ITEM_NAME,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18, color: greytheme700),
                             ),
@@ -270,8 +273,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              widget.itemdata[index].items.itemDescription ??
-                                  STR_ITEM_DESC,
+                              widget.itemdata[index].items.itemDescription !=
+                                      null
+                                  ? StringUtils.capitalize(widget
+                                      .itemdata[index].items.itemDescription)
+                                  : STR_ITEM_DESC,
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
@@ -539,9 +545,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
+        Globle().takeAwayCartItemCount = 0;
       }
     });
-    Globle().takeAwayCartItemCount = 0;
+
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
@@ -576,8 +583,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
       progressDialog.hide();
-      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
+      _paymentTipandPayDiPresenter.onCancelledPayment(
+          myOrderData.id, widget.orderType, context);
     }
   }
 
@@ -648,5 +658,20 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
+  }
+
+  @override
+  void cancelledPaymentFailed() {
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+    // TODO: implement cancelledPaymentSuccess
   }
 }

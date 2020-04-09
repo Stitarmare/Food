@@ -2,6 +2,7 @@ import 'dart:convert';
 //import 'dart:html';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 
@@ -56,14 +57,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
-    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
     print(widget.tableId);
     print(widget.orderID);
     _model = OrderDetailsModel();
-
-    print("list data from status track view page----->");
 
     print(RadioDialogAddPeopleState.addPeopleList);
     if (RadioDialogAddPeopleState.addPeopleList != null) {
@@ -312,8 +310,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                           Container(
                             width: MediaQuery.of(context).size.width * 0.6,
                             child: Text(
-                              myOrderData.list[index].items.itemName ??
-                                  STR_ITEM_NAME,
+                              myOrderData.list[index].items.itemName != null
+                                  ? StringUtils.capitalize(
+                                      myOrderData.list[index].items.itemName)
+                                  : STR_ITEM_NAME,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18, color: greytheme700),
                             ),
@@ -325,8 +325,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              myOrderData.list[index].items.itemDescription ??
-                                  STR_ITEM_DESC,
+                              myOrderData.list[index].items.itemDescription !=
+                                      null
+                                  ? StringUtils.capitalize(myOrderData
+                                      .list[index].items.itemDescription)
+                                  : STR_ITEM_DESC,
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
@@ -710,8 +713,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
       progressDialog.hide();
-      Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      _paymentTipandPayDiPresenter.onCancelledPayment(
+          widget.orderID, "dine_in", context);
     }
   }
 
@@ -741,5 +746,21 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
+  }
+
+  @override
+  void cancelledPaymentFailed() {
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+
+    // TODO: implement cancelledPaymentSuccess
   }
 }

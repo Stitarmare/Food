@@ -200,7 +200,7 @@ const KEY_ORDERFROMREST =
     "Sorry, you can't order from this restaurant right now.";
 const KEY_ADDTOCART = "Add To Cart";
 const STR_STARTNEWORDER = "Start a new order?";
-const STR_YOURUNFINIHEDORDER = "Your unfinished order at ";
+const STR_YOUR_UNFINIHED_ORDER = "Your unfinished order at ";
 const STR_WILLDELETE = "will be deleted.";
 const STR_UNFINISHEDORDER =
     "Your unfinished order at previous hotel will be deleted.";
