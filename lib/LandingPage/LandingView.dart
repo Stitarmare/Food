@@ -393,6 +393,9 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.dineIn.tableId
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
+                    imgUrl: (_model.data.dineIn.status != STR_PAID)
+                        ? _model.data.dineIn.restaurant.coverImage
+                        : _model.data.takeAway.restaurant.coverImage,
                   )));
           progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
@@ -411,6 +414,9 @@ class _LandingStateView extends State<Landingview>
                     title: (_model.data.takeAway.status != STR_PAID)
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
+                    imgUrl: (_model.data.takeAway.status != STR_PAID)
+                        ? _model.data.takeAway.restaurant.coverImage
+                        : _model.data.dineIn.restaurant.coverImage,
                   )));
           progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
@@ -477,9 +483,8 @@ class _LandingStateView extends State<Landingview>
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().takeAwayCartItemCount = 0;
-    
-    Preference.setPersistData<int>(
-        0, PreferenceKeys.takeAwayCartCount);
+
+          Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -498,9 +503,8 @@ class _LandingStateView extends State<Landingview>
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().takeAwayCartItemCount = 0;
-    
-    Preference.setPersistData<int>(
-        0, PreferenceKeys.takeAwayCartCount);
+
+          Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -519,12 +523,11 @@ class _LandingStateView extends State<Landingview>
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
-    
-    Preference.setPersistData<int>(
-        0, PreferenceKeys.takeAwayCartCount);
+
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    
+
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);

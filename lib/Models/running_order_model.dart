@@ -116,20 +116,20 @@ class DineIn {
 class Restaurant {
   int id;
   String restName;
+  String coverImage;
 
-  Restaurant({
-    this.id,
-    this.restName,
-  });
+  Restaurant({this.id, this.restName, this.coverImage});
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
         id: json["id"],
         restName: json["rest_name"],
+        coverImage: json["cover_image"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "rest_name": restName,
+        "cover_image": coverImage,
       };
 }
 

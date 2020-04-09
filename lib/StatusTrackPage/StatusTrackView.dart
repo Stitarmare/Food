@@ -37,6 +37,7 @@ class StatusTrackView extends StatefulWidget {
   String restname;
   String tableName;
   String title;
+  String imgUrl;
   StatusTrackView(
       {this.orderID,
       this.flag,
@@ -44,7 +45,8 @@ class StatusTrackView extends StatefulWidget {
       this.title,
       this.restname,
       this.tableId,
-      this.tableName});
+      this.tableName,
+      this.imgUrl});
   @override
   State<StatefulWidget> createState() {
     return _StatusTrackingViewState();
@@ -304,6 +306,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                 builder: (context) => RestaurantView(
                                       restId: widget.restId,
                                       title: widget.title,
+                                      imageUrl: widget.imgUrl,
                                     )));
                       }
                       if (widget.flag == 3) {
@@ -313,6 +316,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                                 builder: (context) => RestaurantView(
                                       restId: widget.restId,
                                       title: widget.title,
+                                      imageUrl: widget.imgUrl,
                                     )));
                       }
                     },
