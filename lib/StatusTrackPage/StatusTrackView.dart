@@ -78,6 +78,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     //progressDialog.show();
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
     print(widget.tableId);
 
@@ -97,7 +99,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    //progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return SafeArea(
       left: false,
       top: false,

@@ -85,7 +85,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     _scrollcontroller = ScrollController();
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
+        progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     _getRestaurantInfo();
+    
 
     super.initState();
   }
@@ -104,7 +106,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    
     List<T> map<T>(List list, Function handler) {
       List<T> result = [];
       for (var i = 0; i < list.length; i++) {
