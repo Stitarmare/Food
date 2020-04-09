@@ -18,6 +18,7 @@ import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class CallService {
   void call(String number) => launch("tel:$number");
@@ -43,6 +44,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   RestaurantInfoData _restaurantInfoData;
   List<RestaurantReviewList> _getReviewData;
   bool isExpanded = false;
+  ProgressDialog progressDialog;
   ScrollController _scrollcontroller;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
@@ -89,18 +91,20 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantInfo() {
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    progressDialog.show();
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
   _getRestaurantReview() {
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    progressDialog.show();
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId);
   }
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     List<T> map<T>(List list, Function handler) {
       List<T> result = [];
       for (var i = 0; i < list.length; i++) {
@@ -829,7 +833,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void restaurantInfoFailed() {}
+  void restaurantInfoFailed() {
+    progressDialog.hide();
+  }
 
   @override
   void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
@@ -843,11 +849,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       }
     });
     _getRestaurantReview();
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getReviewFailed() {}
+  void getReviewFailed() {
+    progressDialog.hide();
+  }
 
   @override
   void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
@@ -855,7 +864,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       _getReviewData = getReviewList;
       print(_getReviewData);
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

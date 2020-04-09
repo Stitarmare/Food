@@ -26,6 +26,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class StatusTrackView extends StatefulWidget {
   int tableId;
@@ -66,6 +67,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   StatusData statusInfo;
   bool isStart = false;
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -83,7 +85,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   callApi() {
     isStart = true;
-    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    progressDialog.show();
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     _timer = Timer.periodic(_duration, (Timer t) {
       isStart = false;
@@ -93,6 +96,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return SafeArea(
       left: false,
       top: false,
@@ -243,8 +247,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       ),
                       onPressed: () {
                         //print(widget.tableId);
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, "");
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, "");
+                        progressDialog.show();
                         // _myOrdersPresenter.getOrderDetails(
                         //   STR_SMALL_DINEIN, context);
                         _paymentTipandPayDiPresenter.getOrderDetails(
@@ -332,7 +337,8 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+                    progressDialog.show();
+                    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                     confirmationDineviewPresenter.getPeopleList(context);
                   }),
             ),
@@ -561,18 +567,20 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void getOrderStatusfailed() {
     if (isStart) {
-      if (_keyLoader.currentContext != null) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-      }
+      progressDialog.hide();
+      // if (_keyLoader.currentContext != null) {
+      //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      // }
     }
   }
 
   @override
   void getOrderStatussuccess(StatusData statusData) {
     if (isStart) {
-      if (_keyLoader.currentContext != null) {
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-      }
+      progressDialog.hide();
+      // if (_keyLoader.currentContext != null) {
+      //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      // }
     }
     if (statusData != null) {
       setState(() {
@@ -595,12 +603,14 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getPeopleListonFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       Constants.showAlert("", "No record found!", context);
       return;
@@ -628,14 +638,16 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getOrderDetailsFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsFailed
   }
 
   @override
   void getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;
     }

@@ -12,6 +12,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class MyCartView extends StatefulWidget {
   int restId;
@@ -65,6 +66,7 @@ class _MyCartViewState extends State<MyCartView>
   List<MenuCartList> itemData;
 
   TableList tableList;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -122,8 +124,9 @@ class _MyCartViewState extends State<MyCartView>
                       menuCartList.quantity -= 1;
                       print(menuCartList.quantity);
                     });
-                    DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, STR_LOADING);
+                    // DialogsIndicator.showLoadingDialog(
+                    //     context, _keyLoader, STR_LOADING);
+                    progressDialog.style();
                     if (menuCartList.quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
@@ -132,8 +135,9 @@ class _MyCartViewState extends State<MyCartView>
                           context);
                     }
                     if (menuCartList.quantity == 0) {
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, STR_LOADING);
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
+                      progressDialog.style();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -173,9 +177,9 @@ class _MyCartViewState extends State<MyCartView>
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
               });
-              DialogsIndicator.showLoadingDialog(
-                  context, _keyLoader, STR_LOADING);
-
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              progressDialog.show();
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
@@ -202,6 +206,8 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -405,7 +411,8 @@ class _MyCartViewState extends State<MyCartView>
                 tableno = _dropdownItemsTable[i].name;
               }
             }
-            DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+            progressDialog.show();
+            //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
@@ -450,9 +457,9 @@ class _MyCartViewState extends State<MyCartView>
                   background: refreshBg(),
                   onDismissed: (direction) {
                     int cartIdnew = _cartItemList[index].id;
-                    DialogsIndicator.showLoadingDialog(
-                        context, _keyLoader, STR_LOADING);
-
+                    // DialogsIndicator.showLoadingDialog(
+                    //     context, _keyLoader, STR_LOADING);
+                    progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                   },
@@ -616,7 +623,8 @@ class _MyCartViewState extends State<MyCartView>
     setState(() {
       _cartItemList = null;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -626,8 +634,8 @@ class _MyCartViewState extends State<MyCartView>
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      progressDialog.hide();
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     Globle().dinecartValue = menulist.length;
@@ -649,7 +657,8 @@ class _MyCartViewState extends State<MyCartView>
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -657,7 +666,8 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -672,12 +682,14 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void addTablebnoSuccces() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void addTablenofailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -697,12 +709,14 @@ class _MyCartViewState extends State<MyCartView>
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void updatequantityfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 

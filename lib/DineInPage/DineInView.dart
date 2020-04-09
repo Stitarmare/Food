@@ -15,6 +15,7 @@ import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class DineInView extends StatefulWidget {
   String tableName;
@@ -31,6 +32,7 @@ class _DineViewState extends State<DineInView>
   ScrollController _controller = ScrollController();
   DineInRestaurantPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
+  ProgressDialog progressDialog;
 
   int page = 1;
   String sortedBy = STR_BLANK;
@@ -87,9 +89,9 @@ class _DineViewState extends State<DineInView>
         setState(() {
           getttingLocation = true;
         });
-        DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, STR_PLEASE_WAIT);
-
+        // DialogsIndicator.showLoadingDialog(
+        //     context, _keyLoader, STR_PLEASE_WAIT);
+        progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -123,6 +125,8 @@ class _DineViewState extends State<DineInView>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -266,14 +270,15 @@ class _DineViewState extends State<DineInView>
                                           38,
                                   child: FloatingActionButton(
                                       onPressed: () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                        DialogsIndicator.showLoadingDialog(
-                                            context,
-                                            _keyLoader,
-                                            STR_PLEASE_WAIT);
-
+                                        // Navigator.of(context,
+                                        //         rootNavigator: true)
+                                        //     .pop();
+                                        // DialogsIndicator.showLoadingDialog(
+                                        //     context,
+                                        //     _keyLoader,
+                                        //     STR_PLEASE_WAIT);
+                                        progressDialog.hide();
+                                        progressDialog.show();
                                         dinerestaurantPresenter
                                             .getrestaurantspage(
                                                 _position.latitude.toString(),
@@ -625,7 +630,7 @@ class _DineViewState extends State<DineInView>
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
     isIgnoreTouch = false;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
         _restaurantList = null;
@@ -641,6 +646,7 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
+    progressDialog.hide();
   }
 }
 

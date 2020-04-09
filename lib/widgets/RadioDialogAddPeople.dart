@@ -12,6 +12,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class AddPeople {
   String name;
@@ -46,6 +47,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
   static List<AddPeopleList> addPeopleList;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -60,6 +62,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     if ((getPeopleListLength() == 0)) {
       return SimpleDialog(
         shape:
@@ -186,8 +190,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       }
 
                       if (numbers.isNotEmpty) {
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, STR_LOADING);
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_LOADING);
+                        progressDialog.show();
                         confirmationDineviewPresenter.addPeople(
                             peopleList[id].mobileNumber,
                             widget.tableId,
@@ -344,23 +349,27 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void addPeopleFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void addPeopleSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void getPeopleListonFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
     if (data.length == 0) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      progressDialog.hide();
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
     setState(() {
@@ -372,7 +381,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     });
     print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override

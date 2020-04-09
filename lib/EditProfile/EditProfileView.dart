@@ -11,6 +11,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/BoxTextField.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class EditProfileview extends StatefulWidget {
   @override
@@ -33,6 +34,7 @@ class _EditProfileState extends State<EditProfileview>
   String _dropdownCountryValue;
   String _dropdownStateValue;
   String _dropdownCityValue;
+  ProgressDialog progressDialog;
   var firstName = STR_BLANK;
   var lastName = STR_BLANK;
   var streetAddress = STR_BLANK;
@@ -51,6 +53,7 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -75,7 +78,8 @@ class _EditProfileState extends State<EditProfileview>
 
   void updateButtonClicked() {
     if (_editprofileFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
           countryID, stateID, cityID, pinCode, context);
     } else {
@@ -277,7 +281,8 @@ class _EditProfileState extends State<EditProfileview>
                 stateID = value.id;
               }
             });
-            DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+            progressDialog.show();
+            //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             editprofilepresenter.editCity(stateID.toString(), context);
           });
         },
@@ -454,7 +459,8 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -468,7 +474,8 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -482,7 +489,8 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -490,7 +498,8 @@ class _EditProfileState extends State<EditProfileview>
 
   @override
   void profileUpdateSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
 

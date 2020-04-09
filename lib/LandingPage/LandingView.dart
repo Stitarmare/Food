@@ -15,6 +15,7 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class Landingview extends DrawerContent {
   final String title;
@@ -34,6 +35,7 @@ class _LandingStateView extends State<Landingview>
   RunningOrderModel _model;
   final GlobalKey<_LandingStateView> _scaffoldKey =
       GlobalKey<_LandingStateView>();
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -50,6 +52,8 @@ class _LandingStateView extends State<Landingview>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     return Card(
       elevation: 100.0,
       child: Scaffold(
@@ -253,7 +257,8 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-    DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    progressDialog.show();
+    //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
   }
 
@@ -363,7 +368,8 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
-    DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    progressDialog.show();
+    //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
   }
 
@@ -388,8 +394,9 @@ class _LandingStateView extends State<Landingview>
                         : 0,
                     tableName: _model.data.dineIn.table.tableName,
                   )));
-          DialogsIndicator.showLoadingDialog(
-              context, _scaffoldKey, STR_PLEASE_WAIT);
+          progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(
+          //  context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
         }
       }
@@ -405,8 +412,9 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.takeAway.restaurant.restName
                         : _model.data.dineIn.restaurant.restName,
                   )));
-          DialogsIndicator.showLoadingDialog(
-              context, _scaffoldKey, STR_PLEASE_WAIT);
+          progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(
+          //context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
         }
       }
@@ -441,16 +449,20 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onFailedCurrentOrder() {
-    if (_scaffoldKey.currentContext != null) {
-      Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
-    }
+    progressDialog.hide();
+    // if (_scaffoldKey.currentContext != null) {
+
+    //Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    // }
   }
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
-    if (_scaffoldKey.currentContext != null) {
-      Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
-    }
+    progressDialog.hide();
+    // if (_scaffoldKey.currentContext != null) {
+
+    // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
+    // }
 
     _model = model;
     if (model != null) {

@@ -20,6 +20,7 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class PaymentTipAndPayDi extends StatefulWidget {
   int orderID;
@@ -45,6 +46,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   int selectedRadioTile;
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
+  ProgressDialog progressDialog;
 
   OrderDetailsModel _model;
   List<AddPeopleList> addedPeopleList = [];
@@ -81,6 +83,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return SafeArea(
       left: false,
       top: false,
@@ -141,8 +144,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   ),
                   GestureDetector(
                     onTap: () {
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, STR_BLANK);
+                      progressDialog.show();
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_BLANK);
                       _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
                           (int.parse(myOrderData.totalAmount)), context);
                     },
@@ -650,17 +654,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         _model = model;
       }
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void payfinalBillFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void payfinalBillSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
@@ -675,12 +681,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         RadioDialogAddPeopleState.addPeopleList = null;
       }
     });
+    progressDialog.hide();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
 
   @override
   void payBillCheckoutFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -688,7 +696,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     if (billModel == null) {
       billModel = model;
     }
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -700,20 +709,23 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
+      progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 
   @override
   void paymentCheckoutFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
     if (paymentCheckoutModel.statusCode == 200) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
       _finalBillPresenter.payfinalOrderBill(
           Globle().loginModel.data.id,
           myOrderData.restId,
@@ -725,8 +737,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           context,
           sliderValue);
     } else {
+      progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 }

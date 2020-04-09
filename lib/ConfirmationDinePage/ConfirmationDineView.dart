@@ -19,6 +19,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
   String restName;
@@ -88,6 +89,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   String radioOrderItemsub;
   int cartId;
   OrderData myOrderData;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -103,6 +105,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     return SafeArea(
       left: false,
       top: false,
@@ -170,8 +174,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                                       currencySymbol: widget.currencySymbol,
                                     )));
                       } else if (radioOrderId == 1) {
-                        DialogsIndicator.showLoadingDialog(
-                            context, _keyLoader, STR_LOADING);
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_LOADING);
+                        progressDialog.style();
                         _paymentTipAndPayPresenter.placeOrder(
                             widget.restId,
                             Globle().loginModel.data.id,
@@ -529,12 +534,11 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    
   }
 
   @override
   void placeOrdersuccess(OrderData orderData) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -545,7 +549,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    
+    progressDialog.hide();
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 
