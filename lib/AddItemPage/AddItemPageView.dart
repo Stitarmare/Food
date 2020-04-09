@@ -1082,6 +1082,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       AddItemPageModelList addItemPageModelList1) {
     setState(() {
       isLoding = false;
+      _addItemPageModelList = addItemPageModelList1;
     });
     _addItemModelList = _additemlist[0];
 
@@ -1092,9 +1093,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
     checkboxbtn(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
-    setState(() {
-      _addItemPageModelList = addItemPageModelList1;
-    });
+    // setState(() {
+
+    // });
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
