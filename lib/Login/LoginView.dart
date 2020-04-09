@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ProgressDialog progressDialog;
-  var loginPresenter;
+  LoginPresenter loginPresenter;
   @override
   void initState() {
     loginPresenter = LoginPresenter(this);
