@@ -669,4 +669,14 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
     // TODO: implement paymentCheckoutSuccess
   }
+
+  @override
+  void cancelledPaymentFailed() {
+    // TODO: implement cancelledPaymentFailed
+  }
+
+  @override
+  void cancelledPaymentSuccess() {
+    // TODO: implement cancelledPaymentSuccess
+  }
 }
