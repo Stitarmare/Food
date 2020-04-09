@@ -93,7 +93,7 @@ class _RegisterviewState extends State<Registerview>
                 children: <Widget>[
                   _buildImagelogo(),
                   SizedBox(
-                    height: 60,
+                    height: 30,
                   ),
                   _buildTextField(),
                   SizedBox(
@@ -101,7 +101,7 @@ class _RegisterviewState extends State<Registerview>
                   ),
                   _signUpButton(),
                   SizedBox(
-                    height: 112,
+                    height: 60,
                   ),
                   _signinbutton()
                 ],
@@ -116,19 +116,10 @@ class _RegisterviewState extends State<Registerview>
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
-        Image.asset(
-          FOODZI_LOGO_PATH,
-        ),
+        Image.asset(FOODZI_LOGO_PATH,
+            fit: BoxFit.fill,
+            height: MediaQuery.of(context).size.height * 0.15),
         SizedBox(height: 10),
-        // Text(
-        //   STR_ORDER_EASY,
-        //   style: TextStyle(
-        //       fontFamily: KEY_FONT_HELVETICANEUE,
-        //       fontSize: FONTSIZE_11,
-        //       color: greytheme400,
-        //       fontWeight: FontWeight.w700,
-        //       letterSpacing: 1),
-        // ),
         SizedBox(
           height: 5,
         ),
