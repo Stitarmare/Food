@@ -176,7 +176,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       } else if (radioOrderId == 1) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                        progressDialog.style();
+                        progressDialog.show();
                         _paymentTipAndPayPresenter.placeOrder(
                             widget.restId,
                             Globle().loginModel.data.id,
@@ -531,9 +531,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void placeOrderfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+    progressDialog.hide();
   }
 
   @override

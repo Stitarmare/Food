@@ -554,8 +554,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Globle().orderNumber = orderData.orderNumber;
     progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(
-        myOrderData.restId, (int.parse(myOrderData.totalAmount)), context);
+    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+        (int.parse(myOrderData.totalAmount)), "ZAR", context);
   }
 
   @override

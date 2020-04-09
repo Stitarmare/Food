@@ -77,7 +77,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-
+    //progressDialog.show();
     callApi();
     print(widget.tableId);
 
@@ -87,7 +87,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   callApi() {
     isStart = true;
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    progressDialog.show();
+
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     _timer = Timer.periodic(_duration, (Timer t) {
       isStart = false;
@@ -113,6 +113,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 GestureDetector(
                   onTap: () {
                     _timer.cancel();
+                    progressDialog.show();
                     callApi();
                   },
                   child: Icon(Icons.refresh),

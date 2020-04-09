@@ -16,7 +16,8 @@ abstract class PaymentTipandPayDiContractor {
 }
 
 abstract class PaymentTipandPayDiModelView {
-  void getOrderDetailsSuccess(OrderDetailData orderData,OrderDetailsModel model);
+  void getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model);
   void getOrderDetailsFailed();
   void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel);
   void paymentCheckoutFailed();
@@ -44,7 +45,8 @@ abstract class PayFinalBillModelView {
 }
 
 abstract class PayBillCheckoutContaractor {
-  void payBillCheckOut(int restId, int amount, BuildContext context);
+  void payBillCheckOut(
+      int restId, int amount, String currency, BuildContext context);
 }
 
 abstract class PayBillCheckoutModelView {

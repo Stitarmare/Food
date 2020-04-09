@@ -146,7 +146,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
                       _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-                          (int.parse(myOrderData.totalAmount)), context);
+                          (int.parse(myOrderData.totalAmount)), "ZAR", context);
                     },
                     child: Container(
                       height: 45,

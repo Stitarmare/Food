@@ -127,7 +127,7 @@ class _MyCartViewState extends State<MyCartView>
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    progressDialog.style();
+                    progressDialog.show();
                     if (menuCartList.quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
@@ -138,7 +138,7 @@ class _MyCartViewState extends State<MyCartView>
                     if (menuCartList.quantity == 0) {
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      progressDialog.style();
+                      progressDialog.show();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -686,6 +686,7 @@ class _MyCartViewState extends State<MyCartView>
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
+    progressDialog.hide();
   }
 
   @override
