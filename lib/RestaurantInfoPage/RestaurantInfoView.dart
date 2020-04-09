@@ -247,7 +247,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             child: ClipOval(
                               child: Image.asset(
                                 NAVIGATE_IMAGE_PATH,
-                                color: getColorByHex(Globle().colorscode),
+                                color: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
                                 width: 14,
                               ),
                             ),
@@ -329,7 +331,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                         height: 33,
                         width: 157,
                         decoration: BoxDecoration(
-                            color: getColorByHex(Globle().colorscode),
+                            color: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
                             borderRadius: BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           children: <Widget>[
@@ -606,7 +610,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w700,
                           fontSize: FONTSIZE_14,
-                          color: getColorByHex(Globle().colorscode),
+                          color: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
                           decoration: TextDecoration.underline,
                           decorationThickness: 5.0)),
                 ),
@@ -807,9 +813,13 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   ],
                   indicator: UnderlineTabIndicator(
                       borderSide: BorderSide(
-                          color: getColorByHex(Globle().colorscode), width: 2),
+                          color:((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme, width: 2),
                       insets: EdgeInsets.symmetric(horizontal: 30)),
-                  labelColor: getColorByHex(Globle().colorscode),
+                  labelColor: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
                   unselectedLabelColor: greytheme1000,
                   onTap: (index) {
                     switch (index) {
@@ -898,7 +908,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           STR_BLANK + STR_SPACE + _restaurantInfoData.addressLine3 ??
           STR_BLANK;
     }
-    return STR_BLANK;
+    return "";
   }
 
   int getCategoryLength() {
