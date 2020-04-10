@@ -577,7 +577,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         builder: (context) => WillPopScope(
               onWillPop: () async => false,
               child: AlertDialog(
-                title: Text(title),
+                title: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                ),
                 actions: <Widget>[
                   FlatButton(
                     child: Text(STR_OK),
