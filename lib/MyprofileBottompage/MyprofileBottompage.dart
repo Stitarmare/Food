@@ -90,12 +90,16 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                       width: 83,
                       height: 83,
                       fit: BoxFit.fill,
-                      placeholder: (context, url) => Image.asset(
-                        PROFILE_IMAGE_PATH,
-                        width: 83,
-                        height: 83,
-                        fit: BoxFit.fill,
-                      ),
+                      placeholder: (context, url) => Container(
+                          width: 83,
+                          height: 83,
+                          child: Center(child: CircularProgressIndicator())),
+                      // placeholder: (context, url) => Image.asset(
+                      //   PROFILE_IMAGE_PATH,
+                      //   width: 83,
+                      //   height: 83,
+                      //   fit: BoxFit.fill,
+                      // ),
                       imageUrl: profilePic(),
                       errorWidget: (context, url, error) => Image.asset(
                         PROFILE_IMAGE_PATH,

@@ -101,8 +101,10 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 firstName = text;
               },
-              placeHolderName:
-                  Globle().loginModel.data.firstName ?? KEY_FIRST_NAME,
+              tfValue: Globle().loginModel.data.firstName,
+              // placeHolderName:
+              //     Globle().loginModel.data.firstName ?? KEY_FIRST_NAME,
+              placeHolderName: KEY_FIRST_NAME,
               validator: validatename,
             ),
             SizedBox(
@@ -112,8 +114,10 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 lastName = text;
               },
-              placeHolderName:
-                  Globle().loginModel.data.lastName ?? KEY_LAST_NAME,
+              tfValue: Globle().loginModel.data.lastName,
+              placeHolderName: KEY_LAST_NAME,
+              // placeHolderName:
+              //     Globle().loginModel.data.lastName ?? KEY_LAST_NAME,
               validator: validatename,
             ),
             SizedBox(

@@ -1165,20 +1165,22 @@ class CheckBoxOptions {
   String title;
   String price;
   bool isChecked;
+  String defaultAddition;
 
-  CheckBoxOptions({
-    this.index,
-    this.title,
-    this.price,
-    this.isChecked,
-  });
+  CheckBoxOptions(
+      {this.index,
+      this.title,
+      this.price,
+      this.isChecked,
+      this.defaultAddition});
 }
 
 class RadioButtonOptions {
   int index;
   String title;
+  String extraDefault;
 
-  RadioButtonOptions({this.index, this.title});
+  RadioButtonOptions({this.index, this.title, this.extraDefault});
 }
 
 class RadioButtonOptionsSizes {

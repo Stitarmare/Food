@@ -426,7 +426,8 @@ const JSON_STR_LONGITUDE = "longitude";
 const JSON_STR_ITEMS = "items";
 
 const STR_SPLIT_BILL = 'Split Bill';
-const STR_ADD_PEOPLE_FIRST_SPLIT_BILL = " No people Around You";
+const STR_ADD_PEOPLE_FIRST_SPLIT_BILL =
+    " Please add your friends to split the bill";
 const STR_PAY_BILL = 'PAY BILL';
 const STR_SELECT_TBL = "Selected Table : ";
 const STR_TABLE_1 = "Table 1";
@@ -565,8 +566,9 @@ const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
 
 // WebView Page
 const STR_GOOGLE_URL = "https://google.co.in";
-const STR_URL_TERMS_CONDITION = "http://api.watslive.com/terms_and_conditions";
-const STR_URL_PRIVACY_POLICY = "https://api.watslive.com/privacy_policy";
+const STR_URL_TERMS_CONDITION = "http://foodzi.php-dev.in/terms-and-conditions";
+const STR_URL_PRIVACY_POLICY = "http://foodzi.php-dev.in/privacy-policy";
+const STR_URL_ABOUT_US = "http://foodzi.php-dev.in/about";
 
 // KeyBoardAction Page
 const STR_CUSTOM_ACTION = "Custom Action";

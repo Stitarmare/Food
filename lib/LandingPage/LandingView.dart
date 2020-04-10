@@ -763,6 +763,15 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     title: widget.appbarTitle,
                     strURL: STR_URL_TERMS_CONDITION,
                   )));
+    } else if (title.contains(STR_ABOUT_US)) {
+      Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WebViewPage(
+                    title: widget.appbarTitle,
+                    strURL: STR_URL_ABOUT_US,
+                  )));
     }
   }
 }
