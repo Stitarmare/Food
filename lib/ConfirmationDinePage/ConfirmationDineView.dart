@@ -567,11 +567,14 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     progressDialog.hide();
+    progressDialog.hide();
   }
 
   @override
   void placeOrdersuccess(OrderData orderData) {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    progressDialog.hide();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -583,7 +586,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    progressDialog.hide();
+    
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 

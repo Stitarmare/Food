@@ -77,7 +77,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int sizesid;
   bool isLoding = false;
   ProgressDialog progressDialog;
-
+@override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    super.didChangeDependencies();
+  }
   @override
   void initState() {
     _addItemPagepresenter =
@@ -86,7 +91,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       isLoding = true;
     });
-
+      
     _addItemPageModelList = AddItemPageModelList();
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
@@ -94,6 +99,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     print("${widget.itemImage}");
     super.initState();
   }
+
+  
 
   int id = 1;
   int count = 1;
@@ -120,6 +127,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     return radiolist.length;
   }
+
+  
 
   int getradiobtnsize(int length) {
     List<RadioButtonOptionsSizes> radiolistsize = [];
@@ -261,7 +270,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    
     return SafeArea(
       left: false,
       top: false,
@@ -1061,6 +1070,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
+                      
+                      Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
@@ -1100,7 +1111,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addMenuToCartfailed() {}
+  void addMenuToCartfailed() {
+    progressDialog.hide();
+  }
 
   @override
   void addMenuToCartsuccess() {
@@ -1117,21 +1130,32 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addTablebnoSuccces() {}
+  void addTablebnoSuccces() {
+progressDialog.hide();
+progressDialog.hide();
+  }
 
   @override
-  void addTablenofailed() {}
+  void addTablenofailed() {
+    progressDialog.hide();
+progressDialog.hide();
+  }
 
   @override
-  void getTableListFailed() {}
+  void getTableListFailed() {
+progressDialog.hide();
+progressDialog.hide();
+  }
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
+    progressDialog.hide();
+    progressDialog.hide();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
-    progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -1140,11 +1164,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   void clearCartSuccess() {
+    progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    progressDialog.hide();
+    
   }
 
   @override

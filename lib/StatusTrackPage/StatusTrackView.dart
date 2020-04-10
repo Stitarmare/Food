@@ -117,7 +117,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 GestureDetector(
                   onTap: () {
                     _timer.cancel();
-                    progressDialog.show();
+                   // progressDialog.show();
                     callApi();
                   },
                   child: Icon(Icons.refresh),
@@ -255,7 +255,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                         //print(widget.tableId);
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, "");
-                        progressDialog.show();
+                        //progressDialog.show();
                         // _myOrdersPresenter.getOrderDetails(
                         //   STR_SMALL_DINEIN, context);
                         _paymentTipandPayDiPresenter.getOrderDetails(
@@ -345,7 +345,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   ),
                   onPressed: () {
                     print(widget.tableId);
-                    progressDialog.show();
+                    //progressDialog.show();
                     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
                     confirmationDineviewPresenter.getPeopleList(context);
                   }),
@@ -583,7 +583,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void getOrderStatusfailed() {
     if (isStart) {
-      progressDialog.hide();
+      //progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }
@@ -593,7 +593,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void getOrderStatussuccess(StatusData statusData) {
     if (isStart) {
-      progressDialog.hide();
+     // progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }
@@ -619,13 +619,13 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getPeopleListonFailed() {
-    progressDialog.hide();
+    //progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
-    progressDialog.hide();
+   // progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       Constants.showAlert("", "No record found!", context);
@@ -654,7 +654,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getOrderDetailsFailed() {
-    progressDialog.hide();
+    //progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement getOrderDetailsFailed
   }
@@ -662,7 +662,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) {
-    progressDialog.hide();
+    //progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (orderData.list.length == 0) {
       return;
