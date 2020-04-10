@@ -6,6 +6,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class ResetPasswordview extends StatefulWidget {
   var mobno;
@@ -25,6 +26,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   bool _validate = false;
+  ProgressDialog progressDialog;
 
   final Map<String, dynamic> _signInData = {
     enterPass: null,
@@ -43,6 +45,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -80,7 +83,8 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   void onsubmitButtonClicked() {
     if (_resetpasswordFormKey.currentState.validate()) {
-      DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
     } else {
@@ -286,12 +290,14 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   @override
   void resetpassfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void resetpasssuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
 }

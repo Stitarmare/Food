@@ -15,6 +15,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class RestaurantTAView extends StatefulWidget {
   String title;
@@ -39,6 +40,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   bool isselected = false;
   String menutype;
   RestaurantItemsModel _restaurantItemsModel;
+  ProgressDialog progressDialog;
+
   var abc;
   @override
   void initState() {
@@ -65,6 +68,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -191,15 +196,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     this._switchvalue = value;
                     if (this._switchvalue) {
                       _restaurantList = null;
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, STR_LOADING);
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
+                      progressDialog.show();
                       menutype = STR_VEG;
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
                     } else {
                       _restaurantList = null;
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, STR_LOADING);
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
+                      progressDialog.show();
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
@@ -250,8 +257,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     });
                     if (abc != null) {
                       _restaurantList = null;
-                      DialogsIndicator.showLoadingDialog(
-                          context, _keyLoader, STR_LOADING);
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
+                      progressDialog.show();
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
                       print(abc);
@@ -492,14 +500,16 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   void restaurantsuccess(List<RestaurantList> restlist) {}
   @override
   void getMenuListfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist,
       RestaurantItemsModel restaurantItemsModel1) {
     if (menulist.length == 0) {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      progressDialog.hide();
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
 
@@ -514,6 +524,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

@@ -9,6 +9,7 @@ import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:keyboard_actions/keyboard_action.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class EnterOTPScreen extends StatefulWidget {
   int flag = 0;
@@ -27,6 +28,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   final FocusNode _nodeText1 = FocusNode();
+  ProgressDialog progressDialog;
 
   bool _validate = false;
   final Map<String, dynamic> _enterOTP = {
@@ -43,6 +45,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -84,12 +87,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void onsubmitButtonClicked() {
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+        progressDialog.show();
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
-        DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+        progressDialog.show();
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
       }
@@ -253,12 +256,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void onRequestOtpFailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void onRequestOtpSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
@@ -269,12 +274,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   void requestforloginotpfailed() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   void requestforloginotpsuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,

@@ -15,6 +15,7 @@ import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/SliderPopUp.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class TakeAwayView extends StatefulWidget {
   @override
@@ -38,6 +39,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Position _position;
   String sortedBy = STR_BLANK;
   String filteredBy = STR_BLANK;
+  ProgressDialog progressDialog;
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
       title: STR_DISTANCE,
@@ -90,9 +92,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
         setState(() {
           getttingLocation = true;
         });
-        DialogsIndicator.showLoadingDialog(
-            context, _keyLoader, STR_PLEASE_WAIT);
-
+        // DialogsIndicator.showLoadingDialog(
+        //     context, _keyLoader, STR_PLEASE_WAIT);
+        progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -113,8 +115,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
-          DialogsIndicator.showLoadingDialog(
-              context, _keyLoader, STR_PLEASE_WAIT);
+          // DialogsIndicator.showLoadingDialog(
+          //     context, _keyLoader, STR_PLEASE_WAIT);
+          progressDialog.show();
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
@@ -128,6 +131,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -271,14 +276,15 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                           38,
                                   child: FloatingActionButton(
                                       onPressed: () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                        DialogsIndicator.showLoadingDialog(
-                                            context,
-                                            _keyLoader,
-                                            STR_PLEASE_WAIT);
-
+                                        // Navigator.of(context,
+                                        //         rootNavigator: true)
+                                        //     .pop();
+                                        progressDialog.hide();
+                                        // DialogsIndicator.showLoadingDialog(
+                                        //     context,
+                                        //     _keyLoader,
+                                        //     STR_PLEASE_WAIT);
+                                        progressDialog.show();
                                         dinerestaurantPresenter
                                             .getrestaurantspage(
                                                 _position.latitude.toString(),
@@ -619,12 +625,15 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   @override
-  void restaurantfailed() {}
+  void restaurantfailed() {
+    progressDialog.hide();
+  }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
     isIgnoreTouch = false;
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
         _restaurantList = null;

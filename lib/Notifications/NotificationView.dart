@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 enum NotificationType {
   order_item_status,
@@ -37,6 +38,7 @@ class _NotificationViewState extends State<NotificationView>
   String tableno;
   List notifytext;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -156,7 +159,8 @@ class _NotificationViewState extends State<NotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+          progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
         }
@@ -205,7 +209,8 @@ class _NotificationViewState extends State<NotificationView>
       }
       page++;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   String getNotificationDate(int index) {
@@ -220,7 +225,8 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptInvitationFailed(ErrorModel model) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,
       context,
@@ -231,7 +237,8 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptInvitationSuccess(ErrorModel model) {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,
       context,

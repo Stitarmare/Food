@@ -11,6 +11,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class AddItemPageTAView extends StatefulWidget {
   String title;
@@ -57,6 +58,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int restaurantTA;
   int sizesid;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  ProgressDialog progressDialog;
+
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
@@ -208,6 +211,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+
     return SafeArea(
       left: false,
       top: false,
@@ -284,14 +289,16 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           : STR_UNFINISHEDORDER,
                       context);
                 } else {
-                  DialogsIndicator.showLoadingDialog(
-                      context, _keyLoader, STR_BLANK);
+                  // DialogsIndicator.showLoadingDialog(
+                  //     context, _keyLoader, STR_BLANK);
+                  progressDialog.show();
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
-                DialogsIndicator.showLoadingDialog(
-                    context, _keyLoader, STR_BLANK);
+                // DialogsIndicator.showLoadingDialog(
+                //     context, _keyLoader, STR_BLANK);
+                progressDialog.show();
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -358,8 +365,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                              DialogsIndicator.showLoadingDialog(
-                                  context, _keyLoader, STR_BLANK);
+                              // DialogsIndicator.showLoadingDialog(
+                              //     context, _keyLoader, STR_BLANK);
+                              progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -974,7 +982,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
     switchbtn(_addItemModelList.switches.length);
     getradiobtnsize(_addItemModelList.sizePrizes.length);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
+    // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -988,7 +997,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    progressDialog.hide();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
@@ -998,10 +1008,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   void clearCartSuccess() {
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    progressDialog.hide();
   }
 }
 

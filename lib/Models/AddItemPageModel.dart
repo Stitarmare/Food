@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dart:convert';
+
 AddItemPageModelList addItemPageModelListFromJson(String str) =>
     AddItemPageModelList.fromJson(json.decode(str));
 
@@ -9,30 +11,46 @@ String addItemPageModelListToJson(AddItemPageModelList data) =>
 class AddItemPageModelList {
   String status;
   int statusCode;
-  String currencySymbol;
   List<AddItemModelList> data;
+  String colourCode;
+  String currencySymbol;
+  dynamic extrasLabel;
+  String spreadsLabel;
+  dynamic switchesLabel;
 
   AddItemPageModelList({
     this.status,
     this.statusCode,
     this.data,
+    this.colourCode,
     this.currencySymbol,
+    this.extrasLabel,
+    this.spreadsLabel,
+    this.switchesLabel,
   });
 
   factory AddItemPageModelList.fromJson(Map<String, dynamic> json) =>
       AddItemPageModelList(
         status: json["status"],
         statusCode: json["status_code"],
-        currencySymbol: json["currency_symbol"],
         data: List<AddItemModelList>.from(
             json["data"].map((x) => AddItemModelList.fromJson(x))),
+        colourCode: json["colour_code"],
+        currencySymbol: json["currency_symbol"],
+        extrasLabel: json["extras_label"],
+        spreadsLabel: json["spreads_label"],
+        switchesLabel: json["switches_label"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
-        "currency_symbol": currencySymbol,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "colour_code": colourCode,
+        "currency_symbol": currencySymbol,
+        "extras_label": extrasLabel,
+        "spreads_label": spreadsLabel,
+        "switches_label": switchesLabel,
       };
 }
 
@@ -41,34 +59,38 @@ class AddItemModelList {
   String itemName;
   String price;
   String itemDescription;
-  int workstationId;
-  int restId;
   String menuType;
-  String availability;
+  String extrasrequired;
+  String spreadsrequired;
+  String switchesrequired;
   String defaultPreparationTime;
   String itemCode;
   String itemImage;
+  int workstationId;
   DateTime createdAt;
   DateTime updatedAt;
+  int restId;
   List<Extra> extras;
-  List<Spread> spreads;
-  List<Switch> switches;
-  List<SizePrize> sizePrizes;
+  List<Extra> spreads;
+  List<dynamic> switches;
+  List<dynamic> sizePrizes;
 
   AddItemModelList({
     this.id,
     this.itemName,
     this.price,
     this.itemDescription,
-    this.workstationId,
-    this.restId,
     this.menuType,
-    this.availability,
+    this.extrasrequired,
+    this.spreadsrequired,
+    this.switchesrequired,
     this.defaultPreparationTime,
     this.itemCode,
     this.itemImage,
+    this.workstationId,
     this.createdAt,
     this.updatedAt,
+    this.restId,
     this.extras,
     this.spreads,
     this.switches,
@@ -81,22 +103,22 @@ class AddItemModelList {
         itemName: json["item_name"],
         price: json["price"],
         itemDescription: json["item_description"],
-        workstationId: json["workstation_id"],
-        restId: json["rest_id"],
         menuType: json["menu_type"],
-        availability: json["availability"],
+        extrasrequired: json["extrasrequired"],
+        spreadsrequired: json["spreadsrequired"],
+        switchesrequired: json["switchesrequired"],
         defaultPreparationTime: json["default_preparation_time"],
         itemCode: json["item_code"],
         itemImage: json["item_image"],
+        workstationId: json["workstation_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        restId: json["rest_id"],
         extras: List<Extra>.from(json["extras"].map((x) => Extra.fromJson(x))),
         spreads:
-            List<Spread>.from(json["spreads"].map((x) => Spread.fromJson(x))),
-        switches:
-            List<Switch>.from(json["switches"].map((x) => Switch.fromJson(x))),
-        sizePrizes: List<SizePrize>.from(
-            json["size_prizes"].map((x) => SizePrize.fromJson(x))),
+            List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
+        switches: List<dynamic>.from(json["switches"].map((x) => x)),
+        sizePrizes: List<dynamic>.from(json["size_prizes"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -104,18 +126,20 @@ class AddItemModelList {
         "item_name": itemName,
         "price": price,
         "item_description": itemDescription,
-        "workstation_id": workstationId,
-        "rest_id": restId,
         "menu_type": menuType,
-        "availability": availability,
+        "extrasrequired": extrasrequired,
+        "spreadsrequired": spreadsrequired,
+        "switchesrequired": switchesrequired,
         "default_preparation_time": defaultPreparationTime,
         "item_code": itemCode,
         "item_image": itemImage,
+        "workstation_id": workstationId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "rest_id": restId,
         "extras": List<dynamic>.from(extras.map((x) => x.toJson())),
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
-        "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
+        "switches": List<dynamic>.from(switches.map((x) => x)),
         "size_prizes": List<dynamic>.from(sizePrizes.map((x) => x)),
       };
 }
@@ -124,43 +148,35 @@ class Extra {
   int id;
   String name;
   String price;
-  int restId;
-  String status;
   DateTime createdAt;
   DateTime updatedAt;
-  ExtraPivot pivot;
+  String extraDefault;
 
   Extra({
     this.id,
     this.name,
     this.price,
-    this.restId,
-    this.status,
     this.createdAt,
     this.updatedAt,
-    this.pivot,
+    this.extraDefault,
   });
 
   factory Extra.fromJson(Map<String, dynamic> json) => Extra(
         id: json["id"],
         name: json["name"],
         price: json["price"],
-        restId: json["rest_id"],
-        status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        pivot: ExtraPivot.fromJson(json["pivot"]),
+        extraDefault: json["default"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "price": price,
-        "rest_id": restId,
-        "status": status,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        "pivot": pivot.toJson(),
+        "default": extraDefault,
       };
 }
 
