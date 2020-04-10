@@ -140,9 +140,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       child: isInfoLoaded
                           ? CachedNetworkImage(
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              placeholder: (context, url) => Container(
+                                  width: 45,
+                                  height: 45,
+                                  child: Center(
+                                      child: CircularProgressIndicator())),
                               imageUrl:
                                   BaseUrl.getBaseUrlImages() + src.imagePath,
                               errorWidget: (context, url, error) => Image.asset(
