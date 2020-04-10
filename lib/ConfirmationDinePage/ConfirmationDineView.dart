@@ -128,11 +128,11 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: 90,
+            height: MediaQuery.of(context).size.height * 0.1,
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 35,
+                  height: 10,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
@@ -237,17 +237,20 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   Widget _gettableText() {
     return SliverToBoxAdapter(
       child: Container(
+        // color: Colors.green,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              height: 50,
+              height: 40,
             ),
             Container(
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(240, 240, 240, 10),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width * 0.80,
-              color: Color.fromRGBO(240, 240, 240, 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -263,7 +266,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                 ],
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             Stack(
               fit: StackFit.passthrough,
               overflow: Overflow.visible,
@@ -301,8 +304,33 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                           )
                     : Text(
                         STR_BLANK,
-                      )
+                      ),
               ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            totalamounttext(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget totalamounttext() {
+    return Container(
+      // color: Colors.grey,
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '${"Total  "}' +
+                  '${widget.currencySymbol}' +
+                  '${widget.totalAmount}',
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal),
             )
           ],
         ),
@@ -319,7 +347,11 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 40,
+              height: 20,
+            ),
+            totalamounttext(),
+            SizedBox(
+              height: 20,
             ),
             Padding(
               padding: EdgeInsets.only(left: 26, top: 10),

@@ -111,6 +111,27 @@ class _MyCartViewState extends State<MyCartView>
     });
   }
 
+  Widget totalamounttext() {
+    return Container(
+      // color: Colors.grey,
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '${"Total "}' +
+                  '${myCart.currencySymbol}' +
+                  '${myCart.grandTotal}',
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget steppercount(MenuCartList menuCartList) {
     return Container(
       height: 24,
@@ -296,9 +317,13 @@ class _MyCartViewState extends State<MyCartView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 102,
+              height: MediaQuery.of(context).size.height * 0.21,
               child: Column(
                 children: <Widget>[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: totalamounttext(),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
