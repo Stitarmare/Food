@@ -566,8 +566,9 @@ const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
 
 // WebView Page
 const STR_GOOGLE_URL = "https://google.co.in";
-const STR_URL_TERMS_CONDITION = "http://api.watslive.com/terms_and_conditions";
-const STR_URL_PRIVACY_POLICY = "https://api.watslive.com/privacy_policy";
+const STR_URL_TERMS_CONDITION = "http://foodzi.php-dev.in/terms-and-conditions";
+const STR_URL_PRIVACY_POLICY = "http://foodzi.php-dev.in/privacy-policy";
+const STR_URL_ABOUT_US = "http://foodzi.php-dev.in/about";
 
 // KeyBoardAction Page
 const STR_CUSTOM_ACTION = "Custom Action";
