@@ -426,7 +426,8 @@ const JSON_STR_LONGITUDE = "longitude";
 const JSON_STR_ITEMS = "items";
 
 const STR_SPLIT_BILL = 'Split Bill';
-const STR_ADD_PEOPLE_FIRST_SPLIT_BILL = " No people Around You";
+const STR_ADD_PEOPLE_FIRST_SPLIT_BILL =
+    " Please add your friends to split the bill";
 const STR_PAY_BILL = 'PAY BILL';
 const STR_SELECT_TBL = "Selected Table : ";
 const STR_TABLE_1 = "Table 1";

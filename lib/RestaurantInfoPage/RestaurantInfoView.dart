@@ -85,9 +85,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     _scrollcontroller = ScrollController();
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
-        progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     _getRestaurantInfo();
-    
 
     super.initState();
   }
@@ -106,7 +105,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   Widget build(BuildContext context) {
-    
     List<T> map<T>(List list, Function handler) {
       List<T> result = [];
       for (var i = 0; i < list.length; i++) {
@@ -248,8 +246,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                               child: Image.asset(
                                 NAVIGATE_IMAGE_PATH,
                                 color: ((Globle().colorscode) != null)
-              ? getColorByHex(Globle().colorscode)
-              : orangetheme,
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
                                 width: 14,
                               ),
                             ),
@@ -332,8 +330,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                         width: 157,
                         decoration: BoxDecoration(
                             color: ((Globle().colorscode) != null)
-              ? getColorByHex(Globle().colorscode)
-              : orangetheme,
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             borderRadius: BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           children: <Widget>[
@@ -611,8 +609,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           fontWeight: FontWeight.w700,
                           fontSize: FONTSIZE_14,
                           color: ((Globle().colorscode) != null)
-              ? getColorByHex(Globle().colorscode)
-              : orangetheme,
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
                           decoration: TextDecoration.underline,
                           decorationThickness: 5.0)),
                 ),
@@ -670,12 +668,36 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 18, top: 10),
                                               child: ClipOval(
-                                                  child: Image.network(
-                                                BaseUrl.getBaseUrlImages() +
-                                                    getProfileImage(index),
-                                                height: 45,
-                                                width: 45,
-                                              ))),
+                                                child: CachedNetworkImage(
+                                                  placeholder: (context, url) =>
+                                                      Image.asset(
+                                                    PROFILE_IMAGE_PATH,
+                                                    width: 45,
+                                                    height: 45,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Image.asset(
+                                                    PROFILE_IMAGE_PATH,
+                                                    width: 45,
+                                                    height: 45,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  imageUrl: BaseUrl
+                                                          .getBaseUrlImages() +
+                                                      getProfileImage(index),
+                                                  height: 45,
+                                                  width: 45,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                                //     child: Image.network(
+                                                //   BaseUrl.getBaseUrlImages() +
+                                                //       getProfileImage(index),
+                                                //   height: 45,
+                                                //   width: 45,
+                                                // )
+                                              )),
                                         ),
                                         Column(
                                           mainAxisAlignment:
@@ -813,13 +835,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   ],
                   indicator: UnderlineTabIndicator(
                       borderSide: BorderSide(
-                          color:((Globle().colorscode) != null)
-              ? getColorByHex(Globle().colorscode)
-              : orangetheme, width: 2),
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          width: 2),
                       insets: EdgeInsets.symmetric(horizontal: 30)),
                   labelColor: ((Globle().colorscode) != null)
-              ? getColorByHex(Globle().colorscode)
-              : orangetheme,
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme,
                   unselectedLabelColor: greytheme1000,
                   onTap: (index) {
                     switch (index) {
