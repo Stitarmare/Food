@@ -62,6 +62,8 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
     if (Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount) !=
         null) {
@@ -125,8 +127,7 @@ class _DineViewState extends State<DineInView>
   }
 
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_PLEASE_WAIT);
+    
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -270,14 +271,14 @@ class _DineViewState extends State<DineInView>
                                           38,
                                   child: FloatingActionButton(
                                       onPressed: () {
-                                        // Navigator.of(context,
-                                        //         rootNavigator: true)
-                                        //     .pop();
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
                                         // DialogsIndicator.showLoadingDialog(
                                         //     context,
                                         //     _keyLoader,
                                         //     STR_PLEASE_WAIT);
-                                        progressDialog.hide();
+                                        //progressDialog.hide();
                                         progressDialog.show();
                                         dinerestaurantPresenter
                                             .getrestaurantspage(
@@ -626,11 +627,14 @@ class _DineViewState extends State<DineInView>
   }
 
   @override
-  void restaurantfailed() {}
+  void restaurantfailed() {
+    progressDialog.hide();
+  }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {
     isIgnoreTouch = false;
+    progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
@@ -647,7 +651,7 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-    progressDialog.hide();
+    
   }
 }
 
