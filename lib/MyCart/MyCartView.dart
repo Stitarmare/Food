@@ -71,6 +71,8 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void initState() {
+     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -228,8 +230,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_LOADING);
+   
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),

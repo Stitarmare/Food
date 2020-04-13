@@ -39,6 +39,8 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void initState() {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     _landingViewPresenter = LandingViewPresenter(this);
     _landingViewPresenter.getCurrentOrder(context);
     getCurrentOrderID();
@@ -52,8 +54,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_PLEASE_WAIT);
+    
     return Card(
       elevation: 100.0,
       child: Scaffold(
@@ -456,6 +457,7 @@ class _LandingStateView extends State<Landingview>
   @override
   void onFailedCurrentOrder() {
     progressDialog.hide();
+    progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
 
     //Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
@@ -464,6 +466,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
+    progressDialog.hide();
     progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
 
