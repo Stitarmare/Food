@@ -198,7 +198,7 @@ const double FONTSIZE_11 = 11;
 const KEY_INVALIDORDER = "Invalid Order";
 const KEY_ORDERFROMREST =
     "Sorry, you can't order from this restaurant right now.";
-const KEY_ADDTOCART = "Add To Cart";
+const STR_ADDTOCART = "Add To Cart";
 const STR_STARTNEWORDER = "Start a new order?";
 const STR_YOUR_UNFINIHED_ORDER = "Your unfinished order at ";
 const STR_WILLDELETE = "will be deleted.";

@@ -353,7 +353,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         topRight: Radius.circular(15))),
                 child: Center(
                   child: Text(
-                    KEY_ADDTOCART,
+                    STR_ADDTOCART,
                     style: TextStyle(
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,

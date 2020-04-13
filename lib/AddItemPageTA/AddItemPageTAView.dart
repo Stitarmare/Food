@@ -312,7 +312,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       topRight: Radius.circular(15))),
               child: Center(
                 child: Text(
-                  KEY_ADDTOCART,
+                  STR_ADDTOCART,
                   style: TextStyle(
                       fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
@@ -376,7 +376,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               Preference.setPersistData<String>(widget.restName,
                                   PreferenceKeys.restaurantName);
                               Globle().dinecartValue = 0;
-                              Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+                              Preference.setPersistData<int>(
+                                  0, PreferenceKeys.dineCartItemCount);
                               Navigator.of(context).pop();
                             },
                           ),
