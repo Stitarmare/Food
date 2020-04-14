@@ -121,8 +121,8 @@ class _MyCartViewState extends State<MyCartView>
           children: <Widget>[
             Text(
               '${"Total "}' +
-                  '${myCart.currencySymbol}' +
-                  '${myCart.grandTotal}',
+                  '${getCurrency()}' +
+                  '${getGrandTotal()}',
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.grey,
@@ -301,7 +301,7 @@ class _MyCartViewState extends State<MyCartView>
           backgroundColor: Colors.white,
           elevation: 0,
         ),
-        body: Column(
+        body:  Column(
           children: <Widget>[
             _getmainviewTableno(),
             SizedBox(
@@ -567,7 +567,7 @@ class _MyCartViewState extends State<MyCartView>
                               Padding(
                                 padding: EdgeInsets.only(right: 12, top: 30),
                                 child: Text(
-                                  "${myCart.currencySymbol} " +
+                                  "${getCurrency()} " +
                                           "${_cartItemList[index].totalAmount}" ??
                                       '',
                                   style: TextStyle(
@@ -615,6 +615,24 @@ class _MyCartViewState extends State<MyCartView>
         color: Colors.white,
       ),
     );
+  }
+
+  String getCurrency() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return myCart.currencySymbol;
+      }
+    }
+    return "";
+  }
+
+  int getGrandTotal() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return myCart.grandTotal;
+      }
+    }
+    return 0;
   }
 
   String getExtra(MenuCartList menuCartList) {

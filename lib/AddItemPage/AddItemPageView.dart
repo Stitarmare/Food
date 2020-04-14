@@ -760,7 +760,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
                         secondary: Text(
-                                '${_addItemPageModelList.currencySymbol} ' +
+                                '${getCurrencySymbol()} ' +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
@@ -819,6 +819,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     ))
                 .toList()
             : [Container()]);
+  }
+
+  String getCurrencySymbol() {
+    if (_addItemPageModelList != null) {
+      if (_addItemPageModelList.currencySymbol != null) {
+      return _addItemPageModelList.currencySymbol;
+    }
+    }
+    
+
+    return "";
+
   }
 
   Widget togglebutton() {
@@ -1005,7 +1017,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15),
                             child: Text(
-                              "${_addItemPageModelList.currencySymbol} " +
+                              "${getCurrencySymbol()} " +
                                       checkBtn.price.toString() ??
                                   STR_BLANK,
                               style: TextStyle(
@@ -1073,7 +1085,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                     },
                   )
                 ],
