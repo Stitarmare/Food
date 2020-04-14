@@ -71,7 +71,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         InkWell(
           onTap: (_cartItemList[i].quantity == 1)
               ? () {}
-              : () {
+              : () async {
                   if (_cartItemList[i].quantity > 0) {
                     setState(() {
                       _cartItemList[i].quantity -= 1;
@@ -79,7 +79,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    progressDialog.show();
+                   await progressDialog.show();
                     if (_cartItemList[i].quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           _cartItemList[i].id,
@@ -91,7 +91,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     if (_cartItemList[i].quantity == 0) {
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      progressDialog.show();
+                     await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -133,7 +133,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           ),
         ),
         InkWell(
-          onTap: () {
+          onTap: () async {
             if (_cartItemList[i].quantity < 100) {
               setState(() {
                 _cartItemList[i].quantity += 1;
@@ -141,7 +141,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
-              progressDialog.show();
+             await progressDialog.show();
               _myCartpresenter.updateQauntityCount(
                   _cartItemList[i].id,
                   _cartItemList[i].quantity,
@@ -412,11 +412,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),
-                  onDismissed: (direction) {
+                  onDismissed: (direction) async {
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    progressDialog.show();
+                   await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                   },
@@ -561,15 +561,15 @@ class _MyCartTWViewState extends State<MyCartTWView>
   }
 
   @override
-  void getCartMenuListsuccess(
-      List<MenuCartList> menulist, MenuCartDisplayModel model) {
+  Future<void> getCartMenuListsuccess(
+      List<MenuCartList> menulist, MenuCartDisplayModel model) async {
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData<int>(
           Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
       Preference.setPersistData(null, PreferenceKeys.restaurantID);
       Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-      progressDialog.hide();
+     await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -590,21 +590,21 @@ class _MyCartTWViewState extends State<MyCartTWView>
       }
       page++;
     });
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void removeItemFailed() {
+  Future<void> removeItemFailed() async {
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    progressDialog.hide();
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void removeItemSuccess() {
+  Future<void> removeItemSuccess() async {
     _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
@@ -614,24 +614,24 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    progressDialog.hide();
+   await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void updatequantitySuccess() {
+  Future<void> updatequantitySuccess() async {
     _cartItemList = null;
     Globle().takeAwayCartItemCount -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    progressDialog.hide();
+   await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement updatequantitySuccess
   }
 
   @override
-  void updatequantityfailed() {
-    progressDialog.hide();
+  Future<void> updatequantityfailed() async {
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement updatequantityfailed
   }

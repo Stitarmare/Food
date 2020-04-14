@@ -82,10 +82,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
     );
   }
 
-  void onsubmitButtonClicked() {
+  Future<void> onsubmitButtonClicked() async {
     if (_changepasswordFormKey.currentState.validate()) {
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      progressDialog.show();
+      await progressDialog.show();
       changepasswordPresenter.performChangePassword(
           _oldPassword, _newPassword, _confirmPassword, context);
     } else {
@@ -315,14 +315,14 @@ class _ChangePasswordview extends State<ChangePasswordview>
   }
 
   @override
-  void changePasswordfailed() {
-    progressDialog.hide();
+  Future<void> changePasswordfailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void changePasswordsuccess() {
-    progressDialog.hide();
+  Future<void> changePasswordsuccess() async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }

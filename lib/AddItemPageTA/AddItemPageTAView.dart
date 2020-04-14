@@ -291,14 +291,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 } else {
                   // DialogsIndicator.showLoadingDialog(
                   //     context, _keyLoader, STR_BLANK);
-                  progressDialog.show();
+                await  progressDialog.show();
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
                 // DialogsIndicator.showLoadingDialog(
                 //     context, _keyLoader, STR_BLANK);
-                progressDialog.show();
+               await progressDialog.show();
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -364,10 +364,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               // DialogsIndicator.showLoadingDialog(
                               //     context, _keyLoader, STR_BLANK);
-                              progressDialog.show();
+                             await progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -971,7 +971,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void addItemsuccess(List<AddItemModelList> _additemlist) {
+  Future<void> addItemsuccess(List<AddItemModelList> _additemlist) async {
     setState(() {
       isLoding = false;
     });
@@ -983,7 +983,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
     switchbtn(_addItemModelList.switches.length);
     getradiobtnsize(_addItemModelList.sizePrizes.length);
-    progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -991,7 +991,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void addMenuToCartfailed() {}
 
   @override
-  void addMenuToCartsuccess() {
+  Future<void> addMenuToCartsuccess() async {
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
@@ -999,7 +999,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    progressDialog.hide();
+    await progressDialog.hide();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
@@ -1008,12 +1008,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   void clearCartFailed() {}
 
   @override
-  void clearCartSuccess() {
+  Future<void> clearCartSuccess() async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    progressDialog.hide();
+   await progressDialog.hide();
   }
 }
 

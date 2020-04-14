@@ -76,9 +76,9 @@ class _EditProfileState extends State<EditProfileview>
         ));
   }
 
-  void updateButtonClicked() {
+  Future<void> updateButtonClicked() async {
     if (_editprofileFormKey.currentState.validate()) {
-      progressDialog.show();
+    await  progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
           countryID, stateID, cityID, pinCode, context);
@@ -276,7 +276,7 @@ class _EditProfileState extends State<EditProfileview>
               ));
         }).toList(),
         onChanged: (newValue) {
-          setState(() {
+          setState(() async {
             _dropdownStateValue = newValue;
             _dropdownItemsState.forEach((value) {
               if (value.name.toUpperCase() ==
@@ -285,7 +285,7 @@ class _EditProfileState extends State<EditProfileview>
                 stateID = value.id;
               }
             });
-            progressDialog.show();
+           await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             editprofilepresenter.editCity(stateID.toString(), context);
           });
@@ -456,14 +456,14 @@ class _EditProfileState extends State<EditProfileview>
   void editCityFailed() {}
 
   @override
-  void editCitySuccess(List<CityList> cityList) {
+  Future<void> editCitySuccess(List<CityList> cityList) async {
     if (cityList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-    progressDialog.hide();
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -471,14 +471,14 @@ class _EditProfileState extends State<EditProfileview>
   void editCountryFailed() {}
 
   @override
-  void editCountrySuccess(List<CountryList> countryList) {
+  Future<void> editCountrySuccess(List<CountryList> countryList) async {
     if (countryList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-    progressDialog.hide();
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -486,14 +486,14 @@ class _EditProfileState extends State<EditProfileview>
   void editStateFailed() {}
 
   @override
-  void editStateSuccess(List<StateList> stateList) {
+  Future<void> editStateSuccess(List<StateList> stateList) async {
     if (stateList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-    progressDialog.hide();
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -501,8 +501,8 @@ class _EditProfileState extends State<EditProfileview>
   void profileUpdateFailed() {}
 
   @override
-  void profileUpdateSuccess() {
-    progressDialog.hide();
+  Future<void> profileUpdateSuccess() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }
