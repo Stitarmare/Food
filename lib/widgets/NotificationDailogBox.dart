@@ -22,7 +22,7 @@ class DailogBox {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-                height: height * 0.35,
+                height: height * 0.4,
                 width: width * 0.7,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
