@@ -81,9 +81,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
     );
   }
 
-  void onsubmitButtonClicked() {
+  Future<void> onsubmitButtonClicked() async {
     if (_resetpasswordFormKey.currentState.validate()) {
-      progressDialog.show();
+      await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, _password, context);
@@ -289,14 +289,14 @@ class _ResetPasswordview extends State<ResetPasswordview>
   }
 
   @override
-  void resetpassfailed() {
-    progressDialog.hide();
+  Future<void> resetpassfailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void resetpasssuccess() {
-    progressDialog.hide();
+  Future<void> resetpasssuccess() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }

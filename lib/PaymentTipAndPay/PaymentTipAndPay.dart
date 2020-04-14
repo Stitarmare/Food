@@ -119,8 +119,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     height: 35,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      progressDialog.show();
+                    onTap: () async {
+                      await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
                       _paymentTipAndPayPresenter.placeOrder(
@@ -533,15 +533,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  void placeOrderfailed() {
+  Future<void> placeOrderfailed() async {
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void placeOrdersuccess(OrderData orderData) {
+  Future<void> placeOrdersuccess(OrderData orderData) async {
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -552,15 +552,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
-    progressDialog.show();
+    await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
         (int.parse(myOrderData.totalAmount)), "ZAR", context);
   }
 
   @override
-  void payBillCheckoutFailed() {
-    progressDialog.hide();
+  Future<void> payBillCheckoutFailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -569,7 +569,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     if (billModel == null) {
       billModel = model;
     }
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     var data = await Navigator.push(
         context,
@@ -582,7 +582,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      progressDialog.hide();
+      await progressDialog.hide();
       //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
@@ -592,33 +592,34 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  void getOrderDetailsFailed() {
-    progressDialog.hide();
+  Future<void> getOrderDetailsFailed() async {
+    await progressDialog.hide();
   }
 
   @override
-  void getOrderDetailsSuccess(
-      OrderDetailData orderData, OrderDetailsModel model) {
+  Future<void> getOrderDetailsSuccess(
+      OrderDetailData orderData, OrderDetailsModel model) async {
     setState(() {
       if (myOrderDataDetails == null) {
         myOrderDataDetails = orderData;
         _model = model;
       }
     });
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void paymentCheckoutFailed() {
-    progressDialog.hide();
+  Future<void> paymentCheckoutFailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
+  Future<void> paymentCheckoutSuccess(
+      PaymentCheckoutModel paymentCheckoutModel) async {
     if (paymentCheckoutModel.statusCode == 200) {
-      progressDialog.show();
+      await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       _finalBillPresenter.payfinalOrderBill(
         Globle().loginModel.data.id,
@@ -632,20 +633,20 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         sliderValue ?? 0,
       );
     } else {
-      progressDialog.hide();
+      await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
   }
 
   @override
-  void payfinalBillFailed() {
-    progressDialog.hide();
+  Future<void> payfinalBillFailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void payfinalBillSuccess() {
+  Future<void> payfinalBillSuccess() async {
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
@@ -655,21 +656,21 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
 
   @override
-  void cancelledPaymentFailed() {
-    progressDialog.hide();
+  Future<void> cancelledPaymentFailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     // TODO: implement cancelledPaymentFailed
   }
 
   @override
-  void cancelledPaymentSuccess() {
-    progressDialog.hide();
+  Future<void> cancelledPaymentSuccess() async {
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
     // TODO: implement cancelledPaymentSuccess

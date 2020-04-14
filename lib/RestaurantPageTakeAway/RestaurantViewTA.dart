@@ -192,13 +192,13 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               child: CupertinoSwitch(
                 activeColor: getColorByHex(Globle().colorscode),
                 onChanged: (bool value) {
-                  setState(() {
+                  setState(() async {
                     this._switchvalue = value;
                     if (this._switchvalue) {
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      progressDialog.show();
+                      await progressDialog.show();
                       menutype = STR_VEG;
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
@@ -206,7 +206,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      progressDialog.show();
+                      await progressDialog.show();
                       menutype = null;
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
@@ -259,7 +259,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      progressDialog.show();
+                      await progressDialog.show();
                       restaurantPresenter.getMenuList(widget.restId, context,
                           categoryId: abc, menu: menutype);
                       print(abc);
@@ -499,16 +499,16 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {}
   @override
-  void getMenuListfailed() {
-    progressDialog.hide();
+  Future<void> getMenuListfailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getMenuListsuccess(List<RestaurantMenuItem> menulist,
-      RestaurantItemsModel restaurantItemsModel1) {
+  Future<void> getMenuListsuccess(List<RestaurantMenuItem> menulist,
+      RestaurantItemsModel restaurantItemsModel1) async {
     if (menulist.length == 0) {
-      progressDialog.hide();
+      await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -524,7 +524,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
       page++;
     });
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

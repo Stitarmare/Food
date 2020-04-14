@@ -159,7 +159,7 @@ class _NotificationViewState extends State<NotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          progressDialog.show();
+          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -197,7 +197,7 @@ class _NotificationViewState extends State<NotificationView>
   void getNotificationsFailed() {}
 
   @override
-  void getNotificationsSuccess(List<Datum> getNotificationList) {
+  Future<void> getNotificationsSuccess(List<Datum> getNotificationList) async {
     if (getNotificationList.length == 0) {
       return;
     }
@@ -209,7 +209,7 @@ class _NotificationViewState extends State<NotificationView>
       }
       page++;
     });
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -224,8 +224,8 @@ class _NotificationViewState extends State<NotificationView>
   }
 
   @override
-  void acceptInvitationFailed(ErrorModel model) {
-    progressDialog.hide();
+  Future<void> acceptInvitationFailed(ErrorModel model) async {
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,
@@ -236,8 +236,8 @@ class _NotificationViewState extends State<NotificationView>
   }
 
   @override
-  void acceptInvitationSuccess(ErrorModel model) {
-    progressDialog.hide();
+  Future<void> acceptInvitationSuccess(ErrorModel model) async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,

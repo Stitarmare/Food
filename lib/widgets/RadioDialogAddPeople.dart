@@ -192,7 +192,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       if (numbers.isNotEmpty) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                        progressDialog.show();
+                        await progressDialog.show();
                         confirmationDineviewPresenter.addPeople(
                             peopleList[id].mobileNumber,
                             widget.tableId,
@@ -348,27 +348,27 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   @override
-  void addPeopleFailed() {
-    progressDialog.hide();
+  Future<void> addPeopleFailed() async {
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void addPeopleSuccess() {
-    progressDialog.hide();
+  Future<void> addPeopleSuccess() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getPeopleListonFailed() {
-    progressDialog.hide();
+  Future<void> getPeopleListonFailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getPeopleListonSuccess(List<PeopleData> data) {
+  Future<void> getPeopleListonSuccess(List<PeopleData> data) async {
     if (data.length == 0) {
-      progressDialog.hide();
+      await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -381,7 +381,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     });
     print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

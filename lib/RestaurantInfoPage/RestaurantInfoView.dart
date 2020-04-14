@@ -91,14 +91,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     super.initState();
   }
 
-  _getRestaurantInfo() {
+  _getRestaurantInfo() async {
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    progressDialog.show();
+    await progressDialog.show();
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
-  _getRestaurantReview() {
-    progressDialog.show();
+  _getRestaurantReview() async {
+    await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId);
   }
@@ -874,12 +874,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void restaurantInfoFailed() {
-    progressDialog.hide();
+  Future<void> restaurantInfoFailed() async {
+    await progressDialog.hide();
   }
 
   @override
-  void restaurantInfoSuccess(RestaurantInfoData restInfoData) {
+  Future<void> restaurantInfoSuccess(RestaurantInfoData restInfoData) async {
     setState(() {
       if (restInfoData == null) {}
       _restaurantInfoData = restInfoData;
@@ -890,22 +890,23 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       }
     });
     _getRestaurantReview();
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void getReviewFailed() {
-    progressDialog.hide();
+  Future<void> getReviewFailed() async {
+    await progressDialog.hide();
   }
 
   @override
-  void getReviewSuccess(List<RestaurantReviewList> getReviewList) {
+  Future<void> getReviewSuccess(
+      List<RestaurantReviewList> getReviewList) async {
     setState(() {
       _getReviewData = getReviewList;
       print(_getReviewData);
     });
-    progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

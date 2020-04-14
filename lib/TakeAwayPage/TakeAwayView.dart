@@ -65,10 +65,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
         null) {
       Preference.getPrefValue<int>(PreferenceKeys.takeAwayCartCount)
           .then((value) {
-            setState(() {
-              Globle().takeAwayCartItemCount = value;
-            });
-        
+        setState(() {
+          Globle().takeAwayCartItemCount = value;
+        });
       });
     }
     super.initState();
@@ -85,7 +84,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       getttingLocation = false;
     });
     await GeoLocationTracking.load(context, _controllerPosition);
-    _controllerPosition.stream.listen((position) {
+    _controllerPosition.stream.listen((position) async {
       print(position);
       _position = position;
       if (_position != null) {
@@ -94,7 +93,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
-        progressDialog.show();
+        await progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -111,13 +110,13 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   _detectScrollPosition() {
-    _controller.addListener(() {
+    _controller.addListener(() async {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
           // DialogsIndicator.showLoadingDialog(
           //     context, _keyLoader, STR_PLEASE_WAIT);
-          progressDialog.show();
+          await progressDialog.show();
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
@@ -275,16 +274,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                       MediaQuery.of(context).size.height * 0.3 -
                                           38,
                                   child: FloatingActionButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         // Navigator.of(context,
                                         //         rootNavigator: true)
                                         //     .pop();
-                                        progressDialog.hide();
+                                        await progressDialog.hide();
                                         // DialogsIndicator.showLoadingDialog(
                                         //     context,
                                         //     _keyLoader,
                                         //     STR_PLEASE_WAIT);
-                                        progressDialog.show();
+                                        await progressDialog.show();
                                         dinerestaurantPresenter
                                             .getrestaurantspage(
                                                 _position.latitude.toString(),
@@ -458,7 +457,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   ),
                   onTap: () {
                     Globle().takeAwayCartItemCount = 0;
-                    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+                    Preference.setPersistData<int>(
+                        0, PreferenceKeys.takeAwayCartCount);
                     Globle().colorscode = _restaurantList[i].colourCode;
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => TakeAwayBottombar(
@@ -625,14 +625,14 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   @override
-  void restaurantfailed() {
-    progressDialog.hide();
+  Future<void> restaurantfailed() async {
+    await progressDialog.hide();
   }
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) {
+  Future<void> restaurantsuccess(List<RestaurantList> restlist) async {
     isIgnoreTouch = false;
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
