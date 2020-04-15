@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Setting/NotificationSetting.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
@@ -36,10 +37,13 @@ class _SettingViewState extends State<SettingView> {
             height: 10,
           ),
           GestureDetector(
-            onTap: ()async{
-              final action = await DailogBox.settingDialog(context,'Notification Settings?', 'Enable', 'Disable');
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NotificationSetting()));
+              // final action = await DailogBox.settingDialog(context,'Notification Settings?', 'Enable', 'Disable');
             },
-                      child: Padding(
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
               padding: EdgeInsets.only(left:25,top: 10,bottom: 10),
               child: Text(
                 'Notification Settings',
@@ -50,6 +54,15 @@ class _SettingViewState extends State<SettingView> {
                     color: greytheme500),
               ),
             ),
+            Expanded(child: 
+            SizedBox(width: 80,),flex: 2,),
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Icon(Icons.keyboard_arrow_right),
+            )
+
+                        ],
+                      )
           ),
           // SizedBox(
           //   height: 10,
@@ -62,8 +75,8 @@ class _SettingViewState extends State<SettingView> {
           ),
           GestureDetector(
             onTap: () async {
-           final action = await DailogBox.settingDialog(context,'Delete Account?', 'Yes', 'No');
-
+          //  final action = await DailogBox.settingDialog(context,'Delete Account?','Are you sure you want to delete your account?' 'Yes', 'No');
+              final action = await DailogBox.settingDialog(context, 'Delete Account?', 'Are you sure you want to delete your account?', 'Yes', 'No');
             },
             child: Padding(
                     padding: EdgeInsets.only(left:25,bottom: 10),

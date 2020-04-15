@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/theme/colors.dart';
 
 enum DailogAction { yes, abort }
 
@@ -160,6 +161,7 @@ class DailogBox {
   static Future<DailogAction> settingDialog(
     BuildContext context,
     String dailogTitle,
+    String dailogDescription,
     // String recipientMobno,
     // String tableno,
     String btn1title,
@@ -177,25 +179,43 @@ class DailogBox {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-                height: height * 0.25,
+                height: height * 0.32,
                 width: width * 0.7,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                      height: (height * 0.3)*0.15,
+                      height: (height * 0.3)*0.04,
                     ),
                     Center(
                       child: Text(
                         dailogTitle,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
+                    //         fontFamily: KEY_FONTFAMILY,
+                    // fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(64, 64, 64, 1)),
                       ),
                     ),
                     SizedBox(
-                      height: (height * 0.3)*0.05,
+                      height: (height * 0.3)*0.08,
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          dailogDescription,
+                          style: TextStyle(
+                    //         fontFamily: KEY_FONTFAMILY,
+                    // fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color:greytheme500,
+                              ),
+                        ),
+                      ),
                     ),
                     // Center(
                     //   child: Column(
@@ -262,7 +282,7 @@ class DailogBox {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         RaisedButton(
-                          color: Color.fromRGBO(55, 180, 76, 1),
+                          color: redtheme,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                           child: Padding(
