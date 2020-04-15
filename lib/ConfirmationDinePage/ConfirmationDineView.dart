@@ -176,7 +176,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       } else if (radioOrderId == 1) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                       await progressDialog.show();
+                        await progressDialog.show();
                         _paymentTipAndPayPresenter.placeOrder(
                             widget.restId,
                             Globle().loginModel.data.id,
@@ -566,14 +566,14 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-   await progressDialog.hide();
-   await progressDialog.hide();
+    await progressDialog.hide();
+    await progressDialog.hide();
   }
 
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-   await progressDialog.hide();
+    await progressDialog.hide();
     await progressDialog.hide();
     setState(() {
       if (myOrderData == null) {
@@ -586,7 +586,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    
+
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 

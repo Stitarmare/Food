@@ -314,6 +314,7 @@ class Switch {
   DateTime createdAt;
   DateTime updatedAt;
   SwitchPivot pivot;
+  String switchDefault;
 
   Switch({
     this.id,
@@ -325,6 +326,7 @@ class Switch {
     this.createdAt,
     this.updatedAt,
     this.pivot,
+    this.switchDefault,
   });
 
   factory Switch.fromJson(Map<String, dynamic> json) => Switch(
@@ -337,6 +339,7 @@ class Switch {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         pivot: SwitchPivot.fromJson(json["pivot"]),
+        switchDefault: json["default"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -349,6 +352,7 @@ class Switch {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "pivot": pivot.toJson(),
+        "default": switchDefault,
       };
 }
 
