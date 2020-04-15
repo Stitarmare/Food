@@ -154,7 +154,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                           color: Colors.white),
                     ),
                     color: getColorByHex(Globle().colorscode),
-                    onPressed: () {
+                    onPressed: () async {
                       if (radioOrderId == 2) {
                         Globle().takeAwayCartItemCount = 0;
                         Navigator.push(
@@ -176,7 +176,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       } else if (radioOrderId == 1) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                        progressDialog.show();
+                       await progressDialog.show();
                         _paymentTipAndPayPresenter.placeOrder(
                             widget.restId,
                             Globle().loginModel.data.id,
@@ -562,19 +562,19 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   }
 
   @override
-  void placeOrderfailed() {
+  Future<void> placeOrderfailed() async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    progressDialog.hide();
-    progressDialog.hide();
+   await progressDialog.hide();
+   await progressDialog.hide();
   }
 
   @override
-  void placeOrdersuccess(OrderData orderData) {
+  Future<void> placeOrdersuccess(OrderData orderData) async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    progressDialog.hide();
-    progressDialog.hide();
+   await progressDialog.hide();
+    await progressDialog.hide();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;

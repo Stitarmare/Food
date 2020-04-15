@@ -153,7 +153,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          progressDialog.show();
+         await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -201,7 +201,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   void getNotificationsFailed() {}
 
   @override
-  void getNotificationsSuccess(List<Datum> getNotificationList) {
+  Future<void> getNotificationsSuccess(List<Datum> getNotificationList) async {
     if (getNotificationList.length == 0) {
       return;
     }
@@ -213,13 +213,13 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       }
       page++;
     });
-    progressDialog.hide();
+   await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void acceptInvitationFailed(ErrorModel model) {
-    progressDialog.hide();
+  Future<void> acceptInvitationFailed(ErrorModel model) async {
+   await progressDialog.hide();
     Toast.show(
       model.message,
       context,
@@ -229,8 +229,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   }
 
   @override
-  void acceptInvitationSuccess(ErrorModel model) {
-    progressDialog.hide();
+  Future<void> acceptInvitationSuccess(ErrorModel model) async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,

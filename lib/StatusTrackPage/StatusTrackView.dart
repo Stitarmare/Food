@@ -79,7 +79,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    //progressDialog.show();
+    
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
@@ -88,10 +88,10 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     print(widget.tableName);
   }
 
-  callApi() {
+  callApi() async {
     isStart = true;
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-
+    await progressDialog.show();
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     _timer = Timer.periodic(_duration, (Timer t) {
       isStart = false;
@@ -581,9 +581,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderStatusfailed() {
+  void getOrderStatusfailed() async{
     if (isStart) {
-      //progressDialog.hide();
+       await progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }
@@ -591,9 +591,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderStatussuccess(StatusData statusData) {
+  void getOrderStatussuccess(StatusData statusData) async{
     if (isStart) {
-     // progressDialog.hide();
+     await progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }

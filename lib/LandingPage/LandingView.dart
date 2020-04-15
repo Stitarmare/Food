@@ -38,11 +38,12 @@ class _LandingStateView extends State<Landingview>
   ProgressDialog progressDialog;
 
   @override
-  void initState() {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_PLEASE_WAIT);
+  void initState()  {
+    
     _landingViewPresenter = LandingViewPresenter(this);
-    _landingViewPresenter.getCurrentOrder(context);
+   progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
+    callApi();
     getCurrentOrderID();
     Preference.getPrefValue<String>(STR_CURRENCY_SYMBOL).then((value) {
       if (value != null) {
@@ -50,6 +51,11 @@ class _LandingStateView extends State<Landingview>
       }
     });
     super.initState();
+  }
+
+  callApi() async{
+    await progressDialog.show();
+     _landingViewPresenter.getCurrentOrder(context);
   }
 
   @override
@@ -258,9 +264,9 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-    progressDialog.show();
+   await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-    _landingViewPresenter.getCurrentOrder(context);
+  _landingViewPresenter.getCurrentOrder(context);
   }
 
   Widget _buildinningtext() {
@@ -369,9 +375,9 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
-    progressDialog.show();
+    await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-    _landingViewPresenter.getCurrentOrder(context);
+   _landingViewPresenter.getCurrentOrder(context);
   }
 
   showStatusView() async {
@@ -398,7 +404,7 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.dineIn.restaurant.coverImage
                         : _model.data.takeAway.restaurant.coverImage,
                   )));
-          progressDialog.show();
+          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
@@ -419,7 +425,7 @@ class _LandingStateView extends State<Landingview>
                         ? _model.data.takeAway.restaurant.coverImage
                         : _model.data.dineIn.restaurant.coverImage,
                   )));
-          progressDialog.show();
+         await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
@@ -455,9 +461,9 @@ class _LandingStateView extends State<Landingview>
   }
 
   @override
-  void onFailedCurrentOrder() {
-    progressDialog.hide();
-    progressDialog.hide();
+  void onFailedCurrentOrder() async{
+    await progressDialog.hide();
+    //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
 
     //Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
@@ -466,12 +472,13 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
-    progressDialog.hide();
-    progressDialog.hide();
+    await progressDialog.hide();
+    //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
 
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
     // }
+    
 
     _model = model;
     if (model != null) {
@@ -537,6 +544,12 @@ class _LandingStateView extends State<Landingview>
     Future.delayed(Duration(microseconds: 500), () {
       getCurrentOrderID();
     });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    //progressDialog.hide();
+    super.dispose();
   }
 }
 
@@ -777,4 +790,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   )));
     }
   }
+
+  
 }

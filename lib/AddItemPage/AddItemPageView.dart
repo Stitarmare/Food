@@ -340,7 +340,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   print(_updateOrderModel.toJson());
                   // DialogsIndicator.showLoadingDialog(
                   //     context, _keyLoader, STR_BLANK);
-                  progressDialog.show();
+               await  progressDialog.show();
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   Constants.showAlert(
@@ -376,8 +376,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     );
   }
 
-  void checkForItemIsAlreadyInCart(
-      bool alreadyAdde, int restauran, String restaurantName) {
+  Future<void> checkForItemIsAlreadyInCart(
+      bool alreadyAdde, int restauran, String restaurantName) async {
     if (addMenuToCartModel == null) {
       addMenuToCartModel = AddItemsToCartModel();
     }
@@ -406,12 +406,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
             context);
       } else {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-        progressDialog.show();
+       await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      progressDialog.show();
+     await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -455,10 +455,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               // DialogsIndicator.showLoadingDialog(
                               //    context, _keyLoader, "");
-                              progressDialog.show();
+                             await progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -760,7 +760,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
                         secondary: Text(
-                                '${_addItemPageModelList.currencySymbol} ' +
+                                '${getCurrencySymbol()} ' +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
@@ -819,6 +819,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     ))
                 .toList()
             : [Container()]);
+  }
+
+  String getCurrencySymbol() {
+    if (_addItemPageModelList != null) {
+      if (_addItemPageModelList.currencySymbol != null) {
+      return _addItemPageModelList.currencySymbol;
+    }
+    }
+    
+
+    return "";
+
   }
 
   Widget togglebutton() {
@@ -1005,7 +1017,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15),
                             child: Text(
-                              "${_addItemPageModelList.currencySymbol} " +
+                              "${getCurrencySymbol()} " +
                                       checkBtn.price.toString() ??
                                   STR_BLANK,
                               style: TextStyle(
@@ -1073,7 +1085,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                     },
                   )
                 ],
@@ -1111,12 +1123,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void addMenuToCartfailed() {
-    progressDialog.hide();
+  Future<void> addMenuToCartfailed() async {
+     await progressDialog.hide();
   }
 
   @override
-  void addMenuToCartsuccess() {
+  Future<void> addMenuToCartsuccess() async {
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1124,33 +1136,33 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    progressDialog.hide();
+    await progressDialog.hide();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 
   @override
-  void addTablebnoSuccces() {
-progressDialog.hide();
-progressDialog.hide();
+  Future<void> addTablebnoSuccces() async {
+   await progressDialog.hide();
+    await progressDialog.hide();
   }
 
   @override
-  void addTablenofailed() {
-    progressDialog.hide();
-progressDialog.hide();
+  Future<void> addTablenofailed() async {
+  await  progressDialog.hide();
+await progressDialog.hide();
   }
 
   @override
-  void getTableListFailed() {
-progressDialog.hide();
-progressDialog.hide();
+  Future<void> getTableListFailed() async {
+await progressDialog.hide();
+await progressDialog.hide();
   }
 
   @override
-  void getTableListSuccess(List<GetTableList> _getlist) {
-    progressDialog.hide();
-    progressDialog.hide();
+  Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
+   await progressDialog.hide();
+    await progressDialog.hide();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -1163,8 +1175,8 @@ progressDialog.hide();
   void clearCartFailed() {}
 
   @override
-  void clearCartSuccess() {
-    progressDialog.hide();
+  Future<void> clearCartSuccess() async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -1176,9 +1188,9 @@ progressDialog.hide();
   void updateOrderFailed() {}
 
   @override
-  void updateOrderSuccess() {
+  Future<void> updateOrderSuccess() async {
     Globle().dinecartValue += 1;
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);

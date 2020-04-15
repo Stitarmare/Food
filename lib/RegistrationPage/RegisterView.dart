@@ -71,9 +71,9 @@ class _RegisterviewState extends State<Registerview>
     );
   }
 
-  void onSignUpButtonClicked() {
+  Future<void> onSignUpButtonClicked() async {
     if (_signUpFormKey.currentState.validate()) {
-      progressDialog.show();
+      await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, context);
@@ -389,16 +389,16 @@ class _RegisterviewState extends State<Registerview>
   }
 
   @override
-  void registerSuccess() {
+  Future<void> registerSuccess() async {
     _signUpFormKey.currentState.save();
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _goToNextPageDineIn(context);
   }
 
   @override
-  void registerfailed() {
-    progressDialog.hide();
+  Future<void> registerfailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

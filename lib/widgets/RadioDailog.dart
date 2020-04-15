@@ -47,10 +47,10 @@ class RadioDialogState extends State<RadioDialog>
       index: 2,
       name: STR_SPLIT_BILL_CERTAIN_MEMB,
     ),
-    BillList(
-      index: 3,
-      name: STR_SPLIT_BILL_ORDER_ITEMS,
-    ),
+    // BillList(
+    //   index: 3,
+    //   name: STR_SPLIT_BILL_ORDER_ITEMS,
+    // ),
     BillList(
       index: 4,
       name: STR_SPLIT_BILL_USER_SPECIFIC,

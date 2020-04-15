@@ -71,9 +71,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     );
   }
 
-  void onSignInButtonClicked() {
+  Future<void> onSignInButtonClicked() async {
     if (_signInFormKey.currentState.validate()) {
-      progressDialog.show();
+    await  progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       loginPresenter.performLogin(mobilenumber, password, context);
     } else {
@@ -387,15 +387,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   }
 
   @override
-  void loginFailed() {
-    progressDialog.hide();
+  Future<void> loginFailed() async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void loginSuccess() {
+  Future<void> loginSuccess() async {
     _signInFormKey.currentState.save();
-    progressDialog.hide();
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }

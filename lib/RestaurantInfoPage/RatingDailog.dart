@@ -166,7 +166,7 @@ class MyDialogRatingState extends State<MyDialogRating>
                   color: redtheme,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_rating != 0) {
                       if (_controller.value.text == STR_BLANK) {
                         Toast.show(STR_ADD_REVIEW, context,
@@ -175,7 +175,7 @@ class MyDialogRatingState extends State<MyDialogRating>
                       } else {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, "");
-                        progressDialog.show();
+                        await progressDialog.show();
                         restaurantReviewPresenter.writeRestaurantReview(context,
                             widget.restId, _controller.value.text, _rating);
                       }
@@ -218,8 +218,9 @@ class MyDialogRatingState extends State<MyDialogRating>
   }
 
   @override
-  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
-    progressDialog.hide();
+  Future<void> writeReviewSuccess(
+      WriteRestaurantReviewModel writeReview) async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Toast.show(
       STR_REVIEW_SUMBITTED,

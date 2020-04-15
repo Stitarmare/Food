@@ -84,15 +84,15 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     );
   }
 
-  void onsubmitButtonClicked() {
+  Future<void> onsubmitButtonClicked() async {
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-        progressDialog.show();
+      await  progressDialog.show();
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-        progressDialog.show();
+       await progressDialog.show();
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
       }
@@ -255,14 +255,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   @override
-  void onRequestOtpFailed() {
-    progressDialog.hide();
+  Future<void> onRequestOtpFailed() async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  void onRequestOtpSuccess() {
-    progressDialog.hide();
+  Future<void> onRequestOtpSuccess() async {
+   await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
@@ -273,14 +273,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   @override
-  void requestforloginotpfailed() {
-    progressDialog.hide();
+  Future<void> requestforloginotpfailed() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void requestforloginotpsuccess() {
-    progressDialog.hide();
+  Future<void> requestforloginotpsuccess() async {
+   await  progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(

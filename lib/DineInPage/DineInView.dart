@@ -61,9 +61,20 @@ class _DineViewState extends State<DineInView>
   bool isIgnoreTouch = true;
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(DineInView oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void initState() {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_PLEASE_WAIT);
+    
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
     if (Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount) !=
         null) {
@@ -79,12 +90,14 @@ class _DineViewState extends State<DineInView>
     super.initState();
   }
 
+  
+
   _getLocation() async {
     setState(() {
       getttingLocation = false;
     });
     GeoLocationTracking.load(context, _controllerPosition);
-    _controllerPosition.stream.listen((position) {
+    _controllerPosition.stream.listen((position) async {
       print(position);
       _position = position;
       if (_position != null) {
@@ -93,7 +106,7 @@ class _DineViewState extends State<DineInView>
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
-        progressDialog.show();
+        await progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -127,7 +140,8 @@ class _DineViewState extends State<DineInView>
   }
 
   Widget build(BuildContext context) {
-    
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -279,15 +293,7 @@ class _DineViewState extends State<DineInView>
                                         //     _keyLoader,
                                         //     STR_PLEASE_WAIT);
                                         //progressDialog.hide();
-                                        progressDialog.show();
-                                        dinerestaurantPresenter
-                                            .getrestaurantspage(
-                                                _position.latitude.toString(),
-                                                _position.longitude.toString(),
-                                                sortedBy,
-                                                filteredBy,
-                                                page,
-                                                context);
+                                        callOnfilter();
                                       },
                                       child: IconTheme(
                                           data: IconThemeData(
@@ -426,6 +432,18 @@ class _DineViewState extends State<DineInView>
       return _restaurantList.length;
     }
     return 0;
+  }
+
+  callOnfilter() async {
+    await progressDialog.show();
+                                        dinerestaurantPresenter
+                                            .getrestaurantspage(
+                                                _position.latitude.toString(),
+                                                _position.longitude.toString(),
+                                                sortedBy,
+                                                filteredBy,
+                                                page,
+                                                context);
   }
 
   Widget restaurantsInfo() {
@@ -622,19 +640,20 @@ class _DineViewState extends State<DineInView>
 
   @override
   dispose() {
+    // progressDialog.hide();
     _controllerPosition.close();
     super.dispose();
   }
 
   @override
-  void restaurantfailed() {
-    progressDialog.hide();
+  void restaurantfailed() async{
+    await progressDialog.hide();
   }
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) {
+  void restaurantsuccess(List<RestaurantList> restlist) async{
     isIgnoreTouch = false;
-    progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     if (restlist.length == 0) {
       setState(() {
