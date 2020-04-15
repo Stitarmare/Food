@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
+import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -238,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, null);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
             },
             child: new Text(
               KEY_SETTINGS,

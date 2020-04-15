@@ -4,6 +4,7 @@ import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
+import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -652,7 +653,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             ),
             onPressed: () {
               widget.appbarTitle = STR_SETTING;
-              _opennewpage(STR_SETTING);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
+              // _opennewpage(STR_SETTING);
             }), //SETTING
 
         DrawerItem(
