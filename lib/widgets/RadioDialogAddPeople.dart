@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
@@ -48,6 +50,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   StatusTrackViewPresenter statusTrackViewPresenter;
   static List<AddPeopleList> addPeopleList;
   ProgressDialog progressDialog;
+  List<String> listMobile = [];
+  List<String> listMobile1 = [];
 
   @override
   void initState() {
@@ -57,7 +61,6 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     confirmationDineviewPresenter.getPeopleList(context);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
-
     print(widget.tableId);
   }
 
@@ -107,60 +110,64 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                   ),
                   Expanded(
                       flex: (_checkBoxOptions.length > 2) ? 5 : 4,
-                      child: ListView.builder(
-                          itemCount: getPeopleListLength(),
-                          itemBuilder: (BuildContext context, int i) {
-                            id = i;
-                            return CheckboxListTile(
-                                activeColor: ((Globle().colorscode) != null)
-                                    ? getColorByHex(Globle().colorscode)
-                                    : orangetheme,
-                                value: _checkBoxOptions[i].isChecked,
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                onChanged: (val) {
-                                  setState(() {
-                                    if (addPeopleList == null) {
-                                      addPeopleList = [];
-                                    }
-                                    if (addPeopleList.length > 0) {
-                                      if (val) {
+                      child: Container(
+                        color: Colors.grey[100],
+                        child: ListView.builder(
+                            itemCount: getPeopleListLength(),
+                            itemBuilder: (BuildContext context, int i) {
+                              id = i;
+                              _mobileList(id);
+                              return CheckboxListTile(
+                                  activeColor: ((Globle().colorscode) != null)
+                                      ? getColorByHex(Globle().colorscode)
+                                      : orangetheme,
+                                  value: _checkBoxOptions[i].isChecked,
+                                  controlAffinity:
+                                      ListTileControlAffinity.leading,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      if (addPeopleList == null) {
+                                        addPeopleList = [];
+                                      }
+                                      if (addPeopleList.length > 0) {
+                                        if (val) {
+                                          var ext = AddPeopleList();
+                                          ext.addPeopleId =
+                                              _checkBoxOptions[i].index;
+                                          addPeopleList.add(ext);
+                                        } else {
+                                          for (int i = 0;
+                                              i < addPeopleList.length;
+                                              i++) {
+                                            if (_checkBoxOptions[i].index ==
+                                                addPeopleList[i].addPeopleId) {
+                                              addPeopleList.removeAt(i);
+                                            }
+                                          }
+                                        }
+                                      } else {
                                         var ext = AddPeopleList();
                                         ext.addPeopleId =
                                             _checkBoxOptions[i].index;
                                         addPeopleList.add(ext);
-                                      } else {
-                                        for (int i = 0;
-                                            i < addPeopleList.length;
-                                            i++) {
-                                          if (_checkBoxOptions[i].index ==
-                                              addPeopleList[i].addPeopleId) {
-                                            addPeopleList.removeAt(i);
-                                          }
-                                        }
                                       }
-                                    } else {
-                                      var ext = AddPeopleList();
-                                      ext.addPeopleId =
-                                          _checkBoxOptions[i].index;
-                                      addPeopleList.add(ext);
-                                    }
-                                    _checkBoxOptions[i].isChecked = val;
-                                  });
-                                },
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
-                                          STR_BLANK,
-                                      style: TextStyle(
-                                          fontSize: FONTSIZE_13,
-                                          color: greytheme700),
-                                    ),
-                                  ],
-                                ));
-                          })),
+                                      _checkBoxOptions[i].isChecked = val;
+                                    });
+                                  },
+                                  title: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
+                                            STR_BLANK,
+                                        style: TextStyle(
+                                            fontSize: FONTSIZE_13,
+                                            color: greytheme700),
+                                      ),
+                                    ],
+                                  ));
+                            }),
+                      )),
                   SizedBox(
                     height: 10,
                   ),
@@ -192,22 +199,23 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       if (numbers.isNotEmpty) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
+                        List<String> mobNoList =
+                            LinkedHashSet<String>.from(listMobile).toList();
+
                         progressDialog.show();
-                        confirmationDineviewPresenter.addPeople(
-                            peopleList[id].mobileNumber,
-                            widget.tableId,
-                            widget.restId,
-                            orderId,
-                            context);
+
+                        confirmationDineviewPresenter.addPeople(mobNoList,
+                            widget.tableId, widget.restId, orderId, context);
                         Navigator.pop(context);
-                        Toast.show(
-                            STR_SENDING_INVITATION +
-                                "${peopleList[id].firstName}...",
-                            context,
-                            duration: Toast.LENGTH_SHORT,
-                            gravity: Toast.BOTTOM);
-                        showAddPeopleAlertSuccess(STR_INVITATION_SEND,
-                            STR_INVITATION_SUCCESS, context);
+                        // Toast.show(
+                        //     STR_SENDING_INVITATION +
+                        //         "${peopleList[id].firstName}...",
+                        //     context,
+                        //     duration: Toast.LENGTH_SHORT,
+                        //     gravity: Toast.BOTTOM);
+
+                        // showAddPeopleAlertSuccess(STR_INVITATION_SEND,
+                        //     STR_INVITATION_SUCCESS, context);
                       }
                     },
                     child: Text(
@@ -258,6 +266,17 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
               ))
         ],
       );
+    }
+  }
+
+  _mobileList(i) {
+    for (int j = 0; j < peopleList.length; j++) {
+      String str = peopleList[j].mobileNumber;
+      if (listMobile.length == 0) {
+        listMobile.add(str);
+      } else {
+        listMobile.add(str);
+      }
     }
   }
 
@@ -437,4 +456,9 @@ class AddPeopleList {
   Map<String, dynamic> toJson() => {
         "extra_id": addPeopleId,
       };
+}
+
+class AddMobile {
+  String strMob;
+  AddMobile({this.strMob});
 }

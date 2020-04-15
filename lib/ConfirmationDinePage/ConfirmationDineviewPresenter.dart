@@ -17,8 +17,8 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
   @override
   void onBackPresed() {}
   @override
-  void addPeople(String mobileNumber, int tableId, int restId, int orderId,
-      BuildContext context) {
+  void addPeople(List<String> mobileNumber, int tableId, int restId,
+      int orderId, BuildContext context) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.addPeopleToOrderApi, context, body: {
       JSON_STR_MOB_NO: mobileNumber,
