@@ -84,8 +84,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-          index: _addItemModelList.spreads[i - 1].id,
-          title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK));
+        index: _addItemModelList.spreads[i - 1].id,
+        title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
+        spreadDefault:
+            _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
+      ));
     }
     setState(() {
       _radioOptions = radiolist;
@@ -113,10 +116,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-          price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
-          isChecked: false,
-          index: _addItemModelList.extras[i - 1].id ?? 0,
-          title: _addItemModelList.extras[i - 1].name ?? STR_BLANK));
+        price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
+        isChecked: (_addItemModelList.extras[i - 1].extraDefault == "yes")
+            ? true
+            : false,
+        index: _addItemModelList.extras[i - 1].id ?? 0,
+        title: _addItemModelList.extras[i - 1].name ?? STR_BLANK,
+        defaultAddition: _addItemModelList.extras[i - 1].extraDefault,
+      ));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -291,14 +298,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 } else {
                   // DialogsIndicator.showLoadingDialog(
                   //     context, _keyLoader, STR_BLANK);
-                await  progressDialog.show();
+                  await progressDialog.show();
                   _addItemPagepresenter.performaddMenuToCart(
                       addMenuToCartModel, context);
                 }
               } else {
                 // DialogsIndicator.showLoadingDialog(
                 //     context, _keyLoader, STR_BLANK);
-               await progressDialog.show();
+                await progressDialog.show();
                 _addItemPagepresenter.performaddMenuToCart(
                     addMenuToCartModel, context);
               }
@@ -367,7 +374,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             onPressed: () async {
                               // DialogsIndicator.showLoadingDialog(
                               //     context, _keyLoader, STR_BLANK);
-                             await progressDialog.show();
+                              await progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -519,7 +526,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_SPREADS,
+                            _addItemModelList.spreadsLabel ?? STR_SPREADS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -554,7 +561,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_ADDITIONS,
+                            _addItemModelList.extrasLabel ?? STR_ADDITIONS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -583,7 +590,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               _switchOptions.length == 0
                   ? Container()
                   : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            _addItemModelList.switchesLabel ?? STR_SWITCHES,
+                            style: TextStyle(
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
+                                color: greytheme700),
+                          ),
+                        ),
                         togglebutton(),
                         SizedBox(
                           height: 10,
@@ -686,7 +704,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: id,
+                        groupValue: (radionBtn.spreadDefault == "yes")
+                            ? radionBtn.index
+                            : id,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: getColorByHex(Globle().colorscode),
@@ -1013,7 +1033,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-   await progressDialog.hide();
+    await progressDialog.hide();
   }
 }
 
@@ -1023,14 +1043,21 @@ class CheckBoxOptions {
   String title;
   String price;
   bool isChecked;
-  CheckBoxOptions({this.index, this.title, this.price, this.isChecked});
+  String defaultAddition;
+  CheckBoxOptions(
+      {this.index,
+      this.title,
+      this.price,
+      this.isChecked,
+      this.defaultAddition});
 }
 
 class RadioButtonOptions {
   int index;
   String title;
   String price;
-  RadioButtonOptions({this.index, this.title, this.price});
+  String spreadDefault;
+  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault});
 }
 
 class RadioButtonOptionsSizes {

@@ -14,9 +14,9 @@ class AddItemPageModelList {
   List<AddItemModelList> data;
   String colourCode;
   String currencySymbol;
-  dynamic extrasLabel;
+  String extrasLabel;
   String spreadsLabel;
-  dynamic switchesLabel;
+  String switchesLabel;
 
   AddItemPageModelList({
     this.status,
@@ -63,6 +63,9 @@ class AddItemModelList {
   String extrasrequired;
   String spreadsrequired;
   String switchesrequired;
+  String extrasLabel;
+  String spreadsLabel;
+  String switchesLabel;
   String defaultPreparationTime;
   String itemCode;
   String itemImage;
@@ -71,9 +74,9 @@ class AddItemModelList {
   DateTime updatedAt;
   int restId;
   List<Extra> extras;
-  List<Extra> spreads;
-  List<dynamic> switches;
-  List<dynamic> sizePrizes;
+  List<Spread> spreads;
+  List<Switch> switches;
+  List<SizePrize> sizePrizes;
 
   AddItemModelList({
     this.id,
@@ -84,6 +87,9 @@ class AddItemModelList {
     this.extrasrequired,
     this.spreadsrequired,
     this.switchesrequired,
+    this.extrasLabel,
+    this.spreadsLabel,
+    this.switchesLabel,
     this.defaultPreparationTime,
     this.itemCode,
     this.itemImage,
@@ -107,6 +113,9 @@ class AddItemModelList {
         extrasrequired: json["extrasrequired"],
         spreadsrequired: json["spreadsrequired"],
         switchesrequired: json["switchesrequired"],
+        extrasLabel: json["extras_label"],
+        spreadsLabel: json["spreads_label"],
+        switchesLabel: json["switches_label"],
         defaultPreparationTime: json["default_preparation_time"],
         itemCode: json["item_code"],
         itemImage: json["item_image"],
@@ -116,9 +125,11 @@ class AddItemModelList {
         restId: json["rest_id"],
         extras: List<Extra>.from(json["extras"].map((x) => Extra.fromJson(x))),
         spreads:
-            List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
-        switches: List<dynamic>.from(json["switches"].map((x) => x)),
-        sizePrizes: List<dynamic>.from(json["size_prizes"].map((x) => x)),
+            List<Spread>.from(json["spreads"].map((x) => Spread.fromJson(x))),
+        switches:
+            List<Switch>.from(json["switches"].map((x) => Switch.fromJson(x))),
+        sizePrizes: List<SizePrize>.from(
+            json["size_prizes"].map((x) => SizePrize.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -130,6 +141,9 @@ class AddItemModelList {
         "extrasrequired": extrasrequired,
         "spreadsrequired": spreadsrequired,
         "switchesrequired": switchesrequired,
+        "extras_label": extrasLabel,
+        "spreads_label": spreadsLabel,
+        "switches_label": switchesLabel,
         "default_preparation_time": defaultPreparationTime,
         "item_code": itemCode,
         "item_image": itemImage,
@@ -139,8 +153,8 @@ class AddItemModelList {
         "rest_id": restId,
         "extras": List<dynamic>.from(extras.map((x) => x.toJson())),
         "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
-        "switches": List<dynamic>.from(switches.map((x) => x)),
-        "size_prizes": List<dynamic>.from(sizePrizes.map((x) => x)),
+        "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
+        "size_prizes": List<dynamic>.from(sizePrizes.map((x) => x.toJson())),
       };
 }
 
@@ -186,8 +200,6 @@ class SizePrize {
   String price;
   String size;
   String status;
-  dynamic createdAt;
-  dynamic updatedAt;
 
   SizePrize({
     this.id,
@@ -195,8 +207,6 @@ class SizePrize {
     this.price,
     this.size,
     this.status,
-    this.createdAt,
-    this.updatedAt,
   });
 
   factory SizePrize.fromJson(Map<String, dynamic> json) => SizePrize(
@@ -205,8 +215,6 @@ class SizePrize {
         price: json["price"],
         size: json["size"],
         status: json["status"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -215,28 +223,6 @@ class SizePrize {
         "price": price,
         "size": size,
         "status": status,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
-
-class ExtraPivot {
-  int itemId;
-  int extraId;
-
-  ExtraPivot({
-    this.itemId,
-    this.extraId,
-  });
-
-  factory ExtraPivot.fromJson(Map<String, dynamic> json) => ExtraPivot(
-        itemId: json["item_id"],
-        extraId: json["extra_id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "item_id": itemId,
-        "extra_id": extraId,
       };
 }
 
@@ -246,20 +232,15 @@ class Spread {
   String price;
   int restId;
   String status;
-  DateTime createdAt;
-  DateTime updatedAt;
-  SpreadPivot pivot;
+  String spreadDefault;
 
-  Spread({
-    this.id,
-    this.name,
-    this.price,
-    this.restId,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.pivot,
-  });
+  Spread(
+      {this.id,
+      this.name,
+      this.price,
+      this.restId,
+      this.status,
+      this.spreadDefault});
 
   factory Spread.fromJson(Map<String, dynamic> json) => Spread(
         id: json["id"],
@@ -267,9 +248,7 @@ class Spread {
         price: json["price"],
         restId: json["rest_id"],
         status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        pivot: SpreadPivot.fromJson(json["pivot"]),
+        spreadDefault: json["default"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -278,29 +257,7 @@ class Spread {
         "price": price,
         "rest_id": restId,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "pivot": pivot.toJson(),
-      };
-}
-
-class SpreadPivot {
-  int itemId;
-  int spreadId;
-
-  SpreadPivot({
-    this.itemId,
-    this.spreadId,
-  });
-
-  factory SpreadPivot.fromJson(Map<String, dynamic> json) => SpreadPivot(
-        itemId: json["item_id"],
-        spreadId: json["spread_id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "item_id": itemId,
-        "spread_id": spreadId,
+        "default": spreadDefault
       };
 }
 
@@ -313,7 +270,8 @@ class Switch {
   int restId;
   DateTime createdAt;
   DateTime updatedAt;
-  SwitchPivot pivot;
+
+  String switchDefault;
 
   Switch({
     this.id,
@@ -324,7 +282,7 @@ class Switch {
     this.restId,
     this.createdAt,
     this.updatedAt,
-    this.pivot,
+    this.switchDefault,
   });
 
   factory Switch.fromJson(Map<String, dynamic> json) => Switch(
@@ -336,7 +294,7 @@ class Switch {
         restId: json["rest_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        pivot: SwitchPivot.fromJson(json["pivot"]),
+        switchDefault: json["default"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -348,26 +306,6 @@ class Switch {
         "rest_id": restId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        "pivot": pivot.toJson(),
-      };
-}
-
-class SwitchPivot {
-  int itemId;
-  int switchId;
-
-  SwitchPivot({
-    this.itemId,
-    this.switchId,
-  });
-
-  factory SwitchPivot.fromJson(Map<String, dynamic> json) => SwitchPivot(
-        itemId: json["item_id"],
-        switchId: json["switch_id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "item_id": itemId,
-        "switch_id": switchId,
+        "default": switchDefault,
       };
 }

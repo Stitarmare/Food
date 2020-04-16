@@ -57,7 +57,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-  List<Switches> switches;
+  List<Switches> switches = [];
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
@@ -74,15 +74,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool alreadyAdded = false;
   int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  int sizesid;
+  int sizesid = 1;
   bool isLoding = false;
   ProgressDialog progressDialog;
-@override
+  @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     super.didChangeDependencies();
   }
+
   @override
   void initState() {
     _addItemPagepresenter =
@@ -91,7 +92,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       isLoding = true;
     });
-      
+
     _addItemPageModelList = AddItemPageModelList();
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
     _addItemPagepresenter.getTableListno(widget.restId, context);
@@ -100,9 +101,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     super.initState();
   }
 
-  
-
-  int id = 1;
+  int id;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -118,6 +117,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
       radiolist.add(RadioButtonOptions(
         index: _addItemModelList.spreads[i - 1].id,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
+        spreadDefault:
+            _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
 
@@ -127,8 +128,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     return radiolist.length;
   }
-
-  
 
   int getradiobtnsize(int length) {
     List<RadioButtonOptionsSizes> radiolistsize = [];
@@ -166,10 +165,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-          price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
-          isChecked: false,
-          index: _addItemModelList.extras[i - 1].id ?? 0,
-          title: _addItemModelList.extras[i - 1].name ?? STR_BLANK));
+        price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
+        isChecked: (_addItemModelList.extras[i - 1].extraDefault == "yes")
+            ? true
+            : false,
+        index: _addItemModelList.extras[i - 1].id ?? 0,
+        title: _addItemModelList.extras[i - 1].name ?? STR_BLANK,
+        defaultAddition: _addItemModelList.extras[i - 1].extraDefault,
+      ));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -182,17 +185,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<SwitchesItems> _switchlist = [];
     for (int i = 1; i <= length; i++) {
       _switchlist.add(SwitchesItems(
-          option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
-          option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
-          index: _addItemModelList.switches[i - 1].id ?? 0,
-          title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
-          isSelected: [true, false]));
+        option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
+        option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
+        index: _addItemModelList.switches[i - 1].id ?? 0,
+        title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
+        defaultOption: _addItemModelList.switches[i - 1].switchDefault,
+        isSelected: [true, false],
+      ));
     }
-
     setState(() {
       _switchOptions = _switchlist;
     });
-
     return _switchlist.length;
   }
 
@@ -270,7 +273,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       left: false,
       top: false,
@@ -340,7 +342,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   print(_updateOrderModel.toJson());
                   // DialogsIndicator.showLoadingDialog(
                   //     context, _keyLoader, STR_BLANK);
-               await  progressDialog.show();
+                  await progressDialog.show();
                   _addItemPagepresenter.updateOrder(_updateOrderModel, context);
                 } else {
                   Constants.showAlert(
@@ -406,12 +408,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
             context);
       } else {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-       await progressDialog.show();
+        await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-     await progressDialog.show();
+      await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -458,7 +460,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             onPressed: () async {
                               // DialogsIndicator.showLoadingDialog(
                               //    context, _keyLoader, "");
-                             await progressDialog.show();
+                              await progressDialog.show();
                               _addItemPagepresenter.clearCart(context);
                               Preference.setPersistData<int>(
                                   widget.restId, PreferenceKeys.restaurantID);
@@ -632,7 +634,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_SPREADS,
+                            _addItemModelList.spreadsLabel ?? STR_SPREADS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -668,7 +670,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_ADDITIONS,
+                            _addItemModelList.extrasLabel ?? STR_ADDITIONS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -698,7 +700,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
               _switchOptions.length == 0
                   ? Container()
                   : Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            _addItemModelList.switchesLabel ?? STR_SWITCHES,
+                            style: TextStyle(
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
+                                color: greytheme700),
+                          ),
+                        ),
                         togglebutton(),
                         Divider(
                           thickness: 2,
@@ -759,9 +773,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             ? Text(StringUtils.capitalize(
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
-                        secondary: Text(
-                                '${getCurrencySymbol()} ' +
-                                    "${radionBtnsize.secondary}") ??
+                        secondary: Text('${getCurrencySymbol()} ' +
+                                "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
                         groupValue: sizesid,
                         value: radionBtnsize.index,
@@ -798,7 +811,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: id,
+                        groupValue: (radionBtn.spreadDefault == "yes")
+                            ? radionBtn.index
+                            : id,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -824,13 +839,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   String getCurrencySymbol() {
     if (_addItemPageModelList != null) {
       if (_addItemPageModelList.currencySymbol != null) {
-      return _addItemPageModelList.currencySymbol;
+        return _addItemPageModelList.currencySymbol;
+      }
     }
-    }
-    
 
     return "";
-
   }
 
   Widget togglebutton() {
@@ -1082,7 +1095,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
-                      
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       //Navigator.of(context).pop();
@@ -1124,7 +1136,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Future<void> addMenuToCartfailed() async {
-     await progressDialog.hide();
+    await progressDialog.hide();
   }
 
   @override
@@ -1143,31 +1155,31 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Future<void> addTablebnoSuccces() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     await progressDialog.hide();
   }
 
   @override
   Future<void> addTablenofailed() async {
-  await  progressDialog.hide();
-await progressDialog.hide();
+    await progressDialog.hide();
+    await progressDialog.hide();
   }
 
   @override
   Future<void> getTableListFailed() async {
-await progressDialog.hide();
-await progressDialog.hide();
+    await progressDialog.hide();
+    await progressDialog.hide();
   }
 
   @override
   Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     await progressDialog.hide();
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -1176,12 +1188,11 @@ await progressDialog.hide();
 
   @override
   Future<void> clearCartSuccess() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    
   }
 
   @override
@@ -1215,9 +1226,9 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  String extraDefault;
+  String spreadDefault;
 
-  RadioButtonOptions({this.index, this.title, this.extraDefault});
+  RadioButtonOptions({this.index, this.title, this.spreadDefault});
 }
 
 class RadioButtonOptionsSizes {
@@ -1234,8 +1245,14 @@ class SwitchesItems {
   String option1;
   List<bool> isSelected;
   String option2;
+  String defaultOption;
   SwitchesItems(
-      {this.index, this.title, this.option1, this.option2, this.isSelected});
+      {this.index,
+      this.title,
+      this.option1,
+      this.option2,
+      this.isSelected,
+      this.defaultOption});
 }
 
 class TableList {
