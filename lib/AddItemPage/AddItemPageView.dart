@@ -57,7 +57,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-  List<Switches> switches;
+  List<Switches> switches = [];
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
@@ -117,8 +117,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
       radiolist.add(RadioButtonOptions(
         index: _addItemModelList.spreads[i - 1].id,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
-        extraDefault:
-            _addItemModelList.spreads[i - 1].extraDefault ?? STR_BLANK,
+        // extraDefault:
+        //     _addItemModelList.spreads[i - 1].extraDefault ?? STR_BLANK,
       ));
     }
 
