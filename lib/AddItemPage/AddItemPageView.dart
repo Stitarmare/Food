@@ -14,6 +14,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -77,6 +78,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int sizesid = 1;
   bool isLoding = false;
   ProgressDialog progressDialog;
+
+  String specialReq;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -121,7 +124,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
-
     setState(() {
       _radioOptions = radiolist;
     });
@@ -173,6 +175,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
         title: _addItemModelList.extras[i - 1].name ?? STR_BLANK,
         defaultAddition: _addItemModelList.extras[i - 1].extraDefault,
       ));
+      // if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
+      //   extra.add(_addItemModelList.extras[i - 1] as Extras);
+      // }
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -310,72 +315,136 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 slivers: <Widget>[_getmainviewTableno(), _getOptions()],
               ),
         bottomNavigationBar: BottomAppBar(
-          child: GestureDetector(
-            onTap: () async {
-              var alreadyAdde = await Preference.getPrefValue<bool>(
-                  PreferenceKeys.isAlreadyINCart);
-              var restauran = await (Preference.getPrefValue<int>(
-                  PreferenceKeys.restaurantID));
-              var restaurantName = await (Preference.getPrefValue<String>(
-                  PreferenceKeys.restaurantName));
-              var orderId =
-                  await Preference.getPrefValue<int>(PreferenceKeys.orderId);
-              if (orderId != null) {
-                if (restauran == widget.restId) {
-                  if (_updateOrderModel == null) {
-                    _updateOrderModel = UpdateOrderModel();
-                  }
-                  _updateOrderModel.orderId = orderId;
-                  _updateOrderModel.userId = Globle().loginModel.data.id;
-                  if (items == null) {
-                    items = Item();
-                  }
+          child: Container(
+            height: 160,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: totalamounttext(),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    var alreadyAdde = await Preference.getPrefValue<bool>(
+                        PreferenceKeys.isAlreadyINCart);
+                    var restauran = await (Preference.getPrefValue<int>(
+                        PreferenceKeys.restaurantID));
+                    var restaurantName = await (Preference.getPrefValue<String>(
+                        PreferenceKeys.restaurantName));
+                    var orderId = await Preference.getPrefValue<int>(
+                        PreferenceKeys.orderId);
+                    if (orderId != null) {
+                      if (restauran == widget.restId) {
+                        if (_updateOrderModel == null) {
+                          _updateOrderModel = UpdateOrderModel();
+                        }
+                        _updateOrderModel.orderId = orderId;
+                        _updateOrderModel.userId = Globle().loginModel.data.id;
+                        if (items == null) {
+                          items = Item();
+                        }
 
-                  _updateOrderModel.items = items;
-                  _updateOrderModel.items.quantity = count;
-                  _updateOrderModel.items.itemId = widget.itemId;
-                  _updateOrderModel.items.extra = extra ?? null;
-                  _updateOrderModel.items.spreads =
-                      spread == null ? [] : [spread];
-                  _updateOrderModel.items.switches = switches ?? [];
-                  _updateOrderModel.items.sizes = size == null ? [] : [size];
-                  print(_updateOrderModel.toJson());
-                  // DialogsIndicator.showLoadingDialog(
-                  //     context, _keyLoader, STR_BLANK);
-                  await progressDialog.show();
-                  _addItemPagepresenter.updateOrder(_updateOrderModel, context);
-                } else {
-                  Constants.showAlert(
-                      KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
-                }
-              } else {
-                checkForItemIsAlreadyInCart(
-                    alreadyAdde, restauran, restaurantName);
-              }
-            },
-            child: Container(
-                height: 54,
-                decoration: BoxDecoration(
-                    color: ((Globle().colorscode) != null)
-                        ? getColorByHex(Globle().colorscode)
-                        : orangetheme,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15))),
-                child: Center(
-                  child: Text(
-                    STR_ADDTOCART,
-                    style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
-                        fontWeight: FontWeight.w600,
-                        fontSize: FONTSIZE_16,
-                        color: Colors.white),
-                  ),
-                )),
+                        _updateOrderModel.items = items;
+                        _updateOrderModel.items.quantity = count;
+                        _updateOrderModel.items.itemId = widget.itemId;
+                        _updateOrderModel.items.extra = extra ?? null;
+                        _updateOrderModel.items.spreads =
+                            spread == null ? [] : [spread];
+                        _updateOrderModel.items.switches = switches ?? [];
+                        _updateOrderModel.items.sizes =
+                            size == null ? [] : [size];
+                        print(_updateOrderModel.toJson());
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_BLANK);
+                        await progressDialog.show();
+                        _addItemPagepresenter.updateOrder(
+                            _updateOrderModel, context);
+                      } else {
+                        Constants.showAlert(
+                            KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
+                      }
+                    } else {
+                      checkForItemIsAlreadyInCart(
+                          alreadyAdde, restauran, restaurantName);
+                    }
+                  },
+                  child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          STR_ADDTOCART,
+                          style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
+                        ),
+                      )),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget totalamounttext() {
+    return Column(
+      children: <Widget>[
+        Container(
+          // color: Colors.grey,
+
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  // '${"Total "}' +
+                  //     '${getCurrency()}' +
+                  //     '${getGrandTotal()}',
+                  "Total R100",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: redtheme,
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: AppTextField(
+            onChanged: (text) {},
+            placeHolderName: STR_SPLREQ,
+            validator: validatepassword,
+            onSaved: (String value) {
+              print(value);
+              specialReq = value;
+            },
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        )
+      ],
+    );
+  }
+
+  String validatepassword(String value) {
+    if (value.length == 0) {
+      return KEY_PASSWORD_REQUIRED;
+    } else if (value.length < 1000) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    }
+    return null;
   }
 
   Future<void> checkForItemIsAlreadyInCart(
@@ -629,16 +698,56 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ? Container()
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.spreadsLabel ?? STR_SPREADS,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            //margin: EdgeInsets.only(left: 10, right: 10),
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.spreadsLabel ??
+                                        STR_SPREADS,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.16),
+                                (_addItemModelList.spreadsrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -665,16 +774,54 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ? Container()
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.extrasLabel ?? STR_ADDITIONS,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.extrasLabel ??
+                                        STR_ADDITIONS,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.13),
+                                (_addItemModelList.extrasrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -701,16 +848,55 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   ? Container()
                   : Column(
                       //mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.switchesLabel ?? STR_SWITCHES,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.switchesLabel ??
+                                        STR_SWITCHES,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.14),
+                                (_addItemModelList.switchesrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         togglebutton(),
@@ -726,16 +912,54 @@ class _AddItemPageViewState extends State<AddItemPageView>
               _radioOptionsSizes.length == 0
                   ? Container()
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            STR_SIZE,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 35,
+                              decoration:
+                                  BoxDecoration(color: Colors.grey[200]),
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4),
+                                  Container(
+                                    child: Text(
+                                      STR_SIZE,
+                                      style: TextStyle(
+                                          fontFamily: KEY_FONTFAMILY,
+                                          fontSize: FONTSIZE_16,
+                                          color: redtheme),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.23),
+                                  Center(
+                                    child: Container(
+                                      decoration:
+                                          BoxDecoration(color: redtheme),
+                                      width: 65,
+                                      height: 20,
+                                      child: Center(
+                                        child: Text(
+                                          STR_REQUIRED,
+                                          style: TextStyle(
+                                              fontFamily: KEY_FONTFAMILY,
+                                              fontSize: FONTSIZE_10,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         Padding(

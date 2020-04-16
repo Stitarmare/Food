@@ -11,6 +11,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class AddItemPageTAView extends StatefulWidget {
@@ -56,9 +57,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   AddItemPageTApresenter _addItemPagepresenter;
   bool alreadyAddedTA = false;
   int restaurantTA;
-  int sizesid;
+  int sizesid = 1;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
+
+  String specialReq;
 
   @override
   void initState() {
@@ -256,82 +259,145 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 slivers: <Widget>[_getmainviewTableno(), _getOptions()],
               ),
         bottomNavigationBar: BottomAppBar(
-          child: GestureDetector(
-            onTap: () async {
-              if (addMenuToCartModel == null) {
-                addMenuToCartModel = AddItemsToCartModel();
-              }
-              addMenuToCartModel.userId = Globle().loginModel.data.id;
-              addMenuToCartModel.restId = widget.restId;
-              addMenuToCartModel.tableId = null;
-              if (items == null) {
-                items = Item();
-              }
-
-              addMenuToCartModel.items = [items];
-              addMenuToCartModel.items[0].itemId = widget.itemId;
-              addMenuToCartModel.items[0].extra = extra ?? [];
-              addMenuToCartModel.items[0].spreads =
-                  spread == null ? [] : [spread];
-              addMenuToCartModel.items[0].switches = switches ?? [];
-              addMenuToCartModel.items[0].quantity = count;
-              addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
-
-              print(addMenuToCartModel.toJson());
-
-              var alreadyAddedTA = await Preference.getPrefValue<bool>(
-                  PreferenceKeys.isAlreadyINCart);
-              var restaurantTA = await Preference.getPrefValue<int>(
-                  PreferenceKeys.restaurantID);
-              var restaurantName = await (Preference.getPrefValue<String>(
-                  PreferenceKeys.restaurantName));
-              if (alreadyAddedTA != null && restaurantTA != null) {
-                if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
-                  cartAlert(
-                      STR_STARTNEWORDER,
-                      (restaurantName != null)
-                          ? STR_YOUR_UNFINIHED_ORDER +
-                              "$restaurantName" +
-                              STR_WILLDELETE
-                          : STR_UNFINISHEDORDER,
-                      context);
-                } else {
-                  // DialogsIndicator.showLoadingDialog(
-                  //     context, _keyLoader, STR_BLANK);
-                  await progressDialog.show();
-                  _addItemPagepresenter.performaddMenuToCart(
-                      addMenuToCartModel, context);
-                }
-              } else {
-                // DialogsIndicator.showLoadingDialog(
-                //     context, _keyLoader, STR_BLANK);
-                await progressDialog.show();
-                _addItemPagepresenter.performaddMenuToCart(
-                    addMenuToCartModel, context);
-              }
-            },
-            child: Container(
-              height: 54,
-              decoration: BoxDecoration(
-                  color: getColorByHex(Globle().colorscode),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15))),
-              child: Center(
-                child: Text(
-                  STR_ADDTOCART,
-                  style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w600,
-                      fontSize: FONTSIZE_16,
-                      color: Colors.white),
+          child: Container(
+            height: 160,
+            child: Column(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: totalamounttext(),
                 ),
-              ),
+                GestureDetector(
+                  onTap: () async {
+                    if (addMenuToCartModel == null) {
+                      addMenuToCartModel = AddItemsToCartModel();
+                    }
+                    addMenuToCartModel.userId = Globle().loginModel.data.id;
+                    addMenuToCartModel.restId = widget.restId;
+                    addMenuToCartModel.tableId = null;
+                    if (items == null) {
+                      items = Item();
+                    }
+
+                    addMenuToCartModel.items = [items];
+                    addMenuToCartModel.items[0].itemId = widget.itemId;
+                    addMenuToCartModel.items[0].extra = extra ?? [];
+                    addMenuToCartModel.items[0].spreads =
+                        spread == null ? [] : [spread];
+                    addMenuToCartModel.items[0].switches = switches ?? [];
+                    addMenuToCartModel.items[0].quantity = count;
+                    addMenuToCartModel.items[0].sizes =
+                        size == null ? [] : [size];
+
+                    print(addMenuToCartModel.toJson());
+
+                    var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                        PreferenceKeys.isAlreadyINCart);
+                    var restaurantTA = await Preference.getPrefValue<int>(
+                        PreferenceKeys.restaurantID);
+                    var restaurantName = await (Preference.getPrefValue<String>(
+                        PreferenceKeys.restaurantName));
+                    if (alreadyAddedTA != null && restaurantTA != null) {
+                      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
+                        cartAlert(
+                            STR_STARTNEWORDER,
+                            (restaurantName != null)
+                                ? STR_YOUR_UNFINIHED_ORDER +
+                                    "$restaurantName" +
+                                    STR_WILLDELETE
+                                : STR_UNFINISHEDORDER,
+                            context);
+                      } else {
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_BLANK);
+                        await progressDialog.show();
+                        _addItemPagepresenter.performaddMenuToCart(
+                            addMenuToCartModel, context);
+                      }
+                    } else {
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_BLANK);
+                      await progressDialog.show();
+                      _addItemPagepresenter.performaddMenuToCart(
+                          addMenuToCartModel, context);
+                    }
+                  },
+                  child: Container(
+                    height: 54,
+                    decoration: BoxDecoration(
+                        color: getColorByHex(Globle().colorscode),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    child: Center(
+                      child: Text(
+                        STR_ADDTOCART,
+                        style: TextStyle(
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            fontSize: FONTSIZE_16,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget totalamounttext() {
+    return Column(
+      children: <Widget>[
+        Container(
+          // color: Colors.grey,
+
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  // '${"Total "}' +
+                  //     '${getCurrency()}' +
+                  //     '${getGrandTotal()}',
+                  "Total R100",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: redtheme,
+                      fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: AppTextField(
+            onChanged: (text) {},
+            placeHolderName: STR_SPLREQ,
+            validator: validatepassword,
+            onSaved: (String value) {
+              print(value);
+              specialReq = value;
+            },
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        )
+      ],
+    );
+  }
+
+  String validatepassword(String value) {
+    if (value.length == 0) {
+      return KEY_PASSWORD_REQUIRED;
+    } else if (value.length < 1000) {
+      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    }
+    return null;
   }
 
   void cartAlert(String title, String message, BuildContext context) {
@@ -521,16 +587,56 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   ? Container()
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.spreadsLabel ?? STR_SPREADS,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            //margin: EdgeInsets.only(left: 10, right: 10),
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.spreadsLabel ??
+                                        STR_SPREADS,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.16),
+                                (_addItemModelList.spreadsrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -556,16 +662,54 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   ? Container()
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.extrasLabel ?? STR_ADDITIONS,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.extrasLabel ??
+                                        STR_ADDITIONS,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.13),
+                                (_addItemModelList.extrasrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
@@ -590,16 +734,54 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               _switchOptions.length == 0
                   ? Container()
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            _addItemModelList.switchesLabel ?? STR_SWITCHES,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 35,
+                            decoration: BoxDecoration(color: Colors.grey[200]),
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.4),
+                                Container(
+                                  child: Text(
+                                    _addItemModelList.switchesLabel ??
+                                        STR_SWITCHES,
+                                    style: TextStyle(
+                                        fontFamily: KEY_FONTFAMILY,
+                                        fontSize: FONTSIZE_16,
+                                        color: redtheme),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.14),
+                                (_addItemModelList.switchesrequired == "yes")
+                                    ? Center(
+                                        child: Container(
+                                          decoration:
+                                              BoxDecoration(color: redtheme),
+                                          width: 65,
+                                          height: 20,
+                                          child: Center(
+                                            child: Text(
+                                              STR_REQUIRED,
+                                              style: TextStyle(
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontSize: FONTSIZE_10,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
                           ),
                         ),
                         togglebutton(),
@@ -617,16 +799,54 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               _radioOptionsSizes.length == 0
                   ? Container()
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 15),
-                          child: Text(
-                            STR_SIZE,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontSize: FONTSIZE_16,
-                                color: greytheme700),
+                          padding: EdgeInsets.only(top: 15),
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 35,
+                              decoration:
+                                  BoxDecoration(color: Colors.grey[200]),
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4),
+                                  Container(
+                                    child: Text(
+                                      STR_SIZE,
+                                      style: TextStyle(
+                                          fontFamily: KEY_FONTFAMILY,
+                                          fontSize: FONTSIZE_16,
+                                          color: redtheme),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.23),
+                                  Center(
+                                    child: Container(
+                                      decoration:
+                                          BoxDecoration(color: redtheme),
+                                      width: 65,
+                                      height: 20,
+                                      child: Center(
+                                        child: Text(
+                                          STR_REQUIRED,
+                                          style: TextStyle(
+                                              fontFamily: KEY_FONTFAMILY,
+                                              fontSize: FONTSIZE_10,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         Padding(
