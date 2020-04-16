@@ -693,7 +693,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       ],
                     ),
 
-              switches.length == 0
+              _switchOptions.length == 0
                   ? Container()
                   : Column(
                       children: <Widget>[
