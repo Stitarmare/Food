@@ -211,6 +211,7 @@ const STR_QUANTITY = 'Quantity:';
 const STR_SPREADS = 'Spreads';
 const STR_SELECT_OPTION = 'Please select any one option';
 const STR_ADDITIONS = 'Additions';
+const STR_SWITCHES = 'Switches';
 const STR_MULIPLE_OPTIONS = 'You can select multiple options';
 const STR_SIZE = 'Size';
 const STR_DATA = "data";

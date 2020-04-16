@@ -63,6 +63,9 @@ class AddItemModelList {
   String extrasrequired;
   String spreadsrequired;
   String switchesrequired;
+  String extrasLabel;
+  String spreadsLabel;
+  String switchesLabel;
   String defaultPreparationTime;
   String itemCode;
   String itemImage;
@@ -84,6 +87,9 @@ class AddItemModelList {
     this.extrasrequired,
     this.spreadsrequired,
     this.switchesrequired,
+    this.extrasLabel,
+    this.spreadsLabel,
+    this.switchesLabel,
     this.defaultPreparationTime,
     this.itemCode,
     this.itemImage,
@@ -107,6 +113,9 @@ class AddItemModelList {
         extrasrequired: json["extrasrequired"],
         spreadsrequired: json["spreadsrequired"],
         switchesrequired: json["switchesrequired"],
+        extrasLabel: json["extras_label"],
+        spreadsLabel: json["spreads_label"],
+        switchesLabel: json["switches_label"],
         defaultPreparationTime: json["default_preparation_time"],
         itemCode: json["item_code"],
         itemImage: json["item_image"],
@@ -117,8 +126,10 @@ class AddItemModelList {
         extras: List<Extra>.from(json["extras"].map((x) => Extra.fromJson(x))),
         spreads:
             List<Spread>.from(json["spreads"].map((x) => Spread.fromJson(x))),
-        switches: List<Switch>.from(json["switches"].map((x) => Switch.fromJson(x))),
-        sizePrizes: List<SizePrize>.from(json["size_prizes"].map((x) => SizePrize.fromJson(x))),
+        switches:
+            List<Switch>.from(json["switches"].map((x) => Switch.fromJson(x))),
+        sizePrizes: List<SizePrize>.from(
+            json["size_prizes"].map((x) => SizePrize.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -130,6 +141,9 @@ class AddItemModelList {
         "extrasrequired": extrasrequired,
         "spreadsrequired": spreadsrequired,
         "switchesrequired": switchesrequired,
+        "extras_label": extrasLabel,
+        "spreads_label": spreadsLabel,
+        "switches_label": switchesLabel,
         "default_preparation_time": defaultPreparationTime,
         "item_code": itemCode,
         "item_image": itemImage,
@@ -186,7 +200,6 @@ class SizePrize {
   String price;
   String size;
   String status;
- 
 
   SizePrize({
     this.id,
@@ -194,7 +207,6 @@ class SizePrize {
     this.price,
     this.size,
     this.status,
-   
   });
 
   factory SizePrize.fromJson(Map<String, dynamic> json) => SizePrize(
@@ -203,7 +215,6 @@ class SizePrize {
         price: json["price"],
         size: json["size"],
         status: json["status"],
-       
       );
 
   Map<String, dynamic> toJson() => {
@@ -212,11 +223,8 @@ class SizePrize {
         "price": price,
         "size": size,
         "status": status,
-        
       };
 }
-
-
 
 class Spread {
   int id;
@@ -224,18 +232,15 @@ class Spread {
   String price;
   int restId;
   String status;
-  String spreedDefault;
-  
+  String spreadDefault;
 
-  Spread({
-    this.id,
-    this.name,
-    this.price,
-    this.restId,
-    this.status,
-    
-    this.spreedDefault
-  });
+  Spread(
+      {this.id,
+      this.name,
+      this.price,
+      this.restId,
+      this.status,
+      this.spreadDefault});
 
   factory Spread.fromJson(Map<String, dynamic> json) => Spread(
         id: json["id"],
@@ -243,7 +248,7 @@ class Spread {
         price: json["price"],
         restId: json["rest_id"],
         status: json["status"],
-        spreedDefault: json["default"],
+        spreadDefault: json["default"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -252,12 +257,9 @@ class Spread {
         "price": price,
         "rest_id": restId,
         "status": status,
-        "default":spreedDefault
-       
+        "default": spreadDefault
       };
 }
-
-
 
 class Switch {
   int id;
@@ -268,7 +270,7 @@ class Switch {
   int restId;
   DateTime createdAt;
   DateTime updatedAt;
-  
+
   String switchDefault;
 
   Switch({
@@ -280,7 +282,6 @@ class Switch {
     this.restId,
     this.createdAt,
     this.updatedAt,
-    
     this.switchDefault,
   });
 
@@ -293,7 +294,6 @@ class Switch {
         restId: json["rest_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        
         switchDefault: json["default"],
       );
 
@@ -306,9 +306,6 @@ class Switch {
         "rest_id": restId,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        
         "default": switchDefault,
       };
 }
-
-

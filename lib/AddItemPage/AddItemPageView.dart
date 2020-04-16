@@ -117,8 +117,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
       radiolist.add(RadioButtonOptions(
         index: _addItemModelList.spreads[i - 1].id,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
-        // extraDefault:
-        //     _addItemModelList.spreads[i - 1].extraDefault ?? STR_BLANK,
+        spreadDefault:
+            _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
 
@@ -165,10 +165,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
     List<CheckBoxOptions> _checkboxlist = [];
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
-          price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
-          isChecked: false,
-          index: _addItemModelList.extras[i - 1].id ?? 0,
-          title: _addItemModelList.extras[i - 1].name ?? STR_BLANK));
+        price: _addItemModelList.extras[i - 1].price ?? STR_BLANK,
+        isChecked: (_addItemModelList.extras[i - 1].extraDefault == "yes")
+            ? true
+            : false,
+        index: _addItemModelList.extras[i - 1].id ?? 0,
+        title: _addItemModelList.extras[i - 1].name ?? STR_BLANK,
+        defaultAddition: _addItemModelList.extras[i - 1].extraDefault,
+      ));
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -630,7 +634,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_SPREADS,
+                            _addItemModelList.spreadsLabel ?? STR_SPREADS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -666,7 +670,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Padding(
                           padding: EdgeInsets.only(left: 26, top: 15),
                           child: Text(
-                            STR_ADDITIONS,
+                            _addItemModelList.extrasLabel ?? STR_ADDITIONS,
                             style: TextStyle(
                                 fontFamily: KEY_FONTFAMILY,
                                 fontSize: FONTSIZE_16,
@@ -696,7 +700,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
               _switchOptions.length == 0
                   ? Container()
                   : Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 26, top: 15),
+                          child: Text(
+                            _addItemModelList.switchesLabel ?? STR_SWITCHES,
+                            style: TextStyle(
+                                fontFamily: KEY_FONTFAMILY,
+                                fontSize: FONTSIZE_16,
+                                color: greytheme700),
+                          ),
+                        ),
                         togglebutton(),
                         Divider(
                           thickness: 2,
@@ -795,7 +811,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: (radionBtn.extraDefault == "yes")
+                        groupValue: (radionBtn.spreadDefault == "yes")
                             ? radionBtn.index
                             : id,
                         value: radionBtn.index,
@@ -1210,9 +1226,9 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  String extraDefault;
+  String spreadDefault;
 
-  RadioButtonOptions({this.index, this.title, this.extraDefault});
+  RadioButtonOptions({this.index, this.title, this.spreadDefault});
 }
 
 class RadioButtonOptionsSizes {
