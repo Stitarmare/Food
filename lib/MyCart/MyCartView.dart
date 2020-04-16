@@ -71,7 +71,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void initState() {
-     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
     _myCartpresenter.getCartMenuList(
@@ -120,9 +120,7 @@ class _MyCartViewState extends State<MyCartView>
         child: Column(
           children: <Widget>[
             Text(
-              '${"Total "}' +
-                  '${getCurrency()}' +
-                  '${getGrandTotal()}',
+              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.grey,
@@ -150,7 +148,7 @@ class _MyCartViewState extends State<MyCartView>
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                   await progressDialog.show();
+                    await progressDialog.show();
                     if (menuCartList.quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
@@ -161,7 +159,7 @@ class _MyCartViewState extends State<MyCartView>
                     if (menuCartList.quantity == 0) {
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                     await progressDialog.show();
+                      await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -230,7 +228,6 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Widget build(BuildContext context) {
-   
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -301,7 +298,7 @@ class _MyCartViewState extends State<MyCartView>
           backgroundColor: Colors.white,
           elevation: 0,
         ),
-        body:  Column(
+        body: Column(
           children: <Widget>[
             _getmainviewTableno(),
             SizedBox(
@@ -320,6 +317,7 @@ class _MyCartViewState extends State<MyCartView>
           child: Container(
               height: MediaQuery.of(context).size.height * 0.21,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -440,7 +438,7 @@ class _MyCartViewState extends State<MyCartView>
                 tableno = _dropdownItemsTable[i].name;
               }
             }
-           await progressDialog.show();
+            await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
@@ -488,7 +486,7 @@ class _MyCartViewState extends State<MyCartView>
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                   await progressDialog.show();
+                    await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                   },
@@ -675,7 +673,7 @@ class _MyCartViewState extends State<MyCartView>
     setState(() {
       _cartItemList = null;
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -686,7 +684,7 @@ class _MyCartViewState extends State<MyCartView>
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-     await progressDialog.hide();
+      await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -709,7 +707,7 @@ class _MyCartViewState extends State<MyCartView>
       }
       page++;
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -718,7 +716,7 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -735,13 +733,13 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> addTablebnoSuccces() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> addTablenofailed() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -762,13 +760,13 @@ class _MyCartViewState extends State<MyCartView>
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> updatequantityfailed() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
