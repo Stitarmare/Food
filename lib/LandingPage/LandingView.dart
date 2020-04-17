@@ -55,7 +55,7 @@ class _LandingStateView extends State<Landingview>
   }
 
   callApi() async{
-    await progressDialog.show();
+    //await progressDialog.show();
      _landingViewPresenter.getCurrentOrder(context);
   }
 
@@ -410,8 +410,7 @@ class _LandingStateView extends State<Landingview>
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
         }
-      }
-      if (_model.data.takeAway != null) {
+      } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => StatusTakeAwayView(

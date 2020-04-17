@@ -46,7 +46,7 @@ abstract class PayFinalBillModelView {
 
 abstract class PayBillCheckoutContaractor {
   void payBillCheckOut(
-      int restId, int amount, String currency, BuildContext context);
+      int restId, String amount,String tip, String currency, BuildContext context);
 }
 
 abstract class PayBillCheckoutModelView {

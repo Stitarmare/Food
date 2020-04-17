@@ -91,7 +91,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   callApi() async {
     isStart = true;
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    await progressDialog.show();
+    //await progressDialog.show();
     statusTrackViewPresenter.getOrderStatus(widget.orderID, context);
     _timer = Timer.periodic(_duration, (Timer t) {
       isStart = false;
@@ -607,6 +607,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void dispose() {
+    
     _timer.cancel();
     super.dispose();
   }
