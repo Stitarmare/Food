@@ -281,6 +281,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
                     addMenuToCartModel.items = [items];
                     addMenuToCartModel.items[0].itemId = widget.itemId;
+                    addMenuToCartModel.items[0].preparationNote = specialReq;
                     addMenuToCartModel.items[0].extra = extra ?? [];
                     addMenuToCartModel.items[0].spreads =
                         spread == null ? [] : [spread];
@@ -375,7 +376,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: AppTextField(
-            onChanged: (text) {},
+            onChanged: (text) {
+              specialReq = text;
+            },
             placeHolderName: STR_SPLREQ,
             validator: validatepassword,
             onSaved: (String value) {
@@ -1232,6 +1235,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   Future<void> addMenuToCartsuccess() async {
+    specialReq = "";
     Globle().takeAwayCartItemCount += 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);

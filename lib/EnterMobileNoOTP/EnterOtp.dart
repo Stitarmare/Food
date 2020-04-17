@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
@@ -35,7 +36,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     mobno: null,
   };
   var _mobileNumber;
-  var countrycode = '';
+  var countrycode = '+91';
   var enterOTPScreenPresenter;
   @override
   void initState() {
@@ -88,11 +89,11 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-      await  progressDialog.show();
+        await progressDialog.show();
         this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
       } else if (widget.flag == 2) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-       await progressDialog.show();
+        await progressDialog.show();
         this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
         _enterOTPFormKey.currentState.save();
       }
@@ -137,28 +138,47 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                   Row(children: <Widget>[
                     Expanded(
                       flex: 2,
-                      child: AppTextField(
-                        icon: Icon(
-                          Icons.language,
-                          color: greentheme100,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: greentheme100),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: CountryCodePicker(
+                          onChanged: (text) {
+                            countrycode = text.toString();
+                          },
+                          // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                          initialSelection: '+91',
+                          favorite: ['+91', 'IN'],
+                          // optional. Shows only country name and flag
+                          showCountryOnly: false,
+                          // optional. Shows only country name and flag when popup is closed.
+                          showOnlyCountryWhenClosed: false,
+                          // optional. aligns the flag and the Text left
+                          alignLeft: false,
                         ),
-                        keyboardType: TextInputType.phone,
-                        placeHolderName: STR_CODE,
-                        onChanged: (text) {
-                          if (text.contains('+')) {
-                            countrycode = text;
-                          } else {
-                            countrycode = "+" + text;
-                          }
-                        },
-                        validator: validatecountrycode,
                       ),
+                      // AppTextField(
+                      //   icon: Icon(
+                      //     Icons.language,
+                      //     color: greentheme100,
+                      //   ),
+                      //   keyboardType: TextInputType.phone,
+                      //   placeHolderName: STR_CODE,
+                      //   onChanged: (text) {
+                      //     if (text.contains('+')) {
+                      //       countrycode = text;
+                      //     } else {
+                      //       countrycode = "+" + text;
+                      //     }
+                      //   },
+                      //   validator: validatecountrycode,
+                      // ),
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                      flex: 5,
+                      flex: 4,
                       child: AppTextField(
                         onChanged: (text) {
                           this._mobileNumber = countrycode + text;
@@ -256,13 +276,13 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> onRequestOtpFailed() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> onRequestOtpSuccess() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
@@ -280,7 +300,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> requestforloginotpsuccess() async {
-   await  progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
