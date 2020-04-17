@@ -565,9 +565,9 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
               ),
             ],
           ),
-          SizedBox(
+          isAmountSplit()?SizedBox(
             height: 13,
-          ),
+          ):Container(),
           isAmountSplit() ? Row(
             children: <Widget>[
               Padding(

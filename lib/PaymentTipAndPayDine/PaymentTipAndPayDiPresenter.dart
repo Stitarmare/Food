@@ -134,7 +134,8 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
   @override
   void payBillCheckOut(
     int restId,
-    int amount,
+    String amount,
+    String tip,
     String currency,
     BuildContext context,
   ) {
