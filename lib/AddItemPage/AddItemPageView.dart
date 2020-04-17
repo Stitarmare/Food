@@ -347,6 +347,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         _updateOrderModel.items = items;
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
+                        _updateOrderModel.items.preparationNote = specialReq;
                         _updateOrderModel.items.extra = extra ?? null;
                         _updateOrderModel.items.spreads =
                             spread == null ? [] : [spread];
@@ -354,6 +355,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         _updateOrderModel.items.sizes =
                             size == null ? [] : [size];
                         print(_updateOrderModel.toJson());
+
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_BLANK);
                         await progressDialog.show();
@@ -422,12 +424,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
           child: AppTextField(
-            onChanged: (text) {},
+            onChanged: (text) {
+              specialReq = text;
+            },
             placeHolderName: STR_SPLREQ,
             validator: validatepassword,
             onSaved: (String value) {
               print(value);
-              specialReq = value;
             },
           ),
         ),
@@ -461,6 +464,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
+    addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extra ?? [];
     addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     addMenuToCartModel.items[0].switches = switches ?? [];
@@ -1365,6 +1369,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Future<void> addMenuToCartsuccess() async {
+    specialReq = "";
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -1424,6 +1429,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   @override
   Future<void> updateOrderSuccess() async {
+    specialReq = "";
     Globle().dinecartValue += 1;
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();

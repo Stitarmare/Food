@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Otp/OtpView.dart';
@@ -28,7 +29,7 @@ class _RegisterviewState extends State<Registerview>
   ProgressDialog progressDialog;
 
   bool _validate = false;
-  var countrycode = STR_BLANK;
+  var countrycode = "+91";
 
   final Map<String, dynamic> _signUpData = {
     mobno: null,
@@ -194,26 +195,45 @@ class _RegisterviewState extends State<Registerview>
         Row(children: <Widget>[
           Expanded(
             flex: 2,
-            child: AppTextField(
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(4),
-                BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
-              ],
-              icon: Icon(
-                Icons.language,
-                color: greentheme100,
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: greentheme100),
+                  borderRadius: BorderRadius.all(Radius.circular(8))),
+              child: CountryCodePicker(
+                onChanged: (text) {
+                  countrycode = text.toString();
+                },
+                // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                initialSelection: '+91',
+                favorite: ['+91', 'IN'],
+                // optional. Shows only country name and flag
+                showCountryOnly: false,
+                // optional. Shows only country name and flag when popup is closed.
+                showOnlyCountryWhenClosed: false,
+                // optional. aligns the flag and the Text left
+                alignLeft: false,
               ),
-              keyboardType: TextInputType.phone,
-              placeHolderName: STR_CODE,
-              onChanged: (text) {
-                if (text.contains(STR_PLUS_SIGN)) {
-                  countrycode = text;
-                } else {
-                  countrycode = STR_PLUS_SIGN + text;
-                }
-              },
-              validator: validatecountrycode,
             ),
+            //  AppTextField(
+            //   inputFormatters: [
+            //     LengthLimitingTextInputFormatter(4),
+            //     BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
+            //   ],
+            //   icon: Icon(
+            //     Icons.language,
+            //     color: greentheme100,
+            //   ),
+            //   keyboardType: TextInputType.phone,
+            //   placeHolderName: STR_CODE,
+            //   onChanged: (text) {
+            //     if (text.contains(STR_PLUS_SIGN)) {
+            //       countrycode = text;
+            //     } else {
+            //       countrycode = STR_PLUS_SIGN + text;
+            //     }
+            //   },
+            //   validator: validatecountrycode,
+            // ),
           ),
           SizedBox(
             width: 10,

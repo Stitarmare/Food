@@ -134,6 +134,7 @@ class AddItemsToCartModel {
 class Item {
   int itemId;
   int quantity;
+  String preparationNote;
   int sizePriceId;
   List<Extras> extra;
   List<Spreads> spreads;
@@ -143,6 +144,7 @@ class Item {
   Item({
     this.itemId,
     this.quantity,
+    this.preparationNote,
     this.sizePriceId,
     this.extra,
     this.spreads,
@@ -153,6 +155,7 @@ class Item {
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         itemId: json["item_id"],
         quantity: json["quantity"],
+        preparationNote: json["preparation_note"],
         sizePriceId: json["size_price_id"],
         extra: json["extra"] != null
             ? List<Extras>.from(json["extra"].map((x) => Extras.fromJson(x)))
@@ -167,6 +170,7 @@ class Item {
   Map<String, dynamic> toJson() => {
         "item_id": itemId,
         "quantity": quantity,
+        "preparation_note": preparationNote,
         "size_price_id": sizePriceId,
         "extra": extra != null
             ? List<dynamic>.from(extra.map((x) => x.toJson()))
