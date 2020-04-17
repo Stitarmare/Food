@@ -614,7 +614,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 ),
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.16),
+                                        0.13),
                                 (_addItemModelList.spreadsrequired == "yes")
                                     ? Center(
                                         child: Container(
@@ -687,7 +687,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 ),
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.13),
+                                        0.1),
                                 (_addItemModelList.extrasrequired == "yes")
                                     ? Center(
                                         child: Container(
@@ -759,7 +759,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 ),
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.14),
+                                        0.11),
                                 (_addItemModelList.switchesrequired == "yes")
                                     ? Center(
                                         child: Container(
@@ -825,7 +825,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   ),
                                   SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.23),
+                                          0.21),
                                   Center(
                                     child: Container(
                                       decoration:
