@@ -32,7 +32,7 @@ class InvitePeopleList {
   int fromId;
   String inviteContactNumber;
   int toId;
-  Null orderId;
+  int orderId;
   int restId;
   int tableId;
   String status;

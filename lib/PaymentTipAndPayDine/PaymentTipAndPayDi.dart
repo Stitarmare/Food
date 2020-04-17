@@ -4,7 +4,10 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
+import 'package:foodzi/Models/GetPeopleListModel.dart';
 
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -12,6 +15,7 @@ import 'package:foodzi/Models/payment_Checkout_model.dart';
 
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -36,38 +40,43 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     implements
         PaymentTipandPayDiModelView,
         PayFinalBillModelView,
-        PayBillCheckoutModelView {
+        PayBillCheckoutModelView,ConfirmationDineViewModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
+  StatusTrackViewPresenter statusTrackViewPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
   int selectedRadioTile;
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
   ProgressDialog progressDialog;
-
+ConfirmationDineviewPresenter confirmationDineviewPresenter;
   OrderDetailsModel _model;
-  List<AddPeopleList> addedPeopleList = [];
+  //List<AddPeopleList> addedPeopleList = [];
+  List<PeopleData>  addedPeopleList = [];
+  double grandTotal = 0;
 
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
+    confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    confirmationDineviewPresenter.getPeopleList(context);
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
     print(widget.tableId);
     print(widget.orderID);
     _model = OrderDetailsModel();
 
-    print(RadioDialogAddPeopleState.addPeopleList);
+  //print(RadioDialogAddPeopleState.addPeopleList);
     if (RadioDialogAddPeopleState.addPeopleList != null) {
-      addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
+      //addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     } else {
-      addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
+      //addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     }
 
     super.initState();
@@ -77,6 +86,34 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     setState(() {
       selectedRadioTile = val;
     });
+  }
+
+  bool isInvited() {
+      if (myOrderData != null) {
+        if (myOrderData.invited == Invited.yes.toString().split('.').last) {
+          return true;
+        }
+      }
+    return false;
+  }
+
+  bool isSplitAmount() {
+    if (myOrderData != null) {
+        if (myOrderData.invited == Invited.yes.toString().split('.').last && myOrderData.splitAmount == null) {
+          if (myOrderData.splitbilltransactions != null) {
+            for (var trasaction in myOrderData.splitbilltransactions ){
+                if (Globle().loginModel.data.id == trasaction.userId) {
+                  if (trasaction.paystatus != "pending") {
+                    return false;
+                  }
+                }
+            }
+          }
+          return true;
+
+        }
+      }
+    return false;
   }
 
   @override
@@ -100,11 +137,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 80,
+              height: (isInvited() && isSplitAmount()) ? 0 : 80,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
+                 isInvited() ? Expanded(child: Container()) : Container(
                     height: 35,
                     child: FlatButton(
                       child: Text(
@@ -122,31 +159,17 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
-                        addedPeopleList != null
-                            ? showDialog(
-                                context: context,
-                                child: new RadioDialog(
-                                  amount:
-                                      (double.parse(myOrderData.totalAmount) +
-                                          sliderValue),
-                                  tableId: widget.tableId,
-                                  orderId: widget.orderID,
-                                  elementList: myOrderData.list,
-                                ))
-                            : _showAlert(context,
-                                STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
-                                Navigator.of(context).pop();
-                              });
+                        onSplitBillButtonTap();
                       },
                     ),
                   ),
-                  GestureDetector(
+                  isSplitAmount() ? Container() : GestureDetector(
                     onTap: () async {
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
                       _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-                          (int.parse(myOrderData.totalAmount)), "ZAR", context);
+                          getOrderTotal(),sliderValue.toString(), "ZAR", context);
                     },
                     child: Container(
                       height: 45,
@@ -243,6 +266,41 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     );
   }
 
+  String getOrderTotal() {
+    if (myOrderData.splitAmount != null) {
+      
+      return myOrderData.splitAmount;
+    }
+   
+    return myOrderData.totalAmount;
+  }
+ onSplitBillButtonTap()  {
+   addedPeopleList.length > 0
+                            ?
+                            showSplitBill()
+                            : _showAlert(context,
+                                STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
+                                Navigator.of(context).pop();
+                              });
+ }
+ showSplitBill() async{
+     var data = await showDialog(
+                                context: context,
+                                child: new RadioDialog(
+                                  amount:
+                                      (double.parse(myOrderData.totalAmount) +
+                                          sliderValue),
+                                  tableId: widget.tableId,
+                                  orderId: widget.orderID,
+                                  elementList: myOrderData.list,
+                                ));
+    if (data != null) {
+        if(data == true){
+          await progressDialog.show();
+          _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
+        }
+    }
+ }
   getTableName() {
     if (myOrderData != null) {
       if (myOrderData.tableName != null) {
@@ -438,6 +496,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
+                    grandTotal = double.parse(getOrderTotal()) + sliderValue.toDouble();
                   });
                 },
               ),
@@ -509,6 +568,39 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           SizedBox(
             height: 13,
           ),
+          isAmountSplit() ? Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  SPLIT_AMOUNT,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 120,
+                ),
+                flex: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(
+                  getAmount() != null
+                      ? _model.currencySymbol != null
+                          ? '${_model.currencySymbol} ' +
+                              "${myOrderData.splitAmount}"
+                          : ""
+                      : STR_ELEVEN_TITLE,
+                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                ),
+              ),
+            ],
+          ):Container(),
+          
+          SizedBox(
+            height: 13,
+          ),
           Row(
             children: <Widget>[
               Padding(
@@ -558,7 +650,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 child: Text(
                   (getAmount() != null)
                       ? '${_model.currencySymbol} ' +
-                          '${int.parse(myOrderData.totalAmount) + sliderValue.toInt()}'
+                          '$grandTotal'
                       : '${_model.currencySymbol}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -568,6 +660,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ],
       ),
     );
+  }
+
+  bool isAmountSplit() {
+    if (myOrderData != null) {
+      if (myOrderData.splitAmount != null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void _showAlert(
@@ -649,18 +750,33 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   @override
-  void getOrderDetailsFailed() {}
+  void getOrderDetailsFailed() async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
+        await progressDialog.hide();
+       
+    
+    
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
         _model = model;
       }
     });
-    await progressDialog.hide();
+     if (myOrderData.splitAmount != null) {
+      setState(() {
+      grandTotal =  double.parse(myOrderData.splitAmount);
+    });
+      
+    } else {
+      setState(() {
+      grandTotal =  double.parse(myOrderData.totalAmount);
+    });
+    }
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -767,4 +883,29 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
     // TODO: implement cancelledPaymentSuccess
   }
+
+  @override
+  void addPeopleFailed() {
+    // TODO: implement addPeopleFailed
+  }
+
+  @override
+  void addPeopleSuccess() {
+    // TODO: implement addPeopleSuccess
+  }
+
+  @override
+  void getPeopleListonFailed() {
+    // TODO: implement getPeopleListonFailed
+  }
+
+  @override
+  void getPeopleListonSuccess(List<PeopleData> data) {
+    setState(() {
+      addedPeopleList = data;
+    });
+    // TODO: implement getPeopleListonSuccess
+  }
 }
+
+enum Invited {yes,no}

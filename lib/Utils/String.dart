@@ -413,6 +413,7 @@ const STR_PAYMENT = "Payment";
 const STR_PLACE_ORDER_PAY_BILL = 'PLACE ORDER & PAY BILL';
 const STR_BILL_DETAILS = 'Bill Details';
 const STR_SUBTOTAL = 'Subtotal';
+const SPLIT_AMOUNT = "Split ammount";
 const STR_ELEVEN = ' 11.20';
 const STR_TIP = 'Tip';
 const STR_TOTAL = 'Total';

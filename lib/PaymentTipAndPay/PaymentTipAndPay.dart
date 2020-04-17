@@ -555,7 +555,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        (int.parse(myOrderData.totalAmount)), "ZAR", context);
+        myOrderData.totalAmount,sliderValue.toString(), "ZAR", context);
   }
 
   @override

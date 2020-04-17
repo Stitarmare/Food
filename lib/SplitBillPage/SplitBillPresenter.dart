@@ -19,7 +19,7 @@ class SplitBillPresenter extends SplitBillContractor {
       JSON_STR_ORDER_ID: orderId,
       JSON_STR_USER_ID: userId,
       JSON_STR_OPTION: option,
-      JSON_STR_AMOUNT: amount,
+      //JSON_STR_AMOUNT: amount,
     }).then((value) {
       switch (value.result) {
         case SuccessType.success:
