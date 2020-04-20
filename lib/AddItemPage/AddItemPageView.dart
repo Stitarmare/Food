@@ -80,6 +80,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
   ProgressDialog progressDialog;
 
   String specialReq;
+
+  Spreads defaultSpread;
+
+  List<Extras> defaultExtra;
+
+  Sizes defaultSize;
+  Switches defaultSwitch;
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -101,10 +108,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
     print("${widget.itemImage}");
+    // getRequiredSpread(_addItemModelList.spreads.length);
+    // getRequiredExtra(_addItemModelList.extras.length);
+    // getRequiredSize(_addItemModelList.sizePrizes.length);
+
     super.initState();
   }
 
-  int id;
+  int id = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -348,12 +359,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
-                        _updateOrderModel.items.extra = extra ?? null;
+                        _updateOrderModel.items.extra = extra ?? (defaultExtra);
                         _updateOrderModel.items.spreads =
-                            spread == null ? [] : [spread];
-                        _updateOrderModel.items.switches = switches ?? [];
+                            spread == null ? [defaultSpread] : [spread];
+                        _updateOrderModel.items.switches =
+                            switches ?? [defaultSwitch];
                         _updateOrderModel.items.sizes =
-                            size == null ? [] : [size];
+                            size == null ? [defaultSize] : [size];
                         print(_updateOrderModel.toJson());
 
                         // DialogsIndicator.showLoadingDialog(
@@ -465,11 +477,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
-    addMenuToCartModel.items[0].extra = extra ?? [];
-    addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
-    addMenuToCartModel.items[0].switches = switches ?? [];
+    addMenuToCartModel.items[0].extra = extra ?? defaultExtra;
+    // if (_addItemModelList.spreadsrequired == "yes") {
+    //   addMenuToCartModel.items[0].spreads = [];
+    // } else {
+    //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
+    // }
+    addMenuToCartModel.items[0].spreads = spread == null
+        ? (defaultSpread != null) ? [defaultSpread] : []
+        : [spread];
+    addMenuToCartModel.items[0].switches = switches ?? [defaultSwitch];
     addMenuToCartModel.items[0].quantity = count;
-    addMenuToCartModel.items[0].sizes = size == null ? [] : [size];
+    addMenuToCartModel.items[0].sizes = size == null ? [defaultSize] : [size];
     print(addMenuToCartModel.toJson());
     if (alreadyAdde != null && restauran != null) {
       if ((widget.restId != restauran) && (alreadyAdde)) {
@@ -1350,12 +1369,16 @@ class _AddItemPageViewState extends State<AddItemPageView>
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+    getRequiredSpread(_addItemModelList.spreads.length);
 
     getradiobtnsize(_addItemModelList.sizePrizes.length);
+    getRequiredSize(_addItemModelList.sizePrizes.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+    getRequiredExtra(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
+    getRequiredSwitch(_addItemModelList.switches.length);
     // setState(() {
 
     // });
@@ -1435,6 +1458,46 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
+  }
+
+  void getRequiredSpread(int length) {
+    for (int i = 1; i <= length; i++) {
+      defaultSpread = Spreads();
+      if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
+        // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
+        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
+      }
+    }
+  }
+
+  void getRequiredExtra(int length) {
+    for (int i = 1; i <= length; i++) {
+      Extras extradefault = Extras();
+      defaultExtra = List<Extras>();
+      if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
+        extradefault.extraId = (_addItemModelList.extras[i - 1].id);
+        defaultExtra.add(extradefault);
+      }
+    }
+  }
+
+  void getRequiredSize(int length) {
+    defaultSize = Sizes();
+    setState(() {
+      //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
+      defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+    });
+    print(defaultSize);
+  }
+
+  void getRequiredSwitch(int length) {
+    for (int i = 1; i <= length; i++) {
+      defaultSwitch = Switches();
+      if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
+        defaultSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        defaultSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+      }
+    }
   }
 }
 
