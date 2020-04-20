@@ -92,11 +92,11 @@ class PayFinalBillPresenter extends PayFinalBillContaractor {
     int restId,
     int orderId,
     String paymentMode,
-    int amount,
-    int totalAmount,
+    String amount,
+    String totalAmount,
     String transacionId,
     BuildContext context, [
-    int tip,
+    String tip,
   ]) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.getFinalBillApi, context, body: {

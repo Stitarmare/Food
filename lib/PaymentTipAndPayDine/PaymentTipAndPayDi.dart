@@ -93,6 +93,17 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
         if (myOrderData.invited == Invited.yes.toString().split('.').last) {
           return true;
         }
+        if (myOrderData.splitbilltransactions != null) {
+          var isAvalable = false;
+            for (var trasaction in myOrderData.splitbilltransactions ){
+                
+                  if (trasaction.paystatus == "paid") {
+                    isAvalable =  true;
+                  }
+                
+            }
+            return isAvalable;
+          }
       }
     return false;
   }
@@ -100,18 +111,19 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
   bool isSplitAmount() {
     if (myOrderData != null) {
         if (myOrderData.invited == Invited.yes.toString().split('.').last && myOrderData.splitAmount == null) {
-          if (myOrderData.splitbilltransactions != null) {
+          return true;
+        }
+        if (myOrderData.splitbilltransactions != null) {
+          var isAvalable = false;
             for (var trasaction in myOrderData.splitbilltransactions ){
                 if (Globle().loginModel.data.id == trasaction.userId) {
                   if (trasaction.paystatus != "pending") {
-                    return false;
+                    isAvalable =  true;
                   }
                 }
             }
+            return isAvalable;
           }
-          return true;
-
-        }
       }
     return false;
   }
@@ -856,11 +868,11 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
           myOrderData.restId,
           myOrderData.id,
           STR_CARD,
-          int.parse(myOrderData.totalAmount),
-          int.parse(myOrderData.totalAmount) + sliderValue.toInt(),
+          getOrderTotal(),
+          grandTotal.toString(),
           paymentCheckoutModel.transactionId,
           context,
-          sliderValue);
+          sliderValue.toString());
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);

@@ -626,11 +626,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData.restId,
         myOrderData.id,
         STR_CARD,
-        int.parse(myOrderData.totalAmount),
-        int.parse(myOrderData.totalAmount) + sliderValue,
+        myOrderData.totalAmount,
+        (double.parse(myOrderData.totalAmount)  + sliderValue).toString(),
         paymentCheckoutModel.transactionId,
         context,
-        sliderValue ?? 0,
+        sliderValue.toString(),
       );
     } else {
       await progressDialog.hide();

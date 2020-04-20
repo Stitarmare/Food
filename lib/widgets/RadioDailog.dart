@@ -8,6 +8,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class RadioDialog extends StatefulWidget {
   int tableId;
@@ -56,6 +57,7 @@ class RadioDialogState extends State<RadioDialog>
       name: STR_SPLIT_BILL_USER_SPECIFIC,
     ),
   ];
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -65,6 +67,8 @@ class RadioDialogState extends State<RadioDialog>
   }
 
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     return new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
@@ -119,57 +123,7 @@ class RadioDialogState extends State<RadioDialog>
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   onPressed: () {
-                    if (id == 1) {
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          1,
-                          widget.amount.toInt(),
-                          context);
-                      _splitBillNotificationPresenter.getSPlitBillNotification(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          1,
-                          widget.amount.toInt(),
-                          context);
-                    } else if (id == 2) {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          child: InvitedPeopleDialog(
-                            orderID: widget.orderId,
-                            amount: widget.amount,
-                            tableId: widget.tableId,
-                          ));
-                    } else if (id == 3) {
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          3,
-                          widget.amount.toInt(),
-                          context);
-
-                      _splitBillNotificationPresenter.getSPlitBillNotification(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          3,
-                          widget.amount.toInt(),
-                          context);
-                    } else if (id == 4) {
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          4,
-                          widget.amount.toInt(),
-                          context);
-
-                      _splitBillNotificationPresenter.getSPlitBillNotification(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          4,
-                          widget.amount.toInt(),
-                          context);
-                    }
+                    onConfirmTap();
                   },
                   child: Text(
                     STR_CONFIRM,
@@ -184,12 +138,73 @@ class RadioDialogState extends State<RadioDialog>
       ],
     );
   }
+  onConfirmTap() async{
+    if (id == 1) {
+      await progressDialog.show();
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          1,
+                          widget.amount.toInt(),
+                          context);
+                      // _splitBillNotificationPresenter.getSPlitBillNotification(
+                      //     widget.orderId,
+                      //     Globle().loginModel.data.id,
+                      //     1,
+                      //     widget.amount.toInt(),
+                      //     context);
+                    } else if (id == 2) {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          child: InvitedPeopleDialog(
+                            orderID: widget.orderId,
+                            amount: widget.amount,
+                            tableId: widget.tableId,
+                          ));
+                    } else if (id == 3) {
+                      await progressDialog.show();
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          3,
+                          widget.amount.toInt(),
+                          context);
+
+                      // _splitBillNotificationPresenter.getSPlitBillNotification(
+                      //     widget.orderId,
+                      //     Globle().loginModel.data.id,
+                      //     3,
+                      //     widget.amount.toInt(),
+                      //     context);
+                    } else if (id == 4) {
+                      _splitBillPresenter.getSPlitBill(
+                          widget.orderId,
+                          Globle().loginModel.data.id,
+                          4,
+                          widget.amount.toInt(),
+                          context);
+
+                      // _splitBillNotificationPresenter.getSPlitBillNotification(
+                      //     widget.orderId,
+                      //     Globle().loginModel.data.id,
+                      //     4,
+                      //     widget.amount.toInt(),
+                      //     context);
+                    }
+  }
 
   @override
-  void getSplitBillFailed() {}
+  void getSplitBillFailed() async{
+    await progressDialog.hide();
+    Navigator.of(context).pop(false);
+  }
 
   @override
-  void getSplitBillSuccess() {}
+  void getSplitBillSuccess() async{
+    await progressDialog.hide();
+    Navigator.of(context).pop(true);
+  }
 
   @override
   void getSplitBillNotificationFailed() {
