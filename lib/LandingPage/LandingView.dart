@@ -463,11 +463,7 @@ class _LandingStateView extends State<Landingview>
   @override
   void onFailedCurrentOrder() async{
     await progressDialog.hide();
-    //progressDialog.hide();
-    // if (_scaffoldKey.currentContext != null) {
-
-    //Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
-    // }
+    
   }
 
   @override

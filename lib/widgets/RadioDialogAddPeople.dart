@@ -199,8 +199,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       if (numbers.isNotEmpty) {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                        List<String> mobNoList =
-                            LinkedHashSet<String>.from(listMobile).toList();
+                        List<String> mobNoList = numbers.split(",");
 
                         progressDialog.show();
 

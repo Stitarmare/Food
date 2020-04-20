@@ -155,8 +155,21 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                           color: Colors.white),
                     ),
                     color: getColorByHex(Globle().colorscode),
-                    onPressed: () async {
-                      if (radioOrderId == 2) {
+                    onPressed: ()  {
+                      onPressConfirmButton();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  onPressConfirmButton() async {
+    if (radioOrderId == 2) {
                         Globle().takeAwayCartItemCount = 0;
                         Navigator.push(
                             context,
@@ -174,10 +187,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                                       itemdata: widget.itemdata,
                                       currencySymbol: widget.currencySymbol,
                                     )));
-                      } else if (radioOrderId == 1) {
+                      } else if (radioOrderId == 1)  {
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_LOADING);
-                        await progressDialog.show();
+                        callapiPLaceorder();
+                      }
+  }
+
+  callapiPLaceorder() async{
+    await progressDialog.show();
                         _paymentTipAndPayPresenter.placeOrder(
                             widget.restId,
                             Globle().loginModel.data.id,
@@ -188,16 +206,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                             widget.latitude,
                             widget.longitude,
                             context);
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   String getExtra(MenuCartList menuCartList) {

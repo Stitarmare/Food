@@ -31,11 +31,11 @@ abstract class PayFinalBillContaractor {
     int userId,
     int orderId,
     String paymentMode,
-    int amount,
-    int totalAmount,
+    String amount,
+    String totalAmount,
     String transacionId,
     BuildContext context, [
-    int tip,
+    String tip,
   ]);
 }
 
