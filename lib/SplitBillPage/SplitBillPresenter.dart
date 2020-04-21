@@ -14,12 +14,13 @@ class SplitBillPresenter extends SplitBillContractor {
   }
   @override
   void getSPlitBill(
-      int orderId, int userId, int option, int amount, BuildContext context) {
+      int orderId, int userId, int option, int amount, BuildContext context,{List<String> users}) {
     ApiBaseHelper().post(UrlConstant.getSplitBillOption, context, body: {
       JSON_STR_ORDER_ID: orderId,
       JSON_STR_USER_ID: userId,
       JSON_STR_OPTION: option,
       //JSON_STR_AMOUNT: amount,
+      "users":users ?? []
     }).then((value) {
       switch (value.result) {
         case SuccessType.success:

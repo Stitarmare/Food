@@ -10,6 +10,7 @@ import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class InvitedPeopleDialog extends StatefulWidget {
   int tableId;
@@ -33,6 +34,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
 
   SplitBillPresenter _billPresenter;
   SplitBillNotificationPresenter _splitBillNotificationPresenter;
+  ProgressDialog progressDialog;
 
   @override
   void initState() {
@@ -48,6 +50,8 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
@@ -154,20 +158,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                       color: getColorByHex(Globle().colorscode),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
-                      onPressed: () async {
-                        _billPresenter.getSPlitBill(
-                            widget.orderID,
-                            Globle().loginModel.data.id,
-                            2,
-                            widget.amount.toInt(),
-                            context);
-                        _splitBillNotificationPresenter
-                            .getSPlitBillNotification(
-                                widget.orderID,
-                                Globle().loginModel.data.id,
-                                2,
-                                widget.amount.toInt(),
-                                context);
+                      onPressed: (){
                         if (invitedPeople.length > 0) {
                           print(invitedPeople[index].inviteId);
                           print(invitedPeople.length);
@@ -187,6 +178,25 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
             ))
       ],
     );
+  }
+
+  callApi() async{
+    List<String> users = [];
+    if (_checkBoxOptions.length > 0) {
+      for (var check in _checkBoxOptions) {
+          if (check.isChecked == true) {
+            users.add(check.index.toString());
+          }
+      }
+    }
+    await progressDialog.show();
+    _billPresenter.getSPlitBill(
+                            widget.orderID,
+                            Globle().loginModel.data.id,
+                            2,
+                            widget.amount.toInt(),
+                            context,
+                            users: users);
   }
 
   int checkboxbtn(int length) {
@@ -236,10 +246,16 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   void getOrderStatussuccess(StatusData statusData) {}
 
   @override
-  void getSplitBillFailed() {}
+  void getSplitBillFailed() async{
+    await progressDialog.hide();
+    Navigator.of(context).pop(false);
+  }
 
   @override
-  void getSplitBillSuccess() {}
+  void getSplitBillSuccess() async{
+    await progressDialog.hide();
+    Navigator.of(context).pop(true);
+  }
 
   @override
   void getSplitBillNotificationFailed() {
