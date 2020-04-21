@@ -655,12 +655,12 @@ class _DineViewState extends State<DineInView>
     isIgnoreTouch = false;
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    if (restlist.length == 0) {
-      setState(() {
-        _restaurantList = null;
-      });
-      return;
-    }
+    // if (restlist.length == 0) {
+    //   setState(() {
+    //     _restaurantList = null;
+    //   });
+    //   return;
+    // }
 
     setState(() {
       if (_restaurantList == null) {
