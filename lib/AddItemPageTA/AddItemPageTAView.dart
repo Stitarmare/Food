@@ -67,8 +67,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Extras> defaultExtra;
 
   Sizes defaultSize;
-  Switches defaultSwitch;
-
+  List<Switches> defaultSwitch;
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
@@ -292,7 +291,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     addMenuToCartModel.items[0].spreads =
                         spread == null ? [defaultSpread] : [spread];
                     addMenuToCartModel.items[0].switches =
-                        switches ?? [defaultSwitch];
+                        (switches.length > 0) ? switches : defaultSwitch;
                     addMenuToCartModel.items[0].quantity = count;
                     addMenuToCartModel.items[0].sizes =
                         size == null ? [defaultSize] : [size];
@@ -1332,10 +1331,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   void getRequiredSwitch(int length) {
     for (int i = 1; i <= length; i++) {
-      defaultSwitch = Switches();
+      Switches requiredSwitch = Switches();
+      defaultSwitch = List<Switches>();
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
-        defaultSwitch.switchId = (_addItemModelList.switches[i - 1].id);
-        defaultSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        defaultSwitch.add(requiredSwitch);
       }
     }
   }
