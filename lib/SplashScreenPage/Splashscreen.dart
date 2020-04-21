@@ -55,6 +55,8 @@ class _SplashScreenState extends State<SplashScreen> {
   fcmConfiguration() {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
+        print(message);
+        Globle().streamController.add(2);
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -71,13 +73,18 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         );
       },
-      onLaunch: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
+      onLaunch: (Map<String, dynamic> message) async {
+        print(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print(message);
+      },
     );
   }
 
   getFcmToken() async {
     String fcmToken = await _fcm.getToken();
+    Globle().fcmToken =  fcmToken;
     print(fcmToken);
   }
 

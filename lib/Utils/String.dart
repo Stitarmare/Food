@@ -381,6 +381,14 @@ const STR_NO_NOTIFICATION = "No Notifications!!";
 const STR_INVITATION = "invitation";
 const STR_COMMA = ",";
 const STR_SPACE = " ";
+const BUZZ = "buzz";
+const ORDERITEMSTATUS = "order_item_status";
+const UPDATEFORTABLESSIGNED = "updates_for_assigned_table";
+const TABLEIDLE = "table_idle";
+const MOVINGOUTOFRADIUS = "moving_out_of_radius";
+const SPLITBILLREQUEST = "split_bill_request";
+const APPUPDATE = "app_update";
+const SPLITBILLPAYMENT = "split bill payment";
 
 // Notifications Page
 const STR_NOTIFICATION_TITLE = "Notifications";

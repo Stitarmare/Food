@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 //import 'dart:html';
 
@@ -60,6 +61,8 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
   List<PeopleData>  addedPeopleList = [];
   double grandTotal = 0;
   var isBillSplitedForUser = false;
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
 
   @override
   void initState() {
@@ -73,6 +76,7 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
     print(widget.tableId);
     print(widget.orderID);
     _model = OrderDetailsModel();
+    stream = Globle().streamController.stream;
 
   //print(RadioDialogAddPeopleState.addPeopleList);
     if (RadioDialogAddPeopleState.addPeopleList != null) {
@@ -80,8 +84,16 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
     } else {
       //addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     }
-
+    onStreamListen();
     super.initState();
+  }
+
+  onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData){
+        callApi();
+      });
+    }
   }
 
   setSelectedRadioTile(int val) {
@@ -967,6 +979,13 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
       addedPeopleList = data;
     });
     // TODO: implement getPeopleListonSuccess
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _streamSubscription.cancel();
+    super.dispose();
   }
 }
 
