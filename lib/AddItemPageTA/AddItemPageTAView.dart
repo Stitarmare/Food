@@ -62,6 +62,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   ProgressDialog progressDialog;
 
   String specialReq;
+  Spreads defaultSpread;
+
+  List<Extras> defaultExtra;
+
+  Sizes defaultSize;
+  Switches defaultSwitch;
 
   @override
   void initState() {
@@ -282,13 +288,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     addMenuToCartModel.items = [items];
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
-                    addMenuToCartModel.items[0].extra = extra ?? [];
+                    addMenuToCartModel.items[0].extra = extra ?? defaultExtra;
                     addMenuToCartModel.items[0].spreads =
-                        spread == null ? [] : [spread];
-                    addMenuToCartModel.items[0].switches = switches ?? [];
+                        spread == null ? [defaultSpread] : [spread];
+                    addMenuToCartModel.items[0].switches =
+                        switches ?? [defaultSwitch];
                     addMenuToCartModel.items[0].quantity = count;
                     addMenuToCartModel.items[0].sizes =
-                        size == null ? [] : [size];
+                        size == null ? [defaultSize] : [size];
 
                     print(addMenuToCartModel.toJson());
 
@@ -1221,11 +1228,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
+    getRequiredSpread(_addItemModelList.spreads.length);
 
     checkboxbtn(_addItemModelList.extras.length);
+    getRequiredExtra(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
+    getRequiredSwitch(_addItemModelList.switches.length);
+
     getradiobtnsize(_addItemModelList.sizePrizes.length);
+    getRequiredSize(_addItemModelList.sizePrizes.length);
+
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -1258,6 +1271,46 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
     await progressDialog.hide();
+  }
+
+  void getRequiredSpread(int length) {
+    for (int i = 1; i <= length; i++) {
+      defaultSpread = Spreads();
+      if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
+        // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
+        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
+      }
+    }
+  }
+
+  void getRequiredExtra(int length) {
+    for (int i = 1; i <= length; i++) {
+      Extras extradefault = Extras();
+      defaultExtra = List<Extras>();
+      if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
+        extradefault.extraId = (_addItemModelList.extras[i - 1].id);
+        defaultExtra.add(extradefault);
+      }
+    }
+  }
+
+  void getRequiredSize(int length) {
+    defaultSize = Sizes();
+    setState(() {
+      //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
+      defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+    });
+    print(defaultSize);
+  }
+
+  void getRequiredSwitch(int length) {
+    for (int i = 1; i <= length; i++) {
+      defaultSwitch = Switches();
+      if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
+        defaultSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        defaultSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+      }
+    }
   }
 }
 
