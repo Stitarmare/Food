@@ -555,7 +555,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount,sliderValue.toString(), "ZAR", context);
+        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
   }
 
   @override
@@ -627,7 +627,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         myOrderData.id,
         STR_CARD,
         myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount)  + sliderValue).toString(),
+        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
         paymentCheckoutModel.transactionId,
         context,
         sliderValue.toString(),
@@ -650,6 +650,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(null, PreferenceKeys.tableId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);

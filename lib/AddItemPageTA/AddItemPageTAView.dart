@@ -49,7 +49,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Sizes> sizes;
   List<Switches> switches;
   bool isLoding = false;
-
+  AddItemPageModelList _addItemPageModelList;
   AddItemModelList _addItemModelList;
   int itemId;
   int restId;
@@ -67,8 +67,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Extras> defaultExtra;
 
   Sizes defaultSize;
-  Switches defaultSwitch;
-
+  List<Switches> defaultSwitch;
   @override
   void initState() {
     _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
@@ -292,7 +291,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     addMenuToCartModel.items[0].spreads =
                         spread == null ? [defaultSpread] : [spread];
                     addMenuToCartModel.items[0].switches =
-                        switches ?? [defaultSwitch];
+                        (switches.length > 0) ? switches : defaultSwitch;
                     addMenuToCartModel.items[0].quantity = count;
                     addMenuToCartModel.items[0].sizes =
                         size == null ? [defaultSize] : [size];
@@ -367,10 +366,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Column(
               children: <Widget>[
                 Text(
-                  // '${"Total "}' +
-                  //     '${getCurrency()}' +
-                  //     '${getGrandTotal()}',
-                  "Total R100",
+                  '${"Total "}' +
+                      '${getCurrencySymbol()}' +
+                      '${getTotalText()}',
                   style: TextStyle(
                       fontSize: 20,
                       color: redtheme,
@@ -958,6 +956,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             : [Container()]);
   }
 
+  String getCurrencySymbol() {
+    if (_addItemPageModelList != null) {
+      if (_addItemPageModelList.currencySymbol != null) {
+        return _addItemPageModelList.currencySymbol;
+      }
+    }
+
+    return "";
+  }
+
+  String getTotalText() {
+    if (_addItemModelList != null) {
+      if (_addItemModelList.price != "") {
+        return _addItemModelList.price;
+      } else if (_addItemModelList.sizePrizes.length > 0) {
+        return _addItemModelList.sizePrizes[0].price;
+      }
+    }
+    return "";
+  }
+
   Widget togglebutton() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -1214,10 +1233,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void addItemfailed() {
+  Future<void> addItemfailed() async {
     setState(() {
       isLoding = false;
     });
+    await progressDialog.hide();
   }
 
   @override
@@ -1244,7 +1264,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void addMenuToCartfailed() {}
+  Future<void> addMenuToCartfailed() async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> addMenuToCartsuccess() async {
@@ -1262,7 +1284,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  void clearCartFailed() {}
+  Future<void> clearCartFailed() async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> clearCartSuccess() async {
@@ -1296,19 +1320,23 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   void getRequiredSize(int length) {
     defaultSize = Sizes();
-    setState(() {
-      //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
-      defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
-    });
-    print(defaultSize);
+    if (_addItemModelList.sizePrizes.length > 0) {
+      setState(() {
+        //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
+        defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+      });
+      print(defaultSize);
+    }
   }
 
   void getRequiredSwitch(int length) {
     for (int i = 1; i <= length; i++) {
-      defaultSwitch = Switches();
+      Switches requiredSwitch = Switches();
+      defaultSwitch = List<Switches>();
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
-        defaultSwitch.switchId = (_addItemModelList.switches[i - 1].id);
-        defaultSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        defaultSwitch.add(requiredSwitch);
       }
     }
   }

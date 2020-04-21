@@ -1,9 +1,12 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
+import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
+import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -31,8 +34,11 @@ class BottomTabbarHome extends StatefulWidget {
   }
 }
 
-class _BottomTabbarHomeState extends State<BottomTabbarHome> {
+class _BottomTabbarHomeState extends State<BottomTabbarHome>
+    implements RestaurantModelView {
   var title;
+  int tableID;
+  RestaurantPresenter restaurantPresenter;
   int currentTabIndex = 0;
   bool isAlreadyOrder = false;
   List<Widget> tabsHome = [
@@ -52,6 +58,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
   @override
   void initState() {
     getAlreadyInCart();
+    restaurantPresenter = RestaurantPresenter(this);
     if (widget.title != null) {
       setState(() {
         tabsHome.setAll(0, [
@@ -69,6 +76,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
         tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
       });
     }
+    getTableID();
     getOrderID();
     getCartCount();
     super.initState();
@@ -85,7 +93,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
             FittedBox(
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (tableID != null && tableID != 0) {
+                      restaurantPresenter.notifyWaiter(
+                          Globle().loginModel.data.id, tableID, "", context);
+                    }
+                  },
                   heroTag: STR_BTN_BUZZER,
                   child: Image.asset(CLOCK_IMAGE_PATH)),
             ),
@@ -269,6 +282,17 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
     }
   }
 
+  getTableID() async {
+    var tableId = await Preference.getPrefValue<int>(PreferenceKeys.tableId);
+    if (tableId != null) {
+      setState(() {
+        tableID = tableId;
+      });
+      return tableId;
+    }
+    return;
+  }
+
   getCartCount() async {
     var cartCount =
         await Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount);
@@ -279,5 +303,26 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome> {
       return cartCount;
     }
     return;
+  }
+
+  @override
+  void getMenuListfailed() {
+    // TODO: implement getMenuListfailed
+  }
+
+  @override
+  void getMenuListsuccess(List<RestaurantMenuItem> menulist,
+      RestaurantItemsModel restaurantItemsModel) {
+    // TODO: implement getMenuListsuccess
+  }
+
+  @override
+  void notifyWaiterFailed() {
+    // TODO: implement notifyWaiterFailed
+  }
+
+  @override
+  void notifyWaiterSuccess() {
+    // TODO: implement notifyWaiterSuccess
   }
 }

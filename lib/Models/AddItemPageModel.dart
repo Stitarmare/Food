@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'dart:convert';
-
 AddItemPageModelList addItemPageModelListFromJson(String str) =>
     AddItemPageModelList.fromJson(json.decode(str));
 

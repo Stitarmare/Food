@@ -60,65 +60,66 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        width: 60,
-        height: 120,
-        child: Column(
-          children: <Widget>[
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: getColorByHex(Globle().colorscode),
-                  onPressed: () {},
-                  heroTag: STR_BTN_BUZZER,
-                  child: Image.asset(CLOCK_IMAGE_PATH)),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: getColorByHex(Globle().colorscode),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyCartTWView(
-                                  restName: widget.title,
-                                  restId: widget.restId,
-                                  lat: widget.lat,
-                                  long: widget.long,
-                                  orderType: STR_TAKE_AWAY,
-                                )));
-                  },
-                  heroTag: STR_BTN_ADD_CART,
-                  child: Stack(
-                    fit: StackFit.passthrough,
-                    overflow: Overflow.visible,
-                    children: <Widget>[
-                      Icon(
-                        Icons.shopping_cart,
-                        color: Colors.white,
-                      ),
-                      (Globle().takeAwayCartItemCount != null)
-                          ? Globle().takeAwayCartItemCount > 0
-                              ? Positioned(
-                                  top: -20,
-                                  right: -15,
-                                  child: Badge(
-                                      badgeColor: redtheme,
-                                      badgeContent: Text(
-                                          "${Globle().takeAwayCartItemCount} ",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: Colors.white))))
-                              : Text(STR_BLANK)
+      floatingActionButton:
+          //  Container(
+          //   width: 60,
+          //   height: 120,
+          //   child: Column(
+          //     children: <Widget>[
+          // FittedBox(
+          //   child: FloatingActionButton(
+          //       backgroundColor: getColorByHex(Globle().colorscode),
+          //       onPressed: () {},
+          //       heroTag: STR_BTN_BUZZER,
+          //       child: Image.asset(CLOCK_IMAGE_PATH)),
+          // ),
+          // SizedBox(
+          //   height: 5,
+          // ),
+          // FittedBox(
+          //   child:
+          FloatingActionButton(
+              backgroundColor: getColorByHex(Globle().colorscode),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyCartTWView(
+                              restName: widget.title,
+                              restId: widget.restId,
+                              lat: widget.lat,
+                              long: widget.long,
+                              orderType: STR_TAKE_AWAY,
+                            )));
+              },
+              heroTag: STR_BTN_ADD_CART,
+              child: Stack(
+                fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                  ),
+                  (Globle().takeAwayCartItemCount != null)
+                      ? Globle().takeAwayCartItemCount > 0
+                          ? Positioned(
+                              top: -20,
+                              right: -15,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(
+                                      "${Globle().takeAwayCartItemCount} ",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white))))
                           : Text(STR_BLANK)
-                    ],
-                  )),
-            ),
-          ],
-        ),
-      ),
+                      : Text(STR_BLANK)
+                ],
+              )),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: tabsHome[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,

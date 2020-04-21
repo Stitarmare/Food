@@ -155,7 +155,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                           color: Colors.white),
                     ),
                     color: getColorByHex(Globle().colorscode),
-                    onPressed: ()  {
+                    onPressed: () {
                       onPressConfirmButton();
                     },
                   ),
@@ -170,42 +170,42 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   onPressConfirmButton() async {
     if (radioOrderId == 2) {
-                        Globle().takeAwayCartItemCount = 0;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PaymentTipAndPay(
-                                      flag: 2,
-                                      restName: widget.restName,
-                                      restId: widget.restId,
-                                      userId: Globle().loginModel.data.id,
-                                      items: widget.items,
-                                      totalAmount: widget.totalAmount,
-                                      orderType: STR_TAKE_AWAY,
-                                      latitude: widget.latitude,
-                                      longitude: widget.longitude,
-                                      itemdata: widget.itemdata,
-                                      currencySymbol: widget.currencySymbol,
-                                    )));
-                      } else if (radioOrderId == 1)  {
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_LOADING);
-                        callapiPLaceorder();
-                      }
+      Globle().takeAwayCartItemCount = 0;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentTipAndPay(
+                    flag: 2,
+                    restName: widget.restName,
+                    restId: widget.restId,
+                    userId: Globle().loginModel.data.id,
+                    items: widget.items,
+                    totalAmount: widget.totalAmount,
+                    orderType: STR_TAKE_AWAY,
+                    latitude: widget.latitude,
+                    longitude: widget.longitude,
+                    itemdata: widget.itemdata,
+                    currencySymbol: widget.currencySymbol,
+                  )));
+    } else if (radioOrderId == 1) {
+      // DialogsIndicator.showLoadingDialog(
+      //     context, _keyLoader, STR_LOADING);
+      callapiPLaceorder();
+    }
   }
 
-  callapiPLaceorder() async{
+  callapiPLaceorder() async {
     await progressDialog.show();
-                        _paymentTipAndPayPresenter.placeOrder(
-                            widget.restId,
-                            Globle().loginModel.data.id,
-                            widget.orderType,
-                            widget.tableId,
-                            widget.items,
-                            widget.totalAmount,
-                            widget.latitude,
-                            widget.longitude,
-                            context);
+    _paymentTipAndPayPresenter.placeOrder(
+        widget.restId,
+        Globle().loginModel.data.id,
+        widget.orderType,
+        widget.tableId,
+        widget.items,
+        widget.totalAmount,
+        widget.latitude,
+        widget.longitude,
+        context);
   }
 
   String getExtra(MenuCartList menuCartList) {
@@ -589,6 +589,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         myOrderData = orderData;
       }
     });
+    Preference.setPersistData<int>(widget.tableId, PreferenceKeys.tableId);
     Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);

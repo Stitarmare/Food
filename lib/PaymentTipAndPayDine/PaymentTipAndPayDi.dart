@@ -42,7 +42,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     implements
         PaymentTipandPayDiModelView,
         PayFinalBillModelView,
-        PayBillCheckoutModelView,ConfirmationDineViewModelView {
+        PayBillCheckoutModelView,
+        ConfirmationDineViewModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
@@ -55,10 +56,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
   ProgressDialog progressDialog;
-ConfirmationDineviewPresenter confirmationDineviewPresenter;
+  ConfirmationDineviewPresenter confirmationDineviewPresenter;
   OrderDetailsModel _model;
   //List<AddPeopleList> addedPeopleList = [];
-  List<PeopleData>  addedPeopleList = [];
+  List<PeopleData> addedPeopleList = [];
   double grandTotal = 0;
   var isBillSplitedForUser = false;
   Stream stream;
@@ -78,7 +79,7 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
     _model = OrderDetailsModel();
     stream = Globle().streamController.stream;
 
-  //print(RadioDialogAddPeopleState.addPeopleList);
+    //print(RadioDialogAddPeopleState.addPeopleList);
     if (RadioDialogAddPeopleState.addPeopleList != null) {
       //addedPeopleList = RadioDialogAddPeopleState.addPeopleList;
     } else {
@@ -103,42 +104,41 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
   }
 
   bool isInvited() {
-      if (myOrderData != null) {
-        if (myOrderData.invited == Invited.yes.toString().split('.').last) {
-          return true;
-        }
-        if (myOrderData.splitbilltransactions != null) {
-          var isAvalable = false;
-            for (var trasaction in myOrderData.splitbilltransactions ){
-                
-                  if (trasaction.paystatus == "paid") {
-                    isAvalable =  true;
-                  }
-                
-            }
-            return isAvalable;
-          }
+    if (myOrderData != null) {
+      if (myOrderData.invited == Invited.yes.toString().split('.').last) {
+        return true;
       }
+      if (myOrderData.splitbilltransactions != null) {
+        var isAvalable = false;
+        for (var trasaction in myOrderData.splitbilltransactions) {
+          if (trasaction.paystatus == "paid") {
+            isAvalable = true;
+          }
+        }
+        return isAvalable;
+      }
+    }
     return false;
   }
 
   bool isSplitAmount() {
     if (myOrderData != null) {
-        if (myOrderData.invited == Invited.yes.toString().split('.').last && myOrderData.splitAmount == null) {
-          return true;
-        }
-        if (myOrderData.splitbilltransactions != null) {
-          var isAvalable = false;
-            for (var trasaction in myOrderData.splitbilltransactions ){
-                if (Globle().loginModel.data.id == trasaction.userId) {
-                  if (trasaction.paystatus != "pending") {
-                    isAvalable =  true;
-                  }
-                }
-            }
-            return isAvalable;
-          }
+      if (myOrderData.invited == Invited.yes.toString().split('.').last &&
+          myOrderData.splitAmount == null) {
+        return true;
       }
+      if (myOrderData.splitbilltransactions != null) {
+        var isAvalable = false;
+        for (var trasaction in myOrderData.splitbilltransactions) {
+          if (Globle().loginModel.data.id == trasaction.userId) {
+            if (trasaction.paystatus != "pending") {
+              isAvalable = true;
+            }
+          }
+        }
+        return isAvalable;
+      }
+    }
     return false;
   }
 
@@ -167,57 +167,66 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                 isInvited() ? Expanded(child: Container()) : Container(
-                    height: 35,
-                    child: FlatButton(
-                      child: Text(
-                        STR_SPLIT_BILL,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
-                            decoration: TextDecoration.underline,
-                            decorationColor: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            color: ((Globle().colorscode) != null)
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        onSplitBillButtonTap();
-                      },
-                    ),
-                  ),
-                  isSplitAmount() ? Container() : GestureDetector(
-                    onTap: () async {
-                      await progressDialog.show();
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_BLANK);
-                      _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-                          getOrderTotal(),sliderValue.toString(), "ZAR", context);
-                    },
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          STR_PAY_BILL,
-                          style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
+                  isInvited()
+                      ? Expanded(child: Container())
+                      : Container(
+                          height: 35,
+                          child: FlatButton(
+                            child: Text(
+                              STR_SPLIT_BILL,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_16,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor:
+                                      ((Globle().colorscode) != null)
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme,
+                                  color: ((Globle().colorscode) != null)
+                                      ? getColorByHex(Globle().colorscode)
+                                      : orangetheme,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            onPressed: () {
+                              onSplitBillButtonTap();
+                            },
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
+                  isSplitAmount()
+                      ? Container()
+                      : GestureDetector(
+                          onTap: () async {
+                            await progressDialog.show();
+                            // DialogsIndicator.showLoadingDialog(
+                            //     context, _keyLoader, STR_BLANK);
+                            _billCheckoutPresenter.payBillCheckOut(
+                                myOrderData.restId,
+                                getOrderTotal(),
+                                sliderValue.toString(),
+                                "ZAR",
+                                context);
+                          },
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                                color: ((Globle().colorscode) != null)
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15))),
+                            child: Center(
+                              child: Text(
+                                STR_PAY_BILL,
+                                style: TextStyle(
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: FONTSIZE_16,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
                 ],
               )),
         ),
@@ -294,7 +303,7 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
   isBillSplitedForUsers() {
     if (isInvited()) {
-      if (myOrderData.splitbilltransactions!=null){
+      if (myOrderData.splitbilltransactions != null) {
         var notAvialable = true;
         for (var transaction in myOrderData.splitbilltransactions) {
           if (transaction.userId == Globle().loginModel.data.id) {
@@ -316,41 +325,39 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
 
   String getOrderTotal() {
     if (myOrderData.splitAmount != null) {
-      
       return myOrderData.splitAmount;
     }
-   
+
     return myOrderData.totalAmount;
   }
- onSplitBillButtonTap()  {
-   addedPeopleList.length > 0
-                            ?
-                            showSplitBill()
-                            : _showAlert(context,
-                                STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
-                                Navigator.of(context).pop();
-                              });
- }
- showSplitBill() async{
-     var data = await showDialog(
-                                context: context,
-                                child: new RadioDialog(
-                                  amount:
-                                      (double.parse(myOrderData.totalAmount) +
-                                          sliderValue),
-                                  tableId: widget.tableId,
-                                  orderId: widget.orderID,
-                                  elementList: myOrderData.list,
-                                ));
+
+  onSplitBillButtonTap() {
+    addedPeopleList.length > 0
+        ? showSplitBill()
+        : _showAlert(context, STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
+            Navigator.of(context).pop();
+          });
+  }
+
+  showSplitBill() async {
+    var data = await showDialog(
+        context: context,
+        child: new RadioDialog(
+          amount: (double.parse(myOrderData.totalAmount) + sliderValue),
+          tableId: widget.tableId,
+          orderId: widget.orderID,
+          elementList: myOrderData.list,
+        ));
     if (data != null) {
-      if (data["isInvitePeople"] == true){
-          showInvitePeopleDialoag();
-        }
-        if(data["isSplitBill"] == true){
-          callApi();
-        }
+      if (data["isInvitePeople"] == true) {
+        showInvitePeopleDialoag();
+      }
+      if (data["isSplitBill"] == true) {
+        callApi();
+      }
     }
- }
+  }
+
   getTableName() {
     if (myOrderData != null) {
       if (myOrderData.tableName != null) {
@@ -360,27 +367,26 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
     return;
   }
 
-  showInvitePeopleDialoag() async{
-     var data = await showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          child: InvitedPeopleDialog(
-                            orderID: widget.orderID,
-                            amount: (double.parse(myOrderData.totalAmount) +
-                                          sliderValue),
-                            tableId: widget.tableId,
-                          ));
+  showInvitePeopleDialoag() async {
+    var data = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        child: InvitedPeopleDialog(
+          orderID: widget.orderID,
+          amount: (double.parse(myOrderData.totalAmount) + sliderValue),
+          tableId: widget.tableId,
+        ));
 
-    if (data!=null) {
-      if(data==true) {
-          callApi();
+    if (data != null) {
+      if (data == true) {
+        callApi();
       }
     }
   }
 
-  callApi() async{
+  callApi() async {
     await progressDialog.show();
-          _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
+    _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
   }
 
   Widget _getOptions() {
@@ -569,7 +575,8 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
-                    grandTotal = double.parse(getOrderTotal()) + sliderValue.toDouble();
+                    grandTotal =
+                        double.parse(getOrderTotal()) + sliderValue.toDouble();
                   });
                 },
               ),
@@ -638,39 +645,44 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
               ),
             ],
           ),
-          isAmountSplit()?SizedBox(
-            height: 13,
-          ):Container(),
-          isAmountSplit() ? Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  SPLIT_AMOUNT,
-                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
-                ),
-              ),
-              Expanded(
-                child: SizedBox(
-                  width: 120,
-                ),
-                flex: 2,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Text(
-                  getAmount() != null
-                      ? _model.currencySymbol != null
-                          ? '${_model.currencySymbol} ' +
-                              "${myOrderData.splitAmount}"
-                          : ""
-                      : STR_ELEVEN_TITLE,
-                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
-                ),
-              ),
-            ],
-          ):Container(),
-          
+          isAmountSplit()
+              ? SizedBox(
+                  height: 13,
+                )
+              : Container(),
+          isAmountSplit()
+              ? Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        SPLIT_AMOUNT,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_12, color: greytheme700),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 120,
+                      ),
+                      flex: 2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        getAmount() != null
+                            ? _model.currencySymbol != null
+                                ? '${_model.currencySymbol} ' +
+                                    "${myOrderData.splitAmount}"
+                                : ""
+                            : STR_ELEVEN_TITLE,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_12, color: greytheme700),
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
           SizedBox(
             height: 13,
           ),
@@ -722,8 +734,7 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? '${_model.currencySymbol} ' +
-                          '$grandTotal'
+                      ? '${_model.currencySymbol} ' + '$grandTotal'
                       : '${_model.currencySymbol}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -830,10 +841,8 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
   @override
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
-        await progressDialog.hide();
-       
-    
-    
+    await progressDialog.hide();
+
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -841,15 +850,14 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
       }
     });
     isBillSplitedForUsers();
-     if (myOrderData.splitAmount != null) {
+    if (myOrderData.splitAmount != null) {
       setState(() {
-      grandTotal =  double.parse(myOrderData.splitAmount);
-    });
-      
+        grandTotal = double.parse(myOrderData.splitAmount);
+      });
     } else {
       setState(() {
-      grandTotal =  double.parse(myOrderData.totalAmount);
-    });
+        grandTotal = double.parse(myOrderData.totalAmount);
+      });
     }
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -865,6 +873,7 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
+    Preference.setPersistData<int>(null, PreferenceKeys.tableId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
@@ -989,4 +998,4 @@ ConfirmationDineviewPresenter confirmationDineviewPresenter;
   }
 }
 
-enum Invited {yes,no}
+enum Invited { yes, no }

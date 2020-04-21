@@ -548,4 +548,14 @@ class _RestaurantViewState extends State<RestaurantView>
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
+
+  @override
+  void notifyWaiterFailed() {
+    // TODO: implement notifyWaiterFailed
+  }
+
+  @override
+  void notifyWaiterSuccess() {
+    // TODO: implement notifyWaiterSuccess
+  }
 }
