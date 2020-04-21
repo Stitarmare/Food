@@ -23,7 +23,7 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
     String orderType,
     int tableId,
     List items,
-    int totalAmount,
+    double totalAmount,
     String latitude,
     String longitude,
     BuildContext context,

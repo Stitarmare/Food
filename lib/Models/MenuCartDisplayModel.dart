@@ -11,7 +11,7 @@ class MenuCartDisplayModel {
   int statusCode;
   List<MenuCartList> data;
   int cartCount;
-  int grandTotal;
+  double grandTotal;
   String colourCode;
   String currencySymbol;
 
@@ -61,7 +61,7 @@ class MenuCartList {
   String createdAt;
   String updatedAt;
   dynamic sizePrice;
-  int totalAmount;
+  double totalAmount;
   Item items;
   // List<dynamic> cartExtraItems;
   List<CartExtraItem> cartExtraItems;
