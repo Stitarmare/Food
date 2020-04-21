@@ -1,5 +1,6 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -36,6 +37,30 @@ class RestaurantPresenter extends RestaurantContractor {
           break;
         case SuccessType.failed:
           restaurantView.getMenuListfailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  @override
+  void notifyWaiter(
+      int userId, int tableId, String deviceToken, BuildContext context) {
+    // TODO: implement notifyWaiter
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.buzzWaiter, context, body: {
+      JSON_STR_USER_ID: userId,
+      JSON_STR_TABLE_ID: tableId,
+      JSON_STR_DEVICE_TOKEN: deviceToken
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print(value.model);
+          restaurantView.notifyWaiterSuccess();
+          break;
+        case SuccessType.failed:
+          restaurantView.notifyWaiterFailed();
           break;
       }
     }).catchError((error) {

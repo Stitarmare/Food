@@ -26,13 +26,14 @@ class AddItemPageView extends StatefulWidget {
   String restName;
   String itemImage;
 
-  AddItemPageView(
-      {this.title,
-      this.description,
-      this.itemId,
-      this.restId,
-      this.restName,
-      this.itemImage});
+  AddItemPageView({
+    this.title,
+    this.description,
+    this.itemId,
+    this.restId,
+    this.restName,
+    this.itemImage,
+  });
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -420,10 +421,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Column(
               children: <Widget>[
                 Text(
-                  // '${"Total "}' +
-                  //     '${getCurrency()}' +
-                  //     '${getGrandTotal()}',
-                  "Total R100",
+                  '${"Total "}' +
+                      '${getCurrencySymbol()}' +
+                      '${getTotalText()}',
                   style: TextStyle(
                       fontSize: 20,
                       color: redtheme,
@@ -1093,6 +1093,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
     return "";
   }
 
+  String getTotalText() {
+    if (_addItemModelList != null) {
+      if (_addItemModelList.price != "") {
+        return _addItemModelList.price;
+      } else if (_addItemModelList.sizePrizes.length > 0) {
+        return _addItemModelList.sizePrizes[0].price;
+      }
+    }
+    return "";
+  }
+
   Widget togglebutton() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -1483,11 +1494,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
   void getRequiredSize(int length) {
     defaultSize = Sizes();
-    setState(() {
-      //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
-      defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
-    });
-    print(defaultSize);
+    if (_addItemModelList.sizePrizes.length > 0) {
+      setState(() {
+        //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
+        defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+      });
+      print(defaultSize);
+    }
   }
 
   void getRequiredSwitch(int length) {
