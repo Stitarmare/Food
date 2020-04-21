@@ -1025,7 +1025,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         secondary: Text('${getCurrencySymbol()} ' +
                                 "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: sizesid,
+                        groupValue: defaultSize.sizeid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
