@@ -23,6 +23,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -59,6 +60,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   //List<AddPeopleList> addedPeopleList = [];
   List<PeopleData> addedPeopleList = [];
   double grandTotal = 0;
+  var isBillSplitedForUser = false;
 
   @override
   void initState() {
@@ -149,7 +151,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: (isInvited() && isSplitAmount()) ? 0 : 80,
+              height: (isBillSplitedForUser) ? 0 : 80,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -287,6 +289,28 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     );
   }
 
+  isBillSplitedForUsers() {
+    if (isInvited()) {
+      if (myOrderData.splitbilltransactions != null) {
+        var notAvialable = true;
+        for (var transaction in myOrderData.splitbilltransactions) {
+          if (transaction.userId == Globle().loginModel.data.id) {
+            notAvialable = false;
+          }
+        }
+        setState(() {
+          isBillSplitedForUser = notAvialable;
+        });
+        return;
+      }
+    }
+    if (isInvited() && isSplitAmount()) {
+      setState(() {
+        isBillSplitedForUser = true;
+      });
+    }
+  }
+
   String getOrderTotal() {
     if (myOrderData.splitAmount != null) {
       return myOrderData.splitAmount;
@@ -313,9 +337,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           elementList: myOrderData.list,
         ));
     if (data != null) {
-      if (data == true) {
-        await progressDialog.show();
-        _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
+      if (data["isInvitePeople"] == true) {
+        showInvitePeopleDialoag();
+      }
+      if (data["isSplitBill"] == true) {
+        callApi();
       }
     }
   }
@@ -327,6 +353,28 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       }
     }
     return;
+  }
+
+  showInvitePeopleDialoag() async {
+    var data = await showDialog(
+        context: context,
+        barrierDismissible: false,
+        child: InvitedPeopleDialog(
+          orderID: widget.orderID,
+          amount: (double.parse(myOrderData.totalAmount) + sliderValue),
+          tableId: widget.tableId,
+        ));
+
+    if (data != null) {
+      if (data == true) {
+        callApi();
+      }
+    }
+  }
+
+  callApi() async {
+    await progressDialog.show();
+    _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
   }
 
   Widget _getOptions() {
@@ -789,6 +837,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         _model = model;
       }
     });
+    isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {
       setState(() {
         grandTotal = double.parse(myOrderData.splitAmount);

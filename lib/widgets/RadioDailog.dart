@@ -154,14 +154,8 @@ class RadioDialogState extends State<RadioDialog>
                       //     widget.amount.toInt(),
                       //     context);
                     } else if (id == 2) {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          child: InvitedPeopleDialog(
-                            orderID: widget.orderId,
-                            amount: widget.amount,
-                            tableId: widget.tableId,
-                          ));
+                      Navigator.of(context).pop({"isInvitePeople":true});
+                      
                     } else if (id == 3) {
                       await progressDialog.show();
                       _splitBillPresenter.getSPlitBill(
@@ -178,6 +172,7 @@ class RadioDialogState extends State<RadioDialog>
                       //     widget.amount.toInt(),
                       //     context);
                     } else if (id == 4) {
+                      await progressDialog.show();
                       _splitBillPresenter.getSPlitBill(
                           widget.orderId,
                           Globle().loginModel.data.id,
@@ -197,13 +192,13 @@ class RadioDialogState extends State<RadioDialog>
   @override
   void getSplitBillFailed() async{
     await progressDialog.hide();
-    Navigator.of(context).pop(false);
+    Navigator.of(context).pop({"isSplitBill":false});
   }
 
   @override
   void getSplitBillSuccess() async{
     await progressDialog.hide();
-    Navigator.of(context).pop(true);
+    Navigator.of(context).pop({"isSplitBill":false});
   }
 
   @override
