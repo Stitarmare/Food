@@ -175,9 +175,15 @@ class Item {
         "extra": extra != null
             ? List<dynamic>.from(extra.map((x) => x.toJson()))
             : [],
-        "spreads": List<dynamic>.from(spreads.map((x) => x.toJson())),
-        "switches": List<dynamic>.from(switches.map((x) => x.toJson())),
-        "sizes": List<dynamic>.from(sizes.map((x) => x.toJson())),
+        "spreads": spreads != null
+            ? List<dynamic>.from(spreads.map((x) => x.toJson()))
+            : [],
+        "switches": switches != null
+            ? List<dynamic>.from(switches.map((x) => x.toJson()))
+            : [],
+        "sizes": sizes != null
+            ? List<dynamic>.from(sizes.map((x) => x.toJson()))
+            : [],
       };
 }
 

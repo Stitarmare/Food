@@ -361,8 +361,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
                         _updateOrderModel.items.extra = extra ?? (defaultExtra);
-                        _updateOrderModel.items.spreads =
-                            spread == null ? [defaultSpread] : [spread];
+                        _updateOrderModel.items.spreads = spread == null
+                            ? (defaultSpread != null) ? [defaultSpread] : []
+                            : [spread];
                         _updateOrderModel.items.switches =
                             switches ?? defaultSwitch;
                         _updateOrderModel.items.sizes =
@@ -487,7 +488,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ? (defaultSpread != null) ? [defaultSpread] : []
         : [spread];
     addMenuToCartModel.items[0].switches =
-        (switches.length > 0) ? switches : defaultSwitch;
+        (switches.length > 0) ? switches : (defaultSwitch);
     addMenuToCartModel.items[0].quantity = count;
     addMenuToCartModel.items[0].sizes = size == null ? [defaultSize] : [size];
     print(addMenuToCartModel.toJson());
@@ -1478,6 +1479,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
         defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
+      } else {
+        defaultSpread = null;
       }
     }
   }

@@ -288,10 +288,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
                     addMenuToCartModel.items[0].extra = extra ?? defaultExtra;
-                    addMenuToCartModel.items[0].spreads =
-                        spread == null ? [defaultSpread] : [spread];
+                    addMenuToCartModel.items[0].spreads = spread == null
+                        ? (defaultSpread != null) ? [defaultSpread] : []
+                        : [spread];
                     addMenuToCartModel.items[0].switches =
-                        (switches.length > 0) ? switches : defaultSwitch;
+                        (switches != []) ? switches : (defaultSwitch);
                     addMenuToCartModel.items[0].quantity = count;
                     addMenuToCartModel.items[0].sizes =
                         size == null ? [defaultSize] : [size];
@@ -1303,6 +1304,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
         defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
+      } else {
+        defaultSpread = null;
       }
     }
   }
@@ -1337,6 +1340,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
+      } else {
+        defaultSwitch = [];
       }
     }
   }
