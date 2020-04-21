@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:badges/badges.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
@@ -19,6 +22,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class ConfirmationDineView extends StatefulWidget {
@@ -30,7 +34,7 @@ class ConfirmationDineView extends StatefulWidget {
   int tableId;
   String tablename;
   List<int> items;
-  int totalAmount;
+  double totalAmount;
   String latitude;
   String longitude;
   String currencySymbol;
@@ -90,6 +94,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   int cartId;
   OrderData myOrderData;
   ProgressDialog progressDialog;
+  Position _position;
+  var getttingLocation = false;
+  StreamController<Position> _controllerPosition = new StreamController();
 
   @override
   void initState() {
@@ -98,15 +105,44 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
-
+progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
     print(widget.tableId);
+    _getLocation();
     super.initState();
+  }
+
+  _getLocation() async {
+    setState(() {
+      getttingLocation = false;
+    });
+    //await progressDialog.show();
+    GeoLocationTracking.load(context, _controllerPosition);
+    _controllerPosition.stream.listen((position) async {
+      print(position);
+      _position = position;
+      if (_position != null) {
+        setState(() {
+      getttingLocation = true;
+    });
+        widget.latitude = _position.latitude.toString();
+        widget.longitude = _position.longitude.toString();
+      } else {
+       setState(() {
+      getttingLocation = false;
+    });
+      }
+      //await progressDialog.hide();
+    },onError: (error){
+setState(() {
+      getttingLocation = false;
+    });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_LOADING);
+    
     return SafeArea(
       left: false,
       top: false,
@@ -119,7 +155,28 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
+        body: getttingLocation == false
+            ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        STR_CURRENT_LOCATION,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              )
+            :CustomScrollView(
           controller: _controller,
           slivers: <Widget>[
             _getorderOptions(),
@@ -575,14 +632,14 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    await progressDialog.hide();
+    //await progressDialog.hide();
     await progressDialog.hide();
   }
 
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    await progressDialog.hide();
+    //await progressDialog.hide();
     await progressDialog.hide();
     setState(() {
       if (myOrderData == null) {

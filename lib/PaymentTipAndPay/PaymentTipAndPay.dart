@@ -30,7 +30,7 @@ class PaymentTipAndPay extends StatefulWidget {
   int tableId;
   String tablename;
   List<int> items;
-  int totalAmount;
+  double totalAmount;
   String latitude;
   String longitude;
   List<MenuCartList> itemdata;

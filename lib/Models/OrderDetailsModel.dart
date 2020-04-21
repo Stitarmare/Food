@@ -10,7 +10,7 @@ class OrderDetailsModel {
   String status;
   int statusCode;
   OrderDetailData data;
-  int grandTotal;
+  double grandTotal;
   String currencySymbol;
 
   OrderDetailsModel({
@@ -138,7 +138,7 @@ class ListElements {
   DateTime createdAt;
   DateTime updatedAt;
   dynamic sizePrice;
-  int totalAmount;
+  double totalAmount;
   Items items;
   List<CartExtra> cartExtras;
 
