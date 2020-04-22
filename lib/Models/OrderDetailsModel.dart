@@ -136,7 +136,7 @@ class ListElements {
   DateTime createdAt;
   DateTime updatedAt;
   dynamic sizePrice;
-  double totalAmount;
+  String totalAmount;
   Items items;
   List<CartExtra> cartExtras;
 
