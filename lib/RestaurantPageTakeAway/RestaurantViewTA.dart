@@ -294,7 +294,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageTAView(
                           itemId: _restaurantList[index].id,
-                          restId: int.parse(_restaurantList[index].restId) ,
+                          restId: _restaurantList[index].restId ,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
@@ -440,7 +440,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                                 AddItemPageTAView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: int.parse(_restaurantList[index].restId) ,
+                                                  restId: _restaurantList[index].restId,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:
