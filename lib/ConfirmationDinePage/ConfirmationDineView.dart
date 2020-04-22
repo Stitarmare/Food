@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:badges/badges.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -38,6 +39,7 @@ class ConfirmationDineView extends StatefulWidget {
   String latitude;
   String longitude;
   String currencySymbol;
+  String imgUrl;
   List<MenuCartList> itemdata;
   ConfirmationDineView({
     this.userId,
@@ -53,6 +55,7 @@ class ConfirmationDineView extends StatefulWidget {
     this.itemdata,
     this.restName,
     this.currencySymbol,
+    this.imgUrl
   });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
@@ -612,13 +615,31 @@ setState(() {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTrackView(
-                              tableId: widget.tableId,
-                              orderID: myOrderData.id,
-                              title: widget.restName,
-                              tableName: widget.tablename,
-                              flag: 1,
-                            )));
+                        builder: (context) => 
+                        BottomTabbarHome(
+                          title: widget.restName,
+                          restId: widget.restId,
+                          lat:widget.latitude,
+                          long: widget.longitude,
+                          tableName: widget.tablename,
+                          imageUrl:widget.imgUrl ,
+                        )
+                        // BottomTabbarHome(
+                        //       title: _restaurantList[i].restName,
+                        //       restId: _restaurantList[i].id,
+                        //       lat: _restaurantList[i].latitude,
+                        //       long: _restaurantList[i].longitude,
+                        //       imageUrl: _restaurantList[i].coverImage,
+                        //       tableName: widget.tableName,
+                        //     )
+                        // StatusTrackView(
+                        //       tableId: widget.tableId,
+                        //       orderID: myOrderData.id,
+                        //       title: widget.restName,
+                        //       tableName: widget.tablename,
+                        //       flag: 1,
+                        //     )
+                            ));
               },
             )
           ],

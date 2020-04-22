@@ -481,7 +481,8 @@ class _DineViewState extends State<DineInView>
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
                               tableName: widget.tableName,
-                            )));
+                            )
+                            ));
                     setState(() {});
                   }));
         },

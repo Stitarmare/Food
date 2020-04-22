@@ -118,6 +118,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                                   long: widget.long,
                                   orderType: STR_SMALL_DINEIN,
                                   restName: widget.title,
+                                  imgUrl: widget.imageUrl
+                                  // imageUrl: widget.imageUrl,
                                 )));
                   },
                   heroTag: STR_BTN_ADD_CART,
