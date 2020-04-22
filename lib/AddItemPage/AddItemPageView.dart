@@ -328,7 +328,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: 160,
+            height: 90,
             child: Column(
               children: <Widget>[
                 Align(
@@ -415,6 +415,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Widget totalamounttext() {
     return Column(
       children: <Widget>[
+        SizedBox(
+          height: 5,
+        ),
         Container(
           // color: Colors.grey,
 
@@ -432,19 +435,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 )
               ],
             ),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: AppTextField(
-            onChanged: (text) {
-              specialReq = text;
-            },
-            placeHolderName: STR_SPLREQ,
-            validator: validatepassword,
-            onSaved: (String value) {
-              print(value);
-            },
           ),
         ),
         SizedBox(
@@ -1003,7 +993,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
               _getRadioOptionsSizes(),
               SizedBox(
                 height: 10,
-              )
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: AppTextField(
+                  onChanged: (text) {
+                    specialReq = text;
+                  },
+                  placeHolderName: STR_SPLREQ,
+                  validator: validatepassword,
+                  onSaved: (String value) {
+                    print(value);
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ]),
       ),
     );
@@ -1025,7 +1031,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         secondary: Text('${getCurrencySymbol()} ' +
                                 "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: sizesid,
+                        groupValue: defaultSize.sizeid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
