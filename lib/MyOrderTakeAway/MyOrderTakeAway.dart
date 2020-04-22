@@ -4,6 +4,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -158,14 +159,20 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTakeAwayView(
-                              imgUrl:
-                                  _orderDetailList[index].restaurant.coverImage,
-                              title:
-                                  _orderDetailList[index].restaurant.restName,
-                              orderID: _orderDetailList[index].id,
-                              restId: _orderDetailList[index].restId,
-                            )));
+                        builder: (context) =>
+                        PaymentTipAndPayDi(
+                          orderID: _orderDetailList[index].id,
+                          tableId: _orderDetailList[index].tableId,
+                        )
+                        //  StatusTakeAwayView(
+                        //       imgUrl:
+                        //           _orderDetailList[index].restaurant.coverImage,
+                        //       title:
+                        //           _orderDetailList[index].restaurant.restName,
+                        //       orderID: _orderDetailList[index].id,
+                        //       restId: _orderDetailList[index].restId,
+                        //     )
+                            ));
                 // builder: (context) => StatusTrackView(
                 //       orderID: _orderDetailList[index].id,
                 //       flag: 2,

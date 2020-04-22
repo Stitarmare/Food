@@ -23,6 +23,7 @@ class MyCartView extends StatefulWidget {
   String orderType;
   double total;
   String restName;
+  String imgUrl;
 
   MyCartView(
       {this.restId,
@@ -31,7 +32,8 @@ class MyCartView extends StatefulWidget {
       this.lat,
       this.long,
       this.total,
-      this.restName});
+      this.restName,
+      this.imgUrl});
   @override
   State<StatefulWidget> createState() {
     return _MyCartViewState();
@@ -368,6 +370,7 @@ class _MyCartViewState extends State<MyCartView>
                                     latitude: widget.lat,
                                     longitude: widget.long,
                                     currencySymbol: myCart.currencySymbol,
+                                    imgUrl: widget.imgUrl,
                                   ),
                                 ))
                             : Constants.showAlert(

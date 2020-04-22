@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
+import 'package:foodzi/Models/EditCityModel.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -76,7 +77,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (_signInFormKey.currentState.validate()) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      loginPresenter.performLogin(mobilenumber, password, context);
+      loginPresenter.performLogin(mobilenumber,countrycode, password, context);
     } else {
       setState(() {
         _validate = true;
@@ -206,7 +207,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   WhitelistingTextInputFormatter.digitsOnly
                 ],
                 onChanged: (text) {
-                  mobilenumber = countrycode + text;
+                  mobilenumber =  text;
                 },
                 keyboardType: TextInputType.phone,
                 icon: Icon(
@@ -216,7 +217,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 placeHolderName: KEY_MOBILE_NUMBER,
                 validator: validatemobno,
                 onSaved: (String value) {
-                  _signInData[mobno] = countrycode + value;
+                  _signInData[mobno] =  value;
                 },
               ),
             ),

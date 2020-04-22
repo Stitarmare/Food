@@ -187,7 +187,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   builder: (context) => PaymentTipAndPayDi(
                         orderID: widget.orderID,
                         tableId: widget.tableId,
-                      )));
+                      )
+                      )
+                      );
         },
       ),
     );

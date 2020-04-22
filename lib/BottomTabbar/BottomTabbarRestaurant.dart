@@ -123,12 +123,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                           context,
                           MaterialPageRoute(
                               builder: (context) => MyCartView(
-                                    restId: widget.restId,
-                                    lat: widget.lat,
-                                    long: widget.long,
-                                    orderType: STR_SMALL_DINEIN,
-                                    restName: widget.title,
-                                  )));
+                                  restId: widget.restId,
+                                  lat: widget.lat,
+                                  long: widget.long,
+                                  orderType: STR_SMALL_DINEIN,
+                                  restName: widget.title,
+                                  imgUrl: widget.imageUrl)));
                     }
                   },
                   heroTag: STR_BTN_ADD_CART,

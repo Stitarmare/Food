@@ -3,6 +3,7 @@ import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/ProfilePage/ProfileScreen.dart';
 import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
@@ -388,23 +389,31 @@ class _LandingStateView extends State<Landingview>
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => StatusTrackView(
-                    orderID: currentOrderId,
-                    restId: (_model.data.dineIn.status != STR_PAID)
-                        ? _model.data.dineIn.restId
-                        : _model.data.takeAway.restId,
-                    title: (_model.data.dineIn.status != STR_PAID)
-                        ? _model.data.dineIn.restaurant.restName
-                        : _model.data.takeAway.restaurant.restName,
-                    flag: 3,
-                    tableId: (_model.data.dineIn.status != STR_PAID)
-                        ? _model.data.dineIn.tableId
-                        : 0,
-                    tableName: _model.data.dineIn.table.tableName,
-                    imgUrl: (_model.data.dineIn.status != STR_PAID)
-                        ? _model.data.dineIn.restaurant.coverImage
-                        : _model.data.takeAway.restaurant.coverImage,
-                  )));
+              builder: (context) => 
+              PaymentTipAndPayDi(
+                        // orderID: widget.orderID,
+                        // tableId: widget.tableId,
+                        orderID: currentOrderId,
+                        tableId: _model.data.dineIn.tableId,
+                      )
+              // StatusTrackView(
+              //       orderID: currentOrderId,
+              //       restId: (_model.data.dineIn.status != STR_PAID)
+              //           ? _model.data.dineIn.restId
+              //           : _model.data.takeAway.restId,
+              //       title: (_model.data.dineIn.status != STR_PAID)
+              //           ? _model.data.dineIn.restaurant.restName
+              //           : _model.data.takeAway.restaurant.restName,
+              //       flag: 3,
+              //       tableId: (_model.data.dineIn.status != STR_PAID)
+              //           ? _model.data.dineIn.tableId
+              //           : 0,
+              //       tableName: _model.data.dineIn.table.tableName,
+              //       imgUrl: (_model.data.dineIn.status != STR_PAID)
+              //           ? _model.data.dineIn.restaurant.coverImage
+              //           : _model.data.takeAway.restaurant.coverImage,
+              //     )
+                  ));
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -413,18 +422,28 @@ class _LandingStateView extends State<Landingview>
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => StatusTakeAwayView(
-                    orderID: currentOrderId,
-                    restId: (_model.data.takeAway.status != STR_PAID)
-                        ? _model.data.takeAway.restId
-                        : _model.data.dineIn.restId,
-                    title: (_model.data.takeAway.status != STR_PAID)
-                        ? _model.data.takeAway.restaurant.restName
-                        : _model.data.dineIn.restaurant.restName,
-                    imgUrl: (_model.data.takeAway.status != STR_PAID)
-                        ? _model.data.takeAway.restaurant.coverImage
-                        : _model.data.dineIn.restaurant.coverImage,
-                  )));
+              builder: (context) => 
+              PaymentTipAndPayDi(
+                        // orderID: widget.orderID,
+                        // tableId: widget.tableId,
+                        orderID: currentOrderId,
+                        tableId: _model.data.takeAway.tableId,
+                      )
+              // StatusTakeAwayView(
+              //       orderID: currentOrderId,
+              //       restId: (_model.data.takeAway.status != STR_PAID)
+              //           ? _model.data.takeAway.restId
+              //           : _model.data.dineIn.restId,
+              //       title: (_model.data.takeAway.status != STR_PAID)
+              //           ? _model.data.takeAway.restaurant.restName
+              //           : _model.data.dineIn.restaurant.restName,
+              //       imgUrl: (_model.data.takeAway.status != STR_PAID)
+              //           ? _model.data.takeAway.restaurant.coverImage
+              //           : _model.data.dineIn.restaurant.coverImage,
+              //     )
+
+                  )
+                  );
          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);

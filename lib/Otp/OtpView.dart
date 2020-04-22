@@ -12,11 +12,12 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 class OTPScreen extends StatefulWidget {
   String mobno;
+  String countryCode;
   int value = 0;
   bool isfromloginotp = false;
   bool isFromFogetPass = false;
   OTPScreen(
-      {this.mobno, this.value, this.isFromFogetPass, this.isfromloginotp});
+      {this.mobno,this.countryCode, this.value, this.isFromFogetPass, this.isfromloginotp});
   @override
   State<StatefulWidget> createState() {
     return _OTPScreenState();
@@ -80,13 +81,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     if (widget.value == 0 && otpsave != null) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.performOTP(widget.mobno, otpsave, context);
+      otppresenter.performOTP(widget.mobno,widget.countryCode, otpsave, context);
     } else if (widget.isFromFogetPass == true &&
         widget.value != 0 &&
         otpsave != null) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.perfromresetpassword(widget.mobno, otpsave, context);
+      otppresenter.perfromresetpassword(widget.mobno,widget.countryCode, otpsave, context);
     }
   }
 
@@ -253,7 +254,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_BLANK);
               await progressDialog.show();
-              otppresenter.resendOTP(widget.mobno, context);
+              otppresenter.resendOTP(widget.mobno,widget.countryCode, context);
             },
             child: new Text(
               STR_RESEND,
@@ -295,6 +296,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => ResetPasswordview(
               mobno: widget.mobno,
+              countryCode: widget.countryCode,
             )));
   }
 

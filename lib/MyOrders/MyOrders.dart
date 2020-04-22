@@ -4,6 +4,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -340,22 +341,30 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => StatusTrackView(
-                                        imgUrl: _orderDetailList[index]
-                                            .restaurant
-                                            .coverImage,
-                                        tableId:
-                                            _orderDetailList[index].tableId,
-                                        orderID: _orderDetailList[index].id,
-                                        flag: 2,
-                                        restId: _orderDetailList[index].restId,
-                                        title: _orderDetailList[index]
-                                            .restaurant
-                                            .restName,
-                                        tableName: _orderDetailList[index]
-                                            .table
-                                            .tableName
-                                            .toString())));
+                                    builder: (context) =>
+                                    PaymentTipAndPayDi(
+                                      orderID: _orderDetailList[index].id,
+                                      tableId: _orderDetailList[index].tableId,
+                                    )
+                                    //  StatusTrackView(
+                                    //     imgUrl: _orderDetailList[index]
+                                    //         .restaurant
+                                    //         .coverImage,
+                                    //     tableId:
+                                    //         _orderDetailList[index].tableId,
+                                    //     orderID: _orderDetailList[index].id,
+                                    //     flag: 2,
+                                    //     restId: _orderDetailList[index].restId,
+                                    //     title: _orderDetailList[index]
+                                    //         .restaurant
+                                    //         .restName,
+                                    //     tableName: _orderDetailList[index]
+                                    //         .table
+                                    //         .tableName
+                                    //         .toString()
+                                    //         )
+                                            )
+                                            );
                           },
                         ),
                       ),

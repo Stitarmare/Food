@@ -90,11 +90,11 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         await progressDialog.show();
-        this.enterOTPScreenPresenter.requestForOTP(_mobileNumber, context);
+        this.enterOTPScreenPresenter.requestForOTP(_mobileNumber,countrycode, context);
       } else if (widget.flag == 2) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         await progressDialog.show();
-        this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber, context);
+        this.enterOTPScreenPresenter.requestforloginOTP(_mobileNumber,countrycode, context);
         _enterOTPFormKey.currentState.save();
       }
     } else {
@@ -181,7 +181,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       flex: 4,
                       child: AppTextField(
                         onChanged: (text) {
-                          this._mobileNumber = countrycode + text;
+                          this._mobileNumber = text;
                         },
                         keyboardType: TextInputType.phone,
                         focusNode: _nodeText1,
@@ -192,7 +192,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                         placeHolderName: KEY_MOBILE_NUMBER,
                         validator: validatemobno,
                         onSaved: (String value) {
-                          _enterOTP[mobno] = countrycode + value;
+                          _enterOTP[mobno] =   value;
                         },
                       ),
                     ),
@@ -287,6 +287,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
+              countryCode:countrycode,
               isFromFogetPass: false,
               value: 0,
             )));
@@ -304,6 +305,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
+          countryCode:countrycode,
               mobno: _mobileNumber,
               isFromFogetPass: true,
               value: 1,

@@ -22,7 +22,7 @@ class RegisterPresenter extends RegisterContract {
   }
 
   void performregister(String firstName, String lastname, String mobno,
-      String password, BuildContext context) {
+      String password,String countryCode, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.registerApi, context, body: {
       JSON_STR_FIRSTNAME: firstName,
       JSON_STR_LASTNAME: lastname,
@@ -30,6 +30,7 @@ class RegisterPresenter extends RegisterContract {
       JSON_STR_PASSWORD: _encryptValue(password),
       JSON_STR_DEVICE_TYPE: STR_ONE,
       JSON_STR_USER_TYPE: STR_CUSTOMER,
+      "country_code":countryCode
     }).then((value) {
       print(value);
       switch (value.result) {

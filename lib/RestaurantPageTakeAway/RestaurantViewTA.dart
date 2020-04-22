@@ -294,7 +294,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageTAView(
                           itemId: _restaurantList[index].id,
-                          restId: _restaurantList[index].restId,
+                          restId: int.parse(_restaurantList[index].restId) ,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
@@ -417,10 +417,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 child: Center(
                                   child: Text(
                                     (_restaurantList[index].sizePrizes.isEmpty)
-                                        ? "${_restaurantItemsModel.currencyCode} " +
+                                        ? "${_restaurantItemsModel.currencySymbol} " +
                                                 '${_restaurantList[index].price}' ??
                                             STR_BLANK
-                                        : "${_restaurantItemsModel.currencyCode} " +
+                                        : "${_restaurantItemsModel.currencySymbol} " +
                                                 "${_restaurantList[index].sizePrizes[0].price}" ??
                                             STR_BLANK,
                                     style: TextStyle(
@@ -440,8 +440,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                                 AddItemPageTAView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: _restaurantList[index]
-                                                      .restId,
+                                                  restId: int.parse(_restaurantList[index].restId) ,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:

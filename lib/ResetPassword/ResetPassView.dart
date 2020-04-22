@@ -10,7 +10,8 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 class ResetPasswordview extends StatefulWidget {
   var mobno;
-  ResetPasswordview({this.mobno});
+  var countryCode;
+  ResetPasswordview({this.mobno,this.countryCode});
   @override
   State<StatefulWidget> createState() {
     return _ResetPasswordview();
@@ -86,7 +87,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
-          widget.mobno, _password, context);
+          widget.mobno,widget.countryCode, _password, context);
     } else {
       setState(() {
         _validate = true;

@@ -24,9 +24,9 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
     this.enterotpview = mView;
   }
 
-  requestforloginOTP(String mobileno, BuildContext context) {
+  requestforloginOTP(String mobileno,String countryCode, BuildContext context) {
     ApiBaseHelper().post<LoginWithOtpModel>(UrlConstant.loginwithOTP, context,
-        body: {JSON_STR_MOB_NO: mobileno}).then((value) {
+        body: {JSON_STR_MOB_NO: mobileno,"country_code":countryCode}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -47,9 +47,9 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
   @override
   void onBackPresed() {}
 
-  requestForOTP(String mobileNumber, BuildContext context) {
+  requestForOTP(String mobileNumber,String countryCode, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.resetPasswordWithOTP, context,
-        body: {JSON_STR_MOB_NO: mobileNumber}).then((value) {
+        body: {JSON_STR_MOB_NO: mobileNumber,"country_code":countryCode}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

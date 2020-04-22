@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class EnterOtpContractor {
-  void requestforloginOTP(String mobno, BuildContext context);
+  void requestforloginOTP(String mobno,String countryCode, BuildContext context);
   void onBackPresed();
 }
 
