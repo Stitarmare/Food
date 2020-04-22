@@ -265,7 +265,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: 160,
+            height: 90,
             child: Column(
               children: <Widget>[
                 Align(
@@ -360,6 +360,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Widget totalamounttext() {
     return Column(
       children: <Widget>[
+        SizedBox(
+          height: 5,
+        ),
         Container(
           // color: Colors.grey,
 
@@ -377,20 +380,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 )
               ],
             ),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: AppTextField(
-            onChanged: (text) {
-              specialReq = text;
-            },
-            placeHolderName: STR_SPLREQ,
-            validator: validatepassword,
-            onSaved: (String value) {
-              print(value);
-              specialReq = value;
-            },
           ),
         ),
         SizedBox(
@@ -871,9 +860,26 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         _getRadioOptionsSizes(),
                         SizedBox(
                           height: 10,
-                        )
+                        ),
                       ],
                     ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: AppTextField(
+                  onChanged: (text) {
+                    specialReq = text;
+                  },
+                  placeHolderName: STR_SPLREQ,
+                  validator: validatepassword,
+                  onSaved: (String value) {
+                    print(value);
+                    specialReq = value;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
             ]),
       ),
     );
