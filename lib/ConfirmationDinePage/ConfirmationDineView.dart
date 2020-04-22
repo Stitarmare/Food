@@ -108,7 +108,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     print(widget.tableId);
-    _getLocation();
+    //_getLocation();
     super.initState();
   }
 
@@ -155,28 +155,7 @@ setState(() {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: getttingLocation == false
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        STR_CURRENT_LOCATION,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
-                    ),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              )
-            :CustomScrollView(
+        body: CustomScrollView(
           controller: _controller,
           slivers: <Widget>[
             _getorderOptions(),
