@@ -17,9 +17,10 @@ class ResetpasswordPresenter extends ResetpassContractor {
   void onBackPresed() {}
 
   void perfromresetpassword(
-      String mobno, String password, BuildContext context) {
+      String mobno,String countryCode, String password, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.updatePassword, context, body: {
       JSON_STR_MOB_NO: mobno,
+      "country_code":countryCode,
       JSON_STR_PASSWORD: EncryptionAES.getData(password),
       JSON_STR_PWD_CONFIRMATION: EncryptionAES.getData(password)
     }).then((value) {

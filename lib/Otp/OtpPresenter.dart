@@ -20,10 +20,11 @@ class OtpPresenter extends OtpContract {
   @override
   void onBackPresed() {}
 
-  void perfromresetpassword(String mobno, String otp, BuildContext context) {
+  void perfromresetpassword(String mobno,String countryCode, String otp, BuildContext context) {
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.resetpassverifyotp, context, body: {
       JSON_STR_MOB_NO: mobno,
+      "country_code":countryCode,
       JSON_STR_DEVICE_TOKEN: STR_DSA,
       JSON_STR_DEVICE_TYPE: STR_ONE,
       JSON_STR_USER_TYPE: STR_CUSTOMER,
@@ -45,13 +46,14 @@ class OtpPresenter extends OtpContract {
     });
   }
 
-  void performOTP(String mobno, String otp, BuildContext context) {
+  void performOTP(String mobno,String countryCode, String otp, BuildContext context) {
     ApiBaseHelper().post<LoginModel>(UrlConstant.verifyotp, context, body: {
       JSON_STR_OTP: otp,
       JSON_STR_DEVICE_TOKEN: STR_RANDOM,
       JSON_STR_USER_TYPE: STR_CUSTOMER,
       JSON_STR_DEVICE_TYPE: STR_ONE,
       JSON_STR_MOB_NO: mobno,
+      "country_code":countryCode,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -73,9 +75,10 @@ class OtpPresenter extends OtpContract {
     });
   }
 
-  void performresendOTP(String mobno, String otp, BuildContext context) {
+  void performresendOTP(String mobno,String countryCode, String otp, BuildContext context) {
     ApiBaseHelper().post(UrlConstant.verifyotp, context, body: {
       JSON_STR_MOB_NO: mobno,
+      "country_code":countryCode,
     }).then((value) {
       print(value);
       switch (value.result) {
@@ -93,11 +96,12 @@ class OtpPresenter extends OtpContract {
   }
 
   @override
-  void verifyotp(String mobno, BuildContext context) {}
+  void verifyotp(String mobno,String countryCode, BuildContext context) {}
 
-  void resendOTP(String mobno, BuildContext context) {
+  void resendOTP(String mobno,String countryCode, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.resendOTP, context, body: {
       JSON_STR_MOB_NO: mobno,
+      "country_code":countryCode,
     }).then((value) {
       print(value);
       switch (value.result) {

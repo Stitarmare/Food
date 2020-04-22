@@ -77,7 +77,7 @@ class _RegisterviewState extends State<Registerview>
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       registerPresenter.performregister(
-          _firstname, _lastname, _phoneno, _password, context);
+          _firstname, _lastname, _phoneno, _password,countrycode, context);
       _signUpFormKey.currentState.save();
     } else {
       setState(() {
@@ -247,14 +247,14 @@ class _RegisterviewState extends State<Registerview>
                 WhitelistingTextInputFormatter.digitsOnly
               ],
               onChanged: (text) {
-                _phoneno = countrycode + text;
+                _phoneno = text;
               },
               keyboardType: TextInputType.phone,
               icon: Icon(Icons.call, color: greentheme100),
               placeHolderName: KEY_MOBILE_NUMBER,
               validator: validatemobno,
               onSaved: (String value) {
-                _signUpData[mobno] = countrycode + value;
+                _signUpData[mobno] = value;
               },
             ),
           )
@@ -403,6 +403,7 @@ class _RegisterviewState extends State<Registerview>
     return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return OTPScreen(
         mobno: _phoneno,
+        countryCode: countrycode,
         value: 0,
       );
     }));
