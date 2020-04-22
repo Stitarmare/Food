@@ -27,7 +27,7 @@ class RestaurantTAPresenter extends RestaurantTAContractor {
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
-          Globle().currencySymb = value.model.currencyCode;
+          Globle().currencySymb = value.model.currencySymbol;
           Preference.setPersistData(Globle().currencySymb, STR_CURRENCY_SYMBOL);
           restaurantView.getMenuListsuccess(value.model.data, value.model);
           break;

@@ -309,13 +309,14 @@ class _RestaurantViewState extends State<RestaurantView>
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageView(
                           itemId: _restaurantList[index].id,
-                          restId: _restaurantList[index].restId,
+                          restId: _restaurantList[index].restId  ,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
                           restName: widget.title,
                           itemImage: '${_restaurantList[index].itemImage}',
-                        ))),
+                        )
+                        )),
                 child: Padding(
                   padding: EdgeInsets.all(8),
                   child: Container(
@@ -439,10 +440,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                 child: Center(
                                   child: Text(
                                     (_restaurantList[index].sizePrizes.isEmpty)
-                                        ? "${restaurantItemsModel.currencyCode} " +
+                                        ? "${restaurantItemsModel.currencySymbol} " +
                                                 '${_restaurantList[index].price}' ??
                                             STR_BLANK
-                                        : "${restaurantItemsModel.currencyCode} " +
+                                        : "${restaurantItemsModel.currencySymbol} " +
                                                 "${_restaurantList[index].sizePrizes[0].price}" ??
                                             STR_BLANK,
                                     style: TextStyle(
@@ -464,8 +465,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                                 AddItemPageView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: _restaurantList[index]
-                                                      .restId,
+                                                  restId: _restaurantList[index].restId ,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:

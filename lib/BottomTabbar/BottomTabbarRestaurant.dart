@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -38,6 +39,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     implements RestaurantModelView {
   var title;
   int tableID;
+  int orderID;
   RestaurantPresenter restaurantPresenter;
   int currentTabIndex = 0;
   bool isAlreadyOrder = false;
@@ -109,16 +111,25 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyCartView(
+                    if (orderID != null && orderID != 0) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CartDetailsPage(
+                                    orderId: orderID,
+                                  )));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyCartView(
                                   restId: widget.restId,
                                   lat: widget.lat,
                                   long: widget.long,
                                   orderType: STR_SMALL_DINEIN,
                                   restName: widget.title,
-                                )));
+                                  imgUrl: widget.imageUrl)));
+                    }
                   },
                   heroTag: STR_BTN_ADD_CART,
                   child: Stack(
@@ -278,6 +289,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     if (orderId != null) {
       setState(() {
         isAlreadyOrder = true;
+        orderID = orderId;
       });
     }
   }

@@ -29,6 +29,7 @@ const STR_WEB_VIEW_PAGE = '/webview';
 const STR_PAYMENT_PAGE = '/PaymentMethod';
 const STR_STATUS_TRACK_PAGE = '/StatusTrackView';
 const STR_WEB_VIEW_SCREEN_PAGE = '/WebViewScreen';
+const STR_CART_DETAILS_PAGE = '/CartDetailsPage';
 
 // API_BASE_HELPER Page
 

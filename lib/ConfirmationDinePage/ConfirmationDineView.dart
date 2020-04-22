@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:badges/badges.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -38,6 +39,7 @@ class ConfirmationDineView extends StatefulWidget {
   String latitude;
   String longitude;
   String currencySymbol;
+  String imgUrl;
   List<MenuCartList> itemdata;
   ConfirmationDineView({
     this.userId,
@@ -53,6 +55,7 @@ class ConfirmationDineView extends StatefulWidget {
     this.itemdata,
     this.restName,
     this.currencySymbol,
+    this.imgUrl
   });
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
@@ -105,7 +108,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
-progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     print(widget.tableId);
     //_getLocation();
@@ -123,26 +126,25 @@ progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
       _position = position;
       if (_position != null) {
         setState(() {
-      getttingLocation = true;
-    });
+          getttingLocation = true;
+        });
         widget.latitude = _position.latitude.toString();
         widget.longitude = _position.longitude.toString();
       } else {
-       setState(() {
-      getttingLocation = false;
-    });
+        setState(() {
+          getttingLocation = false;
+        });
       }
       //await progressDialog.hide();
-    },onError: (error){
-setState(() {
-      getttingLocation = false;
-    });
+    }, onError: (error) {
+      setState(() {
+        getttingLocation = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       left: false,
       top: false,
@@ -155,13 +157,14 @@ setState(() {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
+        
         body: CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[
-            _getorderOptions(),
-            radioId == 1 ? _gettableText() : _gettimeOptions(),
-          ],
-        ),
+                controller: _controller,
+                slivers: <Widget>[
+                  _getorderOptions(),
+                  radioId == 1 ? _gettableText() : _gettimeOptions(),
+                ],
+              ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.1,
@@ -591,13 +594,31 @@ setState(() {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => StatusTrackView(
-                              tableId: widget.tableId,
-                              orderID: myOrderData.id,
-                              title: widget.restName,
-                              tableName: widget.tablename,
-                              flag: 1,
-                            )));
+                        builder: (context) => 
+                        BottomTabbarHome(
+                          title: widget.restName,
+                          restId: widget.restId,
+                          lat:widget.latitude,
+                          long: widget.longitude,
+                          tableName: widget.tablename,
+                          imageUrl:widget.imgUrl ,
+                        )
+                        // BottomTabbarHome(
+                        //       title: _restaurantList[i].restName,
+                        //       restId: _restaurantList[i].id,
+                        //       lat: _restaurantList[i].latitude,
+                        //       long: _restaurantList[i].longitude,
+                        //       imageUrl: _restaurantList[i].coverImage,
+                        //       tableName: widget.tableName,
+                        //     )
+                        // StatusTrackView(
+                        //       tableId: widget.tableId,
+                        //       orderID: myOrderData.id,
+                        //       title: widget.restName,
+                        //       tableName: widget.tablename,
+                        //       flag: 1,
+                        //     )
+                            ));
               },
             )
           ],
@@ -619,7 +640,7 @@ setState(() {
   Future<void> placeOrdersuccess(OrderData orderData) async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     //await progressDialog.hide();
-    await progressDialog.hide();
+
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -632,7 +653,7 @@ setState(() {
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-
+    await progressDialog.hide();
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 
