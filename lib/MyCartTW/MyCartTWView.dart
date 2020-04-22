@@ -84,7 +84,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       _myCartpresenter.updateQauntityCount(
                           _cartItemList[i].id,
                           _cartItemList[i].quantity,
-                          _cartItemList[i].totalAmount /
+                          (double.parse(_cartItemList[i].totalAmount)) /
                               _cartItemList[i].quantity,
                           context);
                     }
@@ -145,7 +145,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
               _myCartpresenter.updateQauntityCount(
                   _cartItemList[i].id,
                   _cartItemList[i].quantity,
-                  _cartItemList[i].totalAmount / _cartItemList[i].quantity,
+                  (double.parse(_cartItemList[i].totalAmount)) / _cartItemList[i].quantity,
                   context);
             }
             // if (count < 100) {
@@ -364,7 +364,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         // price: int.parse(
                                         //     _cartItemList[indx].price),
                                         items: itemList,
-                                        totalAmount: myCart.grandTotal,
+                                        totalAmount: double.parse(myCart.grandTotal),
                                         orderType: widget.orderType,
                                         latitude: widget.lat,
                                         longitude: widget.long,

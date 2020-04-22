@@ -155,7 +155,7 @@ class _MyCartViewState extends State<MyCartView>
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
                           menuCartList.quantity,
-                          menuCartList.totalAmount / menuCartList.quantity,
+                          (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
                           context);
                     }
                     if (menuCartList.quantity == 0) {
@@ -207,7 +207,7 @@ class _MyCartViewState extends State<MyCartView>
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
-                  menuCartList.totalAmount / menuCartList.quantity,
+                  (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
                   context);
             }
           },
@@ -363,7 +363,7 @@ class _MyCartViewState extends State<MyCartView>
                                     tablename: tableno,
                                     restName: widget.restName,
                                     tableId: _dropdownTableNumber,
-                                    totalAmount: myCart.grandTotal,
+                                    totalAmount: double.parse(myCart.grandTotal),
                                     items: itemList,
                                     itemdata: _cartItemList,
                                     orderType: widget.orderType,
@@ -630,7 +630,7 @@ class _MyCartViewState extends State<MyCartView>
   double getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return myCart.grandTotal;
+        return double.parse(myCart.grandTotal);
       }
     }
     return 0;
