@@ -64,7 +64,7 @@ class RestaurantMenuItem {
     DateTime createdAt;
     DateTime updatedAt;
     List<dynamic> sizePrizes;
-    String restId;
+    int restId;
 
     RestaurantMenuItem({
         this.id,

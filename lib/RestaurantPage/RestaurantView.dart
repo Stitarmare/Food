@@ -309,7 +309,7 @@ class _RestaurantViewState extends State<RestaurantView>
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageView(
                           itemId: _restaurantList[index].id,
-                          restId: int.parse(_restaurantList[index].restId)  ,
+                          restId: _restaurantList[index].restId  ,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
@@ -465,7 +465,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                                 AddItemPageView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: int.parse(_restaurantList[index].restId) ,
+                                                  restId: _restaurantList[index].restId ,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:
