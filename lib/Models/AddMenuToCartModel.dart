@@ -11,7 +11,7 @@ class AddMenuToCartModel {
   int statusCode;
   String message;
   AddMenuToCartList data;
-  double totalAmount;
+  String totalAmount;
   String colourCode;
 
   AddMenuToCartModel({

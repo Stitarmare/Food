@@ -10,32 +10,30 @@ class OrderDetailsModel {
   String status;
   int statusCode;
   OrderDetailData data;
-  double grandTotal;
+  String grandTotal;
   String currencySymbol;
 
-  OrderDetailsModel({
-    this.status,
-    this.statusCode,
-    this.data,
-    this.grandTotal,
-    this.currencySymbol
-  });
+  OrderDetailsModel(
+      {this.status,
+      this.statusCode,
+      this.data,
+      this.grandTotal,
+      this.currencySymbol});
 
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) =>
       OrderDetailsModel(
-        status: json["status"],
-        statusCode: json["status_code"],
-        data: OrderDetailData.fromJson(json["data"]),
-        grandTotal: json["grandTotal"],
-        currencySymbol:json["currency_symbol"]
-      );
+          status: json["status"],
+          statusCode: json["status_code"],
+          data: OrderDetailData.fromJson(json["data"]),
+          grandTotal: json["grandTotal"],
+          currencySymbol: json["currency_symbol"]);
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "status_code": statusCode,
         "data": data.toJson(),
         "grandTotal": grandTotal,
-        "currency_symbol":currencySymbol
+        "currency_symbol": currencySymbol
       };
 }
 
@@ -59,27 +57,25 @@ class OrderDetailData {
   String splitAmount;
   List<Splitbilltransactions> splitbilltransactions;
 
-
-  OrderDetailData({
-    this.id,
-    this.orderType,
-    this.tableId,
-    this.userId,
-    this.additionalComments,
-    this.restId,
-    this.orderNumber,
-    this.status,
-    this.totalAmount,
-    this.createdAt,
-    this.updatedAt,
-    this.tableName,
-    this.list,
-    this.invitation,
-    this.invited,
-    this.splitType,
-    this.splitAmount,
-    this.splitbilltransactions
-  });
+  OrderDetailData(
+      {this.id,
+      this.orderType,
+      this.tableId,
+      this.userId,
+      this.additionalComments,
+      this.restId,
+      this.orderNumber,
+      this.status,
+      this.totalAmount,
+      this.createdAt,
+      this.updatedAt,
+      this.tableName,
+      this.list,
+      this.invitation,
+      this.invited,
+      this.splitType,
+      this.splitAmount,
+      this.splitbilltransactions});
 
   factory OrderDetailData.fromJson(Map<String, dynamic> json) =>
       OrderDetailData(
@@ -101,7 +97,9 @@ class OrderDetailData {
         invited: json["invited"],
         splitType: json["split_type"],
         splitAmount: json["split_amount"],
-        splitbilltransactions: List<Splitbilltransactions>.from(json["splitbilltransactions"].map((x) => Splitbilltransactions.fromJson(x))),
+        splitbilltransactions: List<Splitbilltransactions>.from(
+            json["splitbilltransactions"]
+                .map((x) => Splitbilltransactions.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,7 +117,7 @@ class OrderDetailData {
         "table_name": tableName,
         "list": List<dynamic>.from(list.map((x) => x.toJson())),
         "invitation": List<dynamic>.from(invitation.map((x) => x)),
-        "invited":invited
+        "invited": invited
       };
 }
 
@@ -323,38 +321,40 @@ class Items {
         "updated_at": updatedAt.toIso8601String(),
       };
 }
+
 class Splitbilltransactions {
-    int id;
-    String amount;
-    String paystatus;
-    int orderId;
-    int restId;
-    int userId;
+  int id;
+  String amount;
+  String paystatus;
+  int orderId;
+  int restId;
+  int userId;
 
-    Splitbilltransactions({
-        this.id,
-        this.amount,
-        this.paystatus,
-        this.orderId,
-        this.restId,
-        this.userId,
-    });
+  Splitbilltransactions({
+    this.id,
+    this.amount,
+    this.paystatus,
+    this.orderId,
+    this.restId,
+    this.userId,
+  });
 
-    factory Splitbilltransactions.fromJson(Map<String, dynamic> json) => Splitbilltransactions(
+  factory Splitbilltransactions.fromJson(Map<String, dynamic> json) =>
+      Splitbilltransactions(
         id: json["id"],
         amount: json["amount"],
         paystatus: json["paystatus"],
         orderId: json["order_id"],
         restId: json["rest_id"],
         userId: json["user_id"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "amount": amount,
         "paystatus": paystatus,
         "order_id": orderId,
         "rest_id": restId,
         "user_id": userId,
-    };
+      };
 }

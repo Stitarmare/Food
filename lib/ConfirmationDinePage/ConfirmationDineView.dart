@@ -105,7 +105,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
-progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     print(widget.tableId);
     _getLocation();
@@ -123,26 +123,25 @@ progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
       _position = position;
       if (_position != null) {
         setState(() {
-      getttingLocation = true;
-    });
+          getttingLocation = true;
+        });
         widget.latitude = _position.latitude.toString();
         widget.longitude = _position.longitude.toString();
       } else {
-       setState(() {
-      getttingLocation = false;
-    });
+        setState(() {
+          getttingLocation = false;
+        });
       }
       //await progressDialog.hide();
-    },onError: (error){
-setState(() {
-      getttingLocation = false;
-    });
+    }, onError: (error) {
+      setState(() {
+        getttingLocation = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       left: false,
       top: false,
@@ -176,13 +175,13 @@ setState(() {
                   ],
                 ),
               )
-            :CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[
-            _getorderOptions(),
-            radioId == 1 ? _gettableText() : _gettimeOptions(),
-          ],
-        ),
+            : CustomScrollView(
+                controller: _controller,
+                slivers: <Widget>[
+                  _getorderOptions(),
+                  radioId == 1 ? _gettableText() : _gettimeOptions(),
+                ],
+              ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.1,
@@ -640,7 +639,7 @@ setState(() {
   Future<void> placeOrdersuccess(OrderData orderData) async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     //await progressDialog.hide();
-    await progressDialog.hide();
+
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -653,7 +652,7 @@ setState(() {
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-
+    await progressDialog.hide();
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 

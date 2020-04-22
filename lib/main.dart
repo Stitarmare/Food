@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -62,6 +63,7 @@ var routes = <String, WidgetBuilder>{
   STR_PAYMENT_PAGE: (BuildContext context) => PaymentMethod(),
   STR_STATUS_TRACK_PAGE: (BuildContext context) => StatusTrackView(),
   STR_WEB_VIEW_SCREEN_PAGE: (BuildContext context) => WebViewScreen(),
+  STR_CART_DETAILS_PAGE: (BuildContext context) => CartDetailsPage(),
 };
 void main() {
   set();
