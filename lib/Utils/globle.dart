@@ -23,4 +23,5 @@ class Globle {
   String orderNumber = STR_BLANK;
   String currencySymb = STR_BLANK;
   var authKey;
+  int orderID = 0;
 }

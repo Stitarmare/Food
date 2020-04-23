@@ -649,6 +649,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   Future<void> payfinalBillSuccess() async {
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
+    Globle().orderID = 0;
     Globle().dinecartValue = 0;
     Preference.setPersistData<int>(null, PreferenceKeys.tableId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
