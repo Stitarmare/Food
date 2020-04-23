@@ -8,6 +8,7 @@ import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
+import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -16,8 +17,8 @@ import 'package:progress_dialog/progress_dialog.dart';
 class CartDetailsPage extends StatefulWidget {
   int orderId;
   int flag;
-
-  CartDetailsPage({this.orderId, this.flag});
+  bool isFromOrder = false;
+  CartDetailsPage({this.orderId, this.flag, this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -34,17 +35,31 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
+
   String tableName;
   bool isTableList = false;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
+  var isFirst = false;
 
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
-    _paymentTipandPayDiPresenter.getOrderDetails(widget.orderId, context);
+
+    setState(() {
+      isFirst = true;
+    });
+    callApi();
     super.initState();
+  }
+
+  callApi() async {
+    if (!isFirst) {
+      await progressDialog.show();
+    }
+
+    _paymentTipandPayDiPresenter.getOrderDetails(widget.orderId, context);
   }
 
   Widget totalamounttext() {
@@ -88,9 +103,28 @@ class CartDetailsPageState extends State<CartDetailsPage>
     return;
   }
 
+  Future<bool> _onBackPressed() {
+    if (widget.isFromOrder) {
+      Navigator.of(context).pop();
+    } else {
+      if (widget.flag == 1) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      } else if (widget.flag == 2) {
+        Navigator.of(context).pop();
+      } else if (widget.flag == 3) {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
 
     Widget _getmainviewTableno() {
       return Container(
@@ -114,7 +148,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                         fontSize: 20,
                         fontFamily: "gotham",
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color:Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme),
                   )
                 ],
               ),
@@ -136,7 +170,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                           fontSize: 14,
                           fontFamily: "gotham",
                           fontWeight: FontWeight.w600,
-                          color: getColorByHex(Globle().colorscode))),
+                          color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme)),
                 ],
               )),
               SizedBox(
@@ -149,145 +183,192 @@ class CartDetailsPageState extends State<CartDetailsPage>
       );
     }
 
-    return SafeArea(
-      left: false,
-      top: false,
-      right: false,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          iconTheme: IconThemeData(color: greytheme100),
-          title: Text(
-            "MY CART",
-            style: TextStyle(
-                fontSize: 20,
-                fontFamily: "gotham",
-                fontWeight: FontWeight.w600,
-                color: getColorByHex(Globle().colorscode)),
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: SafeArea(
+        left: false,
+        top: false,
+        right: false,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            iconTheme: IconThemeData(color: greytheme100),
+            title: Text(
+              "MY ORDER",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "gotham",
+                  fontWeight: FontWeight.w600,
+                  color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
           ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Column(
-          children: <Widget>[
-            _getmainviewTableno(),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            isloading ? Container() : _getAddedListItem()
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 110,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: _model != null ? totalamounttext() : Text(""),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: FlatButton(
-                  //     child: Text(
-                  //       "Add More Item",
-                  //       style: TextStyle(
-                  //           fontSize: 16,
-                  //           fontFamily: "gotham",
-                  //           decoration: TextDecoration.underline,
-                  //           decorationColor: getColorByHex(Globle().colorscode),
-                  //           color: getColorByHex(Globle().colorscode),
-                  //           fontWeight: FontWeight.w600),
-                  //     ),
-                  //     onPressed: () {
-                  //       //Add More Items Pressed
-                  //       Navigator.pop(context);
-                  //     },
-                  //   ),
-                  // ),
-                  Row(
+          body: isFirst
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentTipAndPayDi(
-                                        orderID: widget.orderId,
-                                        tableId: myOrderDataDetails.tableId,
-                                      )));
-                        },
-                        child: Container(
-                          height: 54,
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          decoration: BoxDecoration(
-                              color: getColorByHex(Globle().colorscode),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15))),
-                          child: Center(
-                            child: Text(
-                              STR_PAY_BILL,
-                              style: TextStyle(
-                                  fontFamily: "gotham",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            ),
-                          ),
+                      Center(
+                        child: Text(
+                          "Loading..",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_15,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
                         ),
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.06),
-                      GestureDetector(
-                        onTap: () {
-                          if (widget.flag == 1) {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                          } else if (widget.flag == 2) {
-                            Navigator.of(context).pop();
-                          } else if (widget.flag == 3) {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                          }
-                        },
-                        child: Container(
-                          height: 54,
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          decoration: BoxDecoration(
-                              color: greentheme100,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15))),
-                          child: Center(
-                            child: Text(
-                              "Add More Item",
-                              style: TextStyle(
-                                  fontFamily: "gotham",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                      CircularProgressIndicator()
                     ],
                   ),
-                ],
-              )),
+                )
+              : Column(
+                  children: <Widget>[
+                    _getmainviewTableno(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Divider(
+                      height: 2,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    isloading ? Container() : _getAddedListItem()
+                  ],
+                ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: 110,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _model != null ? totalamounttext() : Text(""),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    // Align(
+                    //   alignment: Alignment.bottomCenter,
+                    //   child: FlatButton(
+                    //     child: Text(
+                    //       "Add More Item",
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           fontFamily: "gotham",
+                    //           decoration: TextDecoration.underline,
+                    //           decorationColor: getColorByHex(Globle().colorscode),
+                    //           color: getColorByHex(Globle().colorscode),
+                    //           fontWeight: FontWeight.w600),
+                    //     ),
+                    //     onPressed: () {
+                    //       //Add More Items Pressed
+                    //       Navigator.pop(context);
+                    //     },
+                    //   ),
+                    // ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentTipAndPayDi(
+                                          orderID: widget.orderId,
+                                          tableId: myOrderDataDetails.tableId,
+                                        )));
+                          },
+                          child: Container(
+                            height: 54,
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            decoration: BoxDecoration(
+                                color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15))),
+                            child: Center(
+                              child: Text(
+                                STR_PAY_BILL,
+                                style: TextStyle(
+                                    fontFamily: "gotham",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.06),
+                        GestureDetector(
+                          onTap: () {
+                            if (widget.isFromOrder) {
+                              if (myOrderDataDetails != null) {
+                                if (myOrderDataDetails.restId != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RestaurantView(
+                                                restId:
+                                                    myOrderDataDetails.restId,
+                                                title: "",
+                                                imageUrl: "",
+                                                isFromOrder: true,
+                                              )));
+                                }
+                              }
+
+                              
+                            } else {
+if (widget.flag == 1) {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            } else if (widget.flag == 2) {
+                              Navigator.of(context).pop();
+                            } else if (widget.flag == 3) {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            }
+                            }
+                            
+                          },
+                          child: Container(
+                            height: 54,
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            decoration: BoxDecoration(
+                                color: greentheme100,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15))),
+                            child: Center(
+                              child: Text(
+                                "Add More Item",
+                                style: TextStyle(
+                                    fontFamily: "gotham",
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.02),
+                      ],
+                    ),
+                  ],
+                )),
+          ),
         ),
       ),
     );
@@ -329,7 +410,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: greytheme100,
+                color: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -346,147 +429,152 @@ class CartDetailsPageState extends State<CartDetailsPage>
   Widget _getAddedListItem() {
     return (myOrderDataDetails != null)
         ? Expanded(
-            child: ListView.builder(
-                itemCount: myOrderDataDetails.list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  id = myOrderDataDetails.list[index].itemId;
-                  cartId = myOrderDataDetails.list[index].id;
+            child: RefreshIndicator(
+                child: ListView.builder(
+                    itemCount: myOrderDataDetails.list.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      id = myOrderDataDetails.list[index].itemId;
+                      cartId = myOrderDataDetails.list[index].id;
 
-                  return Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: (myOrderDataDetails
-                                            .list[index].items.menuType ==
-                                        "veg")
-                                    ? Image.asset(
-                                        IMAGE_VEG_ICON_PATH,
-                                        height: 25,
-                                        width: 25,
-                                      )
-                                    : Image.asset(
-                                        IMAGE_VEG_ICON_PATH,
-                                        color: redtheme,
-                                        width: 25,
-                                        height: 25,
-                                      ),
-                              ),
-                              SizedBox(width: 16),
-                              Column(
+                      return Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                                mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.65,
-                                    child: Text(
-                                      myOrderDataDetails
-                                                  .list[index].items.itemName !=
-                                              null
-                                          ? StringUtils.capitalize(
-                                              myOrderDataDetails
-                                                  .list[index].items.itemName)
-                                          : "Bacon & Cheese Burger",
-                                      style: TextStyle(
-                                          fontFamily: "gotham",
-                                          fontSize: 16,
-                                          color: greytheme700),
-                                    ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 20),
+                                    child: (myOrderDataDetails
+                                                .list[index].items.menuType ==
+                                            "veg")
+                                        ? Image.asset(
+                                            IMAGE_VEG_ICON_PATH,
+                                            height: 25,
+                                            width: 25,
+                                          )
+                                        : Image.asset(
+                                            IMAGE_VEG_ICON_PATH,
+                                            color: redtheme,
+                                            width: 25,
+                                            height: 25,
+                                          ),
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
+                                  SizedBox(width: 16),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(
-                                        "Quantity : ",
-                                        style: TextStyle(
-                                            fontFamily: "gotham",
-                                            fontSize: 16,
-                                            color: greytheme700),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.65,
+                                        child: Text(
+                                          myOrderDataDetails.list[index].items
+                                                      .itemName !=
+                                                  null
+                                              ? StringUtils.capitalize(
+                                                  myOrderDataDetails.list[index]
+                                                      .items.itemName)
+                                              : "Bacon & Cheese Burger",
+                                          style: TextStyle(
+                                              fontFamily: "gotham",
+                                              fontSize: 16,
+                                              color: greytheme700),
+                                        ),
                                       ),
-                                      SizedBox(width: 5),
-                                      steppercount(index)
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "Quantity : ",
+                                            style: TextStyle(
+                                                fontFamily: "gotham",
+                                                fontSize: 16,
+                                                color: greytheme700),
+                                          ),
+                                          SizedBox(width: 5),
+                                          steppercount(index)
+                                        ],
+                                      ),
+                                      // SizedBox(
+                                      //   height: 30,
+                                      //   width: 180,
+                                      //   child: AutoSizeText(
+                                      //     getExtra(myOrderDataDetails.list[index]),
+                                      //     style: TextStyle(
+                                      //       color: Colors.grey,
+                                      //       fontSize: 14,
+                                      //     ),
+                                      //     maxFontSize: 12,
+                                      //     maxLines: 2,
+                                      //   ),
+                                      // ),
+                                      //SizedBox(height: 10),
                                     ],
                                   ),
-                                  // SizedBox(
-                                  //   height: 30,
-                                  //   width: 180,
-                                  //   child: AutoSizeText(
-                                  //     getExtra(myOrderDataDetails.list[index]),
-                                  //     style: TextStyle(
-                                  //       color: Colors.grey,
-                                  //       fontSize: 14,
-                                  //     ),
-                                  //     maxFontSize: 12,
-                                  //     maxLines: 2,
-                                  //   ),
-                                  // ),
-                                  //SizedBox(height: 10),
-                                ],
-                              ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 0,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  right: 12,
-                                ),
-                                child: Text(
-                                  "${_model.currencySymbol} " +
-                                          "${myOrderDataDetails.list[index].totalAmount}" ??
-                                      '',
-                                  style: TextStyle(
-                                      color: greytheme700,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ]),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: 0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      right: 12,
+                                    ),
+                                    child: Text(
+                                      "${_model.currencySymbol} " +
+                                              "${myOrderDataDetails.list[index].totalAmount}" ??
+                                          '',
+                                      style: TextStyle(
+                                          color: greytheme700,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ]),
 
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            height: 20,
-                            //color: greytheme1400,
-                            decoration: BoxDecoration(
-                                color: greytheme1400,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(12))),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5.0, top: 4, right: 2),
-                              child: Text(
-                                myOrderDataDetails.list[index].status,
-                                style: TextStyle(
-                                    color: greytheme900,
-                                    fontSize: 11,
-                                    letterSpacing: 0.22),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                height: 20,
+                                //color: greytheme1400,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[400],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(12))),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0, top: 4, right: 2),
+                                  child: Text(
+                                    myOrderDataDetails.list[index].status,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.22),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
 
-                        //SizedBox(height: 12),
-                        Divider(
-                          height: 2,
-                          thickness: 2,
+                            //SizedBox(height: 12),
+                            Divider(
+                              height: 2,
+                              thickness: 2,
+                            ),
+                            SizedBox(height: 8),
+                          ],
                         ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
-                  );
-                }))
+                      );
+                    }),
+                onRefresh: _getData))
         : Expanded(
             child: Center(
               child: Text(
@@ -603,9 +691,23 @@ class CartDetailsPageState extends State<CartDetailsPage>
   //   );
   // }
 
+  Future<void> _getData() async {
+    setState(() {
+      setState(() {
+        isFirst = false;
+      });
+      callApi();
+    });
+  }
+
   @override
   Future<void> getOrderDetailsFailed() async {
-    await progressDialog.hide();
+    if (!isFirst) {
+      await progressDialog.hide();
+    }
+    setState(() {
+      isFirst = false;
+    });
     // TODO: implement getOrderDetailsFailed
   }
 
@@ -618,7 +720,12 @@ class CartDetailsPageState extends State<CartDetailsPage>
         _model = model;
       }
     });
-    await progressDialog.hide();
+    if (!isFirst) {
+      await progressDialog.hide();
+    }
+    setState(() {
+      isFirst = false;
+    });
     // TODO: implement getOrderDetailsSuccess
   }
 

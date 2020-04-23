@@ -91,15 +91,35 @@ class _LandingStateView extends State<Landingview>
           ),
         ),
         body: SingleChildScrollView(child: _getmainView()),
-        bottomNavigationBar: (isOrderRunning)
-            ? BottomAppBar(
-                child: Container(
-                  color: greytheme1300,
-                  height: 40,
-                  child: _currentOrdertext(),
-                ),
-              )
-            : Text(""),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+       floatingActionButton: (isOrderRunning)?SizedBox(
+                  width: MediaQuery.of(context).size.width*0.65,
+                child: (
+           FloatingActionButton.extended(onPressed: () {
+                showStatusView();
+              },
+              
+              elevation: 20,
+              highlightElevation: 20,
+              focusElevation: 20,
+              backgroundColor: Colors.white70,
+               label: Text(STR_VIEW_YOUR_ORDER,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w600,
+                                color: greentheme100)),)
+         ),
+       ):(Container()),
+        // bottomNavigationBar: (isOrderRunning)
+        //     ? BottomAppBar(
+        //         child: Container(
+        //           color: greytheme1300,
+        //           height: 40,
+        //           child: _currentOrdertext(),
+        //         ),
+        //       )
+        //     : Text(""),
       ),
     );
   }
@@ -302,42 +322,50 @@ await progressDialog.show();
   }
 
   Widget _currentOrdertext() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15), topRight: Radius.circular(15))),
-      child: InkWell(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              flex: 9,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 38.0),
-                child: Center(
-                  child: Text(STR_VIEW_YOUR_ORDER,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
-                          fontWeight: FontWeight.w600,
-                          color: greentheme100)),
+    return Stack(
+      children: <Widget>[
+      Center(
+        child: Card(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40), topRight: Radius.circular(40))),
+          child: InkWell(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  flex: 9,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 38.0),
+                    child: Center(
+                      child: Text(STR_VIEW_YOUR_ORDER,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              color: greentheme100)),
+                    ),
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: Icon(
+                    Icons.navigate_next,
+                    color: greytheme600,
+                  ),
+                )
+              ],
             ),
-            Expanded(
-              child: Icon(
-                Icons.navigate_next,
-                color: greytheme600,
-              ),
-            )
-          ],
+            onTap: () {
+              showStatusView();
+            },
+          ),
         ),
-        onTap: () {
-          showStatusView();
-        },
-      ),
-    );
+    ),
+      )
+    ],);
   }
 
   Widget _takeAwaycard() {
@@ -814,3 +842,11 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
   
 }
+
+
+    //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
+    //                       style: TextStyle(
+    //                           fontSize: FONTSIZE_16,
+    //                           fontFamily: KEY_FONTFAMILY,
+    //                           fontWeight: FontWeight.w600,
+    //                           color: greentheme100)),)
