@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -421,29 +422,11 @@ await progressDialog.show();
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => 
-              PaymentTipAndPayDi(
-                        // orderID: widget.orderID,
-                        // tableId: widget.tableId,
-                        orderID: currentOrderId,
-                        tableId: _model.data.dineIn.tableId,
-                      )
-              // StatusTrackView(
-              //       orderID: currentOrderId,
-              //       restId: (_model.data.dineIn.status != STR_PAID)
-              //           ? _model.data.dineIn.restId
-              //           : _model.data.takeAway.restId,
-              //       title: (_model.data.dineIn.status != STR_PAID)
-              //           ? _model.data.dineIn.restaurant.restName
-              //           : _model.data.takeAway.restaurant.restName,
-              //       flag: 3,
-              //       tableId: (_model.data.dineIn.status != STR_PAID)
-              //           ? _model.data.dineIn.tableId
-              //           : 0,
-              //       tableName: _model.data.dineIn.table.tableName,
-              //       imgUrl: (_model.data.dineIn.status != STR_PAID)
-              //           ? _model.data.dineIn.restaurant.coverImage
-              //           : _model.data.takeAway.restaurant.coverImage,
-              //     )
+              CartDetailsPage(
+                orderId: Globle().orderID,
+                isFromOrder: true,
+              )
+              
                   ));
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(

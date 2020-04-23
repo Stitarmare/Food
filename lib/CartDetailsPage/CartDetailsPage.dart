@@ -490,6 +490,22 @@ if (widget.flag == 1) {
                                       SizedBox(
                                         height: 10,
                                       ),
+                                      SizedBox(
+                                    height: 30,
+                                    width: 180,
+                                    child: AutoSizeText(
+                                      getExtra(myOrderDataDetails.list[index]),
+                                      style: TextStyle(
+                                        color: greytheme1000,
+                                        fontSize: FONTSIZE_14,
+                                      ),
+                                      maxFontSize: 12,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                        height: 10,
+                                      ),
                                       Row(
                                         children: <Widget>[
                                           Text(
@@ -690,6 +706,41 @@ if (widget.flag == 1) {
   //     }),
   //   );
   // }
+
+  String getExtra(ListElements menuCartList) {
+    var extras = STR_BLANK;
+    for (int i = 0; i < menuCartList.cartExtras.length; i++) {
+      if (menuCartList.cartExtras[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtras[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtras[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtras[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtras[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtras[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtras[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtras[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtras[i].switches[j].name}, ";
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
 
   Future<void> _getData() async {
     setState(() {

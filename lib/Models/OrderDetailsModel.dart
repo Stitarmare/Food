@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+
 OrderDetailsModel orderDetailsModelFromJson(String str) =>
     OrderDetailsModel.fromJson(json.decode(str));
 
@@ -138,7 +140,7 @@ class ListElements {
   dynamic sizePrice;
   String totalAmount;
   Items items;
-  List<CartExtra> cartExtras;
+  List<CartExtraItem> cartExtras;
 
   ListElements({
     this.id,
@@ -177,8 +179,8 @@ class ListElements {
         sizePrice: json["size_price"],
         totalAmount: json["totalAmount"],
         items: Items.fromJson(json["items"]),
-        cartExtras: List<CartExtra>.from(
-            json["cart_extras"].map((x) => CartExtra.fromJson(x))),
+        cartExtras: List<CartExtraItem>.from(
+            json["cart_extras"].map((x) => CartExtraItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
