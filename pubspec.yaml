@@ -42,6 +42,7 @@ dependencies:
   badges: ^1.1.0
   firebase_messaging: ^6.0.13
   progress_dialog: ^1.2.1
+  flappy_search_bar: ^1.7.2
 
 dev_dependencies:
   flutter_test:

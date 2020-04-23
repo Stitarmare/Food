@@ -77,7 +77,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (_signInFormKey.currentState.validate()) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      loginPresenter.performLogin(mobilenumber,countrycode, password, context);
+      loginPresenter.performLogin(mobilenumber, countrycode, password, context);
     } else {
       setState(() {
         _validate = true;
@@ -207,7 +207,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   WhitelistingTextInputFormatter.digitsOnly
                 ],
                 onChanged: (text) {
-                  mobilenumber =  text;
+                  mobilenumber = text;
                 },
                 keyboardType: TextInputType.phone,
                 icon: Icon(
@@ -217,7 +217,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 placeHolderName: KEY_MOBILE_NUMBER,
                 validator: validatemobno,
                 onSaved: (String value) {
-                  _signInData[mobno] =  value;
+                  _signInData[mobno] = value;
                 },
               ),
             ),
@@ -257,13 +257,13 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatemobno(String value) {
     String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
-    if (value.length == 0) {
-      return KEY_MOBILE_NUMBER_REQUIRED;
-    } else if (!regExp.hasMatch(value)) {
-      return KEY_MOBILE_NUMBER_TEXT;
-    } else if (value.length > 13) {
-      return KEY_MOBILE_NUMBER_LIMIT;
-    }
+    // if (value.length == 0) {
+    //   return KEY_MOBILE_NUMBER_REQUIRED;
+    // } else if (!regExp.hasMatch(value)) {
+    //   return KEY_MOBILE_NUMBER_TEXT;
+    // } else if (value.length > 13) {
+    //   return KEY_MOBILE_NUMBER_LIMIT;
+    // }
     if (value.isEmpty) {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
@@ -288,9 +288,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatepassword(String value) {
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
-    } else if (value.length < 8) {
-      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
     }
+    // else if (value.length < 8) {
+    //   return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+    // }
     return null;
   }
 

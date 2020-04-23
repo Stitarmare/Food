@@ -42,10 +42,11 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
   }
 
   @override
-  void getPeopleList(BuildContext context) {
+  void getPeopleList(String searchText, BuildContext context) {
     ApiBaseHelper()
-        .get<GetPeopleListModel>(UrlConstant.getPeopleListApi, context)
-        .then((value) {
+        .post<GetPeopleListModel>(UrlConstant.getPeopleListApi, context, body: {
+      "search": searchText,
+    }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
