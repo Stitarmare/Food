@@ -65,13 +65,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Stream stream;
   StreamSubscription<double> _streamSubscription;
 
+  String searchText;
+
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    confirmationDineviewPresenter.getPeopleList(context);
+    confirmationDineviewPresenter.getPeopleList(searchText, context);
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
     print(widget.tableId);
@@ -91,7 +93,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   onStreamListen() {
     if (stream != null) {
-      _streamSubscription = stream.listen((onData){
+      _streamSubscription = stream.listen((onData) {
         callApi();
       });
     }

@@ -5,7 +5,7 @@ abstract class ConfirmationDineViewContractor {
   void addPeople(List<String> mobileNumber, int tableId, int restId,
       int orderId, BuildContext context);
 
-  void getPeopleList(BuildContext context);
+  void getPeopleList(String searchText, BuildContext context);
 }
 
 abstract class ConfirmationDineViewModelView {

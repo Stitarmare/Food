@@ -79,7 +79,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
 
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
-    
+
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
@@ -117,7 +117,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                 GestureDetector(
                   onTap: () {
                     _timer.cancel();
-                   // progressDialog.show();
+                    // progressDialog.show();
                     callApi();
                   },
                   child: Icon(Icons.refresh),
@@ -187,9 +187,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                   builder: (context) => PaymentTipAndPayDi(
                         orderID: widget.orderID,
                         tableId: widget.tableId,
-                      )
-                      )
-                      );
+                      )));
         },
       ),
     );
@@ -349,7 +347,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     print(widget.tableId);
                     //progressDialog.show();
                     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-                    confirmationDineviewPresenter.getPeopleList(context);
+                    //confirmationDineviewPresenter.getPeopleList(context);
                   }),
             ),
           ],
@@ -583,9 +581,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderStatusfailed() async{
+  void getOrderStatusfailed() async {
     if (isStart) {
-       await progressDialog.hide();
+      await progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }
@@ -593,9 +591,9 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void getOrderStatussuccess(StatusData statusData) async{
+  void getOrderStatussuccess(StatusData statusData) async {
     if (isStart) {
-     await progressDialog.hide();
+      await progressDialog.hide();
       // if (_keyLoader.currentContext != null) {
       //   Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
       // }
@@ -609,7 +607,6 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void dispose() {
-    
     _timer.cancel();
     super.dispose();
   }
@@ -628,7 +625,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
-   // progressDialog.hide();
+    // progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (data.length == 0) {
       Constants.showAlert("", "No record found!", context);

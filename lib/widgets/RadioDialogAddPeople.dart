@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
@@ -53,12 +54,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   List<String> listMobile = [];
   List<String> listMobile1 = [];
 
+  String searchText = "";
+
   @override
   void initState() {
     super.initState();
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    confirmationDineviewPresenter.getPeopleList(context);
+    confirmationDineviewPresenter.getPeopleList(searchText, context);
     statusTrackViewPresenter.getInvitedPeople(
         Globle().loginModel.data.id, widget.tableId, context);
     print(widget.tableId);
@@ -73,9 +76,18 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         children: <Widget>[
           Container(
-            height: 500,
+            height: 100,
             width: 284,
             child: SimpleDialogOption(
+              child: Center(
+                  child: Text(
+                "No Record found.",
+                style: TextStyle(
+                    fontSize: FONTSIZE_20,
+                    color: greytheme700,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w600),
+              )),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -89,7 +101,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         children: <Widget>[
           Container(
-              height: 400,
+              height: 500,
               width: 284,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
@@ -107,6 +119,73 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                           fontFamily: KEY_FONTFAMILY,
                           fontWeight: FontWeight.w600),
                     ),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    //width: 274,
+                    height: 80,
+                    child: SearchBar<CheckBoxOptions>(
+                      onSearch: onSearch,
+                      onItemFound: (CheckBoxOptions _checkBoxOptions, int i) {
+                        return CheckboxListTile(
+                            activeColor: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            value: _checkBoxOptions.isChecked,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (val) {
+                              setState(() {
+                                if (addPeopleList == null) {
+                                  addPeopleList = [];
+                                }
+                                if (addPeopleList.length > 0) {
+                                  if (val) {
+                                    var ext = AddPeopleList();
+                                    ext.addPeopleId = _checkBoxOptions.index;
+                                    addPeopleList.add(ext);
+                                  } else {
+                                    for (int i = 0;
+                                        i < addPeopleList.length;
+                                        i++) {
+                                      if (_checkBoxOptions.index ==
+                                          addPeopleList[i].addPeopleId) {
+                                        addPeopleList.removeAt(i);
+                                      }
+                                    }
+                                  }
+                                } else {
+                                  var ext = AddPeopleList();
+                                  ext.addPeopleId = _checkBoxOptions.index;
+                                  addPeopleList.add(ext);
+                                }
+                                _checkBoxOptions.isChecked = val;
+                              });
+                            },
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
+                                      STR_BLANK,
+                                  style: TextStyle(
+                                      fontSize: FONTSIZE_13,
+                                      color: greytheme700),
+                                ),
+                              ],
+                            ));
+                      },
+                      onCancelled: () {
+                        searchText = "";
+                        confirmationDineviewPresenter.getPeopleList(
+                            searchText, context);
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 4,
                   ),
                   Expanded(
                       flex: (_checkBoxOptions.length > 2) ? 5 : 4,
@@ -306,6 +385,18 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     return _checkboxlist.length;
   }
 
+  Future<List<CheckBoxOptions>> onSearch(String search) async {
+    searchText = search;
+    confirmationDineviewPresenter.getPeopleList(searchText, context);
+    return List.generate(peopleList.length, (int index) {
+      return CheckBoxOptions(
+        index: peopleList[index].id,
+        title: peopleList[index].firstName,
+        isChecked: false,
+      );
+    });
+  }
+
   void showAddPeopleAlertSuccess(
       String title, String message, BuildContext context) {
     showDialog(
@@ -391,11 +482,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
       return;
     }
     setState(() {
-      if (peopleList == null) {
-        peopleList = data;
-      } else {
-        peopleList.addAll(data);
-      }
+      //if (peopleList == []) {
+      peopleList = data;
+      //}
+      // else {
+      //   peopleList.addAll(data);
+      // }
     });
     print(peopleList[0].mobileNumber.runtimeType);
     checkboxbtn(data.length);
@@ -460,4 +552,12 @@ class AddPeopleList {
 class AddMobile {
   String strMob;
   AddMobile({this.strMob});
+}
+
+class Post {
+  final String title;
+
+  Post(
+    this.title,
+  );
 }
