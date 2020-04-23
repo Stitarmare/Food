@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:badges/badges.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -41,22 +42,21 @@ class ConfirmationDineView extends StatefulWidget {
   String currencySymbol;
   String imgUrl;
   List<MenuCartList> itemdata;
-  ConfirmationDineView({
-    this.userId,
-    this.price,
-    this.items,
-    this.restId,
-    this.latitude,
-    this.tablename,
-    this.longitude,
-    this.orderType,
-    this.tableId,
-    this.totalAmount,
-    this.itemdata,
-    this.restName,
-    this.currencySymbol,
-    this.imgUrl
-  });
+  ConfirmationDineView(
+      {this.userId,
+      this.price,
+      this.items,
+      this.restId,
+      this.latitude,
+      this.tablename,
+      this.longitude,
+      this.orderType,
+      this.tableId,
+      this.totalAmount,
+      this.itemdata,
+      this.restName,
+      this.currencySymbol,
+      this.imgUrl});
   @override
   _ConfirmationDineViewState createState() => _ConfirmationDineViewState();
 }
@@ -157,14 +157,13 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        
         body: CustomScrollView(
-                controller: _controller,
-                slivers: <Widget>[
-                  _getorderOptions(),
-                  radioId == 1 ? _gettableText() : _gettimeOptions(),
-                ],
-              ),
+          controller: _controller,
+          slivers: <Widget>[
+            _getorderOptions(),
+            radioId == 1 ? _gettableText() : _gettimeOptions(),
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.1,
@@ -591,13 +590,17 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
-                Navigator.of(context).pop(); 
-                Navigator.of(context).pop(); 
-                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CartDetailsPage(
+                          orderId: myOrderData.id,
+                        )));
+                // Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+                // Navigator.of(context).pop();
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
-                //         builder: (context) => 
+                //         builder: (context) =>
                 //         BottomTabbarHome(
                 //           title: widget.restName,
                 //           restId: widget.restId,
