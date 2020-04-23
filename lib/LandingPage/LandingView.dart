@@ -92,20 +92,24 @@ class _LandingStateView extends State<Landingview>
         ),
         body: SingleChildScrollView(child: _getmainView()),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-       floatingActionButton: (isOrderRunning)?(
-         FloatingActionButton.extended(onPressed: () {
-              showStatusView();
-            },
-            elevation: 20,
-            highlightElevation: 20,
-            focusElevation: 20,
-            backgroundColor: Colors.white70,
-             label: Text(STR_VIEW_YOUR_ORDER,
-                          style: TextStyle(
-                              fontSize: FONTSIZE_16,
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              color: greentheme100)),)
+       floatingActionButton: (isOrderRunning)?SizedBox(
+                  width: MediaQuery.of(context).size.width*0.65,
+                child: (
+           FloatingActionButton.extended(onPressed: () {
+                showStatusView();
+              },
+              
+              elevation: 20,
+              highlightElevation: 20,
+              focusElevation: 20,
+              backgroundColor: Colors.white70,
+               label: Text(STR_VIEW_YOUR_ORDER,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_16,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w600,
+                                color: greentheme100)),)
+         ),
        ):(Container()),
         // bottomNavigationBar: (isOrderRunning)
         //     ? BottomAppBar(
