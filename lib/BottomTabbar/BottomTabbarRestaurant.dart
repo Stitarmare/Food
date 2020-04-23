@@ -124,6 +124,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                               builder: (context) => CartDetailsPage(
                                     orderId: Globle().orderID,
                                     flag: 2,
+                                    isFromOrder: false,
                                   )));
                     } else {
                       Navigator.push(

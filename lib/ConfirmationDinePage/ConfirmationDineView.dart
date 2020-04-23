@@ -594,6 +594,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                     builder: (context) => CartDetailsPage(
                           orderId: myOrderData.id,
                           flag: 3,
+                          isFromOrder: false,
                         )));
                 // Navigator.of(context).pop();
                 // Navigator.of(context).pop();

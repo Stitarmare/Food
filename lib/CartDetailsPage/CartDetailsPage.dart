@@ -104,7 +104,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   Future<bool> _onBackPressed() {
-    if (widget.isFromOrder != null) {
+    if (widget.isFromOrder) {
       Navigator.of(context).pop();
     } else {
       if (widget.flag == 1) {
@@ -321,6 +321,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                                     myOrderDataDetails.restId,
                                                 title: "",
                                                 imageUrl: "",
+                                                isFromOrder: true,
                                               )));
                                 }
                               }
