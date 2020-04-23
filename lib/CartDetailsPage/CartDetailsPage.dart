@@ -15,8 +15,9 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 class CartDetailsPage extends StatefulWidget {
   int orderId;
+  int flag;
 
-  CartDetailsPage({this.orderId});
+  CartDetailsPage({this.orderId, this.flag});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -250,7 +251,17 @@ class CartDetailsPageState extends State<CartDetailsPage>
                       SizedBox(width: MediaQuery.of(context).size.width * 0.06),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pop();
+                          if (widget.flag == 1) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          } else if (widget.flag == 2) {
+                            Navigator.of(context).pop();
+                          } else if (widget.flag == 3) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: Container(
                           height: 54,

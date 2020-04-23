@@ -593,6 +593,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => CartDetailsPage(
                           orderId: myOrderData.id,
+                          flag: 3,
                         )));
                 // Navigator.of(context).pop();
                 // Navigator.of(context).pop();

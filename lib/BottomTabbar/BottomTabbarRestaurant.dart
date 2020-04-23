@@ -123,6 +123,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                           MaterialPageRoute(
                               builder: (context) => CartDetailsPage(
                                     orderId: Globle().orderID,
+                                    flag: 2,
                                   )));
                     } else {
                       Navigator.push(

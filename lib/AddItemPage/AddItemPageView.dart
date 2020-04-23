@@ -346,7 +346,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         PreferenceKeys.restaurantName));
                     var orderId = await Preference.getPrefValue<int>(
                         PreferenceKeys.orderId);
-                        
+
                     if (orderId != null) {
                       if (restauran == widget.restId) {
                         if (_updateOrderModel == null) {
@@ -1428,6 +1428,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CartDetailsPage(
                                 orderId: _updateOrderModel.orderId,
+                                flag: 1,
                               )));
                       // Navigator.of(context).pop();
                       // Navigator.of(context).pop();
