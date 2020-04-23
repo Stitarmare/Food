@@ -85,6 +85,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Container(
@@ -111,12 +117,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
-                    if (orderID != null && orderID != 0) {
+                    if (Globle().orderID != null && Globle().orderID != 0) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => CartDetailsPage(
-                                    orderId: orderID,
+                                    orderId: Globle().orderID,
                                   )));
                     } else {
                       Navigator.push(
@@ -290,6 +296,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
       setState(() {
         isAlreadyOrder = true;
         orderID = orderId;
+        Globle().orderID = orderID;
       });
     }
   }

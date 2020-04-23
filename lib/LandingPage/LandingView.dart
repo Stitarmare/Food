@@ -506,6 +506,7 @@ await progressDialog.show();
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
               model.data.dineIn.id, PreferenceKeys.orderId);
+              Globle().orderID = model.data.dineIn.id;
           Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
@@ -548,6 +549,7 @@ await progressDialog.show();
 
   setDefaultData() {
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Globle().orderID = 0;
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;

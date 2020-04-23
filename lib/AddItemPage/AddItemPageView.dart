@@ -346,6 +346,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         PreferenceKeys.restaurantName));
                     var orderId = await Preference.getPrefValue<int>(
                         PreferenceKeys.orderId);
+                        
                     if (orderId != null) {
                       if (restauran == widget.restId) {
                         if (_updateOrderModel == null) {
