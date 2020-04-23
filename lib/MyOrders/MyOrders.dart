@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
@@ -341,30 +342,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                    PaymentTipAndPayDi(
-                                      orderID: _orderDetailList[index].id,
-                                      tableId: _orderDetailList[index].tableId,
-                                    )
-                                    //  StatusTrackView(
-                                    //     imgUrl: _orderDetailList[index]
-                                    //         .restaurant
-                                    //         .coverImage,
-                                    //     tableId:
-                                    //         _orderDetailList[index].tableId,
-                                    //     orderID: _orderDetailList[index].id,
-                                    //     flag: 2,
-                                    //     restId: _orderDetailList[index].restId,
-                                    //     title: _orderDetailList[index]
-                                    //         .restaurant
-                                    //         .restName,
-                                    //     tableName: _orderDetailList[index]
-                                    //         .table
-                                    //         .tableName
-                                    //         .toString()
-                                    //         )
-                                            )
-                                            );
+                                    builder: (context) => CartDetailsPage(
+                                          orderId: _orderDetailList[index].id,
+                                          isFromOrder: true,
+                                        )));
                           },
                         ),
                       ),

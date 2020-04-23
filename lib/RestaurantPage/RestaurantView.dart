@@ -20,9 +20,10 @@ class RestaurantView extends StatefulWidget {
   String title;
   int restId;
   String imageUrl;
+  bool isFromOrder = false;
 
   int categoryid;
-  RestaurantView({this.title, this.restId, this.categoryid, this.imageUrl});
+  RestaurantView({this.title, this.restId, this.categoryid, this.imageUrl,this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -308,6 +309,7 @@ class _RestaurantViewState extends State<RestaurantView>
               return GestureDetector(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageView(
+                      
                           itemId: _restaurantList[index].id,
                           restId: _restaurantList[index].restId  ,
                           title: '${_restaurantList[index].itemName}',
@@ -315,6 +317,7 @@ class _RestaurantViewState extends State<RestaurantView>
                               '${_restaurantList[index].itemDescription}',
                           restName: widget.title,
                           itemImage: '${_restaurantList[index].itemImage}',
+                          isFromOrder: widget.isFromOrder,
                         )
                         )),
                 child: Padding(
@@ -472,6 +475,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                                       '${_restaurantList[index].itemDescription}',
                                                   itemImage:
                                                       '${_restaurantList[index].itemImage}',
+                                                      isFromOrder: widget.isFromOrder,
                                                 )));
                                   },
                                   child: Container(

@@ -26,6 +26,7 @@ class AddItemPageView extends StatefulWidget {
   int restId;
   String restName;
   String itemImage;
+  bool isFromOrder = false;
 
   AddItemPageView({
     this.title,
@@ -34,6 +35,7 @@ class AddItemPageView extends StatefulWidget {
     this.restId,
     this.restName,
     this.itemImage,
+    this.isFromOrder
   });
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
@@ -1425,11 +1427,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).push(MaterialPageRoute(
+                      if (widget.isFromOrder) {
+                         Navigator.of(context).pop();
+                         Navigator.of(context).pop();
+                      } else {
+Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => CartDetailsPage(
                                 orderId: _updateOrderModel.orderId,
                                 flag: 1,
+                                isFromOrder: false,
                               )));
+                      }
+                      
                       // Navigator.of(context).pop();
                       // Navigator.of(context).pop();
                       //Navigator.of(context).pop();
@@ -1515,7 +1524,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
     await progressDialog.hide();
     await progressDialog.hide();
-    getTableListModel = _getlist[0];
+   // getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
