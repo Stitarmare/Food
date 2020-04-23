@@ -184,7 +184,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 160,
+              height: 110,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -192,58 +192,143 @@ class CartDetailsPageState extends State<CartDetailsPage>
                     alignment: Alignment.bottomCenter,
                     child: _model != null ? totalamounttext() : Text(""),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      child: Text(
-                        "Add More Item",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "gotham",
-                            decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        //Add More Items Pressed
-                        Navigator.pop(context);
-                      },
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentTipAndPayDi(
-                                    orderID: widget.orderId,
-                                    tableId: myOrderDataDetails.tableId,
-                                  )));
-                    },
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          STR_PAY_BILL,
-                          style: TextStyle(
-                              fontFamily: "gotham",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: Colors.white),
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: FlatButton(
+                  //     child: Text(
+                  //       "Add More Item",
+                  //       style: TextStyle(
+                  //           fontSize: 16,
+                  //           fontFamily: "gotham",
+                  //           decoration: TextDecoration.underline,
+                  //           decorationColor: getColorByHex(Globle().colorscode),
+                  //           color: getColorByHex(Globle().colorscode),
+                  //           fontWeight: FontWeight.w600),
+                  //     ),
+                  //     onPressed: () {
+                  //       //Add More Items Pressed
+                  //       Navigator.pop(context);
+                  //     },
+                  //   ),
+                  // ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PaymentTipAndPayDi(
+                                        orderID: widget.orderId,
+                                        tableId: myOrderDataDetails.tableId,
+                                      )));
+                        },
+                        child: Container(
+                          height: 54,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          decoration: BoxDecoration(
+                              color: getColorByHex(Globle().colorscode),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15))),
+                          child: Center(
+                            child: Text(
+                              STR_PAY_BILL,
+                              style: TextStyle(
+                                  fontFamily: "gotham",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.06),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 54,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          decoration: BoxDecoration(
+                              color: greentheme100,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15))),
+                          child: Center(
+                            child: Text(
+                              "Add More Item",
+                              style: TextStyle(
+                                  fontFamily: "gotham",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+                    ],
                   ),
                 ],
               )),
         ),
       ),
+    );
+  }
+
+  Widget steppercount(int index) {
+    return Container(
+      height: 24,
+      width: 150,
+      child: Row(children: <Widget>[
+        InkWell(
+          onTap: () {},
+          splashColor: Colors.redAccent.shade200,
+          child: Container(
+            decoration: BoxDecoration(
+                color: greytheme100,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.remove,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 13, right: 13),
+          child: Text(
+            myOrderDataDetails.list[index].quantity.toString(),
+            style: TextStyle(
+                fontSize: FONTSIZE_16,
+                fontFamily: KEY_FONTFAMILY,
+                fontWeight: FontWeight.w600,
+                color: greytheme700),
+          ),
+        ),
+        InkWell(
+          onTap: () {},
+          splashColor: Colors.lightBlue,
+          child: Container(
+            decoration: BoxDecoration(
+                color: greytheme100,
+                borderRadius: BorderRadius.all(Radius.circular(4))),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+        ),
+      ]),
     );
   }
 
@@ -308,15 +393,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    myOrderDataDetails.list[index].quantity !=
-                                            null
-                                        ? "Quantity : ${myOrderDataDetails.list[index].quantity}"
-                                        : "Quantity : 1",
-                                    style: TextStyle(
-                                        fontFamily: "gotham",
-                                        fontSize: 16,
-                                        color: greytheme700),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        "Quantity : ",
+                                        style: TextStyle(
+                                            fontFamily: "gotham",
+                                            fontSize: 16,
+                                            color: greytheme700),
+                                      ),
+                                      SizedBox(width: 5),
+                                      steppercount(index)
+                                    ],
                                   ),
                                   // SizedBox(
                                   //   height: 30,
