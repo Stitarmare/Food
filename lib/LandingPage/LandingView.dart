@@ -266,9 +266,12 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-   await progressDialog.show();
+            if (progressDialog != null) {
+await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
   _landingViewPresenter.getCurrentOrder(context);
+            }
+   
   }
 
   Widget _buildinningtext() {

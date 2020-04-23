@@ -229,6 +229,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     } else if (radioOrderId == 1) {
       // DialogsIndicator.showLoadingDialog(
       //     context, _keyLoader, STR_LOADING);
+      //showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
       callapiPLaceorder();
     }
   }
@@ -590,35 +591,37 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {
+                Navigator.of(context).pop(); 
+                Navigator.of(context).pop(); 
                 Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => 
-                        BottomTabbarHome(
-                          title: widget.restName,
-                          restId: widget.restId,
-                          lat:widget.latitude,
-                          long: widget.longitude,
-                          tableName: widget.tablename,
-                          imageUrl:widget.imgUrl ,
-                        )
-                        // BottomTabbarHome(
-                        //       title: _restaurantList[i].restName,
-                        //       restId: _restaurantList[i].id,
-                        //       lat: _restaurantList[i].latitude,
-                        //       long: _restaurantList[i].longitude,
-                        //       imageUrl: _restaurantList[i].coverImage,
-                        //       tableName: widget.tableName,
-                        //     )
-                        // StatusTrackView(
-                        //       tableId: widget.tableId,
-                        //       orderID: myOrderData.id,
-                        //       title: widget.restName,
-                        //       tableName: widget.tablename,
-                        //       flag: 1,
-                        //     )
-                            ));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => 
+                //         BottomTabbarHome(
+                //           title: widget.restName,
+                //           restId: widget.restId,
+                //           lat:widget.latitude,
+                //           long: widget.longitude,
+                //           tableName: widget.tablename,
+                //           imageUrl:widget.imgUrl ,
+                //         )
+                //         // BottomTabbarHome(
+                //         //       title: _restaurantList[i].restName,
+                //         //       restId: _restaurantList[i].id,
+                //         //       lat: _restaurantList[i].latitude,
+                //         //       long: _restaurantList[i].longitude,
+                //         //       imageUrl: _restaurantList[i].coverImage,
+                //         //       tableName: widget.tableName,
+                //         //     )
+                //         // StatusTrackView(
+                //         //       tableId: widget.tableId,
+                //         //       orderID: myOrderData.id,
+                //         //       title: widget.restName,
+                //         //       tableName: widget.tablename,
+                //         //       flag: 1,
+                //         //     )
+                //             ));
               },
             )
           ],
@@ -653,6 +656,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
+    await progressDialog.hide();
     await progressDialog.hide();
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
