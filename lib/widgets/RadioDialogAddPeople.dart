@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -13,6 +14,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -56,6 +58,8 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   String searchText = "";
 
+  String imageURL = "";
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +74,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
-    if ((getPeopleListLength() == 0)) {
+    if ((getPeopleListLength() == 0 && peopleList == [])) {
       return SimpleDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -190,7 +194,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                   Expanded(
                       flex: (_checkBoxOptions.length > 2) ? 5 : 4,
                       child: Container(
-                        color: Colors.grey[100],
+                        //color: Colors.grey[100],
                         child: ListView.builder(
                             itemCount: getPeopleListLength(),
                             itemBuilder: (BuildContext context, int i) {
@@ -236,6 +240,30 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                   title: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
+                                      ClipOval(
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            PROFILE_IMAGE_PATH,
+                                            width: 40,
+                                            height: 40,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            PROFILE_IMAGE_PATH,
+                                            width: 40,
+                                            height: 40,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          imageUrl: BaseUrl.getBaseUrlImages() +
+                                              getProfileImage(i),
+                                          height: 40,
+                                          width: 40,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
                                       Text(
                                         "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
                                             STR_BLANK,
@@ -345,6 +373,19 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
         ],
       );
     }
+  }
+
+  String getProfileImage(int index) {
+    if (peopleList != null) {
+      if (peopleList[index].userDetails != null) {
+        if (peopleList[index].userDetails.profileImage != null) {
+          return peopleList[index].userDetails.profileImage;
+        }
+        return STR_SPACE;
+      }
+      return STR_SPACE;
+    }
+    return STR_SPACE;
   }
 
   _mobileList(i) {
@@ -457,14 +498,16 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   }
 
   @override
-  Future<void> addPeopleFailed() async {
-    await progressDialog.hide();
+  void addPeopleFailed() {
+    progressDialog.hide();
+    Navigator.of(context).pop();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
-  Future<void> addPeopleSuccess() async {
-    await progressDialog.hide();
+  void addPeopleSuccess() {
+    progressDialog.hide();
+    Navigator.of(context).pop();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

@@ -698,4 +698,14 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   void cancelledPaymentSuccess() {
     // TODO: implement cancelledPaymentSuccess
   }
+
+  @override
+  void onFailedQuantityIncrease() {
+    // TODO: implement onFailedQuantityIncrease
+  }
+
+  @override
+  void onSuccessQuantityIncrease() {
+    // TODO: implement onSuccessQuantityIncrease
+  }
 }
