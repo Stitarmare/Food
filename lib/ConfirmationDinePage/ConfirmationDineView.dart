@@ -233,10 +233,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     }
   }
 
-  callapiPLaceorder() async {
-    //await progressDialog.hide();
-    //await progressDialog.hide();
-    await progressDialog.show();
+  callapiPLaceorder() {
+    progressDialog.show();
     _paymentTipAndPayPresenter.placeOrder(
         widget.restId,
         Globle().loginModel.data.id,
@@ -647,7 +645,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   }
 
   @override
-  Future<void> placeOrdersuccess(OrderData orderData) async {
+  void placeOrdersuccess(OrderData orderData) {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     //await progressDialog.hide();
 
@@ -664,8 +662,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    await progressDialog.hide();
-    await progressDialog.hide();
+    //await progressDialog.hide();
+    progressDialog.hide();
     showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 
