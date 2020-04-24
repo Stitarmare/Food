@@ -37,6 +37,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
+  
 
   String tableName;
   bool isTableList = false;
@@ -48,9 +49,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
   Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
+    
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
 
     setState(() {
+      isloading = true;
       isFirst = true;
     });
     callApi();
@@ -60,7 +63,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   setTimer() {
     _timer = Timer.periodic(_duration, (Timer t) {
-      isFirst = true;
+      isFirst = false;
       callApi();
     });
   }
@@ -215,7 +218,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: isFirst
+          body: isloading
               ? Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -248,7 +251,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                     SizedBox(
                       height: 10,
                     ),
-                    isloading ? Container() : _getAddedListItem()
+                     _getAddedListItem()
                   ],
                 ),
           bottomNavigationBar: BottomAppBar(
@@ -764,6 +767,7 @@ if (widget.flag == 1) {
     setState(() {
       setState(() {
         isFirst = false;
+        
       });
       callApi();
     });
@@ -775,6 +779,7 @@ if (widget.flag == 1) {
       await progressDialog.hide();
     }
     setState(() {
+      isloading = false;
       isFirst = false;
     });
     // TODO: implement getOrderDetailsFailed
@@ -793,6 +798,7 @@ if (widget.flag == 1) {
       await progressDialog.hide();
     }
     setState(() {
+      isloading = false;
       isFirst = false;
     });
     // TODO: implement getOrderDetailsSuccess
