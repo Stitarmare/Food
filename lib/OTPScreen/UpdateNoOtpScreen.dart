@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/Otp/OtpPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
@@ -24,15 +26,18 @@ class UpdateNoOTPScreen extends StatefulWidget {
 }
 
 class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
-    implements OTPModelView {
+    implements OTPModelView, EnterOTPModelView {
   var otpsave;
   OtpPresenter otppresenter;
+  var enterOTPScreenPresenter;
   String mobileNo;
   String countryCode;
   ProgressDialog progressDialog;
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
+    enterOTPScreenPresenter = EnterOTPScreenPresenter(this);
+
     super.initState();
     setState(() {
       mobileNo = widget.mobno;
@@ -230,7 +235,10 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_BLANK);
               await progressDialog.show();
-              otppresenter.resendOTP(mobileNo, countryCode, context);
+              this
+                  .enterOTPScreenPresenter
+                  .requestforUpdateNoOtp(mobileNo, countryCode, context);
+              // otppresenter.resendOTP(mobileNo, countryCode, context);
             },
             child: new Text(
               STR_RESEND,
@@ -347,5 +355,37 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
   @override
   void loginwithotpsuccess() {
     // TODO: implement loginwithotpsuccess
+  }
+
+  @override
+  void onRequestOtpFailed() {
+    // TODO: implement onRequestOtpFailed
+  }
+
+  @override
+  void onRequestOtpSuccess() {
+    // TODO: implement onRequestOtpSuccess
+  }
+
+  @override
+  void requestforUpdateNoOtpFailed() {
+    // TODO: implement requestforUpdateNoOtpFailed
+  }
+
+  @override
+  Future<void> requestforUpdateNoOtpSuccess() async {
+    await progressDialog.hide();
+    Constants.showAlert(STR_RESEND_OTP, STR_RESEND_OTP_SUCCESS, context);
+    // TODO: implement requestforUpdateNoOtpSuccess
+  }
+
+  @override
+  void requestforloginotpfailed() {
+    // TODO: implement requestforloginotpfailed
+  }
+
+  @override
+  void requestforloginotpsuccess() {
+    // TODO: implement requestforloginotpsuccess
   }
 }
