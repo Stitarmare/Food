@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterMobileNoPage/EnterMobileNoPage.dart';
+import 'package:foodzi/Setting/DeleteAccContractor.dart';
+import 'package:foodzi/Setting/DeleteAccPresenter.dart';
 import 'package:foodzi/Setting/NotificationSetting.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
+import 'package:toast/toast.dart';
 
 class SettingView extends StatefulWidget {
   @override
   _SettingViewState createState() => _SettingViewState();
 }
 
-class _SettingViewState extends State<SettingView> {
+class _SettingViewState extends State<SettingView> implements DeleteAccModelView{
   var action;
+  DeleteAccPresenter deleteAccPresenter;
+  @override
+  void initState() {
+    // TODO: implement initState
+    deleteAccPresenter = DeleteAccPresenter(this);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +135,9 @@ class _SettingViewState extends State<SettingView> {
                   'Are you sure you want to delete your account?',
                   'Yes',
                   'No');
+                  if(action == DailogAction.yes){
+                    deleteAccPresenter.deleteAccRequest(context);
+                  }
             },
             child: Padding(
               padding: EdgeInsets.only(left: 25, bottom: 10),
@@ -143,6 +156,22 @@ class _SettingViewState extends State<SettingView> {
           ),
         ],
       ),
+    );
+  }
+
+  @override
+  void deleteAccFailed() {
+    // TODO: implement deleteAccFailed
+  }
+
+  @override
+  void deleteAccSuccess() {
+    // TODO: implement deleteAccSuccess
+    Toast.show(
+      'Account Deleted',
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
     );
   }
 }
