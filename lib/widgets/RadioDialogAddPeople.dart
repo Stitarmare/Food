@@ -500,12 +500,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   @override
   void addPeopleFailed() {
     progressDialog.hide();
+    Navigator.of(context).pop();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void addPeopleSuccess() {
     progressDialog.hide();
+    Navigator.of(context).pop();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
