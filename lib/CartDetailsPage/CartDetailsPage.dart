@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
-
+  Timer _timer;
+  Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
@@ -51,7 +54,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isFirst = true;
     });
     callApi();
+    setTimer();
     super.initState();
+  }
+
+  setTimer() {
+    _timer = Timer.periodic(_duration, (Timer t) {
+      isFirst = true;
+      callApi();
+    });
   }
 
   callApi() async {
@@ -826,5 +837,11 @@ if (widget.flag == 1) {
 await progressDialog.hide();
 callApi();
     // TODO: implement onSuccessQuantityIncrease
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer.cancel();
+    super.dispose();
   }
 }
