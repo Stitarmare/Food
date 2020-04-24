@@ -109,7 +109,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     _addItemPageModelList = AddItemPageModelList();
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
-    _addItemPagepresenter.getTableListno(widget.restId, context);
+    // _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
     print("${widget.itemImage}");
     // getRequiredSpread(_addItemModelList.spreads.length);
@@ -119,7 +119,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     super.initState();
   }
 
-  int id = 1;
+  int radioBtnId = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -1070,9 +1070,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: (radionBtn.spreadDefault == "yes")
-                            ? radionBtn.index
-                            : id,
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : radioBtnId,
+                        groupValue: radioBtnId,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -1083,10 +1084,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
+                            radioBtnId= val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            id = radionBtn.index;
-                            spread.spreadId = id;
+                            // id = radionBtn.index;
+                            spread.spreadId = radioBtnId;
+                            print(spread.spreadId);
                           });
                         },
                       ),
@@ -1623,7 +1626,7 @@ class RadioButtonOptions {
   int index;
   String title;
   String spreadDefault;
-
+// bool selected;
   RadioButtonOptions({this.index, this.title, this.spreadDefault});
 }
 
