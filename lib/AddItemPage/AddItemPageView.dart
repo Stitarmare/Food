@@ -376,7 +376,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         if (size != null) {
                           sizess=[size];
                         } else  if (defaultSize != null){
-                           sizess = [defaultSize];
+                           
+                           if(defaultSize.sizeid != null){
+                             sizess = [defaultSize]; 
+                           }
                         }
 
                         _updateOrderModel.items = items;
@@ -504,7 +507,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         if (size != null) {
                           sizess=[size];
                         } else  if (defaultSize != null){
-                           sizess = [defaultSize];
+                           
+                           if(defaultSize.sizeid != null){
+                             sizess = [defaultSize];
+                           }
                         }
 
     addMenuToCartModel.items = [items];
