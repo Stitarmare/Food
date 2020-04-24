@@ -171,7 +171,7 @@ class Item {
         "item_id": itemId,
         "quantity": quantity,
         "preparation_note": preparationNote,
-        "size_price_id": sizePriceId,
+       // "size_price_id": sizePriceId,
         "extra": extra != null
             ? List<dynamic>.from(extra.map((x) => x.toJson()))
             : [],
