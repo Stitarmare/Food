@@ -16,6 +16,27 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
     this._paymentTipandPayDiModelView = _paymentTipandPayDiModelView;
   }
 
+  void increaseQuantity(String orderid,String itemId,BuildContext context) {
+    
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.increaseItemQuantity, context, body: {
+      JSON_STR_ORDER_ID: orderid,
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          print(value.model);
+          _paymentTipandPayDiModelView.onSuccessQuantityIncrease();
+          break;
+        case SuccessType.failed:
+          _paymentTipandPayDiModelView.onFailedQuantityIncrease();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
   @override
   void getOrderDetails(int orderid, BuildContext context) {
     ApiBaseHelper()

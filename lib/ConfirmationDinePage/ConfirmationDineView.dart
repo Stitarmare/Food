@@ -234,6 +234,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   }
 
   callapiPLaceorder() async {
+    //await progressDialog.hide();
+    //await progressDialog.hide();
     await progressDialog.show();
     _paymentTipAndPayPresenter.placeOrder(
         widget.restId,

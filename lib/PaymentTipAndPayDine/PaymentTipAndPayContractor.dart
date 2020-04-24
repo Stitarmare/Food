@@ -23,6 +23,8 @@ abstract class PaymentTipandPayDiModelView {
   void paymentCheckoutFailed();
   void cancelledPaymentSuccess();
   void cancelledPaymentFailed();
+  void onSuccessQuantityIncrease();
+  void onFailedQuantityIncrease();
 }
 
 abstract class PayFinalBillContaractor {

@@ -406,7 +406,9 @@ if (widget.flag == 1) {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            callIncreaseQuantityApi(myOrderDataDetails.list[index].id);
+          },
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
@@ -604,6 +606,11 @@ if (widget.flag == 1) {
               ),
             ),
           );
+  }
+
+  callIncreaseQuantityApi(int itemId) async{
+      await progressDialog.show();
+      _paymentTipandPayDiPresenter.increaseQuantity(myOrderDataDetails.id.toString(), itemId.toString(), context);
   }
   // String getExtra(CartDetailData menuCartList) {
   //   var extras = "";
@@ -806,5 +813,18 @@ if (widget.flag == 1) {
       }
     }
     return;
+  }
+
+  @override
+  void onFailedQuantityIncrease() async{
+    await progressDialog.hide();
+    // TODO: implement onFailedQuantityIncrease
+  }
+
+  @override
+  void onSuccessQuantityIncrease() async{
+await progressDialog.hide();
+callApi();
+    // TODO: implement onSuccessQuantityIncrease
   }
 }
