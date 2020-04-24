@@ -407,7 +407,7 @@ if (widget.flag == 1) {
         ),
         InkWell(
           onTap: () {
-            callIncreaseQuantityApi(myOrderDataDetails.list[index].id);
+            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId);
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -773,10 +773,10 @@ if (widget.flag == 1) {
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     setState(() {
-      if (myOrderDataDetails == null) {
+      
         myOrderDataDetails = orderData;
         _model = model;
-      }
+      
     });
     if (!isFirst) {
       await progressDialog.hide();
