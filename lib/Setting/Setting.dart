@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/EnterMobileNoPage/EnterMobileNoPage.dart';
 import 'package:foodzi/Setting/NotificationSetting.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -38,9 +39,9 @@ class _SettingViewState extends State<SettingView> {
           ),
           GestureDetector(
               onTap: () {
-                 Navigator.of(context).push(MaterialPageRoute(
-                   builder: (context) => NotificationSetting()));
-               // Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationSetting()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationSetting()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationSetting()));
                 // final action = await DailogBox.settingDialog(context,'Notification Settings?', 'Enable', 'Disable');
               },
               child: Row(
@@ -71,6 +72,44 @@ class _SettingViewState extends State<SettingView> {
           // SizedBox(
           //   height: 10,
           // ),
+          Divider(
+            thickness: 2,
+          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EnterMobileNoPage(
+                          flag: 3,
+                        )));
+              },
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
+                    child: Text(
+                      'Update Mobile Number',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontWeight: FontWeight.w600,
+                          color: greytheme500),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 80,
+                    ),
+                    flex: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Icon(Icons.keyboard_arrow_right),
+                  )
+                ],
+              )),
           Divider(
             thickness: 2,
           ),

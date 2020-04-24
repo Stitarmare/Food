@@ -3,10 +3,12 @@ import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
+import 'package:foodzi/EnterMobileNoPage/EnterMobileNoPage.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
+import 'package:foodzi/OTPScreen/UpdateNoOtpScreen.dart';
 import 'package:foodzi/PaymentMethod/PaymentMethod.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
@@ -40,6 +42,7 @@ var routes = <String, WidgetBuilder>{
   STR_RESET_PWD_PAGE: (BuildContext context) => ResetPasswordview(),
   STR_CHANGE_PWD_PAGE: (BuildContext context) => ChangePasswordview(),
   STR_OTP_SCREEN_PAGE: (BuildContext context) => OTPScreen(),
+  STR_OTP_SCREEN_UPATE: (BuildContext context) => UpdateNoOTPScreen(),
   STR_ENTER_OTP_PAGE: (BuildContext context) => EnterOTPScreen(),
   STR_DINE_IN_PAGE: (BuildContext context) => DineInView(),
   STR_TAKE_AWAY_PAGE: (BuildContext context) => TakeAwayView(),
@@ -64,6 +67,7 @@ var routes = <String, WidgetBuilder>{
   STR_STATUS_TRACK_PAGE: (BuildContext context) => StatusTrackView(),
   STR_WEB_VIEW_SCREEN_PAGE: (BuildContext context) => WebViewScreen(),
   STR_CART_DETAILS_PAGE: (BuildContext context) => CartDetailsPage(),
+  STR_ENTER_MOBILE_PAGE: (BuildContext context) => EnterMobileNoPage(),
 };
 void main() {
   set();

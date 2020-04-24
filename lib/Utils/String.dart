@@ -7,6 +7,7 @@ const STR_REGISTRATION_PAGE = '/Registerview';
 const STR_RESET_PWD_PAGE = '/ResetPasswordview';
 const STR_CHANGE_PWD_PAGE = '/ChangePasswordview';
 const STR_OTP_SCREEN_PAGE = '/OTPScreen';
+const STR_OTP_SCREEN_UPATE = '/UpdateNoOTPScreen';
 const STR_ENTER_OTP_PAGE = '/EnterOTPScreen';
 const STR_DINE_IN_PAGE = '/DineInView';
 const STR_TAKE_AWAY_PAGE = '/TakeAwayView';
@@ -30,6 +31,7 @@ const STR_PAYMENT_PAGE = '/PaymentMethod';
 const STR_STATUS_TRACK_PAGE = '/StatusTrackView';
 const STR_WEB_VIEW_SCREEN_PAGE = '/WebViewScreen';
 const STR_CART_DETAILS_PAGE = '/CartDetailsPage';
+const STR_ENTER_MOBILE_PAGE = '/EnterMobileNoPage';
 
 // API_BASE_HELPER Page
 
@@ -126,6 +128,7 @@ const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';
 const KEY_TERMS_AND_CONDITIONS = 'Terms and conditions';
 const KEY_OK = 'OK';
 const KEY_GET_OTP_ENTER_NO = 'Please enter your mobile number to get OTP';
+const KEY_ENTER_NO = 'Please enter your new mobile number to get OTP';
 const KEY_I_HAVE_READ_AND_ACCEPT_THE = 'I have read and Accept the';
 const KEY_PRIVACY_POLICY = 'Privacy Policy';
 const KEY_SIGN_UP = 'SIGN UP';
@@ -409,6 +412,8 @@ const STR_MOBILE_NUMBER = 'mobile number';
 const STR_NO_CODE = "Didn’t received the code?";
 const STR_RESEND = 'RESEND';
 const STR_RESEND_OTP = "Resend OTP";
+const STR_UPDATE_NO = "Update Mobile Number";
+const STR_UPDATE_NO_SUCCESS = " Your mobile number updated successfully";
 const JSON_STR_DEVICE_TOKEN = 'device_token';
 const JSON_STR_DEVICE_TYPE = 'device_type';
 const JSON_STR_USER_TYPE = 'user_type';
