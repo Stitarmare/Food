@@ -999,6 +999,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _streamSubscription.cancel();
     super.dispose();
   }
+
+  @override
+  void onFailedQuantityIncrease() {
+    // TODO: implement onFailedQuantityIncrease
+  }
+
+  @override
+  void onSuccessQuantityIncrease() {
+    // TODO: implement onSuccessQuantityIncrease
+  }
 }
 
 enum Invited { yes, no }

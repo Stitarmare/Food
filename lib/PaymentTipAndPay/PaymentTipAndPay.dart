@@ -677,4 +677,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
     // TODO: implement cancelledPaymentSuccess
   }
+
+  @override
+  void onFailedQuantityIncrease() {
+    // TODO: implement onFailedQuantityIncrease
+  }
+
+  @override
+  void onSuccessQuantityIncrease() {
+    // TODO: implement onSuccessQuantityIncrease
+  }
 }

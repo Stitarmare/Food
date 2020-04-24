@@ -20,7 +20,9 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
     
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.increaseItemQuantity, context, body: {
-      JSON_STR_ORDER_ID: orderid,
+      "order_id": orderid,
+      "quantity":"1",
+      "item_id":itemId
     }).then((value) {
       print(value);
       switch (value.result) {
