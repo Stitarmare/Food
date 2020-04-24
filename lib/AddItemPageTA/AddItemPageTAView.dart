@@ -79,7 +79,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     super.initState();
   }
 
-  int id = 1;
+  int radioBtnId = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -939,9 +939,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: (radionBtn.spreadDefault == "yes")
-                            ? radionBtn.index
-                            : id,
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : id,
+                        groupValue: radioBtnId,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: getColorByHex(Globle().colorscode),
@@ -950,11 +951,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-
+                            radioBtnId= val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            id = radionBtn.index;
-                            spread.spreadId = id;
+                            // id = radionBtn.index;
+                            spread.spreadId = radioBtnId;
                           });
                         },
                       ),

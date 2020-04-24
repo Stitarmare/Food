@@ -109,7 +109,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     _addItemPageModelList = AddItemPageModelList();
     _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
-    _addItemPagepresenter.getTableListno(widget.restId, context);
+    // _addItemPagepresenter.getTableListno(widget.restId, context);
     itemIdValue = widget.itemId;
     print("${widget.itemImage}");
     // getRequiredSpread(_addItemModelList.spreads.length);
@@ -119,7 +119,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     super.initState();
   }
 
-  int id = 1;
+  int radioBtnId = 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -359,19 +359,40 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         if (items == null) {
                           items = Item();
                         }
+                        List<Extras> extras;
+                        if (extra != null) {
+                          extras = extra;
+                        } else {
+                          extras = defaultExtra ?? null;
+                        }
+
+                        List<Switches> switchess;
+                        if (switches != null) {
+                            switchess = switches;
+                        }else {
+                          switchess = defaultSwitch ?? null;
+                        }
+                        List<Sizes> sizess;
+                        if (size != null) {
+                          sizess=[size];
+                        } else  if (defaultSize != null){
+                           
+                           if(defaultSize.sizeid != null){
+                             sizess = [defaultSize]; 
+                           }
+                        }
 
                         _updateOrderModel.items = items;
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
-                        _updateOrderModel.items.extra = extra ?? (defaultExtra);
+                        _updateOrderModel.items.extra = extras;
                         _updateOrderModel.items.spreads = spread == null
-                            ? (defaultSpread != null) ? [defaultSpread] : []
+                            ? (defaultSpread != null) ? [defaultSpread] : null
                             : [spread];
-                        _updateOrderModel.items.switches =
-                            switches ?? defaultSwitch;
-                        _updateOrderModel.items.sizes =
-                            size == null ? [defaultSize] : [size];
+                        _updateOrderModel.items.switches = switchess;
+                            
+                        _updateOrderModel.items.sizes = sizess;
                         print(_updateOrderModel.toJson());
 
                         // DialogsIndicator.showLoadingDialog(
@@ -469,22 +490,44 @@ class _AddItemPageViewState extends State<AddItemPageView>
       items = Item();
     }
 
+    List<Extras> extras;
+                        if (extra != null) {
+                          extras = extra;
+                        } else {
+                          extras = defaultExtra ?? null;
+                        }
+
+                        List<Switches> switchess;
+                        if (switches != null) {
+                            switchess = switches;
+                        }else {
+                          switchess = defaultSwitch ?? null;
+                        }
+                        List<Sizes> sizess;
+                        if (size != null) {
+                          sizess=[size];
+                        } else  if (defaultSize != null){
+                           
+                           if(defaultSize.sizeid != null){
+                             sizess = [defaultSize];
+                           }
+                        }
+
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
-    addMenuToCartModel.items[0].extra = extra ?? defaultExtra;
+    addMenuToCartModel.items[0].extra = extras;
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
     // } else {
     //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     // }
     addMenuToCartModel.items[0].spreads = spread == null
-        ? (defaultSpread != null) ? [defaultSpread] : []
+        ? (defaultSpread != null) ? [defaultSpread] : null
         : [spread];
-    addMenuToCartModel.items[0].switches =
-        (switches.length > 0) ? switches : (defaultSwitch);
+    addMenuToCartModel.items[0].switches = switchess;
     addMenuToCartModel.items[0].quantity = count;
-    addMenuToCartModel.items[0].sizes = size == null ? [defaultSize] : [size];
+    addMenuToCartModel.items[0].sizes = sizess;
     print(addMenuToCartModel.toJson());
     if (alreadyAdde != null && restauran != null) {
       if ((widget.restId != restauran) && (alreadyAdde)) {
@@ -1070,9 +1113,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
-                        groupValue: (radionBtn.spreadDefault == "yes")
-                            ? radionBtn.index
-                            : id,
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : radioBtnId,
+                        groupValue: radioBtnId,
                         value: radionBtn.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -1083,10 +1127,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
+                            radioBtnId= val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            id = radionBtn.index;
-                            spread.spreadId = id;
+                            // id = radionBtn.index;
+                            spread.spreadId = radioBtnId;
+                            print(spread.spreadId);
                           });
                         },
                       ),
@@ -1578,11 +1624,15 @@ Navigator.of(context).push(MaterialPageRoute(
         defaultExtra.add(extradefault);
       }
     }
+    if (defaultExtra.length == 0) {
+      defaultExtra = null;
+    }
   }
 
   void getRequiredSize(int length) {
-    defaultSize = Sizes();
+    
     if (_addItemModelList.sizePrizes.length > 0) {
+      defaultSize = Sizes();
       setState(() {
         //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
         defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
@@ -1600,6 +1650,9 @@ Navigator.of(context).push(MaterialPageRoute(
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
       }
+    }
+    if (defaultSwitch.length == 0){
+      defaultSwitch = null;
     }
   }
 }
@@ -1623,7 +1676,7 @@ class RadioButtonOptions {
   int index;
   String title;
   String spreadDefault;
-
+// bool selected;
   RadioButtonOptions({this.index, this.title, this.spreadDefault});
 }
 

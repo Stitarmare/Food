@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +37,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
+  
 
   String tableName;
   bool isTableList = false;
@@ -42,16 +45,27 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
-
+  Timer _timer;
+  Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
+    
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
 
     setState(() {
+      isloading = true;
       isFirst = true;
     });
     callApi();
+    setTimer();
     super.initState();
+  }
+
+  setTimer() {
+    _timer = Timer.periodic(_duration, (Timer t) {
+      isFirst = false;
+      callApi();
+    });
   }
 
   callApi() async {
@@ -204,7 +218,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: isFirst
+          body: isloading
               ? Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +251,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                     SizedBox(
                       height: 10,
                     ),
-                    isloading ? Container() : _getAddedListItem()
+                     _getAddedListItem()
                   ],
                 ),
           bottomNavigationBar: BottomAppBar(
@@ -407,7 +421,7 @@ if (widget.flag == 1) {
         ),
         InkWell(
           onTap: () {
-            callIncreaseQuantityApi(myOrderDataDetails.list[index].id);
+            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId);
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -753,6 +767,7 @@ if (widget.flag == 1) {
     setState(() {
       setState(() {
         isFirst = false;
+        
       });
       callApi();
     });
@@ -764,6 +779,7 @@ if (widget.flag == 1) {
       await progressDialog.hide();
     }
     setState(() {
+      isloading = false;
       isFirst = false;
     });
     // TODO: implement getOrderDetailsFailed
@@ -773,15 +789,16 @@ if (widget.flag == 1) {
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     setState(() {
-      if (myOrderDataDetails == null) {
+      
         myOrderDataDetails = orderData;
         _model = model;
-      }
+      
     });
     if (!isFirst) {
       await progressDialog.hide();
     }
     setState(() {
+      isloading = false;
       isFirst = false;
     });
     // TODO: implement getOrderDetailsSuccess
@@ -826,5 +843,11 @@ if (widget.flag == 1) {
 await progressDialog.hide();
 callApi();
     // TODO: implement onSuccessQuantityIncrease
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _timer.cancel();
+    super.dispose();
   }
 }

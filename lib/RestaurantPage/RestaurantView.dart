@@ -183,24 +183,19 @@ class _RestaurantViewState extends State<RestaurantView>
                     ? getColorByHex(Globle().colorscode)
                     : orangetheme,
                 onChanged: (bool value) {
-                  setState(() async {
+                  setState(()  {
                     this._switchvalue = value;
                     if (this._switchvalue) {
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      await progressDialog.show();
-                      menutype = STR_VEG;
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
+                      callAPIOnSwitchChange(STR_VEG);
+                      
                     } else {
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                      await progressDialog.show();
-                      menutype = null;
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
+                      callAPIOnSwitchChange(null);
                     }
                   });
                 },
@@ -524,6 +519,13 @@ class _RestaurantViewState extends State<RestaurantView>
         );
       }, childCount: _getint()),
     );
+  }
+
+  callAPIOnSwitchChange(String menuType) async{
+      await progressDialog.show();
+                      menutype = menuType;
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
   }
 
   int _getint() {
