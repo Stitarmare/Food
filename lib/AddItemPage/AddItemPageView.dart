@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +81,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid = 1;
+
   bool isLoding = false;
   ProgressDialog progressDialog;
   String price;
@@ -1083,7 +1086,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         secondary: Text('${getCurrencySymbol()} ' +
                                 "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: defaultSize.sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -1094,10 +1097,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (size == null) {
                               size = Sizes();
                             }
-                            radioItemsize = radionBtnsize.title;
+                            setState(() {
+                              radioItemsize = radionBtnsize.title;
                             print(radionBtnsize.title);
                             sizesid = radionBtnsize.index;
                             size.sizeid = sizesid;
+                            });
+                            
                           });
                         },
                       ),
@@ -1210,9 +1216,11 @@ for (var ext in extras) {
         }
       }
     }
+    
     if (checkBoxOptionsPrice.length > 0) {
+      List<CheckBoxOptions> result = LinkedHashSet<CheckBoxOptions>.from(checkBoxOptionsPrice).toList();
       var extPirce = 0.0;
-      for (var chekc in checkBoxOptionsPrice) {
+      for (var chekc in result) {
           extPirce += double.parse(chekc.price); 
       }
       return (double.parse(price) + extPirce).toString();
@@ -1674,9 +1682,10 @@ for (var ext in extras) {
   }
 
   void getRequiredExtra(int length) {
+    Extras extradefault = Extras();
+      defaultExtra = [];
     for (int i = 1; i <= length; i++) {
-      Extras extradefault = Extras();
-      defaultExtra = List<Extras>();
+      
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
         defaultExtra.add(extradefault);
@@ -1696,6 +1705,9 @@ for (var ext in extras) {
       setState(() {
         //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
         defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+      });
+      setState(() {
+        sizesid = defaultSize.sizeid;
       });
       print(defaultSize);
     }
