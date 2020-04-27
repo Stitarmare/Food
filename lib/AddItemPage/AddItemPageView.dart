@@ -28,15 +28,14 @@ class AddItemPageView extends StatefulWidget {
   String itemImage;
   bool isFromOrder = false;
 
-  AddItemPageView({
-    this.title,
-    this.description,
-    this.itemId,
-    this.restId,
-    this.restName,
-    this.itemImage,
-    this.isFromOrder
-  });
+  AddItemPageView(
+      {this.title,
+      this.description,
+      this.itemId,
+      this.restId,
+      this.restName,
+      this.itemImage,
+      this.isFromOrder});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
 
@@ -82,6 +81,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int sizesid = 1;
   bool isLoding = false;
   ProgressDialog progressDialog;
+  String price;
 
   String specialReq;
 
@@ -139,9 +139,18 @@ class _AddItemPageViewState extends State<AddItemPageView>
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
+
     setState(() {
       _radioOptions = radiolist;
     });
+
+    for (var item in radiolist) {
+      if (item.spreadDefault == "yes") {
+        setState(() {
+          radioBtnId = item.index;
+        });
+      }
+    }
 
     return radiolist.length;
   }
@@ -368,17 +377,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
                         List<Switches> switchess;
                         if (switches != null) {
-                            switchess = switches;
-                        }else {
+                          switchess = switches;
+                        } else {
                           switchess = defaultSwitch ?? null;
                         }
                         List<Sizes> sizess;
                         if (size != null) {
-                          sizess=[size];
-                        } else  if (defaultSize != null){
+                          sizess = [size];
+                        } else if (defaultSize != null) {
                           if (defaultSize.sizeid != null) {
-                                sizess = [defaultSize];
-                          } 
+                            sizess = [defaultSize];
+                          }
                         }
 
                         _updateOrderModel.items = items;
@@ -390,7 +399,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             ? (defaultSpread != null) ? [defaultSpread] : null
                             : [spread];
                         _updateOrderModel.items.switches = switchess;
-                            
+
                         _updateOrderModel.items.sizes = sizess;
                         print(_updateOrderModel.toJson());
 
@@ -449,9 +458,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Column(
               children: <Widget>[
                 Text(
-                  '${"Total "}' +
-                      '${getCurrencySymbol()}' +
-                      '${getTotalText()}',
+                  '${"Total "}' + '${getCurrencySymbol()}' + '${setPrice()}',
                   style: TextStyle(
                       fontSize: 20,
                       color: redtheme,
@@ -490,26 +497,26 @@ class _AddItemPageViewState extends State<AddItemPageView>
     }
 
     List<Extras> extras;
-                        if (extra != null) {
-                          extras = extra;
-                        } else {
-                          extras = defaultExtra ?? null;
-                        }
+    if (extra != null) {
+      extras = extra;
+    } else {
+      extras = defaultExtra ?? null;
+    }
 
-                        List<Switches> switchess;
-                        if (switches != null) {
-                            switchess = switches;
-                        }else {
-                          switchess = defaultSwitch ?? null;
-                        }
-                        List<Sizes> sizess;
-                        if (size != null) {
-                          sizess=[size];
-                        } else  if (defaultSize != null){
-                          if (defaultSize.sizeid != null) {
-                                sizess = [defaultSize];
-                          } 
-                        }
+    List<Switches> switchess;
+    if (switches != null) {
+      switchess = switches;
+    } else {
+      switchess = defaultSwitch ?? null;
+    }
+    List<Sizes> sizess;
+    if (size != null) {
+      sizess = [size];
+    } else if (defaultSize != null) {
+      if (defaultSize.sizeid != null) {
+        sizess = [defaultSize];
+      }
+    }
 
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
@@ -1125,7 +1132,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-                            radioBtnId= val;
+                            radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             // id = radionBtn.index;
@@ -1154,10 +1161,63 @@ class _AddItemPageViewState extends State<AddItemPageView>
       if (_addItemModelList.price != "") {
         return _addItemModelList.price;
       } else if (_addItemModelList.sizePrizes.length > 0) {
+        List<Sizes> sizess;
+        if (size != null) {
+          sizess = [size];
+        } else if (defaultSize != null) {
+          if (defaultSize.sizeid != null) {
+            sizess = [defaultSize];
+          }
+        }
+        if (sizess != null) {
+          if (sizess.length > 0) {
+            if (_addItemModelList.sizePrizes.length > 0) {
+              for (var itemSize in _addItemModelList.sizePrizes) {
+                if (sizess[0].sizeid == itemSize.id) {
+                  return itemSize.price;
+                }
+              }
+            }
+          }
+        }
         return _addItemModelList.sizePrizes[0].price;
       }
     }
     return "";
+  }
+
+  String setPrice() {
+    List<Extras> extras;
+    if (extra != null) {
+      extras = extra;
+    } else {
+      extras = defaultExtra ?? null;
+    }
+    var price = getTotalText();
+    List<CheckBoxOptions> checkBoxOptionsPrice = [];
+    if (_checkBoxOptions != null) {
+      if (_checkBoxOptions.length > 0) {
+        if (extras != null) {
+          
+          for (var check in _checkBoxOptions) {
+for (var ext in extras) {
+              if (ext.extraId == check.index) {
+                checkBoxOptionsPrice.add(check);
+              }
+          }
+          }
+          
+        }
+      }
+    }
+    if (checkBoxOptionsPrice.length > 0) {
+      var extPirce = 0.0;
+      for (var chekc in checkBoxOptionsPrice) {
+          extPirce += double.parse(chekc.price); 
+      }
+      return (double.parse(price) + extPirce).toString();
+    }
+    return price;
   }
 
   Widget togglebutton() {
@@ -1472,17 +1532,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     onPressed: () {
                       Navigator.of(context).pop();
                       if (widget.isFromOrder) {
-                         Navigator.of(context).pop();
-                         Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       } else {
-Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CartDetailsPage(
-                                orderId: _updateOrderModel.orderId,
-                                flag: 1,
-                                isFromOrder: false,
-                              )));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CartDetailsPage(
+                                  orderId: _updateOrderModel.orderId,
+                                  flag: 1,
+                                  isFromOrder: false,
+                                )));
                       }
-                      
+
                       // Navigator.of(context).pop();
                       // Navigator.of(context).pop();
                       //Navigator.of(context).pop();
@@ -1568,7 +1628,7 @@ Navigator.of(context).push(MaterialPageRoute(
   Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
     await progressDialog.hide();
     await progressDialog.hide();
-   // getTableListModel = _getlist[0];
+    // getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
     }
@@ -1622,13 +1682,15 @@ Navigator.of(context).push(MaterialPageRoute(
         defaultExtra.add(extradefault);
       }
     }
+    if (defaultExtra.length > 0) {
+      extra = defaultExtra;
+    }
     if (defaultExtra.length == 0) {
       defaultExtra = null;
     }
   }
 
   void getRequiredSize(int length) {
-    
     if (_addItemModelList.sizePrizes.length > 0) {
       defaultSize = Sizes();
       setState(() {
@@ -1649,7 +1711,7 @@ Navigator.of(context).push(MaterialPageRoute(
         defaultSwitch.add(requiredSwitch);
       }
     }
-    if (defaultSwitch.length == 0){
+    if (defaultSwitch.length == 0) {
       defaultSwitch = null;
     }
   }
