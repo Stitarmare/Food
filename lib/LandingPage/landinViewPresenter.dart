@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/running_order_model.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
@@ -28,4 +32,23 @@ class LandingViewPresenter {
       }
     });
   }
+
+  void sendDeviceInfo(BuildContext context) async{
+    var value = await ApiBaseHelper().post<ErrorModel>(UrlConstant.deviceInfo, context,body:
+    {
+      "device_token":Globle().fcmToken,
+      "device_type": Platform.isIOS ? "1" : "2",
+      "latitude":"",
+      "longitude":""
+    });
+    switch (value.result) {
+        case SuccessType.success:
+          
+          break;
+        case SuccessType.failed:
+          
+          break;
+      }
+  }
+
 }

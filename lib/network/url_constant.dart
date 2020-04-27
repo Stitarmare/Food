@@ -13,6 +13,7 @@ class UrlConstant {
   static const resendOTP = "api/resendOTP";
   static const editCountry = "api/getCountry";
   static const editState = "api/getStates";
+  static const deviceInfo = "api/deviceInfo";
   static const editCityField = "api/getCities";
   static const restaurantListApi = "api/getRestaurantList";
   static const updateProfile = "api/editCustomerProfile";
