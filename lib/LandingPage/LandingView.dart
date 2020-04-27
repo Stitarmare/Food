@@ -44,6 +44,7 @@ class _LandingStateView extends State<Landingview>
   void initState()  {
     
     _landingViewPresenter = LandingViewPresenter(this);
+    _landingViewPresenter.sendDeviceInfo(context);
    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();

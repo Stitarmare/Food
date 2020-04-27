@@ -327,10 +327,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   String getOrderTotal() {
     if (myOrderData.splitAmount != null) {
-      return myOrderData.splitAmount;
+      return _model.grandTotal;
     }
 
-    return myOrderData.totalAmount;
+    return _model.grandTotal;
   }
 
   onSplitBillButtonTap() {
@@ -639,7 +639,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   getAmount() != null
                       ? _model.currencySymbol != null
                           ? '${_model.currencySymbol} ' +
-                              "${myOrderData.totalAmount}"
+                              "${_model.grandTotal}"
                           : ""
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
@@ -858,7 +858,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       });
     } else {
       setState(() {
-        grandTotal = double.parse(myOrderData.totalAmount);
+        grandTotal = double.parse(model.grandTotal);
       });
     }
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
