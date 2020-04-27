@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -16,7 +18,9 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/WebView.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -39,12 +43,14 @@ class _LandingStateView extends State<Landingview>
   final GlobalKey<_LandingStateView> _scaffoldKey =
       GlobalKey<_LandingStateView>();
   ProgressDialog progressDialog;
+  Position _position;
+  StreamController<Position> _controllerPosition = new StreamController();
 
   @override
   void initState()  {
     
     _landingViewPresenter = LandingViewPresenter(this);
-    _landingViewPresenter.sendDeviceInfo(context);
+    
    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
@@ -54,7 +60,19 @@ class _LandingStateView extends State<Landingview>
         Globle().currencySymb = value;
       }
     });
+    _getLocation();
     super.initState();
+  }
+
+  _getLocation() async {
+    GeoLocationTracking.load(context, _controllerPosition);
+    _controllerPosition.stream.listen((position) async {
+      print(position);
+      _position = position;
+      if (_position != null) {
+          _landingViewPresenter.sendDeviceInfo(_position.latitude.toString(),_position.longitude.toString(),context);
+      } 
+    });
   }
 
   callApi() async{

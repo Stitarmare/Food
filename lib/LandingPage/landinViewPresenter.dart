@@ -33,13 +33,13 @@ class LandingViewPresenter {
     });
   }
 
-  void sendDeviceInfo(BuildContext context) async{
+  void sendDeviceInfo(String latitude,String longitude,BuildContext context) async{
     var value = await ApiBaseHelper().post<ErrorModel>(UrlConstant.deviceInfo, context,body:
     {
       "device_token":Globle().fcmToken,
       "device_type": Platform.isIOS ? "1" : "2",
-      "latitude":"",
-      "longitude":""
+      "latitude":latitude,
+      "longitude":longitude
     });
     switch (value.result) {
         case SuccessType.success:
