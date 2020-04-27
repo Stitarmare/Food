@@ -63,7 +63,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   setTimer() {
     _timer = Timer(_duration, (){
-isFirst = false;
+isFirst = true;
       callApi();
     });
       
