@@ -412,6 +412,8 @@ const STR_MOBILE_NUMBER = 'mobile number';
 const STR_NO_CODE = "Didn’t received the code?";
 const STR_RESEND = 'RESEND';
 const STR_RESEND_OTP = "Resend OTP";
+const STR_RESEND_OTP_SUCCESS =
+    "OTP has been successfully send to your mobile number.";
 const STR_UPDATE_NO = "Update Mobile Number";
 const STR_UPDATE_NO_SUCCESS = " Your mobile number updated successfully";
 const JSON_STR_DEVICE_TOKEN = 'device_token';

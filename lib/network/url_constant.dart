@@ -53,4 +53,5 @@ class UrlConstant {
   static const getSPlitBillNotification =
       "api/sendNotificationToCertainMembers";
   static const cancelledOrderPayment = "api/cancelledOrderPayment";
+  static const deleteAccountAPI = "api/deleteCustomer";
 }
