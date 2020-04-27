@@ -79,7 +79,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                   await progressDialog.show();
+                    await progressDialog.show();
                     if (_cartItemList[i].quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
                           _cartItemList[i].id,
@@ -91,7 +91,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     if (_cartItemList[i].quantity == 0) {
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
-                     await progressDialog.show();
+                      await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
                           Globle().loginModel.data.id, context);
                       setState(() {
@@ -141,11 +141,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
-             await progressDialog.show();
+              await progressDialog.show();
               _myCartpresenter.updateQauntityCount(
                   _cartItemList[i].id,
                   _cartItemList[i].quantity,
-                  (double.parse(_cartItemList[i].totalAmount)) / _cartItemList[i].quantity,
+                  (double.parse(_cartItemList[i].totalAmount)) /
+                      _cartItemList[i].quantity,
                   context);
             }
             // if (count < 100) {
@@ -364,7 +365,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         // price: int.parse(
                                         //     _cartItemList[indx].price),
                                         items: itemList,
-                                        totalAmount: double.parse(myCart.grandTotal),
+                                        totalAmount:
+                                            double.parse(myCart.grandTotal),
                                         orderType: widget.orderType,
                                         latitude: widget.lat,
                                         longitude: widget.long,
@@ -416,7 +418,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                   await progressDialog.show();
+                    await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                   },
@@ -452,7 +454,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                 children: <Widget>[
                                   Container(
                                     width: MediaQuery.of(context).size.width *
-                                        0.65,
+                                        0.63,
                                     child: Text(
                                       _cartItemList[index].items.itemName !=
                                               null
@@ -502,7 +504,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                 flex: 2,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 20, top: 30),
+                                padding: EdgeInsets.only(right: 5, top: 30),
                                 child: Text(
                                   "${myCart.currencySymbol} " +
                                           "${_cartItemList[index].totalAmount}" ??
@@ -569,7 +571,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
       Preference.setPersistData(null, PreferenceKeys.restaurantID);
       Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-     await progressDialog.hide();
+      await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -599,7 +601,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -614,7 +616,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-   await progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -624,7 +626,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Globle().takeAwayCartItemCount -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-   await progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // TODO: implement updatequantitySuccess
   }
