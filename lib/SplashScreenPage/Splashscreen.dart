@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -57,27 +58,15 @@ class _SplashScreenState extends State<SplashScreen> {
       onMessage: (Map<String, dynamic> message) async {
         print(message);
         Globle().streamController.add(2);
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message[STR_SMALL_NOTIFI][STR_SMALL_TITLE]),
-              subtitle: Text(message[STR_SMALL_NOTIFI][STR_BODY]),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text(STR_OK),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
+        var fcmModel = FcmModel.fromJson(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
+        var fcmModel = FcmModel.fromJson(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print(message);
+        var fcmModel = FcmModel.fromJson(message);
       },
     );
   }

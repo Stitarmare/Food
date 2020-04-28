@@ -596,19 +596,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: () async {
+                            onPressed: ()  {
                               // DialogsIndicator.showLoadingDialog(
                               //    context, _keyLoader, "");
-                              await progressDialog.show();
-                              _addItemPagepresenter.clearCart(context);
-                              Preference.setPersistData<int>(
-                                  widget.restId, PreferenceKeys.restaurantID);
-                              Preference.setPersistData<bool>(
-                                  true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(widget.restName,
-                                  PreferenceKeys.restaurantName);
-                              Globle().dinecartValue = 0;
                               Navigator.of(context).pop();
+                             callClearCart();
                             },
                           ),
                         ),
@@ -680,6 +672,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
     return SliverToBoxAdapter(
       child: _foodItemLogo(),
     );
+  }
+
+  callClearCart() async{
+     await progressDialog.show();
+                              _addItemPagepresenter.clearCart(context);
+                              Preference.setPersistData<int>(
+                                  widget.restId, PreferenceKeys.restaurantID);
+                              Preference.setPersistData<bool>(
+                                  true, PreferenceKeys.isAlreadyINCart);
+                              Preference.setPersistData<String>(widget.restName,
+                                  PreferenceKeys.restaurantName);
+                              Globle().dinecartValue = 0;
+                              
   }
 
   getlistoftable() {
@@ -1165,7 +1170,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return _addItemModelList.price;
+        return (double.parse(_addItemModelList.price)*count).toString() ;
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1180,13 +1185,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return itemSize.price;
+                  return (double.parse(itemSize.price)*count).toString();
                 }
               }
             }
           }
         }
-        return _addItemModelList.sizePrizes[0].price;
+        return (double.parse(_addItemModelList.sizePrizes[0].price)*count).toString();
       }
     }
     return "";
