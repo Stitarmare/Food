@@ -1371,9 +1371,10 @@ for (var ext in extras) {
   }
 
   void getRequiredExtra(int length) {
-    for (int i = 1; i <= length; i++) {
-      Extras extradefault = Extras();
+    Extras extradefault = Extras();
       defaultExtra = List<Extras>();
+    for (int i = 1; i <= length; i++) {
+      
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
         defaultExtra.add(extradefault);
@@ -1381,7 +1382,10 @@ for (var ext in extras) {
     }
     if (defaultExtra.length > 0) {
       extra = defaultExtra;
+    } else {
+      defaultExtra = null;
     }
+
   }
 
   void getRequiredSize(int length) {
