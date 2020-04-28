@@ -112,11 +112,14 @@ class _RestaurantViewState extends State<RestaurantView>
               CachedNetworkImage(
         placeholder: (context, url) =>
             Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restImage}",
+        imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restLogo}",
+        height: 50,
+        // width: MediaQuery.of(context).size.width * 5,
+        fit: BoxFit.cover,
         errorWidget: (context, url, error) => Image.asset(
           RESTAURANT_IMAGE_PATH,
           fit: BoxFit.cover,
-          height: 50,
+          height: 40,
           width: 40,
         ),
           ),
@@ -329,6 +332,8 @@ class _RestaurantViewState extends State<RestaurantView>
                           categoryId: abc, menu: menutype);
                       print(abc);
                     }
+                     restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),

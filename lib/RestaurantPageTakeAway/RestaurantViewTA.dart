@@ -90,6 +90,21 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         brightness: Brightness.dark,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        title: Center(
+          child: CachedNetworkImage(
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        imageUrl: BaseUrl.getBaseUrlImages() + "${_restaurantItemsModel.restLogo}",
+        height: 50,
+        fit: BoxFit.cover,
+        errorWidget: (context, url, error) => Image.asset(
+          RESTAURANT_IMAGE_PATH,
+          fit: BoxFit.scaleDown,
+          height: 30,
+          width: 40,
+        ),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -528,8 +543,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           categoryId: abc, menu: menutype);
                       print(abc);
                     }
-                  // restaurantPresenter.getMenuList(widget.restId, context,
-                  //         categoryId: abc, menu: menutype);
+                  restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
               },
                       child: Container(
                   height: 40,

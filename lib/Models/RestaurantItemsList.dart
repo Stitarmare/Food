@@ -13,6 +13,7 @@ class RestaurantItemsModel {
     String colourCode;
     String currencySymbol;
     String restImage;
+    String restLogo;
 
     RestaurantItemsModel({
         this.status,
@@ -23,6 +24,7 @@ class RestaurantItemsModel {
         this.colourCode,
         this.currencySymbol,
         this.restImage,
+        this.restLogo,
     });
 
     factory RestaurantItemsModel.fromJson(Map<String, dynamic> json) => RestaurantItemsModel(
@@ -34,6 +36,7 @@ class RestaurantItemsModel {
         colourCode: json["colour_code"],
         currencySymbol: json["currency_symbol"],
         restImage: json["rest_image"],
+        restLogo: json["rest_logo"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -45,6 +48,7 @@ class RestaurantItemsModel {
         "colour_code": colourCode,
         "currency_symbol": currencySymbol,
         "rest_image": restImage,
+        "rest_logo": restLogo,
     };
 }
 
