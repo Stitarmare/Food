@@ -26,10 +26,12 @@ class RunningOrderModel {
 class Data {
   DineIn dineIn;
   DineIn takeAway;
+  CartModel cart;
 
   Data({
     this.dineIn,
     this.takeAway,
+    this.cart
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -37,6 +39,9 @@ class Data {
             json["dine_in"] != null ? DineIn.fromJson(json["dine_in"]) : null,
         takeAway: json["take_away"] != null
             ? DineIn.fromJson(json["take_away"])
+            : null,
+            cart: json["cart"] != null
+            ? CartModel.fromJson(json["cart"])
             : null,
       );
 
@@ -151,4 +156,80 @@ class Table {
         "id": id,
         "table_name": tableName,
       };
+}
+
+class CartModel {
+    int id;
+    int quantity;
+    String preparationTime;
+    int itemId;
+    dynamic itemSizePriceId;
+    int tableId;
+    String price;
+    dynamic sizePrice;
+    int userId;
+    int restId;
+    dynamic waiterId;
+    int workstationId;
+    String preparationNote;
+    DateTime createdAt;
+    DateTime updatedAt;
+    String restName;
+
+    CartModel({
+        this.id,
+        this.quantity,
+        this.preparationTime,
+        this.itemId,
+        this.itemSizePriceId,
+        this.tableId,
+        this.price,
+        this.sizePrice,
+        this.userId,
+        this.restId,
+        this.waiterId,
+        this.workstationId,
+        this.preparationNote,
+        this.createdAt,
+        this.updatedAt,
+        this.restName
+    });
+
+    factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
+        id: json["id"],
+        quantity: json["quantity"],
+        preparationTime: json["preparation_time"],
+        itemId: json["item_id"],
+        itemSizePriceId: json["item_size_price_id"],
+        tableId: json["table_id"],
+        price: json["price"],
+        sizePrice: json["size_price"],
+        userId: json["user_id"],
+        restId: json["rest_id"],
+        waiterId: json["waiter_id"],
+        workstationId: json["workstation_id"],
+        preparationNote: json["preparation_note"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        restName: json["rest_name"]
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "quantity": quantity,
+        "preparation_time": preparationTime,
+        "item_id": itemId,
+        "item_size_price_id": itemSizePriceId,
+        "table_id": tableId,
+        "price": price,
+        "size_price": sizePrice,
+        "user_id": userId,
+        "rest_id": restId,
+        "waiter_id": waiterId,
+        "workstation_id": workstationId,
+        "preparation_note": preparationNote,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "rest_name":restName
+    };
 }
