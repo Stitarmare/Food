@@ -435,21 +435,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: () async {
+                            onPressed: ()  {
                               // DialogsIndicator.showLoadingDialog(
                               //     context, _keyLoader, STR_BLANK);
-                              await progressDialog.show();
-                              _addItemPagepresenter.clearCart(context);
-                              Preference.setPersistData<int>(
-                                  widget.restId, PreferenceKeys.restaurantID);
-                              Preference.setPersistData<bool>(
-                                  true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(widget.restName,
-                                  PreferenceKeys.restaurantName);
-                              Globle().dinecartValue = 0;
-                              Preference.setPersistData<int>(
-                                  0, PreferenceKeys.dineCartItemCount);
                               Navigator.of(context).pop();
+                              callClearCart();
                             },
                           ),
                         ),
@@ -885,6 +875,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     );
   }
 
+  callClearCart() async {
+     await progressDialog.show();
+                              _addItemPagepresenter.clearCart(context);
+                              Preference.setPersistData<int>(
+                                  widget.restId, PreferenceKeys.restaurantID);
+                              Preference.setPersistData<bool>(
+                                  true, PreferenceKeys.isAlreadyINCart);
+                              Preference.setPersistData<String>(widget.restName,
+                                  PreferenceKeys.restaurantName);
+                              Globle().dinecartValue = 0;
+                              Preference.setPersistData<int>(
+                                  0, PreferenceKeys.dineCartItemCount);
+  }
+
   _getRadioOptionsSizes() {
     return Column(
         mainAxisSize: MainAxisSize.min,
@@ -977,7 +981,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return _addItemModelList.price;
+        return (double.parse(_addItemModelList.price)*count).toString() ;
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -992,13 +996,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return itemSize.price;
+                  return (double.parse(itemSize.price)*count).toString();
                 }
               }
             }
           }
         }
-        return _addItemModelList.sizePrizes[0].price;
+        return (double.parse(_addItemModelList.sizePrizes[0].price)*count).toString();
       }
     }
     return "";
