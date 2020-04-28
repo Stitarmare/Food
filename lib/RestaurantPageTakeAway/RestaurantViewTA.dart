@@ -327,26 +327,28 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     ),
                     child: Column(
                       children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.contain,
-                            width: double.infinity,
-                            height: 100,
-                            placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(),
+                        LimitedBox(
+                            child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10.0),
+                              topRight: Radius.circular(10.0),
                             ),
-                            errorWidget: (context, url, error) => Image.asset(
-                              FOOD_IMAGE_PATH,
-                              fit: BoxFit.contain,
+                            child: CachedNetworkImage(
+                              fit: BoxFit.fill,
                               width: double.infinity,
                               height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                FOOD_IMAGE_PATH,
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+                                height: 100,
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
                             ),
-                            imageUrl: BaseUrl.getBaseUrlImages() +
-                                '${_restaurantList[index].itemImage}',
                           ),
                         ),
                         Expanded(
