@@ -43,8 +43,8 @@ class GetMyOrderBookingHistoryList {
   String totalAmount;
   dynamic timeToPickupOrder;
   dynamic waiterId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
   String orderNumber;
   bool isRunning;
   Restaurant restaurant;
@@ -81,8 +81,8 @@ class GetMyOrderBookingHistoryList {
         totalAmount: json["total_amount"],
         timeToPickupOrder: json["time_to_pickup_order"],
         waiterId: json["waiter_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
         orderNumber: json["order_number"],
         isRunning: json["is_running"],
         restaurant: Restaurant.fromJson(json["restaurant"]),
@@ -101,8 +101,8 @@ class GetMyOrderBookingHistoryList {
         "total_amount": totalAmount,
         "time_to_pickup_order": timeToPickupOrder,
         "waiter_id": waiterId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt,
+        "updated_at": updatedAt,
         "order_number": orderNumber,
         "is_running": isRunning,
         "restaurant": restaurant.toJson(),

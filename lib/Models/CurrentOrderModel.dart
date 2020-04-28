@@ -47,8 +47,8 @@ class CurrentOrderList {
   String totalAmount;
   dynamic timeToPickupOrder;
   dynamic waiterId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String createdAt;
+  String updatedAt;
   String orderNumber;
   Restaurant restaurant;
   List<ListElement> list;
@@ -85,8 +85,8 @@ class CurrentOrderList {
         totalAmount: json["total_amount"],
         timeToPickupOrder: json["time_to_pickup_order"],
         waiterId: json["waiter_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
         orderNumber: json["order_number"],
         restaurant: Restaurant.fromJson(json["restaurant"]),
         list: List<ListElement>.from(
@@ -105,8 +105,8 @@ class CurrentOrderList {
         "total_amount": totalAmount,
         "time_to_pickup_order": timeToPickupOrder,
         "waiter_id": waiterId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt,
+        "updated_at": updatedAt,
         "order_number": orderNumber,
         "restaurant": restaurant.toJson(),
         "list": List<dynamic>.from(list.map((x) => x.toJson())),
