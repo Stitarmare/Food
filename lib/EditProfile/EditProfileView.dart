@@ -35,8 +35,8 @@ class _EditProfileState extends State<EditProfileview>
   String _dropdownStateValue;
   String _dropdownCityValue;
   ProgressDialog progressDialog;
-  var firstName = STR_BLANK;
-  var lastName = STR_BLANK;
+  var firstName = Globle().loginModel.data.firstName;
+  var lastName = Globle().loginModel.data.lastName;
   var streetAddress = STR_BLANK;
   var countryID;
   var stateID;
@@ -78,7 +78,7 @@ class _EditProfileState extends State<EditProfileview>
 
   Future<void> updateButtonClicked() async {
     if (_editprofileFormKey.currentState.validate()) {
-    await  progressDialog.show();
+      await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
           countryID, stateID, cityID, pinCode, context);
@@ -114,6 +114,7 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 lastName = text;
               },
+
               tfValue: Globle().loginModel.data.lastName,
               placeHolderName: KEY_LAST_NAME,
               // placeHolderName:
@@ -285,7 +286,7 @@ class _EditProfileState extends State<EditProfileview>
                 stateID = value.id;
               }
             });
-           await progressDialog.show();
+            await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             editprofilepresenter.editCity(stateID.toString(), context);
           });
@@ -463,7 +464,7 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -478,7 +479,7 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -493,7 +494,7 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 

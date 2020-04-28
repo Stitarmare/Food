@@ -63,7 +63,7 @@ class RestaurantMenuItem {
     int workstationId;
     DateTime createdAt;
     DateTime updatedAt;
-    List<dynamic> sizePrizes;
+    List<SizePrizes> sizePrizes;
     int restId;
 
     RestaurantMenuItem({
@@ -100,7 +100,7 @@ class RestaurantMenuItem {
         workstationId: json["workstation_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sizePrizes: List<dynamic>.from(json["size_prizes"].map((x) => x)),
+        sizePrizes: List<SizePrizes>.from(json["size_prizes"].map((x) => SizePrizes.fromJson(x))),
         restId: json["rest_id"],
     );
 
@@ -121,5 +121,44 @@ class RestaurantMenuItem {
         "updated_at": updatedAt.toIso8601String(),
         "size_prizes": List<dynamic>.from(sizePrizes.map((x) => x)),
         "rest_id": restId,
+    };
+}
+class SizePrizes {
+    int id;
+    int itemId;
+    String price;
+    String size;
+    String status;
+    dynamic createdAt;
+    dynamic updatedAt;
+
+    SizePrizes({
+        this.id,
+        this.itemId,
+        this.price,
+        this.size,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory SizePrizes.fromJson(Map<String, dynamic> json) => SizePrizes(
+        id: json["id"],
+        itemId: json["item_id"],
+        price: json["price"],
+        size: json["size"],
+        status: json["status"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "item_id": itemId,
+        "price": price,
+        "size": size,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
     };
 }

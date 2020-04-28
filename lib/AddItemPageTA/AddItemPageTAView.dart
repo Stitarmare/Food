@@ -372,7 +372,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 Text(
                   '${"Total "}' +
                       '${getCurrencySymbol()}' +
-                      '${getTotalText()}',
+                      '${setPrice()}',
                   style: TextStyle(
                       fontSize: 20,
                       color: redtheme,
@@ -979,10 +979,63 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       if (_addItemModelList.price != "") {
         return _addItemModelList.price;
       } else if (_addItemModelList.sizePrizes.length > 0) {
+        List<Sizes> sizess;
+        if (size != null) {
+          sizess = [size];
+        } else if (defaultSize != null) {
+          if (defaultSize.sizeid != null) {
+            sizess = [defaultSize];
+          }
+        }
+        if (sizess != null) {
+          if (sizess.length > 0) {
+            if (_addItemModelList.sizePrizes.length > 0) {
+              for (var itemSize in _addItemModelList.sizePrizes) {
+                if (sizess[0].sizeid == itemSize.id) {
+                  return itemSize.price;
+                }
+              }
+            }
+          }
+        }
         return _addItemModelList.sizePrizes[0].price;
       }
     }
     return "";
+  }
+
+  String setPrice() {
+    List<Extras> extras;
+    if (extra != null) {
+      extras = extra;
+    } else {
+      extras = defaultExtra ?? null;
+    }
+    var price = getTotalText();
+    List<CheckBoxOptions> checkBoxOptionsPrice = [];
+    if (_checkBoxOptions != null) {
+      if (_checkBoxOptions.length > 0) {
+        if (extras != null) {
+          
+          for (var check in _checkBoxOptions) {
+for (var ext in extras) {
+              if (ext.extraId == check.index) {
+                checkBoxOptionsPrice.add(check);
+              }
+          }
+          }
+          
+        }
+      }
+    }
+    if (checkBoxOptionsPrice.length > 0) {
+      var extPirce = 0.0;
+      for (var chekc in checkBoxOptionsPrice) {
+          extPirce += double.parse(chekc.price); 
+      }
+      return (double.parse(price) + extPirce).toString();
+    }
+    return price;
   }
 
   Widget togglebutton() {
@@ -1318,14 +1371,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   void getRequiredExtra(int length) {
-    for (int i = 1; i <= length; i++) {
-      Extras extradefault = Extras();
+    Extras extradefault = Extras();
       defaultExtra = List<Extras>();
+    for (int i = 1; i <= length; i++) {
+      
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
         defaultExtra.add(extradefault);
       }
     }
+    if (defaultExtra.length > 0) {
+      extra = defaultExtra;
+    } else {
+      defaultExtra = null;
+    }
+
   }
 
   void getRequiredSize(int length) {

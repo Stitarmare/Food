@@ -155,7 +155,8 @@ class _MyCartViewState extends State<MyCartView>
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
                           menuCartList.quantity,
-                          (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
+                          (double.parse(menuCartList.totalAmount)) /
+                              menuCartList.quantity,
                           context);
                     }
                     if (menuCartList.quantity == 0) {
@@ -207,7 +208,8 @@ class _MyCartViewState extends State<MyCartView>
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
-                  (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
+                  (double.parse(menuCartList.totalAmount)) /
+                      menuCartList.quantity,
                   context);
             }
           },
@@ -363,7 +365,8 @@ class _MyCartViewState extends State<MyCartView>
                                     tablename: tableno,
                                     restName: widget.restName,
                                     tableId: _dropdownTableNumber,
-                                    totalAmount: double.parse(myCart.grandTotal),
+                                    totalAmount:
+                                        double.parse(myCart.grandTotal),
                                     items: itemList,
                                     itemdata: _cartItemList,
                                     orderType: widget.orderType,
@@ -525,7 +528,7 @@ class _MyCartViewState extends State<MyCartView>
                                 children: <Widget>[
                                   Container(
                                     width: MediaQuery.of(context).size.width *
-                                        0.65,
+                                        0.63,
                                     child: Text(
                                       _cartItemList[index].items.itemName !=
                                               null
@@ -566,7 +569,7 @@ class _MyCartViewState extends State<MyCartView>
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(right: 12, top: 30),
+                                padding: EdgeInsets.only(right: 5, top: 30),
                                 child: Text(
                                   "${getCurrency()} " +
                                           "${_cartItemList[index].totalAmount}" ??

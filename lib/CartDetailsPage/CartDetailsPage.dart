@@ -45,7 +45,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
-  Timer _timer;
+  var _timer;
   Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
@@ -62,10 +62,12 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   setTimer() {
-    _timer = Timer.periodic(_duration, (Timer t) {
-      isFirst = false;
+    _timer = Timer(_duration, (){
+isFirst = true;
       callApi();
     });
+      
+
   }
 
   callApi() async {
@@ -292,6 +294,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             width: MediaQuery.of(context).size.width * 0.02),
                         GestureDetector(
                           onTap: () {
+                            _timer.cancel();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -775,6 +778,7 @@ if (widget.flag == 1) {
 
   @override
   Future<void> getOrderDetailsFailed() async {
+    _timer.cancel();
     if (!isFirst) {
       await progressDialog.hide();
     }

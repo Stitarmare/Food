@@ -14,7 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, LOCAL }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.DEVLOPMENT;
+  static var environment = Environment.PRODUCTION;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
@@ -295,6 +295,7 @@ class ApiBaseHelper {
       default:
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
+        json.decode(response.body.toString());
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(
               context, STR_ERROR, STR_ERROR_MSG + '${response.statusCode}', () {
