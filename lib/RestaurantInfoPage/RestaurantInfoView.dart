@@ -91,9 +91,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     super.initState();
   }
 
-  _getRestaurantInfo() {
+  _getRestaurantInfo() async {
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-      // progressDialog.show();
+   await  progressDialog.show();
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
