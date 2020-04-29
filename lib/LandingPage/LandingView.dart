@@ -571,6 +571,13 @@ await progressDialog.show();
         } else {
           setDefaultData();
         }
+      } else if(model.data.cart!=null) {
+        Globle().dinecartValue += 1;
+    Preference.setPersistData<int>(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(model.data.cart.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData(model.data.cart.restName, PreferenceKeys.restaurantName);
       } else {
         setDefaultData();
       }

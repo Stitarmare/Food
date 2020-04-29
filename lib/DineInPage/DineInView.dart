@@ -470,8 +470,8 @@ class _DineViewState extends State<DineInView>
                     _restaurantList[i].coverImage,
                   ),
                   onTap: () {
-                    Globle().dinecartValue = 0;
-                    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+                    //Globle().dinecartValue = 0;
+                    //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
                     Globle().colorscode = _restaurantList[i].colourCode;
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(

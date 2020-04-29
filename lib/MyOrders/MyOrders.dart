@@ -13,6 +13,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:intl/intl.dart';
 
 class MyOrders extends StatefulWidget {
   String title;
@@ -254,7 +255,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].createdAt}',
+                        getDateForOrderHistory(_orderDetailList[index].createdAt),
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -486,7 +487,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      STR_TIME,
+                      getDateForOrderHistory(getmyOrderBookingHistory[index].createdAt),
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -585,6 +586,13 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             );
           },
         ));
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date);
+    var time = DateFormat("hh:mm a").format(date);
+    return "$dateStr at $time";
   }
 
   @override

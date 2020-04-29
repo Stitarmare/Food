@@ -875,7 +875,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   Future<void> restaurantInfoFailed() async {
-    await progressDialog.hide();
+    //await progressDialog.hide();
   }
 
   @override
@@ -890,7 +890,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
       }
     });
     _getRestaurantReview();
-    await progressDialog.hide();
+    //await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
