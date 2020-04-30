@@ -284,15 +284,40 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       items = Item();
                     }
 
+                    List<Sizes> sizess;
+    if (size != null) {
+      sizess = [size];
+    } else if (defaultSize != null) {
+      if (defaultSize.sizeid != null) {
+        sizess = [defaultSize];
+      }
+    }
+
+    List<Extras> extras;
+    if (extra != null) {
+      extras = extra;
+    } else {
+      extras = defaultExtra ?? null;
+    }
+
+    List<Switches> switchess;
+    if (switches != null) {
+      switchess = switches;
+    } else {
+      switchess = defaultSwitch ?? null;
+    }
+
                     addMenuToCartModel.items = [items];
+                    if (sizess.length > 0) {
+      addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+    }
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
-                    addMenuToCartModel.items[0].extra = extra ?? defaultExtra;
+                    addMenuToCartModel.items[0].extra = extras;
                     addMenuToCartModel.items[0].spreads = spread == null
                         ? (defaultSpread != null) ? [defaultSpread] : []
                         : [spread];
-                    addMenuToCartModel.items[0].switches =
-                        (switches != []) ? switches : (defaultSwitch);
+                    addMenuToCartModel.items[0].switches = switchess;
                     addMenuToCartModel.items[0].quantity = count;
                     addMenuToCartModel.items[0].sizes =
                         size == null ? [defaultSize] : [size];

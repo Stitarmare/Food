@@ -434,7 +434,7 @@ if (widget.flag == 1) {
         ),
         InkWell(
           onTap: () {
-            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId);
+            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,myOrderDataDetails.list[index].id.toString());
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -499,9 +499,7 @@ if (widget.flag == 1) {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.65,
+                                       
                                         child: Text(
                                           myOrderDataDetails.list[index].items
                                                       .itemName !=
@@ -565,9 +563,7 @@ if (widget.flag == 1) {
                                     ],
                                   ),
                                   Expanded(
-                                    child: SizedBox(
-                                      width: 0,
-                                    ),
+                                    child: Container(),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(
@@ -635,9 +631,9 @@ if (widget.flag == 1) {
           );
   }
 
-  callIncreaseQuantityApi(int itemId) async{
+  callIncreaseQuantityApi(int itemId,String id) async{
       await progressDialog.show();
-      _paymentTipandPayDiPresenter.increaseQuantity(myOrderDataDetails.id.toString(), itemId.toString(), context);
+      _paymentTipandPayDiPresenter.increaseQuantity(myOrderDataDetails.id.toString(), itemId.toString(),id, context);
   }
   // String getExtra(CartDetailData menuCartList) {
   //   var extras = "";
