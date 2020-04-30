@@ -60,6 +60,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailsModel _model;
   //List<AddPeopleList> addedPeopleList = [];
   List<PeopleData> addedPeopleList = [];
+  List<InvitationOrder> invitationOrder = [];
   double grandTotal = 0;
   var isBillSplitedForUser = false;
   Stream stream;
@@ -327,14 +328,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   String getOrderTotal() {
     if (myOrderData.splitAmount != null) {
-      return _model.grandTotal;
+      return myOrderData.splitAmount;
     }
 
     return _model.grandTotal;
   }
 
   onSplitBillButtonTap() {
-    addedPeopleList.length > 0
+    invitationOrder.length > 0
         ? showSplitBill()
         : _showAlert(context, STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
             Navigator.of(context).pop();
@@ -345,7 +346,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     var data = await showDialog(
         context: context,
         child: new RadioDialog(
-          amount: (double.parse(myOrderData.totalAmount) + sliderValue),
+          amount: (double.parse(_model.grandTotal) + sliderValue),
           tableId: widget.tableId,
           orderId: widget.orderID,
           elementList: myOrderData.list,
@@ -375,7 +376,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         barrierDismissible: false,
         child: InvitedPeopleDialog(
           orderID: widget.orderID,
-          amount: (double.parse(myOrderData.totalAmount) + sliderValue),
+          amount: (double.parse(_model.grandTotal) + sliderValue),
           tableId: widget.tableId,
         ));
 
@@ -846,10 +847,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
 
     setState(() {
-      if (myOrderData == null) {
+      
         myOrderData = orderData;
         _model = model;
-      }
+        if (_model.data.invitation!=null) {
+            invitationOrder = _model.data.invitation;
+        }
+        
+      
     });
     isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {

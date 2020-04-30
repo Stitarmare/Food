@@ -16,12 +16,13 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
     this._paymentTipandPayDiModelView = _paymentTipandPayDiModelView;
   }
 
-  void increaseQuantity(String orderid,String itemId,BuildContext context) {
+  void increaseQuantity(String orderid,String itemId,String id,BuildContext context) {
     
     ApiBaseHelper()
         .post<ErrorModel>(UrlConstant.increaseItemQuantity, context, body: {
       "order_id": orderid,
-      "item_id":itemId
+      "item_id":itemId,
+      "id":id
     }).then((value) {
       print(value);
       switch (value.result) {

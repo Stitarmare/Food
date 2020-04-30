@@ -393,7 +393,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           }
                         }
 
+                        
+
                         _updateOrderModel.items = items;
+                        if (sizess.length > 0) {
+      _updateOrderModel.items.sizePriceId = sizess[0].sizeid;
+    }
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
@@ -520,11 +525,22 @@ class _AddItemPageViewState extends State<AddItemPageView>
         sizess = [defaultSize];
       }
     }
+    
+
+
+
+
 
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extras;
+    if (sizess != null ){
+if (sizess.length > 0) {
+      addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+    }
+    }
+    
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
     // } else {
