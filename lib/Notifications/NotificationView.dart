@@ -5,6 +5,7 @@ import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
@@ -44,6 +45,7 @@ class _NotificationViewState extends State<NotificationView>
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+     Globle().notificationFLag = false;
     notificationPresenter.getNotifications(context);
     super.initState();
   }

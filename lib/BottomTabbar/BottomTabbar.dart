@@ -7,6 +7,7 @@ import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
@@ -132,13 +133,12 @@ class _BottomTabbarState extends State<BottomTabbar> {
                           Positioned(
                             top: -11,
                             right: -11,
-                            child: (cartStatus)
-                                ? Badge(
+                            child: Badge(
                                     badgeColor: redtheme,
                                     badgeContent: Text(STR_ONE,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(color: Colors.white)))
-                                : Text(STR_BLANK),
+                                // : Text(STR_BLANK),
                           )
                         ],
                       )
@@ -149,7 +149,27 @@ class _BottomTabbarState extends State<BottomTabbar> {
                       ),
                 title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                icon: Icon(
+                icon: (Globle().notificationFLag && widget.tabValue ==0)?
+                Stack(fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                 Positioned(
+                            top: -11,
+                            right: -11,
+                            child:Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text(STR_ONE,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                // : Text(STR_BLANK),
+                          )
+                ],):
+                Icon(
                   OMIcons.notifications,
                   color: greytheme100,
                   size: 30,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/MyCartTW/MyCartTWView.dart';
@@ -29,6 +31,8 @@ class TakeAwayBottombar extends StatefulWidget {
 class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   var title;
   int currentTabIndex = 0;
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
     RestaurantTAView(),
     MyOrderTakeAway(),
@@ -54,7 +58,24 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
         ]);
       });
     }
+    onStreamListen();
     getCartCount();
+  }
+
+   onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        // callApi();
+        Globle().notificationFLag = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _streamSubscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -153,7 +174,26 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon: Icon(
+                icon:  (Globle().notificationFLag)?
+                Stack(fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                 Positioned(
+                            top: -11,
+                            right: -11,
+                            child: Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text(STR_ONE,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                // : Text(STR_BLANK),
+                          )
+                ],):Icon(
                   OMIcons.notifications,
                   color: greytheme100,
                   size: 30,

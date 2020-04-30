@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -45,7 +46,8 @@ class _LandingStateView extends State<Landingview>
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
-
+   Stream stream;
+  StreamSubscription<double> _streamSubscription;
   @override
   void initState()  {
     
@@ -60,9 +62,20 @@ class _LandingStateView extends State<Landingview>
         Globle().currencySymb = value;
       }
     });
+
+    onStreamListen();
     _getLocation();
     super.initState();
   }
+onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        callApi();
+      });
+    }
+  }
+  
+
 
   _getLocation() async {
     GeoLocationTracking.load(context, _controllerPosition);
@@ -79,6 +92,7 @@ class _LandingStateView extends State<Landingview>
     //await progressDialog.show();
      _landingViewPresenter.getCurrentOrder(context);
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +104,27 @@ class _LandingStateView extends State<Landingview>
           brightness: Brightness.dark,
           actions: <Widget>[
             new IconButton(
-              icon: new Icon(
+              icon: (Globle().notificationFLag)?
+                Stack(fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 28,
+                ),
+                 Positioned(
+                            top: -11,
+                            right: -11,
+                            child: Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text(STR_ONE,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                // : Text(STR_BLANK),
+                          )
+                ],):
+               new Icon(
                 OMIcons.notifications,
                 color: greytheme100,
                 size: 28,
@@ -606,6 +640,7 @@ await progressDialog.show();
   void dispose() {
     // TODO: implement dispose
     //progressDialog.hide();
+    _streamSubscription.cancel();
     super.dispose();
   }
 }
@@ -849,13 +884,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     }
   }
 
+
   
 }
 
 
-    //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
-    //                       style: TextStyle(
-    //                           fontSize: FONTSIZE_16,
-    //                           fontFamily: KEY_FONTFAMILY,
-    //                           fontWeight: FontWeight.w600,
-    //                           color: greentheme100)),)

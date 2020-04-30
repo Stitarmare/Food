@@ -37,7 +37,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
-  
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
 
   String tableName;
   bool isTableList = false;
@@ -58,7 +59,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
     });
     callApi();
     setTimer();
+    onStreamListen();
     super.initState();
+  }
+
+   onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        callApi();
+      });
+    }
   }
 
   setTimer() {
@@ -852,6 +862,7 @@ callApi();
   void dispose() {
     // TODO: implement dispose
     _timer.cancel();
+    _streamSubscription.cancel();
     super.dispose();
   }
 }
