@@ -138,7 +138,9 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                   children: <Widget>[
                     Center(
                         child: RaisedButton(
-                      color: getColorByHex(Globle().colorscode),
+                      color: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
@@ -155,16 +157,14 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                     SizedBox(width: 10),
                     Center(
                         child: RaisedButton(
-                      color: getColorByHex(Globle().colorscode),
+                      color: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: (){
-                        if (invitedPeople.length > 0) {
-                          print(invitedPeople[index].inviteId);
-                          print(invitedPeople.length);
-                        } else {
-                          print(invitedPeople[index].inviteId);
-                        }
+                        
+                        callApi();
                       },
                       child: Text(
                         STR_OK,
@@ -204,14 +204,14 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
         isChecked: true,
-        index: invitedPeopleList[i - 1].id,
+        index: invitedPeopleList[i - 1].toUser.id,
         title: invitedPeopleList[i - 1].toUser.firstName ?? '',
       ));
 
       if (invitedPeople == null) {
         invitedPeople = [];
         var inv = InvitePeople();
-        inv.inviteId = invitedPeopleList[i - 1].id;
+        inv.inviteId = invitedPeopleList[i - 1].toUser.id;
         invitedPeople.add(inv);
       }
     }

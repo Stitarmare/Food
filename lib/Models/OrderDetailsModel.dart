@@ -54,7 +54,7 @@ class OrderDetailData {
   String tableName;
   String invited;
   List<ListElements> list;
-  List<dynamic> invitation;
+  List<InvitationOrder> invitation;
   int splitType;
   String splitAmount;
   List<Splitbilltransactions> splitbilltransactions;
@@ -95,7 +95,7 @@ class OrderDetailData {
         tableName: json["table_name"],
         list: List<ListElements>.from(
             json["list"].map((x) => ListElements.fromJson(x))),
-        invitation: List<dynamic>.from(json["invitation"].map((x) => x)),
+        invitation: List<InvitationOrder>.from(json["invitation"].map((x) => InvitationOrder.fromJson(x))),
         invited: json["invited"],
         splitType: json["split_type"],
         splitAmount: json["split_amount"],
@@ -359,4 +359,55 @@ class Splitbilltransactions {
         "rest_id": restId,
         "user_id": userId,
       };
+}
+class InvitationOrder {
+    int id;
+    int fromId;
+    String inviteContactNumber;
+    int toId;
+    int orderId;
+    int restId;
+    int tableId;
+    String status;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    InvitationOrder({
+        this.id,
+        this.fromId,
+        this.inviteContactNumber,
+        this.toId,
+        this.orderId,
+        this.restId,
+        this.tableId,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory InvitationOrder.fromJson(Map<String, dynamic> json) => InvitationOrder(
+        id: json["id"],
+        fromId: json["from_id"],
+        inviteContactNumber: json["invite_contact_number"],
+        toId: json["to_id"],
+        orderId: json["order_id"],
+        restId: json["rest_id"],
+        tableId: json["table_id"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "from_id": fromId,
+        "invite_contact_number": inviteContactNumber,
+        "to_id": toId,
+        "order_id": orderId,
+        "rest_id": restId,
+        "table_id": tableId,
+        "status": status,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+    };
 }

@@ -176,7 +176,7 @@ class RadioDialogState extends State<RadioDialog>
                       _splitBillPresenter.getSPlitBill(
                           widget.orderId,
                           Globle().loginModel.data.id,
-                          4,
+                          3,
                           widget.amount.toInt(),
                           context);
 
@@ -198,7 +198,7 @@ class RadioDialogState extends State<RadioDialog>
   @override
   void getSplitBillSuccess() async{
     await progressDialog.hide();
-    Navigator.of(context).pop({"isSplitBill":false});
+    Navigator.of(context).pop({"isSplitBill":true});
   }
 
   @override
