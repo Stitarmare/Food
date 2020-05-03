@@ -122,7 +122,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     super.initState();
   }
 
-  int radioBtnId = 1;
+  int radioBtnId;
   int count = 1;
   String radioItem;
   String radioItemsize;
@@ -1691,15 +1691,17 @@ for (var ext in extras) {
   }
 
   void getRequiredSpread(int length) {
+    Spreads defaultSpre;
     for (int i = 1; i <= length; i++) {
-      defaultSpread = Spreads();
+      
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
-        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
-      } else {
-        defaultSpread = null;
+        defaultSpre = Spreads();
+        defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+
+    defaultSpread = defaultSpre;
   }
 
   void getRequiredExtra(int length) {
