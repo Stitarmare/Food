@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -24,18 +22,15 @@ import 'package:foodzi/widgets/WebView.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-
 class Landingview extends DrawerContent {
   final String title;
   final Widget body;
   Landingview({Key key, this.title, this.body});
-
   @override
   State<StatefulWidget> createState() {
     return _LandingStateView();
   }
 }
-
 class _LandingStateView extends State<Landingview>
     implements LandingViewProtocol {
   bool isOrderRunning = false;
@@ -46,8 +41,6 @@ class _LandingStateView extends State<Landingview>
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
-   Stream stream;
-  StreamSubscription<double> _streamSubscription;
   @override
   void initState()  {
     
@@ -62,21 +55,9 @@ class _LandingStateView extends State<Landingview>
         Globle().currencySymb = value;
       }
     });
-
-    onStreamListen();
     _getLocation();
     super.initState();
   }
-onStreamListen() {
-    if (stream != null) {
-      _streamSubscription = stream.listen((onData) {
-        callApi();
-      });
-    }
-  }
-  
-
-
   _getLocation() async {
     GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) async {
@@ -87,13 +68,10 @@ onStreamListen() {
       } 
     });
   }
-
   callApi() async{
     //await progressDialog.show();
      _landingViewPresenter.getCurrentOrder(context);
   }
-  
-
   @override
   Widget build(BuildContext context) {
     
@@ -104,27 +82,7 @@ onStreamListen() {
           brightness: Brightness.dark,
           actions: <Widget>[
             new IconButton(
-              icon: (Globle().notificationFLag)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 28,
-                ),
-                 Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):
-               new Icon(
+              icon: new Icon(
                 OMIcons.notifications,
                 color: greytheme100,
                 size: 28,
@@ -177,7 +135,6 @@ onStreamListen() {
       ),
     );
   }
-
   getCurrentOrderID() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);
@@ -191,7 +148,6 @@ onStreamListen() {
       });
     }
   }
-
   getCurrentRestID() async {
     var currentRestId =
         await Preference.getPrefValue<int>(PreferenceKeys.currentRestaurantId);
@@ -200,7 +156,6 @@ onStreamListen() {
     }
     return;
   }
-
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
@@ -224,7 +179,6 @@ onStreamListen() {
       ),
     );
   }
-
   Widget _buildimage() {
     return Container(
         //width: MediaQuery.of(context).size.width / 1.32,
@@ -234,7 +188,6 @@ onStreamListen() {
           fit: BoxFit.fill,
         ));
   }
-
   Widget _buildMaintext() {
     return Row(
       children: <Widget>[
@@ -245,7 +198,6 @@ onStreamListen() {
       ],
     );
   }
-
   Widget _buidtext() {
     return LimitedBox(
       child: Column(
@@ -283,7 +235,6 @@ onStreamListen() {
       ),
     );
   }
-
   Widget _cardoption() {
     return LimitedBox(
       child: Container(
@@ -299,7 +250,6 @@ onStreamListen() {
       ),
     );
   }
-
   Widget _dineincard() {
     return Center(
       child: Card(
@@ -334,7 +284,6 @@ onStreamListen() {
       ),
     );
   }
-
   goToDineIn() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
@@ -347,7 +296,6 @@ await progressDialog.show();
             }
    
   }
-
   Widget _buildinningtext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -374,7 +322,6 @@ await progressDialog.show();
       ],
     );
   }
-
   Widget _currentOrdertext() {
     return Stack(
       children: <Widget>[
@@ -421,7 +368,6 @@ await progressDialog.show();
       )
     ],);
   }
-
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -456,7 +402,6 @@ await progressDialog.show();
       ),
     );
   }
-
   goToTakeAway() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
@@ -466,7 +411,6 @@ await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
    _landingViewPresenter.getCurrentOrder(context);
   }
-
   showStatusView() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);
@@ -508,7 +452,6 @@ await progressDialog.show();
               //           ? _model.data.takeAway.restaurant.coverImage
               //           : _model.data.dineIn.restaurant.coverImage,
               //     )
-
                   )
                   );
          await progressDialog.show();
@@ -519,7 +462,6 @@ await progressDialog.show();
       }
     }
   }
-
   Widget _buildTakeAwaytext() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,23 +487,19 @@ await progressDialog.show();
       ],
     );
   }
-
   @override
   void onFailedCurrentOrder() async{
     await progressDialog.hide();
     
   }
-
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
     await progressDialog.hide();
     //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
-
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
     // }
     
-
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {
@@ -576,7 +514,6 @@ await progressDialog.show();
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().takeAwayCartItemCount = 0;
-
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Future.delayed(Duration(microseconds: 500), () {
@@ -596,7 +533,6 @@ await progressDialog.show();
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().takeAwayCartItemCount = 0;
-
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Future.delayed(Duration(microseconds: 500), () {
@@ -617,18 +553,15 @@ await progressDialog.show();
       }
     }
   }
-
   setDefaultData() {
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Globle().orderID = 0;
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
-
     Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
@@ -640,23 +573,18 @@ await progressDialog.show();
   void dispose() {
     // TODO: implement dispose
     //progressDialog.hide();
-    _streamSubscription.cancel();
     super.dispose();
   }
 }
-
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title, this.appbarTitle}) : super(key: key);
   final String title;
   String appbarTitle;
-
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
-
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
-
   @override
   void initState() {
     super.initState();
@@ -747,7 +675,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
               // _opennewpage(STR_SETTING);
             }), //SETTING
-
         DrawerItem(
             text: Text(
               STR_HELP,
@@ -772,7 +699,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ],
     );
   }
-
   profilePic() {
     String imageUrl = STR_BLANK;
     if (Globle().loginModel.data.userDetails != null) {
@@ -784,7 +710,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     }
     return imageUrl;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -841,7 +766,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ),
     );
   }
-
   void _opennewpage(String title) {
     if (title.contains(STR_HOME)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
@@ -883,9 +807,11 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   )));
     }
   }
-
-
   
 }
-
-
+    //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
+    //                       style: TextStyle(
+    //                           fontSize: FONTSIZE_16,
+    //                           fontFamily: KEY_FONTFAMILY,
+    //                           fontWeight: FontWeight.w600,
+    //                           color: greentheme100)),)
