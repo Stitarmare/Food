@@ -37,7 +37,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
-  
 
   String tableName;
   bool isTableList = false;
@@ -49,7 +48,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
   Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
-    
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
 
     setState(() {
@@ -62,12 +60,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   setTimer() {
-    _timer = Timer(_duration, (){
-isFirst = true;
+    _timer = Timer(_duration, () {
+      isFirst = true;
       callApi();
     });
-      
-
   }
 
   callApi() async {
@@ -164,7 +160,9 @@ isFirst = true;
                         fontSize: 20,
                         fontFamily: "gotham",
                         fontWeight: FontWeight.w600,
-                        color:Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme),
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme),
                   )
                 ],
               ),
@@ -186,7 +184,9 @@ isFirst = true;
                           fontSize: 14,
                           fontFamily: "gotham",
                           fontWeight: FontWeight.w600,
-                          color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme)),
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme)),
                 ],
               )),
               SizedBox(
@@ -215,7 +215,9 @@ isFirst = true;
                   fontSize: 20,
                   fontFamily: "gotham",
                   fontWeight: FontWeight.w600,
-                  color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme),
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme),
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -253,7 +255,7 @@ isFirst = true;
                     SizedBox(
                       height: 10,
                     ),
-                     _getAddedListItem()
+                    _getAddedListItem()
                   ],
                 ),
           bottomNavigationBar: BottomAppBar(
@@ -307,7 +309,9 @@ isFirst = true;
                             height: 54,
                             width: MediaQuery.of(context).size.width * 0.45,
                             decoration: BoxDecoration(
-                                color: Globle().colorscode != null ? getColorByHex(Globle().colorscode): orangetheme,
+                                color: Globle().colorscode != null
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
                                     topRight: Radius.circular(15))),
@@ -342,22 +346,19 @@ isFirst = true;
                                               )));
                                 }
                               }
-
-                              
                             } else {
-if (widget.flag == 1) {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                            } else if (widget.flag == 2) {
-                              Navigator.of(context).pop();
-                            } else if (widget.flag == 3) {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
+                              if (widget.flag == 1) {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              } else if (widget.flag == 2) {
+                                Navigator.of(context).pop();
+                              } else if (widget.flag == 3) {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              }
                             }
-                            }
-                            
                           },
                           child: Container(
                             height: 54,
@@ -424,7 +425,8 @@ if (widget.flag == 1) {
         ),
         InkWell(
           onTap: () {
-            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,myOrderDataDetails.list[index].id.toString());
+            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,
+                myOrderDataDetails.list[index].id.toString());
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -482,14 +484,13 @@ if (widget.flag == 1) {
                                             height: 25,
                                           ),
                                   ),
-                                  SizedBox(width: 16),
+                                  SizedBox(width: 11),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
-                                       
                                         child: Text(
                                           myOrderDataDetails.list[index].items
                                                       .itemName !=
@@ -508,19 +509,20 @@ if (widget.flag == 1) {
                                         height: 10,
                                       ),
                                       SizedBox(
-                                    height: 30,
-                                    width: 180,
-                                    child: AutoSizeText(
-                                      getExtra(myOrderDataDetails.list[index]),
-                                      style: TextStyle(
-                                        color: greytheme1000,
-                                        fontSize: FONTSIZE_14,
+                                        height: 30,
+                                        width: 180,
+                                        child: AutoSizeText(
+                                          getExtra(
+                                              myOrderDataDetails.list[index]),
+                                          style: TextStyle(
+                                            color: greytheme1000,
+                                            fontSize: FONTSIZE_14,
+                                          ),
+                                          maxFontSize: 12,
+                                          maxLines: 2,
+                                        ),
                                       ),
-                                      maxFontSize: 12,
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  SizedBox(
+                                      SizedBox(
                                         height: 10,
                                       ),
                                       Row(
@@ -621,9 +623,10 @@ if (widget.flag == 1) {
           );
   }
 
-  callIncreaseQuantityApi(int itemId,String id) async{
-      await progressDialog.show();
-      _paymentTipandPayDiPresenter.increaseQuantity(myOrderDataDetails.id.toString(), itemId.toString(),id, context);
+  callIncreaseQuantityApi(int itemId, String id) async {
+    await progressDialog.show();
+    _paymentTipandPayDiPresenter.increaseQuantity(
+        myOrderDataDetails.id.toString(), itemId.toString(), id, context);
   }
   // String getExtra(CartDetailData menuCartList) {
   //   var extras = "";
@@ -731,9 +734,7 @@ if (widget.flag == 1) {
     var extras = STR_BLANK;
     for (int i = 0; i < menuCartList.cartExtras.length; i++) {
       if (menuCartList.cartExtras[i].spreads.length > 0) {
-        for (int j = 0;
-            j < menuCartList.cartExtras[i].spreads.length;
-            j++) {
+        for (int j = 0; j < menuCartList.cartExtras[i].spreads.length; j++) {
           extras += "${menuCartList.cartExtras[i].spreads[j].name}, ";
         }
       }
@@ -744,9 +745,7 @@ if (widget.flag == 1) {
         }
       }
       if (menuCartList.cartExtras[i].switches.length > 0) {
-        for (int j = 0;
-            j < menuCartList.cartExtras[i].switches.length;
-            j++) {
+        for (int j = 0; j < menuCartList.cartExtras[i].switches.length; j++) {
           extras += "${menuCartList.cartExtras[i].switches[j].name}, ";
         }
       }
@@ -766,7 +765,6 @@ if (widget.flag == 1) {
     setState(() {
       setState(() {
         isFirst = false;
-        
       });
       callApi();
     });
@@ -789,10 +787,8 @@ if (widget.flag == 1) {
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     setState(() {
-      
-        myOrderDataDetails = orderData;
-        _model = model;
-      
+      myOrderDataDetails = orderData;
+      _model = model;
     });
     if (!isFirst) {
       await progressDialog.hide();
@@ -833,17 +829,18 @@ if (widget.flag == 1) {
   }
 
   @override
-  void onFailedQuantityIncrease() async{
+  void onFailedQuantityIncrease() async {
     await progressDialog.hide();
     // TODO: implement onFailedQuantityIncrease
   }
 
   @override
-  void onSuccessQuantityIncrease() async{
-await progressDialog.hide();
-callApi();
+  void onSuccessQuantityIncrease() async {
+    await progressDialog.hide();
+    callApi();
     // TODO: implement onSuccessQuantityIncrease
   }
+
   @override
   void dispose() {
     // TODO: implement dispose

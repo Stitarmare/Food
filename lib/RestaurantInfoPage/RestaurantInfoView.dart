@@ -91,9 +91,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     super.initState();
   }
 
-  _getRestaurantInfo() async {
+  _getRestaurantInfo() {
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-   await  progressDialog.show();
+    progressDialog.show();
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
@@ -329,7 +329,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       },
                       child: Container(
                         height: 33,
-                        width: 157,
+                        width: 162,
                         decoration: BoxDecoration(
                             color: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
