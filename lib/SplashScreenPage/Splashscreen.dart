@@ -6,8 +6,11 @@ import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/locator.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'dart:async';
+
+import 'package:foodzi/customNavigator/customNavigation.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -60,8 +63,10 @@ class _SplashScreenState extends State<SplashScreen> {
       onMessage: (Map<String, dynamic> message) async {
         print(message);
                 var fcmModel = FcmModel.fromJson(message);
-
+                
         Globle().streamController.add(fcmModel);
+           final NavigationService _navigationService = locator<NavigationService>();
+              _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
