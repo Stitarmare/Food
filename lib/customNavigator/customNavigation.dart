@@ -14,8 +14,3 @@ bool goBack() {
   }
 }
 
-// GetIt locator = GetIt.instance;
-// GetIt locator = GetIt.instance;
-// void setupLocator() {
-//   locator.registerLazySingleton(() => NavigationService());
-// }

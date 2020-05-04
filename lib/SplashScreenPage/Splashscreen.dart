@@ -17,9 +17,11 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
+  
 
   @override
   void initState() {
+    
     super.initState();
     setForIosPushNotification();
     fcmConfiguration();
