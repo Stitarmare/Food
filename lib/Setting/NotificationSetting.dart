@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Setting/NotificationSettingPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -8,7 +9,7 @@ class NotificationSetting extends StatefulWidget {
   _NotificationSettingState createState() => _NotificationSettingState();
 }
 
-class _NotificationSettingState extends State<NotificationSetting> {
+class _NotificationSettingState extends State<NotificationSetting> implements NotificationSettingContractor  {
   bool _switchvalue = false;
   List<CheckBoxOptions> _checkBoxOptions = [
     CheckBoxOptions(
@@ -18,6 +19,15 @@ class _NotificationSettingState extends State<NotificationSetting> {
     CheckBoxOptions(
         index: 3, title: 'Other social Notifications', isChecked: false)
   ];
+  NotificationSettingPresenter _notificationSettingPresenter;
+
+    @override
+  void initState() {
+    // TODO: implement initState
+    _notificationSettingPresenter = NotificationSettingPresenter(notificationSettingContractor: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,8 +87,10 @@ class _NotificationSettingState extends State<NotificationSetting> {
                             setState(() {
                               this._switchvalue = value;
                             });
+                            updateNotification();
                           },
                           value: this._switchvalue,
+                          
                         ),
                       ),
                     ),
@@ -120,6 +132,7 @@ class _NotificationSettingState extends State<NotificationSetting> {
                     setState(() {
                       checkBtn.isChecked = val;
                     });
+                    updateNotification();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
                   title: Text(
@@ -130,6 +143,29 @@ class _NotificationSettingState extends State<NotificationSetting> {
             .toList()
             );
     // );
+  }
+
+  updateNotification() {
+    List<int> notValue = [];
+
+    for (var check in _checkBoxOptions) {
+      if (check.isChecked) {
+        notValue.add(check.index);
+      }
+    }
+
+    _notificationSettingPresenter.callUpdateNotiApi(notValue, context);
+
+  }
+
+  @override
+  void onFailedUpdateNotification() {
+    // TODO: implement onFailedUpdateNotification
+  }
+
+  @override
+  void onSuccessUpdateNotification() {
+    // TODO: implement onSuccessUpdateNotification
   }
   
 }
