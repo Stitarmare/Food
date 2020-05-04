@@ -343,7 +343,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
               ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: 90,
+            height: 91,
             child: Column(
               children: <Widget>[
                 Align(
@@ -393,12 +393,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           }
                         }
 
-                        
-
                         _updateOrderModel.items = items;
                         if (sizess.length > 0) {
-      _updateOrderModel.items.sizePriceId = sizess[0].sizeid;
-    }
+                          _updateOrderModel.items.sizePriceId =
+                              sizess[0].sizeid;
+                        }
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
@@ -525,22 +524,17 @@ class _AddItemPageViewState extends State<AddItemPageView>
         sizess = [defaultSize];
       }
     }
-    
-
-
-
-
 
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extras;
-    if (sizess != null ){
-if (sizess.length > 0) {
-      addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+    if (sizess != null) {
+      if (sizess.length > 0) {
+        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+      }
     }
-    }
-    
+
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
     // } else {
@@ -612,11 +606,11 @@ if (sizess.length > 0) {
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: ()  {
+                            onPressed: () {
                               // DialogsIndicator.showLoadingDialog(
                               //    context, _keyLoader, "");
                               Navigator.of(context).pop();
-                             callClearCart();
+                              callClearCart();
                             },
                           ),
                         ),
@@ -690,17 +684,14 @@ if (sizess.length > 0) {
     );
   }
 
-  callClearCart() async{
-     await progressDialog.show();
-                              _addItemPagepresenter.clearCart(context);
-                              Preference.setPersistData<int>(
-                                  widget.restId, PreferenceKeys.restaurantID);
-                              Preference.setPersistData<bool>(
-                                  true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(widget.restName,
-                                  PreferenceKeys.restaurantName);
-                              Globle().dinecartValue = 0;
-                              
+  callClearCart() async {
+    await progressDialog.show();
+    _addItemPagepresenter.clearCart(context);
+    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        widget.restName, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
   }
 
   getlistoftable() {
@@ -1120,11 +1111,10 @@ if (sizess.length > 0) {
                             }
                             setState(() {
                               radioItemsize = radionBtnsize.title;
-                            print(radionBtnsize.title);
-                            sizesid = radionBtnsize.index;
-                            size.sizeid = sizesid;
+                              print(radionBtnsize.title);
+                              sizesid = radionBtnsize.index;
+                              size.sizeid = sizesid;
                             });
-                            
                           });
                         },
                       ),
@@ -1186,7 +1176,7 @@ if (sizess.length > 0) {
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return (double.parse(_addItemModelList.price)*count).toString() ;
+        return (double.parse(_addItemModelList.price) * count).toString();
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1201,13 +1191,14 @@ if (sizess.length > 0) {
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return (double.parse(itemSize.price)*count).toString();
+                  return (double.parse(itemSize.price) * count).toString();
                 }
               }
             }
           }
         }
-        return (double.parse(_addItemModelList.sizePrizes[0].price)*count).toString();
+        return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
+            .toString();
       }
     }
     return "";
@@ -1225,24 +1216,23 @@ if (sizess.length > 0) {
     if (_checkBoxOptions != null) {
       if (_checkBoxOptions.length > 0) {
         if (extras != null) {
-          
           for (var check in _checkBoxOptions) {
-for (var ext in extras) {
+            for (var ext in extras) {
               if (ext.extraId == check.index) {
                 checkBoxOptionsPrice.add(check);
               }
+            }
           }
-          }
-          
         }
       }
     }
-    
+
     if (checkBoxOptionsPrice.length > 0) {
-      List<CheckBoxOptions> result = LinkedHashSet<CheckBoxOptions>.from(checkBoxOptionsPrice).toList();
+      List<CheckBoxOptions> result =
+          LinkedHashSet<CheckBoxOptions>.from(checkBoxOptionsPrice).toList();
       var extPirce = 0.0;
       for (var chekc in result) {
-          extPirce += double.parse(chekc.price); 
+        extPirce += double.parse(chekc.price);
       }
       return (double.parse(price) + extPirce).toString();
     }
@@ -1693,7 +1683,6 @@ for (var ext in extras) {
   void getRequiredSpread(int length) {
     Spreads defaultSpre;
     for (int i = 1; i <= length; i++) {
-      
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
         defaultSpre = Spreads();
@@ -1706,9 +1695,8 @@ for (var ext in extras) {
 
   void getRequiredExtra(int length) {
     Extras extradefault = Extras();
-      defaultExtra = [];
+    defaultExtra = [];
     for (int i = 1; i <= length; i++) {
-      
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
         defaultExtra.add(extradefault);
