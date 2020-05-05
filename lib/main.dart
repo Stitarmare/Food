@@ -15,6 +15,8 @@ import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
+import 'package:foodzi/Utils/locator.dart';
+import 'package:foodzi/customNavigator/customNavigation.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import './Utils/String.dart';
 import './Login/LoginView.dart';
@@ -70,7 +72,7 @@ var routes = <String, WidgetBuilder>{
   STR_ENTER_MOBILE_PAGE: (BuildContext context) => EnterMobileNoPage(),
 };
 void main() {
-  set();
+  setupLocator();
   runApp(MaterialApp(
     title: KEY_APP_NAME,
     debugShowCheckedModeBanner: false,
@@ -80,6 +82,7 @@ void main() {
       accentColor: Color.fromRGBO(34, 180, 91, 1),
     ),
     routes: routes,
+    navigatorKey: locator<NavigationService>().navigatorKey,
   ));
 }
 

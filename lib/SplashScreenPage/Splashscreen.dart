@@ -2,12 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/locator.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'dart:async';
+
+import 'package:foodzi/customNavigator/customNavigation.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -57,23 +61,40 @@ class _SplashScreenState extends State<SplashScreen> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print(message);
-        Globle().streamController.add(2);
-        var fcmModel = FcmModel.fromJson(message);
+        //         var fcmModel = FcmModel.fromJson(message);
+
+        // Globle().streamController.add(fcmModel);
+        //  final NavigationService _navigationService = locator<NavigationService>();
+        //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
+        
+          Globle().notificationFLag = true;
+          
+          // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
+          Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
+        
+        
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
-        var fcmModel = FcmModel.fromJson(message);
+        
+          Globle().notificationFLag = true;
+      if (Globle().context != null) {
+          // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
+          Navigator.pushNamed(context, STR_NOTIFICATION_PAGE);
+        }
+        
+        //var fcmModel = FcmModel.fromJson(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print(message);
-        var fcmModel = FcmModel.fromJson(message);
+        //var fcmModel = FcmModel.fromJson(message);
       },
     );
   }
 
   getFcmToken() async {
     String fcmToken = await _fcm.getToken();
-    Globle().fcmToken =  fcmToken;
+    Globle().fcmToken = fcmToken;
     print(fcmToken);
   }
 

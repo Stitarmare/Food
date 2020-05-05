@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 
@@ -15,7 +17,8 @@ class Globle {
   LoginModel loginModel;
   MenuCartDisplayModel menuCartDisplayModel;
   String fcmToken = "";
-  StreamController<double> streamController = StreamController<double>.broadcast();
+  StreamController<FcmModel> streamController = StreamController<FcmModel>.broadcast();
+  bool notificationFLag = false;
   String colorscode;
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
@@ -23,5 +26,6 @@ class Globle {
   String orderNumber = STR_BLANK;
   String currencySymb = STR_BLANK;
   var authKey;
+  BuildContext context;
   int orderID = 0;
 }

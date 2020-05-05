@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -43,6 +45,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   RestaurantPresenter restaurantPresenter;
   int currentTabIndex = 0;
   bool isAlreadyOrder = false;
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
     RestaurantView(),
     MyOrders(),
@@ -81,7 +85,18 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     getTableID();
     getOrderID();
     getCartCount();
+    onStreamListen();
     super.initState();
+  }
+
+
+ onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        Globle().notificationFLag = true;    
+        // callApi();
+      });
+    }
   }
 
   @override
@@ -90,6 +105,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     super.didChangeDependencies();
   }
 
+@override
+  void dispose() {
+    // TODO: implement dispose
+    _streamSubscription.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -245,7 +266,26 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                       ),
                 title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                icon: Icon(
+                icon:  (Globle().notificationFLag)?
+                Stack(fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                 Positioned(
+                            top: -11,
+                            right: -11,
+                            child: Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text(STR_ONE,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                // : Text(STR_BLANK),
+                          )
+                ],):Icon(
                   OMIcons.notifications,
                   color: greytheme100,
                   size: 30,

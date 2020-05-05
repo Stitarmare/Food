@@ -5,6 +5,7 @@ import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
@@ -41,6 +42,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   ProgressDialog progressDialog;
   @override
   void initState() {
+    Globle().notificationFLag = false;
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     notificationPresenter.getNotifications(context);

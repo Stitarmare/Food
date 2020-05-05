@@ -56,7 +56,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
     });
     callApi();
     setTimer();
+    onStreamListen();
     super.initState();
+  }
+
+   onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        callApi();
+      });
+    }
   }
 
   setTimer() {
@@ -845,6 +854,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   void dispose() {
     // TODO: implement dispose
     _timer.cancel();
+    _streamSubscription.cancel();
     super.dispose();
   }
 }

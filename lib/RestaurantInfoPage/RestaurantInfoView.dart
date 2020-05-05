@@ -7,6 +7,7 @@ import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/locator.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -14,7 +15,7 @@ import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -24,11 +25,7 @@ class CallService {
   void call(String number) => launch("tel:$number");
 }
 
-GetIt locator = GetIt();
 
-void set() {
-  locator.registerSingleton(CallService());
-}
 
 class RestaurantInfoView extends StatefulWidget {
   int restId;
