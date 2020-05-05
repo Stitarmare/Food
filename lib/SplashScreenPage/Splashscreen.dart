@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/locator.dart';
@@ -63,24 +64,25 @@ class _SplashScreenState extends State<SplashScreen> {
         print(message);
         //         var fcmModel = FcmModel.fromJson(message);
 
-        // Globle().streamController.add(fcmModel);
+        Globle().streamController.add(1.0);
         //  final NavigationService _navigationService = locator<NavigationService>();
         //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
         
           Globle().notificationFLag = true;
           
           // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
-          Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
-        
+          // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
+         
         
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
         
           Globle().notificationFLag = true;
-      if (Globle().context != null) {
+    if (Globle().context != null) {
           // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
-          Navigator.pushNamed(context, STR_NOTIFICATION_PAGE);
+          // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE,arguments:{"flage":1} );
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NotificationView(flag: 1,) ));
         }
         
         //var fcmModel = FcmModel.fromJson(message);

@@ -17,7 +17,7 @@ class Globle {
   LoginModel loginModel;
   MenuCartDisplayModel menuCartDisplayModel;
   String fcmToken = "";
-  StreamController<FcmModel> streamController = StreamController<FcmModel>.broadcast();
+  StreamController<double> streamController = StreamController<double>.broadcast();
   bool notificationFLag = false;
   String colorscode;
   int dinecartValue = 0;
