@@ -57,6 +57,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   fcmConfiguration() {
     _fcm.configure(
+      onBackgroundMessage: Theme.of(context).platform == TargetPlatform.iOS
+      ? null
+      : myBackgroundMessageHandler,
       onMessage: (Map<String, dynamic> message) async {
         print(message);
                 var fcmModel = FcmModel.fromJson(message);
@@ -73,6 +76,12 @@ class _SplashScreenState extends State<SplashScreen> {
       },
     );
   }
+
+  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async { 
+    
+    return Future<void>.value();
+   }
+
 
   getFcmToken() async {
     String fcmToken = await _fcm.getToken();
