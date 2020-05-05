@@ -21,11 +21,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-  
 
   @override
   void initState() {
-    
     super.initState();
     setForIosPushNotification();
     fcmConfiguration();
@@ -63,18 +61,24 @@ class _SplashScreenState extends State<SplashScreen> {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print(message);
-                var fcmModel = FcmModel.fromJson(message);
-                
-        Globle().streamController.add(fcmModel);
-          //  final NavigationService _navigationService = locator<NavigationService>();
-          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE); 
-          if (Globle().context != null) {
-Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);  
-          } 
-        
+        //         var fcmModel = FcmModel.fromJson(message);
+
+        // Globle().streamController.add(fcmModel);
+        //  final NavigationService _navigationService = locator<NavigationService>();
+        //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
+        setState(() {
+          Globle().notificationFLag = true;
+        });
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
+        setState(() {
+          Globle().notificationFLag = true;
+        });
+        if (Globle().context != null) {
+          // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
+          Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
+        }
         var fcmModel = FcmModel.fromJson(message);
       },
       onResume: (Map<String, dynamic> message) async {
@@ -86,7 +90,7 @@ Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
 
   getFcmToken() async {
     String fcmToken = await _fcm.getToken();
-    Globle().fcmToken =  fcmToken;
+    Globle().fcmToken = fcmToken;
     print(fcmToken);
   }
 

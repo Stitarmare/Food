@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -116,11 +117,36 @@ Stream stream;
           brightness: Brightness.dark,
           actions: <Widget>[
             new IconButton(
-              icon: new Icon(
-                OMIcons.notifications,
-                color: greytheme100,
-                size: 28,
-              ),
+              // icon: new Icon(
+              //   OMIcons.notifications,
+              //   color: greytheme100,
+              //   size: 28,
+              // ),
+              icon: 
+               (Globle().notificationFLag)?
+                Stack(fit: StackFit.passthrough,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
+                 Positioned(
+                            top: -11,
+                            right: -11,
+                            child: Badge(
+                                    badgeColor: redtheme,
+                                    badgeContent: Text(STR_ONE,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(color: Colors.white)))
+                                // : Text(STR_BLANK),
+                          )
+                ],):Icon(
+                  OMIcons.notifications,
+                  color: greytheme100,
+                  size: 30,
+                ),
               onPressed: () {
                 Navigator.push(
                     context,
