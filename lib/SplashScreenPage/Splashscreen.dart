@@ -60,6 +60,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   fcmConfiguration() {
     _fcm.configure(
+      onBackgroundMessage: (Map<String, dynamic> message) async {
+        print(message);
+                var fcmModel = FcmModel.fromJson(message);
+              
+      },
       onMessage: (Map<String, dynamic> message) async {
         print(message);
                 var fcmModel = FcmModel.fromJson(message);
