@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -65,8 +66,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 var fcmModel = FcmModel.fromJson(message);
                 
         Globle().streamController.add(fcmModel);
-           final NavigationService _navigationService = locator<NavigationService>();
-              _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
+          //  final NavigationService _navigationService = locator<NavigationService>();
+          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>Landingview()));
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
