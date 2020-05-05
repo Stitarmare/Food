@@ -41,7 +41,8 @@ class _LandingStateView extends State<Landingview>
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
-
+Stream stream;
+  StreamSubscription<double> _streamSubscription;
 
   
 
@@ -61,8 +62,26 @@ class _LandingStateView extends State<Landingview>
     });
     _getLocation();
     Globle().context = context;
+    onStreamListen();
     super.initState();
 
+  }
+
+  onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        pushToNotification();
+      });
+    }
+  }
+
+
+
+  pushToNotification() {
+    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotificationView()));
   }
 
   @override
