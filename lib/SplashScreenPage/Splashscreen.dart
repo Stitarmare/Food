@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen> {
           //  final NavigationService _navigationService = locator<NavigationService>();
           //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE); 
           if (Globle().context != null) {
-Navigator.pushReplacementNamed(Globle().context, STR_NOTIFICATION_PAGE);  
+Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);  
           } 
         
       },
