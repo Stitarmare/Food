@@ -72,8 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 
         Globle().streamController.add(fcmModel);
           //  final NavigationService _navigationService = locator<NavigationService>();
-          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>Landingview()));
+          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);  
+        Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);  
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
