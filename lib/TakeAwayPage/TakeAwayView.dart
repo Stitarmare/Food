@@ -540,7 +540,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 children: <Widget>[
                   Icon(
                     OMIcons.accessTime,
-                    color: greentheme,
+                    color: Colors.green,
                     size: 15,
                   ),
                   SizedBox(
