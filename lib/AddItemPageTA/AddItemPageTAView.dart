@@ -265,7 +265,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: 90,
+            height: 91,
             child: Column(
               children: <Widget>[
                 Align(
@@ -285,32 +285,33 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     }
 
                     List<Sizes> sizess;
-    if (size != null) {
-      sizess = [size];
-    } else if (defaultSize != null) {
-      if (defaultSize.sizeid != null) {
-        sizess = [defaultSize];
-      }
-    }
+                    if (size != null) {
+                      sizess = [size];
+                    } else if (defaultSize != null) {
+                      if (defaultSize.sizeid != null) {
+                        sizess = [defaultSize];
+                      }
+                    }
 
-    List<Extras> extras;
-    if (extra != null) {
-      extras = extra;
-    } else {
-      extras = defaultExtra ?? null;
-    }
+                    List<Extras> extras;
+                    if (extra != null) {
+                      extras = extra;
+                    } else {
+                      extras = defaultExtra ?? null;
+                    }
 
-    List<Switches> switchess;
-    if (switches != null) {
-      switchess = switches;
-    } else {
-      switchess = defaultSwitch ?? null;
-    }
+                    List<Switches> switchess;
+                    if (switches != null) {
+                      switchess = switches;
+                    } else {
+                      switchess = defaultSwitch ?? null;
+                    }
 
                     addMenuToCartModel.items = [items];
                     if (sizess.length > 0) {
-      addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
-    }
+                      addMenuToCartModel.items[0].sizePriceId =
+                          sizess[0].sizeid;
+                    }
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
                     addMenuToCartModel.items[0].extra = extras;
@@ -395,9 +396,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Column(
               children: <Widget>[
                 Text(
-                  '${"Total "}' +
-                      '${getCurrencySymbol()}' +
-                      '${setPrice()}',
+                  '${"Total "}' + '${getCurrencySymbol()}' + '${setPrice()}',
                   style: TextStyle(
                       fontSize: 20,
                       color: redtheme,
@@ -460,7 +459,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
-                            onPressed: ()  {
+                            onPressed: () {
                               // DialogsIndicator.showLoadingDialog(
                               //     context, _keyLoader, STR_BLANK);
                               Navigator.of(context).pop();
@@ -901,17 +900,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   callClearCart() async {
-     await progressDialog.show();
-                              _addItemPagepresenter.clearCart(context);
-                              Preference.setPersistData<int>(
-                                  widget.restId, PreferenceKeys.restaurantID);
-                              Preference.setPersistData<bool>(
-                                  true, PreferenceKeys.isAlreadyINCart);
-                              Preference.setPersistData<String>(widget.restName,
-                                  PreferenceKeys.restaurantName);
-                              Globle().dinecartValue = 0;
-                              Preference.setPersistData<int>(
-                                  0, PreferenceKeys.dineCartItemCount);
+    await progressDialog.show();
+    _addItemPagepresenter.clearCart(context);
+    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        widget.restName, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
   }
 
   _getRadioOptionsSizes() {
@@ -980,7 +976,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             if (spread == null) {
                               spread = Spreads();
                             }
-                            radioBtnId= val;
+                            radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
                             // id = radionBtn.index;
@@ -1006,7 +1002,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return (double.parse(_addItemModelList.price)*count).toString() ;
+        return (double.parse(_addItemModelList.price) * count).toString();
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1021,13 +1017,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return (double.parse(itemSize.price)*count).toString();
+                  return (double.parse(itemSize.price) * count).toString();
                 }
               }
             }
           }
         }
-        return (double.parse(_addItemModelList.sizePrizes[0].price)*count).toString();
+        return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
+            .toString();
       }
     }
     return "";
@@ -1045,22 +1042,20 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     if (_checkBoxOptions != null) {
       if (_checkBoxOptions.length > 0) {
         if (extras != null) {
-          
           for (var check in _checkBoxOptions) {
-for (var ext in extras) {
+            for (var ext in extras) {
               if (ext.extraId == check.index) {
                 checkBoxOptionsPrice.add(check);
               }
+            }
           }
-          }
-          
         }
       }
     }
     if (checkBoxOptionsPrice.length > 0) {
       var extPirce = 0.0;
       for (var chekc in checkBoxOptionsPrice) {
-          extPirce += double.parse(chekc.price); 
+        extPirce += double.parse(chekc.price);
       }
       return (double.parse(price) + extPirce).toString();
     }
@@ -1401,9 +1396,8 @@ for (var ext in extras) {
 
   void getRequiredExtra(int length) {
     Extras extradefault = Extras();
-      defaultExtra = List<Extras>();
+    defaultExtra = List<Extras>();
     for (int i = 1; i <= length; i++) {
-      
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
         defaultExtra.add(extradefault);
@@ -1414,7 +1408,6 @@ for (var ext in extras) {
     } else {
       defaultExtra = null;
     }
-
   }
 
   void getRequiredSize(int length) {

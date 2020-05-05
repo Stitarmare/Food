@@ -93,6 +93,21 @@ class _RestaurantViewState extends State<RestaurantView>
 
       print(_selectedMenu);
     });
+                  abc = _categorydata[index].id;
+                    if (abc != null) {
+                      callItemOnCategorySelect();
+                    } else {
+                      abc = null;
+                      callItemOnCategorySelect();
+                    }
+  }
+
+  callItemOnCategorySelect() async {
+    _restaurantList = null;
+                      await progressDialog.show();
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
+                      
   }
 
   @override
@@ -357,21 +372,8 @@ class _RestaurantViewState extends State<RestaurantView>
         itemCount: _getMenucount(),
         itemBuilder: (context, index){
             return GestureDetector(
-              onTap: () async {
+              onTap: () {
                   _onSelected(index);
-                  await progressDialog.show();
-                  abc = _categorydata[index].id;
-                    if (abc != null) {
-                      _restaurantList = null;
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
-                      await progressDialog.show();
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
-                      print(abc);
-                    }
-                  // restaurantPresenter.getMenuList(widget.restId, context,
-                  //         categoryId: abc, menu: menutype);
               },
                       child: Container(
                   height: 40,
