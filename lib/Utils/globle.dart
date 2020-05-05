@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
@@ -25,5 +26,6 @@ class Globle {
   String orderNumber = STR_BLANK;
   String currencySymb = STR_BLANK;
   var authKey;
+  BuildContext context;
   int orderID = 0;
 }

@@ -41,6 +41,10 @@ class _LandingStateView extends State<Landingview>
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
+
+
+  
+
   @override
   void initState()  {
     
@@ -56,8 +60,19 @@ class _LandingStateView extends State<Landingview>
       }
     });
     _getLocation();
+    Globle().context = context;
     super.initState();
+
   }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+
+    super.didChangeDependencies();
+  }
+  
+
   _getLocation() async {
     GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) async {

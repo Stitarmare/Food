@@ -61,19 +61,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   fcmConfiguration() {
     _fcm.configure(
-      onBackgroundMessage: (Map<String, dynamic> message) async {
-        print(message);
-                var fcmModel = FcmModel.fromJson(message);
-              
-      },
       onMessage: (Map<String, dynamic> message) async {
         print(message);
                 var fcmModel = FcmModel.fromJson(message);
                 
         Globle().streamController.add(fcmModel);
           //  final NavigationService _navigationService = locator<NavigationService>();
-          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);  
-        Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);  
+          //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE); 
+          if (Globle().context != null) {
+Navigator.pushReplacementNamed(Globle().context, STR_NOTIFICATION_PAGE);  
+          } 
+        
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
