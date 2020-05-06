@@ -37,6 +37,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
   List<int> itemList = [];
   ProgressDialog progressDialog;
   int _dropdownTableNumber;
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
 
   String tableName;
   bool isTableList = false;
