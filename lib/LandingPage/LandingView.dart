@@ -49,7 +49,7 @@ Stream stream;
 
   @override
   void initState()  {
-    
+    stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
     
    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -71,7 +71,10 @@ Stream stream;
   onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
-        pushToNotification();
+        // pushToNotification();
+        setState(() {
+          Globle().notificationFLag = true;
+        });
       });
     }
   }
@@ -648,6 +651,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    
     _drawerController = HiddenDrawerController(
       initialPage: Landingview(
         title: STR_MAIN,

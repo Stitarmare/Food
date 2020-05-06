@@ -20,7 +20,8 @@ enum NotificationType {
 }
 
 class NotificationView extends StatefulWidget {
-  NotificationView({Key key}) : super(key: key);
+  var flag;
+  NotificationView({Key key,this.flag}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -72,6 +73,9 @@ class _NotificationViewState extends State<NotificationView>
               size: 22,
             ),
             onPressed: () {
+              if(widget.flag == 1){
+             Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+              }
               Navigator.pop(context);
             },
           ),
