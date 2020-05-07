@@ -20,7 +20,8 @@ class CartDetailsPage extends StatefulWidget {
   int orderId;
   int flag;
   bool isFromOrder = false;
-  CartDetailsPage({this.orderId, this.flag, this.isFromOrder});
+  int restId;
+  CartDetailsPage({this.orderId, this.flag, this.isFromOrder,this.restId});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -56,17 +57,17 @@ class CartDetailsPageState extends State<CartDetailsPage>
     });
     callApi();
     setTimer();
-    onStreamListen();
+    //onStreamListen();
     super.initState();
   }
 
-   onStreamListen() {
-    if (stream != null) {
-      _streamSubscription = stream.listen((onData) {
-        callApi();
-      });
-    }
-  }
+  //  onStreamListen() {
+  //   if (stream != null) {
+  //     _streamSubscription = stream.listen((onData) {
+  //       callApi();
+  //     });
+  //   }
+  // }
 
   setTimer() {
     _timer = Timer(_duration, () {
@@ -348,7 +349,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       MaterialPageRoute(
                                           builder: (context) => RestaurantView(
                                                 restId:
-                                                    myOrderDataDetails.restId,
+                                                    widget.restId,
                                                 title: "",
                                                 imageUrl: "",
                                                 isFromOrder: true,
@@ -854,7 +855,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   void dispose() {
     // TODO: implement dispose
     _timer.cancel();
-    _streamSubscription.cancel();
+    //_streamSubscription.cancel();
     super.dispose();
   }
 }

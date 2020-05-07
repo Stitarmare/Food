@@ -108,7 +108,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 @override
   void dispose() {
     // TODO: implement dispose
-    _streamSubscription.cancel();
+   // _streamSubscription.cancel();
     super.dispose();
   }
   @override

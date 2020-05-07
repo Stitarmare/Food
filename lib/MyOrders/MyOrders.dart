@@ -344,6 +344,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CartDetailsPage(
+                                      restId: _orderDetailList[index].restId,
                                           orderId: _orderDetailList[index].id,
                                           isFromOrder: true,
                                         )));

@@ -8,7 +8,7 @@ abstract class AddItemPageTAContractor {
 }
 
 abstract class AddItemPageTAModelView {
-  void addItemsuccess(List<AddItemModelList> additemlist);
+  void addItemsuccess(List<AddItemModelList> additemlist,AddItemPageModelList addItemPageModelList);
   void addItemfailed();
 }
 

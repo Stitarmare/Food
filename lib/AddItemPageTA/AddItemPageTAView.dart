@@ -60,6 +60,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   int sizesid = 1;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
+  AddItemPageModelList addItemPageModelList1;
 
   String specialReq;
   Spreads defaultSpread;
@@ -308,10 +309,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     }
 
                     addMenuToCartModel.items = [items];
-                    if (sizess.length > 0) {
+                    if (sizess != null) {
+                        if (sizess.length > 0) {
                       addMenuToCartModel.items[0].sizePriceId =
                           sizess[0].sizeid;
                     }
+                    }
+                    
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
                     addMenuToCartModel.items[0].extra = extras;
@@ -616,7 +620,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.spreadsLabel ??
+                                    addItemPageModelList1.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -689,7 +693,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.extrasLabel ??
+                                    addItemPageModelList1.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -761,7 +765,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.switchesLabel ??
+                                    addItemPageModelList1.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -1326,11 +1330,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  Future<void> addItemsuccess(List<AddItemModelList> _additemlist) async {
+  Future<void> addItemsuccess(List<AddItemModelList> _additemlist,AddItemPageModelList addItemPageModelList) async {
     setState(() {
       isLoding = false;
+      _addItemModelList = _additemlist[0];
+    addItemPageModelList1 = addItemPageModelList;
     });
-    _addItemModelList = _additemlist[0];
+    
 
     getradiobtn(_addItemModelList.spreads.length);
     getRequiredSpread(_addItemModelList.spreads.length);

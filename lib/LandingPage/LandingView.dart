@@ -37,8 +37,8 @@ class _LandingStateView extends State<Landingview>
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
-  final GlobalKey<_LandingStateView> _scaffoldKey =
-      GlobalKey<_LandingStateView>();
+  //final GlobalKey<_LandingStateView> _scaffoldKey =
+      //GlobalKey<_LandingStateView>();
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -483,6 +483,7 @@ await progressDialog.show();
           await Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => 
               CartDetailsPage(
+                restId: _model.data.dineIn.restId,
                 orderId: Globle().orderID,
                 isFromOrder: true,
               )
