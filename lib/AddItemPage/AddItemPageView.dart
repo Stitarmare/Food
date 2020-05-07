@@ -690,13 +690,15 @@ if (sizess.length > 0) {
   }
 
   callClearCart() async {
-    await progressDialog.show();
-    _addItemPagepresenter.clearCart(context);
-    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<String>(
-        widget.restName, PreferenceKeys.restaurantName);
+        null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
+    await progressDialog.show();
+   
+    
+     _addItemPagepresenter.clearCart(context);
   }
 
   getlistoftable() {
@@ -1661,7 +1663,9 @@ if (sizess.length > 0) {
   }
 
   @override
-  void clearCartFailed() {}
+  void clearCartFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> clearCartSuccess() async {
@@ -1673,7 +1677,9 @@ if (sizess.length > 0) {
   }
 
   @override
-  void updateOrderFailed() {}
+  void updateOrderFailed() async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> updateOrderSuccess() async {

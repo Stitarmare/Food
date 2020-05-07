@@ -565,6 +565,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
+         await progressDialog.hide();
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData<int>(
@@ -592,21 +593,33 @@ class _MyCartTWViewState extends State<MyCartTWView>
       }
       page++;
     });
-    await progressDialog.hide();
+   
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> removeItemFailed() async {
+    await progressDialog.hide();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> removeItemSuccess() async {
+    await progressDialog.hide();
+    if (_cartItemList != null) {
+      if (_cartItemList.length == 0) {
+        Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        null, PreferenceKeys.restaurantName);
+     Globle().takeAwayCartItemCount = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+      }
+    }
     _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
@@ -616,7 +629,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    await progressDialog.hide();
+    
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

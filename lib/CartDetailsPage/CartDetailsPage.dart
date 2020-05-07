@@ -632,12 +632,33 @@ class CartDetailsPageState extends State<CartDetailsPage>
             ),
           );
   }
+  bool isPayBillButtonEnable() {
+    if (myOrderDataDetails != null) {
+      if (myOrderDataDetails.splitbilltransactions!=null) {
+    if (myOrderDataDetails.splitbilltransactions.length>0) {
+      var isPaid = false;
+        for (var trans in myOrderDataDetails.splitbilltransactions) {
+          if (Globle().loginModel.data.id == trans.userId) {
+            if (trans.paystatus == "paid") {
+
+            }
+          }
+        }
+      }
+      }
+    }
+
+    return false;
+  }
 
   callIncreaseQuantityApi(int itemId, String id) async {
     await progressDialog.show();
     _paymentTipandPayDiPresenter.increaseQuantity(
         myOrderDataDetails.id.toString(), itemId.toString(), id, context);
   }
+
+  
+
   // String getExtra(CartDetailData menuCartList) {
   //   var extras = "";
   //   for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {

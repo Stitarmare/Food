@@ -906,10 +906,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   callClearCart() async {
     await progressDialog.show();
     _addItemPagepresenter.clearCart(context);
-    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<String>(
-        widget.restName, PreferenceKeys.restaurantName);
+        null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
   }

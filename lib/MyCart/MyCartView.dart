@@ -728,6 +728,16 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemSuccess() async {
+    if (_cartItemList != null) {
+      if (_cartItemList.length == 0) {
+        Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        null, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+      }
+    }
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
