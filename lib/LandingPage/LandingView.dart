@@ -71,6 +71,7 @@ Stream stream;
   onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
+        callApi();
         // pushToNotification();
         setState(() {
           Globle().notificationFLag = true;

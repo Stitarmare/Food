@@ -44,12 +44,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
+  Stream stream;
+  StreamSubscription<double> _streamSubscription;
   var isFirst = false;
   var _timer;
   Duration _duration = Duration(seconds: 30);
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
+    stream = Globle().streamController.stream;
 
     setState(() {
       isloading = true;
@@ -61,13 +64,13 @@ class CartDetailsPageState extends State<CartDetailsPage>
     super.initState();
   }
 
-  //  onStreamListen() {
-  //   if (stream != null) {
-  //     _streamSubscription = stream.listen((onData) {
-  //       callApi();
-  //     });
-  //   }
-  // }
+   onStreamListen() {
+    if (stream != null) {
+      _streamSubscription = stream.listen((onData) {
+        callApi();
+      });
+    }
+  }
 
   setTimer() {
     _timer = Timer(_duration, () {
@@ -304,6 +307,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                       children: <Widget>[
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
+                          isPayBillButtonEnable() ? Container() : 
                         GestureDetector(
                           onTap: () {
                             _timer.cancel();
@@ -317,7 +321,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                           },
                           child: Container(
                             height: 54,
-                            width: MediaQuery.of(context).size.width * 0.45,
+                            width: isAddMoreButtonEnable() ? (MediaQuery.of(context).size.width * 0.9)  : (MediaQuery.of(context).size.width * 0.45),
                             decoration: BoxDecoration(
                                 color: Globle().colorscode != null
                                     ? getColorByHex(Globle().colorscode)
@@ -337,9 +341,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             ),
                           ),
                         ),
+                        isAddMoreButtonEnable() ?
+                        Container() :
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
-                        GestureDetector(
+                         isAddMoreButtonEnable() ? Container() : GestureDetector(
                           onTap: () {
                             if (widget.isFromOrder) {
                               if (myOrderDataDetails != null) {
@@ -640,10 +646,31 @@ class CartDetailsPageState extends State<CartDetailsPage>
         for (var trans in myOrderDataDetails.splitbilltransactions) {
           if (Globle().loginModel.data.id == trans.userId) {
             if (trans.paystatus == "paid") {
-
+                isPaid = true;
             }
           }
         }
+        return isPaid;
+      }
+      }
+    }
+
+    return false;
+  }
+
+  bool isAddMoreButtonEnable() {
+    if (myOrderDataDetails != null) {
+      if (myOrderDataDetails.splitbilltransactions!=null) {
+    if (myOrderDataDetails.splitbilltransactions.length>0) {
+      var isPaid = false;
+        for (var trans in myOrderDataDetails.splitbilltransactions) {
+          
+            if (trans.paystatus == "paid") {
+                isPaid = true;
+            
+          }
+        }
+        return isPaid;
       }
       }
     }
@@ -876,7 +903,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   void dispose() {
     // TODO: implement dispose
     _timer.cancel();
-    //_streamSubscription.cancel();
+    _streamSubscription.cancel();
     super.dispose();
   }
 }
