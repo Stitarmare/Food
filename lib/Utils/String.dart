@@ -244,6 +244,7 @@ const STR_RATINGS = "Ratings";
 const STR_FAVORITE = "Favourites Only ";
 const STR_PLEASE_WAIT = "Please Wait";
 const STR_DINE_IN = "Dine In";
+const STR_DELIVERY_FOOD = "Delivery";
 const FOODZI_LOGO_PATH = "assets/Logo/foodzi_logo.png";
 const STR_ORDER_EASY = 'ORDER EASY';
 const LEVEL_IMAGE_PATH = 'assets/LevelsIcon/levels.png';
@@ -299,7 +300,9 @@ const JSON_STR_MOB_NO = "mobile_number";
 const MENU_IAMGE_PATH = 'assets/MenuIcon/menu.png';
 const FODDZI_LOGO_3X = "assets/Logo/foodzi_logo.png";
 const STR_HELLO = 'Hello';
+const STR_HI = "Hi";
 const STR_FAV_FINGERTIP = 'All your favourites at your fingertip !!';
+const STR_WHAT_LIKE_TO_DO = 'What would you like to do?';
 const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';
 const STR_DINEIN_TITLE = 'Dine-in';
 const STR_SERVED_RESTAUTRANT = 'Get served in Restaurant';
@@ -320,6 +323,9 @@ const STR_ABOUT_US = 'About Us';
 const STR_INVITE = 'invite';
 const STR_HELP = 'Help';
 const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
+const STR_COLLECT_FOOD = 'I WANT TO COLLECT MY FOOD';
+const STR_DELEIVER_FOOD = 'PLEASE DELIVER MY FOOD';
+const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
 
 // Login Page
 const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';
@@ -512,6 +518,7 @@ const STR_SMALL_NOTIFI = 'notification';
 const STR_SMALL_TITLE = 'title';
 const STR_BODY = 'body';
 const SPLASH_SCREEN_IAMGE_PATH = 'assets/SplashScreen/LauncherScreen.png';
+const SPLASH_SCREEN_LAUNCHER_IMAGE_PATH = 'assets/SplashScreen/LauncherImg.png';
 
 // SplitBill Page
 const JSON_STR_OPTION = "option";
