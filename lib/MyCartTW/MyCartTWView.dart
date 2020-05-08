@@ -130,7 +130,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            if (_cartItemList[i].quantity < 100) {
+            if (_cartItemList[i].quantity < 10) {
               setState(() {
                 _cartItemList[i].quantity += 1;
                 print(_cartItemList[i].quantity);

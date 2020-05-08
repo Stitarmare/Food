@@ -1177,7 +1177,7 @@ if (sizess.length > 0) {
       }
     }
 
-    return "";
+    return "R";
   }
 
   String getTotalText() {
