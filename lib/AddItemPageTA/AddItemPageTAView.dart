@@ -1000,7 +1000,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       }
     }
 
-    return "";
+    return "R";
   }
 
   String getTotalText() {

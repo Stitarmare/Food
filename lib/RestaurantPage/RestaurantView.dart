@@ -217,15 +217,16 @@ class _RestaurantViewState extends State<RestaurantView>
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
                                 ),
-                                Text(
-                                  STR_NO_ITEM_FOUND,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontSize: FONTSIZE_25,
-                                      fontFamily: KEY_FONTFAMILY,
-                                      fontWeight: FontWeight.w500,
-                                      color: greytheme700),
-                                ),
+                                CircularProgressIndicator()
+                                // Text(
+                                //   STR_NO_ITEM_FOUND,
+                                //   textAlign: TextAlign.start,
+                                //   style: TextStyle(
+                                //       fontSize: FONTSIZE_25,
+                                //       fontFamily: KEY_FONTFAMILY,
+                                //       fontWeight: FontWeight.w500,
+                                //       color: greytheme700),
+                                // ),
                               ],
                             ),
                           ),
