@@ -307,7 +307,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                       children: <Widget>[
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                          isPayBillButtonEnable() ? Container() : 
+                          
                         GestureDetector(
                           onTap: () {
                             _timer.cancel();
@@ -319,7 +319,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                           tableId: myOrderDataDetails.tableId,
                                         )));
                           },
-                          child: Container(
+                          child: isPayBillButtonEnable() ? Container() :  Container(
                             height: 54,
                             width: isAddMoreButtonEnable() ? (MediaQuery.of(context).size.width * 0.9)  : (MediaQuery.of(context).size.width * 0.45),
                             decoration: BoxDecoration(
@@ -345,7 +345,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                         Container() :
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.06),
-                         isAddMoreButtonEnable() ? Container() : GestureDetector(
+                          GestureDetector(
                           onTap: () {
                             if (widget.isFromOrder) {
                               if (myOrderDataDetails != null) {
@@ -376,7 +376,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                               }
                             }
                           },
-                          child: Container(
+                          child: isAddMoreButtonEnable() ? Container() :  Container(
                             height: 54,
                             width: MediaQuery.of(context).size.width * 0.45,
                             decoration: BoxDecoration(
@@ -441,8 +441,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
         ),
         InkWell(
           onTap: () {
-            callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,
+            if (!isAddMoreButtonEnable()) {
+              callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,
                 myOrderDataDetails.list[index].id.toString());
+            } 
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -902,8 +904,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
   @override
   void dispose() {
     // TODO: implement dispose
-    _timer.cancel();
-    _streamSubscription.cancel();
+    if (_timer != null) {
+_timer.cancel();
+    }
+    
+    if (_streamSubscription!=null) {
+_streamSubscription.cancel();
+    }
+  
+    
     super.dispose();
   }
 }
