@@ -383,7 +383,7 @@ class _RegisterviewState extends State<Registerview>
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, STR_LOGIN_PAGE);
+              Navigator.of(context).pop();
             },
             child: new Text(
               KEY_SIGNIN,
