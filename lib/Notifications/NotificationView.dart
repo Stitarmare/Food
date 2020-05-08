@@ -154,7 +154,7 @@ class _NotificationViewState extends State<NotificationView>
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      if (notificationData[index].invitationStatus.isEmpty || notificationData[index].invitationStatus == null) {
+      if ( notificationData[index].invitationStatus == null || notificationData[index].invitationStatus.isEmpty) {
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
