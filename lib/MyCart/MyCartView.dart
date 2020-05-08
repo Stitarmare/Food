@@ -140,9 +140,7 @@ class _MyCartViewState extends State<MyCartView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: (menuCartList.quantity == 1)
-              ? () {}
-              : () async {
+          onTap: () async {
                   if (menuCartList.quantity > 0) {
                     setState(() {
                       menuCartList.quantity -= 1;
@@ -160,8 +158,6 @@ class _MyCartViewState extends State<MyCartView>
                           context);
                     }
                     if (menuCartList.quantity == 0) {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
                       await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
