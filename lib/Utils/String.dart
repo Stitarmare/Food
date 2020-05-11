@@ -305,6 +305,7 @@ const STR_FAV_FINGERTIP = 'All your favourites at your fingertip !!';
 const STR_WHAT_LIKE_TO_DO = 'What would you like to do?';
 const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';
 const STR_DINEIN_TITLE = 'Dine-in';
+const STR_DELIVERY_TITLE = "Delivery";
 const STR_SERVED_RESTAUTRANT = 'Get served in Restaurant';
 const STR_VIEW_YOUR_ORDER = 'Track Your Order';
 const TAKE_AWAY_IMAGE_PATH = 'assets/TakeAwayImage/Group1505.png';

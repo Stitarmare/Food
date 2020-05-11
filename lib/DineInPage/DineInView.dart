@@ -74,7 +74,6 @@ class _DineViewState extends State<DineInView>
 
   @override
   void initState() {
-    
     dinerestaurantPresenter = DineInRestaurantPresenter(this);
     if (Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount) !=
         null) {
@@ -89,8 +88,6 @@ class _DineViewState extends State<DineInView>
 
     super.initState();
   }
-
-  
 
   _getLocation() async {
     setState(() {
@@ -436,14 +433,8 @@ class _DineViewState extends State<DineInView>
 
   callOnfilter() async {
     await progressDialog.show();
-                                        dinerestaurantPresenter
-                                            .getrestaurantspage(
-                                                _position.latitude.toString(),
-                                                _position.longitude.toString(),
-                                                sortedBy,
-                                                filteredBy,
-                                                page,
-                                                context);
+    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
+        _position.longitude.toString(), sortedBy, filteredBy, page, context);
   }
 
   Widget restaurantsInfo() {
@@ -481,8 +472,7 @@ class _DineViewState extends State<DineInView>
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
                               tableName: widget.tableName,
-                            )
-                            ));
+                            )));
                     setState(() {});
                   }));
         },
@@ -647,12 +637,12 @@ class _DineViewState extends State<DineInView>
   }
 
   @override
-  void restaurantfailed() async{
+  void restaurantfailed() async {
     await progressDialog.hide();
   }
 
   @override
-  void restaurantsuccess(List<RestaurantList> restlist) async{
+  void restaurantsuccess(List<RestaurantList> restlist) async {
     isIgnoreTouch = false;
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -671,7 +661,6 @@ class _DineViewState extends State<DineInView>
       }
       page++;
     });
-    
   }
 }
 

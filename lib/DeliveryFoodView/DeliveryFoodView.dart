@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
+import 'package:foodzi/BottomTabbar/DeliveryBottomTabbar.dart';
+import 'package:foodzi/DeliveryFoodView/DeliveryContractor.dart';
+import 'package:foodzi/DeliveryFoodView/DeliveryPresenter.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -27,10 +30,10 @@ class DeliveryFoodView extends StatefulWidget {
 }
 
 class _DeliveryFoodViewState extends State<DeliveryFoodView>
-    implements DineInRestaurantListModelView {
+    implements DineInDeliveryModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
-  DineInRestaurantPresenter dinerestaurantPresenter;
+  DineInDeliveryPresenter dinerestaurantPresenter;
   List<RestaurantList> _restaurantList;
   ProgressDialog progressDialog;
 
@@ -74,7 +77,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
 
   @override
   void initState() {
-    dinerestaurantPresenter = DineInRestaurantPresenter(this);
+    dinerestaurantPresenter = DineInDeliveryPresenter(this);
     if (Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount) !=
         null) {
       Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount)
@@ -465,7 +468,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                     //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
                     Globle().colorscode = _restaurantList[i].colourCode;
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome(
+                        builder: (context) => DeliveryBottomTabbarHome(
                               title: _restaurantList[i].restName,
                               restId: _restaurantList[i].id,
                               lat: _restaurantList[i].latitude,
