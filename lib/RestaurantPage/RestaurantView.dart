@@ -60,14 +60,6 @@ class _RestaurantViewState extends State<RestaurantView>
   var tableID;
   RestaurantItemsModel restaurantItemsModel;
 
-  List<MenuTitles> _subcategorydata = [
-    MenuTitles(title: 'Water'),
-    MenuTitles(title: 'Wine'),
-    MenuTitles(title: 'Beer'),
-    MenuTitles(title: 'Soda'),
-    MenuTitles(title: 'Hot Drinks'),
-  ];
-
   var abc;
   @override
   void initState() {
@@ -393,55 +385,85 @@ class _RestaurantViewState extends State<RestaurantView>
     return SliverToBoxAdapter(
       child: Center(
         child: Container(
-          margin: EdgeInsets.only(left: 8),
           height: 50,
-          width: MediaQuery.of(context).size.width * 0.13 / 0.6,
+          width: MediaQuery.of(context).size.width / 2.4,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: _getMenucount(),
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    _onSelected(index);
-                  },
-                  child: Container(
-                    height: 50,
-                    // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                    padding: EdgeInsets.only(
-                        left: _categorydata[index].name.length > 5 ? 6 : 5,
-                        right: _categorydata[index].name.length > 5 ? 6 : 5,
-                        top: 10,
-                        bottom: 0),
-                    margin: EdgeInsets.only(left: 6),
-                    // decoration: BoxDecoration(
-                    //   border: Border.all(
-                    //     width: 1,
-                    //     color: _selectedMenu != null && _selectedMenu == index
-                    //                   ? getColorByHex(Globle().colorscode)
-                    //                   : Color.fromRGBO(118, 118, 118, 1),
-                    //   ),
-                    //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                    //   // color: _selectedMenu != null && _selectedMenu == index
-                    //   //                 ? getColorByHex(Globle().colorscode)
-                    //   //                 : Color.fromRGBO(118, 118, 118, 1),
-                    // ),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          _categorydata[index].name ?? STR_BLANK,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color:
-                                _selectedMenu != null && _selectedMenu == index
-                                    ? getColorByHex(Globle().colorscode)
-                                    : Color.fromRGBO(118, 118, 118, 1),
-                            decoration: TextDecoration.underline,
-                          ),
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.13 / 0.7,
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                          child: GestureDetector(
+                              onTap: () async {
+                                _onSelected(index);
+                              },
+                              child: Text(
+                                _categorydata[index].name,
+                                style: TextStyle(
+                                    color: _selectedMenu != null &&
+                                            _selectedMenu == index
+                                        ? getColorByHex(Globle().colorscode)
+                                        : Color.fromRGBO(118, 118, 118, 1),
+                                    fontSize: 16.0),
+                              ))),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                        child: Divider(
+                          thickness: 1,
+                          color: _selectedMenu != null && _selectedMenu == index
+                              ? getColorByHex(Globle().colorscode)
+                              : Color.fromRGBO(118, 118, 118, 1),
                         ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
+                  // ),
                 );
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSelected(index);
+                //   },
+                //   child: Container(
+                //     height: 50,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _categorydata[index].name.length > 5 ? 6 : 5,
+                //         right: _categorydata[index].name.length > 5 ? 6 : 5,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     // decoration: BoxDecoration(
+                //     //   border: Border.all(
+                //     //     width: 1,
+                //     //     color: _selectedMenu != null && _selectedMenu == index
+                //     //                   ? getColorByHex(Globle().colorscode)
+                //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                //     //   ),
+                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     //   // color: _selectedMenu != null && _selectedMenu == index
+                //     //   //                 ? getColorByHex(Globle().colorscode)
+                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     // ),
+                //     child: Column(
+                //       children: <Widget>[
+                //         Text(
+                //           _categorydata[index].name ?? STR_BLANK,
+                //           style: TextStyle(
+                //             fontSize: 16,
+                //             color:
+                //                 _selectedMenu != null && _selectedMenu == index
+                //                     ? getColorByHex(Globle().colorscode)
+                //                     : Color.fromRGBO(118, 118, 118, 1),
+                //             decoration: TextDecoration.underline,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // );
               }),
         ),
       ),
@@ -450,53 +472,84 @@ class _RestaurantViewState extends State<RestaurantView>
 
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.only(left: 8),
-        height: 50,
-        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _getSubMenucount(),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  _onSubMenuSelected(index);
-                },
-                child: Container(
-                  // height: 40,
-                  // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                  padding: EdgeInsets.only(
-                      left: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                      right: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                      top: 10,
-                      bottom: 0),
-                  margin: EdgeInsets.only(left: 6),
-                  // decoration: BoxDecoration(
-                  //   border: Border.all(
-                  //     width: 1,
-                  //     color: _selectedMenu != null && _selectedMenu == index
-                  //                   ? getColorByHex(Globle().colorscode)
-                  //                   : Color.fromRGBO(118, 118, 118, 1),
-                  //   ),
-                  //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //   // color: _selectedMenu != null && _selectedMenu == index
-                  //   //                 ? getColorByHex(Globle().colorscode)
-                  //   //                 : Color.fromRGBO(118, 118, 118, 1),
-                  // ),
-                  child: Text(
-                    _subcategorydata[index].title,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color:
-                          _selectedSubMenu != null && _selectedSubMenu == index
-                              ? getColorByHex(Globle().colorscode)
-                              : Color.fromRGBO(118, 118, 118, 1),
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              );
-            }),
+      child: Center(
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width / 0.5,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getSubMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                    width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  _subcategorydata[index].title,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                ))),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                          child: Divider(
+                            thickness: 1,
+                            color: _selectedSubMenu != null &&
+                                    _selectedSubMenu == index
+                                ? getColorByHex(Globle().colorscode)
+                                : Color.fromRGBO(118, 118, 118, 1),
+                          ),
+                        )
+                      ],
+                    ));
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSubMenuSelected(index);
+                //   },
+                //   child: Container(
+                //     // height: 40,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     // decoration: BoxDecoration(
+                //     //   border: Border.all(
+                //     //     width: 1,
+                //     //     color: _selectedMenu != null && _selectedMenu == index
+                //     //                   ? getColorByHex(Globle().colorscode)
+                //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                //     //   ),
+                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     //   // color: _selectedMenu != null && _selectedMenu == index
+                //     //   //                 ? getColorByHex(Globle().colorscode)
+                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     // ),
+                //     child: Text(
+                //       _subcategorydata[index].title,
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color:
+                //             _selectedSubMenu != null && _selectedSubMenu == index
+                //                 ? getColorByHex(Globle().colorscode)
+                //                 : Color.fromRGBO(118, 118, 118, 1),
+                //         decoration: TextDecoration.underline,
+                //       ),
+                //     ),
+                //   ),
+                // );
+              }),
+        ),
       ),
     );
   }
@@ -853,6 +906,14 @@ class _RestaurantViewState extends State<RestaurantView>
     });
   }
 }
+
+List<MenuTitles> _subcategorydata = [
+  MenuTitles(title: 'Water'),
+  MenuTitles(title: 'Wine'),
+  MenuTitles(title: 'Beer'),
+  MenuTitles(title: 'Soda'),
+  MenuTitles(title: 'Hot Drinks'),
+];
 
 class MenuTitles {
   String title;
