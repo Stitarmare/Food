@@ -47,6 +47,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
   int _selectedMenu = 0;
+  int _selectedSubMenu = 0;
   var abc;
   @override
   void initState() {
@@ -79,6 +80,35 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
       print(_selectedMenu);
     });
+    abc = _categorydata[index].id;
+    if (abc != null) {
+      callItemOnCategorySelect();
+    } else {
+      abc = null;
+      callItemOnCategorySelect();
+    }
+  }
+
+  _onSubMenuSelected(index) {
+    setState(() {
+      _selectedSubMenu = index;
+
+      print(_selectedSubMenu);
+    });
+    // abc = _categorydata[index].id;
+    // if (abc != null) {
+    //   callItemOnCategorySelect();
+    // } else {
+    //   abc = null;
+    //   callItemOnCategorySelect();
+    // }
+  }
+
+  callItemOnCategorySelect() async {
+    _restaurantList = null;
+    await progressDialog.show();
+    restaurantPresenter.getMenuList(widget.restId, context,
+        categoryId: abc, menu: menutype);
   }
 
   @override
@@ -139,6 +169,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 ),
                 // _getOptionsformenu(context),
                 _getMenuListHorizontal(context),
+                _getSubMenuListHorizontal(context),
                 SliverToBoxAdapter(
                   child: Container(
                     child: SizedBox(
@@ -615,9 +646,100 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     );
   }
 
+  _getSubMenuListHorizontal(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Center(
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width / 0.5,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getSubMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                    width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  _subcategorydata[index].title,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                ))),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                          child: Divider(
+                            thickness: 1,
+                            color: _selectedSubMenu != null &&
+                                    _selectedSubMenu == index
+                                ? getColorByHex(Globle().colorscode)
+                                : Color.fromRGBO(118, 118, 118, 1),
+                          ),
+                        )
+                      ],
+                    ));
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSubMenuSelected(index);
+                //   },
+                //   child: Container(
+                //     // height: 40,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     // decoration: BoxDecoration(
+                //     //   border: Border.all(
+                //     //     width: 1,
+                //     //     color: _selectedMenu != null && _selectedMenu == index
+                //     //                   ? getColorByHex(Globle().colorscode)
+                //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                //     //   ),
+                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     //   // color: _selectedMenu != null && _selectedMenu == index
+                //     //   //                 ? getColorByHex(Globle().colorscode)
+                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     // ),
+                //     child: Text(
+                //       _subcategorydata[index].title,
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color:
+                //             _selectedSubMenu != null && _selectedSubMenu == index
+                //                 ? getColorByHex(Globle().colorscode)
+                //                 : Color.fromRGBO(118, 118, 118, 1),
+                //         decoration: TextDecoration.underline,
+                //       ),
+                //     ),
+                //   ),
+                // );
+              }),
+        ),
+      ),
+    );
+  }
+
   int _getMenucount() {
     if (_categorydata != null) {
       return _categorydata.length;
+    }
+    return 0;
+  }
+
+  int _getSubMenucount() {
+    if (_subcategorydata != null) {
+      return _subcategorydata.length;
     }
     return 0;
   }
