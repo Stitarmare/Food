@@ -325,11 +325,15 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   getAlreadyInCart() async {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
-    if (alreadyIncartStatus == true) {
+    var restId = await Preference.getPrefValue<int>( PreferenceKeys.restaurantID);
+    if (restId != null) {
+if (alreadyIncartStatus == true && restId == widget.restId) {
       setState(() {
         cartStatus = true;
       });
     }
+    }
+    
   }
 
   getOrderID() async {
