@@ -26,7 +26,12 @@ class RestaurantView extends StatefulWidget {
   bool isFromOrder = false;
 
   int categoryid;
-  RestaurantView({this.title, this.restId, this.categoryid, this.imageUrl,this.isFromOrder});
+  RestaurantView(
+      {this.title,
+      this.restId,
+      this.categoryid,
+      this.imageUrl,
+      this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantViewState();
@@ -34,7 +39,7 @@ class RestaurantView extends StatefulWidget {
 }
 
 class _RestaurantViewState extends State<RestaurantView>
-    implements RestaurantModelView,MenuDropdownModelView{
+    implements RestaurantModelView, MenuDropdownModelView {
   RestaurantPresenter restaurantPresenter;
 
   List<RestaurantMenuItem> _restaurantList;
@@ -46,13 +51,22 @@ class _RestaurantViewState extends State<RestaurantView>
   bool _switchvalue = false;
   bool isselected = false;
   ProgressDialog progressDialog;
-   MenuDropdpwnPresenter menudropdownPresenter;
-   List<CategoryItems> _categorydata;
+  MenuDropdpwnPresenter menudropdownPresenter;
+  List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
   int _selectedMenu = 0;
-  var tableID; 
+  int _selectedSubMenu = 0;
+  var tableID;
   RestaurantItemsModel restaurantItemsModel;
+
+  List<MenuTitles> _subcategorydata = [
+    MenuTitles(title: 'Water'),
+    MenuTitles(title: 'Wine'),
+    MenuTitles(title: 'Beer'),
+    MenuTitles(title: 'Soda'),
+    MenuTitles(title: 'Hot Drinks'),
+  ];
 
   var abc;
   @override
@@ -68,8 +82,8 @@ class _RestaurantViewState extends State<RestaurantView>
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
-     menudropdownPresenter = MenuDropdpwnPresenter(this);
-     menudropdownPresenter.getMenuLCategory(widget.restId, context);
+    menudropdownPresenter = MenuDropdpwnPresenter(this);
+    menudropdownPresenter.getMenuLCategory(widget.restId, context);
     super.initState();
   }
 
@@ -87,27 +101,41 @@ class _RestaurantViewState extends State<RestaurantView>
     });
   }
 
- _onSelected(index) {
+  _onSelected(index) {
     setState(() {
       _selectedMenu = index;
 
       print(_selectedMenu);
     });
-                  abc = _categorydata[index].id;
-                    if (abc != null) {
-                      callItemOnCategorySelect();
-                    } else {
-                      abc = null;
-                      callItemOnCategorySelect();
-                    }
+    abc = _categorydata[index].id;
+    if (abc != null) {
+      callItemOnCategorySelect();
+    } else {
+      abc = null;
+      callItemOnCategorySelect();
+    }
+  }
+
+  _onSubMenuSelected(index) {
+    setState(() {
+      _selectedSubMenu = index;
+
+      print(_selectedSubMenu);
+    });
+    // abc = _categorydata[index].id;
+    // if (abc != null) {
+    //   callItemOnCategorySelect();
+    // } else {
+    //   abc = null;
+    //   callItemOnCategorySelect();
+    // }
   }
 
   callItemOnCategorySelect() async {
     _restaurantList = null;
-                      await progressDialog.show();
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
-                      
+    await progressDialog.show();
+    restaurantPresenter.getMenuList(widget.restId, context,
+        categoryId: abc, menu: menutype);
   }
 
   @override
@@ -117,71 +145,70 @@ class _RestaurantViewState extends State<RestaurantView>
     return Scaffold(
         appBar: AppBar(
           title: Center(
-            child: 
-              // Align(
-              //         alignment: Alignment.center,
-              //         child: Image.asset(
-              //           FOODZI_LOGO_PATH,
-              //           height: 50,
-              //         )),
-              CachedNetworkImage(
-        placeholder: (context, url) =>
-            Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restLogo}",
-        height: 50,
-        // width: MediaQuery.of(context).size.width * 5,
-        fit: BoxFit.cover,
-        errorWidget: (context, url, error) => Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.cover,
-          height: 40,
-          width: 40,
-        ),
-          ),
+            child:
+                // Align(
+                //         alignment: Alignment.center,
+                //         child: Image.asset(
+                //           FOODZI_LOGO_PATH,
+                //           height: 50,
+                //         )),
+                CachedNetworkImage(
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              imageUrl: BaseUrl.getBaseUrlImages() +
+                  "${restaurantItemsModel.restLogo}",
+              height: 50,
+              // width: MediaQuery.of(context).size.width * 5,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) => Image.asset(
+                RESTAURANT_IMAGE_PATH,
+                fit: BoxFit.cover,
+                height: 40,
+                width: 40,
+              ),
+            ),
           ),
           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
           actions: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                //           Align(
+                //               alignment: Alignment.centerRight,
+                //               child: CachedNetworkImage(
+                // placeholder: (context, url) =>
+                //     Center(child: CircularProgressIndicator()),
+                // imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restImage}",
+                // errorWidget: (context, url, error) => Image.asset(
+                //   RESTAURANT_IMAGE_PATH,
+                //   fit: BoxFit.fill,
+                // ),
+                // ),
+                //       )
+                //  Align(
+                //   alignment: Alignment.center,
+                //   child: Image.asset(
+                //     FOODZI_LOGO_PATH,
+                //     height: 30,
+                //   )),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-        //           Align(
-        //               alignment: Alignment.centerRight,
-        //               child: CachedNetworkImage(
-        // placeholder: (context, url) =>
-        //     Center(child: CircularProgressIndicator()),
-        // imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restImage}",
-        // errorWidget: (context, url, error) => Image.asset(
-        //   RESTAURANT_IMAGE_PATH,
-        //   fit: BoxFit.fill,
-        // ),
-            // ),
-            //       )
-                    //  Align(
-                    //   alignment: Alignment.center,
-                    //   child: Image.asset(
-                    //     FOODZI_LOGO_PATH,
-                    //     height: 30,
-                    //   )),
-                  
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text(
-                  //     STR_ORDER_EASY,
-                  //     style: TextStyle(
-                  //         fontFamily: KEY_FONTFAMILY,
-                  //         fontSize: FONTSIZE_6,
-                  //         color: greytheme400,
-                  //         fontWeight: FontWeight.w700,
-                  //         letterSpacing: 1),
-                  //   ),
-                  // ),
-                ],
-              ),
-
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: Text(
+                //     STR_ORDER_EASY,
+                //     style: TextStyle(
+                //         fontFamily: KEY_FONTFAMILY,
+                //         fontSize: FONTSIZE_6,
+                //         color: greytheme400,
+                //         fontWeight: FontWeight.w700,
+                //         letterSpacing: 1),
+                //   ),
+                // ),
+              ],
+            ),
             IconButton(
               icon: Icon(
                 Icons.info_outline,
@@ -213,6 +240,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     ),
                   ),
                   _getMenuListHorizontal(context),
+                  _getSubMenuListHorizontal(context),
                   // _getOptionsformenu(context),
                   SliverToBoxAdapter(
                     child: Container(
@@ -275,14 +303,13 @@ class _RestaurantViewState extends State<RestaurantView>
                     ? getColorByHex(Globle().colorscode)
                     : orangetheme,
                 onChanged: (bool value) {
-                  setState(()  {
+                  setState(() {
                     this._switchvalue = value;
                     if (this._switchvalue) {
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
                       callAPIOnSwitchChange(STR_VEG);
-                      
                     } else {
                       _restaurantList = null;
                       // DialogsIndicator.showLoadingDialog(
@@ -347,8 +374,8 @@ class _RestaurantViewState extends State<RestaurantView>
                           categoryId: abc, menu: menutype);
                       print(abc);
                     }
-                     restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
+                    restaurantPresenter.getMenuList(widget.restId, context,
+                        categoryId: abc, menu: menutype);
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
@@ -362,58 +389,128 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
-  _getMenuListHorizontal(BuildContext context){
+  _getMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-          child: Container(
-            margin: EdgeInsets.only(left: 8),
-             height: 40,
-            child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _getMenucount(),
-        itemBuilder: (context, index){
-            return GestureDetector(
-              onTap: () {
-                  _onSelected(index);
-              },
-                      child: Container(
-                  height: 40,
-                  // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                  padding: EdgeInsets.only(
-                    left: _categorydata[index].name.length>5? 6: 16, 
-                    right: _categorydata[index].name.length>5? 6: 16,
-                    top: 10,bottom: 0),
-                  margin: EdgeInsets.only(left: 6),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: _selectedMenu != null && _selectedMenu == index
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.only(left: 8),
+          height: 50,
+          width: MediaQuery.of(context).size.width * 0.13 / 0.6,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getMenucount(),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    _onSelected(index);
+                  },
+                  child: Container(
+                    height: 50,
+                    // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                    padding: EdgeInsets.only(
+                        left: _categorydata[index].name.length > 5 ? 6 : 5,
+                        right: _categorydata[index].name.length > 5 ? 6 : 5,
+                        top: 10,
+                        bottom: 0),
+                    margin: EdgeInsets.only(left: 6),
+                    // decoration: BoxDecoration(
+                    //   border: Border.all(
+                    //     width: 1,
+                    //     color: _selectedMenu != null && _selectedMenu == index
+                    //                   ? getColorByHex(Globle().colorscode)
+                    //                   : Color.fromRGBO(118, 118, 118, 1),
+                    //   ),
+                    //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                    //   // color: _selectedMenu != null && _selectedMenu == index
+                    //   //                 ? getColorByHex(Globle().colorscode)
+                    //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                    // ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          _categorydata[index].name ?? STR_BLANK,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color:
+                                _selectedMenu != null && _selectedMenu == index
                                     ? getColorByHex(Globle().colorscode)
                                     : Color.fromRGBO(118, 118, 118, 1),
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    // color: _selectedMenu != null && _selectedMenu == index
-                    //                 ? getColorByHex(Globle().colorscode)
-                    //                 : Color.fromRGBO(118, 118, 118, 1),
                   ),
-                  child:Text(
-                              _categorydata[index].name ?? STR_BLANK,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: _selectedMenu != null && _selectedMenu == index
-                                    ? getColorByHex(Globle().colorscode)
-                                    : Color.fromRGBO(118, 118, 118, 1),
-                              ),
-                            ), 
-              ),
-            );
-        }),
-          ),
+                );
+              }),
+        ),
+      ),
     );
   }
 
- int _getMenucount() {
+  _getSubMenuListHorizontal(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.only(left: 8),
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _getSubMenucount(),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  _onSubMenuSelected(index);
+                },
+                child: Container(
+                  // height: 40,
+                  // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                  padding: EdgeInsets.only(
+                      left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                      right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                      top: 10,
+                      bottom: 0),
+                  margin: EdgeInsets.only(left: 6),
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(
+                  //     width: 1,
+                  //     color: _selectedMenu != null && _selectedMenu == index
+                  //                   ? getColorByHex(Globle().colorscode)
+                  //                   : Color.fromRGBO(118, 118, 118, 1),
+                  //   ),
+                  //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //   // color: _selectedMenu != null && _selectedMenu == index
+                  //   //                 ? getColorByHex(Globle().colorscode)
+                  //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                  // ),
+                  child: Text(
+                    _subcategorydata[index].title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color:
+                          _selectedSubMenu != null && _selectedSubMenu == index
+                              ? getColorByHex(Globle().colorscode)
+                              : Color.fromRGBO(118, 118, 118, 1),
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  int _getMenucount() {
     if (_categorydata != null) {
       return _categorydata.length;
+    }
+    return 0;
+  }
+
+  int _getSubMenucount() {
+    if (_subcategorydata != null) {
+      return _subcategorydata.length;
     }
     return 0;
   }
@@ -421,29 +518,33 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget _restaurantLogo() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
-      child: isImageNotNil() == false ? Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.fill,
-        ):  CachedNetworkImage(
-        placeholder: (context, url) =>
-            Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${restaurantItemsModel.restImage}",
-        errorWidget: (context, url, error) => Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.fill,
-        ),
-        imageBuilder: (context, imageProvider) => Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-              bottomLeft: const Radius.circular(10.0),
-              bottomRight: const Radius.circular(10.0),
+      child: isImageNotNil() == false
+          ? Image.asset(
+              RESTAURANT_IMAGE_PATH,
+              fit: BoxFit.fill,
+            )
+          : CachedNetworkImage(
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              imageUrl: BaseUrl.getBaseUrlImages() +
+                  "${restaurantItemsModel.restImage}",
+              errorWidget: (context, url, error) => Image.asset(
+                RESTAURANT_IMAGE_PATH,
+                fit: BoxFit.fill,
+              ),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(10.0),
+                    topRight: const Radius.circular(10.0),
+                    bottomLeft: const Radius.circular(10.0),
+                    bottomRight: const Radius.circular(10.0),
+                  ),
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                ),
+              ),
             ),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-          ),
-        ),
-      ),
     );
   }
 
@@ -462,17 +563,15 @@ class _RestaurantViewState extends State<RestaurantView>
               return GestureDetector(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageView(
-                      
                           itemId: _restaurantList[index].id,
-                          restId: _restaurantList[index].restId  ,
+                          restId: _restaurantList[index].restId,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
                           restName: widget.title,
                           itemImage: '${_restaurantList[index].itemImage}',
                           isFromOrder: widget.isFromOrder,
-                        )
-                        )),
+                        ))),
                 child: Padding(
                   padding: EdgeInsets.all(8),
                   child: Container(
@@ -621,14 +720,16 @@ class _RestaurantViewState extends State<RestaurantView>
                                                 AddItemPageView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: _restaurantList[index].restId ,
+                                                  restId: _restaurantList[index]
+                                                      .restId,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:
                                                       '${_restaurantList[index].itemDescription}',
                                                   itemImage:
                                                       '${_restaurantList[index].itemImage}',
-                                                      isFromOrder: widget.isFromOrder,
+                                                  isFromOrder:
+                                                      widget.isFromOrder,
                                                 )));
                                   },
                                   child: Container(
@@ -669,11 +770,11 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
-  callAPIOnSwitchChange(String menuType) async{
-      await progressDialog.show();
-                      menutype = menuType;
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
+  callAPIOnSwitchChange(String menuType) async {
+    await progressDialog.show();
+    menutype = menuType;
+    restaurantPresenter.getMenuList(widget.restId, context,
+        categoryId: abc, menu: menutype);
   }
 
   int _getint() {
@@ -685,7 +786,7 @@ class _RestaurantViewState extends State<RestaurantView>
 
   bool isImageNotNil() {
     if (restaurantItemsModel != null) {
-      if(restaurantItemsModel.restImage != null) {
+      if (restaurantItemsModel.restImage != null) {
         return true;
       }
     }
@@ -740,7 +841,7 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
     // TODO: implement getMenuLCategorysuccess
-       if (categoryData.length == 0) {
+    if (categoryData.length == 0) {
       return;
     }
     setState(() {
@@ -751,4 +852,11 @@ class _RestaurantViewState extends State<RestaurantView>
       }
     });
   }
+}
+
+class MenuTitles {
+  String title;
+  bool isSelected;
+  int id;
+  MenuTitles({this.title, this.id, this.isSelected});
 }
