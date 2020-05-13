@@ -8,6 +8,7 @@ import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -57,7 +58,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             STR_YOUR_ORDERS,
             style: TextStyle(
                 fontSize: FONTSIZE_18,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme1200),
           ),
@@ -83,14 +84,15 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         STR_CURRENT_ORDER,
                         style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_15),
                       ),
                     ),
                     Tab(
                       child: Text(
                         STR_BOOKING_HISTORY,
                         style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_15,
                         ),
                       ),
@@ -255,7 +257,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        getDateForOrderHistory(_orderDetailList[index].createdAt),
+                        getDateForOrderHistory(
+                            _orderDetailList[index].createdAt),
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -335,7 +338,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: FONTSIZE_13,
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white),
                           ),
@@ -344,7 +347,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CartDetailsPage(
-                                      restId: _orderDetailList[index].restId,
+                                          restId:
+                                              _orderDetailList[index].restId,
                                           orderId: _orderDetailList[index].id,
                                           isFromOrder: true,
                                         )));
@@ -354,7 +358,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     ),
                     SizedBox(
                       height: 10,
-                      
                     )
                   ],
                 ),
@@ -489,7 +492,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      getDateForOrderHistory(getmyOrderBookingHistory[index].createdAt),
+                      getDateForOrderHistory(
+                          getmyOrderBookingHistory[index].createdAt),
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,

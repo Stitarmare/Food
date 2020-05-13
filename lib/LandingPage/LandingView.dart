@@ -12,6 +12,7 @@ import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -42,7 +43,7 @@ class _LandingStateView extends State<Landingview>
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
   //final GlobalKey<_LandingStateView> _scaffoldKey =
-      //GlobalKey<_LandingStateView>();
+  //GlobalKey<_LandingStateView>();
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -182,7 +183,7 @@ class _LandingStateView extends State<Landingview>
                   label: Text(STR_VIEW_YOUR_ORDER,
                       style: TextStyle(
                           fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greentheme100)),
                 )),
@@ -287,7 +288,7 @@ class _LandingStateView extends State<Landingview>
               STR_HI,
               style: TextStyle(
                   fontSize: FONTSIZE_20,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme300),
             ),
@@ -298,7 +299,7 @@ class _LandingStateView extends State<Landingview>
               Globle().loginModel.data.firstName ?? '',
               style: TextStyle(
                   fontSize: FONTSIZE_20,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme300),
             ),
@@ -309,7 +310,7 @@ class _LandingStateView extends State<Landingview>
           Text(STR_WHAT_LIKE_TO_DO,
               style: TextStyle(
                   fontSize: FONTSIZE_20,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme300))
         ],
@@ -430,7 +431,7 @@ class _LandingStateView extends State<Landingview>
         child: Text(STR_COLLECT_FOOD,
             style: TextStyle(
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: Colors.white)));
   }
@@ -440,7 +441,7 @@ class _LandingStateView extends State<Landingview>
         child: Text(STR_DELEIVER_FOOD,
             style: TextStyle(
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: Colors.white)));
   }
@@ -450,7 +451,7 @@ class _LandingStateView extends State<Landingview>
         child: Text(STR_PLACE_FOOD,
             style: TextStyle(
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: Colors.white)));
   }
@@ -529,7 +530,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_DINEIN_TITLE,
             style: TextStyle(
                 fontSize: FONTSIZE_24,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
@@ -538,7 +539,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_SERVED_RESTAUTRANT,
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -569,7 +570,7 @@ class _LandingStateView extends State<Landingview>
                           child: Text(STR_VIEW_YOUR_ORDER,
                               style: TextStyle(
                                   fontSize: FONTSIZE_16,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   color: greentheme100)),
                         ),
@@ -646,14 +647,11 @@ class _LandingStateView extends State<Landingview>
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => 
-              CartDetailsPage(
-                restId: _model.data.dineIn.restId,
-                orderId: Globle().orderID,
-                isFromOrder: true,
-              )
-              
-                  ));
+              builder: (context) => CartDetailsPage(
+                    restId: _model.data.dineIn.restId,
+                    orderId: Globle().orderID,
+                    isFromOrder: true,
+                  )));
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -700,7 +698,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_COLLECTION,
             style: TextStyle(
                 fontSize: FONTSIZE_24,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
@@ -709,7 +707,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_ORDER_TO_COLLECT,
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -833,7 +831,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(STR_HOME,
                 style: TextStyle(
                     color: greytheme800,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
             icon: Icon(Icons.home, size: 20, color: greytheme800),
@@ -849,7 +847,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_ABOUT_US,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
             ),
@@ -866,7 +864,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_TERMS_CONDITION,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
             ),
@@ -883,7 +881,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_PRIVACY_POLICY,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
             ),
@@ -899,7 +897,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(STR_SETTING,
                 style: TextStyle(
                     color: greytheme800,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
             icon: Icon(Icons.settings, size: 20, color: greytheme800),
@@ -917,7 +915,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_HELP,
               style: TextStyle(
                   color: greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
             ),
@@ -991,7 +989,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     style: TextStyle(
                         color: greytheme700,
                         fontSize: FONTSIZE_16,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500),
                   ),
                 )
@@ -1051,6 +1049,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
 //                       style: TextStyle(
 //                           fontSize: FONTSIZE_16,
-//                           fontFamily: KEY_FONTFAMILY,
+//                           fontFamily: Constants.getFontType(),
 //                           fontWeight: FontWeight.w600,
 //                           color: greentheme100)),)

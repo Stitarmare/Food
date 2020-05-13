@@ -16,6 +16,7 @@ import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryContractor.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -195,7 +196,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                 //   child: Text(
                 //     STR_ORDER_EASY,
                 //     style: TextStyle(
-                //         fontFamily: KEY_FONTFAMILY,
+                //         fontFamily: Constants.getFontType(),
                 //         fontSize: FONTSIZE_6,
                 //         color: greytheme400,
                 //         fontWeight: FontWeight.w700,
@@ -260,7 +261,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontSize: FONTSIZE_25,
-                                      fontFamily: KEY_FONTFAMILY,
+                                      fontFamily: Constants.getFontType(),
                                       fontWeight: FontWeight.w500,
                                       color: greytheme700),
                                 ),
@@ -287,7 +288,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontSize: FONTSIZE_12,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme1000),
             ),
@@ -325,7 +326,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                     STR_MENU,
                     style: TextStyle(
                         fontSize: FONTSIZE_12,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: (isselected)
                             ? ((Globle().colorscode) != null)
@@ -701,7 +702,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                         maxFontSize: FONTSIZE_13,
                                         style: TextStyle(
                                             fontSize: FONTSIZE_13,
-                                            fontFamily: KEY_FONTFAMILY,
+                                            fontFamily: Constants.getFontType(),
                                             fontWeight: FontWeight.w600,
                                             color: greytheme700),
                                       ),
@@ -722,7 +723,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                   softWrap: true,
                                   style: TextStyle(
                                       fontSize: FONTSIZE_12,
-                                      fontFamily: KEY_FONTFAMILY,
+                                      fontFamily: Constants.getFontType(),
                                       fontWeight: FontWeight.w500,
                                       color: greytheme1000),
                                 ),

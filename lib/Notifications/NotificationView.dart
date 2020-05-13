@@ -5,6 +5,7 @@ import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
 import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -22,7 +23,7 @@ enum NotificationType {
 
 class NotificationView extends StatefulWidget {
   var flag;
-  NotificationView({Key key,this.flag}) : super(key: key);
+  NotificationView({Key key, this.flag}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -47,7 +48,7 @@ class _NotificationViewState extends State<NotificationView>
   void initState() {
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-     Globle().notificationFLag = false;
+    Globle().notificationFLag = false;
     notificationPresenter.getNotifications(context);
     super.initState();
   }
@@ -65,7 +66,7 @@ class _NotificationViewState extends State<NotificationView>
               style: TextStyle(
                   color: greytheme1200,
                   fontSize: FONTSIZE_18,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500)),
           leading: IconButton(
             color: greytheme1200,
@@ -74,8 +75,8 @@ class _NotificationViewState extends State<NotificationView>
               size: 22,
             ),
             onPressed: () {
-              if(widget.flag == 1){
-             Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+              if (widget.flag == 1) {
+                Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
               }
               Navigator.pop(context);
             },
@@ -97,7 +98,7 @@ class _NotificationViewState extends State<NotificationView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_22,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w500,
                       color: greytheme1200)),
             ),
@@ -115,7 +116,7 @@ class _NotificationViewState extends State<NotificationView>
                         getNotificationText(index),
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             color: greytheme1200),
                       ),
                     ),
@@ -125,12 +126,12 @@ class _NotificationViewState extends State<NotificationView>
                         getNotificationDate(index),
                         style: TextStyle(
                             fontSize: FONTSIZE_11,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             color: greytheme1400),
                       ),
                     ),
                     onTap: () {
-                      _onTap(index,context);
+                      _onTap(index, context);
                     },
                   ),
                   decoration: BoxDecoration(
@@ -150,11 +151,12 @@ class _NotificationViewState extends State<NotificationView>
           );
   }
 
-  _onTap(int index,context) async {
+  _onTap(int index, context) async {
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      if ( notificationData[index].invitationStatus == null || notificationData[index].invitationStatus.isEmpty) {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);

@@ -11,6 +11,7 @@ import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -89,7 +90,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                 style: TextStyle(
                     fontSize: FONTSIZE_20,
                     color: greytheme700,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600),
               )),
               onPressed: () {
@@ -120,7 +121,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       style: TextStyle(
                           fontSize: FONTSIZE_16,
                           color: greytheme700,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -343,7 +344,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       style: TextStyle(
                           fontSize: FONTSIZE_16,
                           color: greytheme700,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -451,7 +452,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 18,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -469,7 +470,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: FONTSIZE_15,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme700),
             )
@@ -484,7 +485,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
               child: Text(STR_OK,
                   style: TextStyle(
                       fontSize: FONTSIZE_16,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {

@@ -15,6 +15,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakeContractor.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatTrackTakePresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -114,7 +115,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: FONTSIZE_20,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greytheme700),
                     ),
@@ -336,7 +337,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w500,
                       color: greytheme700)),
               SizedBox(
@@ -346,7 +347,7 @@ class _StatusTakeAwayViewState extends State<StatusTakeAwayView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w500,
                       color: greytheme700)),
             ],

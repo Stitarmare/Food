@@ -145,7 +145,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         child: Text(
                           STR_PLACE_ORDER_PAY_BILL,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -183,7 +183,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -486,7 +486,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -505,7 +505,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -520,7 +520,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {

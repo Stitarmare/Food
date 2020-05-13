@@ -172,7 +172,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
           textAlign: TextAlign.start,
           style: TextStyle(
               fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w600,
               color: Colors.white),
         ),
@@ -212,7 +212,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greytheme700),
                     ),
@@ -281,7 +281,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                       STR_ADD_MORE_ITEM,
                       style: TextStyle(
                           fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           decoration: TextDecoration.underline,
                           decorationColor: (Globle().colorscode != null)
                               ? getColorByHex(Globle().colorscode)
@@ -333,7 +333,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     STR_ADD_MORE_PEOPLE,
                     style: TextStyle(
                         fontSize: FONTSIZE_16,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         decoration: TextDecoration.underline,
                         decorationColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
@@ -369,7 +369,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_18,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
                 SizedBox(
@@ -379,7 +379,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_18,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700)),
               ]))),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -24,7 +25,7 @@ class _WebViewPageState extends State<WebViewPage> {
           widget.title,
           style: TextStyle(
               fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500,
               color: greytheme1200),
         ),

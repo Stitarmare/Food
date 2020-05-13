@@ -179,7 +179,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                               STR_SPLIT_BILL,
                               style: TextStyle(
                                   fontSize: FONTSIZE_16,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   decoration: TextDecoration.underline,
                                   decorationColor:
                                       ((Globle().colorscode) != null)
@@ -222,7 +222,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                               child: Text(
                                 STR_PAY_BILL,
                                 style: TextStyle(
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontWeight: FontWeight.w600,
                                     fontSize: FONTSIZE_16,
                                     color: Colors.white),
@@ -258,7 +258,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: FONTSIZE_20,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: ((Globle().colorscode) != null)
                           ? getColorByHex(Globle().colorscode)
@@ -288,7 +288,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
                         fontSize: FONTSIZE_14,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: greytheme100),
                   )
@@ -639,8 +639,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 child: Text(
                   getAmount() != null
                       ? _model.currencySymbol != null
-                          ? '${_model.currencySymbol} ' +
-                              "${_model.grandTotal}"
+                          ? '${_model.currencySymbol} ' + "${_model.grandTotal}"
                           : ""
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
@@ -790,7 +789,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -809,7 +808,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -824,7 +823,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -847,14 +846,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
 
     setState(() {
-      
-        myOrderData = orderData;
-        _model = model;
-        if (_model.data.invitation!=null) {
-            invitationOrder = _model.data.invitation;
-        }
-        
-      
+      myOrderData = orderData;
+      _model = model;
+      if (_model.data.invitation != null) {
+        invitationOrder = _model.data.invitation;
+      }
     });
     isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {
