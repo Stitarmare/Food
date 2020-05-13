@@ -635,29 +635,34 @@ class _RestaurantViewState extends State<RestaurantView>
                           ),
                         ),
                         SizedBox(height:5),
-                          Container(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.30,
-                                      child: AutoSizeText(
-                                        _restaurantList[index].itemName != null
-                                            ? StringUtils.capitalize(
-                                                "${_restaurantList[index].itemName}")
-                                            : STR_SPACE,
-                                        maxLines: 2,
-                                        minFontSize: FONTSIZE_10,
-                                        maxFontSize: FONTSIZE_13,
-                                        style: TextStyle(
-                                            fontSize: FONTSIZE_13,
-                                            fontFamily: KEY_FONTFAMILY,
-                                            fontWeight: FontWeight.w600,
-                                            color: greytheme700),
+                                      child: Center(
+                                        child: AutoSizeText(
+                                          _restaurantList[index].itemName != null
+                                              ? StringUtils.capitalize(
+                                                  "${_restaurantList[index].itemName}")
+                                              : STR_SPACE,
+                                          maxLines: 2,
+                                          minFontSize: FONTSIZE_10,
+                                          maxFontSize: FONTSIZE_13,
+                                          style: TextStyle(
+                                              fontSize: FONTSIZE_13,
+                                              fontFamily: KEY_FONTFAMILY,
+                                              fontWeight: FontWeight.w600,
+                                              color: greytheme700),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
                                   height: 3,
                                 ),
-                                    Center(
-                                      child: Text(
+                                 Text(
                                       (_restaurantList[index].sizePrizes.isEmpty)
                                           ? "${restaurantItemsModel.currencySymbol} " +
                                                   '${_restaurantList[index].price}' ??
@@ -673,7 +678,13 @@ class _RestaurantViewState extends State<RestaurantView>
                                               ? getColorByHex(Globle().colorscode)
                                               : orangetheme),
                                   ),
-                                    ),
+                          ],
+                        ),
+                          
+                                    // Center(
+                                    //   child: 
+                                     
+                                    // ),
                         // Expanded(
                         //     child: Padding(
                         //   padding: EdgeInsets.only(top: 8),
