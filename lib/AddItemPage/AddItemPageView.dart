@@ -81,6 +81,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid = 1;
+  AddItemPageModelList addItemPageModelList;
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -394,10 +395,14 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         _updateOrderModel.items = items;
-                        if (sizess.length > 0) {
+                        if (sizess!=null) 
+                        {
+if (sizess.length > 0) {
                           _updateOrderModel.items.sizePriceId =
                               sizess[0].sizeid;
                         }
+                        }
+                        
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
@@ -685,13 +690,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   callClearCart() async {
-    await progressDialog.show();
-    _addItemPagepresenter.clearCart(context);
-    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<String>(
-        widget.restName, PreferenceKeys.restaurantName);
+        null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
+    await progressDialog.show();
+   
+    
+     _addItemPagepresenter.clearCart(context);
   }
 
   getlistoftable() {
@@ -797,7 +804,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.spreadsLabel ??
+                                    addItemPageModelList.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -871,7 +878,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.extrasLabel ??
+                                    addItemPageModelList.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -946,7 +953,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    _addItemModelList.switchesLabel ??
+                                    addItemPageModelList.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -1170,7 +1177,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       }
     }
 
-    return "";
+    return "R";
   }
 
   String getTotalText() {
@@ -1584,7 +1591,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       AddItemPageModelList addItemPageModelList1) {
     setState(() {
       isLoding = false;
-      _addItemPageModelList = addItemPageModelList1;
+      addItemPageModelList = addItemPageModelList1;
     });
     _addItemModelList = _additemlist[0];
 
@@ -1656,7 +1663,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void clearCartFailed() {}
+  void clearCartFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> clearCartSuccess() async {
@@ -1668,7 +1677,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   @override
-  void updateOrderFailed() {}
+  void updateOrderFailed() async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> updateOrderSuccess() async {

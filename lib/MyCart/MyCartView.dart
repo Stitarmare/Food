@@ -140,9 +140,7 @@ class _MyCartViewState extends State<MyCartView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: (menuCartList.quantity == 1)
-              ? () {}
-              : () async {
+          onTap: () async {
                   if (menuCartList.quantity > 0) {
                     setState(() {
                       menuCartList.quantity -= 1;
@@ -160,8 +158,6 @@ class _MyCartViewState extends State<MyCartView>
                           context);
                     }
                     if (menuCartList.quantity == 0) {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
                       await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
@@ -197,7 +193,7 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () async {
-            if (menuCartList.quantity < 100) {
+            if (menuCartList.quantity < 10) {
               setState(() {
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
@@ -728,6 +724,16 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemSuccess() async {
+    if (_cartItemList != null) {
+      if (_cartItemList.length == 0) {
+        Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        null, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+      }
+    }
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(

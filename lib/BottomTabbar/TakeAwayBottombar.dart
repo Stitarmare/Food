@@ -74,7 +74,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _streamSubscription.cancel();
+    //_streamSubscription.cancel();
     super.dispose();
   }
 

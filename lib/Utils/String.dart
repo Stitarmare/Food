@@ -421,7 +421,7 @@ const STR_SEVENTEEN_TITLE = '\$17';
 
 // OTPView Page
 const STR_MOBILE_NUMBER = 'mobile number';
-const STR_NO_CODE = "Didn’t received the code?";
+const STR_NO_CODE = "Didn’t receive the code?";
 const STR_RESEND = 'RESEND';
 const STR_RESEND_OTP = "Resend OTP";
 const STR_RESEND_OTP_SUCCESS =
