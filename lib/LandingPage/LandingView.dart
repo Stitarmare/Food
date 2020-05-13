@@ -16,6 +16,8 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/map_view/address_map_view.dart';
+import 'package:foodzi/map_view/map_view.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
