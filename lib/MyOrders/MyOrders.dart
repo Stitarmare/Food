@@ -14,7 +14,6 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:intl/intl.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 
 class MyOrders extends StatefulWidget {
   String title;
@@ -29,8 +28,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   MyOrdersPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
-  ProgressDialog progressDialog;
-  var isLoading = false;
   int i;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   List<CurrentOrderList> _orderDetailList;
@@ -41,15 +38,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   void initState() {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    callApi();
-  }
-
-  void callApi() async{
-    setState(() {
-      isLoading = true;
-    });
-   // await progressDialog.show();
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
     _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
   }
@@ -164,9 +152,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   }
 
   Widget _currentOrders(BuildContext context) {
-    return (!isLoading && getLenghtOfCurrentOrder() == 0) ? Container(child: 
-      Center(child: Container(child: Center(child: Text("No Current Orders"),),),)
-    ,) : Container(
+    return Container(
         height: MediaQuery.of(context).size.height * 0.70,
         child: ListView.builder(
           itemCount: getLenghtOfCurrentOrder(),
@@ -402,9 +388,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   }
 
   Widget _bookingHistoryList(BuildContext context) {
-    return (!isLoading && getLenghtOfHistoryOrder() == 0) ? Container(child: 
-      Center(child: Container(child: Center(child: Text("No Booking History"),),),)
-    ,) :  Container(
+    return Container(
         height: MediaQuery.of(context).size.height * 0.70,
         child: ListView.builder(
           itemCount: getLenghtOfHistoryOrder(),
@@ -614,22 +598,11 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   }
 
   @override
-  void getOrderDetailsFailed() async {
-    //await progressDialog.hide();
-    setState(() {
-      isLoading = false;
-    });
-  }
+  void getOrderDetailsFailed() {}
 
   @override
-  void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) async{
-    
-    //await progressDialog.hide();
-    setState(() {
-      isLoading = false;
-    });
+  void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
     if (_orderdetailsList.length == 0) {
-      _orderDetailList = _orderdetailsList;
       return;
     }
 
