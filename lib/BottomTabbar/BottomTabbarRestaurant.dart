@@ -166,7 +166,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                     overflow: Overflow.visible,
                     children: <Widget>[
                       Icon(Icons.shopping_cart, color: Colors.white),
-                      (Globle().dinecartValue != null)
+                      (Globle().dinecartValue != null && cartStatus)
                           ? Globle().dinecartValue > 0
                               ? Positioned(
                                   top: -20,
@@ -330,9 +330,14 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 if (alreadyIncartStatus == true && restId == widget.restId) {
       setState(() {
         cartStatus = true;
+      }); 
+      return;
+    }
+    }
+
+     setState(() {
+        cartStatus = false;
       });
-    }
-    }
     
   }
 

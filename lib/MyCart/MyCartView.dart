@@ -134,7 +134,7 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
-  Widget steppercount(MenuCartList menuCartList) {
+  Widget steppercount(MenuCartList menuCartList,int index) {
     return Container(
       height: 24,
       width: 150,
@@ -162,7 +162,7 @@ class _MyCartViewState extends State<MyCartView>
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
-                        _cartItemList.removeAt(menuCartList.id);
+                        _cartItemList.removeAt(index);
                       });
                     }
                   }
@@ -491,6 +491,9 @@ class _MyCartViewState extends State<MyCartView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
+                        setState(() {
+                        _cartItemList.removeAt(index);
+                      });
                   },
                   child: Container(
                     child: Column(
@@ -556,7 +559,7 @@ class _MyCartViewState extends State<MyCartView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(_cartItemList[index]),
+                                  steppercount(_cartItemList[index],index),
                                 ],
                               ),
                               Expanded(
@@ -715,9 +718,9 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemFailed() async {
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
