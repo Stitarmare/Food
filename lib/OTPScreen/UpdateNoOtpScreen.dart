@@ -107,7 +107,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
                   KEY_VERFICATION_OTP,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -119,7 +119,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
                   STR_MOBILE_NUMBER,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -185,7 +185,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
     return Text(mobileNo,
         style: TextStyle(
             color: greytheme300,
-            fontFamily: KEY_FONTFAMILY,
+            fontFamily: Constants.getFontType(),
             fontWeight: FontWeight.w600,
             fontSize: FONTSIZE_16));
   }
@@ -201,7 +201,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w600),
         ),
         textColor: Colors.white,
@@ -222,7 +222,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
           Text(
             STR_NO_CODE,
             style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme200,
                 fontSize: 14),
@@ -245,7 +245,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
               style: TextStyle(
                   color: greytheme200,
                   fontWeight: FontWeight.w900,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_14),
             ),
           )
@@ -276,7 +276,7 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontSize: FONTSIZE_20),
           ),
           actions: [

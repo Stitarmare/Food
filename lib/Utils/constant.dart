@@ -30,6 +30,14 @@ class Constants {
     return io.Platform.isIOS;
   }
 
+  static String getFontType() {
+    if (isIOS()) {
+      return "SanFrancisco";
+    } else if (isAndroid()) {
+      return "Roboto";
+    }
+  }
+
   static void showAlert(String title, String message, BuildContext context) {
     showDialog(
         context: context,
@@ -67,7 +75,7 @@ class Constants {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -86,7 +94,7 @@ class Constants {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -101,7 +109,7 @@ class Constants {
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {

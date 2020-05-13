@@ -269,7 +269,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -328,7 +328,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -437,7 +437,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         child: Text(
                           STR_ADDTOCART,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -604,7 +604,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -631,7 +631,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               STR_CANCEL,
                               style: TextStyle(
                                   fontSize: FONTSIZE_17,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -726,7 +726,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 child: Text(
                   StringUtils.capitalize(widget.title),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -738,7 +738,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 child: Text(
                   StringUtils.capitalize(widget.description),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
@@ -761,7 +761,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(
                       STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
@@ -802,7 +802,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -821,7 +821,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -839,7 +840,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -876,7 +877,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -895,7 +896,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -913,7 +915,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -951,7 +953,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -970,7 +972,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -1015,7 +1018,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     child: Text(
                                       STR_SIZE,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: redtheme),
                                     ),
@@ -1033,7 +1036,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                         child: Text(
                                           STR_REQUIRED,
                                           style: TextStyle(
-                                              fontFamily: KEY_FONTFAMILY,
+                                              fontFamily:
+                                                  Constants.getFontType(),
                                               fontSize: FONTSIZE_10,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600),
@@ -1051,7 +1055,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -1262,7 +1266,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -1291,7 +1295,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -1305,7 +1309,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -1452,7 +1456,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1471,7 +1475,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1486,7 +1490,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1513,7 +1517,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1532,7 +1536,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1547,7 +1551,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {

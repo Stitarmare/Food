@@ -70,40 +70,40 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-                  if (_cartItemList[i].quantity > 0) {
-                    setState(() {
-                      _cartItemList[i].quantity -= 1;
-                      print(_cartItemList[i].quantity);
-                    });
-                    // DialogsIndicator.showLoadingDialog(
-                    //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
-                    if (_cartItemList[i].quantity > 0) {
-                      _myCartpresenter.updateQauntityCount(
-                          _cartItemList[i].id,
-                          _cartItemList[i].quantity,
-                          (double.parse(_cartItemList[i].totalAmount)) /
-                              _cartItemList[i].quantity,
-                          context);
-                    }
-                    if (_cartItemList[i].quantity == 0) {
-                      await progressDialog.show();
-                      _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
-                          Globle().loginModel.data.id, context);
-                      setState(() {
-                        _cartItemList.removeAt(_cartItemList[i].id);
-                      });
-                    }
-                  }
-                  // if (count > 1) {
-                  //   setState(() {
-                  //     --count;
-                  //     _cartItemList[i].quantity = count;
+            if (_cartItemList[i].quantity > 0) {
+              setState(() {
+                _cartItemList[i].quantity -= 1;
+                print(_cartItemList[i].quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              if (_cartItemList[i].quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    _cartItemList[i].id,
+                    _cartItemList[i].quantity,
+                    (double.parse(_cartItemList[i].totalAmount)) /
+                        _cartItemList[i].quantity,
+                    context);
+              }
+              if (_cartItemList[i].quantity == 0) {
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    _cartItemList[i].id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(_cartItemList[i].id);
+                });
+              }
+            }
+            // if (count > 1) {
+            //   setState(() {
+            //     --count;
+            //     _cartItemList[i].quantity = count;
 
-                  //     print(count);
-                  //   });
-                  // }
-                },
+            //     print(count);
+            //   });
+            // }
+          },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
@@ -123,7 +123,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -199,7 +199,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                           STR_ADD_TABLE,
                           style: TextStyle(
                               fontSize: FONTSIZE_16,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: greytheme700),
                         ),
@@ -245,7 +245,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               STR_SUMBIT,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
@@ -280,7 +280,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -333,7 +333,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -384,7 +384,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -460,7 +460,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -532,7 +532,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
@@ -561,7 +561,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
-         await progressDialog.hide();
+    await progressDialog.hide();
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData<int>(
@@ -589,7 +589,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       }
       page++;
     });
-   
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -599,7 +599,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -609,11 +609,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
-     Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+        Globle().takeAwayCartItemCount = 0;
+        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
       }
     }
     _cartItemList = null;
@@ -625,7 +624,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

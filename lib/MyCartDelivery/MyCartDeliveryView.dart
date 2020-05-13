@@ -7,11 +7,13 @@ import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryContractor.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryPresenter.dart';
+import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/map_view/map_view.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -66,7 +68,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   int cartId;
   MenuCartDisplayModel myCart;
   int page = 1;
-
+  int indx;
   int id;
   List<int> itemList = [];
 
@@ -194,7 +196,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
             menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -256,7 +258,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -280,7 +282,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               //           Text(STR_NO_TABLE,
               //               style: TextStyle(
               //                   fontSize: FONTSIZE_14,
-              //                   fontFamily: KEY_FONTFAMILY,
+              //                   fontFamily: Constants.getFontType(),
               //                   fontWeight: FontWeight.w600,
               //                   color: getColorByHex(Globle().colorscode))),
               //         ],
@@ -338,7 +340,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -351,38 +353,32 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (_dropdownTableNumber == null) {
-                        Constants.showAlert(
-                            STR_MYCART, STR_SELECT_TABLE, context);
-                      } else {
-                        Globle().dinecartValue = 0;
-                        Preference.setPersistData<int>(
-                            0, PreferenceKeys.dineCartItemCount);
-                        Preference.setPersistData<int>(
-                            0, PreferenceKeys.dineCartItemCount);
-                        (_cartItemList != null)
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ConfirmationDineView(
-                                    restId: widget.restId,
-                                    tablename: tableno,
-                                    restName: widget.restName,
-                                    tableId: _dropdownTableNumber,
-                                    totalAmount:
-                                        double.parse(myCart.grandTotal),
-                                    items: itemList,
-                                    itemdata: _cartItemList,
-                                    orderType: widget.orderType,
-                                    latitude: widget.lat,
-                                    longitude: widget.long,
-                                    currencySymbol: myCart.currencySymbol,
-                                    imgUrl: widget.imgUrl,
-                                  ),
-                                ))
-                            : Constants.showAlert(
-                                STR_MYCART, STR_ADD_ITEM_CART, context);
-                      }
+                      Globle().takeAwayCartItemCount = 0;
+                      Preference.setPersistData<int>(
+                          0, PreferenceKeys.takeAwayCartCount);
+                      (_cartItemList != null)
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapView(
+                                        flag: 1,
+                                        restName: widget.restName,
+                                        restId: widget.restId,
+                                        userId: _cartItemList[indx].userId,
+                                        // price: int.parse(
+                                        //     _cartItemList[indx].price),
+                                        items: itemList,
+                                        totalAmount:
+                                            double.parse(myCart.grandTotal),
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                        itemdata: _cartItemList,
+                                        currencySymbol: myCart.currencySymbol,
+                                        tableId: _cartItemList[indx].tableId,
+                                      )))
+                          : Constants.showAlert(
+                              STR_MYCART, STR_ADD_ITEM_CART, context);
                     },
                     child: Container(
                       height: 54,
@@ -395,7 +391,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -431,7 +427,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                               decorationColor:
                                   getColorByHex(Globle().colorscode),
                               fontSize: FONTSIZE_14,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode)),
                         )),
@@ -471,7 +467,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100),
           ),
@@ -488,7 +484,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
                 cartId = _cartItemList[index].id;
-
+                indx = index;
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),
@@ -542,7 +538,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -605,7 +601,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),

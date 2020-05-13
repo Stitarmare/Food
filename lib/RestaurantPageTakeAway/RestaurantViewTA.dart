@@ -14,6 +14,7 @@ import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAContractor.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantTAPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -194,7 +195,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                               //   textAlign: TextAlign.start,
                               //   style: TextStyle(
                               //       fontSize: FONTSIZE_25,
-                              //       fontFamily: KEY_FONTFAMILY,
+                              //       fontFamily: Constants.getFontType(),
                               //       fontWeight: FontWeight.w500,
                               //       color: greytheme700),
                               // ),
@@ -248,7 +249,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               textAlign: TextAlign.start,
               style: TextStyle(
                   fontSize: FONTSIZE_12,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme1000),
             ),
@@ -290,7 +291,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     STR_MENU,
                     style: TextStyle(
                         fontSize: FONTSIZE_12,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: (isselected)
                             ? getColorByHex(Globle().colorscode)

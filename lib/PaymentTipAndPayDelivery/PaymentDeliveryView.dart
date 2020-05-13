@@ -9,6 +9,8 @@ import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -18,9 +20,10 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-class PaymentTipAndPay extends StatefulWidget {
+class PaymentDeliveryView extends StatefulWidget {
   String restName;
   int flag;
   int price;
@@ -35,13 +38,15 @@ class PaymentTipAndPay extends StatefulWidget {
   String longitude;
   List<MenuCartList> itemdata;
   String currencySymbol;
-  PaymentTipAndPay(
+  String addressData;
+  PaymentDeliveryView(
       {this.userId,
       this.price,
       this.items,
       this.restId,
       this.latitude,
       this.tablename,
+      this.addressData,
       this.longitude,
       this.orderType,
       this.tableId,
@@ -50,12 +55,12 @@ class PaymentTipAndPay extends StatefulWidget {
       this.itemdata,
       this.restName,
       this.flag});
-  _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
+  _PaymentDeliveryViewState createState() => _PaymentDeliveryViewState();
 }
 
-class _PaymentTipAndPayState extends State<PaymentTipAndPay>
+class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     implements
-        PaymentTipAndPayModelView,
+        PaymentDeliveryModelView,
         PaymentTipandPayDiModelView,
         PayBillCheckoutModelView,
         PayFinalBillModelView {
@@ -63,7 +68,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0;
-  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+  PaymentDeliveryPresenter _paymentDeliveryPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
@@ -79,13 +84,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   @override
   void initState() {
     print(widget.items);
-    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    _paymentDeliveryPresenter = PaymentDeliveryPresenter(this);
     print(widget.itemdata.length);
     print(widget.currencySymbol);
     currencySymb = widget.currencySymbol;
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
+    print(widget.addressData);
 
     super.initState();
   }
@@ -123,7 +129,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      _paymentTipAndPayPresenter.placeOrder(
+                      _paymentDeliveryPresenter.placeOrder(
                           widget.restId,
                           Globle().loginModel.data.id,
                           widget.orderType,
@@ -145,7 +151,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         child: Text(
                           STR_PLACE_ORDER_PAY_BILL,
                           style: TextStyle(
-                              fontFamily: Constants.getFontType(),
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -177,13 +183,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     width: 20,
                   ),
                   Text(
-                    (widget.orderType == STR_SMALL_DINEIN)
-                        ? STR_DINEIN_TITLE
-                        : STR_COLLECTION,
+                    STR_DELIVERY_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -486,7 +490,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: Constants.getFontType(),
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -505,7 +509,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -520,7 +524,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {

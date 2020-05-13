@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -198,7 +199,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                         KEY_SIGN_OUT,
                         style: TextStyle(
                             color: greytheme800,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             fontSize: FONTSIZE_15),
                       ),
@@ -215,7 +216,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                         STR_VERSION_NO,
                         style: TextStyle(
                             color: greytheme100,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             fontSize: FONTSIZE_12),
                       ))
