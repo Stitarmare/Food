@@ -91,7 +91,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
                           Globle().loginModel.data.id, context);
                       setState(() {
-                        _cartItemList.removeAt(i);
+                        _cartItemList.removeAt(_cartItemList[i].id);
                       });
                     }
                   }
@@ -323,13 +323,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: MediaQuery.of(context).size.height * 0.16,
+              height: 102,
               child: Column(
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: totalamounttext(),
-                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
@@ -421,9 +417,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
-                        setState(() {
-                        _cartItemList.removeAt(index);
-                      });
                   },
                   child: Container(
                     child: Column(
@@ -559,41 +552,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
     );
   }
 
-  Widget totalamounttext() {
-    return Container(
-      // color: Colors.grey,
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text(
-              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
-              style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.normal),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-String getCurrency() {
-    if (myCart != null) {
-      if (myCart.currencySymbol != null) {
-        return myCart.currencySymbol;
-      }
-    }
-    return "";
-  }
-
-  double getGrandTotal() {
-    if (myCart != null) {
-      if (myCart.currencySymbol != null) {
-        return double.parse(myCart.grandTotal);
-      }
-    }
-    return 0;
-  }
   @override
   void getCartMenuListfailed() {
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
