@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/AddItemPageDelivery/AddItemPageDeliveryView.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
@@ -12,6 +13,8 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
+import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryContractor.dart';
+import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -19,14 +22,14 @@ import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-class RestaurantView extends StatefulWidget {
+class RestaurantDeliveryView extends StatefulWidget {
   String title;
   int restId;
   String imageUrl;
   bool isFromOrder = false;
 
   int categoryid;
-  RestaurantView(
+  RestaurantDeliveryView(
       {this.title,
       this.restId,
       this.categoryid,
@@ -34,13 +37,13 @@ class RestaurantView extends StatefulWidget {
       this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
-    return _RestaurantViewState();
+    return _RestaurantDeliveryViewState();
   }
 }
 
-class _RestaurantViewState extends State<RestaurantView>
-    implements RestaurantModelView, MenuDropdownModelView {
-  RestaurantPresenter restaurantPresenter;
+class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
+    implements RestaurantDeliveryModelView, MenuDropdownModelView {
+  RestaurantDeliveryPresenter restaurantDeliveryPresenter;
 
   List<RestaurantMenuItem> _restaurantList;
   int page = 1;
@@ -69,9 +72,9 @@ class _RestaurantViewState extends State<RestaurantView>
         widget.isFromOrder = false;
       });
     }
-    restaurantPresenter = RestaurantPresenter(this);
+    restaurantDeliveryPresenter = RestaurantDeliveryPresenter(this);
     restaurantItemsModel = RestaurantItemsModel();
-    restaurantPresenter.getMenuList(widget.restId, context,
+    restaurantDeliveryPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
@@ -86,7 +89,7 @@ class _RestaurantViewState extends State<RestaurantView>
         } else {
           await progressDialog.show();
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
-          restaurantPresenter.getMenuList(widget.restId, context,
+          restaurantDeliveryPresenter.getMenuList(widget.restId, context,
               categoryId: abc, menu: menutype);
         }
       }
@@ -99,6 +102,35 @@ class _RestaurantViewState extends State<RestaurantView>
 
       print(_selectedMenu);
     });
+    abc = _categorydata[index].id;
+    if (abc != null) {
+      callItemOnCategorySelect();
+    } else {
+      abc = null;
+      callItemOnCategorySelect();
+    }
+  }
+
+  _onSubMenuSelected(index) {
+    setState(() {
+      _selectedSubMenu = index;
+
+      print(_selectedSubMenu);
+    });
+    // abc = _categorydata[index].id;
+    // if (abc != null) {
+    //   callItemOnCategorySelect();
+    // } else {
+    //   abc = null;
+    //   callItemOnCategorySelect();
+    // }
+  }
+
+  callItemOnCategorySelect() async {
+    _restaurantList = null;
+    await progressDialog.show();
+    restaurantDeliveryPresenter.getMenuList(widget.restId, context,
+        categoryId: abc, menu: menutype);
   }
 
   @override
@@ -223,16 +255,15 @@ class _RestaurantViewState extends State<RestaurantView>
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
                                 ),
-                                CircularProgressIndicator()
-                                // Text(
-                                //   STR_NO_ITEM_FOUND,
-                                //   textAlign: TextAlign.start,
-                                //   style: TextStyle(
-                                //       fontSize: FONTSIZE_25,
-                                //       fontFamily: KEY_FONTFAMILY,
-                                //       fontWeight: FontWeight.w500,
-                                //       color: greytheme700),
-                                // ),
+                                Text(
+                                  STR_NO_ITEM_FOUND,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: FONTSIZE_25,
+                                      fontFamily: KEY_FONTFAMILY,
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme700),
+                                ),
                               ],
                             ),
                           ),
@@ -334,11 +365,13 @@ class _RestaurantViewState extends State<RestaurantView>
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
                       await progressDialog.show();
-                      restaurantPresenter.getMenuList(widget.restId, context,
+                      restaurantDeliveryPresenter.getMenuList(
+                          widget.restId, context,
                           categoryId: abc, menu: menutype);
                       print(abc);
                     }
-                    restaurantPresenter.getMenuList(widget.restId, context,
+                    restaurantDeliveryPresenter.getMenuList(
+                        widget.restId, context,
                         categoryId: abc, menu: menutype);
                   },
                   shape: new RoundedRectangleBorder(
@@ -355,70 +388,169 @@ class _RestaurantViewState extends State<RestaurantView>
 
   _getMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-          child: Container(
-            margin: EdgeInsets.only(left: 8),
-             height: 40,
-            child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: _getMenucount(),
-        itemBuilder: (context, index){
-            return GestureDetector(
-              onTap: () async {
-                  _onSelected(index);
-                 // await progressDialog.show();
-                  abc = _categorydata[index].id;
-                    if (abc != null) {
-                      _restaurantList = null;
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
-                      await progressDialog.show();
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
-                      print(abc);
-                    } else {
-                      await progressDialog.show();
-                      restaurantPresenter.getMenuList(widget.restId, context,
-                          categoryId: abc, menu: menutype);
-                    }
-                  // restaurantPresenter.getMenuList(widget.restId, context,
-                  //         categoryId: abc, menu: menutype);
-              },
-                      child: Container(
-                  height: 40,
-                  // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                  padding: EdgeInsets.only(
-                    left: _categorydata[index].name.length>5? 6: 16, 
-                    right: _categorydata[index].name.length>5? 6: 16,
-                    top: 10,bottom: 0),
-                  margin: EdgeInsets.only(left: 6),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: _selectedMenu != null && _selectedMenu == index
-                                    ? (((Globle().colorscode) != null)
-                                            ? getColorByHex(Globle().colorscode)
-                                            : orangetheme) : Color.fromRGBO(118, 118, 118, 1),
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    // color: _selectedMenu != null && _selectedMenu == index
-                    //                 ? getColorByHex(Globle().colorscode)
-                    //                 : Color.fromRGBO(118, 118, 118, 1),
+      child: Center(
+        child: Container(
+          // margin: EdgeInsets.only(left: 8),
+          height: 50,
+          width: MediaQuery.of(context).size.width / 2.4,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.13 / 0.7,
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                          child: GestureDetector(
+                              onTap: () async {
+                                _onSelected(index);
+                              },
+                              child: Text(
+                                _categorydata[index].name,
+                                style: TextStyle(
+                                    color: _selectedMenu != null &&
+                                            _selectedMenu == index
+                                        ? getColorByHex(Globle().colorscode)
+                                        : Color.fromRGBO(118, 118, 118, 1),
+                                    fontSize: 16.0),
+                              ))),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                        child: Divider(
+                          thickness: 1,
+                          color: _selectedMenu != null && _selectedMenu == index
+                              ? getColorByHex(Globle().colorscode)
+                              : Color.fromRGBO(118, 118, 118, 1),
+                        ),
+                      )
+                    ],
                   ),
-                  child:Text(
-                              _categorydata[index].name ?? STR_BLANK,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: _selectedMenu != null && _selectedMenu == index
-                                    ? (((Globle().colorscode) != null)
-                                            ? getColorByHex(Globle().colorscode)
-                                            : orangetheme)
-                                    : Color.fromRGBO(118, 118, 118, 1),
-                              ),
-                            ), 
-              ),
-            );
-        }),
-          ),
+                  // ),
+                );
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSelected(index);
+                //   },
+                //   child: Container(
+                //     height: 40,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _categorydata[index].name.length > 5 ? 6 : 16,
+                //         right: _categorydata[index].name.length > 5 ? 6 : 16,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     decoration: BoxDecoration(
+                //       border: Border.all(
+                //         width: 1,
+                //         color: _selectedMenu != null && _selectedMenu == index
+                //             ? getColorByHex(Globle().colorscode)
+                //             : Color.fromRGBO(118, 118, 118, 1),
+                //       ),
+                //       borderRadius: BorderRadius.all(Radius.circular(8)),
+                //       // color: _selectedMenu != null && _selectedMenu == index
+                //       //                 ? getColorByHex(Globle().colorscode)
+                //       //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     ),
+                //     child: Text(
+                //       _categorydata[index].name ?? STR_BLANK,
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color: _selectedMenu != null && _selectedMenu == index
+                //             ? getColorByHex(Globle().colorscode)
+                //             : Color.fromRGBO(118, 118, 118, 1),
+                //       ),
+                //     ),
+                //   ),
+                // );
+              }),
+        ),
+      ),
+    );
+  }
+
+  _getSubMenuListHorizontal(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Center(
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width / 0.5,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getSubMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                    width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  _subcategorydata[index].title,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                ))),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                          child: Divider(
+                            thickness: 1,
+                            color: _selectedSubMenu != null &&
+                                    _selectedSubMenu == index
+                                ? getColorByHex(Globle().colorscode)
+                                : Color.fromRGBO(118, 118, 118, 1),
+                          ),
+                        )
+                      ],
+                    ));
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSubMenuSelected(index);
+                //   },
+                //   child: Container(
+                //     // height: 40,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     // decoration: BoxDecoration(
+                //     //   border: Border.all(
+                //     //     width: 1,
+                //     //     color: _selectedMenu != null && _selectedMenu == index
+                //     //                   ? getColorByHex(Globle().colorscode)
+                //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                //     //   ),
+                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     //   // color: _selectedMenu != null && _selectedMenu == index
+                //     //   //                 ? getColorByHex(Globle().colorscode)
+                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     // ),
+                //     child: Text(
+                //       _subcategorydata[index].title,
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color:
+                //             _selectedSubMenu != null && _selectedSubMenu == index
+                //                 ? getColorByHex(Globle().colorscode)
+                //                 : Color.fromRGBO(118, 118, 118, 1),
+                //         decoration: TextDecoration.underline,
+                //       ),
+                //     ),
+                //   ),
+                // );
+              }),
+        ),
+      ),
     );
   }
 
@@ -638,7 +770,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AddItemPageView(
+                                                AddItemDeliveryPageView(
                                                   itemId:
                                                       _restaurantList[index].id,
                                                   restId: _restaurantList[index]
@@ -694,7 +826,7 @@ class _RestaurantViewState extends State<RestaurantView>
   callAPIOnSwitchChange(String menuType) async {
     await progressDialog.show();
     menutype = menuType;
-    restaurantPresenter.getMenuList(widget.restId, context,
+    restaurantDeliveryPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
   }
 
