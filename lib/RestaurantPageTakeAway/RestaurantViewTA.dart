@@ -188,15 +188,16 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                               ),
-                              Text(
-                                STR_NO_ITEMS_FOUND,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: FONTSIZE_25,
-                                    fontFamily: KEY_FONTFAMILY,
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme700),
-                              ),
+                              CircularProgressIndicator()
+                              // Text(
+                              //   STR_NO_ITEMS_FOUND,
+                              //   textAlign: TextAlign.start,
+                              //   style: TextStyle(
+                              //       fontSize: FONTSIZE_25,
+                              //       fontFamily: KEY_FONTFAMILY,
+                              //       fontWeight: FontWeight.w500,
+                              //       color: greytheme700),
+                              // ),
                             ],
                           ),
                         ),

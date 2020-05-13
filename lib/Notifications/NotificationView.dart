@@ -3,6 +3,7 @@ import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
+import 'package:foodzi/Utils/ConstantImages.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -129,7 +130,7 @@ class _NotificationViewState extends State<NotificationView>
                       ),
                     ),
                     onTap: () {
-                      _onTap(index);
+                      _onTap(index,context);
                     },
                   ),
                   decoration: BoxDecoration(
@@ -149,11 +150,11 @@ class _NotificationViewState extends State<NotificationView>
           );
   }
 
-  _onTap(int index) async {
+  _onTap(int index,context) async {
     _onSelected(index);
     print(notificationData[index].notifType);
     if (notificationData[index].notifType == STR_INVITATION) {
-      if (notificationData[index].invitationStatus.isEmpty) {
+      if ( notificationData[index].invitationStatus == null || notificationData[index].invitationStatus.isEmpty) {
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);

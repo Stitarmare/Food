@@ -38,7 +38,7 @@ class AddItemPageTApresenter extends AddItemPageTAContractor {
       switch (value.result) {
         case SuccessType.success:
           print(value.model);
-          addItemPageModelView.addItemsuccess(value.model.data);
+          addItemPageModelView.addItemsuccess(value.model.data,value.model);
           break;
         case SuccessType.failed:
           addItemPageModelView.addItemfailed();

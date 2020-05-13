@@ -393,7 +393,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, STR_REGISTRATION_PAGE);
+              Navigator.pushNamed(context, STR_REGISTRATION_PAGE);
             },
             child: new Text(
               KEY_SIGNUP,

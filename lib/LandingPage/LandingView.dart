@@ -39,8 +39,8 @@ class _LandingStateView extends State<Landingview>
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
-  final GlobalKey<_LandingStateView> _scaffoldKey =
-      GlobalKey<_LandingStateView>();
+  //final GlobalKey<_LandingStateView> _scaffoldKey =
+      //GlobalKey<_LandingStateView>();
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
@@ -70,6 +70,7 @@ class _LandingStateView extends State<Landingview>
   onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
+        callApi();
         // pushToNotification();
         setState(() {
           Globle().notificationFLag = true;
@@ -643,10 +644,14 @@ class _LandingStateView extends State<Landingview>
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CartDetailsPage(
-                    orderId: Globle().orderID,
-                    isFromOrder: true,
-                  )));
+              builder: (context) => 
+              CartDetailsPage(
+                restId: _model.data.dineIn.restId,
+                orderId: Globle().orderID,
+                isFromOrder: true,
+              )
+              
+                  ));
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
