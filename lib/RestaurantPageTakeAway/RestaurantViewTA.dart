@@ -168,7 +168,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   ),
                 ),
                 // _getOptionsformenu(context),
-                _getMenuListHorizontal(context),
+                // _getMenuListHorizontal(context),
                 _getSubMenuListHorizontal(context),
                 SliverToBoxAdapter(
                   child: Container(
@@ -370,8 +370,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   child: Container(
                     decoration: new BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 0.7),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      // border: Border.all(color: Colors.grey, width: 0.7),
+                      // borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                     child: Column(
                       children: <Widget>[

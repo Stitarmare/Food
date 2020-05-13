@@ -202,7 +202,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       ),
                     ),
                   ),
-                  _getMenuListHorizontal(context),
+                  // _getMenuListHorizontal(context),
                   _getSubMenuListHorizontal(context),
                   // _getOptionsformenu(context),
                   SliverToBoxAdapter(
@@ -242,6 +242,90 @@ class _RestaurantViewState extends State<RestaurantView>
             ),
           ],
         ));
+  }
+
+   _getSubMenuListHorizontal(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Center(
+        child: Container(
+          height: 50,
+          width: MediaQuery.of(context).size.width / 0.5,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getSubMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                    width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  _subcategorydata[index].title,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                ))),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                          child: Divider(
+                            thickness: 1,
+                            color: _selectedSubMenu != null &&
+                                    _selectedSubMenu == index
+                                ? getColorByHex(Globle().colorscode)
+                                : Color.fromRGBO(118, 118, 118, 1),
+                          ),
+                        )
+                      ],
+                    ));
+                // return GestureDetector(
+                //   onTap: () {
+                //     _onSubMenuSelected(index);
+                //   },
+                //   child: Container(
+                //     // height: 40,
+                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                //     padding: EdgeInsets.only(
+                //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                //         top: 10,
+                //         bottom: 0),
+                //     margin: EdgeInsets.only(left: 6),
+                //     // decoration: BoxDecoration(
+                //     //   border: Border.all(
+                //     //     width: 1,
+                //     //     color: _selectedMenu != null && _selectedMenu == index
+                //     //                   ? getColorByHex(Globle().colorscode)
+                //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                //     //   ),
+                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     //   // color: _selectedMenu != null && _selectedMenu == index
+                //     //   //                 ? getColorByHex(Globle().colorscode)
+                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                //     // ),
+                //     child: Text(
+                //       _subcategorydata[index].title,
+                //       style: TextStyle(
+                //         fontSize: 16,
+                //         color:
+                //             _selectedSubMenu != null && _selectedSubMenu == index
+                //                 ? getColorByHex(Globle().colorscode)
+                //                 : Color.fromRGBO(118, 118, 118, 1),
+                //         decoration: TextDecoration.underline,
+                //       ),
+                //     ),
+                //   ),
+                // );
+              }),
+        ),
+      ),
+    );
   }
 
   Widget _getOptionsformenu(BuildContext context) {
@@ -422,6 +506,21 @@ class _RestaurantViewState extends State<RestaurantView>
     );
   }
 
+   _onSubMenuSelected(index) {
+    setState(() {
+      _selectedSubMenu = index;
+
+      print(_selectedSubMenu);
+    });
+    // abc = _categorydata[index].id;
+    // if (abc != null) {
+    //   callItemOnCategorySelect();
+    // } else {
+    //   abc = null;
+    //   callItemOnCategorySelect();
+    // }
+  }
+
   int _getMenucount() {
     if (_categorydata != null) {
       return _categorydata.length;
@@ -498,24 +597,27 @@ class _RestaurantViewState extends State<RestaurantView>
                   child: Container(
                     decoration: new BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 0.7),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      // border: Border.all(color: Colors.grey, width: 0.7),
+                      // borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         LimitedBox(
                           child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10.0),
-                              topRight: Radius.circular(10.0),
-                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            // borderRadius: BorderRadius.only(
+                            //   topLeft: Radius.circular(10.0),
+                            //   topRight: Radius.circular(10.0),
+                            // ),
                             child: Align(
                               alignment: Alignment.bottomRight,
                               heightFactor: 1,
                               child: CachedNetworkImage(
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 width: double.infinity,
-                                height: 100,
+                                height: 150,
                                 placeholder: (context, url) => Center(
                                   child: CircularProgressIndicator(),
                                 ),
@@ -532,31 +634,8 @@ class _RestaurantViewState extends State<RestaurantView>
                             ),
                           ),
                         ),
-                        Expanded(
-                            child: Padding(
-                          padding: EdgeInsets.only(left: 10, top: 8),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    (_restaurantList[index].menuType == STR_VEG)
-                                        ? Image.asset(
-                                            IMAGE_VEG_ICON_PATH,
-                                            width: 14,
-                                            height: 14,
-                                          )
-                                        : Image.asset(
-                                            IMAGE_VEG_ICON_PATH,
-                                            color: redtheme,
-                                            width: 14,
-                                            height: 14,
-                                          ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Container(
+                        SizedBox(height:5),
+                          Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.30,
                                       child: AutoSizeText(
@@ -574,111 +653,157 @@ class _RestaurantViewState extends State<RestaurantView>
                                             color: greytheme700),
                                       ),
                                     ),
-                                  ],
+                                    SizedBox(
+                                  height: 3,
                                 ),
-                                SizedBox(
-                                  height: 7,
-                                ),
-                                AutoSizeText(
-                                  _restaurantList[index].itemDescription != null
-                                      ? StringUtils.capitalize(
-                                          "${_restaurantList[index].itemDescription}")
-                                      : STR_SPACE,
-                                  maxLines: 2,
-                                  minFontSize: FONTSIZE_10,
-                                  maxFontSize: FONTSIZE_12,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                      fontSize: FONTSIZE_12,
-                                      fontFamily: KEY_FONTFAMILY,
-                                      fontWeight: FontWeight.w500,
-                                      color: greytheme1000),
-                                ),
-                              ]),
-                        )),
+                                    Center(
+                                      child: Text(
+                                      (_restaurantList[index].sizePrizes.isEmpty)
+                                          ? "${restaurantItemsModel.currencySymbol} " +
+                                                  '${_restaurantList[index].price}' ??
+                                              STR_BLANK
+                                          : "${restaurantItemsModel.currencySymbol} " +
+                                                  "${_restaurantList[index].sizePrizes[0].price}" ??
+                                              STR_BLANK,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_14,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w600,
+                                          color: ((Globle().colorscode) != null)
+                                              ? getColorByHex(Globle().colorscode)
+                                              : orangetheme),
+                                  ),
+                                    ),
+                        // Expanded(
+                        //     child: Padding(
+                        //   padding: EdgeInsets.only(top: 8),
+                        //   child: Column(
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       crossAxisAlignment: CrossAxisAlignment.center,
+                        //       children: <Widget>[
+                              
+                        //         // ),
+                        //         // Row(
+                        //         //   children: <Widget>[
+                        //         //     (_restaurantList[index].menuType == STR_VEG)
+                        //         //         ? Image.asset(
+                        //         //             IMAGE_VEG_ICON_PATH,
+                        //         //             width: 14,
+                        //         //             height: 14,
+                        //         //           )
+                        //         //         : Image.asset(
+                        //         //             IMAGE_VEG_ICON_PATH,
+                        //         //             color: redtheme,
+                        //         //             width: 14,
+                        //         //             height: 14,
+                        //         //           ),
+                        //         //     SizedBox(
+                        //         //       width: 5,
+                        //         //     ),
+                                    
+                        //         //   ],
+                        //         // ),
+                                
+                        //         // AutoSizeText(
+                        //         //   _restaurantList[index].itemDescription != null
+                        //         //       ? StringUtils.capitalize(
+                        //         //           "${_restaurantList[index].itemDescription}")
+                        //         //       : STR_SPACE,
+                        //         //   maxLines: 2,
+                        //         //   minFontSize: FONTSIZE_10,
+                        //         //   maxFontSize: FONTSIZE_12,
+                        //         //   softWrap: true,
+                        //         //   style: TextStyle(
+                        //         //       fontSize: FONTSIZE_12,
+                        //         //       fontFamily: KEY_FONTFAMILY,
+                        //         //       fontWeight: FontWeight.w500,
+                        //         //       color: greytheme1000),
+                        //         // ),
+                        //       ]),
+                        // )),
                         SizedBox(
                           height: 1,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.width * 0.09,
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                decoration: new BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                      color: Colors.grey,
-                                      width: 0.7,
-                                    ),
-                                  ),
-                                ),
-                                width: MediaQuery.of(context).size.width * 0.2,
-                                child: Center(
-                                  child: Text(
-                                    (_restaurantList[index].sizePrizes.isEmpty)
-                                        ? "${restaurantItemsModel.currencySymbol} " +
-                                                '${_restaurantList[index].price}' ??
-                                            STR_BLANK
-                                        : "${restaurantItemsModel.currencySymbol} " +
-                                                "${_restaurantList[index].sizePrizes[0].price}" ??
-                                            STR_BLANK,
-                                    style: TextStyle(
-                                        fontSize: FONTSIZE_14,
-                                        fontStyle: FontStyle.normal,
-                                        fontWeight: FontWeight.w600,
-                                        color: ((Globle().colorscode) != null)
-                                            ? getColorByHex(Globle().colorscode)
-                                            : orangetheme),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: new GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddItemPageView(
-                                                  itemId:
-                                                      _restaurantList[index].id,
-                                                  restId: _restaurantList[index]
-                                                      .restId,
-                                                  title:
-                                                      '${_restaurantList[index].itemName}',
-                                                  description:
-                                                      '${_restaurantList[index].itemDescription}',
-                                                  itemImage:
-                                                      '${_restaurantList[index].itemImage}',
-                                                  isFromOrder:
-                                                      widget.isFromOrder,
-                                                )));
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: ((Globle().colorscode) != null)
-                                            ? getColorByHex(Globle().colorscode)
-                                            : orangetheme,
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(12.0),
-                                        )),
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    child: Center(
-                                      child: Text(
-                                        STR_ADD,
-                                        style: TextStyle(
-                                            fontSize: FONTSIZE_14,
-                                            fontStyle: FontStyle.normal,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   height: MediaQuery.of(context).size.width * 0.09,
+                        //   child: Row(
+                        //     children: <Widget>[
+                        //       Container(
+                        //         decoration: new BoxDecoration(
+                        //           border: Border(
+                        //             top: BorderSide(
+                        //               color: Colors.grey,
+                        //               width: 0.7,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         width: MediaQuery.of(context).size.width * 0.2,
+                        //         child: Center(
+                        //           child: Text(
+                        //             (_restaurantList[index].sizePrizes.isEmpty)
+                        //                 ? "${restaurantItemsModel.currencySymbol} " +
+                        //                         '${_restaurantList[index].price}' ??
+                        //                     STR_BLANK
+                        //                 : "${restaurantItemsModel.currencySymbol} " +
+                        //                         "${_restaurantList[index].sizePrizes[0].price}" ??
+                        //                     STR_BLANK,
+                        //             style: TextStyle(
+                        //                 fontSize: FONTSIZE_14,
+                        //                 fontStyle: FontStyle.normal,
+                        //                 fontWeight: FontWeight.w600,
+                        //                 color: ((Globle().colorscode) != null)
+                        //                     ? getColorByHex(Globle().colorscode)
+                        //                     : orangetheme),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Expanded(
+                        //         child: new GestureDetector(
+                        //           onTap: () {
+                        //             Navigator.of(context).push(
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) =>
+                        //                         AddItemPageView(
+                        //                           itemId:
+                        //                               _restaurantList[index].id,
+                        //                           restId: _restaurantList[index]
+                        //                               .restId,
+                        //                           title:
+                        //                               '${_restaurantList[index].itemName}',
+                        //                           description:
+                        //                               '${_restaurantList[index].itemDescription}',
+                        //                           itemImage:
+                        //                               '${_restaurantList[index].itemImage}',
+                        //                           isFromOrder:
+                        //                               widget.isFromOrder,
+                        //                         )));
+                        //           },
+                        //           child: Container(
+                        //             decoration: BoxDecoration(
+                        //                 color: ((Globle().colorscode) != null)
+                        //                     ? getColorByHex(Globle().colorscode)
+                        //                     : orangetheme,
+                        //                 borderRadius: BorderRadius.only(
+                        //                   bottomRight: Radius.circular(12.0),
+                        //                 )),
+                        //             width:
+                        //                 MediaQuery.of(context).size.width * 0.1,
+                        //             child: Center(
+                        //               child: Text(
+                        //                 STR_ADD,
+                        //                 style: TextStyle(
+                        //                     fontSize: FONTSIZE_14,
+                        //                     fontStyle: FontStyle.normal,
+                        //                     fontWeight: FontWeight.w600,
+                        //                     color: Colors.white),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
