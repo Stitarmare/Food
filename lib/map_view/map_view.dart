@@ -91,8 +91,10 @@ class MapViewState extends State<MapView> {
   String addres = "";
   bool isFormEnabled = false;
   bool enabletv = false;
+  String strData = "";
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  PersistentBottomSheetController _bottomSheetController;
 
 //api key
   String googleAPIKey = "AIzaSyDme9kw3nMJil33E11ZdJHkJ-uML1HgDKk";
@@ -222,7 +224,8 @@ class MapViewState extends State<MapView> {
             strSubThoroughfare;
 
         strAddress = removeLastChar(strAddress);
-
+      });
+      _bottomSheetController.setState(() {
         addres = strAddress;
       });
 
@@ -422,7 +425,7 @@ class MapViewState extends State<MapView> {
   }
 
   enableField() {
-    setState(() {
+    _bottomSheetController.setState(() {
       isFormEnabled = true;
     });
   }
@@ -430,7 +433,8 @@ class MapViewState extends State<MapView> {
   _showBottomSheetCallback() {
     Future.delayed(Duration(seconds: 1), () {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
-        _scaffoldKey.currentState.showBottomSheet<void>((BuildContext context) {
+        _bottomSheetController = await _scaffoldKey.currentState
+            .showBottomSheet<void>((BuildContext context) {
           return Container(
             height: 360.0,
             color: Color(0xFF737373),
@@ -475,7 +479,7 @@ class MapViewState extends State<MapView> {
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Text(strAddress),
+                        child: Text(addres),
                       ),
                     ),
                     _addressField(),
