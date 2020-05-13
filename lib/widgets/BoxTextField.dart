@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class BoxAppTextField extends StatefulWidget {
@@ -60,7 +61,7 @@ class _AppTextFieldState extends State<BoxAppTextField> {
           labelStyle: TextStyle(
               color: greytheme1000,
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500),
           prefixIcon: widget.icon,
           enabledBorder: OutlineInputBorder(

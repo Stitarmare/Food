@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:badges/badges.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
@@ -188,7 +189,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
@@ -406,7 +407,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               child: Text(
                 STR_HOW_SOON_WANT,
                 style: TextStyle(
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontSize: FONTSIZE_16,
                     color: greytheme700),
               ),
@@ -440,7 +441,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                   title: Text("${radionBtn.title}",
                       style: TextStyle(
                           fontSize: FONTSIZE_14,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w500,
                           color: greytheme700)),
                   groupValue: id,
@@ -469,7 +470,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w600,
               color: greytheme700),
         ),
@@ -509,7 +510,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       child: Text("${radionOrderBtn.title}",
                           style: TextStyle(
                               fontSize: FONTSIZE_20,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode))),
                     ),
@@ -518,7 +519,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
                       child: Text("${radionOrderBtn.subtitle}",
                           style: TextStyle(
                               fontSize: FONTSIZE_14,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w500,
                               color: greytheme100)),
                     ),
@@ -553,7 +554,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 18,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -571,7 +572,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: FONTSIZE_15,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme700),
             )
@@ -586,7 +587,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
               child: Text(STR_OK,
                   style: TextStyle(
                       fontSize: FONTSIZE_16,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700)),
               onPressed: () {

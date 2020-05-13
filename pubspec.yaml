@@ -190,6 +190,14 @@ flutter:
     - family: SegoeUI
       fonts:
         - asset: fonts/segoe-ui.ttf
+    
+    - family: Roboto
+      fonts:
+        - asset: fonts/segoe-ui.ttf
+    
+    - family: SanFrancisco
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
   
 
 

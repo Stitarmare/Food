@@ -6,6 +6,7 @@ import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -152,7 +153,7 @@ class _DineViewState extends State<DineInView>
               STR_DINE_IN,
               style: TextStyle(
                   fontSize: FONTSIZE_18,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme1200),
             ),
@@ -172,7 +173,7 @@ class _DineViewState extends State<DineInView>
                   //   child: Text(
                   //     STR_ORDER_EASY,
                   //     style: TextStyle(
-                  //         fontFamily: KEY_FONTFAMILY,
+                  //         fontFamily: Constants.getFontType(),
                   //         fontSize: FONTSIZE_6,
                   //         color: greytheme400,
                   //         fontWeight: FontWeight.w700,
@@ -260,7 +261,7 @@ class _DineViewState extends State<DineInView>
                                   child: Text(
                                     item.title,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         color: item.isSelected
                                             ? Colors.white
                                             : greytheme1000,
@@ -396,7 +397,7 @@ class _DineViewState extends State<DineInView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -414,7 +415,7 @@ class _DineViewState extends State<DineInView>
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: FONTSIZE_25,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme700),
                       ),
@@ -529,7 +530,7 @@ class _DineViewState extends State<DineInView>
                   merchantName,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -554,7 +555,7 @@ class _DineViewState extends State<DineInView>
                   Text(
                     "${(shortdatetime == null || shortdatetime == "00:00") ? "- -" : shortdatetime} - ${(cLosingtime == null || cLosingtime == "00:00") ? "- -" : cLosingtime}",
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
@@ -591,7 +592,7 @@ class _DineViewState extends State<DineInView>
                   Text(
                     '${distance} ' + STR_KM,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
@@ -612,7 +613,7 @@ class _DineViewState extends State<DineInView>
                     (rating == "null") ? '-' : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_10,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),

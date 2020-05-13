@@ -270,7 +270,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -329,7 +329,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -395,14 +395,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         _updateOrderModel.items = items;
-                        if (sizess!=null) 
-                        {
-if (sizess.length > 0) {
-                          _updateOrderModel.items.sizePriceId =
-                              sizess[0].sizeid;
+                        if (sizess != null) {
+                          if (sizess.length > 0) {
+                            _updateOrderModel.items.sizePriceId =
+                                sizess[0].sizeid;
+                          }
                         }
-                        }
-                        
+
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
@@ -442,7 +441,7 @@ if (sizess.length > 0) {
                         child: Text(
                           STR_ADDTOCART,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -607,7 +606,7 @@ if (sizess.length > 0) {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -634,7 +633,7 @@ if (sizess.length > 0) {
                               STR_CANCEL,
                               style: TextStyle(
                                   fontSize: FONTSIZE_17,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -654,8 +653,17 @@ if (sizess.length > 0) {
   Widget _foodItemLogo() {
     return Container(
       child: new Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(25.0),
+          ),
+          border: Border.all(),
+        ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
+          padding: const EdgeInsets.all(15),
           child: CachedNetworkImage(
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
@@ -692,13 +700,11 @@ if (sizess.length > 0) {
   callClearCart() async {
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
     await progressDialog.show();
-   
-    
-     _addItemPagepresenter.clearCart(context);
+
+    _addItemPagepresenter.clearCart(context);
   }
 
   getlistoftable() {
@@ -731,7 +737,7 @@ if (sizess.length > 0) {
                 child: Text(
                   StringUtils.capitalize(widget.title),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -743,7 +749,7 @@ if (sizess.length > 0) {
                 child: Text(
                   StringUtils.capitalize(widget.description),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
@@ -766,7 +772,7 @@ if (sizess.length > 0) {
                     child: Text(
                       STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
@@ -807,7 +813,7 @@ if (sizess.length > 0) {
                                     addItemPageModelList.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -826,7 +832,8 @@ if (sizess.length > 0) {
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -844,7 +851,7 @@ if (sizess.length > 0) {
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -881,7 +888,7 @@ if (sizess.length > 0) {
                                     addItemPageModelList.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -900,7 +907,8 @@ if (sizess.length > 0) {
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -918,7 +926,7 @@ if (sizess.length > 0) {
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -956,7 +964,7 @@ if (sizess.length > 0) {
                                     addItemPageModelList.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -975,7 +983,8 @@ if (sizess.length > 0) {
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -1020,7 +1029,7 @@ if (sizess.length > 0) {
                                     child: Text(
                                       STR_SIZE,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: redtheme),
                                     ),
@@ -1038,7 +1047,8 @@ if (sizess.length > 0) {
                                         child: Text(
                                           STR_REQUIRED,
                                           style: TextStyle(
-                                              fontFamily: KEY_FONTFAMILY,
+                                              fontFamily:
+                                                  Constants.getFontType(),
                                               fontSize: FONTSIZE_10,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600),
@@ -1056,7 +1066,7 @@ if (sizess.length > 0) {
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -1267,7 +1277,7 @@ if (sizess.length > 0) {
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -1296,7 +1306,7 @@ if (sizess.length > 0) {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -1310,7 +1320,7 @@ if (sizess.length > 0) {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -1457,7 +1467,7 @@ if (sizess.length > 0) {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1476,7 +1486,7 @@ if (sizess.length > 0) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1491,7 +1501,7 @@ if (sizess.length > 0) {
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1518,7 +1528,7 @@ if (sizess.length > 0) {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1537,7 +1547,7 @@ if (sizess.length > 0) {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1552,7 +1562,7 @@ if (sizess.length > 0) {
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1663,7 +1673,7 @@ if (sizess.length > 0) {
   }
 
   @override
-  void clearCartFailed() async{
+  void clearCartFailed() async {
     await progressDialog.hide();
   }
 

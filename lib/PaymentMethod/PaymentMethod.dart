@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class PaymentMethod extends StatefulWidget {
@@ -44,7 +45,7 @@ class _PaymentmethodState extends State<PaymentMethod> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: FONTSIZE_20,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greytheme700),
                     ),
@@ -64,7 +65,7 @@ class _PaymentmethodState extends State<PaymentMethod> {
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: redtheme),
                   )
@@ -83,7 +84,7 @@ class _PaymentmethodState extends State<PaymentMethod> {
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
                         fontSize: FONTSIZE_14,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: greytheme100),
                   )

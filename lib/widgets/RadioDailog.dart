@@ -5,6 +5,7 @@ import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
 import 'package:foodzi/SplitBllNotification/SplitBillContractor.dart';
 import 'package:foodzi/SplitBllNotification/SplitBillNotificationPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/InvitedPeopleDialogSplitBill.dart';
@@ -88,7 +89,7 @@ class RadioDialogState extends State<RadioDialog>
                     style: TextStyle(
                         fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -100,7 +101,7 @@ class RadioDialogState extends State<RadioDialog>
                               style: TextStyle(
                                   fontSize: FONTSIZE_15,
                                   color: greytheme700,
-                                  fontFamily: KEY_FONTFAMILY),
+                                  fontFamily: Constants.getFontType()),
                             ),
                             groupValue: id,
                             value: data.index,
@@ -138,67 +139,55 @@ class RadioDialogState extends State<RadioDialog>
       ],
     );
   }
-  onConfirmTap() async{
+
+  onConfirmTap() async {
     if (id == 1) {
       await progressDialog.show();
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          1,
-                          widget.amount.toInt(),
-                          context);
-                      // _splitBillNotificationPresenter.getSPlitBillNotification(
-                      //     widget.orderId,
-                      //     Globle().loginModel.data.id,
-                      //     1,
-                      //     widget.amount.toInt(),
-                      //     context);
-                    } else if (id == 2) {
-                      Navigator.of(context).pop({"isInvitePeople":true});
-                      
-                    } else if (id == 3) {
-                      await progressDialog.show();
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          3,
-                          widget.amount.toInt(),
-                          context);
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 1, widget.amount.toInt(), context);
+      // _splitBillNotificationPresenter.getSPlitBillNotification(
+      //     widget.orderId,
+      //     Globle().loginModel.data.id,
+      //     1,
+      //     widget.amount.toInt(),
+      //     context);
+    } else if (id == 2) {
+      Navigator.of(context).pop({"isInvitePeople": true});
+    } else if (id == 3) {
+      await progressDialog.show();
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
 
-                      // _splitBillNotificationPresenter.getSPlitBillNotification(
-                      //     widget.orderId,
-                      //     Globle().loginModel.data.id,
-                      //     3,
-                      //     widget.amount.toInt(),
-                      //     context);
-                    } else if (id == 4) {
-                      await progressDialog.show();
-                      _splitBillPresenter.getSPlitBill(
-                          widget.orderId,
-                          Globle().loginModel.data.id,
-                          3,
-                          widget.amount.toInt(),
-                          context);
+      // _splitBillNotificationPresenter.getSPlitBillNotification(
+      //     widget.orderId,
+      //     Globle().loginModel.data.id,
+      //     3,
+      //     widget.amount.toInt(),
+      //     context);
+    } else if (id == 4) {
+      await progressDialog.show();
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
 
-                      // _splitBillNotificationPresenter.getSPlitBillNotification(
-                      //     widget.orderId,
-                      //     Globle().loginModel.data.id,
-                      //     4,
-                      //     widget.amount.toInt(),
-                      //     context);
-                    }
+      // _splitBillNotificationPresenter.getSPlitBillNotification(
+      //     widget.orderId,
+      //     Globle().loginModel.data.id,
+      //     4,
+      //     widget.amount.toInt(),
+      //     context);
+    }
   }
 
   @override
-  void getSplitBillFailed() async{
+  void getSplitBillFailed() async {
     await progressDialog.hide();
-    Navigator.of(context).pop({"isSplitBill":false});
+    Navigator.of(context).pop({"isSplitBill": false});
   }
 
   @override
-  void getSplitBillSuccess() async{
+  void getSplitBillSuccess() async {
     await progressDialog.hide();
-    Navigator.of(context).pop({"isSplitBill":true});
+    Navigator.of(context).pop({"isSplitBill": true});
   }
 
   @override

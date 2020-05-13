@@ -15,8 +15,8 @@ class DailogBox {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          var height =  MediaQuery.of(context).size.height;
-          var width =  MediaQuery.of(context).size.width;
+          var height = MediaQuery.of(context).size.height;
+          var width = MediaQuery.of(context).size.width;
           return Container(
             //margin: EdgeInsets.only(top: height * 0.8),
             child: Dialog(
@@ -30,7 +30,7 @@ class DailogBox {
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: (height * 0.3)*0.1,
+                      height: (height * 0.3) * 0.1,
                     ),
                     Center(
                       child: Text(
@@ -41,7 +41,7 @@ class DailogBox {
                       ),
                     ),
                     SizedBox(
-                      height: (height * 0.3)*0.06,
+                      height: (height * 0.3) * 0.06,
                     ),
                     Center(
                       child: Column(
@@ -65,7 +65,7 @@ class DailogBox {
                             ),
                           ),
                           SizedBox(
-                            height: (height * 0.3)*0.08,
+                            height: (height * 0.3) * 0.08,
                           ),
                           Align(
                             alignment: Alignment.center,
@@ -86,7 +86,7 @@ class DailogBox {
                             ),
                           ),
                           SizedBox(
-                            height: (height * 0.3)*0.08,
+                            height: (height * 0.3) * 0.08,
                           ),
                           Align(
                             alignment: Alignment.center,
@@ -101,7 +101,7 @@ class DailogBox {
                       ),
                     ),
                     SizedBox(
-                      height: (height * 0.3)*0.08,
+                      height: (height * 0.3) * 0.08,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -126,7 +126,7 @@ class DailogBox {
                           },
                         ),
                         SizedBox(
-                          width: (height * 0.3)*0.08,
+                          width: (height * 0.3) * 0.08,
                         ),
                         RaisedButton(
                           shape: RoundedRectangleBorder(
@@ -171,8 +171,8 @@ class DailogBox {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          var height =  MediaQuery.of(context).size.height;
-          var width =  MediaQuery.of(context).size.width;
+          var height = MediaQuery.of(context).size.height;
+          var width = MediaQuery.of(context).size.width;
           return Container(
             //margin: EdgeInsets.only(top: height * 0.8),
             child: Dialog(
@@ -188,20 +188,20 @@ class DailogBox {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                      height: (height * 0.3)*0.04,
+                      height: (height * 0.3) * 0.04,
                     ),
                     Center(
                       child: Text(
                         dailogTitle,
                         style: TextStyle(
                             fontSize: 22,
-                    //         fontFamily: KEY_FONTFAMILY,
-                    // fontWeight: FontWeight.w500,
+                            //         fontFamily: Constants.getFontType(),
+                            // fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(64, 64, 64, 1)),
                       ),
                     ),
                     SizedBox(
-                      height: (height * 0.3)*0.08,
+                      height: (height * 0.3) * 0.08,
                     ),
                     Center(
                       child: Padding(
@@ -209,11 +209,11 @@ class DailogBox {
                         child: Text(
                           dailogDescription,
                           style: TextStyle(
-                    //         fontFamily: KEY_FONTFAMILY,
-                    // fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              color:greytheme500,
-                              ),
+                            //         fontFamily: Constants.getFontType(),
+                            // fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                            color: greytheme500,
+                          ),
                         ),
                       ),
                     ),
@@ -275,7 +275,7 @@ class DailogBox {
                     //   ),
                     // ),
                     SizedBox(
-                      height: (height * 0.3)*0.18,
+                      height: (height * 0.3) * 0.18,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -300,7 +300,7 @@ class DailogBox {
                           },
                         ),
                         SizedBox(
-                          width: (height * 0.3)*0.08,
+                          width: (height * 0.3) * 0.08,
                         ),
                         RaisedButton(
                           shape: RoundedRectangleBorder(

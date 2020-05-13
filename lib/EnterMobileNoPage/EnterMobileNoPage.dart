@@ -84,7 +84,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     KEY_UPDATE,
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
@@ -103,7 +103,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     KEY_CANCEL_UC,
                     style: TextStyle(
                         color: greytheme1000,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
@@ -171,7 +171,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
-                        fontFamily: KEY_FONT_SEGOEUI,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w400,
                         fontSize: FONTSIZE_18,
                         color: greytheme200),

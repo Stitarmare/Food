@@ -6,6 +6,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -62,7 +63,7 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
                     style: TextStyle(
                         fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600),
                   ),
                 ),

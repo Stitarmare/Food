@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 
@@ -50,7 +51,7 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                     style: TextStyle(
                         fontSize: FONTSIZE_16,
                         color: greytheme700,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600),
                   ),
                 ),

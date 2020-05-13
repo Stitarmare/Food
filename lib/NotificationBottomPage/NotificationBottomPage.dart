@@ -4,6 +4,7 @@ import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
 import 'package:foodzi/Notifications/NotificationPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -65,7 +66,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                 style: TextStyle(
                     color: greytheme1200,
                     fontSize: FONTSIZE_18,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500)),
           ),
           body: _notificationList(context)),
@@ -85,7 +86,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_22,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w500,
                       color: greytheme1200)),
             ),
@@ -103,7 +104,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                         getNotificationText(index),
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             color: greytheme1200),
                       ),
                     ),
@@ -113,7 +114,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                         getNotificationDate(index),
                         style: TextStyle(
                             fontSize: FONTSIZE_11,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             color: greytheme1400),
                       ),
                     ),
@@ -155,7 +156,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-         await progressDialog.show();
+          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -215,13 +216,13 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       }
       page++;
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> acceptInvitationFailed(ErrorModel model) async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     Toast.show(
       model.message,
       context,
@@ -232,7 +233,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Toast.show(
       model.message,

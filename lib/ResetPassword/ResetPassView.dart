@@ -3,6 +3,7 @@ import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -11,7 +12,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 class ResetPasswordview extends StatefulWidget {
   var mobno;
   var countryCode;
-  ResetPasswordview({this.mobno,this.countryCode});
+  ResetPasswordview({this.mobno, this.countryCode});
   @override
   State<StatefulWidget> createState() {
     return _ResetPasswordview();
@@ -87,7 +88,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
-          widget.mobno,widget.countryCode, _password, context);
+          widget.mobno, widget.countryCode, _password, context);
     } else {
       setState(() {
         _validate = true;
@@ -112,7 +113,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
                   Text(
                     STR_RESET_PASSWORD,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         color: greytheme300,
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
@@ -228,7 +229,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
           style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              fontFamily: KEY_FONTFAMILY),
+              fontFamily: Constants.getFontType()),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -264,7 +265,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontSize: FONTSIZE_20),
           ),
           actions: [

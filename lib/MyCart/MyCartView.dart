@@ -141,32 +141,32 @@ class _MyCartViewState extends State<MyCartView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-                  if (menuCartList.quantity > 0) {
-                    setState(() {
-                      menuCartList.quantity -= 1;
-                      print(menuCartList.quantity);
-                    });
-                    // DialogsIndicator.showLoadingDialog(
-                    //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
-                    if (menuCartList.quantity > 0) {
-                      _myCartpresenter.updateQauntityCount(
-                          menuCartList.id,
-                          menuCartList.quantity,
-                          (double.parse(menuCartList.totalAmount)) /
-                              menuCartList.quantity,
-                          context);
-                    }
-                    if (menuCartList.quantity == 0) {
-                      await progressDialog.show();
-                      _myCartpresenter.removeItemfromCart(menuCartList.id,
-                          Globle().loginModel.data.id, context);
-                      setState(() {
-                        _cartItemList.removeAt(menuCartList.id);
-                      });
-                    }
-                  }
-                },
+            if (menuCartList.quantity > 0) {
+              setState(() {
+                menuCartList.quantity -= 1;
+                print(menuCartList.quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              if (menuCartList.quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    (double.parse(menuCartList.totalAmount)) /
+                        menuCartList.quantity,
+                    context);
+              }
+              if (menuCartList.quantity == 0) {
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    menuCartList.id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(menuCartList.id);
+                });
+              }
+            }
+          },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
@@ -186,7 +186,7 @@ class _MyCartViewState extends State<MyCartView>
             menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -248,7 +248,7 @@ class _MyCartViewState extends State<MyCartView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -272,7 +272,7 @@ class _MyCartViewState extends State<MyCartView>
                         Text(STR_NO_TABLE,
                             style: TextStyle(
                                 fontSize: FONTSIZE_14,
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w600,
                                 color: getColorByHex(Globle().colorscode))),
                       ],
@@ -330,7 +330,7 @@ class _MyCartViewState extends State<MyCartView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -387,7 +387,7 @@ class _MyCartViewState extends State<MyCartView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -423,7 +423,7 @@ class _MyCartViewState extends State<MyCartView>
                               decorationColor:
                                   getColorByHex(Globle().colorscode),
                               fontSize: FONTSIZE_14,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode)),
                         )),
@@ -463,7 +463,7 @@ class _MyCartViewState extends State<MyCartView>
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100),
           ),
@@ -534,7 +534,7 @@ class _MyCartViewState extends State<MyCartView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -597,7 +597,7 @@ class _MyCartViewState extends State<MyCartView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
@@ -727,11 +727,10 @@ class _MyCartViewState extends State<MyCartView>
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
-    Globle().dinecartValue = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+        Globle().dinecartValue = 0;
+        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
       }
     }
     _cartItemList = null;

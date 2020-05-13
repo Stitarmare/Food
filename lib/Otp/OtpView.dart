@@ -120,7 +120,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
                   KEY_VERFICATION_OTP,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -132,7 +132,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
                   STR_MOBILE_NUMBER,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w400),
                 )
               ],
@@ -198,7 +198,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     return Text(mobileNo,
         style: TextStyle(
             color: greytheme300,
-            fontFamily: KEY_FONTFAMILY,
+            fontFamily: Constants.getFontType(),
             fontWeight: FontWeight.w600,
             fontSize: FONTSIZE_16));
   }
@@ -214,7 +214,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w600),
         ),
         textColor: Colors.white,
@@ -234,7 +234,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           KEY_PROVIDE_ANOTHER_NO,
           style: TextStyle(
               color: greentheme100,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w600),
         ),
@@ -253,7 +253,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           Text(
             STR_NO_CODE,
             style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme200,
                 fontSize: 14),
@@ -273,7 +273,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               style: TextStyle(
                   color: greytheme200,
                   fontWeight: FontWeight.w900,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_14),
             ),
           )

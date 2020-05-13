@@ -194,7 +194,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
             menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -256,7 +256,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -280,7 +280,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               //           Text(STR_NO_TABLE,
               //               style: TextStyle(
               //                   fontSize: FONTSIZE_14,
-              //                   fontFamily: KEY_FONTFAMILY,
+              //                   fontFamily: Constants.getFontType(),
               //                   fontWeight: FontWeight.w600,
               //                   color: getColorByHex(Globle().colorscode))),
               //         ],
@@ -338,7 +338,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -395,7 +395,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -431,7 +431,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                               decorationColor:
                                   getColorByHex(Globle().colorscode),
                               fontSize: FONTSIZE_14,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode)),
                         )),
@@ -471,7 +471,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100),
           ),
@@ -542,7 +542,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -605,7 +605,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
