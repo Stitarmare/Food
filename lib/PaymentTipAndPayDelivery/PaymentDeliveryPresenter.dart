@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryContractor.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
-class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
-  PaymentTipAndPayModelView _paymentTipAndPayModelView;
-  PaymentTipAndPayPresenter(
-      PaymentTipAndPayModelView _paymentTipAndPayModelView) {
+class PaymentDeliveryPresenter extends PaymentDeliveryContractor {
+  PaymentDeliveryModelView _paymentTipAndPayModelView;
+  PaymentDeliveryPresenter(
+      PaymentDeliveryModelView _paymentTipAndPayModelView) {
     this._paymentTipAndPayModelView = _paymentTipAndPayModelView;
   }
 

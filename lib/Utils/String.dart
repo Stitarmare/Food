@@ -306,6 +306,7 @@ const STR_WHAT_LIKE_TO_DO = 'What would you like to do?';
 const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';
 const STR_DINEIN_TITLE = 'Dine-in';
 const STR_DELIVERY_TITLE = "Delivery";
+
 const STR_SERVED_RESTAUTRANT = 'Get served in Restaurant';
 const STR_VIEW_YOUR_ORDER = 'Track Your Order';
 const TAKE_AWAY_IMAGE_PATH = 'assets/TakeAwayImage/Group1505.png';
@@ -327,6 +328,10 @@ const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
 const STR_COLLECT_FOOD = 'I WANT TO COLLECT MY FOOD';
 const STR_DELEIVER_FOOD = 'PLEASE DELIVER MY FOOD';
 const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
+
+// MapView Page
+const STR_ADDRESS_SELECTION = "Add Selection";
+const STR_CONFIRM_ADDRESS = "Confirm Address";
 
 // Login Page
 const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';
