@@ -67,5 +67,16 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+       <string></string>
+       <key>NSLocationAlwaysUsageDescription</key>
+       <string></string>
+       <key>NSLocationUsageDescription</key>
+       <string></string>
+       <key>NSLocationWhenInUseUsageDescription</key>
+       <string></string>
+       
+       <key>io.flutter.embedded_views_preview</key>
+       <true/>
 </dict>
 </plist>
