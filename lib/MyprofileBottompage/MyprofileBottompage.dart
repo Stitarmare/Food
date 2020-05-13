@@ -59,9 +59,9 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
             child: Stack(overflow: Overflow.visible, children: <Widget>[
               Center(
                   child: Image.asset(
-                ITEM_IMAGE_PATH,
+                FODDZI_LOGO_3X,
                 height: MediaQuery.of(context).size.height * 0.35,
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 width: MediaQuery.of(context).size.width,
               )),
               Container(

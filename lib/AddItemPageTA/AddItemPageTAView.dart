@@ -509,27 +509,38 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget _foodItemLogo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
-      child: CachedNetworkImage(
-        placeholder: (context, url) =>
-            Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-        errorWidget: (context, url, error) => Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.fill,
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
         ),
-        imageBuilder: (context, imageProvider) => Container(
-          height: 175,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-              bottomLeft: const Radius.circular(10.0),
-              bottomRight: const Radius.circular(10.0),
+        border: Border.all(),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: CachedNetworkImage(
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+          errorWidget: (context, url, error) => Image.asset(
+            RESTAURANT_IMAGE_PATH,
+            fit: BoxFit.fill,
+          ),
+          imageBuilder: (context, imageProvider) => Container(
+            height: 175,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(10.0),
+                topRight: const Radius.circular(10.0),
+                bottomLeft: const Radius.circular(10.0),
+                bottomRight: const Radius.circular(10.0),
+              ),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
             ),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
           ),
         ),
       ),
