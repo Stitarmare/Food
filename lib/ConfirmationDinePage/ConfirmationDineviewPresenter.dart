@@ -25,7 +25,7 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
       JSON_STR_TABLE_ID: tableId,
       JSON_STR_REST_ID: restId,
       JSON_STR_ORDER_ID: orderId
-    }).then((value) {
+    },isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

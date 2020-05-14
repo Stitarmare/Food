@@ -95,7 +95,7 @@ class ApiBaseHelper {
     }
   }
 
-  Future<APIModel<T>> get<T>(String url, BuildContext context) async {
+  Future<APIModel<T>> get<T>(String url, BuildContext context,{bool  isShowDialoag}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -117,7 +117,7 @@ class ApiBaseHelper {
         return errorResponce<T>();
       }
 
-      return _returnResponse<T>(response, context);
+      return _returnResponse<T>(response, context,isShowDialoag ?? false);
     } on SocketException {
       _showAlert(
         context,
@@ -132,7 +132,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
-      {Map body, T model}) async {
+      {Map body, T model,bool isShowDialoag}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -154,7 +154,7 @@ class ApiBaseHelper {
         });
         return errorResponce<T>();
       }
-      return _returnResponse<T>(response, context);
+      return _returnResponse<T>(response, context,isShowDialoag ?? false);
     } on SocketException {
       _showAlert(
         context,
@@ -189,7 +189,7 @@ class ApiBaseHelper {
       var res = await request.send();
       var myRes = await http.Response.fromStream(res);
 
-      return _returnResponse<T>(myRes, context);
+      return _returnResponse<T>(myRes, context,false);
     } on SocketException {
       _showAlert(
         context,
@@ -229,7 +229,7 @@ class ApiBaseHelper {
     ));
   }
 
-  APIModel _returnResponse<T>(http.Response response, BuildContext context) {
+  APIModel _returnResponse<T>(http.Response response, BuildContext context,bool isShowDialoag) {
     switch (response.statusCode) {
       case 200:
       case 201:
@@ -252,6 +252,10 @@ class ApiBaseHelper {
             msg = errorModel.message;
           }
         }
+         if (isShowDialoag!=null) {
+          if (isShowDialoag) {
+            return apiModel;
+          }}
 
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, STR_ERROR, msg, () {
@@ -283,12 +287,15 @@ class ApiBaseHelper {
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
         json.decode(response.body.toString());
-
-        Future.delayed(const Duration(milliseconds: 100), () {
+       
+Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, STR_ERROR, STR_COULD_NOT_ACCESS, () {
             Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
           });
         });
+        
+        
+        
         return apiModel;
 
       case 500:

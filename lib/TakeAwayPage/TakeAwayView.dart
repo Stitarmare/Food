@@ -604,7 +604,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    (rating == STR_NULL) ? STR_DASH_SIGN : "$rating",
+                    (rating == STR_NULL) ? "0.0i" : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: KEY_FONTFAMILY,

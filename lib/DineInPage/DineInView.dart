@@ -609,7 +609,7 @@ class _DineViewState extends State<DineInView>
                 height: 16,
                 child: Center(
                   child: Text(
-                    (rating == "null") ? '-' : "$rating",
+                    (rating == "null") ? '0.0' : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: KEY_FONTFAMILY,
