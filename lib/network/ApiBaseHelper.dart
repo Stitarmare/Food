@@ -14,7 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, LOCAL }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.PRODUCTION;
+  static var environment = Environment.DEVLOPMENT;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
@@ -117,7 +117,7 @@ class ApiBaseHelper {
         return errorResponce<T>();
       }
 
-      return _returnResponse<T>(response, context,false);
+      return _returnResponse<T>(response, context, false);
     } on SocketException {
       _showAlert(
         context,
@@ -132,7 +132,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
-      {Map body, T model,bool showAlert}) async {
+      {Map body, T model, bool showAlert}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -154,7 +154,7 @@ class ApiBaseHelper {
         });
         return errorResponce<T>();
       }
-      return _returnResponse<T>(response, context,showAlert ?? false);
+      return _returnResponse<T>(response, context, showAlert ?? false);
     } on SocketException {
       _showAlert(
         context,
@@ -189,7 +189,7 @@ class ApiBaseHelper {
       var res = await request.send();
       var myRes = await http.Response.fromStream(res);
 
-      return _returnResponse<T>(myRes, context,false);
+      return _returnResponse<T>(myRes, context, false);
     } on SocketException {
       _showAlert(
         context,
@@ -229,7 +229,8 @@ class ApiBaseHelper {
     ));
   }
 
-  APIModel _returnResponse<T>(http.Response response, BuildContext context,bool showAlert) {
+  APIModel _returnResponse<T>(
+      http.Response response, BuildContext context, bool showAlert) {
     switch (response.statusCode) {
       case 200:
       case 201:

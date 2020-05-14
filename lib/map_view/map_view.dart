@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/map_view/change_address_view.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -86,6 +89,15 @@ class MapViewState extends State<MapView> {
   String strThoroughfare = "";
   String strSubThoroughfare = "";
   String strAddress = "";
+  String addres = "";
+  bool isFormEnabled = false;
+  bool enabletv = false;
+  String strData = "";
+  String landMark = "";
+  String homeAddress = "";
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  PersistentBottomSheetController _bottomSheetController;
 
 //api key
   String googleAPIKey = "AIzaSyDme9kw3nMJil33E11ZdJHkJ-uML1HgDKk";
@@ -111,6 +123,8 @@ class MapViewState extends State<MapView> {
     // set custom marker pins
 
     // setSourceAndDestinationIcons();
+    // _modalBottomSheetMenu();
+    // _showBottomSheetCallback();
 
     super.initState();
   }
@@ -211,9 +225,19 @@ class MapViewState extends State<MapView> {
             strThoroughfare +
             "," +
             strSubThoroughfare;
+
+        strAddress = removeLastChar(strAddress);
       });
 
-      strAddress = removeLastChar(strAddress);
+      // if (_bottomSheetController != null) {
+      //   _bottomSheetController.setState(() {
+      //     addres = strAddress;
+      //   });
+      // } else {
+      //   setState(() {
+      //     addres = strAddress;
+      //   });
+      // }
 
       // print(
       //     ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
@@ -225,94 +249,169 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         brightness: Brightness.dark,
         title: Text(STR_ADDRESS_SELECTION),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Stack(
-        alignment: Alignment.center,
+      body: Column(
         children: <Widget>[
-          GoogleMap(
-            initialCameraPosition: initialCameraPosition,
-            compassEnabled: true,
-            onCameraIdle: onCameraIdle,
-            onCameraMove: onCameraMove,
-            tiltGesturesEnabled: false,
-            markers: _markers,
-            polylines: _polylines,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-              if (destinationLocation != null) {
-                // showPinsOnMap();
-              }
-            },
+          Expanded(
+            flex: isFormEnabled ? 6 : 8,
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                GoogleMap(
+                  initialCameraPosition: initialCameraPosition,
+                  compassEnabled: true,
+                  onCameraIdle: onCameraIdle,
+                  onCameraMove: onCameraMove,
+                  tiltGesturesEnabled: false,
+                  markers: _markers,
+                  polylines: _polylines,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    if (destinationLocation != null) {
+                      // showPinsOnMap();
+                    }
+                  },
+                ),
+                Image.asset("assets/MappinImage/mappin.png"),
+                // Align(
+                //     alignment: Alignment.topCenter,
+                //     child: addressMap != null
+                //         ? Padding(
+                //             padding: const EdgeInsets.all(8.0),
+                //             child: Card(
+                //                 shape: RoundedRectangleBorder(
+                //                     borderRadius: BorderRadius.circular(12.0)),
+                //                 clipBehavior: Clip.antiAliasWithSaveLayer,
+                //                 child: Padding(
+                //                   padding: const EdgeInsets.all(15.0),
+                //                   child: Text(strAddress),
+                //                 )),
+                //           )
+                //         : Container()),
+
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Container(
+                //     width: 200,
+                //     height: 50,
+                //     child: RaisedButton(
+                //       color: greentheme100,
+                //       child: Text(
+                //         STR_CONFIRM_ADDRESS,
+                //         style: TextStyle(
+                //             fontSize: FONTSIZE_18,
+                //             fontWeight: FontWeight.w700,
+                //             fontFamily: KEY_FONTFAMILY),
+                //       ),
+                //       textColor: Colors.white,
+                //       textTheme: ButtonTextTheme.normal,
+                //       splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+                //       shape: RoundedRectangleBorder(
+                //           borderRadius: new BorderRadius.circular(32.0),
+                //           side:
+                //               BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
+                //       onPressed: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => PaymentDeliveryView(
+                //                       flag: 1,
+                //                       restName: widget.restName,
+                //                       restId: widget.restId,
+                //                       userId: widget.userId,
+                //                       items: widget.items,
+                //                       totalAmount: widget.totalAmount,
+                //                       orderType: widget.orderType,
+                //                       latitude: widget.latitude,
+                //                       longitude: widget.longitude,
+                //                       itemdata: widget.itemdata,
+                //                       currencySymbol: widget.currencySymbol,
+                //                       tableId: widget.tableId,
+                //                       addressData: strAddress,
+                //                     )));
+                //       },
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
           ),
-          Image.asset("assets/MappinImage/mappin.png"),
-          Align(
-              alignment: Alignment.topCenter,
-              child: addressMap != null
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)),
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
+          Expanded(
+              flex: isFormEnabled ? 4 : 3,
+              child: Container(
+                // height: 360.0,
+                color: Color(0xFF737373),
+                child: new Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: new BorderRadius.only(
+                            topLeft: const Radius.circular(10.0),
+                            topRight: const Radius.circular(10.0))),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                            child: Container(
+                              height: 25,
+                              child: RaisedButton(
+                                color: Colors.grey,
+                                child: Text(
+                                  "CHANGE",
+                                  style: TextStyle(
+                                      fontSize: 11,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: KEY_FONTFAMILY),
+                                ),
+                                textColor: Colors.white,
+                                textTheme: ButtonTextTheme.normal,
+                                splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(8.0),
+                                ),
+                                onPressed: () {
+                                  // enableField();
+                                  Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ChangeAddressView()))
+                                      .then((value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        strAddress = value["text"];
+                                      });
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
                             child: Text(strAddress),
-                          )),
-                    )
-                  : Container()),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: 200,
-              height: 50,
-              child: RaisedButton(
-                color: greentheme100,
-                child: Text(
-                  STR_CONFIRM_ADDRESS,
-                  style: TextStyle(
-                      fontSize: FONTSIZE_18,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: KEY_FONTFAMILY),
-                ),
-                textColor: Colors.white,
-                textTheme: ButtonTextTheme.normal,
-                splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-                shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(32.0),
-                    side:
-                        BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentDeliveryView(
-                                flag: 1,
-                                restName: widget.restName,
-                                restId: widget.restId,
-                                userId: widget.userId,
-                                items: widget.items,
-                                totalAmount: widget.totalAmount,
-                                orderType: widget.orderType,
-                                latitude: widget.latitude,
-                                longitude: widget.longitude,
-                                itemdata: widget.itemdata,
-                                currencySymbol: widget.currencySymbol,
-                                tableId: widget.tableId,
-                                addressData: strAddress,
-                              )));
-                },
-              ),
-            ),
-          ),
+                          ),
+                        ),
+                        // _addressField(),
+                        // _landmarkField(),
+                        _saveandproceedBtn(),
+                      ],
+                    )),
+              ))
         ],
       ),
     );
@@ -321,6 +420,7 @@ class MapViewState extends State<MapView> {
   static String removeLastChar(String str) {
     String strData;
     if (str.endsWith(",")) {
+      strData = str.substring(0, str.length - 1);
     } else {
       strData = str;
     }
@@ -402,14 +502,204 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  void _showModalSheet() {
-    showModalBottomSheet(
-        context: context,
-        builder: (builder) {
+  enableField() {
+    // _bottomSheetController.setState(() {
+    //   isFormEnabled = true;
+    // });
+    setState(() {
+      isFormEnabled = true;
+    });
+  }
+
+  _showBottomSheetCallback() {
+    Future.delayed(Duration(seconds: 1), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _bottomSheetController = _scaffoldKey.currentState
+            .showBottomSheet<void>((BuildContext context) {
           return Container(
-            child: Text('Hello From Modal Bottom Sheet'),
-            padding: EdgeInsets.all(40.0),
+            height: 360.0,
+            color: Color(0xFF737373),
+            child: new Container(
+                decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.only(
+                        topLeft: const Radius.circular(10.0),
+                        topRight: const Radius.circular(10.0))),
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                        child: Container(
+                          height: 25,
+                          child: RaisedButton(
+                            color: Colors.grey,
+                            child: Text(
+                              "CHANGE",
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: KEY_FONTFAMILY),
+                            ),
+                            textColor: Colors.white,
+                            textTheme: ButtonTextTheme.normal,
+                            splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(8.0),
+                            ),
+                            onPressed: () {
+                              // enableField();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(addres),
+                      ),
+                    ),
+                    _addressField(),
+                    _landmarkField(),
+                    _saveandproceedBtn(),
+                  ],
+                )),
           );
         });
+      });
+    });
+  }
+
+  void _closeModalBottomSheet() {
+    if (_bottomSheetController != null) {
+      _bottomSheetController.close();
+      _bottomSheetController = null;
+    }
+  }
+
+  Widget _addressField() {
+    return isFormEnabled
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: AppTextField(
+              enable: isFormEnabled,
+              // inputFormatters: [
+              //   LengthLimitingTextInputFormatter(20),
+              //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
+              // ],
+              onChanged: (text) {
+                homeAddress = text;
+              },
+              keyboardType: TextInputType.text,
+              placeHolderName: "House/Flat/Block No",
+              validator: validatename,
+              onSaved: (String value) {},
+            ),
+          )
+        : Container();
+  }
+
+  Widget _landmarkField() {
+    return isFormEnabled
+        ? Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: AppTextField(
+              enable: isFormEnabled,
+              // inputFormatters: [
+              //   LengthLimitingTextInputFormatter(20),
+              //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
+              // ],
+              onChanged: (text) {
+                landMark = text;
+              },
+              keyboardType: TextInputType.text,
+              placeHolderName: "Landmark",
+              validator: validatename,
+              onSaved: (String value) {},
+            ),
+          )
+        : Container();
+  }
+
+  Widget _saveandproceedBtn() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+          height: 50,
+          width: 120,
+          child: RaisedButton(
+            color: greentheme100,
+            child: Text(
+              "Save",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: KEY_FONTFAMILY),
+            ),
+            textColor: Colors.white,
+            textTheme: ButtonTextTheme.normal,
+            splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(8.0),
+            ),
+            onPressed: () {
+              saveAddress();
+              setState(() {
+                isFormEnabled = false;
+              });
+            },
+          ),
+        ),
+        SizedBox(width: 20),
+        Container(
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+          height: 50,
+          width: 120,
+          child: RaisedButton(
+            color: greentheme100,
+            child: Text(
+              "Proceed",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: KEY_FONTFAMILY),
+            ),
+            textColor: Colors.white,
+            textTheme: ButtonTextTheme.normal,
+            splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(8.0),
+            ),
+            onPressed: () {},
+          ),
+        ),
+      ],
+    );
+  }
+
+  saveAddress() {
+    if (homeAddress != null && landMark != null) {
+      setState(() {
+        strAddress = homeAddress + ", " + landMark;
+        print(strAddress);
+      });
+    }
+  }
+
+  String validatename(String value) {
+    // String validCharacters = STR_VALIDATE_NAME_TITLE;
+    // RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+    }
+    return null;
   }
 }

@@ -110,6 +110,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     });
 
     _addItemPageModelList = AddItemPageModelList();
+
     _addItemDeliverypresenter.performAddItem(
         widget.itemId, widget.restId, context);
     // _addItemPagepresenter.getTableListno(widget.restId, context);
@@ -651,8 +652,17 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   Widget _foodItemLogo() {
     return Container(
       child: new Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(25.0),
+          ),
+          border: Border.all(),
+        ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
+          padding: const EdgeInsets.all(15),
           child: CachedNetworkImage(
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
