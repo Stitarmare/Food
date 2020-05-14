@@ -19,7 +19,6 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-
 class RestaurantTAView extends StatefulWidget {
   String title;
   int restId;
@@ -30,9 +29,8 @@ class RestaurantTAView extends StatefulWidget {
     return _RestaurantTAViewState();
   }
 }
-
 class _RestaurantTAViewState extends State<RestaurantTAView>
-    implements RestaurantTAModelView, MenuDropdownModelView {
+    implements RestaurantTAModelView,MenuDropdownModelView {
   RestaurantTAPresenter restaurantPresenter;
   List<RestaurantMenuItem> _restaurantList;
   int page = 1;
@@ -41,13 +39,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
-  String menutype = " ";
+  String menutype=" ";
   RestaurantItemsModel _restaurantItemsModel;
   ProgressDialog progressDialog;
-  MenuDropdpwnPresenter menudropdownPresenter;
-  List<CategoryItems> _categorydata;
-  int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+   MenuDropdpwnPresenter menudropdownPresenter;
+   List<CategoryItems> _categorydata;
+   int _selectedMenu = 0;
   var abc;
   @override
   void initState() {
@@ -57,11 +54,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
-    menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context);
+      menudropdownPresenter = MenuDropdpwnPresenter(this);
+     menudropdownPresenter.getMenuLCategory(widget.restId, context);
     super.initState();
   }
-
   _detectScrollPosition() {
     _controller.addListener(() {
       if (_controller.position.atEdge) {
@@ -73,44 +69,12 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
     });
   }
-
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
-
       print(_selectedMenu);
     });
-    abc = _categorydata[index].id;
-    if (abc != null) {
-      callItemOnCategorySelect();
-    } else {
-      abc = null;
-      callItemOnCategorySelect();
-    }
   }
-
-  _onSubMenuSelected(index) {
-    setState(() {
-      _selectedSubMenu = index;
-
-      print(_selectedSubMenu);
-    });
-    // abc = _categorydata[index].id;
-    // if (abc != null) {
-    //   callItemOnCategorySelect();
-    // } else {
-    //   abc = null;
-    //   callItemOnCategorySelect();
-    // }
-  }
-
-  callItemOnCategorySelect() async {
-    _restaurantList = null;
-    await progressDialog.show();
-    restaurantPresenter.getMenuList(widget.restId, context,
-        categoryId: abc, menu: menutype);
-  }
-
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -122,18 +86,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         elevation: 0,
         title: Center(
           child: CachedNetworkImage(
-            placeholder: (context, url) =>
-                Center(child: CircularProgressIndicator()),
-            imageUrl: BaseUrl.getBaseUrlImages() +
-                "${_restaurantItemsModel.restLogo}",
-            height: 50,
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) => Image.asset(
-              RESTAURANT_IMAGE_PATH,
-              fit: BoxFit.scaleDown,
-              height: 30,
-              width: 40,
-            ),
+        placeholder: (context, url) =>
+            Center(child: CircularProgressIndicator()),
+        imageUrl: BaseUrl.getBaseUrlImages() + "${_restaurantItemsModel.restLogo}",
+        height: 50,
+        fit: BoxFit.cover,
+        errorWidget: (context, url, error) => Image.asset(
+          RESTAURANT_IMAGE_PATH,
+          fit: BoxFit.scaleDown,
+          height: 30,
+          width: 40,
+        ),
           ),
         ),
         actions: <Widget>[
@@ -169,7 +132,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 ),
                 // _getOptionsformenu(context),
                 _getMenuListHorizontal(context),
-                _getSubMenuListHorizontal(context),
                 SliverToBoxAdapter(
                   child: Container(
                     child: SizedBox(
@@ -188,16 +150,15 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                               ),
-                              CircularProgressIndicator()
-                              // Text(
-                              //   STR_NO_ITEMS_FOUND,
-                              //   textAlign: TextAlign.start,
-                              //   style: TextStyle(
-                              //       fontSize: FONTSIZE_25,
-                              //       fontFamily: KEY_FONTFAMILY,
-                              //       fontWeight: FontWeight.w500,
-                              //       color: greytheme700),
-                              // ),
+                              Text(
+                                STR_NO_ITEMS_FOUND,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_25,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme700),
+                              ),
                             ],
                           ),
                         ),
@@ -209,7 +170,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       ),
     );
   }
-
   Widget _restaurantLogo() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
@@ -236,7 +196,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       ),
     );
   }
-
   Widget _getOptionsformenu(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
@@ -341,7 +300,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       ),
     );
   }
-
   Widget _menuItemList() {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -358,7 +316,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => AddItemPageTAView(
                           itemId: _restaurantList[index].id,
-                          restId: _restaurantList[index].restId,
+                          restId: _restaurantList[index].restId ,
                           title: '${_restaurantList[index].itemName}',
                           description:
                               '${_restaurantList[index].itemDescription}',
@@ -376,7 +334,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     child: Column(
                       children: <Widget>[
                         LimitedBox(
-                          child: ClipRRect(
+                            child: ClipRRect(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10.0),
                               topRight: Radius.circular(10.0),
@@ -506,8 +464,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                                 AddItemPageTAView(
                                                   itemId:
                                                       _restaurantList[index].id,
-                                                  restId: _restaurantList[index]
-                                                      .restId,
+                                                  restId: _restaurantList[index].restId,
                                                   title:
                                                       '${_restaurantList[index].itemName}',
                                                   description:
@@ -553,208 +510,81 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }, childCount: _getint()),
     );
   }
-
-  _getMenuListHorizontal(BuildContext context) {
+    _getMenuListHorizontal(BuildContext context){
     return SliverToBoxAdapter(
-      child: Center(
-        child: Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width / 2.4,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _getMenucount(),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: MediaQuery.of(context).size.width * 0.13 / 0.7,
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                          child: GestureDetector(
-                              onTap: () async {
-                                _onSelected(index);
-                              },
-                              child: Text(
-                                _categorydata[index].name,
-                                style: TextStyle(
-                                    color: _selectedMenu != null &&
-                                            _selectedMenu == index
-                                        ? getColorByHex(Globle().colorscode)
-                                        : Color.fromRGBO(118, 118, 118, 1)),
-                              ))),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                        child: Divider(
-                            thickness: 1,
-                            color:
-                                _selectedMenu != null && _selectedMenu == index
+          child: Container(
+            margin: EdgeInsets.only(left: 8),
+             height: 40,
+            child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _getMenucount(),
+        itemBuilder: (context, index){
+            return GestureDetector(
+              onTap: () async {
+                  _onSelected(index);
+                  await progressDialog.show();
+                  abc = _categorydata[index].id;
+                  if (abc != null) {
+                      _restaurantList = null;
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
+                      await progressDialog.show();
+                      restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
+                      print(abc);
+                    }
+                  restaurantPresenter.getMenuList(widget.restId, context,
+                          categoryId: abc, menu: menutype);
+              },
+                      child: Container(
+                  height: 40,
+                  // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                  padding: EdgeInsets.only(
+                    left: _categorydata[index].name.length>5? 6: 16, 
+                    right: _categorydata[index].name.length>5? 6: 16,
+                    top: 10,bottom: 0),
+                  margin: EdgeInsets.only(left: 6),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: _selectedMenu != null && _selectedMenu == index
                                     ? getColorByHex(Globle().colorscode)
-                                    : Color.fromRGBO(118, 118, 118, 1)),
-                      )
-                    ],
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    // color: _selectedMenu != null && _selectedMenu == index
+                    //                 ? getColorByHex(Globle().colorscode)
+                    //                 : Color.fromRGBO(118, 118, 118, 1),
                   ),
-                );
-                // return GestureDetector(
-                //   onTap: () async {
-                //       _onSelected(index);
-                //       await progressDialog.show();
-                //       abc = _categorydata[index].id;
-                //       if (abc != null) {
-                //           _restaurantList = null;
-                //           // DialogsIndicator.showLoadingDialog(
-                //           //     context, _keyLoader, STR_LOADING);
-                //           await progressDialog.show();
-                //           restaurantPresenter.getMenuList(widget.restId, context,
-                //               categoryId: abc, menu: menutype);
-                //           print(abc);
-                //         }
-                //       restaurantPresenter.getMenuList(widget.restId, context,
-                //               categoryId: abc, menu: menutype);
-                //   },
-                //           child: Container(
-                //       height: 40,
-                //       // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                //       padding: EdgeInsets.only(
-                //         left: _categorydata[index].name.length>5? 6: 16,
-                //         right: _categorydata[index].name.length>5? 6: 16,
-                //         top: 10,bottom: 0),
-                //       margin: EdgeInsets.only(left: 6),
-                //       decoration: BoxDecoration(
-                //         border: Border.all(
-                //           width: 1,
-                //           color: _selectedMenu != null && _selectedMenu == index
-                //                         ? getColorByHex(Globle().colorscode)
-                //                         : Color.fromRGBO(118, 118, 118, 1),
-                //         ),
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //         // color: _selectedMenu != null && _selectedMenu == index
-                //         //                 ? getColorByHex(Globle().colorscode)
-                //         //                 : Color.fromRGBO(118, 118, 118, 1),
-                //       ),
-                //       child:Text(
-                //                   _categorydata[index].name ?? STR_BLANK,
-                //                   style: TextStyle(
-                //                     fontSize: 16,
-                //                     color: _selectedMenu != null && _selectedMenu == index
-                //                         ? getColorByHex(Globle().colorscode)
-                //                         : Color.fromRGBO(118, 118, 118, 1),
-                //                   ),
-                //                 ),
-                //   ),
-                // );
-              }),
-        ),
-      ),
+                  child:Text(
+                              _categorydata[index].name ?? STR_BLANK,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: _selectedMenu != null && _selectedMenu == index
+                                    ? getColorByHex(Globle().colorscode)
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                              ),
+                            ), 
+              ),
+            );
+        }),
+          ),
     );
   }
-
-  _getSubMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Center(
-        child: Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width / 0.5,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _getSubMenucount(),
-              itemBuilder: (context, index) {
-                return Container(
-                    width: MediaQuery.of(context).size.width * 0.14 / 0.7,
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                            child: GestureDetector(
-                                onTap: () async {
-                                  _onSubMenuSelected(index);
-                                },
-                                child: Text(
-                                  _subcategorydata[index].title,
-                                  style: TextStyle(
-                                      color: _selectedSubMenu != null &&
-                                              _selectedSubMenu == index
-                                          ? getColorByHex(Globle().colorscode)
-                                          : Color.fromRGBO(118, 118, 118, 1),
-                                      fontSize: 16.0),
-                                ))),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                          child: Divider(
-                            thickness: 1,
-                            color: _selectedSubMenu != null &&
-                                    _selectedSubMenu == index
-                                ? getColorByHex(Globle().colorscode)
-                                : Color.fromRGBO(118, 118, 118, 1),
-                          ),
-                        )
-                      ],
-                    ));
-                // return GestureDetector(
-                //   onTap: () {
-                //     _onSubMenuSelected(index);
-                //   },
-                //   child: Container(
-                //     // height: 40,
-                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                //     padding: EdgeInsets.only(
-                //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                //         top: 10,
-                //         bottom: 0),
-                //     margin: EdgeInsets.only(left: 6),
-                //     // decoration: BoxDecoration(
-                //     //   border: Border.all(
-                //     //     width: 1,
-                //     //     color: _selectedMenu != null && _selectedMenu == index
-                //     //                   ? getColorByHex(Globle().colorscode)
-                //     //                   : Color.fromRGBO(118, 118, 118, 1),
-                //     //   ),
-                //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                //     //   // color: _selectedMenu != null && _selectedMenu == index
-                //     //   //                 ? getColorByHex(Globle().colorscode)
-                //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
-                //     // ),
-                //     child: Text(
-                //       _subcategorydata[index].title,
-                //       style: TextStyle(
-                //         fontSize: 16,
-                //         color:
-                //             _selectedSubMenu != null && _selectedSubMenu == index
-                //                 ? getColorByHex(Globle().colorscode)
-                //                 : Color.fromRGBO(118, 118, 118, 1),
-                //         decoration: TextDecoration.underline,
-                //       ),
-                //     ),
-                //   ),
-                // );
-              }),
-        ),
-      ),
-    );
-  }
-
-  int _getMenucount() {
+ int _getMenucount() {
     if (_categorydata != null) {
       return _categorydata.length;
     }
     return 0;
   }
-
-  int _getSubMenucount() {
-    if (_subcategorydata != null) {
-      return _subcategorydata.length;
-    }
-    return 0;
-  }
-
   int _getint() {
     if (_restaurantList != null) {
       return _restaurantList.length;
     }
     return 0;
   }
-
   @override
   void restaurantfailed() {}
-
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {}
   @override
@@ -762,7 +592,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
-
   @override
   Future<void> getMenuListsuccess(List<RestaurantMenuItem> menulist,
       RestaurantItemsModel restaurantItemsModel1) async {
@@ -771,7 +600,6 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
-
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
@@ -786,16 +614,14 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
-
   @override
   void getMenuLCategoryfailed() {
     // TODO: implement getMenuLCategoryfailed
   }
-
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
     // TODO: implement getMenuLCategorysuccess
-    if (categoryData.length == 0) {
+        if (categoryData.length == 0) {
       return;
     }
     setState(() {
@@ -806,19 +632,4 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
     });
   }
-}
-
-List<MenuTitles> _subcategorydata = [
-  MenuTitles(title: 'Water'),
-  MenuTitles(title: 'Wine'),
-  MenuTitles(title: 'Beer'),
-  MenuTitles(title: 'Soda'),
-  MenuTitles(title: 'Hot Drinks'),
-];
-
-class MenuTitles {
-  String title;
-  bool isSelected;
-  int id;
-  MenuTitles({this.title, this.id, this.isSelected});
 }

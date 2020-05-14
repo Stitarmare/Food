@@ -203,7 +203,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     ),
                   ),
                   _getMenuListHorizontal(context),
-                  _getSubMenuListHorizontal(context),
+                 // _getSubMenuListHorizontal(context),
                   // _getOptionsformenu(context),
                   SliverToBoxAdapter(
                     child: Container(
