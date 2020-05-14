@@ -332,6 +332,7 @@ const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
 // MapView Page
 const STR_ADDRESS_SELECTION = "Add Selection";
 const STR_CONFIRM_ADDRESS = "Confirm Address";
+const STR_CHANGE_ADDRESS = "Change Adddress";
 
 // Login Page
 const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';
