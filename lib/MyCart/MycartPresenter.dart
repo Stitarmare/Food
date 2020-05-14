@@ -37,7 +37,7 @@ class MycartPresenter extends MyCartContarctor {
         body: {
           JSON_STR_USER_ID: userId,
           JSON_STR_REST_ID: restId,
-        },showAlert: true).then((value) {
+        }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
