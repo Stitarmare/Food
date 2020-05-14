@@ -95,7 +95,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
                           Globle().loginModel.data.id, context);
                       setState(() {
-                        _cartItemList.removeAt(_cartItemList[i].id);
+                        _cartItemList.removeAt(i);
                       });
                     }
                   }
@@ -421,6 +421,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
+                        setState(() {
+                        _cartItemList.removeAt(index);
+                      });
                   },
                   child: Container(
                     child: Column(
@@ -618,6 +621,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
         null, PreferenceKeys.restaurantName);
      Globle().takeAwayCartItemCount = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    setState(() {
+      myCart = null;
+    });
       }
     }
     _cartItemList = null;

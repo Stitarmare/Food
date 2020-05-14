@@ -134,7 +134,7 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
-  Widget steppercount(MenuCartList menuCartList) {
+  Widget steppercount(MenuCartList menuCartList,int index) {
     return Container(
       height: 24,
       width: 150,
@@ -166,7 +166,7 @@ class _MyCartViewState extends State<MyCartView>
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
-                        _cartItemList.removeAt(menuCartList.id);
+                        _cartItemList.removeAt(index);
                       });
                     }
                   }
@@ -495,6 +495,9 @@ class _MyCartViewState extends State<MyCartView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
+                        setState(() {
+                        _cartItemList.removeAt(index);
+                      });
                   },
                   child: Container(
                     child: Column(
@@ -560,7 +563,7 @@ class _MyCartViewState extends State<MyCartView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(_cartItemList[index]),
+                                  steppercount(_cartItemList[index],index),
                                 ],
                               ),
                               Expanded(

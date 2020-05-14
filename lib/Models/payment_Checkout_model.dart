@@ -51,7 +51,7 @@ class Data {
   String ndc;
 
   Data({
-    this.id,
+   // this.id,
     this.paymentType,
     this.paymentBrand,
     this.amount,
@@ -67,7 +67,7 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
+        //id: json["id"],
         paymentType: json["paymentType"],
         paymentBrand: json["paymentBrand"],
         amount: json["amount"],
