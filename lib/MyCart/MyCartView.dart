@@ -635,14 +635,13 @@ class _MyCartViewState extends State<MyCartView>
     }
     return "";
   }
-
-  double getGrandTotal() {
+String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return double.parse(myCart.grandTotal);
+        return myCart.grandTotal;
       }
     }
-    return 0;
+    return "0";
   }
 
   String getExtra(MenuCartList menuCartList) {
