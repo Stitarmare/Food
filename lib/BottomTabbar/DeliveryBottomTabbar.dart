@@ -5,26 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
+import 'package:foodzi/MyCartDelivery/MyCartDeliveryView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
+import 'package:foodzi/RestaurantPageDelivery/RestaurantViewDelivery.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
-class BottomTabbarHome extends StatefulWidget {
+class DeliveryBottomTabbarHome extends StatefulWidget {
   String title;
   int restId;
   String lat;
   String long;
   String imageUrl;
   String tableName;
-  BottomTabbarHome(
+  DeliveryBottomTabbarHome(
       {this.title,
       this.restId,
       this.lat,
@@ -33,11 +35,11 @@ class BottomTabbarHome extends StatefulWidget {
       this.tableName});
   @override
   State<StatefulWidget> createState() {
-    return _BottomTabbarHomeState();
+    return _DeliveryBottomTabbarHomeState();
   }
 }
 
-class _BottomTabbarHomeState extends State<BottomTabbarHome>
+class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
     implements RestaurantModelView {
   var title;
   int tableID;
@@ -48,7 +50,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   Stream stream;
   StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
-    RestaurantView(),
+    RestaurantDeliveryView(),
     MyOrders(),
     BottomNotificationView(),
     BottomProfileScreen()
@@ -68,7 +70,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     if (widget.title != null) {
       setState(() {
         tabsHome.setAll(0, [
-          RestaurantView(
+          RestaurantDeliveryView(
             title: widget.title,
             restId: widget.restId,
             imageUrl: widget.imageUrl,
@@ -89,11 +91,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     super.initState();
   }
 
-
- onStreamListen() {
+  onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
-        Globle().notificationFLag = true;    
+        Globle().notificationFLag = true;
         // callApi();
       });
     }
@@ -105,12 +106,13 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     super.didChangeDependencies();
   }
 
-@override
+  @override
   void dispose() {
     // TODO: implement dispose
-   // _streamSubscription.cancel();
+    _streamSubscription.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +153,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyCartView(
+                              builder: (context) => MyCartDeliveryView(
                                   restId: widget.restId,
                                   lat: widget.lat,
                                   long: widget.long,
@@ -266,30 +268,33 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                       ),
                 title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                icon:  (Globle().notificationFLag)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                 Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
+                icon: (Globle().notificationFLag)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
                 activeIcon: Icon(
                   OMIcons.notifications,
                   color: orangetheme,
@@ -325,15 +330,11 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   getAlreadyInCart() async {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
-    var restId = await Preference.getPrefValue<int>( PreferenceKeys.restaurantID);
-    if (restId != null) {
-if (alreadyIncartStatus == true && restId == widget.restId) {
+    if (alreadyIncartStatus == true) {
       setState(() {
         cartStatus = true;
       });
     }
-    }
-    
   }
 
   getOrderID() async {

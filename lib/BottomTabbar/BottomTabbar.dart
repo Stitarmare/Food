@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/DeliveryFoodView/DeliveryFoodView.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
@@ -15,7 +16,8 @@ import 'package:outline_material_icons/outline_material_icons.dart';
 class BottomTabbar extends StatefulWidget {
   int tabValue = 0;
   String tableName;
-  BottomTabbar({this.tabValue, this.tableName});
+  int flag;
+  BottomTabbar({this.tabValue, this.tableName, this.flag});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarState();
@@ -30,13 +32,20 @@ class _BottomTabbarState extends State<BottomTabbar> {
     DineInView(),
     MyOrders(),
     BottomNotificationView(),
-    BottomProfileScreen()
+    BottomProfileScreen(),
   ];
   List<Widget> tabsTakeAway = [
     TakeAwayView(),
     MyOrderTakeAway(),
     BottomNotificationView(),
     BottomProfileScreen()
+  ];
+
+  List<Widget> tabsDeliveryFood = [
+    DeliveryFoodView(),
+    MyOrders(),
+    BottomNotificationView(),
+    BottomProfileScreen(),
   ];
   onTapIndex(int index) {
     setState(() {
@@ -69,9 +78,11 @@ class _BottomTabbarState extends State<BottomTabbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.tabValue == 0
-          ? tabsDineIn[currentTabIndex]
-          : tabsTakeAway[currentTabIndex],
+      body: widget.flag != 1
+          ? widget.tabValue == 0
+              ? tabsDineIn[currentTabIndex]
+              : tabsTakeAway[currentTabIndex]
+          : tabsDeliveryFood[currentTabIndex],
       bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
@@ -131,15 +142,15 @@ class _BottomTabbarState extends State<BottomTabbar> {
                             size: 30,
                           ),
                           Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
                         ],
                       )
                     : Icon(
@@ -149,31 +160,33 @@ class _BottomTabbarState extends State<BottomTabbar> {
                       ),
                 title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                icon: (Globle().notificationFLag && widget.tabValue ==0)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                 Positioned(
-                            top: -11,
-                            right: -11,
-                            child:Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):
-                Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
+                icon: (Globle().notificationFLag && widget.tabValue == 0)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
                 activeIcon: Icon(
                   OMIcons.notifications,
                   color: orangetheme,

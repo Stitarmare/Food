@@ -1,68 +1,92 @@
+import 'dart:collection';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
-import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
+import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryContractor.dart';
+import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryPresenter.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/String.dart';
-import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-class AddItemPageTAView extends StatefulWidget {
+class AddItemDeliveryPageView extends StatefulWidget {
   String title;
   String description;
   int itemId;
   int restId;
-  String imageUrl;
   String restName;
-  AddItemPageTAView(
+  String itemImage;
+  bool isFromOrder = false;
+
+  AddItemDeliveryPageView(
       {this.title,
       this.description,
       this.itemId,
       this.restId,
-      this.imageUrl,
-      String restName});
-  _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
+      this.restName,
+      this.itemImage,
+      this.isFromOrder});
+  _AddItemDeliveryPageViewState createState() =>
+      _AddItemDeliveryPageViewState();
 }
 
-class _AddItemPageTAViewState extends State<AddItemPageTAView>
+class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     implements
-        AddItemPageTAModelView,
-        AddmenuToCartModelviews,
-        ClearCartTAModelView {
+        AddItemDeliveryModelView,
+        AddmenuToCartModelview,
+        AddTablenoModelView,
+        GetTableListModelView,
+        ClearCartModelView,
+        UpdateCartModelView {
   List<bool> isSelected;
-
+  int tableId;
   AddItemsToCartModel addMenuToCartModel;
-
+  GetTableList getTableListModel;
+  AddItemPageModelList _addItemPageModelList;
   Item items;
-
   List<Extras> extra;
-
+  UpdateOrderModel _updateOrderModel;
   Spreads spread;
   Sizes size;
   List<Sizes> sizes;
-  List<Switches> switches;
-  bool isLoding = false;
-  AddItemPageModelList _addItemPageModelList;
+  bool isAddBtnClicked = false;
+  SharedPreferences prefs;
+  List<int> listItemIdList = [];
+  List<Switches> switches = [];
+  bool isTableList = false;
+  List<String> listStrItemId = [];
+  List<int> listIntItemId = [];
+  int itemIdValue;
+  bool getttingLocation = false;
   AddItemModelList _addItemModelList;
   int itemId;
   int restId;
   ScrollController _controller = ScrollController();
-  AddItemPageTApresenter _addItemPagepresenter;
-  bool alreadyAddedTA = false;
-  int restaurantTA;
-  int sizesid = 1;
+  AddItemDeliverypresenter _addItemDeliverypresenter;
+  List<TableList> _dropdownItemsTable = [];
+  int _dropdownTableNumber;
+  int tableID;
+  bool alreadyAdded = false;
+  int restaurant;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  int sizesid = 1;
+
+  bool isLoding = false;
   ProgressDialog progressDialog;
-  AddItemPageModelList addItemPageModelList1;
+  String price;
 
   String specialReq;
+
   Spreads defaultSpread;
 
   List<Extras> defaultExtra;
@@ -70,20 +94,39 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Sizes defaultSize;
   List<Switches> defaultSwitch;
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
-    _addItemPagepresenter = AddItemPageTApresenter(this, this, this);
+    _addItemDeliverypresenter =
+        AddItemDeliverypresenter(this, this, this, this, this, this);
     isSelected = [true, false];
     setState(() {
       isLoding = true;
     });
-    _addItemPagepresenter.performAddItem(widget.itemId, widget.restId, context);
+
+    _addItemPageModelList = AddItemPageModelList();
+    _addItemDeliverypresenter.performAddItem(
+        widget.itemId, widget.restId, context);
+    // _addItemPagepresenter.getTableListno(widget.restId, context);
+    itemIdValue = widget.itemId;
+    print("${widget.itemImage}");
+    // getRequiredSpread(_addItemModelList.spreads.length);
+    // getRequiredExtra(_addItemModelList.extras.length);
+    // getRequiredSize(_addItemModelList.sizePrizes.length);
+
     super.initState();
   }
 
-  int radioBtnId = 1;
+  int radioBtnId;
   int count = 1;
   String radioItem;
   String radioItemsize;
+
   List<RadioButtonOptions> _radioOptions = [];
   List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
@@ -99,9 +142,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
+
     setState(() {
       _radioOptions = radiolist;
     });
+
+    for (var item in radiolist) {
+      if (item.spreadDefault == "yes") {
+        setState(() {
+          radioBtnId = item.index;
+        });
+      }
+    }
 
     return radiolist.length;
   }
@@ -115,10 +167,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         secondary: _addItemModelList.sizePrizes[i - 1].price ?? STR_BLANK,
       ));
     }
+
     setState(() {
       _radioOptionsSizes = radiolistsize;
     });
     return radiolistsize.length;
+  }
+
+  int gettablelist(List<GetTableList> getlist) {
+    List<TableList> _tablelist = [];
+    for (int i = 0; i < getlist.length; i++) {
+      _tablelist.add(TableList(
+        id: getlist[i].id,
+        restid: widget.restId,
+        name: getlist[i].tableName,
+      ));
+    }
+    setState(() {
+      _dropdownItemsTable = _tablelist;
+    });
+    getlistoftable();
+    return _tablelist.length;
   }
 
   int checkboxbtn(int length) {
@@ -133,6 +202,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         title: _addItemModelList.extras[i - 1].name ?? STR_BLANK,
         defaultAddition: _addItemModelList.extras[i - 1].extraDefault,
       ));
+      // if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
+      //   extra.add(_addItemModelList.extras[i - 1] as Extras);
+      // }
     }
     setState(() {
       _checkBoxOptions = _checkboxlist;
@@ -145,17 +217,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<SwitchesItems> _switchlist = [];
     for (int i = 1; i <= length; i++) {
       _switchlist.add(SwitchesItems(
-          option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
-          option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
-          index: _addItemModelList.switches[i - 1].id,
-          title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
-          isSelected: [true, false]));
+        option1: _addItemModelList.switches[i - 1].option1 ?? STR_BLANK,
+        option2: _addItemModelList.switches[i - 1].option2 ?? STR_BLANK,
+        index: _addItemModelList.switches[i - 1].id ?? 0,
+        title: _addItemModelList.switches[i - 1].name ?? STR_BLANK,
+        defaultOption: _addItemModelList.switches[i - 1].switchDefault,
+        isSelected: [true, false],
+      ));
     }
-
     setState(() {
       _switchOptions = _switchlist;
     });
-
     return _switchlist.length;
   }
 
@@ -174,10 +246,14 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               items.quantity = count;
             }
           },
-          splashColor: getColorByHex(Globle().colorscode),
+          splashColor: ((Globle().colorscode) != null)
+              ? getColorByHex(Globle().colorscode)
+              : orangetheme,
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -211,7 +287,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color: ((Globle().colorscode) != null)
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -227,12 +305,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-
     return SafeArea(
       left: false,
       top: false,
       right: false,
+      bottom: true,
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -275,109 +352,97 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ),
                 GestureDetector(
                   onTap: () async {
-                    if (addMenuToCartModel == null) {
-                      addMenuToCartModel = AddItemsToCartModel();
-                    }
-                    addMenuToCartModel.userId = Globle().loginModel.data.id;
-                    addMenuToCartModel.restId = widget.restId;
-                    addMenuToCartModel.tableId = null;
-                    if (items == null) {
-                      items = Item();
-                    }
-
-                    List<Sizes> sizess;
-                    if (size != null) {
-                      sizess = [size];
-                    } else if (defaultSize != null) {
-                      if (defaultSize.sizeid != null) {
-                        sizess = [defaultSize];
-                      }
-                    }
-
-                    List<Extras> extras;
-                    if (extra != null) {
-                      extras = extra;
-                    } else {
-                      extras = defaultExtra ?? null;
-                    }
-
-                    List<Switches> switchess;
-                    if (switches != null) {
-                      switchess = switches;
-                    } else {
-                      switchess = defaultSwitch ?? null;
-                    }
-
-                    addMenuToCartModel.items = [items];
-                    if (sizess != null) {
-                        if (sizess.length > 0) {
-                      addMenuToCartModel.items[0].sizePriceId =
-                          sizess[0].sizeid;
-                    }
-                    }
-                    
-                    addMenuToCartModel.items[0].itemId = widget.itemId;
-                    addMenuToCartModel.items[0].preparationNote = specialReq;
-                    addMenuToCartModel.items[0].extra = extras;
-                    addMenuToCartModel.items[0].spreads = spread == null
-                        ? (defaultSpread != null) ? [defaultSpread] : []
-                        : [spread];
-                    addMenuToCartModel.items[0].switches = switchess;
-                    addMenuToCartModel.items[0].quantity = count;
-                    addMenuToCartModel.items[0].sizes =
-                        size == null ? [defaultSize] : [size];
-
-                    print(addMenuToCartModel.toJson());
-
-                    var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                    var alreadyAdde = await Preference.getPrefValue<bool>(
                         PreferenceKeys.isAlreadyINCart);
-                    var restaurantTA = await Preference.getPrefValue<int>(
-                        PreferenceKeys.restaurantID);
+                    var restauran = await (Preference.getPrefValue<int>(
+                        PreferenceKeys.restaurantID));
                     var restaurantName = await (Preference.getPrefValue<String>(
                         PreferenceKeys.restaurantName));
-                    if (alreadyAddedTA != null && restaurantTA != null) {
-                      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
-                        cartAlert(
-                            STR_STARTNEWORDER,
-                            (restaurantName != null)
-                                ? STR_YOUR_UNFINIHED_ORDER +
-                                    "$restaurantName" +
-                                    STR_WILLDELETE
-                                : STR_UNFINISHEDORDER,
-                            context);
-                      } else {
+                    var orderId = await Preference.getPrefValue<int>(
+                        PreferenceKeys.orderId);
+
+                    if (orderId != null) {
+                      if (restauran == widget.restId) {
+                        if (_updateOrderModel == null) {
+                          _updateOrderModel = UpdateOrderModel();
+                        }
+                        _updateOrderModel.orderId = orderId;
+                        _updateOrderModel.userId = Globle().loginModel.data.id;
+                        if (items == null) {
+                          items = Item();
+                        }
+                        List<Extras> extras;
+                        if (extra != null) {
+                          extras = extra;
+                        } else {
+                          extras = defaultExtra ?? null;
+                        }
+
+                        List<Switches> switchess;
+                        if (switches != null) {
+                          switchess = switches;
+                        } else {
+                          switchess = defaultSwitch ?? null;
+                        }
+                        List<Sizes> sizess;
+                        if (size != null) {
+                          sizess = [size];
+                        } else if (defaultSize != null) {
+                          if (defaultSize.sizeid != null) {
+                            sizess = [defaultSize];
+                          }
+                        }
+
+                        _updateOrderModel.items = items;
+                        if (sizess.length > 0) {
+                          _updateOrderModel.items.sizePriceId =
+                              sizess[0].sizeid;
+                        }
+                        _updateOrderModel.items.quantity = count;
+                        _updateOrderModel.items.itemId = widget.itemId;
+                        _updateOrderModel.items.preparationNote = specialReq;
+                        _updateOrderModel.items.extra = extras;
+                        _updateOrderModel.items.spreads = spread == null
+                            ? (defaultSpread != null) ? [defaultSpread] : null
+                            : [spread];
+                        _updateOrderModel.items.switches = switchess;
+
+                        _updateOrderModel.items.sizes = sizess;
+                        print(_updateOrderModel.toJson());
+
                         // DialogsIndicator.showLoadingDialog(
                         //     context, _keyLoader, STR_BLANK);
                         await progressDialog.show();
-                        _addItemPagepresenter.performaddMenuToCart(
-                            addMenuToCartModel, context);
+                        _addItemDeliverypresenter.updateOrder(
+                            _updateOrderModel, context);
+                      } else {
+                        Constants.showAlert(
+                            KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
                       }
                     } else {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_BLANK);
-                      await progressDialog.show();
-                      _addItemPagepresenter.performaddMenuToCart(
-                          addMenuToCartModel, context);
+                      checkForItemIsAlreadyInCart(
+                          alreadyAdde, restauran, restaurantName);
                     }
                   },
                   child: Container(
-                    height: 54,
-                    decoration: BoxDecoration(
-                        color: getColorByHex(Globle().colorscode),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        STR_ADDTOCART,
-                        style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w600,
-                            fontSize: FONTSIZE_16,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          STR_ADDTOCART,
+                          style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
+                        ),
+                      )),
                 ),
               ],
             ),
@@ -426,6 +491,84 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     return null;
   }
 
+  Future<void> checkForItemIsAlreadyInCart(
+      bool alreadyAdde, int restauran, String restaurantName) async {
+    if (addMenuToCartModel == null) {
+      addMenuToCartModel = AddItemsToCartModel();
+    }
+    addMenuToCartModel.userId = Globle().loginModel.data.id;
+    addMenuToCartModel.restId = widget.restId;
+    addMenuToCartModel.tableId = _dropdownTableNumber;
+    if (items == null) {
+      items = Item();
+    }
+
+    List<Extras> extras;
+    if (extra != null) {
+      extras = extra;
+    } else {
+      extras = defaultExtra ?? null;
+    }
+
+    List<Switches> switchess;
+    if (switches != null) {
+      switchess = switches;
+    } else {
+      switchess = defaultSwitch ?? null;
+    }
+    List<Sizes> sizess;
+    if (size != null) {
+      sizess = [size];
+    } else if (defaultSize != null) {
+      if (defaultSize.sizeid != null) {
+        sizess = [defaultSize];
+      }
+    }
+
+    addMenuToCartModel.items = [items];
+    addMenuToCartModel.items[0].itemId = widget.itemId;
+    addMenuToCartModel.items[0].preparationNote = specialReq;
+    addMenuToCartModel.items[0].extra = extras;
+    if (sizess != null) {
+      if (sizess.length > 0) {
+        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+      }
+    }
+
+    // if (_addItemModelList.spreadsrequired == "yes") {
+    //   addMenuToCartModel.items[0].spreads = [];
+    // } else {
+    //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
+    // }
+    addMenuToCartModel.items[0].spreads = spread == null
+        ? (defaultSpread != null) ? [defaultSpread] : null
+        : [spread];
+    addMenuToCartModel.items[0].switches = switchess;
+    addMenuToCartModel.items[0].quantity = count;
+    addMenuToCartModel.items[0].sizes = sizess;
+    print(addMenuToCartModel.toJson());
+    if (alreadyAdde != null && restauran != null) {
+      if ((widget.restId != restauran) && (alreadyAdde)) {
+        cartAlert(
+            STR_STARTNEWORDER,
+            (restaurantName != null)
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
+                : STR_UNFINISHEDORDER,
+            context);
+      } else {
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        await progressDialog.show();
+        _addItemDeliverypresenter.performaddMenuToCart(
+            addMenuToCartModel, context);
+      }
+    } else {
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      await progressDialog.show();
+      _addItemDeliverypresenter.performaddMenuToCart(
+          addMenuToCartModel, context);
+    }
+  }
+
   void cartAlert(String title, String message, BuildContext context) {
     showDialog(
         context: context,
@@ -451,7 +594,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           height: 40,
                           width: MediaQuery.of(context).size.width * 0.35,
                           child: RaisedButton(
-                            color: getColorByHex(Globle().colorscode),
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
@@ -465,7 +610,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             ),
                             onPressed: () {
                               // DialogsIndicator.showLoadingDialog(
-                              //     context, _keyLoader, STR_BLANK);
+                              //    context, _keyLoader, "");
                               Navigator.of(context).pop();
                               callClearCart();
                             },
@@ -503,48 +648,81 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             ));
   }
 
-  Widget _getmainviewTableno() {
-    return SliverToBoxAdapter(child: _foodItemLogo());
-  }
-
   Widget _foodItemLogo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
-      child: CachedNetworkImage(
-        placeholder: (context, url) =>
-            Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-        errorWidget: (context, url, error) => Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.fill,
-        ),
-        imageBuilder: (context, imageProvider) => Container(
-          height: 175,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-              bottomLeft: const Radius.circular(10.0),
-              bottomRight: const Radius.circular(10.0),
+    return Container(
+      child: new Container(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12, right: 12),
+          child: CachedNetworkImage(
+            placeholder: (context, url) =>
+                Center(child: CircularProgressIndicator()),
+            imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
+            errorWidget: (context, url, error) => Image.asset(
+              RESTAURANT_IMAGE_PATH,
+              fit: BoxFit.fill,
             ),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+            imageBuilder: (context, imageProvider) => Container(
+              height: 195,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10.0),
+                  topRight: const Radius.circular(10.0),
+                  bottomLeft: const Radius.circular(10.0),
+                  bottomRight: const Radius.circular(10.0),
+                ),
+                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget _getmainviewTableno() {
+    return SliverToBoxAdapter(
+      child: _foodItemLogo(),
+    );
+  }
+
+  callClearCart() async {
+    await progressDialog.show();
+    _addItemDeliverypresenter.clearCart(context);
+    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<String>(
+        widget.restName, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+  }
+
+  getlistoftable() {
+    if (_dropdownItemsTable != null) {
+      if (_dropdownItemsTable.length >= 0) {
+        setState(() {
+          isTableList = true;
+        });
+        return;
+      }
+      setState(() {
+        isTableList = false;
+      });
+    }
+    setState(() {
+      isTableList = false;
+    });
+  }
+
   Widget _getOptions() {
     return SliverToBoxAdapter(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 25, left: 26),
+                padding: EdgeInsets.only(top: 10, left: 26),
                 child: Text(
                   StringUtils.capitalize(widget.title),
                   style: TextStyle(
@@ -554,6 +732,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       color: greytheme700),
                 ),
               ),
+              // ),
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
                 child: Text(
@@ -620,7 +799,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    addItemPageModelList1.spreadsLabel ??
+                                    _addItemModelList.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -674,6 +853,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                       ],
                     ),
+
               _checkBoxOptions.length == 0
                   ? Container()
                   : Column(
@@ -693,7 +873,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    addItemPageModelList1.extrasLabel ??
+                                    _addItemModelList.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -747,10 +927,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                       ],
                     ),
+
               _switchOptions.length == 0
                   ? Container()
                   : Column(
+                      //mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
+
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 15),
@@ -765,7 +948,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         0.4),
                                 Container(
                                   child: Text(
-                                    addItemPageModelList1.switchesLabel ??
+                                    _addItemModelList.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
                                         fontFamily: KEY_FONTFAMILY,
@@ -801,14 +984,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           ),
                         ),
                         togglebutton(),
-                        SizedBox(
-                          height: 10,
-                        ),
                         Divider(
                           thickness: 2,
                         ),
                       ],
                     ),
+
               SizedBox(
                 height: 10,
               ),
@@ -875,12 +1056,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 color: greytheme1000),
                           ),
                         ),
-                        _getRadioOptionsSizes(),
-                        SizedBox(
-                          height: 10,
-                        ),
                       ],
                     ),
+
+              _getRadioOptionsSizes(),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: AppTextField(
@@ -891,7 +1073,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   validator: validatepassword,
                   onSaved: (String value) {
                     print(value);
-                    specialReq = value;
                   },
                 ),
               ),
@@ -901,17 +1082,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             ]),
       ),
     );
-  }
-
-  callClearCart() async {
-    await progressDialog.show();
-    _addItemPagepresenter.clearCart(context);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
-    Globle().dinecartValue = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
   }
 
   _getRadioOptionsSizes() {
@@ -927,13 +1097,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             ? Text(StringUtils.capitalize(
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
-                        secondary: Text(Globle().currencySymb != null
-                                ? "${Globle().currencySymb} " +
-                                    "${radionBtnsize.secondary}"
-                                : STR_R_CURRENCY_SYMBOL +
-                                    "${radionBtnsize.secondary}") ??
+                        secondary: Text('${getCurrencySymbol()} ' +
+                                "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: defaultSize.sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
@@ -944,10 +1111,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             if (size == null) {
                               size = Sizes();
                             }
-                            radioItemsize = radionBtnsize.title;
-                            print(radionBtnsize.title);
-                            sizesid = radionBtnsize.index;
-                            size.sizeid = sizesid;
+                            setState(() {
+                              radioItemsize = radionBtnsize.title;
+                              print(radionBtnsize.title);
+                              sizesid = radionBtnsize.index;
+                              size.sizeid = sizesid;
+                            });
                           });
                         },
                       ),
@@ -970,11 +1139,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             : Text(STR_DATA),
                         // groupValue: (radionBtn.spreadDefault == "yes")
                         //     ? radionBtn.index
-                        //     : id,
+                        //     : radioBtnId,
                         groupValue: radioBtnId,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: getColorByHex(Globle().colorscode),
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
                         onChanged: (val) {
                           setState(() {
                             if (spread == null) {
@@ -985,6 +1156,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             print(radionBtn.title);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
+                            print(spread.spreadId);
                           });
                         },
                       ),
@@ -1000,7 +1172,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       }
     }
 
-    return "R";
+    return "";
   }
 
   String getTotalText() {
@@ -1056,9 +1228,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         }
       }
     }
+
     if (checkBoxOptionsPrice.length > 0) {
+      List<CheckBoxOptions> result =
+          LinkedHashSet<CheckBoxOptions>.from(checkBoxOptionsPrice).toList();
       var extPirce = 0.0;
-      for (var chekc in checkBoxOptionsPrice) {
+      for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
       return (double.parse(price) + extPirce).toString();
@@ -1101,7 +1276,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           height: 40,
                           child: ToggleButtons(
                               borderColor: greytheme1300,
-                              fillColor: getColorByHex(Globle().colorscode),
+                              fillColor: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,
@@ -1198,7 +1375,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         children: _checkBoxOptions.length > 0
             ? _checkBoxOptions
                 .map((checkBtn) => CheckboxListTile(
-                    activeColor: getColorByHex(Globle().colorscode),
+                    activeColor: ((Globle().colorscode) != null)
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme,
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {
@@ -1246,16 +1425,15 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Padding(
                             padding: const EdgeInsets.only(right: 15),
                             child: Text(
-                              Globle().currencySymb != null
-                                  ? Globle().currencySymb +
-                                      STR_SPACE +
-                                      checkBtn.price.toString()
-                                  : STR_BLANK,
+                              "${getCurrencySymbol()} " +
+                                      checkBtn.price.toString() ??
+                                  STR_BLANK,
                               style: TextStyle(
                                   fontSize: FONTSIZE_13, color: greytheme700),
                             ),
                           ),
                         ),
+                        // ),
                       ],
                     )))
                 .toList()
@@ -1292,7 +1470,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     StringUtils.capitalize(message),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: FONTSIZE_15,
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
@@ -1314,6 +1492,81 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
+  void showAlertUpdateOrderSuccess(
+      String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  StringUtils.capitalize(title),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    SUCCESS_IMAGE_PATH,
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    StringUtils.capitalize(message),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_15,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text(STR_OK,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      if (widget.isFromOrder) {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      } else {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => CartDetailsPage(
+                                  orderId: _updateOrderModel.orderId,
+                                  flag: 1,
+                                  isFromOrder: false,
+                                )));
+                      }
+
+                      // Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
+                      //Navigator.of(context).pop();
                     },
                   )
                 ],
@@ -1322,35 +1575,35 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  Future<void> addItemfailed() async {
+  void addItemfailed() {
     setState(() {
       isLoding = false;
     });
-    await progressDialog.hide();
   }
 
   @override
-  Future<void> addItemsuccess(List<AddItemModelList> _additemlist,AddItemPageModelList addItemPageModelList) async {
+  void addItemsuccess(List<AddItemModelList> _additemlist,
+      AddItemPageModelList addItemPageModelList1) {
     setState(() {
       isLoding = false;
-      _addItemModelList = _additemlist[0];
-    addItemPageModelList1 = addItemPageModelList;
+      _addItemPageModelList = addItemPageModelList1;
     });
-    
+    _addItemModelList = _additemlist[0];
 
     getradiobtn(_addItemModelList.spreads.length);
     getRequiredSpread(_addItemModelList.spreads.length);
+
+    getradiobtnsize(_addItemModelList.sizePrizes.length);
+    getRequiredSize(_addItemModelList.sizePrizes.length);
 
     checkboxbtn(_addItemModelList.extras.length);
     getRequiredExtra(_addItemModelList.extras.length);
 
     switchbtn(_addItemModelList.switches.length);
     getRequiredSwitch(_addItemModelList.switches.length);
+    // setState(() {
 
-    getradiobtnsize(_addItemModelList.sizePrizes.length);
-    getRequiredSize(_addItemModelList.sizePrizes.length);
-
-    await progressDialog.hide();
+    // });
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -1362,9 +1615,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Future<void> addMenuToCartsuccess() async {
     specialReq = "";
-    Globle().takeAwayCartItemCount += 1;
+    Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
-        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
@@ -1375,34 +1628,76 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  Future<void> clearCartFailed() async {
+  Future<void> addTablebnoSuccces() async {
+    await progressDialog.hide();
     await progressDialog.hide();
   }
 
   @override
+  Future<void> addTablenofailed() async {
+    await progressDialog.hide();
+    await progressDialog.hide();
+  }
+
+  @override
+  Future<void> getTableListFailed() async {
+    await progressDialog.hide();
+    await progressDialog.hide();
+  }
+
+  @override
+  Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
+    await progressDialog.hide();
+    await progressDialog.hide();
+    // getTableListModel = _getlist[0];
+    if (_getlist.length > 0) {
+      gettablelist(_getlist);
+    }
+
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void clearCartFailed() {}
+
+  @override
   Future<void> clearCartSuccess() async {
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+  }
+
+  @override
+  void updateOrderFailed() {}
+
+  @override
+  Future<void> updateOrderSuccess() async {
+    specialReq = "";
+    Globle().dinecartValue += 1;
     await progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    showAlertUpdateOrderSuccess(
+        "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 
   void getRequiredSpread(int length) {
+    Spreads defaultSpre;
     for (int i = 1; i <= length; i++) {
-      defaultSpread = Spreads();
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
-        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
-      } else {
-        defaultSpread = null;
+        defaultSpre = Spreads();
+        defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+
+    defaultSpread = defaultSpre;
   }
 
   void getRequiredExtra(int length) {
     Extras extradefault = Extras();
-    defaultExtra = List<Extras>();
+    defaultExtra = [];
     for (int i = 1; i <= length; i++) {
       if (_addItemModelList.extras[i - 1].extraDefault == "yes") {
         extradefault.extraId = (_addItemModelList.extras[i - 1].id);
@@ -1411,17 +1706,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     }
     if (defaultExtra.length > 0) {
       extra = defaultExtra;
-    } else {
+    }
+    if (defaultExtra.length == 0) {
       defaultExtra = null;
     }
   }
 
   void getRequiredSize(int length) {
-    defaultSize = Sizes();
     if (_addItemModelList.sizePrizes.length > 0) {
+      defaultSize = Sizes();
       setState(() {
         //defaultSize = _addItemModelList.sizePrizes[0] as Sizes;
         defaultSize.sizeid = _addItemModelList.sizePrizes[0].id;
+      });
+      setState(() {
+        sizesid = defaultSize.sizeid;
       });
       print(defaultSize);
     }
@@ -1435,20 +1734,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
-      } else {
-        defaultSwitch = [];
       }
+    }
+    if (defaultSwitch.length == 0) {
+      defaultSwitch = null;
     }
   }
 }
 
-// OrderConfirmationView
 class CheckBoxOptions {
   int index;
   String title;
   String price;
   bool isChecked;
   String defaultAddition;
+
   CheckBoxOptions(
       {this.index,
       this.title,
@@ -1460,9 +1760,9 @@ class CheckBoxOptions {
 class RadioButtonOptions {
   int index;
   String title;
-  String price;
   String spreadDefault;
-  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault});
+// bool selected;
+  RadioButtonOptions({this.index, this.title, this.spreadDefault});
 }
 
 class RadioButtonOptionsSizes {
@@ -1479,6 +1779,27 @@ class SwitchesItems {
   String option1;
   List<bool> isSelected;
   String option2;
+  String defaultOption;
   SwitchesItems(
-      {this.index, this.title, this.option1, this.option2, this.isSelected});
+      {this.index,
+      this.title,
+      this.option1,
+      this.option2,
+      this.isSelected,
+      this.defaultOption});
+}
+
+class TableList {
+  String name;
+  int restid;
+  int id;
+  TableList({this.restid, this.id, this.name});
+}
+
+class AddTableno {
+  int userId;
+  int tableId;
+  int restId;
+
+  AddTableno({this.restId, this.tableId, this.userId});
 }

@@ -1,11 +1,12 @@
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
+import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
-import 'package:foodzi/MyCartTW/MyCartTWPresenter.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
-import 'package:foodzi/Utils/ConstantImages.dart';
+import 'package:foodzi/MyCart/MycartPresenter.dart';
+import 'package:foodzi/MyCartDelivery/MyCartDeliveryContractor.dart';
+import 'package:foodzi/MyCartDelivery/MyCartDeliveryPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -15,94 +16,164 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-class MyCartTWView extends StatefulWidget {
-  String restName;
+class MyCartDeliveryView extends StatefulWidget {
   int restId;
   int userID;
   String lat;
   String long;
   String orderType;
   double total;
-  MyCartTWView(
+  String restName;
+  String imgUrl;
+
+  MyCartDeliveryView(
       {this.restId,
       this.userID,
       this.orderType,
       this.lat,
       this.long,
       this.total,
-      this.restName});
+      this.restName,
+      this.imgUrl});
   @override
   State<StatefulWidget> createState() {
-    return _MyCartTWViewState();
+    return _MyCartDeliveryViewState();
   }
 }
 
-class _MyCartTWViewState extends State<MyCartTWView>
-    implements MyCartTWModelView {
-  final _textController = TextEditingController();
+class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
+    implements
+        MyCartDeliveryModelView,
+        GetTableListModelView,
+        AddTablenoModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
+  List<TableList> _dropdownItemsTable = [];
 
-  int count = 0;
-  MycartTWPresenter _myCartpresenter;
+  bool isTableList = false;
+
+  bool isloading = false;
+
+  int _dropdownTableNumber;
+
+  String tableno;
+  int count;
+
+  GetTableList getTableListModel;
+
+  MycartDeliveryPresenter _myCartpresenter;
   List<MenuCartList> _cartItemList;
+  int cartId;
+  MenuCartDisplayModel myCart;
   int page = 1;
-  int indx;
+
   int id;
   List<int> itemList = [];
-  MenuCartDisplayModel myCart;
+
+  List<MenuCartList> itemData;
+
+  TableList tableList;
   ProgressDialog progressDialog;
 
   @override
   void initState() {
-    _myCartpresenter = MycartTWPresenter(this);
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog.style(message: STR_LOADING);
+    _myCartpresenter = MycartDeliveryPresenter(this, this, this);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-
+    _myCartpresenter.getTableListno(widget.restId, context);
     super.initState();
   }
 
-  Widget steppercount(int i) {
-    int count = _cartItemList[i].quantity;
+  int gettablelist(List<GetTableList> getlist) {
+    List<TableList> _tablelist = [];
+    for (int i = 0; i < getlist.length; i++) {
+      _tablelist.add(TableList(
+        id: getlist[i].id,
+        restid: widget.restId,
+        name: getlist[i].tableName,
+      ));
+    }
+    setState(() {
+      _dropdownItemsTable = _tablelist;
+    });
+    getlistoftable();
+    return _tablelist.length;
+  }
+
+  getlistoftable() {
+    if (_dropdownItemsTable != null) {
+      if (_dropdownItemsTable.length >= 0) {
+        setState(() {
+          isTableList = true;
+        });
+        return;
+      }
+      setState(() {
+        isTableList = false;
+      });
+    }
+    setState(() {
+      isTableList = false;
+    });
+  }
+
+  Widget totalamounttext() {
+    return Container(
+      // color: Colors.grey,
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget steppercount(MenuCartList menuCartList) {
     return Container(
       height: 24,
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: () async {
-                  if (_cartItemList[i].quantity > 0) {
+          onTap: (menuCartList.quantity == 1)
+              ? () {}
+              : () async {
+                  if (menuCartList.quantity > 0) {
                     setState(() {
-                      _cartItemList[i].quantity -= 1;
-                      print(_cartItemList[i].quantity);
+                      menuCartList.quantity -= 1;
+                      print(menuCartList.quantity);
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
                     await progressDialog.show();
-                    if (_cartItemList[i].quantity > 0) {
+                    if (menuCartList.quantity > 0) {
                       _myCartpresenter.updateQauntityCount(
-                          _cartItemList[i].id,
-                          _cartItemList[i].quantity,
-                          (double.parse(_cartItemList[i].totalAmount)) /
-                              _cartItemList[i].quantity,
+                          menuCartList.id,
+                          menuCartList.quantity,
+                          (double.parse(menuCartList.totalAmount)) /
+                              menuCartList.quantity,
                           context);
                     }
-                    if (_cartItemList[i].quantity == 0) {
+                    if (menuCartList.quantity == 0) {
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_LOADING);
                       await progressDialog.show();
-                      _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
+                      _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
                       setState(() {
-                        _cartItemList.removeAt(_cartItemList[i].id);
+                        _cartItemList.removeAt(menuCartList.id);
                       });
                     }
                   }
-                  // if (count > 1) {
-                  //   setState(() {
-                  //     --count;
-                  //     _cartItemList[i].quantity = count;
-
-                  //     print(count);
-                  //   });
-                  // }
                 },
           splashColor: Colors.redAccent.shade200,
           child: Container(
@@ -120,7 +191,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         Padding(
           padding: const EdgeInsets.only(left: 13, right: 13),
           child: Text(
-            count.toString(),
+            menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
                 fontFamily: KEY_FONTFAMILY,
@@ -130,28 +201,21 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            if (_cartItemList[i].quantity < 10) {
+            if (menuCartList.quantity < 100) {
               setState(() {
-                _cartItemList[i].quantity += 1;
-                print(_cartItemList[i].quantity);
+                menuCartList.quantity += 1;
+                print(menuCartList.quantity);
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
               await progressDialog.show();
               _myCartpresenter.updateQauntityCount(
-                  _cartItemList[i].id,
-                  _cartItemList[i].quantity,
-                  (double.parse(_cartItemList[i].totalAmount)) /
-                      _cartItemList[i].quantity,
+                  menuCartList.id,
+                  menuCartList.quantity,
+                  (double.parse(menuCartList.totalAmount)) /
+                      menuCartList.quantity,
                   context);
             }
-            // if (count < 100) {
-            //   setState(() {
-            //     ++count;
-            //     print(count);
-            //     _cartItemList[i].quantity = count;
-            //   });
-            // }
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -172,94 +236,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_LOADING);
-    addTablePopUp(BuildContext context) {
-      return showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (BuildContext context) {
-            return Container(
-              child: Dialog(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Container(
-                  height: 236,
-                  width: 284,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Text(
-                          STR_ADD_TABLE,
-                          style: TextStyle(
-                              fontSize: FONTSIZE_16,
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              color: greytheme700),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(color: greytheme600)),
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 8),
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            autofocus: true,
-                            inputFormatters: [
-                              WhitelistingTextInputFormatter.digitsOnly
-                            ],
-                            maxLines: 1,
-                            controller: _textController,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                      Center(
-                        child: RaisedButton(
-                          color: getColorByHex(Globle().colorscode),
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: getColorByHex(Globle().colorscode)),
-                              borderRadius: BorderRadius.circular(5)),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
-                            child: Text(
-                              STR_SUMBIT,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_18,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          });
-    }
-
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -276,7 +252,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     width: 20,
                   ),
                   Text(
-                    STR_COLLECTION,
+                    STR_DELIVERY_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
@@ -287,11 +263,35 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 ],
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
+              Divider(
+                thickness: 2.0,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              // isTableList
+              //     ? getTableNumber()
+              //     : Container(
+              //         child: Row(
+              //         children: <Widget>[
+              //           SizedBox(width: 20),
+              //           Text(STR_NO_TABLE,
+              //               style: TextStyle(
+              //                   fontSize: FONTSIZE_14,
+              //                   fontFamily: KEY_FONTFAMILY,
+              //                   fontWeight: FontWeight.w600,
+              //                   color: getColorByHex(Globle().colorscode))),
+              //         ],
+              //       )),
+              // SizedBox(
+              //   height: 10,
+              // )
             ],
           ),
         ),
+        // ),
       );
     }
 
@@ -318,14 +318,19 @@ class _MyCartTWViewState extends State<MyCartTWView>
             SizedBox(
               height: 10,
             ),
-            _getAddedListItem()
+            isloading ? Container() : _getAddedListItem()
           ],
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 102,
+              height: MediaQuery.of(context).size.height * 0.21,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: totalamounttext(),
+                  ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
@@ -346,32 +351,38 @@ class _MyCartTWViewState extends State<MyCartTWView>
                   ),
                   GestureDetector(
                     onTap: () {
-                      Globle().takeAwayCartItemCount = 0;
-                      Preference.setPersistData<int>(
-                          0, PreferenceKeys.takeAwayCartCount);
-                      (_cartItemList != null)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentTipAndPay(
-                                        flag: 1,
-                                        restName: widget.restName,
-                                        restId: widget.restId,
-                                        userId: _cartItemList[indx].userId,
-                                        // price: int.parse(
-                                        //     _cartItemList[indx].price),
-                                        items: itemList,
-                                        totalAmount:
-                                            double.parse(myCart.grandTotal),
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                        itemdata: _cartItemList,
-                                        currencySymbol: myCart.currencySymbol,
-                                        tableId: _cartItemList[indx].tableId,
-                                      )))
-                          : Constants.showAlert(
-                              STR_MYCART, STR_ADD_ITEM_CART, context);
+                      if (_dropdownTableNumber == null) {
+                        Constants.showAlert(
+                            STR_MYCART, STR_SELECT_TABLE, context);
+                      } else {
+                        Globle().dinecartValue = 0;
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.dineCartItemCount);
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.dineCartItemCount);
+                        (_cartItemList != null)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ConfirmationDineView(
+                                    restId: widget.restId,
+                                    tablename: tableno,
+                                    restName: widget.restName,
+                                    tableId: _dropdownTableNumber,
+                                    totalAmount:
+                                        double.parse(myCart.grandTotal),
+                                    items: itemList,
+                                    itemdata: _cartItemList,
+                                    orderType: widget.orderType,
+                                    latitude: widget.lat,
+                                    longitude: widget.long,
+                                    currencySymbol: myCart.currencySymbol,
+                                    imgUrl: widget.imgUrl,
+                                  ),
+                                ))
+                            : Constants.showAlert(
+                                STR_MYCART, STR_ADD_ITEM_CART, context);
+                      }
                     },
                     child: Container(
                       height: 54,
@@ -399,6 +410,76 @@ class _MyCartTWViewState extends State<MyCartTWView>
     );
   }
 
+  Widget getTableNumber() {
+    return Container(
+      margin: EdgeInsets.only(left: 20),
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: FormField(builder: (FormFieldState state) {
+        return DropdownButtonFormField(
+          items: _dropdownItemsTable.map((tableNumber) {
+            return new DropdownMenuItem(
+                value: tableNumber.id,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Text(
+                          "${tableNumber.name}",
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              fontSize: FONTSIZE_14,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              color: getColorByHex(Globle().colorscode)),
+                        )),
+                  ],
+                ));
+          }).toList(),
+          onChanged: (newValue) async {
+            setState(() {
+              _dropdownTableNumber = newValue;
+            });
+            for (int i = 0; i < _dropdownItemsTable.length; i++) {
+              if (newValue == _dropdownItemsTable[i].id) {
+                print(_dropdownItemsTable[i].name);
+                tableno = _dropdownItemsTable[i].name;
+              }
+            }
+            await progressDialog.show();
+            //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+            _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
+                widget.restId, _dropdownTableNumber, context);
+          },
+          value: _dropdownTableNumber,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: greentheme100, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: greytheme900, width: 2)),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+            filled: false,
+            hintText: STR_CHOOSE_TABLE,
+            labelText:
+                _dropdownTableNumber == null ? STR_ADD_TABLE : STR_TABLE_NO,
+            labelStyle: TextStyle(
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.black,
+                fontSize: FONTSIZE_14,
+                fontFamily: KEY_FONTFAMILY,
+                fontWeight: FontWeight.w600,
+                color: greytheme100),
+          ),
+        );
+      }),
+    );
+  }
+
   Widget _getAddedListItem() {
     return (_cartItemList != null)
         ? Expanded(
@@ -406,7 +487,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
               itemCount: _cartItemList.length,
               itemBuilder: (BuildContext context, int index) {
                 id = _cartItemList[index].itemId;
-                indx = index;
+                cartId = _cartItemList[index].id;
+
                 return Dismissible(
                   key: UniqueKey(),
                   background: refreshBg(),
@@ -472,39 +554,30 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     height: 30,
                                     width: 180,
                                     child: AutoSizeText(
-                                      _cartItemList[index]
-                                                  .items
-                                                  .itemDescription !=
-                                              null
-                                          ? StringUtils.capitalize(
-                                              _cartItemList[index]
-                                                  .items
-                                                  .itemDescription)
-                                          : STR_ITEM_DESC,
+                                      getExtra(_cartItemList[index]),
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: FONTSIZE_14,
                                       ),
-                                      maxFontSize: FONTSIZE_12,
+                                      maxFontSize: 12,
                                       maxLines: 2,
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(index),
+                                  steppercount(_cartItemList[index]),
                                 ],
                               ),
                               Expanded(
                                 child: SizedBox(
-                                  width: 80,
+                                  width: 0,
                                 ),
-                                flex: 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 5, top: 30),
                                 child: Text(
-                                  "${myCart.currencySymbol} " +
+                                  "${getCurrency()} " +
                                           "${_cartItemList[index].totalAmount}" ??
-                                      "",
+                                      '',
                                   style: TextStyle(
                                       color: greytheme700,
                                       fontSize: FONTSIZE_16,
@@ -552,33 +625,88 @@ class _MyCartTWViewState extends State<MyCartTWView>
     );
   }
 
+  String getCurrency() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return myCart.currencySymbol;
+      }
+    }
+    return "";
+  }
+
+  double getGrandTotal() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return double.parse(myCart.grandTotal);
+      }
+    }
+    return 0;
+  }
+
+  String getExtra(MenuCartList menuCartList) {
+    var extras = STR_BLANK;
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   @override
-  void getCartMenuListfailed() {
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+  Future<void> getCartMenuListfailed() async {
+    setState(() {
+      _cartItemList = null;
+    });
+    await progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
-         await progressDialog.hide();
     if (menulist.length == 0) {
-      Globle().takeAwayCartItemCount = menulist.length;
+      Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
-          Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-      Preference.setPersistData(null, PreferenceKeys.restaurantID);
-      Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
+          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
       await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
-    Globle().takeAwayCartItemCount = menulist.length;
+    Globle().dinecartValue = menulist.length;
     Preference.setPersistData<int>(
-        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-    myCart = model;
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+
     setState(() {
       if (_cartItemList == null) {
         _cartItemList = menulist;
+        myCart = model;
+
         for (var i = 0; i < _cartItemList.length; i++) {
           itemList.add(_cartItemList[i].id);
           print(itemList);
@@ -589,62 +717,67 @@ class _MyCartTWViewState extends State<MyCartTWView>
       }
       page++;
     });
-   
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> removeItemFailed() async {
-    await progressDialog.hide();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> removeItemSuccess() async {
-    await progressDialog.hide();
-    if (_cartItemList != null) {
-      if (_cartItemList.length == 0) {
-        Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
-     Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-      }
-    }
     _cartItemList = null;
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    Globle().takeAwayCartItemCount -= 1;
+    Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
-        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    await progressDialog.hide();
+  }
+
+  @override
+  Future<void> addTablebnoSuccces() async {
+    await progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  Future<void> addTablenofailed() async {
+    await progressDialog.hide();
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void getTableListFailed() {}
+
+  @override
+  void getTableListSuccess(List<GetTableList> _getlist) {
+    getTableListModel = _getlist[0];
+    if (_getlist.length > 0) {
+      gettablelist(_getlist);
+    }
   }
 
   @override
   Future<void> updatequantitySuccess() async {
     _cartItemList = null;
-    Globle().takeAwayCartItemCount -= 1;
+    Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     await progressDialog.hide();
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement updatequantitySuccess
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> updatequantityfailed() async {
     await progressDialog.hide();
-    // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement updatequantityfailed
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
 
@@ -654,4 +787,20 @@ class ItemInfo {
   int itemId;
   String menutype;
   ItemInfo({this.itemName, this.itemDescription, this.itemId, this.menutype});
+}
+
+class TableList {
+  //geolocation(){}
+  String name;
+  int restid;
+  int id;
+  TableList({this.restid, this.id, this.name});
+}
+
+class AddTableno {
+  int userId;
+  int tableId;
+  int restId;
+
+  AddTableno({this.restId, this.tableId, this.userId});
 }
