@@ -74,6 +74,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
+  PaymentCheckoutModel _paymentCheckoutModel;
 
   PaycheckoutNetbanking billModel;
   @override
@@ -123,16 +124,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
+                      
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    _billCheckoutPresenter.payBillCheckOut(widget.restId,
+        widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
                     },
                     child: Container(
                       height: 45,
@@ -542,6 +537,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
+    await progressDialog.hide();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -553,9 +549,18 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
+    _finalBillPresenter.payfinalOrderBill(
+        Globle().loginModel.data.id,
+        myOrderData.restId,
+        myOrderData.id,
+        STR_CARD,
+        myOrderData.totalAmount,
+        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+        _paymentCheckoutModel.transactionId,
+        context,
+        sliderValue.toString(),
+      );
+    
   }
 
   @override
@@ -619,19 +624,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
     if (paymentCheckoutModel.statusCode == 200) {
-      await progressDialog.show();
+     _paymentCheckoutModel = paymentCheckoutModel;
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
+      await progressDialog.show();
+    _paymentTipAndPayPresenter.placeOrder(
+                          widget.restId,
+                          Globle().loginModel.data.id,
+                          widget.orderType,
+                          widget.tableId,
+                          widget.items,
+                          widget.totalAmount,
+                          widget.latitude,
+                          widget.longitude,
+                          context);
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -647,6 +652,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> payfinalBillSuccess() async {
+    await progressDialog.hide();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -658,9 +664,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    
   }
 
   @override
