@@ -580,8 +580,10 @@ class _RestaurantViewState extends State<RestaurantView>
         childAspectRatio: 0.8,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-        return Container(
-          child: LayoutBuilder(
+        return 
+        // Container(
+        //   child:
+           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return GestureDetector(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -825,7 +827,7 @@ class _RestaurantViewState extends State<RestaurantView>
                 ),
               );
             },
-          ),
+          // ),
         );
       }, childCount: _getint()),
     );

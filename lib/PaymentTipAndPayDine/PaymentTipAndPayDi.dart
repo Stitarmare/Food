@@ -47,7 +47,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
-  var sliderValue = 0;
+  var sliderValue = 10;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
   StatusTrackViewPresenter statusTrackViewPresenter;
@@ -62,6 +62,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   List<PeopleData> addedPeopleList = [];
   List<InvitationOrder> invitationOrder = [];
   double grandTotal = 0;
+  double tipAmount ;
   var isBillSplitedForUser = false;
   Stream stream;
   StreamSubscription<double> _streamSubscription;
@@ -205,7 +206,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             _billCheckoutPresenter.payBillCheckOut(
                                 myOrderData.restId,
                                 getOrderTotal(),
-                                sliderValue.toString(),
+                                tipAmount.toString(),
                                 "ZAR",
                                 context);
                           },
@@ -346,7 +347,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     var data = await showDialog(
         context: context,
         child: new RadioDialog(
-          amount: (double.parse(_model.grandTotal) + sliderValue),
+          amount: (double.parse(_model.grandTotal) + tipAmount),
           tableId: widget.tableId,
           orderId: widget.orderID,
           elementList: myOrderData.list,
@@ -376,7 +377,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         barrierDismissible: false,
         child: InvitedPeopleDialog(
           orderID: widget.orderID,
-          amount: (double.parse(_model.grandTotal) + sliderValue),
+          amount: (double.parse(_model.grandTotal) + tipAmount),
           tableId: widget.tableId,
         ));
 
@@ -573,13 +574,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     : orangetheme,
                 inactiveColor: greytheme100,
                 min: 0,
-                max: 20,
+                max: 100,
+                divisions: 2,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
+                    tipAmount = (sliderValue*double.parse(getOrderTotal()))/100;
+                    print(tipAmount);
                     grandTotal =
-                        double.parse(getOrderTotal()) + sliderValue.toDouble();
+                        double.parse(getOrderTotal()) + tipAmount.toDouble();
                   });
                 },
               ),
@@ -590,7 +594,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               right: 10,
             ),
             child: Text(
-              '${_model.currencySymbol} ' + '${sliderValue.toInt()}',
+              '${sliderValue.toInt()}'+ "%",
               style: TextStyle(
                   fontSize: FONTSIZE_16,
                   color: greytheme700,
@@ -707,7 +711,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   _model.currencySymbol != null
-                      ? '${_model.currencySymbol} ' + '${sliderValue.toInt()}'
+                      ? '${_model.currencySymbol} ' + '${tipAmount.toInt()}'
                       : "",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -947,7 +951,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           grandTotal.toString(),
           paymentCheckoutModel.transactionId,
           context,
-          sliderValue.toString());
+          tipAmount.toString());
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
