@@ -732,6 +732,9 @@ class _MyCartViewState extends State<MyCartView>
         null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    setState(() {
+      myCart = null;
+    });
       }
     }
     _cartItemList = null;

@@ -46,8 +46,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
-  Stream stream;
-  StreamSubscription<double> _streamSubscription;
   var isFirst = false;
   var _timer;
   Duration _duration = Duration(seconds: 30);
