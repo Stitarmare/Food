@@ -238,7 +238,7 @@ class _LandingStateView extends State<Landingview>
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 30,
+              height: 10,
             ),
             _buildimage(),
             SizedBox(
@@ -269,50 +269,47 @@ class _LandingStateView extends State<Landingview>
   Widget _buildMaintext() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        SizedBox(
-          width: 30,
-        ),
-        _buidtext()
-      ],
+      children: <Widget>[_buidtext()],
     );
   }
 
   Widget _buidtext() {
-    return LimitedBox(
+    return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(children: <Widget>[
-            Text(
-              STR_HI,
-              style: TextStyle(
-                  fontSize: FONTSIZE_20,
-                  fontFamily: Constants.getFontType(),
-                  fontWeight: FontWeight.w500,
-                  color: greytheme300),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              Globle().loginModel.data.firstName ?? '',
-              style: TextStyle(
-                  fontSize: FONTSIZE_20,
-                  fontFamily: Constants.getFontType(),
-                  fontWeight: FontWeight.w500,
-                  color: greytheme300),
-            ),
-          ]),
+          // Row(children: <Widget>[
+          Text(
+            "$STR_HI ${Globle().loginModel.data.firstName ?? ''}",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: FONTSIZE_20,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w500,
+                color: greytheme300),
+          ),
+          // SizedBox(
+          //   width: 10,
+          // ),
+          // Text(
+          //   Globle().loginModel.data.firstName ?? '',
+          //   style: TextStyle(
+          //       fontSize: FONTSIZE_20,
+          //       fontFamily: Constants.getFontType(),
+          //       fontWeight: FontWeight.w500,
+          //       color: greytheme300),
+          // ),
+          // ]),
           SizedBox(
             height: 12,
           ),
           Text(STR_WHAT_LIKE_TO_DO,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: FONTSIZE_20,
                   fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
-                  color: greytheme300))
+                  color: greytheme300)),
         ],
       ),
     );
@@ -343,7 +340,7 @@ class _LandingStateView extends State<Landingview>
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
         child: Card(
-          color: greentheme100,
+          color: greentheme300,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -368,7 +365,7 @@ class _LandingStateView extends State<Landingview>
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
         child: Card(
-          color: orangetheme100,
+          color: orangetheme200,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           clipBehavior: Clip.antiAliasWithSaveLayer,
