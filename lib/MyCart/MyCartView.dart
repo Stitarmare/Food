@@ -51,6 +51,7 @@ class _MyCartViewState extends State<MyCartView>
   bool isloading = false;
 
   int _dropdownTableNumber;
+  int _dropdownTableNo;
 
   String tableno;
   int count;
@@ -73,6 +74,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   void initState() {
+    _dropdownTableNo = _dropdownTableNumber;
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
@@ -437,6 +439,7 @@ class _MyCartViewState extends State<MyCartView>
           onChanged: (newValue) async {
             setState(() {
               _dropdownTableNumber = newValue;
+              _dropdownTableNo = _dropdownTableNumber;
             });
             for (int i = 0; i < _dropdownItemsTable.length; i++) {
               if (newValue == _dropdownItemsTable[i].id) {
@@ -449,7 +452,7 @@ class _MyCartViewState extends State<MyCartView>
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
           },
-          value: _dropdownTableNumber,
+          value: _dropdownTableNo,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
             focusedBorder: OutlineInputBorder(
@@ -632,14 +635,13 @@ class _MyCartViewState extends State<MyCartView>
     }
     return "";
   }
-
-  double getGrandTotal() {
+String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return double.parse(myCart.grandTotal);
+        return myCart.grandTotal;
       }
     }
-    return 0;
+    return "0";
   }
 
   String getExtra(MenuCartList menuCartList) {

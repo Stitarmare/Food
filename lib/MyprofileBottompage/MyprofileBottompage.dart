@@ -246,19 +246,19 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
           SizedBox(
             height: 20,
           ),
-          new GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, null);
-            },
-            child: new Text(
-              KEY_HELP,
-              style: TextStyle(
-                  color: greytheme1200,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontSize: FONTSIZE_18),
-            ),
-          ),
+          // new GestureDetector(
+          //   onTap: () {
+          //     Navigator.pushNamed(context, null);
+          //   },
+          //   child: new Text(
+          //     KEY_HELP,
+          //     style: TextStyle(
+          //         color: greytheme1200,
+          //         fontWeight: FontWeight.w500,
+          //         fontFamily: KEY_FONTFAMILY,
+          //         fontSize: FONTSIZE_18),
+          //   ),
+          // ),
         ],
       ),
     );
