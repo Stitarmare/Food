@@ -34,4 +34,21 @@ class DialogsIndicator {
                   ]));
         });
   }
+
+  static void showAlert(BuildContext context, String title, String message) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(title),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(STR_OK),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                )
+              ],
+            ));
+  }
 }

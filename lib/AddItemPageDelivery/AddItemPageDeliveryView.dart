@@ -11,6 +11,7 @@ import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -71,6 +72,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   AddItemModelList _addItemModelList;
   int itemId;
   int restId;
+  List<Extras> extras;
+  List<Sizes> sizess;
+  List<Switches> switchess;
   ScrollController _controller = ScrollController();
   AddItemDeliverypresenter _addItemDeliverypresenter;
   List<TableList> _dropdownItemsTable = [];
@@ -504,20 +508,17 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       items = Item();
     }
 
-    List<Extras> extras;
     if (extra != null) {
       extras = extra;
     } else {
       extras = defaultExtra ?? null;
     }
 
-    List<Switches> switchess;
     if (switches != null) {
       switchess = switches;
     } else {
       switchess = defaultSwitch ?? null;
     }
-    List<Sizes> sizess;
     if (size != null) {
       sizess = [size];
     } else if (defaultSize != null) {
@@ -526,6 +527,19 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       }
     }
 
+    if (extras == null) {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length != 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length == 0) {
+      DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+    }
+  }
+
+  void addItemData(
+      bool alreadyAdde, int restauran, String restaurantName) async {
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
@@ -553,7 +567,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         cartAlert(
             STR_STARTNEWORDER,
             (restaurantName != null)
-                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName " + STR_WILLDELETE
                 : STR_UNFINISHEDORDER,
             context);
       } else {
