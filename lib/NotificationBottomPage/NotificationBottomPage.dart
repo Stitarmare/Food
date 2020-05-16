@@ -144,6 +144,10 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     if (notificationData[index].notifType == STR_INVITATION) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
+            notifytext = notificationData[index].notifText.split(STR_COMMA);
+          recipientName = notifytext[0];
+          recipientMobno = notifytext[1];
+          tableno = notifytext[3];
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
