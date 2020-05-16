@@ -13,6 +13,7 @@ import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:package_info/package_info.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -765,6 +766,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     }
     return imageUrl;
   }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

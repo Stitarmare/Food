@@ -265,7 +265,7 @@ const JSON_STR_PAGE = "page";
 // drawer page
 const STR_IMAGE_PATH = 'assets/BackgroundImage/Group1649.png';
 const STR_IMAGE_PATH1 = 'assets/SignOutIcon/Group1349.png';
-const STR_VERSION_NO = "Version 1.2";
+const STR_VERSION_NO = "Version";
 
 // EditProfile Page
 const STR_CHOOSE_COUNTRY = 'Choose Country';

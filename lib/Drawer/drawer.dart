@@ -3,6 +3,7 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 import 'package:foodzi/Utils/String.dart';
+import 'package:package_info/package_info.dart';
 
 class HiddenDrawerController {
   HiddenDrawerController({this.items, @required DrawerContent initialPage}) {
@@ -54,11 +55,12 @@ class DrawerItem extends StatelessWidget {
 }
 
 class HiddenDrawer extends StatefulWidget {
-  HiddenDrawer({this.header, this.decoration, this.controller, this.isOpen});
+  HiddenDrawer({this.header, this.decoration, this.controller, this.isOpen,this.version});
   BoxDecoration decoration;
   Widget header;
   HiddenDrawerController controller;
   final bool isOpen;
+  String version;
   @override
   _HiddenDrawerState createState() => _HiddenDrawerState();
 }
@@ -70,9 +72,11 @@ class _HiddenDrawerState extends State<HiddenDrawer>
   Animation<double> animation, scaleAnimation;
   Animation<BorderRadius> radiusAnimation;
   AnimationController animationController;
+  String versionName = "";
   @override
   void initState() {
     super.initState();
+    
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(animationController)
@@ -85,6 +89,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
             begin: BorderRadius.circular(0.0), end: BorderRadius.circular(32))
         .animate(
             CurvedAnimation(parent: animationController, curve: Curves.ease));
+            getVersion();
   }
 
   @override
@@ -141,6 +146,13 @@ class _HiddenDrawerState extends State<HiddenDrawer>
         isMenuOpen = opened;
       });
     }
+  }
+
+  getVersion() async{
+PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  setState(() {
+    versionName = packageInfo.version;
+  });
   }
 
   @override
@@ -212,7 +224,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                           left: 50,
                           top: MediaQuery.of(context).size.height * 0.01),
                       child: Text(
-                        STR_VERSION_NO,
+                        "$STR_VERSION_NO ${versionName ?? ""}",
                         style: TextStyle(
                             color: greytheme100,
                             fontFamily: KEY_FONTFAMILY,
@@ -264,4 +276,6 @@ class _HiddenDrawerState extends State<HiddenDrawer>
       ),
     );
   }
+
+ 
 }
