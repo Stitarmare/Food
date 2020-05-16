@@ -28,7 +28,7 @@ class MycartTWPresenter extends MyCartTWContarctor {
         body: {
           JSON_STR_USER_ID: userId,
           JSON_STR_REST_ID: restId,
-        }).then((value) {
+        },isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

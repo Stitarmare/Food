@@ -30,7 +30,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   bool isBookingHistory = false;
   int i;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  List<CurrentOrderList> _orderDetailList;
+  List<CurrentOrderList> _orderDetailList;  
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
 
   var imageurl;
