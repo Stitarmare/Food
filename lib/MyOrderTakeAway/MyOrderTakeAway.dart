@@ -156,14 +156,14 @@ class _MyOrdersState extends State<MyOrderTakeAway>
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        PaymentTipAndPayDi(
-                          orderID: _orderDetailList[index].id,
-                          tableId: _orderDetailList[index].tableId,
-                        )
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) =>
+                //         PaymentTipAndPayDi(
+                //           orderID: _orderDetailList[index].id,
+                //           tableId: _orderDetailList[index].tableId,
+                //         )
                         //  StatusTakeAwayView(
                         //       imgUrl:
                         //           _orderDetailList[index].restaurant.coverImage,
@@ -172,7 +172,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         //       orderID: _orderDetailList[index].id,
                         //       restId: _orderDetailList[index].restId,
                         //     )
-                            ));
+                        //    ));
                 // builder: (context) => StatusTrackView(
                 //       orderID: _orderDetailList[index].id,
                 //       flag: 2,
