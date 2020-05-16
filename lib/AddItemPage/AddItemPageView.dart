@@ -82,6 +82,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid = 1;
   AddItemPageModelList addItemPageModelList;
+  List<Extras> extras;
+  List<Sizes> sizess;
+  List<Switches> switchess;
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -395,14 +398,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         _updateOrderModel.items = items;
-                        if (sizess!=null) 
-                        {
-if (sizess.length > 0) {
-                          _updateOrderModel.items.sizePriceId =
-                              sizess[0].sizeid;
+                        if (sizess != null) {
+                          if (sizess.length > 0) {
+                            _updateOrderModel.items.sizePriceId =
+                                sizess[0].sizeid;
+                          }
                         }
-                        }
-                        
+
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
                         _updateOrderModel.items.preparationNote = specialReq;
@@ -508,20 +510,18 @@ if (sizess.length > 0) {
       items = Item();
     }
 
-    List<Extras> extras;
     if (extra != null) {
       extras = extra;
     } else {
       extras = defaultExtra ?? null;
     }
 
-    List<Switches> switchess;
     if (switches != null) {
       switchess = switches;
     } else {
       switchess = defaultSwitch ?? null;
     }
-    List<Sizes> sizess;
+
     if (size != null) {
       sizess = [size];
     } else if (defaultSize != null) {
@@ -530,6 +530,20 @@ if (sizess.length > 0) {
       }
     }
 
+    if (_addItemModelList.extrasrequired == "yes") {
+      if (extras != null && extras.length != 0) {
+        addItemData(alreadyAdde, restauran, restaurantName);
+      } else {
+        DialogsIndicator.showAlert(
+            context, "Required Field", "Please select required field");
+      }
+    } else {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    }
+  }
+
+  void addItemData(
+      bool alreadyAdde, int restauran, String restaurantName) async {
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
@@ -557,7 +571,7 @@ if (sizess.length > 0) {
         cartAlert(
             STR_STARTNEWORDER,
             (restaurantName != null)
-                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName " + STR_WILLDELETE
                 : STR_UNFINISHEDORDER,
             context);
       } else {
@@ -692,13 +706,11 @@ if (sizess.length > 0) {
   callClearCart() async {
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
     await progressDialog.show();
-   
-    
-     _addItemPagepresenter.clearCart(context);
+
+    _addItemPagepresenter.clearCart(context);
   }
 
   getlistoftable() {
@@ -1663,7 +1675,7 @@ if (sizess.length > 0) {
   }
 
   @override
-  void clearCartFailed() async{
+  void clearCartFailed() async {
     await progressDialog.hide();
   }
 
