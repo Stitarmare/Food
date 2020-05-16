@@ -530,16 +530,37 @@ class _AddItemPageViewState extends State<AddItemPageView>
       }
     }
 
-    if (_addItemModelList.extrasrequired == "yes") {
-      if (extras != null && extras.length != 0) {
-        addItemData(alreadyAdde, restauran, restaurantName);
-      } else {
-        DialogsIndicator.showAlert(
-            context, "Required Field", "Please select required field");
-      }
-    } else {
+    if (extras == null) {
       addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length != 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length == 0) {
+      DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
     }
+
+    // if (extras != null &&
+    //     extras.length != 0 &&
+    //     _addItemModelList.extrasrequired == "yes") {
+    //   addItemData(alreadyAdde, restauran, restaurantName);
+    // } else {
+    //   if (_addItemModelList.extrasrequired == "yes") {
+    //     DialogsIndicator.showAlert(
+    //         context, "Required Field", "Please select required field");
+    //   }
+    // }
+
+    // if (_addItemModelList.extrasrequired == "yes") {
+    //   if (extras != null && extras.length != 0) {
+    //     addItemData(alreadyAdde, restauran, restaurantName);
+    //   } else {
+    //     DialogsIndicator.showAlert(
+    //         context, "Required Field", "Please select required field");
+    //   }
+    // } else {
+    //   addItemData(alreadyAdde, restauran, restaurantName);
+    // }
   }
 
   void addItemData(
@@ -1411,6 +1432,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             for (int i = 0; i < extra.length; i++) {
                               if (checkBtn.index == extra[i].extraId) {
                                 extra.removeAt(i);
+                                print(extra.length);
                               }
                             }
                           }

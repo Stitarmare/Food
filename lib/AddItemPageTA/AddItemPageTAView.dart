@@ -88,6 +88,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
+  List<Sizes> sizess;
+  List<Switches> switchess;
+  List<Extras> extras;
 
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
@@ -285,7 +288,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       items = Item();
                     }
 
-                    List<Sizes> sizess;
                     if (size != null) {
                       sizess = [size];
                     } else if (defaultSize != null) {
@@ -294,70 +296,26 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       }
                     }
 
-                    List<Extras> extras;
                     if (extra != null) {
                       extras = extra;
                     } else {
                       extras = defaultExtra ?? null;
                     }
 
-                    List<Switches> switchess;
                     if (switches != null) {
                       switchess = switches;
                     } else {
                       switchess = defaultSwitch ?? null;
                     }
 
-                    addMenuToCartModel.items = [items];
-                    if (sizess != null) {
-                        if (sizess.length > 0) {
-                      addMenuToCartModel.items[0].sizePriceId =
-                          sizess[0].sizeid;
-                    }
-                    }
-                    
-                    addMenuToCartModel.items[0].itemId = widget.itemId;
-                    addMenuToCartModel.items[0].preparationNote = specialReq;
-                    addMenuToCartModel.items[0].extra = extras;
-                    addMenuToCartModel.items[0].spreads = spread == null
-                        ? (defaultSpread != null) ? [defaultSpread] : []
-                        : [spread];
-                    addMenuToCartModel.items[0].switches = switchess;
-                    addMenuToCartModel.items[0].quantity = count;
-                    addMenuToCartModel.items[0].sizes =
-                        size == null ? [defaultSize] : [size];
-
-                    print(addMenuToCartModel.toJson());
-
-                    var alreadyAddedTA = await Preference.getPrefValue<bool>(
-                        PreferenceKeys.isAlreadyINCart);
-                    var restaurantTA = await Preference.getPrefValue<int>(
-                        PreferenceKeys.restaurantID);
-                    var restaurantName = await (Preference.getPrefValue<String>(
-                        PreferenceKeys.restaurantName));
-                    if (alreadyAddedTA != null && restaurantTA != null) {
-                      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
-                        cartAlert(
-                            STR_STARTNEWORDER,
-                            (restaurantName != null)
-                                ? STR_YOUR_UNFINIHED_ORDER +
-                                    "$restaurantName" +
-                                    STR_WILLDELETE
-                                : STR_UNFINISHEDORDER,
-                            context);
-                      } else {
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
-                        await progressDialog.show();
-                        _addItemPagepresenter.performaddMenuToCart(
-                            addMenuToCartModel, context);
-                      }
-                    } else {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_BLANK);
-                      await progressDialog.show();
-                      _addItemPagepresenter.performaddMenuToCart(
-                          addMenuToCartModel, context);
+                    if (extras == null) {
+                      addItemData();
+                    } else if (extras.length != 0 &&
+                        _addItemModelList.extrasrequired == "yes") {
+                      addItemData();
+                    } else if (extras.length == 0) {
+                      DialogsIndicator.showAlert(context, "Required Field",
+                          "Please select required field");
                     }
                   },
                   child: Container(
@@ -385,6 +343,54 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         ),
       ),
     );
+  }
+
+  void addItemData() async {
+    addMenuToCartModel.items = [items];
+    if (sizess != null) {
+      if (sizess.length > 0) {
+        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+      }
+    }
+
+    addMenuToCartModel.items[0].itemId = widget.itemId;
+    addMenuToCartModel.items[0].preparationNote = specialReq;
+    addMenuToCartModel.items[0].extra = extras;
+    addMenuToCartModel.items[0].spreads = spread == null
+        ? (defaultSpread != null) ? [defaultSpread] : []
+        : [spread];
+    addMenuToCartModel.items[0].switches = switchess;
+    addMenuToCartModel.items[0].quantity = count;
+    addMenuToCartModel.items[0].sizes = size == null ? [defaultSize] : [size];
+
+    print(addMenuToCartModel.toJson());
+
+    var alreadyAddedTA =
+        await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
+    var restaurantTA =
+        await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
+    var restaurantName =
+        await (Preference.getPrefValue<String>(PreferenceKeys.restaurantName));
+    if (alreadyAddedTA != null && restaurantTA != null) {
+      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
+        cartAlert(
+            STR_STARTNEWORDER,
+            (restaurantName != null)
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
+                : STR_UNFINISHEDORDER,
+            context);
+      } else {
+        // DialogsIndicator.showLoadingDialog(
+        //     context, _keyLoader, STR_BLANK);
+        await progressDialog.show();
+        _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+      }
+    } else {
+      // DialogsIndicator.showLoadingDialog(
+      //     context, _keyLoader, STR_BLANK);
+      await progressDialog.show();
+      _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+    }
   }
 
   Widget totalamounttext() {
@@ -908,8 +914,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     _addItemPagepresenter.clearCart(context);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
+    Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
   }
@@ -1330,13 +1335,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   @override
-  Future<void> addItemsuccess(List<AddItemModelList> _additemlist,AddItemPageModelList addItemPageModelList) async {
+  Future<void> addItemsuccess(List<AddItemModelList> _additemlist,
+      AddItemPageModelList addItemPageModelList) async {
     setState(() {
       isLoding = false;
       _addItemModelList = _additemlist[0];
-    addItemPageModelList1 = addItemPageModelList;
+      addItemPageModelList1 = addItemPageModelList;
     });
-    
 
     getradiobtn(_addItemModelList.spreads.length);
     getRequiredSpread(_addItemModelList.spreads.length);
