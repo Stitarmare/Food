@@ -3,15 +3,11 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemPageDeliveryView.dart';
-import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
-import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
-import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryContractor.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryPresenter.dart';
@@ -391,7 +387,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     return SliverToBoxAdapter(
       child: Center(
         child: Container(
-          // margin: EdgeInsets.only(left: 8),
+          margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
           height: 50,
           width: MediaQuery.of(context).size.width / 2.4,
           child: ListView.builder(
@@ -475,6 +471,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     return SliverToBoxAdapter(
       child: Center(
         child: Container(
+          margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
           height: 50,
           width: MediaQuery.of(context).size.width / 0.5,
           child: ListView.builder(
@@ -696,22 +693,40 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                             SizedBox(
                               height: 3,
                             ),
-                            Text(
-                              (_restaurantList[index].sizePrizes.isEmpty)
-                                  ? "${restaurantItemsModel.currencySymbol} " +
-                                          '${_restaurantList[index].price}' ??
-                                      STR_BLANK
-                                  : "${restaurantItemsModel.currencySymbol} " +
-                                          "${_restaurantList[index].sizePrizes[0].price}" ??
-                                      STR_BLANK,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_14,
-                                  fontStyle: FontStyle.normal,
-                                  fontWeight: FontWeight.w600,
-                                  color: ((Globle().colorscode) != null)
-                                      ? getColorByHex(Globle().colorscode)
-                                      : orangetheme),
-                            ),
+                            priceWithGramWidget(_restaurantList, index),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: <Widget>[
+                            //     Text(
+                            //       // getitemname(_restaurantList),
+                            //       "250g",
+                            //       style: TextStyle(
+                            //           fontSize: FONTSIZE_14,
+                            //           fontStyle: FontStyle.normal,
+                            //           fontWeight: FontWeight.w600,
+                            //           color: ((Globle().colorscode) != null)
+                            //               ? getColorByHex(Globle().colorscode)
+                            //               : orangetheme),
+                            //     ),
+                            //     SizedBox(width: 5),
+                            //     Text(
+                            //       (_restaurantList[index].sizePrizes.isEmpty)
+                            //           ? "${restaurantItemsModel.currencySymbol}" +
+                            //                   '${_restaurantList[index].price}' ??
+                            //               STR_BLANK
+                            //           : "${restaurantItemsModel.currencySymbol}" +
+                            //                   "${_restaurantList[index].sizePrizes[0].price}" ??
+                            //               STR_BLANK,
+                            //       style: TextStyle(
+                            //           fontSize: FONTSIZE_14,
+                            //           fontStyle: FontStyle.normal,
+                            //           fontWeight: FontWeight.w600,
+                            //           color: ((Globle().colorscode) != null)
+                            //               ? getColorByHex(Globle().colorscode)
+                            //               : orangetheme),
+                            //     ),
+                            //   ],
+                            // ),
                           ]),
                       // )),
                       SizedBox(
@@ -727,6 +742,67 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         );
       }, childCount: _getint()),
     );
+  }
+
+  Widget priceWithGramWidget(List<RestaurantMenuItem> _listItem, index) {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              // getitemname(_restaurantList),
+              getitemname(itemSizeinGramList),
+              style: TextStyle(
+                  fontSize: FONTSIZE_14,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w600,
+                  color: ((Globle().colorscode) != null)
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme),
+            ),
+            SizedBox(width: 5),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: Text(
+                (_restaurantList[index].sizePrizes.isEmpty)
+                    ? "${restaurantItemsModel.currencySymbol}" +
+                            '${_restaurantList[index].price}' ??
+                        STR_BLANK
+                    : "${restaurantItemsModel.currencySymbol}" +
+                            "${_restaurantList[index].sizePrizes[0].price}" ??
+                        STR_BLANK,
+                // getitemname(itemSizeinGramList),
+                style: TextStyle(
+                    fontSize: FONTSIZE_14,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w600,
+                    color: ((Globle().colorscode) != null)
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  String getitemname(List<ItemGram> _listitem) {
+    var itemname = '';
+    int i;
+    for (i = 0; i < _listitem.length; i++) {
+      itemname += "${_listitem[i].title} \n";
+    }
+    if (itemname.isNotEmpty) {
+      itemname = removeLastChar(itemname);
+      itemname = removeLastChar(itemname);
+    }
+    return itemname;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
   }
 
   callAPIOnSwitchChange(String menuType) async {
@@ -827,3 +903,14 @@ class MenuTitles {
   int id;
   MenuTitles({this.title, this.id, this.isSelected});
 }
+
+class ItemGram {
+  String title;
+  int id;
+  ItemGram({this.title, this.id});
+}
+
+List<ItemGram> itemSizeinGramList = [
+  ItemGram(title: '250g'),
+  ItemGram(title: '300g'),
+];
