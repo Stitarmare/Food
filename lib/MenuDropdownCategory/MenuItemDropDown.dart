@@ -83,17 +83,18 @@ class MenuItemState extends State<MenuItem>
                   itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(
-                        _categorydata[index].name ?? STR_BLANK,
+                        "",
+                        // _categorydata[index].name ?? STR_BLANK,
                         style: TextStyle(
                           color: _selectedMenu != null && _selectedMenu == index
                               ? getColorByHex(Globle().colorscode)
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       ),
-                      trailing: Text(
-                          _categorydata[index].menuCount.toString() == null
-                              ? STR_ZERO
-                              : _categorydata[index].menuCount.toString()),
+                      // trailing: Text(
+                      //     _categorydata[index].menuCount.toString() == null
+                      //         ? STR_ZERO
+                      //         : _categorydata[index].menuCount.toString()),
                       onTap: () {
                         if (index == 0) {
                           Navigator.pop(context, -1);

@@ -542,7 +542,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 _onSelected(index);
                               },
                               child: Text(
-                                _categorydata[index].name,
+                                "",
+                                // _categorydata[index].name,
                                 style: TextStyle(
                                     color: _selectedMenu != null &&
                                             _selectedMenu == index

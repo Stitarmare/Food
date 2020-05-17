@@ -487,8 +487,8 @@ class _RestaurantViewState extends State<RestaurantView>
                   height: 40,
                   // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
                   padding: EdgeInsets.only(
-                      left: _categorydata[index].name.length > 5 ? 6 : 16,
-                      right: _categorydata[index].name.length > 5 ? 6 : 16,
+                      // left: _categorydata[index].name.length > 5 ? 6 : 16,
+                      // right: _categorydata[index].name.length > 5 ? 6 : 16,
                       top: 10,
                       bottom: 0),
                   margin: EdgeInsets.only(left: 6),
@@ -507,7 +507,8 @@ class _RestaurantViewState extends State<RestaurantView>
                     //                 : Color.fromRGBO(118, 118, 118, 1),
                   ),
                   child: Text(
-                    _categorydata[index].name ?? STR_BLANK,
+                    // _categorydata[index].name
+                    STR_BLANK,
                     style: TextStyle(
                       fontSize: 16,
                       color: _selectedMenu != null && _selectedMenu == index
