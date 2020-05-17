@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
@@ -22,7 +23,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   @override
   void initState() {
     super.initState();
@@ -49,7 +50,20 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
       });
     });
+
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('app_icon'); 
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
   }
+
+  Future onSelectNotification(String payload) async {
+    
+}
 
   setForIosPushNotification() {
     if (Platform.isIOS) {
@@ -57,6 +71,22 @@ class _SplashScreenState extends State<SplashScreen> {
       _fcm.requestNotificationPermissions(IosNotificationSettings());
     }
   }
+
+  Future _showNotificationWithDefaultSound(String title,String desc) async {
+  var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      'FoodZiCustomer', 'FoodZi', 'Notification FoodZi',
+      importance: Importance.Max, priority: Priority.High);
+  var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+  var platformChannelSpecifics = new NotificationDetails(
+      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(
+    0,
+    title,
+    desc,
+    platformChannelSpecifics,
+    payload: 'Default_Sound',
+  );
+}
 
   fcmConfiguration() {
     _fcm.configure(
@@ -69,6 +99,12 @@ class _SplashScreenState extends State<SplashScreen> {
         //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
         
           Globle().notificationFLag = true;
+          if (message['notification']!=null) {
+            String title = message['notification']['title'];
+            String desc = message['notification']['body'];
+            _showNotificationWithDefaultSound(title,desc);
+          }
+          
           
           // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
           // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);

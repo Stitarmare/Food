@@ -1,7 +1,7 @@
 name: foodzi
 description: A new Flutter project.
 
-version: 1.0.0+1
+version: 1.4+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -45,6 +45,8 @@ dependencies:
   progress_dialog: ^1.2.1
   flappy_search_bar: ^1.7.2
   intl: ^0.16.1
+  flutter_local_notifications: ^1.4.3
+
 
 dev_dependencies:
   flutter_test:

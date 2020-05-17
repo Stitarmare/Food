@@ -316,7 +316,26 @@ class _MyCartViewState extends State<MyCartView>
             SizedBox(
               height: 10,
             ),
-            isloading ? Container() : _getAddedListItem()
+            isloading ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              ) : _getAddedListItem()
           ],
         ),
         bottomNavigationBar: BottomAppBar(
