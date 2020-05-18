@@ -203,24 +203,24 @@ class _DineViewState extends State<DineInView>
 
                           void setSelectedSortItem(
                               BottomItemButton bottomItem, List bottomList) {
-                            for (int i = 0; i < bottomList.length; i++) {
-                              bottomList[i].isSelected = false;
-                            }
+                            // for (int i = 0; i < bottomList.length; i++) {
+                            //   bottomList[i].isSelected = false;
+                            // }
 
                             final tile = bottomList.firstWhere(
                                 (item) => item.id == bottomItem.id,
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = true;
-                                if (bottomList == optionSortBy) {
-                                  sortedBy = bottomItem.title;
-                                  if (bottomItem.title == STR_DISTANCE) {
-                                    sortedBy = STR_SMALL_DISTANCE;
-                                  } else {
-                                    sortedBy = STR_SMALL_RATING;
-                                  }
-                                }
+                                tile.isSelected = !tile.isSelected;
+                                // if (bottomList == optionSortBy) {
+                                //   sortedBy = bottomItem.title;
+                                //   if (bottomItem.title == STR_DISTANCE) {
+                                //     sortedBy = STR_SMALL_DISTANCE;
+                                //   } else {
+                                //     sortedBy = STR_SMALL_RATING;
+                                //   }
+                                // }
                                 if (bottomList == optionFilterBy) {
                                   filteredBy = bottomItem.title;
                                   if (bottomItem.title == STR_RATINGS) {
