@@ -938,7 +938,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 : STR_R_CURRENCY_SYMBOL +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: defaultSize.sizeid,
+                        groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
