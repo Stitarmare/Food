@@ -65,6 +65,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   List<Subcategories> subcategoriesList = [];
 
   var abc;
+  var subCategoryIdabc;
   @override
   void initState() {
     _detectScrollPosition();
@@ -118,7 +119,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
       print(_selectedMenu);
     });
-    abc = _categorydata[index].id;
+    abc = category[index].id;
     if (abc != null) {
       callItemOnCategorySelect();
     } else {
@@ -133,6 +134,13 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
       print(_selectedSubMenu);
     });
+    subCategoryIdabc = category[index].subcategories[index].id;
+    if (subCategoryIdabc != null) {
+      callItemOnCategorySelect();
+    } else {
+      subCategoryIdabc = null;
+      callItemOnCategorySelect();
+    }
     // abc = _categorydata[index].id;
     // if (abc != null) {
     //   callItemOnCategorySelect();
@@ -146,7 +154,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     _restaurantList = null;
     await progressDialog.show();
     restaurantDeliveryPresenter.getMenuList(widget.restId, context,
-        categoryId: abc, menu: menutype);
+        categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
   }
 
   @override
@@ -895,19 +903,13 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   }
 
   @override
-  void notifyWaiterFailed() {
-    // TODO: implement notifyWaiterFailed
-  }
+  void notifyWaiterFailed() {}
 
   @override
-  void notifyWaiterSuccess() {
-    // TODO: implement notifyWaiterSuccess
-  }
+  void notifyWaiterSuccess() {}
 
   @override
-  void getMenuLCategoryfailed() {
-    // TODO: implement getMenuLCategoryfailed
-  }
+  void getMenuLCategoryfailed() {}
 
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {

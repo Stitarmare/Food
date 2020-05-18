@@ -518,6 +518,7 @@ const FOOD_IMAGE_PATH = "assets/PlaceholderFoodImage/MaskGroup55.png";
 const STR_ADD = "+ ADD";
 const JSON_STR_MENU_TYPE = "menu_type";
 const JSON_STR_CATEGORY_ID = "category_id";
+const JSON_STR_SUBCATEGORY_ID = "subcategory_id";
 const STR_NO_ITEMS_FOUND = 'No items found.';
 
 // SplashScreen Page
