@@ -19,7 +19,7 @@ class _WebViewPageState extends State<WebViewPage> {
       url: widget.strURL,
       appBar: new AppBar(
         brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
+        //backgroundColor: Colors.transparent,
         title: new Text(
           widget.title,
           style: TextStyle(

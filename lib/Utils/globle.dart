@@ -28,4 +28,5 @@ class Globle {
   var authKey;
   BuildContext context;
   int orderID = 0;
+  int navigatorIndex = 1;
 }

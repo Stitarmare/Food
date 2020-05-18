@@ -62,6 +62,7 @@ Stream stream;
     });
     _getLocation();
     Globle().context = context;
+    Globle().navigatorIndex = 1;
     onStreamListen();
     super.initState();
   }
@@ -652,7 +653,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         DrawerItem(
             text: Text(STR_HOME,
                 style: TextStyle(
-                    color: greytheme800,
+                    color: (Globle().navigatorIndex == 1) ? orangetheme : greytheme800,
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
@@ -668,7 +669,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_ABOUT_US,
               style: TextStyle(
-                  color: greytheme800,
+                  color: (Globle().navigatorIndex == 2) ? orangetheme : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
@@ -678,6 +679,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_INVITE,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 2;
+              });
               widget.appbarTitle = STR_ABOUT_US;
               _opennewpage(STR_ABOUT_US);
             }), //ABOUT US
@@ -685,7 +689,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_TERMS_CONDITION,
               style: TextStyle(
-                  color: greytheme800,
+                  color: (Globle().navigatorIndex == 3) ? orangetheme : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -695,6 +699,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_FAVORITE_TITLE,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 3;
+              });
               widget.appbarTitle = STR_TERMS_CONDITION;
               _opennewpage(STR_TERMS_CONDITION);
             }), //TERMS & CONDITIONS
@@ -702,7 +709,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_PRIVACY_POLICY,
               style: TextStyle(
-                  color: greytheme800,
+                  color: (Globle().navigatorIndex == 4) ? orangetheme : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -712,13 +719,16 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_NOTIFICATION,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 4;
+              });
               widget.appbarTitle = STR_PRIVACY_POLICY;
               _opennewpage(STR_PRIVACY_POLICY);
             }), //PRIVACY POLICY
         DrawerItem(
             text: Text(STR_SETTING,
                 style: TextStyle(
-                    color: greytheme800,
+                    color: (Globle().navigatorIndex == 5) ? orangetheme : greytheme800,
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
@@ -727,6 +737,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_GALLERY,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 5;
+              });
               widget.appbarTitle = STR_SETTING;
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
               // _opennewpage(STR_SETTING);
@@ -735,7 +748,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_HELP,
               style: TextStyle(
-                  color: greytheme800,
+                  color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -749,6 +762,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_SETTING,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 6;
+              });
               widget.appbarTitle = STR_HELP;
               _opennewpage(STR_HELP);
             }), //HELP
