@@ -101,6 +101,15 @@ class _RestaurantViewState extends State<RestaurantView>
     });
   }
 
+  bool isImageAvailable() {
+    if (restaurantItemsModel != null) {
+      if(restaurantItemsModel.restLogo != null && restaurantItemsModel.restLogo != "") {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -115,6 +124,7 @@ class _RestaurantViewState extends State<RestaurantView>
                 //           FOODZI_LOGO_PATH,
                 //           height: 50,
                 //         )),
+                !isImageAvailable() ? Container() :
                 CachedNetworkImage(
               placeholder: (context, url) =>
                   Center(child: CircularProgressIndicator()),
@@ -213,7 +223,28 @@ class _RestaurantViewState extends State<RestaurantView>
                     ),
                   ),
                   (_restaurantList != null)
-                      ? _menuItemList()
+                      ? (_restaurantList.length == 0 ? Container(
+
+                          child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "No items found",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                   
+                  ],
+                ),
+
+                      ) :_menuItemList())
                       : SliverToBoxAdapter(
                           child: Center(
                           child: Container(

@@ -15,6 +15,7 @@ import 'package:foodzi/widgets/ExpandedTextWidgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:intl/intl.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:foodzi/RestaurantInfoPage/RatingDailog.dart';
@@ -92,6 +93,15 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     progressDialog.show();
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    //var nowDate = DateTime.now();
+    //var date = DateTime.parse(dateString);
+    var info = DateFormat('Hms', 'en_US').parse(dateString);
+    //var dateStr = DateFormat("HH:mm:ss").format(date);
+    var time = DateFormat("hh:mm a").format(info);
+    return "$time";
   }
 
   _getRestaurantReview() async {
@@ -548,9 +558,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                 Padding(
                                   padding: const EdgeInsets.only(right: 24),
                                   child: Text(
-                                      '${_restaurantInfoData.schedule[index].fromTime}' +
+                                      '${getDateForOrderHistory( _restaurantInfoData.schedule[index].fromTime)}' +
                                           STR_DASH_SIGN +
-                                          '${_restaurantInfoData.schedule[index].toTime}',
+                                          '${getDateForOrderHistory( _restaurantInfoData.schedule[index].toTime)}',
                                       style: TextStyle(
                                           fontSize: FONTSIZE_12,
                                           color: greytheme1000)),

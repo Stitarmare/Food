@@ -69,9 +69,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: (_cartItemList[i].quantity == 1)
-              ? () {}
-              : () async {
+          onTap: () async {
                   if (_cartItemList[i].quantity > 0) {
                     setState(() {
                       _cartItemList[i].quantity -= 1;
