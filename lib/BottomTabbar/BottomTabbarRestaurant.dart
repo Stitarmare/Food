@@ -167,7 +167,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                     children: <Widget>[
                       Icon(Icons.shopping_cart, color: Colors.white),
                       (Globle().dinecartValue != null)
-                          ? Globle().dinecartValue > 0
+                          ? Globle().dinecartValue > 0 && cartStatus
                               ? Positioned(
                                   top: -20,
                                   right: -15,
@@ -330,6 +330,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 if (alreadyIncartStatus == true && restId == widget.restId) {
       setState(() {
         cartStatus = true;
+      });
+    } else {
+      setState(() {
+        cartStatus = false;
       });
     }
     }

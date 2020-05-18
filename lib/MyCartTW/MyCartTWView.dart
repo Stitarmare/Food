@@ -582,16 +582,13 @@ class _MyCartTWViewState extends State<MyCartTWView>
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
-      if (_cartItemList == null) {
+     
         _cartItemList = menulist;
         for (var i = 0; i < _cartItemList.length; i++) {
           itemList.add(_cartItemList[i].id);
           print(itemList);
         }
-      } else {
-        _cartItemList.addAll(menulist);
-        myCart = model;
-      }
+     
       page++;
     });
    
@@ -639,7 +636,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   Future<void> updatequantitySuccess() async {
-    _cartItemList = null;
+    
     Globle().takeAwayCartItemCount -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
