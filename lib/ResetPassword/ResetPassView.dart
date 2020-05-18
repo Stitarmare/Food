@@ -50,13 +50,16 @@ class _ResetPasswordview extends State<ResetPasswordview>
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     return Scaffold(
         appBar: AppBar(
-          brightness: Brightness.dark,
-          elevation: 0,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white70,
-        ),
+            brightness: Brightness.dark,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.white70,
+            title: Image.asset(
+              FOODZI_LOGO_PATH,
+              height: 50,
+            )),
         body: Center(
           child: SingleChildScrollView(
             child: mainview(),

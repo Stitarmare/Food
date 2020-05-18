@@ -42,6 +42,15 @@ class _SettingViewState extends State<SettingView>
               fontWeight: FontWeight.w500,
               color: greytheme1200),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Image.asset(
+              FOODZI_LOGO_PATH,
+              height: 20,
+            ),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

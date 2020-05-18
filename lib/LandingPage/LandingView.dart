@@ -171,22 +171,43 @@ class _LandingStateView extends State<Landingview>
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: (isOrderRunning)
             ? SizedBox(
-                width: MediaQuery.of(context).size.width * 0.65,
-                child: (FloatingActionButton.extended(
-                  onPressed: () {
+                child: GestureDetector(
+                  onTap: () {
                     showStatusView();
                   },
-                  elevation: 20,
-                  highlightElevation: 20,
-                  focusElevation: 20,
-                  backgroundColor: Colors.white70,
-                  label: Text(STR_VIEW_YOUR_ORDER,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_16,
-                          fontFamily: Constants.getFontType(),
-                          fontWeight: FontWeight.w600,
-                          color: greentheme100)),
-                )),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        border: Border.all()),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(STR_VIEW_YOUR_ORDER,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w600,
+                              color: greentheme100)),
+                    ),
+                    // child: (FloatingActionButton.extended(
+                    //   onPressed: () {
+                    //     showStatusView();
+                    //   },
+                    //   // elevation: 2,
+                    //   // highlightElevation: 2,
+                    //   // focusElevation: 2,
+                    //   backgroundColor: Colors.white,
+                    //   label: Text(STR_VIEW_YOUR_ORDER,
+                    //       style: TextStyle(
+                    //           fontSize: FONTSIZE_16,
+                    //           fontFamily: Constants.getFontType(),
+                    //           fontWeight: FontWeight.w600,
+                    //           color: greentheme100)),
+                    // )),
+                  ),
+                ),
               )
             : (Container()),
         // bottomNavigationBar: (isOrderRunning)

@@ -60,6 +60,15 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 30,
+              ),
+            )
+          ],
         ),
         body: KeyboardActions(
           config: _buildConfig(context),

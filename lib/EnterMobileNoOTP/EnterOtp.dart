@@ -56,6 +56,15 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 30,
+              ),
+            )
+          ],
         ),
         body: Center(
           child: KeyboardActions(

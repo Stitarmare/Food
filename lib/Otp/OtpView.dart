@@ -56,6 +56,15 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 30,
+              ),
+            )
+          ],
         ),
         body: Center(
           child: SingleChildScrollView(

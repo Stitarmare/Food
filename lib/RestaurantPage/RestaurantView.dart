@@ -716,7 +716,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.30,
+                            width: MediaQuery.of(context).size.width * 0.35,
                             child: Center(
                               child: AutoSizeText(
                                 _restaurantList[index].itemName != null
@@ -916,7 +916,7 @@ class _RestaurantViewState extends State<RestaurantView>
               style: TextStyle(
                   fontSize: FONTSIZE_14,
                   fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
                       : orangetheme),

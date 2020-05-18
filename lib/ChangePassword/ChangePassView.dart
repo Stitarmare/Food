@@ -56,6 +56,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          title: Image.asset(
+            FOODZI_LOGO_PATH,
+            height: 50,
+          ),
         ),
         body: Center(
           child: SingleChildScrollView(

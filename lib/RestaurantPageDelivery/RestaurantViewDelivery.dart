@@ -800,7 +800,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               style: TextStyle(
                   fontSize: FONTSIZE_14,
                   fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
                       : orangetheme),

@@ -501,7 +501,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               style: TextStyle(
                   fontSize: FONTSIZE_14,
                   fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
                       : orangetheme),

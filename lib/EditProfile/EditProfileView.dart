@@ -68,6 +68,12 @@ class _EditProfileState extends State<EditProfileview>
                   fontSize: FONTSIZE_18,
                   fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500)),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Image.asset(FOODZI_LOGO_PATH, height: 20),
+            ),
+          ],
         ),
         body: KeyboardActions(
           config: _buildConfig(context),
