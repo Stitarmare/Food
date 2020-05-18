@@ -330,6 +330,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,
+                    child: totalamounttext(),
+                  ),
+                  Align(
+                    
+                    alignment: Alignment.bottomCenter,
                     child: FlatButton(
                       child: Text(
                         STR_ADD_MORE_ITEM,
@@ -555,6 +560,41 @@ class _MyCartTWViewState extends State<MyCartTWView>
         color: Colors.white,
       ),
     );
+  }
+  Widget totalamounttext() {
+    return Container(
+      // color: Colors.grey,
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  String getCurrency() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return myCart.currencySymbol;
+      }
+    }
+    return "";
+  }
+String getGrandTotal() {
+    if (myCart != null) {
+      if (myCart.currencySymbol != null) {
+        return myCart.grandTotal;
+      }
+    }
+    return "0";
   }
 
   @override
