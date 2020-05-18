@@ -121,8 +121,32 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             ),
           ),
           isCurrentOrders
-              ? Center(child: Container(child: _currentOrders(context)))
-              : Center(child: Container(child: _bookingHistoryList(context))),
+              ? 
+              getLenghtOfCurrentOrder() == 0 ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text("No Current Orders")
+                  ],
+                ),
+              ) :
+              Container(child:
+               _currentOrders(context)
+               )
+              :  Container(child:
+              getLenghtOfHistoryOrder() == 0 ?
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text("No Booking History")
+                  ],
+                ),
+              ) :
+               _bookingHistoryList(context)
+               ),
         ],
       ),
     );
