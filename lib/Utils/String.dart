@@ -41,7 +41,7 @@ const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
 const STR_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
 
 // IMAGE_URLs
-const STR_IMAGE_PRODUCTION_URL = "http://18.219.185.86/storage/";
+const STR_IMAGE_PRODUCTION_URL = "http://3.12.75.171/storage/";
 const STR_IMAGE_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/storage/";
 const STR_IMAGE_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
 
