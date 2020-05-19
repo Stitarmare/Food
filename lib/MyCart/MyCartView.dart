@@ -78,9 +78,24 @@ class _MyCartViewState extends State<MyCartView>
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
+
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
+    Preference.getPrefValue<int>("Restkey").then((value) {
+      if (value != null) {
+        if (value == widget.restId) {
+          Preference.getPrefValue<int>("TableKey").then((value) {
+            if (value != null) {
+              setState(() {
+                _dropdownTableNo = value;
+              });
+            }
+          });
+        }
+      }
+    });
+
     super.initState();
   }
 
@@ -464,6 +479,8 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
               _dropdownTableNo = _dropdownTableNumber;
+              Preference.setPersistData<int>(newValue, "TableKey");
+              Preference.setPersistData(widget.restId, "Restkey");
             });
             for (int i = 0; i < _dropdownItemsTable.length; i++) {
               if (newValue == _dropdownItemsTable[i].id) {
