@@ -70,42 +70,42 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-                  if (_cartItemList[i].quantity > 0) {
-                    setState(() {
-                      _cartItemList[i].quantity -= 1;
-                      print(_cartItemList[i].quantity);
-                    });
-                    // DialogsIndicator.showLoadingDialog(
-                    //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
-                    if (_cartItemList[i].quantity > 0) {
-                      _myCartpresenter.updateQauntityCount(
-                          _cartItemList[i].id,
-                          _cartItemList[i].quantity,
-                          (double.parse(_cartItemList[i].totalAmount)) /
-                              _cartItemList[i].quantity,
-                          context);
-                    }
-                    if (_cartItemList[i].quantity == 0) {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
-                      await progressDialog.show();
-                      _myCartpresenter.removeItemfromCart(_cartItemList[i].id,
-                          Globle().loginModel.data.id, context);
-                      setState(() {
-                        _cartItemList.removeAt(i);
-                      });
-                    }
-                  }
-                  // if (count > 1) {
-                  //   setState(() {
-                  //     --count;
-                  //     _cartItemList[i].quantity = count;
+            if (_cartItemList[i].quantity > 0) {
+              setState(() {
+                _cartItemList[i].quantity -= 1;
+                print(_cartItemList[i].quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              if (_cartItemList[i].quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    _cartItemList[i].id,
+                    _cartItemList[i].quantity,
+                    (double.parse(_cartItemList[i].totalAmount)) /
+                        _cartItemList[i].quantity,
+                    context);
+              }
+              if (_cartItemList[i].quantity == 0) {
+                // DialogsIndicator.showLoadingDialog(
+                //     context, _keyLoader, STR_LOADING);
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    _cartItemList[i].id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(i);
+                });
+              }
+            }
+            // if (count > 1) {
+            //   setState(() {
+            //     --count;
+            //     _cartItemList[i].quantity = count;
 
-                  //     print(count);
-                  //   });
-                  // }
-                },
+            //     print(count);
+            //   });
+            // }
+          },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
@@ -325,7 +325,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 102,
+              height: 140,
               child: Column(
                 children: <Widget>[
                   Align(
@@ -333,7 +333,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     child: totalamounttext(),
                   ),
                   Align(
-                    
                     alignment: Alignment.bottomCenter,
                     child: FlatButton(
                       child: Text(
@@ -424,9 +423,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
-                        setState(() {
-                        _cartItemList.removeAt(index);
-                      });
+                    setState(() {
+                      _cartItemList.removeAt(index);
+                    });
                   },
                   child: Container(
                     child: Column(
@@ -561,6 +560,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       ),
     );
   }
+
   Widget totalamounttext() {
     return Container(
       // color: Colors.grey,
@@ -588,7 +588,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
     }
     return "";
   }
-String getGrandTotal() {
+
+  String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
         return myCart.grandTotal;
@@ -606,7 +607,7 @@ String getGrandTotal() {
   @override
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
-         await progressDialog.hide();
+    await progressDialog.hide();
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData<int>(
@@ -622,16 +623,15 @@ String getGrandTotal() {
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
     setState(() {
-     
-        _cartItemList = menulist;
-        for (var i = 0; i < _cartItemList.length; i++) {
-          itemList.add(_cartItemList[i].id);
-          print(itemList);
-        }
-     
+      _cartItemList = menulist;
+      for (var i = 0; i < _cartItemList.length; i++) {
+        itemList.add(_cartItemList[i].id);
+        print(itemList);
+      }
+
       page++;
     });
-   
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -641,7 +641,7 @@ String getGrandTotal() {
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -651,14 +651,13 @@ String getGrandTotal() {
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<String>(
-        null, PreferenceKeys.restaurantName);
-     Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    setState(() {
-      myCart = null;
-    });
+        Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+        Globle().takeAwayCartItemCount = 0;
+        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        setState(() {
+          myCart = null;
+        });
       }
     }
     _cartItemList = null;
@@ -670,13 +669,12 @@ String getGrandTotal() {
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> updatequantitySuccess() async {
-    
     Globle().takeAwayCartItemCount -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
