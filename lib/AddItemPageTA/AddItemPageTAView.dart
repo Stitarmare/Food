@@ -203,13 +203,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         ),
         InkWell(
           onTap: () {
-            if (count < 10) {
+            
               setState(() {
                 ++count;
                 print(count);
               });
               items.quantity = count;
-            }
+            
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -309,14 +309,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     }
 
                     if (extras == null) {
-                      addItemData();
-                    } else if (extras.length != 0 &&
-                        _addItemModelList.extrasrequired == "yes") {
-                      addItemData();
-                    } else if (extras.length == 0) {
-                      DialogsIndicator.showAlert(context, "Required Field",
-                          "Please select required field");
-                    }
+      if (extras.length > 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+            DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+          return;
+        }
+    }
+    if (switches != null) {
+      if (switches.length > 0 &&
+        _addItemModelList.switchesrequired == "yes") {
+            DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+          return;
+        }
+    }
                   },
                   child: Container(
                     height: 54,
