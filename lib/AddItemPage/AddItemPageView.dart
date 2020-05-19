@@ -280,13 +280,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
         InkWell(
           onTap: () {
-            if (count < 10) {
+            
               setState(() {
                 ++count;
                 print(count);
               });
               items.quantity = count;
-            }
+            
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -404,6 +404,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
                                 sizess[0].sizeid;
                           }
                         }
+
+                        if (extras == null) {
+      if (extras.length > 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+            DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+          return;
+        }
+    }
+    if (switches != null) {
+      if (switches.length > 0 &&
+        _addItemModelList.switchesrequired == "yes") {
+            DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+          return;
+        }
+    }
 
                         _updateOrderModel.items.quantity = count;
                         _updateOrderModel.items.itemId = widget.itemId;
@@ -531,14 +548,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
     }
 
     if (extras == null) {
-      addItemData(alreadyAdde, restauran, restaurantName);
-    } else if (extras.length != 0 &&
+      if (extras.length > 0 &&
         _addItemModelList.extrasrequired == "yes") {
-      addItemData(alreadyAdde, restauran, restaurantName);
-    } else if (extras.length == 0) {
-      DialogsIndicator.showAlert(
+            DialogsIndicator.showAlert(
           context, "Required Field", "Please select required field");
+          return;
+        }
     }
+    if (switches != null) {
+      if (switches.length > 0 &&
+        _addItemModelList.switchesrequired == "yes") {
+            DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+          return;
+        }
+    }
+addItemData(alreadyAdde, restauran, restaurantName);
+   
 
     // if (extras != null &&
     //     extras.length != 0 &&

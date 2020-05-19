@@ -212,7 +212,7 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () async {
-            if (menuCartList.quantity < 10) {
+            
               setState(() {
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
@@ -226,7 +226,7 @@ class _MyCartViewState extends State<MyCartView>
                   (double.parse(menuCartList.totalAmount)) /
                       menuCartList.quantity,
                   context);
-            }
+            
           },
           splashColor: Colors.lightBlue,
           child: Container(
