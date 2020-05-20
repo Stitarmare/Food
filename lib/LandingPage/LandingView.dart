@@ -744,30 +744,30 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
               // _opennewpage(STR_SETTING);
             }), //SETTING
-        DrawerItem(
-            text: Text(
-              STR_HELP,
-              style: TextStyle(
-                  color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w600,
-                  fontSize: FONTSIZE_15),
-            ),
-            icon: Icon(
-              Icons.help,
-              color: greytheme800,
-              size: 20,
-            ),
-            page: Landingview(
-              title: STR_SETTING,
-            ),
-            onPressed: () {
-              setState(() {
-                Globle().navigatorIndex = 6;
-              });
-              widget.appbarTitle = STR_HELP;
-              _opennewpage(STR_HELP);
-            }), //HELP
+        // DrawerItem(
+        //     text: Text(
+        //       STR_HELP,
+        //       style: TextStyle(
+        //           color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
+        //           fontFamily: KEY_FONTFAMILY,
+        //           fontWeight: FontWeight.w600,
+        //           fontSize: FONTSIZE_15),
+        //     ),
+        //     icon: Icon(
+        //       Icons.help,
+        //       color: greytheme800,
+        //       size: 20,
+        //     ),
+        //     page: Landingview(
+        //       title: STR_SETTING,
+        //     ),
+        //     onPressed: () {
+        //       setState(() {
+        //         Globle().navigatorIndex = 6;
+        //       });
+        //       widget.appbarTitle = STR_HELP;
+        //       _opennewpage(STR_HELP);
+        //     }), //HELP
       ],
     );
   }
