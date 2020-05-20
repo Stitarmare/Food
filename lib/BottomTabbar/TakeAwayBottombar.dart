@@ -32,6 +32,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   var title;
   int currentTabIndex = 0;
   Stream stream;
+  bool cartStatus = false;
   StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
     RestaurantTAView(),
@@ -60,6 +61,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
     }
     onStreamListen();
     getCartCount();
+    getAlreadyInCart();
   }
 
    onStreamListen() {
@@ -122,8 +124,8 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                     Icons.shopping_cart,
                     color: Colors.white,
                   ),
-                  (Globle().takeAwayCartItemCount != null)
-                      ? Globle().takeAwayCartItemCount > 0
+                  (Globle().dinecartValue != null)
+                      ? Globle().dinecartValue > 0 && cartStatus
                           ? Positioned(
                               top: -20,
                               right: -15,
@@ -218,6 +220,23 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 title: Text(STR_BLANK)),
           ]),
     );
+  }
+
+  getAlreadyInCart() async {
+    
+    var restId = await Preference.getPrefValue<int>( PreferenceKeys.restaurantID);
+    if (restId != null) {
+if (restId == widget.restId) {
+      setState(() {
+        cartStatus = true;
+      });
+    } else {
+      setState(() {
+        cartStatus = false;
+      });
+    }
+    }
+    
   }
 
   getCartCount() async {

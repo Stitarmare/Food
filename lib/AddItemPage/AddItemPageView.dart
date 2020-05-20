@@ -403,7 +403,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           }
                         }
 
-                        if (extras == null) {
+                        if (extras != null) {
                           if (extras.length > 0 &&
                               _addItemModelList.extrasrequired == "yes") {
                             DialogsIndicator.showAlert(

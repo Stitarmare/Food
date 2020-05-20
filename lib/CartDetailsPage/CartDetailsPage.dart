@@ -360,7 +360,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RestaurantView(
-                                                restId: widget.restId,
+                                                restId: myOrderDataDetails.restId,
                                                 title: "",
                                                 imageUrl: "",
                                                 isFromOrder: true,

@@ -121,6 +121,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       _radioOptionsSizes = radiolistsize;
     });
+
+    if (_radioOptionsSizes != null) {
+      if (_radioOptionsSizes.length > 0) {
+        sizesid = _radioOptionsSizes[0].index;
+      }
+    }
+
     return radiolistsize.length;
   }
 
@@ -308,7 +315,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       switchess = defaultSwitch ?? null;
                     }
 
-                    if (extras == null) {
+                    if (extras != null) {
       if (extras.length > 0 &&
         _addItemModelList.extrasrequired == "yes") {
             DialogsIndicator.showAlert(
@@ -324,6 +331,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
           return;
         }
     }
+
+    addItemData();
                   },
                   child: Container(
                     height: 54,
@@ -945,8 +954,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 : STR_R_CURRENCY_SYMBOL +
                                     "${radionBtnsize.secondary}") ??
                             Text(STR_DATA),
-                        groupValue: sizesid,
-                        value: radionBtnsize.index,
+                        groupValue: radionBtnsize.index,
+                        value: sizesid,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
