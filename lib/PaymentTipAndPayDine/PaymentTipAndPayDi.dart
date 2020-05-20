@@ -62,7 +62,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   List<PeopleData> addedPeopleList = [];
   List<InvitationOrder> invitationOrder = [];
   double grandTotal = 0;
-  double tipAmount ;
+  double tipAmount;
   var isBillSplitedForUser = false;
   Stream stream;
   StreamSubscription<double> _streamSubscription;
@@ -575,12 +575,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 inactiveColor: greytheme100,
                 min: 0,
                 max: 100,
-                divisions: 2,
+                divisions: 10,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
-                    tipAmount = (sliderValue*double.parse(getOrderTotal()))/100;
+                    tipAmount =
+                        (sliderValue * double.parse(getOrderTotal())) / 100;
                     print(tipAmount);
                     grandTotal =
                         double.parse(getOrderTotal()) + tipAmount.toDouble();
@@ -594,7 +595,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               right: 10,
             ),
             child: Text(
-              '${sliderValue.toInt()}'+ "%",
+              '${sliderValue.toInt()}' + "%",
               style: TextStyle(
                   fontSize: FONTSIZE_16,
                   color: greytheme700,
@@ -709,11 +710,21 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20),
-                child: Text(
-                  _model.currencySymbol != null
-                      ? '${_model.currencySymbol} ' + '${tipAmount.toInt()}'
-                      : "",
-                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      _model.currencySymbol != null
+                          ? '${_model.currencySymbol} '
+                          : "",
+                      style:
+                          TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                    ),
+                    Text(
+                      tipAmount != null ? '${tipAmount.toInt()}' : "",
+                      style:
+                          TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                    ),
+                  ],
                 ),
               ),
             ],
