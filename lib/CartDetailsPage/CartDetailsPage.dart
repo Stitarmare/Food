@@ -21,7 +21,7 @@ class CartDetailsPage extends StatefulWidget {
   int flag;
   bool isFromOrder = false;
   int restId;
-  CartDetailsPage({this.orderId, this.flag, this.isFromOrder,this.restId});
+  CartDetailsPage({this.orderId, this.flag, this.isFromOrder, this.restId});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -64,7 +64,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
     super.initState();
   }
 
-   onStreamListen() {
+  onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
         callApi();
@@ -307,7 +307,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
                       children: <Widget>[
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
-                          
                         GestureDetector(
                           onTap: () {
                             _timer.cancel();
@@ -319,33 +318,40 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                           tableId: myOrderDataDetails.tableId,
                                         )));
                           },
-                          child: isPayBillButtonEnable() ? Container() :  Container(
-                            height: 54,
-                            width: isAddMoreButtonEnable() ? (MediaQuery.of(context).size.width * 0.9)  : (MediaQuery.of(context).size.width * 0.45),
-                            decoration: BoxDecoration(
-                                color: Globle().colorscode != null
-                                    ? getColorByHex(Globle().colorscode)
-                                    : orangetheme,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15))),
-                            child: Center(
-                              child: Text(
-                                STR_PAY_BILL,
-                                style: TextStyle(
-                                    fontFamily: "gotham",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
+                          child: isPayBillButtonEnable()
+                              ? Container()
+                              : Container(
+                                  height: 54,
+                                  width: isAddMoreButtonEnable()
+                                      ? (MediaQuery.of(context).size.width *
+                                          0.9)
+                                      : (MediaQuery.of(context).size.width *
+                                          0.45),
+                                  decoration: BoxDecoration(
+                                      color: Globle().colorscode != null
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15))),
+                                  child: Center(
+                                    child: Text(
+                                      STR_PAY_BILL,
+                                      style: TextStyle(
+                                          fontFamily: "gotham",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                         ),
-                        isAddMoreButtonEnable() ?
-                        Container() :
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.06),
-                          GestureDetector(
+                        isAddMoreButtonEnable()
+                            ? Container()
+                            : SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.06),
+                        GestureDetector(
                           onTap: () {
                             if (widget.isFromOrder) {
                               if (myOrderDataDetails != null) {
@@ -354,8 +360,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RestaurantView(
-                                                restId:
-                                                    widget.restId,
+                                                restId: widget.restId,
                                                 title: "",
                                                 imageUrl: "",
                                                 isFromOrder: true,
@@ -376,25 +381,28 @@ class CartDetailsPageState extends State<CartDetailsPage>
                               }
                             }
                           },
-                          child: isAddMoreButtonEnable() ? Container() :  Container(
-                            height: 54,
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            decoration: BoxDecoration(
-                                color: greentheme100,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15))),
-                            child: Center(
-                              child: Text(
-                                "Add More Item",
-                                style: TextStyle(
-                                    fontFamily: "gotham",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
+                          child: isAddMoreButtonEnable()
+                              ? Container()
+                              : Container(
+                                  height: 54,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
+                                  decoration: BoxDecoration(
+                                      color: greentheme100,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15))),
+                                  child: Center(
+                                    child: Text(
+                                      "Add More Item",
+                                      style: TextStyle(
+                                          fontFamily: "gotham",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                         ),
                         SizedBox(
                             width: MediaQuery.of(context).size.width * 0.02),
@@ -443,8 +451,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
           onTap: () {
             if (!isAddMoreButtonEnable()) {
               callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,
-                myOrderDataDetails.list[index].id.toString());
-            } 
+                  myOrderDataDetails.list[index].id.toString());
+            }
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -572,12 +580,12 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       //SizedBox(height: 10),
                                     ],
                                   ),
-                                  Expanded(
-                                    child: Container(),
-                                  ),
+                                  // Expanded(
+                                  //   child: Container(),
+                                  // ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                      right: 12,
+                                      right: 0,
                                     ),
                                     child: Text(
                                       "${_model.currencySymbol} " +
@@ -640,20 +648,21 @@ class CartDetailsPageState extends State<CartDetailsPage>
             ),
           );
   }
+
   bool isPayBillButtonEnable() {
     if (myOrderDataDetails != null) {
-      if (myOrderDataDetails.splitbilltransactions!=null) {
-    if (myOrderDataDetails.splitbilltransactions.length>0) {
-      var isPaid = false;
-        for (var trans in myOrderDataDetails.splitbilltransactions) {
-          if (Globle().loginModel.data.id == trans.userId) {
-            if (trans.paystatus == "paid") {
+      if (myOrderDataDetails.splitbilltransactions != null) {
+        if (myOrderDataDetails.splitbilltransactions.length > 0) {
+          var isPaid = false;
+          for (var trans in myOrderDataDetails.splitbilltransactions) {
+            if (Globle().loginModel.data.id == trans.userId) {
+              if (trans.paystatus == "paid") {
                 isPaid = true;
+              }
             }
           }
+          return isPaid;
         }
-        return isPaid;
-      }
       }
     }
 
@@ -662,18 +671,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   bool isAddMoreButtonEnable() {
     if (myOrderDataDetails != null) {
-      if (myOrderDataDetails.splitbilltransactions!=null) {
-    if (myOrderDataDetails.splitbilltransactions.length>0) {
-      var isPaid = false;
-        for (var trans in myOrderDataDetails.splitbilltransactions) {
-          
+      if (myOrderDataDetails.splitbilltransactions != null) {
+        if (myOrderDataDetails.splitbilltransactions.length > 0) {
+          var isPaid = false;
+          for (var trans in myOrderDataDetails.splitbilltransactions) {
             if (trans.paystatus == "paid") {
-                isPaid = true;
-            
+              isPaid = true;
+            }
           }
+          return isPaid;
         }
-        return isPaid;
-      }
       }
     }
 
@@ -685,8 +692,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
     _paymentTipandPayDiPresenter.increaseQuantity(
         myOrderDataDetails.id.toString(), itemId.toString(), id, context);
   }
-
-  
 
   // String getExtra(CartDetailData menuCartList) {
   //   var extras = "";
@@ -905,14 +910,13 @@ class CartDetailsPageState extends State<CartDetailsPage>
   void dispose() {
     // TODO: implement dispose
     if (_timer != null) {
-_timer.cancel();
+      _timer.cancel();
     }
-    
-    if (_streamSubscription!=null) {
-_streamSubscription.cancel();
+
+    if (_streamSubscription != null) {
+      _streamSubscription.cancel();
     }
-  
-    
+
     super.dispose();
   }
 }

@@ -82,10 +82,11 @@ class _MyCartViewState extends State<MyCartView>
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
-    Preference.getPrefValue<int>("Restkey").then((value) {
+    Preference.getPrefValue<int>(PreferenceKeys.myCartRestIdKey).then((value) {
       if (value != null) {
         if (value == widget.restId) {
-          Preference.getPrefValue<int>("TableKey").then((value) {
+          Preference.getPrefValue<int>(PreferenceKeys.mycartTableIdKey)
+              .then((value) {
             if (value != null) {
               setState(() {
                 _dropdownTableNo = value;
@@ -212,21 +213,19 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () async {
-            
-              setState(() {
-                menuCartList.quantity += 1;
-                print(menuCartList.quantity);
-              });
-              // DialogsIndicator.showLoadingDialog(
-              //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
-              _myCartpresenter.updateQauntityCount(
-                  menuCartList.id,
-                  menuCartList.quantity,
-                  (double.parse(menuCartList.totalAmount)) /
-                      menuCartList.quantity,
-                  context);
-            
+            setState(() {
+              menuCartList.quantity += 1;
+              print(menuCartList.quantity);
+            });
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_LOADING);
+            await progressDialog.show();
+            _myCartpresenter.updateQauntityCount(
+                menuCartList.id,
+                menuCartList.quantity,
+                (double.parse(menuCartList.totalAmount)) /
+                    menuCartList.quantity,
+                context);
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -479,8 +478,10 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
               _dropdownTableNo = _dropdownTableNumber;
-              Preference.setPersistData<int>(newValue, "TableKey");
-              Preference.setPersistData(widget.restId, "Restkey");
+              Preference.setPersistData<int>(
+                  newValue, PreferenceKeys.mycartTableIdKey);
+              Preference.setPersistData(
+                  widget.restId, PreferenceKeys.myCartRestIdKey);
             });
             for (int i = 0; i < _dropdownItemsTable.length; i++) {
               if (newValue == _dropdownItemsTable[i].id) {
