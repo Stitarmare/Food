@@ -122,10 +122,10 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
   Widget mainview() {
     return Container(
       padding: EdgeInsets.only(
-          top: Constants.getScreenHeight(context) * 0.25, left: 30, right: 30),
+          top: Constants.getScreenHeight(context) * 0.1, left: 30, right: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[_buildStackView()],
       ),
     );
@@ -159,6 +159,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
     return Container(
       child: Column(
         children: <Widget>[
+          _buildImagelogo(),
           Form(
             key: _enterOTPFormKey,
             autovalidate: _validate,
@@ -292,6 +293,13 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
             child: Text(STR_DONE),
           ),
         ),
+      ],
+    );
+  }
+  Widget _buildImagelogo() {
+    return Column(
+      children: <Widget>[
+        Image.asset(OTP_LOGO_PATH),
       ],
     );
   }
