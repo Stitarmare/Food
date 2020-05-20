@@ -18,6 +18,8 @@ class PreferenceKeys {
   static final currentRestaurantId = STR_CURRENT_REST_ID;
   static final isDineIn = STR_IS_DINE_IN;
   static final tableId = STR_TABLE_ID;
+  static final myCartRestIdKey = "Restkey";
+  static final mycartTableIdKey = "TableKey";
 }
 
 class Preference {
