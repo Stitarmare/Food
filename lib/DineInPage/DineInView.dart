@@ -40,6 +40,7 @@ class _DineViewState extends State<DineInView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   bool getttingLocation = false;
+  bool locationNotFound = false;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
   List<BottomItemButton> optionSortBy = [
@@ -100,6 +101,7 @@ class _DineViewState extends State<DineInView>
       if (_position != null) {
         setState(() {
           getttingLocation = true;
+          locationNotFound = false;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
@@ -113,7 +115,9 @@ class _DineViewState extends State<DineInView>
             context);
       } else {
         setState(() {
-          getttingLocation = false;
+          getttingLocation = true;
+          locationNotFound = true;
+          isIgnoreTouch = false;
         });
       }
     });
@@ -405,6 +409,28 @@ class _DineViewState extends State<DineInView>
                   ],
                 ),
               )
+              : locationNotFound ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Please enable location service and try again.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    FlatButton(onPressed: (){
+                        _getLocation();
+                    }, child: Text("Try again"))
+                  ],
+                ),
+              )
             : (_restaurantList != null)
                 ? restaurantsInfo()
                 : Container(
@@ -638,6 +664,7 @@ class _DineViewState extends State<DineInView>
 
   @override
   void restaurantfailed() async {
+    isIgnoreTouch = false;
     await progressDialog.hide();
   }
 

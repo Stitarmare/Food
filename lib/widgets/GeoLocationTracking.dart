@@ -8,10 +8,17 @@ class GeoLocationTracking {
   static Future<Stream<Position>> load(
       BuildContext context, StreamController<Position> controller) async {
     try {
-      var postion = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      print(postion);
-      controller.add(postion);
+      var value = await Geolocator().isLocationServiceEnabled();
+      print(value);
+
+      if (value) {
+        var postion = await Geolocator()
+            .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        print(postion);
+        controller.add(postion);
+      } else {
+        controller.add(null);
+      }
     } on Exception {
       GeolocationStatus geolocationStatus =
           await Geolocator().checkGeolocationPermissionStatus();
