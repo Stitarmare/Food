@@ -127,6 +127,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
                     Text("No Current Orders")
                   ],
                 ),
@@ -141,6 +142,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
                     Text("No Booking History")
                   ],
                 ),
