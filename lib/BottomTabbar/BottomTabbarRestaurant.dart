@@ -76,6 +76,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
         ]);
       });
     }
+    if (Globle().orderID != null && Globle().orderID != 0) {
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
+    }
 
     if (widget.tableName != null) {
       setState(() {
@@ -89,11 +93,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     super.initState();
   }
 
-
- onStreamListen() {
+  onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
-        Globle().notificationFLag = true;    
+        Globle().notificationFLag = true;
         // callApi();
       });
     }
@@ -105,12 +108,13 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
     super.didChangeDependencies();
   }
 
-@override
+  @override
   void dispose() {
     // TODO: implement dispose
-   // _streamSubscription.cancel();
+    // _streamSubscription.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,16 +142,15 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () async {
-                    
-                   
                     if (Globle().orderID != null && Globle().orderID != 0) {
                       var isFromOrder = false;
-                    var id = await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
-                    if (id != null) {
- if (widget.restId != id) {
-isFromOrder = true;
-                    }
-                    }
+                      var id = await Preference.getPrefValue<int>(
+                          PreferenceKeys.restaurantID);
+                      if (id != null) {
+                        if (widget.restId != id) {
+                          isFromOrder = true;
+                        }
+                      }
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -275,30 +278,33 @@ isFromOrder = true;
                       ),
                 title: Text(STR_BLANK)),
             BottomNavigationBarItem(
-                icon:  (Globle().notificationFLag)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                 Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
+                icon: (Globle().notificationFLag)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
                 activeIcon: Icon(
                   OMIcons.notifications,
                   color: orangetheme,
@@ -334,19 +340,19 @@ isFromOrder = true;
   getAlreadyInCart() async {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
-    var restId = await Preference.getPrefValue<int>( PreferenceKeys.restaurantID);
+    var restId =
+        await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
     if (restId != null) {
-if (alreadyIncartStatus == true && restId == widget.restId) {
-      setState(() {
-        cartStatus = true;
-      });
-    } else {
-      setState(() {
-        cartStatus = false;
-      });
+      if (alreadyIncartStatus == true && restId == widget.restId) {
+        setState(() {
+          cartStatus = true;
+        });
+      } else {
+        setState(() {
+          cartStatus = false;
+        });
+      }
     }
-    }
-    
   }
 
   getOrderID() async {

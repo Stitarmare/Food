@@ -90,6 +90,7 @@ class _MyCartViewState extends State<MyCartView>
             if (value != null) {
               setState(() {
                 _dropdownTableNo = value;
+                _dropdownTableNumber = value;
               });
             }
           });
