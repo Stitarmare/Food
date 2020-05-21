@@ -20,7 +20,7 @@ class MyOrdersPresenter extends MyOrderContractor {
         UrlConstant.runningOrderApi, context,
         body: {
           JSON_STR_ORDER_TYPE: orderType,
-        }).then((value) {
+        },isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -40,7 +40,7 @@ class MyOrdersPresenter extends MyOrderContractor {
   void getmyOrderBookingHistory(String orderType, BuildContext context) {
     ApiBaseHelper().post<GetMyOrdersBookingHistory>(
         UrlConstant.getMyOrdersBookingHistory, context,
-        body: {JSON_STR_ORDER_TYPE: orderType}).then((value) {
+        body: {JSON_STR_ORDER_TYPE: orderType},isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

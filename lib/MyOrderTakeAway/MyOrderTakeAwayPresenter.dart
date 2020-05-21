@@ -21,7 +21,7 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
         UrlConstant.runningOrderApi, context,
         body: {
           JSON_STR_ORDER_TYPE: orderType,
-        }).then((value) {
+        },isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -43,7 +43,7 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
         UrlConstant.getMyOrdersBookingHistory, context,
         body: {
           JSON_STR_ORDER_TYPE: orderType,
-        }).then((value) {
+        },isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
