@@ -36,6 +36,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   DialogsIndicator dialogs = DialogsIndicator();
   StreamController<Position> _controllerPosition = new StreamController();
   bool getttingLocation = false;
+  bool locationNotFound = false;
   Position _position;
   String sortedBy = STR_BLANK;
   String filteredBy = STR_BLANK;
@@ -103,7 +104,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
             context);
       } else {
         setState(() {
-          getttingLocation = false;
+          locationNotFound = false;
+          getttingLocation = true;
+          
         });
       }
     });
@@ -406,7 +409,28 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   ],
                 ),
               )
-            : (_restaurantList != null)
+            : locationNotFound ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        "Please enable location service and try again.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_15,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            color: greytheme1200),
+                      ),
+                    ),
+                    FlatButton(onPressed: (){
+                        locator();
+                    }, child: Text("Try again"))
+                  ],
+                ),
+              ) :(_restaurantList != null)
                 ? restaurantsInfo()
                 : Container(
                     child: Center(
