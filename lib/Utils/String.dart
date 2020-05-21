@@ -113,6 +113,8 @@ const KEY_CONFIRM_PASSWORD = 'Confirm Password';
 const KEY_SIGN_UP_WITH = KEY_SIGN_UP + ' with';
 const KEY_SIGN_IN_WITH = KEY_SIGN_IN + ' with';
 const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
+const STR_FIRST_NAME_REQUIRED = "First name is required";
+const STR_LAST_NAME_REQUIRED = "Last name is required";
 const Key_SPECIAL_CHAR = 'This Should Not Contain @ Or Any Special Character';
 const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
     'This should be only 8 characters long.';
@@ -374,6 +376,7 @@ const STR_ITEMS = 'ITEMS';
 const STR_ORDERED_ON = 'ORDERED ON ';
 const STR_ORDER_TYPE = 'ORDERED TYPE';
 const STR_TOTAL_AMOUNT = 'TOTAL AMOUNT';
+const STR_SPLIT_AMOUNT = 'SPLIT AMOUNT';
 const STR_VIEW_ORDER_DETAILS = "VIEW ORDER DETAILS";
 const STR_TIME = '06 Feb 2020 at 12:05 PM';
 const STR_REPEAT_ORDER = 'Repeat Order';

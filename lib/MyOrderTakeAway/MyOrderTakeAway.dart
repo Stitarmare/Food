@@ -117,8 +117,35 @@ class _MyOrdersState extends State<MyOrderTakeAway>
             ),
           ),
           isCurrentOrders
-              ? Center(child: Container(child: _currentOrders(context)))
-              : Center(child: Container(child: _bookingHistoryList(context))),
+              ? getLenghtOfCurrentOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Current Orders")
+                        ],
+                      ),
+                    )
+                  : Center(child: Container(child: _currentOrders(context)))
+              : getLenghtOfHistoryOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Booking History")
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: Container(child: _bookingHistoryList(context))),
         ],
       ),
     );
@@ -164,15 +191,15 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                 //           orderID: _orderDetailList[index].id,
                 //           tableId: _orderDetailList[index].tableId,
                 //         )
-                        //  StatusTakeAwayView(
-                        //       imgUrl:
-                        //           _orderDetailList[index].restaurant.coverImage,
-                        //       title:
-                        //           _orderDetailList[index].restaurant.restName,
-                        //       orderID: _orderDetailList[index].id,
-                        //       restId: _orderDetailList[index].restId,
-                        //     )
-                        //    ));
+                //  StatusTakeAwayView(
+                //       imgUrl:
+                //           _orderDetailList[index].restaurant.coverImage,
+                //       title:
+                //           _orderDetailList[index].restaurant.restName,
+                //       orderID: _orderDetailList[index].id,
+                //       restId: _orderDetailList[index].restId,
+                //     )
+                //    ));
                 // builder: (context) => StatusTrackView(
                 //       orderID: _orderDetailList[index].id,
                 //       flag: 2,
