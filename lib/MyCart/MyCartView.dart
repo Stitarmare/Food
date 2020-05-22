@@ -708,7 +708,12 @@ class _MyCartViewState extends State<MyCartView>
         for (int j = 0;
             j < menuCartList.cartExtraItems[i].switches.length;
             j++) {
-          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+          if (menuCartList.cartExtraItems[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtraItems[i].switches[j].name} - ${menuCartList.cartExtraItems[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtraItems[i].switches[j].name},";
+          }
         }
       }
     }
