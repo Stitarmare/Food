@@ -40,7 +40,7 @@ class LandingViewPresenter {
       "device_type": Platform.isIOS ? "1" : "2",
       "latitude":latitude,
       "longitude":longitude
-    });
+    },isShowDialoag: true);
     switch (value.result) {
         case SuccessType.success:
           

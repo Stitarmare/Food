@@ -46,7 +46,7 @@ class RestaurantList {
   DateTime createdAt;
   DateTime updatedAt;
   String distance;
-  double averageRating;
+  String averageRating;
   String isFavourite;
   List<Review> reviews;
   List<dynamic> favourite;
@@ -103,7 +103,7 @@ class RestaurantList {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         distance: json["distance"],
-        //averageRating: json["average_rating"],
+        averageRating: json["average_rating"],
         //isFavourite: json["is_favourite"],
         reviews:
             List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),

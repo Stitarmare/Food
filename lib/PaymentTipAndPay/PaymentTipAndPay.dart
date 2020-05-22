@@ -587,12 +587,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      await progressDialog.hide();
-      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-      _paymentTipandPayDiPresenter.onCancelledPayment(
-          myOrderData.id, widget.orderType, context);
+      Constants.showAlert("Payment Failed!", "Please pay first before place order.", context);
     }
   }
 

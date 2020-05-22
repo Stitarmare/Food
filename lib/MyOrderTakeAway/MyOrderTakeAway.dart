@@ -11,6 +11,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:intl/intl.dart';
 
 class MyOrderTakeAway extends StatefulWidget {
   String title;
@@ -304,7 +305,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].createdAt}',
+                        '${getDateForOrderHistory(_orderDetailList[index].createdAt)}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -399,6 +400,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
       itemname = removeLastChar(itemname);
     }
     return itemname;
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+    var time = DateFormat("hh:mm a").format(date.toLocal());
+    return "$dateStr at $time";
   }
 
   static String removeLastChars(String str) {
@@ -630,9 +638,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-    if (_getmyOrderBookingHistory.length == 0) {
-      return;
-    }
+    
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
