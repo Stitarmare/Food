@@ -22,6 +22,7 @@ class _NotificationSettingState extends State<NotificationSetting>
         index: 3, title: 'Other social Notifications', isChecked: false)
   ];
   NotificationSettingPresenter _notificationSettingPresenter;
+  bool bool1 = false;
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _NotificationSettingState extends State<NotificationSetting>
         });
       }
     });
+
     super.initState();
   }
 
@@ -138,9 +140,12 @@ class _NotificationSettingState extends State<NotificationSetting>
             .map((checkBtn) => CheckboxListTile(
                   value: (_switchvalue == true) ? true : checkBtn.isChecked,
                   onChanged: (val) {
-                    setState(() {
-                      checkBtn.isChecked = val;
-                    });
+                    if (val) {
+                      setState(() {
+                        checkBtn.isChecked = val;
+                      });
+                    }
+
                     updateNotification();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
@@ -166,14 +171,10 @@ class _NotificationSettingState extends State<NotificationSetting>
   }
 
   @override
-  void onFailedUpdateNotification() {
-    // TODO: implement onFailedUpdateNotification
-  }
+  void onFailedUpdateNotification() {}
 
   @override
-  void onSuccessUpdateNotification() {
-    // TODO: implement onSuccessUpdateNotification
-  }
+  void onSuccessUpdateNotification() {}
 }
 
 class CheckBoxOptions {
