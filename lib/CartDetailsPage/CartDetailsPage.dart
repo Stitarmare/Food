@@ -360,7 +360,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RestaurantView(
-                                                restId: myOrderDataDetails.restId,
+                                                restId:
+                                                    myOrderDataDetails.restId,
                                                 title: "",
                                                 imageUrl: "",
                                                 isFromOrder: true,
@@ -494,7 +495,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Padding(
-                                    padding: EdgeInsets.only(left: 20),
+                                    padding: EdgeInsets.only(left: 10),
                                     child: (myOrderDataDetails
                                                 .list[index].items.menuType ==
                                             "veg")
@@ -510,7 +511,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                             height: 25,
                                           ),
                                   ),
-                                  SizedBox(width: 11),
+                                  SizedBox(width: 5),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
