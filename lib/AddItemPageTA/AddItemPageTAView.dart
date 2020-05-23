@@ -62,6 +62,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
   AddItemPageModelList addItemPageModelList1;
+  int subOptionId;
+  List<RadioButtonOptions> _subOptionList = [];
 
   String specialReq;
   Spreads defaultSpread;
@@ -94,17 +96,47 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-        index: _addItemModelList.spreads[i - 1].id,
+        index: i-1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
+
     setState(() {
       _radioOptions = radiolist;
+      for (var item in radiolist) {
+      if (item.spreadDefault == "yes") {
+          radioBtnId = item.index;
+      }
+    }
+    if (radioBtnId == null) {
+      radioBtnId = 0;
+    }
+    getSubOption(radioBtnId);
     });
 
+    
+
     return radiolist.length;
+  }
+
+  void getSubOption(int index) {
+      if (_addItemModelList.spreads.length > 0) {
+        if (_addItemModelList.spreads[index].suboptions.length>0) {
+          List<RadioButtonOptions> subOptionRadiolist = [];
+            for (var value in _addItemModelList.spreads[index].suboptions)  {
+              subOptionRadiolist.add(RadioButtonOptions(
+                index: value.id,
+                 title: value.name ?? STR_BLANK,
+              ));
+            }
+            if (subOptionRadiolist.length > 0) {
+              _subOptionList = subOptionRadiolist;
+              subOptionId = _subOptionList[0].index; 
+            }
+        }
+      }
   }
 
   int getradiobtnsize(int length) {
@@ -979,17 +1011,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             ? _radioOptions
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: RadioListTile(
+                      child: Column(
+                        children: <Widget>[
+                          RadioListTile(
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
                         // groupValue: (radionBtn.spreadDefault == "yes")
                         //     ? radionBtn.index
-                        //     : id,
+                        //     : radioBtnId,
                         groupValue: radioBtnId,
                         value: radionBtn.index,
                         dense: true,
-                        activeColor: getColorByHex(Globle().colorscode),
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
                         onChanged: (val) {
                           setState(() {
                             if (spread == null) {
@@ -998,11 +1034,40 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
+                            getSubOption(radioBtnId);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
+                            print(spread.spreadId);
                           });
                         },
                       ),
+                      radioBtnId == radionBtn.index ?
+                      Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                        children: _subOptionList.map((subOption)=>RadioListTile(
+                        title: radionBtn.title != null
+                            ? Text(StringUtils.capitalize("${subOption.title}"))
+                            : Text(STR_DATA),
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : radioBtnId,
+                        groupValue: subOptionId,
+                        value: subOption.index,
+                        dense: true,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        onChanged: (val) {
+                         setState(() {
+                           subOptionId = val;
+                         });
+                        },
+                      )).toList(),
+                      ),
+                      ) : Container()
+                        ],
+                      )
                     ))
                 .toList()
             : [Container()]);
