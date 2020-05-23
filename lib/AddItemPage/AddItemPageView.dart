@@ -1148,7 +1148,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
             ? _radioOptions
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: RadioListTile(
+                      child: Column(
+                        children: <Widget>[
+                          RadioListTile(
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
@@ -1174,7 +1176,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             print(spread.spreadId);
                           });
                         },
-                      ),
+                      )
+                        ],
+                      )
                     ))
                 .toList()
             : [Container()]);
