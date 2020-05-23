@@ -454,24 +454,25 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           SizedBox(
                             height: 3,
                           ),
-                          priceWithGramWidget(_restaurantList, index),
+                          // priceWithGramWidget(_restaurantList, index),
 
-                          //  Text(
-                          //       (_restaurantList[index].sizePrizes.isEmpty)
-                          //           ? "${_restaurantItemsModel.currencySymbol} " +
-                          //                   '${_restaurantList[index].price}' ??
-                          //               STR_BLANK
-                          //           : "${_restaurantItemsModel.currencySymbol} " +
-                          //                   "${_restaurantList[index].sizePrizes[0].price}" ??
-                          //               STR_BLANK,
-                          //       style: TextStyle(
-                          //           fontSize: FONTSIZE_14,
-                          //           fontStyle: FontStyle.normal,
-                          //           fontWeight: FontWeight.w600,
-                          //           color: ((Globle().colorscode) != null)
-                          //               ? getColorByHex(Globle().colorscode)
-                          //               : orangetheme),
-                          //   ),
+                          Text(
+                            (_restaurantList[index].sizePrizes.isEmpty)
+                                ? "${_restaurantItemsModel.currencySymbol} " +
+                                        '${_restaurantList[index].price}' ??
+                                    STR_BLANK
+                                : "${_restaurantItemsModel.currencySymbol} " +
+                                        "${_restaurantList[index].sizePrizes[0].price}" ??
+                                    STR_BLANK,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_14,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                // color: ((Globle().colorscode) != null)
+                                //     ? getColorByHex(Globle().colorscode)
+                                //     : orangetheme
+                                color: greytheme700),
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -657,7 +658,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   itemCount: _getSubMenucount(),
                   itemBuilder: (context, index) {
                     return Container(
-                        width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
                         child: Column(
                           children: <Widget>[
                             Center(

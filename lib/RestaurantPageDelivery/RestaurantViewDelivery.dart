@@ -416,7 +416,6 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     return SliverToBoxAdapter(
       child: Center(
         child: Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
           height: 50,
           width: MediaQuery.of(context).size.width / 1.6,
           child: ListView.builder(
@@ -512,7 +511,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                   itemCount: subcategoriesList.length,
                   itemBuilder: (context, index) {
                     return Container(
-                        width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
                         child: Column(
                           children: <Widget>[
                             Center(
@@ -739,40 +738,25 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                             SizedBox(
                               height: 3,
                             ),
-                            priceWithGramWidget(_restaurantList, index),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: <Widget>[
-                            //     Text(
-                            //       // getitemname(_restaurantList),
-                            //       "250g",
-                            //       style: TextStyle(
-                            //           fontSize: FONTSIZE_14,
-                            //           fontStyle: FontStyle.normal,
-                            //           fontWeight: FontWeight.w600,
-                            //           color: ((Globle().colorscode) != null)
-                            //               ? getColorByHex(Globle().colorscode)
-                            //               : orangetheme),
-                            //     ),
-                            //     SizedBox(width: 5),
-                            //     Text(
-                            //       (_restaurantList[index].sizePrizes.isEmpty)
-                            //           ? "${restaurantItemsModel.currencySymbol}" +
-                            //                   '${_restaurantList[index].price}' ??
-                            //               STR_BLANK
-                            //           : "${restaurantItemsModel.currencySymbol}" +
-                            //                   "${_restaurantList[index].sizePrizes[0].price}" ??
-                            //               STR_BLANK,
-                            //       style: TextStyle(
-                            //           fontSize: FONTSIZE_14,
-                            //           fontStyle: FontStyle.normal,
-                            //           fontWeight: FontWeight.w600,
-                            //           color: ((Globle().colorscode) != null)
-                            //               ? getColorByHex(Globle().colorscode)
-                            //               : orangetheme),
-                            //     ),
-                            //   ],
-                            // ),
+                            // priceWithGramWidget(_restaurantList, index),
+                            SizedBox(width: 5),
+                            Text(
+                              (_restaurantList[index].sizePrizes.isEmpty)
+                                  ? "${restaurantItemsModel.currencySymbol} " +
+                                          '${_restaurantList[index].price}' ??
+                                      STR_BLANK
+                                  : "${restaurantItemsModel.currencySymbol} " +
+                                          "${_restaurantList[index].sizePrizes[0].price} " ??
+                                      STR_BLANK,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_14,
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w600,
+                                  // color: ((Globle().colorscode) != null)
+                                  //     ? getColorByHex(Globle().colorscode)
+                                  //     : orangetheme
+                                  color: greytheme700),
+                            ),
                           ]),
                       // )),
                       SizedBox(

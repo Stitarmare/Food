@@ -323,7 +323,7 @@ class _RestaurantViewState extends State<RestaurantView>
                   itemCount: _getSubMenucount(),
                   itemBuilder: (context, index) {
                     return Container(
-                        width: MediaQuery.of(context).size.width * 0.14 / 0.7,
+                        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
                         child: Column(
                           children: <Widget>[
                             Center(
@@ -737,24 +737,25 @@ class _RestaurantViewState extends State<RestaurantView>
                           SizedBox(
                             height: 3,
                           ),
-                          priceWithGramWidget(_restaurantList, index),
+                          // priceWithGramWidget(_restaurantList, index),
 
-                          //  Text(
-                          //       (_restaurantList[index].sizePrizes.isEmpty)
-                          //           ? "${restaurantItemsModel.currencySymbol} " +
-                          //                   '${_restaurantList[index].price}' ??
-                          //               STR_BLANK
-                          //           : "${restaurantItemsModel.currencySymbol} " +
-                          //                   "${_restaurantList[index].sizePrizes[0].price}" ??
-                          //               STR_BLANK,
-                          //       style: TextStyle(
-                          //           fontSize: FONTSIZE_14,
-                          //           fontStyle: FontStyle.normal,
-                          //           fontWeight: FontWeight.w600,
-                          //           color: ((Globle().colorscode) != null)
-                          //               ? getColorByHex(Globle().colorscode)
-                          //               : orangetheme),
-                          //   ),
+                          Text(
+                            (_restaurantList[index].sizePrizes.isEmpty)
+                                ? "${restaurantItemsModel.currencySymbol} " +
+                                        '${_restaurantList[index].price}' ??
+                                    STR_BLANK
+                                : "${restaurantItemsModel.currencySymbol} " +
+                                        "${_restaurantList[index].sizePrizes[0].price}" ??
+                                    STR_BLANK,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_14,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w600,
+                                // color: ((Globle().colorscode) != null)
+                                //     ? getColorByHex(Globle().colorscode)
+                                //     : orangetheme
+                                color: greytheme700),
+                          ),
                         ],
                       ),
 
