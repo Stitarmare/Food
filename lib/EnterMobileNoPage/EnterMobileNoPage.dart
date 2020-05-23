@@ -296,6 +296,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
       ],
     );
   }
+
   Widget _buildImagelogo() {
     return Column(
       children: <Widget>[
@@ -320,5 +321,15 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
               mobno: _mobileNumber,
             )));
     // TODO: implement requestforUpdateNoOtpSuccess
+  }
+
+  @override
+  void onProvideOtpFailed() {
+    // TODO: implement onProvideOtpFailed
+  }
+
+  @override
+  void onProvideOtpSuccess() {
+    // TODO: implement onProvideOtpSuccess
   }
 }

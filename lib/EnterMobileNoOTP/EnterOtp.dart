@@ -29,18 +29,27 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   final FocusNode _nodeText1 = FocusNode();
+  final FocusNode _nodeText2 = FocusNode();
+
   ProgressDialog progressDialog;
 
   bool _validate = false;
   final Map<String, dynamic> _enterOTP = {
     mobno: null,
   };
+  var oldMobNumber;
   var _mobileNumber;
   var countrycode = '+91';
+  var oldCountrycode = '+91';
+
   var enterOTPScreenPresenter;
+  bool flagValue = false;
   @override
   void initState() {
     enterOTPScreenPresenter = EnterOTPScreenPresenter(this);
+    if (widget.flag == 3) {
+      flagValue = true;
+    }
     super.initState();
   }
 
@@ -100,6 +109,10 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             .enterOTPScreenPresenter
             .requestforloginOTP(_mobileNumber, countrycode, context);
         _enterOTPFormKey.currentState.save();
+      } else if (widget.flag == 3) {
+        await progressDialog.show();
+        this.enterOTPScreenPresenter.provideAnotherNumberOTP(
+            oldMobNumber, _mobileNumber, countrycode, oldCountrycode, context);
       }
     } else {
       setState(() {
@@ -139,6 +152,71 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                     padding: EdgeInsets.fromLTRB(150, 0, 150, 0),
                   ),
                   SizedBox(height: 45),
+                  flagValue
+                      ? Row(children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: greentheme100),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: CountryCodePicker(
+                                onChanged: (text) {
+                                  oldCountrycode = text.toString();
+                                },
+                                // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                initialSelection: '+91',
+                                favorite: ['+91', 'IN'],
+                                // optional. Shows only country name and flag
+                                showCountryOnly: false,
+                                // optional. Shows only country name and flag when popup is closed.
+                                showOnlyCountryWhenClosed: false,
+                                // optional. aligns the flag and the Text left
+                                alignLeft: false,
+                              ),
+                            ),
+                            // AppTextField(
+                            //   icon: Icon(
+                            //     Icons.language,
+                            //     color: greentheme100,
+                            //   ),
+                            //   keyboardType: TextInputType.phone,
+                            //   placeHolderName: STR_CODE,
+                            //   onChanged: (text) {
+                            //     if (text.contains('+')) {
+                            //       countrycode = text;
+                            //     } else {
+                            //       countrycode = "+" + text;
+                            //     }
+                            //   },
+                            //   validator: validatecountrycode,
+                            // ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: AppTextField(
+                              onChanged: (text) {
+                                this.oldMobNumber = text;
+                              },
+                              keyboardType: TextInputType.phone,
+                              focusNode: _nodeText2,
+                              icon: Icon(
+                                Icons.call,
+                                color: greentheme100,
+                              ),
+                              placeHolderName: "Old mobile number",
+                              validator: validateOldmobno,
+                              onSaved: (String value) {
+                                _enterOTP[mobno] = value;
+                              },
+                            ),
+                          ),
+                        ])
+                      : Container(),
                   Row(children: <Widget>[
                     Expanded(
                       flex: 2,
@@ -193,7 +271,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                           Icons.call,
                           color: greentheme100,
                         ),
-                        placeHolderName: KEY_MOBILE_NUMBER,
+                        placeHolderName:
+                            flagValue ? "New mobile number" : KEY_MOBILE_NUMBER,
                         validator: validatemobno,
                         onSaved: (String value) {
                           _enterOTP[mobno] = value;
@@ -224,6 +303,22 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   String validatemobno(String value) {
+    String pattern = STR_VALIDATE_MOB_NO;
+    RegExp regExp = RegExp(pattern);
+    if (value.length == 0) {
+      return KEY_MOBILE_NUMBER_REQUIRED;
+    } else if (!regExp.hasMatch(value)) {
+      return KEY_MOBILE_NUMBER_TEXT;
+    } else if (value.length > 13) {
+      return KEY_MOBILE_NUMBER_LIMIT;
+    }
+    if (value.isEmpty) {
+      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+    }
+    return null;
+  }
+
+  String validateOldmobno(String value) {
     String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
@@ -281,13 +376,11 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> onRequestOtpFailed() async {
     await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> onRequestOtpSuccess() async {
     await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
               mobno: _mobileNumber,
@@ -300,7 +393,6 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> requestforloginotpfailed() async {
     await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
@@ -334,12 +426,25 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   @override
-  void requestforUpdateNoOtpFailed() {
-    // TODO: implement requestforUpdateNoOtpFailed
+  void requestforUpdateNoOtpFailed() {}
+
+  @override
+  void requestforUpdateNoOtpSuccess() {}
+
+  @override
+  void onProvideOtpFailed() async {
+    await progressDialog.hide();
   }
 
   @override
-  void requestforUpdateNoOtpSuccess() {
-    // TODO: implement requestforUpdateNoOtpSuccess
+  void onProvideOtpSuccess() async {
+    await progressDialog.hide();
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => OTPScreen(
+              countryCode: countrycode,
+              mobno: _mobileNumber,
+              isProvideAnotherNumber: true,
+              value: 3,
+            )));
   }
 }

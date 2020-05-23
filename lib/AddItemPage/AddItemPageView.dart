@@ -1241,7 +1241,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return (double.parse(_addItemModelList.price) * count).toString();
+        double d = double.parse((_addItemModelList.price));
+        print(d.toStringAsFixed(2));
+        double doublePrice = d * count;
+        String strPrice = doublePrice.toStringAsFixed(2);
+        print(strPrice);
+        return strPrice;
+        // return (double.parse(_addItemModelList.price) * count).toString();
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1299,7 +1305,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
       for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
-      return (double.parse(price) + extPirce).toString();
+      double douPrice = double.parse(price) + extPirce;
+      String strdoublePrice = douPrice.toStringAsFixed(2);
+      return strdoublePrice;
+      // return (double.parse(price) + extPirce).toString();
     }
     return price;
   }

@@ -15,4 +15,6 @@ abstract class EnterOTPModelView {
   void requestforloginotpfailed();
   void requestforUpdateNoOtpSuccess();
   void requestforUpdateNoOtpFailed();
+  void onProvideOtpSuccess();
+  void onProvideOtpFailed();
 }

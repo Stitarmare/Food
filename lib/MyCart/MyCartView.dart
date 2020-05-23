@@ -49,6 +49,7 @@ class _MyCartViewState extends State<MyCartView>
   bool isTableList = false;
 
   bool isloading = false;
+  bool isBtnEnabled = false;
 
   int _dropdownTableNumber;
   int _dropdownTableNo;
@@ -732,6 +733,8 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       _cartItemList = null;
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -770,6 +773,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemFailed() async {
+    isBtnEnabled = false;
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -779,6 +783,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemSuccess() async {
+    isBtnEnabled = false;
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
