@@ -139,18 +139,32 @@ class _NotificationSettingState extends State<NotificationSetting>
     return Column(
         children: _checkBoxOptions
             .map((checkBtn) => CheckboxListTile(
-                  value: (_switchvalue == true) ? true : checkBtn.isChecked,
+                  value: checkBtn.isChecked,
                   onChanged: (val) {
-                    if (val) {
-                      setState(() {
-                        checkBtn.isChecked = val;
-                      });
-                    } else {
-                      setState(() {
-                        checkBtn.isChecked = val;
-                      });
-                    }
+                    checkBtn.isChecked = val;
+                    setState(() {
+                      _checkBoxOptions[checkBtn.index-1].isChecked = val;
+                      var check1 = false;
+          var check2 = false;
+          var check3 = false;
+          
+          if (_checkBoxOptions[0].isChecked){
+              check1 = true;
+          }
+          if (_checkBoxOptions[1].isChecked){
+            check2 = true;
+          }
+          if (_checkBoxOptions[2].isChecked){
+            check3 = true;
+          }
 
+          if (check3 && check2 && check1) {
+            this._switchvalue = true;
+          } else {
+            this._switchvalue = false;
+          }
+                    });
+                    
                     updateNotification();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
