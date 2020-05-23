@@ -28,5 +28,7 @@ class DeleteAccPresenter extends DeleteAccContractor{
       print(error);
     });
   }
+
+
   
 }
