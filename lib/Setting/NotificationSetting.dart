@@ -198,15 +198,15 @@ class _NotificationSettingState extends State<NotificationSetting>
 
           if (value.notifType == "1") {
             _checkBoxOptions[0].isChecked = true;
-            var check1 = true;
+            check1 = true;
           }
           if (value.notifType == "2") {
              _checkBoxOptions[1].isChecked = true;
-             var check2 = true;
+             check2 = true;
           }
           if (value.notifType == "3") {
              _checkBoxOptions[2].isChecked = true;
-             var check3 = true;
+             check3 = true;
           }
         }
 
