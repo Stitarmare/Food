@@ -23,13 +23,12 @@ class _NotificationSettingState extends State<NotificationSetting>
         index: 3, title: 'Other social Notifications', isChecked: false)
   ];
   NotificationSettingPresenter _notificationSettingPresenter;
-  bool bool1 = false;
 
   @override
   void initState() {
     _notificationSettingPresenter =
         NotificationSettingPresenter(notificationSettingContractor: this);
-        _notificationSettingPresenter.getNotificationSetting(context);
+    _notificationSettingPresenter.getNotificationSetting(context);
     Preference.getPrefValue<bool>("notificationKey").then((value) {
       if (value == true) {
         setState(() {
@@ -146,6 +145,10 @@ class _NotificationSettingState extends State<NotificationSetting>
                       setState(() {
                         checkBtn.isChecked = val;
                       });
+                    } else {
+                      setState(() {
+                        checkBtn.isChecked = val;
+                      });
                     }
 
                     updateNotification();
@@ -179,47 +182,39 @@ class _NotificationSettingState extends State<NotificationSetting>
   void onSuccessUpdateNotification() {}
 
   @override
-  void onFailedGetNotification() {
-    // TODO: implement onFailedGetNotification
-  }
+  void onFailedGetNotification() {}
 
   @override
   void onSuccessGetNotification(GetNotificationSetting getNotificationSetting) {
-
     var model = getNotificationSetting.data;
 
     setState(() {
-      if (model!=null) {
-      if (model.length > 0) {
-        var check1 = false;
-        var check2 = false; 
-        var check3 = false;
-        for (var value in model) {
+      if (model != null) {
+        if (model.length > 0) {
+          var check1 = false;
+          var check2 = false;
+          var check3 = false;
+          for (var value in model) {
+            if (value.notifType == "1") {
+              _checkBoxOptions[0].isChecked = true;
+              check1 = true;
+            }
+            if (value.notifType == "2") {
+              _checkBoxOptions[1].isChecked = true;
+              check2 = true;
+            }
+            if (value.notifType == "3") {
+              _checkBoxOptions[2].isChecked = true;
+              check3 = true;
+            }
+          }
 
-          if (value.notifType == "1") {
-            _checkBoxOptions[0].isChecked = true;
-            check1 = true;
-          }
-          if (value.notifType == "2") {
-             _checkBoxOptions[1].isChecked = true;
-             check2 = true;
-          }
-          if (value.notifType == "3") {
-             _checkBoxOptions[2].isChecked = true;
-             check3 = true;
+          if (check3 && check2 && check1) {
+            this._switchvalue = true;
           }
         }
-
-        if (check3&&check2&&check1) {
-          this._switchvalue = true;
-        }
-       
       }
-      
-    }
     });
-
-    // TODO: implement onSuccessGetNotification
   }
 }
 

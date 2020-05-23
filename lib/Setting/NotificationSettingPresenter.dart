@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetNotificationSetting.dart';
 import 'package:foodzi/Models/error_model.dart';
@@ -18,42 +14,36 @@ abstract class NotificationSettingContractor {
 }
 
 class NotificationSettingPresenter {
+  NotificationSettingContractor notificationSettingContractor;
+  NotificationSettingPresenter({this.notificationSettingContractor});
+  void callUpdateNotiApi(List<int> notiValue, BuildContext context) async {
+    var responce = await ApiBaseHelper().post<ErrorModel>(
+        UrlConstant.updateNotificationSetting, context,
+        body: {"user_id": Globle().loginModel.data.id, "setting": notiValue});
 
-    NotificationSettingContractor notificationSettingContractor;
-    NotificationSettingPresenter({this.notificationSettingContractor});
-    void callUpdateNotiApi(List<int> notiValue,BuildContext context) async{
-      var responce = await ApiBaseHelper().post<ErrorModel>(UrlConstant.updateNotificationSetting, context,body: {
-        "user_id":Globle().loginModel.data.id,
-        "setting":notiValue
-      });
-
-      switch (responce.result) {
-
-        case SuccessType.success:
+    switch (responce.result) {
+      case SuccessType.success:
         notificationSettingContractor.onSuccessUpdateNotification();
-          // TODO: Handle this case.
-          break;
-        case SuccessType.failed:
+        break;
+      case SuccessType.failed:
         notificationSettingContractor.onFailedUpdateNotification();
-          // TODO: Handle this case.
-          break;
-      }
-
+        break;
     }
+  }
 
-    void getNotificationSetting(BuildContext context) async{
-      var responce = await ApiBaseHelper().get<GetNotificationSetting>(UrlConstant.getNotificationSetting, context);
+  void getNotificationSetting(BuildContext context) async {
+    var responce = await ApiBaseHelper().get<GetNotificationSetting>(
+        UrlConstant.getNotificationSetting, context);
 
-      switch (responce.result) {
-
-        case SuccessType.success:
+    switch (responce.result) {
+      case SuccessType.success:
         notificationSettingContractor.onSuccessGetNotification(responce.model);
-          // TODO: Handle this case.
-          break;
-        case SuccessType.failed:
+        // TODO: Handle this case.
+        break;
+      case SuccessType.failed:
         notificationSettingContractor.onFailedGetNotification();
-          // TODO: Handle this case.
-          break;
-      }
+        // TODO: Handle this case.
+        break;
     }
+  }
 }
