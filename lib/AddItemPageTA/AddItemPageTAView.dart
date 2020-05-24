@@ -92,10 +92,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
 
+  int selectedIndex = 0;
+
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
+        id: _addItemModelList.spreads[i - 1].id,
         index: i-1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
@@ -104,23 +107,30 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     }
 
     setState(() {
+      var index = 0;
       _radioOptions = radiolist;
       for (var item in radiolist) {
       if (item.spreadDefault == "yes") {
-          radioBtnId = item.index;
+          radioBtnId = item.id;
+          index = item.index;
       }
     }
+    
     if (radioBtnId == null) {
-      radioBtnId = 0;
+      if (_addItemModelList.spreads.length>0) {
+          radioBtnId = _addItemModelList.spreads[0].id;
+          
+      }
+      
     }
-    getSubOption(radioBtnId);
+selectedIndex = index;
+    getSubOption(index);
     });
 
     
 
     return radiolist.length;
   }
-
   void getSubOption(int index) {
       if (_addItemModelList.spreads.length > 0) {
         if (_addItemModelList.spreads[index].suboptions.length>0) {
@@ -348,10 +358,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             sizess[0].sizeid;
                       }
                     }
+                    List<SubSpread> subSpread;
+                        if (subOptionId != null) {
+                           subSpread = [];
+                           var sub = SubSpread();
+                           sub.subspreadId = subOptionId; 
+                           subSpread.add(sub);
+                        }
 
                     addMenuToCartModel.items[0].itemId = widget.itemId;
                     addMenuToCartModel.items[0].preparationNote = specialReq;
                     addMenuToCartModel.items[0].extra = extras;
+                    addMenuToCartModel.items[0].subspreads = subSpread;
                     addMenuToCartModel.items[0].spreads = spread == null
                         ? (defaultSpread != null) ? [defaultSpread] : []
                         : [spread];
@@ -1021,7 +1039,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         //     ? radionBtn.index
                         //     : radioBtnId,
                         groupValue: radioBtnId,
-                        value: radionBtn.index,
+                        value: radionBtn.id,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
@@ -1034,14 +1052,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            getSubOption(radioBtnId);
+                            var index = 0;
+                            _radioOptions.forEach((value){
+                                if (radioBtnId == value.id) {
+                                    index = value.index;
+                                    selectedIndex = index;
+                                }   
+                            });
+                            getSubOption(index);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
                             print(spread.spreadId);
                           });
                         },
                       ),
-                      radioBtnId == radionBtn.index ?
+                      selectedIndex == radionBtn.index ?
                       Padding(
                         padding: EdgeInsets.only(left: 30),
                         child: Column(
@@ -1477,6 +1502,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       } else {
         defaultSpread = null;
       }
+
+       if (defaultSpread == null) {
+      if (_addItemModelList.spreads.length>0) {
+        defaultSpread = Spreads();
+        defaultSpread.spreadId = _addItemModelList.spreads[0].id;
+      }
+    }
     }
   }
 
@@ -1538,11 +1570,12 @@ class CheckBoxOptions {
 }
 
 class RadioButtonOptions {
+  int id;
   int index;
   String title;
   String price;
   String spreadDefault;
-  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault});
+  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault,this.id});
 }
 
 class RadioButtonOptionsSizes {

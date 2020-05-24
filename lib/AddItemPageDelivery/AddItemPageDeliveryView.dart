@@ -139,10 +139,13 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
 
+  int selectedIndex = 0;
+
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
+        id: _addItemModelList.spreads[i - 1].id,
         index: i-1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
@@ -151,16 +154,24 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     }
 
     setState(() {
+      var index = 0;
       _radioOptions = radiolist;
       for (var item in radiolist) {
       if (item.spreadDefault == "yes") {
-          radioBtnId = item.index;
+          radioBtnId = item.id;
+          index = item.index;
       }
     }
+    
     if (radioBtnId == null) {
-      radioBtnId = 0;
+      if (_addItemModelList.spreads.length>0) {
+          radioBtnId = _addItemModelList.spreads[0].id;
+          
+      }
+      
     }
-    getSubOption(radioBtnId);
+selectedIndex = index;
+    getSubOption(index);
     });
 
     
@@ -549,6 +560,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         sizess = [defaultSize];
       }
     }
+    
 
     if (extras == null) {
       addItemData(alreadyAdde, restauran, restaurantName);
@@ -563,10 +575,18 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
 
   void addItemData(
       bool alreadyAdde, int restauran, String restaurantName) async {
+        List<SubSpread> subSpread;
+                        if (subOptionId != null) {
+                           subSpread = [];
+                           var sub = SubSpread();
+                           sub.subspreadId = subOptionId; 
+                           subSpread.add(sub);
+                        }
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extras;
+    addMenuToCartModel.items[0].subspreads = subSpread;
     if (sizess != null) {
       if (sizess.length > 0) {
         addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
@@ -1176,7 +1196,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             : [Container()]);
   }
 
-  _getRadioOptions() {
+   _getRadioOptions() {
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -1194,7 +1214,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         //     ? radionBtn.index
                         //     : radioBtnId,
                         groupValue: radioBtnId,
-                        value: radionBtn.index,
+                        value: radionBtn.id,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
@@ -1207,14 +1227,21 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                             radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
-                            getSubOption(radioBtnId);
+                            var index = 0;
+                            _radioOptions.forEach((value){
+                                if (radioBtnId == value.id) {
+                                    index = value.index;
+                                    selectedIndex = index;
+                                }   
+                            });
+                            getSubOption(index);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
                             print(spread.spreadId);
                           });
                         },
                       ),
-                      radioBtnId == radionBtn.index ?
+                      selectedIndex == radionBtn.index ?
                       Padding(
                         padding: EdgeInsets.only(left: 30),
                         child: Column(
@@ -1771,7 +1798,14 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+if (defaultSpre == null) {
+      if (_addItemModelList.spreads.length>0) {
+        defaultSpre = Spreads();
+        defaultSpre.spreadId = _addItemModelList.spreads[0].id;
+      }
+    }
 
+    defaultSpread = defaultSpre;
     defaultSpread = defaultSpre;
   }
 
@@ -1838,11 +1872,12 @@ class CheckBoxOptions {
 }
 
 class RadioButtonOptions {
+  int id;
   int index;
   String title;
   String spreadDefault;
 // bool selected;
-  RadioButtonOptions({this.index, this.title, this.spreadDefault});
+  RadioButtonOptions({this.index, this.title, this.spreadDefault,this.id});
 }
 
 class RadioButtonOptionsSizes {

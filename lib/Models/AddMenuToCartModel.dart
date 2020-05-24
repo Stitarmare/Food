@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:foodzi/Models/AddItemPageModel.dart';
+
 AddMenuToCartModel addMenuToCartModelFromJson(String str) =>
     AddMenuToCartModel.fromJson(json.decode(str));
 
@@ -140,6 +142,7 @@ class Item {
   List<Spreads> spreads;
   List<Switches> switches;
   List<Sizes> sizes;
+  List<SubSpread> subspreads;
 
   Item({
     this.itemId,
@@ -150,6 +153,7 @@ class Item {
     this.spreads,
     this.switches,
     this.sizes,
+    this.subspreads
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -165,6 +169,9 @@ class Item {
         switches: List<Switches>.from(
             json["switches"].map((x) => Switches.fromJson(x))),
         sizes: List<Sizes>.from(json["sizes"].map((x) => Sizes.fromJson(x))),
+        subspreads: json["subspreads"] != null
+            ? List<SubSpread>.from(json["subspreads"].map((x) => SubSpread.fromJson(x)))
+            : []
       );
 
   Map<String, dynamic> toJson() => {
@@ -183,6 +190,9 @@ class Item {
             : [],
         "sizes": sizes != null
             ? List<dynamic>.from(sizes.map((x) => x.toJson()))
+            : [],
+        "subspreads": subspreads != null
+            ? List<dynamic>.from(subspreads.map((x) => x.toJson()))
             : [],
       };
 }
@@ -216,6 +226,19 @@ class Spreads {
 
   Map<String, dynamic> toJson() => {
         "spread_id": spreadId,
+      };
+}
+
+class SubSpread {
+  int subspreadId;
+  SubSpread({this.subspreadId});
+  
+  factory SubSpread.fromJson(Map<String, dynamic> json) => SubSpread(
+        subspreadId: json["subspread_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "subspread_id": subspreadId,
       };
 }
 

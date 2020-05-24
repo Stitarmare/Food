@@ -646,6 +646,18 @@ class _MyCartViewState extends State<MyCartView>
         }
       }
 
+      if (menuCartList.cartExtraItems[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+          for (int j = 0;
+            j < menuCartList.cartExtraItems[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtraItems[i].subspreads[j].name}, ";
+        }
+      }
+
       if (menuCartList.cartExtraItems[i].extras.length > 0) {
         for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
           extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";

@@ -805,6 +805,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
 
+      if (menuCartList.cartExtras[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+          for (int j = 0;
+            j < menuCartList.cartExtras[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtras[i].subspreads[j].name}, ";
+        }
+      }
+
       if (menuCartList.cartExtras[i].extras.length > 0) {
         for (int j = 0; j < menuCartList.cartExtras[i].extras.length; j++) {
           extras += "${menuCartList.cartExtras[i].extras[j].name}, ";
