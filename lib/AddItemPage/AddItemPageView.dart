@@ -1262,14 +1262,21 @@ class _AddItemPageViewState extends State<AddItemPageView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return (double.parse(itemSize.price) * count).toString();
+                  double douPrice = (double.parse(itemSize.price) * count);
+                  String strdoubleSizePrice = douPrice.toStringAsFixed(2);
+                  return strdoubleSizePrice;
+                  // return (double.parse(itemSize.price) * count).toString();
                 }
               }
             }
           }
         }
-        return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
-            .toString();
+        double douPrice1 =
+            (double.parse(_addItemModelList.sizePrizes[0].price) * count);
+        String strdoubleSizePrice1 = douPrice1.toStringAsFixed(2);
+        return strdoubleSizePrice1;
+        // return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
+        //     .toString();
       }
     }
     return "";

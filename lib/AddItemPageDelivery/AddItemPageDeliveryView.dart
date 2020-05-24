@@ -1178,7 +1178,11 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return (double.parse(_addItemModelList.price) * count).toString();
+        double d = double.parse((_addItemModelList.price));
+        double doublePrice = d * count;
+        String strPrice = doublePrice.toStringAsFixed(2);
+        return strPrice;
+        // return (double.parse(_addItemModelList.price) * count).toString();
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1193,14 +1197,21 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return (double.parse(itemSize.price) * count).toString();
+                  double douPrice = (double.parse(itemSize.price) * count);
+                  String strdoubleSizePrice = douPrice.toStringAsFixed(2);
+                  return strdoubleSizePrice;
+                  // return (double.parse(itemSize.price) * count).toString();
                 }
               }
             }
           }
         }
-        return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
-            .toString();
+        double douPrice1 =
+            (double.parse(_addItemModelList.sizePrizes[0].price) * count);
+        String strdoubleSizePrice1 = douPrice1.toStringAsFixed(2);
+        return strdoubleSizePrice1;
+        // return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
+        //     .toString();
       }
     }
     return "";
@@ -1236,7 +1247,10 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
-      return (double.parse(price) + extPirce).toString();
+      double douPrice = double.parse(price) + extPirce;
+      String strdoublePrice = douPrice.toStringAsFixed(2);
+      return strdoublePrice;
+      // return (double.parse(price) + extPirce).toString();
     }
     return price;
   }

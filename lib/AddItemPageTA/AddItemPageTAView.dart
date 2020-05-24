@@ -210,13 +210,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         ),
         InkWell(
           onTap: () {
-            
-              setState(() {
-                ++count;
-                print(count);
-              });
-              items.quantity = count;
-            
+            setState(() {
+              ++count;
+              print(count);
+            });
+            items.quantity = count;
           },
           splashColor: Colors.lightBlue,
           child: Container(
@@ -316,23 +314,23 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     }
 
                     if (extras != null) {
-      if (extras.length > 0 &&
-        _addItemModelList.extrasrequired == "yes") {
-            DialogsIndicator.showAlert(
-          context, "Required Field", "Please select required field");
-          return;
-        }
-    }
-    if (switches != null) {
-      if (switches.length > 0 &&
-        _addItemModelList.switchesrequired == "yes") {
-            DialogsIndicator.showAlert(
-          context, "Required Field", "Please select required field");
-          return;
-        }
-    }
+                      if (extras.length > 0 &&
+                          _addItemModelList.extrasrequired == "yes") {
+                        DialogsIndicator.showAlert(context, "Required Field",
+                            "Please select required field");
+                        return;
+                      }
+                    }
+                    if (switches != null) {
+                      if (switches.length > 0 &&
+                          _addItemModelList.switchesrequired == "yes") {
+                        DialogsIndicator.showAlert(context, "Required Field",
+                            "Please select required field");
+                        return;
+                      }
+                    }
 
-    addItemData();
+                    addItemData();
                   },
                   child: Container(
                     height: 54,
@@ -1027,7 +1025,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   String getTotalText() {
     if (_addItemModelList != null) {
       if (_addItemModelList.price != "") {
-        return (double.parse(_addItemModelList.price) * count).toString();
+        double d = double.parse((_addItemModelList.price));
+        double doublePrice = d * count;
+        String strPrice = doublePrice.toStringAsFixed(2);
+        return strPrice;
+        // return (double.parse(_addItemModelList.price) * count).toString();
       } else if (_addItemModelList.sizePrizes.length > 0) {
         List<Sizes> sizess;
         if (size != null) {
@@ -1042,14 +1044,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             if (_addItemModelList.sizePrizes.length > 0) {
               for (var itemSize in _addItemModelList.sizePrizes) {
                 if (sizess[0].sizeid == itemSize.id) {
-                  return (double.parse(itemSize.price) * count).toString();
+                  double douPrice1 = (double.parse(itemSize.price) * count);
+                  String strdoubleSizePrice1 = douPrice1.toStringAsFixed(2);
+                  return strdoubleSizePrice1;
+                  // return (double.parse(itemSize.price) * count).toString();
                 }
               }
             }
           }
         }
-        return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
-            .toString();
+        double douPrice =
+            (double.parse(_addItemModelList.sizePrizes[0].price) * count);
+        String strdoubleSizePrice = douPrice.toStringAsFixed(2);
+        return strdoubleSizePrice;
+        // return (double.parse(_addItemModelList.sizePrizes[0].price) * count)
+        //     .toString();
       }
     }
     return "";
@@ -1082,8 +1091,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       for (var chekc in checkBoxOptionsPrice) {
         extPirce += double.parse(chekc.price);
       }
-      return (double.parse(price) + extPirce).toString();
+      double douPrice2 = double.parse(price) + extPirce;
+      String strdoublePrice2 = douPrice2.toStringAsFixed(2);
+      return strdoublePrice2;
+      // return (double.parse(price) + extPirce).toString();
     }
+
     return price;
   }
 
