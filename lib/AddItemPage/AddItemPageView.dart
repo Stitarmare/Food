@@ -548,14 +548,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
         sizess = [defaultSize];
       }
     }
-
-    if (extras != null) {
-      if (extras.length > 0 && _addItemModelList.extrasrequired == "yes") {
-        DialogsIndicator.showAlert(
-            context, "Required Field", "Please select required field");
-        return;
-      }
+    if (extras == null) {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length != 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length == 0) {
+      DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
     }
+
+    // if (extras != null) {
+    //   if (extras.length > 0 && _addItemModelList.extrasrequired == "yes") {
+    //     DialogsIndicator.showAlert(
+    //         context, "Required Field", "Please select required field");
+    //     return;
+    //   }
+    // }
     if (switches != null) {
       if (switches.length > 0 && _addItemModelList.switchesrequired == "yes") {
         DialogsIndicator.showAlert(
@@ -563,7 +572,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
         return;
       }
     }
-    addItemData(alreadyAdde, restauran, restaurantName);
+    // addItemData(alreadyAdde, restauran, restaurantName);
 
     // if (extras != null &&
     //     extras.length != 0 &&
