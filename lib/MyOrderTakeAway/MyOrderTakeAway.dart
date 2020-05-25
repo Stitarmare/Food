@@ -117,36 +117,38 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   }),
             ),
           ),
-          isCurrentOrders
-              ? getLenghtOfCurrentOrder() == 0
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.35,
-                          ),
-                          Text("No Current Orders")
-                        ],
-                      ),
-                    )
-                  : Center(child: Container(child: _currentOrders(context)))
-              : getLenghtOfHistoryOrder() == 0
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.35,
-                          ),
-                          Text("No Booking History")
-                        ],
-                      ),
-                    )
-                  : Center(
-                      child: Container(child: _bookingHistoryList(context))),
+           isCurrentOrders
+              ? 
+              getLenghtOfCurrentOrder() == 0 ? Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
+                    Text("No Current Orders")
+                  ],
+                ),
+              ) :
+              Container(child:
+               _currentOrders(context)
+               )
+              :  Container(child:
+              getLenghtOfHistoryOrder() == 0 ?
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
+                    Text("No Booking History")
+                  ],
+                ),
+              ) :
+               _bookingHistoryList(context)
+               ),
+          // isCurrentOrders
+          //     ? Center(child: Container(child: _currentOrders(context)))
+          //     : Center(child: Container(child: _bookingHistoryList(context))),
         ],
       ),
     );
