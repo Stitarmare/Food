@@ -40,6 +40,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   int _dropdownTableNumber;
   Stream stream;
   StreamSubscription<double> _streamSubscription;
+  var isSplitTrans = false;
 
   String tableName;
   bool isTableList = false;
@@ -657,9 +658,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
           var isPaid = false;
           for (var trans in myOrderDataDetails.splitbilltransactions) {
             if (Globle().loginModel.data.id == trans.userId) {
-              if (trans.paystatus == "paid") {
-                isPaid = true;
-              }
+              isPaid = true;
+              // if (trans.paystatus == "paid") {
+              //   isPaid = true;
+              // }
             }
           }
           return isPaid;
@@ -674,13 +676,14 @@ class CartDetailsPageState extends State<CartDetailsPage>
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          var isPaid = false;
-          for (var trans in myOrderDataDetails.splitbilltransactions) {
-            if (trans.paystatus == "paid") {
-              isPaid = true;
-            }
-          }
-          return isPaid;
+          isSplitTrans = true;
+          bool isSplitBillTrans = isSplitTrans;
+          // for (var trans in myOrderDataDetails.splitbilltransactions) {
+          //   if (trans.paystatus == "paid") {
+          //     isPaid = true;
+          //   }
+          // }
+          return isSplitBillTrans;
         }
       }
     }
@@ -846,7 +849,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isloading = false;
       isFirst = false;
     });
-    // TODO: implement getOrderDetailsFailed
   }
 
   @override
@@ -863,27 +865,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isloading = false;
       isFirst = false;
     });
-    // TODO: implement getOrderDetailsSuccess
   }
 
   @override
-  void paymentCheckoutFailed() {
-    // TODO: implement paymentCheckoutFailed
-  }
+  void paymentCheckoutFailed() {}
 
   @override
-  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
-    // TODO: implement paymentCheckoutSuccess
-  }
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {}
   @override
-  void cancelledPaymentFailed() {
-    // TODO: implement cancelledPaymentFailed
-  }
+  void cancelledPaymentFailed() {}
 
   @override
-  void cancelledPaymentSuccess() {
-    // TODO: implement cancelledPaymentSuccess
-  }
+  void cancelledPaymentSuccess() {}
 
   getTableName() {
     if (myOrderDataDetails != null) {
