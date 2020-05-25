@@ -258,7 +258,13 @@ class ApiBaseHelper {
           if (errorModel.message != null) {
             msg = errorModel.message;
           }
+          if(errorModel.mobileNumber != null) {
+            if (errorModel.mobileNumber.length>0) {
+              msg = errorModel.mobileNumber[0];
+            }
+          }
         }
+        
         if (isShowDialoag != null) {
           if (isShowDialoag) {
             return apiModel;
