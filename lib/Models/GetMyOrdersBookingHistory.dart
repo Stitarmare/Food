@@ -41,6 +41,7 @@ class GetMyOrderBookingHistoryList {
   int restId;
   String status;
   String totalAmount;
+  String splitAmount;
   dynamic timeToPickupOrder;
   dynamic waiterId;
   String createdAt;
@@ -61,6 +62,7 @@ class GetMyOrderBookingHistoryList {
     this.totalAmount,
     this.timeToPickupOrder,
     this.waiterId,
+    this.splitAmount,
     this.createdAt,
     this.updatedAt,
     this.orderNumber,
@@ -79,6 +81,7 @@ class GetMyOrderBookingHistoryList {
         restId: json["rest_id"],
         status: json["status"],
         totalAmount: json["total_amount"],
+        splitAmount: json["split_amount"],
         timeToPickupOrder: json["time_to_pickup_order"],
         waiterId: json["waiter_id"],
         createdAt: json["created_at"],
@@ -99,6 +102,7 @@ class GetMyOrderBookingHistoryList {
         "rest_id": restId,
         "status": status,
         "total_amount": totalAmount,
+        "split_amount": splitAmount,
         "time_to_pickup_order": timeToPickupOrder,
         "waiter_id": waiterId,
         "created_at": createdAt,

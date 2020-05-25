@@ -30,7 +30,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   bool isBookingHistory = false;
   int i;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  List<CurrentOrderList> _orderDetailList;  
+  List<CurrentOrderList> _orderDetailList;
   List<GetMyOrderBookingHistoryList> getmyOrderBookingHistory;
 
   var imageurl;
@@ -121,34 +121,36 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             ),
           ),
           isCurrentOrders
-              ? 
-              getLenghtOfCurrentOrder() == 0 ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
-                    Text("No Current Orders")
-                  ],
-                ),
-              ) :
-              Container(child:
-               _currentOrders(context)
-               )
-              :  Container(child:
-              getLenghtOfHistoryOrder() == 0 ?
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
-                    Text("No Booking History")
-                  ],
-                ),
-              ) :
-               _bookingHistoryList(context)
-               ),
+              ? getLenghtOfCurrentOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Current Orders")
+                        ],
+                      ),
+                    )
+                  : Container(child: _currentOrders(context))
+              : Container(
+                  child: getLenghtOfHistoryOrder() == 0
+                      ? Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                              ),
+                              Text("No Booking History")
+                            ],
+                          ),
+                        )
+                      : _bookingHistoryList(context)),
         ],
       ),
     );
@@ -281,7 +283,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        getDateForOrderHistory(_orderDetailList[index].createdAt),
+                        getDateForOrderHistory(
+                            _orderDetailList[index].createdAt),
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -370,7 +373,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CartDetailsPage(
-                                      restId: _orderDetailList[index].restId,
+                                          restId:
+                                              _orderDetailList[index].restId,
                                           orderId: _orderDetailList[index].id,
                                           isFromOrder: true,
                                         )));
@@ -380,7 +384,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     ),
                     SizedBox(
                       height: 10,
-                      
                     )
                   ],
                 ),
@@ -515,7 +518,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      getDateForOrderHistory(getmyOrderBookingHistory[index].createdAt),
+                      getDateForOrderHistory(
+                          getmyOrderBookingHistory[index].createdAt),
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -569,6 +573,35 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       ),
                     ),
                   ),
+                  getmyOrderBookingHistory[index].splitAmount != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 10, left: 15),
+                          child: Text(
+                            STR_SPLIT_AMOUNT,
+                            style: TextStyle(
+                              fontSize: FONTSIZE_14,
+                              color: greytheme1000,
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: getmyOrderBookingHistory[index].splitAmount != null
+                        ? Text(
+                            Globle().currencySymb != null
+                                ? '${Globle().currencySymb} ' +
+                                    '${getmyOrderBookingHistory[index].splitAmount}'
+                                : STR_R_CURRENCY_SYMBOL +
+                                    '${getmyOrderBookingHistory[index].splitAmount}',
+                            style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700,
+                            ),
+                          )
+                        : Text(""),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -618,8 +651,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
 
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
-    var dateStr = DateFormat("dd MMM yyyy").format(date);
-    var time = DateFormat("hh:mm a").format(date);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+    var time = DateFormat("hh:mm a").format(date.toLocal());
     return "$dateStr at $time";
   }
 
@@ -655,6 +688,15 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     }
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
+
+      Iterable<GetMyOrderBookingHistoryList> orderIterableList =
+          getmyOrderBookingHistory.reversed;
+      List<GetMyOrderBookingHistoryList> list1 = [];
+      for (int i = 0; i < orderIterableList.length; i++) {
+        GetMyOrderBookingHistoryList list = orderIterableList.elementAt(i);
+        list1.add(list);
+        getmyOrderBookingHistory = list1;
+      }
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }

@@ -388,4 +388,14 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
   void requestforloginotpsuccess() {
     // TODO: implement requestforloginotpsuccess
   }
+
+  @override
+  void onProvideOtpFailed() {
+    // TODO: implement onProvideOtpFailed
+  }
+
+  @override
+  void onProvideOtpSuccess() {
+    // TODO: implement onProvideOtpSuccess
+  }
 }

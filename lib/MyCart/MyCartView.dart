@@ -49,6 +49,7 @@ class _MyCartViewState extends State<MyCartView>
   bool isTableList = false;
 
   bool isloading = false;
+  bool isBtnEnabled = false;
 
   int _dropdownTableNumber;
   int _dropdownTableNo;
@@ -570,7 +571,7 @@ class _MyCartViewState extends State<MyCartView>
                                         height: 25,
                                       ),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 5),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -612,11 +613,11 @@ class _MyCartViewState extends State<MyCartView>
                                   steppercount(_cartItemList[index], index),
                                 ],
                               ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 0,
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: SizedBox(
+                              //     width: 0,
+                              //   ),
+                              // ),
                               Padding(
                                 padding: EdgeInsets.only(right: 5, top: 30),
                                 child: Text(
@@ -708,7 +709,12 @@ class _MyCartViewState extends State<MyCartView>
         for (int j = 0;
             j < menuCartList.cartExtraItems[i].switches.length;
             j++) {
-          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+          if (menuCartList.cartExtraItems[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtraItems[i].switches[j].name} - ${menuCartList.cartExtraItems[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtraItems[i].switches[j].name},";
+          }
         }
       }
     }
@@ -727,6 +733,8 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       _cartItemList = null;
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
+      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -765,6 +773,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemFailed() async {
+    isBtnEnabled = false;
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -774,6 +783,7 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemSuccess() async {
+    isBtnEnabled = false;
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);

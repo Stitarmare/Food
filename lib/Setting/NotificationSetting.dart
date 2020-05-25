@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetNotificationSetting.dart';
 import 'package:foodzi/Setting/NotificationSettingPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class NotificationSetting extends StatefulWidget {
@@ -9,7 +11,8 @@ class NotificationSetting extends StatefulWidget {
   _NotificationSettingState createState() => _NotificationSettingState();
 }
 
-class _NotificationSettingState extends State<NotificationSetting> implements NotificationSettingContractor  {
+class _NotificationSettingState extends State<NotificationSetting>
+    implements NotificationSettingContractor {
   bool _switchvalue = false;
   List<CheckBoxOptions> _checkBoxOptions = [
     CheckBoxOptions(
@@ -21,10 +24,19 @@ class _NotificationSettingState extends State<NotificationSetting> implements No
   ];
   NotificationSettingPresenter _notificationSettingPresenter;
 
-    @override
+  @override
   void initState() {
-    // TODO: implement initState
-    _notificationSettingPresenter = NotificationSettingPresenter(notificationSettingContractor: this);
+    _notificationSettingPresenter =
+        NotificationSettingPresenter(notificationSettingContractor: this);
+    _notificationSettingPresenter.getNotificationSetting(context);
+    Preference.getPrefValue<bool>("notificationKey").then((value) {
+      if (value == true) {
+        setState(() {
+          this._switchvalue = value;
+        });
+      }
+    });
+
     super.initState();
   }
 
@@ -50,88 +62,109 @@ class _NotificationSettingState extends State<NotificationSetting> implements No
         // child: SliverToBoxAdapter(
         //           child: Container(
         //     margin: EdgeInsets.fromLTRB(0 ,10, 0, 0),
-            child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Enable All',
-                        style: TextStyle(
-                            fontSize: FONTSIZE_18,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w400,
-                            color: greytheme700),
-                      ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        width: 100,
-                      ),
-                      flex: 2,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Transform.scale(
-                        scale: 0.7,
-                        child: 
-                        CupertinoSwitch(
-                          // activeColor: ((Globle().colorscode) != null)
-                          //     ? getColorByHex(Globle().colorscode)
-                          //     : orangetheme,
-                          onChanged: (bool value) {
-                            setState(() {
-                              this._switchvalue = value;
-                            });
-                            updateNotification();
-                          },
-                          value: this._switchvalue,
-                          
-                        ),
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    'Enable All',
+                    style: TextStyle(
+                        fontSize: FONTSIZE_18,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w400,
+                        color: greytheme700),
+                  ),
                 ),
-                Divider(
-                  thickness: 2,
+                Expanded(
+                  child: SizedBox(
+                    width: 100,
+                  ),
+                  flex: 2,
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                 Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Push Notifications',
-                        style: TextStyle(
-                            fontSize: FONTSIZE_18,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w400,
-                            color: greytheme700),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Transform.scale(
+                    scale: 0.7,
+                    child: CupertinoSwitch(
+                      // activeColor: ((Globle().colorscode) != null)
+                      //     ? getColorByHex(Globle().colorscode)
+                      //     : orangetheme,
+                      onChanged: (bool value) {
+                        setState(() {
+                          this._switchvalue = value;
+                          Preference.setPersistData<bool>(
+                              value, "notificationKey");
+                        });
+                        updateNotification();
+                      },
+                      value: this._switchvalue,
                     ),
-                _notificationCheckbox()
-                // )
+                  ),
+                ),
               ],
             ),
-          ),
-        // ),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                'Push Notifications',
+                style: TextStyle(
+                    fontSize: FONTSIZE_18,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w400,
+                    color: greytheme700),
+              ),
+            ),
+            _notificationCheckbox()
+            // )
+          ],
+        ),
+      ),
+      // ),
       // ),
     );
   }
 
   Widget _notificationCheckbox() {
-  return  Column(
+    return Column(
         children: _checkBoxOptions
             .map((checkBtn) => CheckboxListTile(
-                  value: (_switchvalue == true)? true:checkBtn.isChecked,
+                  value: checkBtn.isChecked,
                   onChanged: (val) {
+                    checkBtn.isChecked = val;
                     setState(() {
-                      checkBtn.isChecked = val;
+                      _checkBoxOptions[checkBtn.index-1].isChecked = val;
+                      var check1 = false;
+          var check2 = false;
+          var check3 = false;
+          
+          if (_checkBoxOptions[0].isChecked){
+              check1 = true;
+          }
+          if (_checkBoxOptions[1].isChecked){
+            check2 = true;
+          }
+          if (_checkBoxOptions[2].isChecked){
+            check3 = true;
+          }
+
+          if (check3 && check2 && check1) {
+            this._switchvalue = true;
+          } else {
+            this._switchvalue = false;
+          }
                     });
+                    
                     updateNotification();
                   },
                   controlAffinity: ListTileControlAffinity.leading,
@@ -140,8 +173,7 @@ class _NotificationSettingState extends State<NotificationSetting> implements No
                     style: TextStyle(fontSize: 16, color: greytheme1000),
                   ),
                 ))
-            .toList()
-            );
+            .toList());
     // );
   }
 
@@ -155,19 +187,49 @@ class _NotificationSettingState extends State<NotificationSetting> implements No
     }
 
     _notificationSettingPresenter.callUpdateNotiApi(notValue, context);
-
   }
 
   @override
-  void onFailedUpdateNotification() {
-    // TODO: implement onFailedUpdateNotification
-  }
+  void onFailedUpdateNotification() {}
 
   @override
-  void onSuccessUpdateNotification() {
-    // TODO: implement onSuccessUpdateNotification
+  void onSuccessUpdateNotification() {}
+
+  @override
+  void onFailedGetNotification() {}
+
+  @override
+  void onSuccessGetNotification(GetNotificationSetting getNotificationSetting) {
+    var model = getNotificationSetting.data;
+
+    setState(() {
+      if (model != null) {
+        if (model.length > 0) {
+          var check1 = false;
+          var check2 = false;
+          var check3 = false;
+          for (var value in model) {
+            if (value.notifType == "1") {
+              _checkBoxOptions[0].isChecked = true;
+              check1 = true;
+            }
+            if (value.notifType == "2") {
+              _checkBoxOptions[1].isChecked = true;
+              check2 = true;
+            }
+            if (value.notifType == "3") {
+              _checkBoxOptions[2].isChecked = true;
+              check3 = true;
+            }
+          }
+
+          if (check3 && check2 && check1) {
+            this._switchvalue = true;
+          }
+        }
+      }
+    });
   }
-  
 }
 
 class CheckBoxOptions {

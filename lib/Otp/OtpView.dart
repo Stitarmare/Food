@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/Otp/OtpPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetPassView.dart';
@@ -17,11 +18,13 @@ class OTPScreen extends StatefulWidget {
   bool isfromloginotp = false;
   bool isFromFogetPass = false;
   bool isFromUpadateNo = false;
+  bool isProvideAnotherNumber = false;
   OTPScreen(
       {this.mobno,
       this.countryCode,
       this.value,
       this.isFromFogetPass,
+      this.isProvideAnotherNumber,
       this.isfromloginotp,
       this.isFromUpadateNo});
   @override
@@ -100,6 +103,12 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         widget.value == 2 &&
         otpsave != null)) {
       await progressDialog.show();
+    } else if ((widget.isProvideAnotherNumber == true &&
+        widget.value == 3 &&
+        otpsave != null)) {
+      await progressDialog.show();
+      otppresenter.performOTP(
+          widget.mobno, widget.countryCode, otpsave, context);
     }
   }
 
@@ -239,7 +248,13 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               fontWeight: FontWeight.w600),
         ),
         onPressed: () {
-          Navigator.pushNamed(context, STR_ENTER_OTP_PAGE);
+          // Navigator.pushNamed(context, STR_ENTER_OTP_PAGE);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EnterOTPScreen(
+                        flag: 3,
+                      )));
         },
       ),
     );

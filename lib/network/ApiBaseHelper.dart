@@ -74,6 +74,11 @@ class ApiBaseHelper {
           HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
           HttpHeaders.acceptHeader: STR_HEADER_TYPE
         };
+      case UrlConstant.provideAnotherNumberApi:
+        return {
+          HttpHeaders.contentTypeHeader: STR_HEADER_TYPE,
+          HttpHeaders.acceptHeader: STR_HEADER_TYPE
+        };
       case UrlConstant.getCustomer:
         return {
           HttpHeaders.authorizationHeader: STR_BEARER + authToken(),

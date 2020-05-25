@@ -77,7 +77,7 @@ class _RegisterviewState extends State<Registerview>
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       registerPresenter.performregister(
-          _firstname, _lastname, _phoneno, _password,countrycode, context);
+          _firstname, _lastname, _phoneno, _password, countrycode, context);
       _signUpFormKey.currentState.save();
     } else {
       setState(() {
@@ -149,10 +149,10 @@ class _RegisterviewState extends State<Registerview>
     return Column(
       children: <Widget>[
         AppTextField(
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(20),
-            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
-          ],
+          // inputFormatters: [
+          //   LengthLimitingTextInputFormatter(20),
+          //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
+          // ],
           onChanged: (text) {
             _firstname = text;
           },
@@ -162,7 +162,7 @@ class _RegisterviewState extends State<Registerview>
             color: greentheme100,
           ),
           placeHolderName: KEY_FIRST_NAME,
-          validator: validatename,
+          validator: validatFirstename,
           onSaved: (String value) {
             _signUpData[name] = value;
           },
@@ -171,10 +171,10 @@ class _RegisterviewState extends State<Registerview>
           height: 15,
         ),
         AppTextField(
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(20),
-            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
-          ],
+          // inputFormatters: [
+          //   LengthLimitingTextInputFormatter(20),
+          //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
+          // ],
           onChanged: (text) {
             _lastname = text;
           },
@@ -184,7 +184,7 @@ class _RegisterviewState extends State<Registerview>
             color: greentheme100,
           ),
           placeHolderName: KEY_LAST_NAME,
-          validator: validatename,
+          validator: validateLastname,
           onSaved: (String value) {
             _signUpData[name] = value;
           },
@@ -288,11 +288,24 @@ class _RegisterviewState extends State<Registerview>
     );
   }
 
-  String validatename(String value) {
+  String validatFirstename(String value) {
     String validCharacters = STR_VALIDATE_NAME_TITLE;
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+      return STR_FIRST_NAME_REQUIRED;
+    } else if (value.length > 20) {
+      return KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG;
+    } else if (!regexp.hasMatch(value)) {
+      return Key_SPECIAL_CHAR;
+    }
+    return null;
+  }
+
+  String validateLastname(String value) {
+    String validCharacters = STR_VALIDATE_NAME_TITLE;
+    RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return STR_LAST_NAME_REQUIRED;
     } else if (value.length > 20) {
       return KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG;
     } else if (!regexp.hasMatch(value)) {

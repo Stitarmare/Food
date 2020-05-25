@@ -6,6 +6,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
+import 'package:foodzi/Models/GetNotificationSetting.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
@@ -135,6 +136,9 @@ class GenericModel<T> {
         return InvitePeopleModel.fromJson(json) as T;
       case RunningOrderModel:
         return RunningOrderModel.fromJson(json) as T;
+
+      case GetNotificationSetting:
+      return GetNotificationSetting.fromJson(json) as T;
 
       default:
         break;

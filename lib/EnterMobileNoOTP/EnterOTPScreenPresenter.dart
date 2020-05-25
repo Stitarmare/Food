@@ -77,7 +77,6 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
   @override
   void requestforUpdateNoOtp(
       String mobno, String countryCode, BuildContext context) {
-    // TODO: implement requestforUpdateNoOtp
     ApiBaseHelper().post<ErrorModel>(UrlConstant.sendOtpNewNo, context, body: {
       JSON_STR_MOB_NO: mobno,
       "country_code": countryCode
@@ -90,6 +89,29 @@ class EnterOTPScreenPresenter extends EnterOtpContractor {
           break;
         case SuccessType.failed:
           enterotpview.requestforUpdateNoOtpFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  provideAnotherNumberOTP(String oldNumber, String newMobileno,
+      String countryCode, String oldCountryCode, BuildContext context) {
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.provideAnotherNumberApi, context, body: {
+      "old_mobile_number": oldNumber,
+      "new_mobile_number": newMobileno,
+      "new_mobile_number_country_code": countryCode,
+      "old_mobile_number_country_code": oldCountryCode,
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          enterotpview.onProvideOtpSuccess();
+          break;
+        case SuccessType.failed:
+          enterotpview.onProvideOtpFailed();
           break;
       }
     }).catchError((error) {
