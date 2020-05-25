@@ -782,19 +782,22 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.8,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 18, top: 10),
-                                                  child: ExpandableText(
-                                                      _getReviewData[index]
-                                                          .description),
-                                                )),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                               child: Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                             top: 10),
+                                                    child: ExpandableText(
+                                                        _getReviewData[index]
+                                                            .description),
+                                                  )),
+                                            ),
                                             SizedBox(
                                               height: 10,
                                             )

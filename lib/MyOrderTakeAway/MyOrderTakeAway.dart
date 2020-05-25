@@ -599,13 +599,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                        child: GestureDetector(
-                          onTap: () {},
-                          // child: Text(STR_REPEAT_ORDER),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      //   child: GestureDetector(
+                      //     onTap: () {},
+                      //     // child: Text(STR_REPEAT_ORDER),
+                      //   ),
+                      // ),
                     ],
                   ),
                   SizedBox(
