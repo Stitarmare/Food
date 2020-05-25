@@ -313,14 +313,24 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       switchess = defaultSwitch ?? null;
                     }
 
-                    if (extras != null) {
-                      if (extras.length > 0 &&
-                          _addItemModelList.extrasrequired == "yes") {
-                        DialogsIndicator.showAlert(context, "Required Field",
-                            "Please select required field");
-                        return;
-                      }
+                    if (extras == null) {
+                      addItemData();
+                    } else if (extras.length != 0 &&
+                        _addItemModelList.extrasrequired == "yes") {
+                      addItemData();
+                    } else if (extras.length == 0) {
+                      DialogsIndicator.showAlert(context, "Required Field",
+                          "Please select required field");
                     }
+
+                    // if (extras != null) {
+                    //   if (extras.length > 0 &&
+                    //       _addItemModelList.extrasrequired == "yes") {
+                    //     DialogsIndicator.showAlert(context, "Required Field",
+                    //         "Please select required field");
+                    //     return;
+                    //   }
+                    // }
                     if (switches != null) {
                       if (switches.length > 0 &&
                           _addItemModelList.switchesrequired == "yes") {
@@ -330,7 +340,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       }
                     }
 
-                    addItemData();
+                    // addItemData();
                   },
                   child: Container(
                     height: 54,

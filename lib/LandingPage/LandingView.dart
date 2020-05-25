@@ -193,15 +193,18 @@ Stream stream;
   getCurrentOrderID() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);
+  setState(() {
     if (currentOrderId != null) {
-      setState(() {
+      
         isOrderRunning = true;
-      });
+    
     } else {
-      setState(() {
+      
         isOrderRunning = false;
-      });
+    
     }
+  });
+    
   }
   getCurrentRestID() async {
     var currentRestId =

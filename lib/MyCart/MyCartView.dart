@@ -83,21 +83,21 @@ class _MyCartViewState extends State<MyCartView>
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
-    Preference.getPrefValue<int>(PreferenceKeys.myCartRestIdKey).then((value) {
-      if (value != null) {
-        if (value == widget.restId) {
-          Preference.getPrefValue<int>(PreferenceKeys.mycartTableIdKey)
-              .then((value) {
-            if (value != null) {
-              setState(() {
-                _dropdownTableNo = value;
-                _dropdownTableNumber = value;
-              });
-            }
-          });
-        }
-      }
-    });
+    // Preference.getPrefValue<int>(PreferenceKeys.myCartRestIdKey).then((value) {
+    //   if (value != null) {
+    //     if (value == widget.restId) {
+    //       Preference.getPrefValue<int>(PreferenceKeys.mycartTableIdKey)
+    //           .then((valueTableKey) {
+    //         if (valueTableKey != null) {
+    //           setState(() {
+    //             _dropdownTableNo = valueTableKey;
+    //             _dropdownTableNumber = valueTableKey;
+    //           });
+    //         }
+    //       });
+    //     }
+    //   }
+    // });
 
     super.initState();
   }
@@ -480,10 +480,10 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               _dropdownTableNumber = newValue;
               _dropdownTableNo = _dropdownTableNumber;
-              Preference.setPersistData<int>(
-                  newValue, PreferenceKeys.mycartTableIdKey);
-              Preference.setPersistData(
-                  widget.restId, PreferenceKeys.myCartRestIdKey);
+              // Preference.setPersistData<int>(
+              //     _dropdownTableNumber, PreferenceKeys.mycartTableIdKey);
+              // Preference.setPersistData(
+              //     widget.restId, PreferenceKeys.myCartRestIdKey);
             });
             for (int i = 0; i < _dropdownItemsTable.length; i++) {
               if (newValue == _dropdownItemsTable[i].id) {
@@ -733,8 +733,6 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       _cartItemList = null;
-      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
-      Preference.removeForKey(PreferenceKeys.myCartRestIdKey);
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
