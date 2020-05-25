@@ -32,6 +32,7 @@ const STR_STATUS_TRACK_PAGE = '/StatusTrackView';
 const STR_WEB_VIEW_SCREEN_PAGE = '/WebViewScreen';
 const STR_CART_DETAILS_PAGE = '/CartDetailsPage';
 const STR_ENTER_MOBILE_PAGE = '/EnterMobileNoPage';
+const STR_CATEGORY_SECTION = '/CategoriesSection';
 
 // API_BASE_HELPER Page
 
