@@ -257,13 +257,13 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   String validatemobno(String value) {
     String pattern = STR_VALIDATE_MOB_NO;
     RegExp regExp = RegExp(pattern);
-    // if (value.length == 0) {
-    //   return KEY_MOBILE_NUMBER_REQUIRED;
-    // } else if (!regExp.hasMatch(value)) {
-    //   return KEY_MOBILE_NUMBER_TEXT;
-    // } else if (value.length > 13) {
-    //   return KEY_MOBILE_NUMBER_LIMIT;
-    // }
+    if (value.length == 0) {
+      return KEY_MOBILE_NUMBER_REQUIRED;
+    } else if (!regExp.hasMatch(value)) {
+      return KEY_MOBILE_NUMBER_TEXT;
+    } else if (value.length > 10) {
+      return KEY_MOBILE_NUMBER_LIMIT;
+    }
     if (value.isEmpty) {
       return KEY_MOBILE_NUMBER_REQUIRED;
     }

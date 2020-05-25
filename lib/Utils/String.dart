@@ -113,8 +113,8 @@ const KEY_CONFIRM_PASSWORD = 'Confirm Password';
 const KEY_SIGN_UP_WITH = KEY_SIGN_UP + ' with';
 const KEY_SIGN_IN_WITH = KEY_SIGN_IN + ' with';
 const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
-const STR_FIRST_NAME_REQUIRED = "First name is required";
-const STR_LAST_NAME_REQUIRED = "Last name is required";
+const STR_FIRST_NAME_REQUIRED = 'First name is required';
+const STR_LAST_NAME_REQUIRED = 'Last name is required';
 const Key_SPECIAL_CHAR = 'This Should Not Contain @ Or Any Special Character';
 const KEY_THIS_SHOULD_BE_ONLY_8_CHAR_LONG =
     'This should be only 8 characters long.';

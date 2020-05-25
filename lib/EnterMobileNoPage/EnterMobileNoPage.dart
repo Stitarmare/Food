@@ -253,7 +253,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
       return KEY_MOBILE_NUMBER_LIMIT;
     }
     if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+      return KEY_MOBILE_NUMBER_REQUIRED;
     }
     return null;
   }
