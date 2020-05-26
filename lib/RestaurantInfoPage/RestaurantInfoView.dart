@@ -737,7 +737,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 18, top: 8),
                                               child: Container(
-                                                width: 39,
+                                                width: 45,
                                                 height: 18,
                                                 decoration: BoxDecoration(
                                                     color: greytheme700,
@@ -762,11 +762,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                           const EdgeInsets.only(
                                                               left: 4,
                                                               top: 2,
-                                                              bottom: 2),
+                                                              bottom: 2,right: 4),
                                                       child: Text(
-                                                        _getReviewData[index]
-                                                            .rating
-                                                            .toString(),
+                                                        // _getReviewData[index]
+                                                        //     .rating.toString(),
+                                                        double.parse(_getReviewData[index].rating.toString()).toString(),
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 KEY_FONTFAMILY,
