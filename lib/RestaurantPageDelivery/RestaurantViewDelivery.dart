@@ -415,23 +415,22 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _getMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 90.0, vertical: 0.0),
+        height: 40,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _getMenucount(),
             itemBuilder: (context, index) {
               return Container(
-                width: MediaQuery.of(context).size.width * 0.18,
+                width: MediaQuery.of(context).size.width / 5.5,
                 child: Column(
                   children: <Widget>[
-                    Center(
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
                         child: GestureDetector(
                             onTap: () async {
                               _onSelected(index);
-                              // restaurantDeliveryPresenter.getMenuList(
-                              //     widget.restId, context,
-                              //     categoryId: abc, menu: menutype);
                             },
                             child: Text(
                               category[index].name,
@@ -441,12 +440,17 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                       ? getColorByHex(Globle().colorscode)
                                       : Color.fromRGBO(118, 118, 118, 1),
                                   fontSize: 16.0),
-                            ))),
-                    Divider(
-                      thickness: 1,
-                      color: _selectedMenu != null && _selectedMenu == index
-                          ? getColorByHex(Globle().colorscode)
-                          : Color.fromRGBO(118, 118, 118, 1),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.19,
+                      child: Divider(
+                        thickness: 2,
+                        color: _selectedMenu != null && _selectedMenu == index
+                            ? getColorByHex(Globle().colorscode)
+                            : Color.fromRGBO(118, 118, 118, 1),
+                      ),
                     )
                   ],
                 ),
@@ -495,7 +499,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
         height: 40,
         child: valueBool
             ? ListView.builder(
@@ -503,23 +507,28 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                 itemCount: subcategoriesList.length,
                 itemBuilder: (context, index) {
                   return Container(
-                      width: MediaQuery.of(context).size.width * 0.22,
+                      width: MediaQuery.of(context).size.width / 4.5,
                       child: Column(
                         children: <Widget>[
-                          Center(
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    _onSubMenuSelected(index);
-                                  },
-                                  child: Text(
-                                    subcategoriesList[index].name,
-                                    style: TextStyle(
-                                        color: _selectedSubMenu != null &&
-                                                _selectedSubMenu == index
-                                            ? getColorByHex(Globle().colorscode)
-                                            : Color.fromRGBO(118, 118, 118, 1),
-                                        fontSize: 16.0),
-                                  ))),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                                child: GestureDetector(
+                                    onTap: () async {
+                                      _onSubMenuSelected(index);
+                                    },
+                                    child: Text(
+                                      subcategoriesList[index].name,
+                                      style: TextStyle(
+                                          color: _selectedSubMenu != null &&
+                                                  _selectedSubMenu == index
+                                              ? getColorByHex(
+                                                  Globle().colorscode)
+                                              : Color.fromRGBO(
+                                                  118, 118, 118, 1),
+                                          fontSize: 16.0),
+                                    ))),
+                          ),
                           // Divider(
                           //   thickness: 1,
                           //   color: _selectedSubMenu != null &&
@@ -636,7 +645,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
