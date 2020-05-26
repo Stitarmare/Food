@@ -325,7 +325,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   height: 54,
                                   width: isAddMoreButtonEnable()
                                       ? (MediaQuery.of(context).size.width *
-                                          0.9)
+                                          0.96)
                                       : (MediaQuery.of(context).size.width *
                                           0.45),
                                   decoration: BoxDecoration(
@@ -657,11 +657,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
           var isPaid = false;
           for (var trans in myOrderDataDetails.splitbilltransactions) {
-            if (Globle().loginModel.data.id == trans.userId) {
+            if (trans.userId != null) {
+              if (Globle().loginModel.data.id == trans.userId) {
+                isPaid = false;
+                // if (trans.paystatus == "paid") {
+                //   isPaid = true;
+                // }
+              }
+            } else {
               isPaid = true;
-              // if (trans.paystatus == "paid") {
-              //   isPaid = true;
-              // }
             }
           }
           return isPaid;
