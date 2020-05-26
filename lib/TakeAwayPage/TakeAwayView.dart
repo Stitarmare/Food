@@ -91,6 +91,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       if (_position != null) {
         setState(() {
           getttingLocation = true;
+          locationNotFound = false;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
@@ -104,9 +105,8 @@ class _TakeAwayViewState extends State<TakeAwayView>
             context);
       } else {
         setState(() {
-          locationNotFound = false;
+          locationNotFound = true;
           getttingLocation = true;
-          
         });
       }
     });
@@ -409,42 +409,46 @@ class _TakeAwayViewState extends State<TakeAwayView>
                   ],
                 ),
               )
-            : locationNotFound ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Please enable location service and try again.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
+            : locationNotFound
+                ? Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            "Please enable location service and try again.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_15,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w500,
+                                color: greytheme1200),
+                          ),
+                        ),
+                        FlatButton(
+                            onPressed: () {
+                              locator();
+                            },
+                            child: Text("Try again"))
+                      ],
                     ),
-                    FlatButton(onPressed: (){
-                        locator();
-                    }, child: Text("Try again"))
-                  ],
-                ),
-              ) :(_restaurantList != null)
-                ? restaurantsInfo()
-                : Container(
-                    child: Center(
-                      child: Text(
-                        STR_NO_RESTAURANT,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_25,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            color: greytheme700),
+                  )
+                : (_restaurantList != null)
+                    ? restaurantsInfo()
+                    : Container(
+                        child: Center(
+                          child: Text(
+                            STR_NO_RESTAURANT,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_25,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w500,
+                                color: greytheme700),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
       ),
     );
   }
