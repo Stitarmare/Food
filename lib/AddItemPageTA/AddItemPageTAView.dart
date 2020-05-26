@@ -956,12 +956,15 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             ? Text(StringUtils.capitalize(
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
-                        secondary: Text(Globle().currencySymb != null
-                                ? "${Globle().currencySymb} " +
-                                    "${radionBtnsize.secondary}"
-                                : STR_R_CURRENCY_SYMBOL +
-                                    "${radionBtnsize.secondary}") ??
-                            Text(STR_DATA),
+                        secondary: Padding(
+                          padding: EdgeInsets.only(right: 15),
+                                 child: Text(Globle().currencySymb != null
+                                  ? "${Globle().currencySymb} " +
+                                      "${radionBtnsize.secondary}"
+                                  : STR_R_CURRENCY_SYMBOL +
+                                      "${radionBtnsize.secondary}") ??
+                              Text(STR_DATA),
+                        ),
                         groupValue: radionBtnsize.index,
                         value: sizesid,
                         dense: true,
@@ -1281,7 +1284,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         ),
                         Expanded(
                           child: SizedBox(
-                            width: 100,
+                            width: 140,
                           ),
                           flex: 2,
                         ),
