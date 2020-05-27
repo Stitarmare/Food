@@ -1,7 +1,7 @@
 name: foodzi
 description: A new Flutter project.
 
-version: 2.2+1
+version: 2.4+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
