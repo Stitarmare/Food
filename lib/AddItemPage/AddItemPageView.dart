@@ -1169,9 +1169,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             ? Text(StringUtils.capitalize(
                                 "${radionBtnsize.title}"))
                             : Text(STR_DATA),
-                        secondary: Text('${getCurrencySymbol()} ' +
-                                "${radionBtnsize.secondary}") ??
-                            Text(STR_DATA),
+                        secondary: Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: Text('${getCurrencySymbol()} ' +
+                                  "${radionBtnsize.secondary}") ??
+                              Text(STR_DATA),
+                        ),
                         groupValue: sizesid,
                         value: radionBtnsize.index,
                         dense: true,
@@ -1505,7 +1508,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         ),
                         Expanded(
                           child: SizedBox(
-                            width: 100,
+                            width: 140,
                           ),
                           flex: 2,
                         ),

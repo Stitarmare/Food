@@ -544,8 +544,8 @@ const STR_PLEASE_WAIT_NOTIFI =
 // ConfirmationDineView Page
 const STR_ASAP = 'ASAP';
 const STR_WITHIN_1_HOUR = 'Within 1 hour';
-const STR_WITHIN_2_HOUR = 'Within 2 hour';
-const STR_WITHIN_3_HOUR = 'Within 3 hour';
+const STR_WITHIN_2_HOUR = 'Within 2 hours';
+const STR_WITHIN_3_HOUR = 'Within 3 hours';
 const STR_CONFIRM_PLACE_ORDER = 'CONFIRM & PLACE ORDER';
 const STR_TABLE_NUMBER = "Table Number :";
 const STR_HOW_SOON_WANT = 'How soon do you want it ?';

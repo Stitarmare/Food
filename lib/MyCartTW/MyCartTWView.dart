@@ -132,21 +132,20 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            
-              setState(() {
-                _cartItemList[i].quantity += 1;
-                print(_cartItemList[i].quantity);
-              });
-              // DialogsIndicator.showLoadingDialog(
-              //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
-              _myCartpresenter.updateQauntityCount(
-                  _cartItemList[i].id,
-                  _cartItemList[i].quantity,
-                  (double.parse(_cartItemList[i].totalAmount)) /
-                      _cartItemList[i].quantity,
-                  context);
-            
+            setState(() {
+              _cartItemList[i].quantity += 1;
+              print(_cartItemList[i].quantity);
+            });
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_LOADING);
+            await progressDialog.show();
+            _myCartpresenter.updateQauntityCount(
+                _cartItemList[i].id,
+                _cartItemList[i].quantity,
+                (double.parse(_cartItemList[i].totalAmount)) /
+                    _cartItemList[i].quantity,
+                context);
+
             // if (count < 100) {
             //   setState(() {
             //     ++count;
@@ -675,19 +674,19 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   Future<void> updatequantitySuccess() async {
-    Globle().takeAwayCartItemCount -= 1;
+    // Globle().takeAwayCartItemCount -= 1;
+    await progressDialog.hide();
+    await progressDialog.show();
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    await progressDialog.hide();
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement updatequantitySuccess
   }
 
   @override
   Future<void> updatequantityfailed() async {
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    // TODO: implement updatequantityfailed
   }
 }
 
