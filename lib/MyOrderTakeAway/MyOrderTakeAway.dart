@@ -117,35 +117,37 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   }),
             ),
           ),
-           isCurrentOrders
-              ? 
-              getLenghtOfCurrentOrder() == 0 ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
-                    Text("No Current Orders")
-                  ],
-                ),
-              ) :
-              Container(child:
-               _currentOrders(context)
-               )
-              :  Container(child:
-              getLenghtOfHistoryOrder() == 0 ?
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
-                    Text("No Booking History")
-                  ],
-                ),
-              ) :
-               _bookingHistoryList(context)
-               ),
+          isCurrentOrders
+              ? getLenghtOfCurrentOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Current Orders")
+                        ],
+                      ),
+                    )
+                  : Container(child: _currentOrders(context))
+              : Container(
+                  child: getLenghtOfHistoryOrder() == 0
+                      ? Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.35,
+                              ),
+                              Text("No Booking History")
+                            ],
+                          ),
+                        )
+                      : _bookingHistoryList(context)),
           // isCurrentOrders
           //     ? Center(child: Container(child: _currentOrders(context)))
           //     : Center(child: Container(child: _bookingHistoryList(context))),
@@ -369,13 +371,31 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       indent: 10,
                       endIndent: 10,
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, top: 8, bottom: 8),
-                      child: Text(
-                        STR_STATUS + '${_orderDetailList[index].status}',
-                        style: TextStyle(color: greytheme400, fontSize: 18),
-                      ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
+                        ),
+                        ClipOval(
+                          child: Container(
+                            height: 10,
+                            width: 10,
+                            color: Colors.green,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, top: 8, bottom: 8),
+                          child: Text(
+                            // STR_STATUS + '${_orderDetailList[index].status}',
+                            '${_orderDetailList[index].status}',
+                            style: TextStyle(color: greytheme400, fontSize: 18),
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -630,6 +650,15 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     setState(() {
       if (_orderdetailsList.length != null) {
         _orderDetailList = _orderdetailsList;
+
+        Iterable<CurrentOrderList> orderIterableList =
+            _orderDetailList.reversed;
+        List<CurrentOrderList> list1 = [];
+        for (int i = 0; i < orderIterableList.length; i++) {
+          CurrentOrderList list = orderIterableList.elementAt(i);
+          list1.add(list);
+          _orderDetailList = list1;
+        }
       }
     });
   }
@@ -640,7 +669,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   @override
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
-    
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
