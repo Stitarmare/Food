@@ -383,12 +383,12 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                             color: Colors.green,
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: 15, top: 8, bottom: 8),
+                              left: 15, top: 5, bottom: 8),
                           child: Text(
                             // STR_STATUS + '${_orderDetailList[index].status}',
                             '${_orderDetailList[index].status}',

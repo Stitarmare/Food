@@ -24,6 +24,7 @@ import 'package:foodzi/widgets/WebView.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+
 class Landingview extends DrawerContent {
   final String title;
   final Widget body;
@@ -33,25 +34,26 @@ class Landingview extends DrawerContent {
     return _LandingStateView();
   }
 }
+
 class _LandingStateView extends State<Landingview>
     implements LandingViewProtocol {
   bool isOrderRunning = false;
   LandingViewPresenter _landingViewPresenter;
   RunningOrderModel _model;
   //final GlobalKey<_LandingStateView> _scaffoldKey =
-      //GlobalKey<_LandingStateView>();
+  //GlobalKey<_LandingStateView>();
   ProgressDialog progressDialog;
   Position _position;
   StreamController<Position> _controllerPosition = new StreamController();
-Stream stream;
+  Stream stream;
   StreamSubscription<double> _streamSubscription;
-  
+
   @override
-  void initState()  {
+  void initState() {
     stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
-    
-   progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
     getCurrentOrderID();
@@ -66,6 +68,7 @@ Stream stream;
     onStreamListen();
     super.initState();
   }
+
   onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
@@ -76,35 +79,37 @@ Stream stream;
       });
     }
   }
+
   pushToNotification() {
     Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationView()));
+        context, MaterialPageRoute(builder: (context) => NotificationView()));
   }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
-  
+
   _getLocation() async {
     GeoLocationTracking.load(context, _controllerPosition);
     _controllerPosition.stream.listen((position) async {
       print(position);
       _position = position;
       if (_position != null) {
-          _landingViewPresenter.sendDeviceInfo(_position.latitude.toString(),_position.longitude.toString(),context);
-      } 
+        _landingViewPresenter.sendDeviceInfo(_position.latitude.toString(),
+            _position.longitude.toString(), context);
+      }
     });
   }
-  callApi() async{
+
+  callApi() async {
     //await progressDialog.show();
-     _landingViewPresenter.getCurrentOrder(context);
+    _landingViewPresenter.getCurrentOrder(context);
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return Card(
       elevation: 100.0,
       child: Scaffold(
@@ -117,31 +122,33 @@ Stream stream;
               //   color: greytheme100,
               //   size: 28,
               // ),
-              icon: 
-               (Globle().notificationFLag)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                 Positioned(
+              icon: (Globle().notificationFLag)
+                  ? Stack(
+                      fit: StackFit.passthrough,
+                      overflow: Overflow.visible,
+                      children: <Widget>[
+                        Icon(
+                          OMIcons.notifications,
+                          color: greytheme100,
+                          size: 30,
+                        ),
+                        Positioned(
                             top: -11,
                             right: -11,
                             child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
+                                badgeColor: redtheme,
+                                badgeContent: Text(STR_ONE,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white)))
+                            // : Text(STR_BLANK),
+                            )
+                      ],
+                    )
+                  : Icon(
+                      OMIcons.notifications,
+                      color: greytheme100,
+                      size: 30,
+                    ),
               onPressed: () {
                 Navigator.push(
                     context,
@@ -159,25 +166,26 @@ Stream stream;
         ),
         body: SingleChildScrollView(child: _getmainView()),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-       floatingActionButton: (isOrderRunning)?SizedBox(
-                  width: MediaQuery.of(context).size.width*0.65,
-                child: (
-           FloatingActionButton.extended(onPressed: () {
-                showStatusView();
-              },
-              
-              elevation: 20,
-              highlightElevation: 20,
-              focusElevation: 20,
-              backgroundColor: Colors.white70,
-               label: Text(STR_VIEW_YOUR_ORDER,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_16,
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w600,
-                                color: greentheme100)),)
-         ),
-       ):(Container()),
+        floatingActionButton: (isOrderRunning)
+            ? SizedBox(
+                width: MediaQuery.of(context).size.width * 0.65,
+                child: (FloatingActionButton.extended(
+                  onPressed: () {
+                    showStatusView();
+                  },
+                  elevation: 20,
+                  highlightElevation: 20,
+                  focusElevation: 20,
+                  backgroundColor: Colors.white70,
+                  label: Text(STR_VIEW_YOUR_ORDER,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_16,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontWeight: FontWeight.w600,
+                          color: greentheme100)),
+                )),
+              )
+            : (Container()),
         // bottomNavigationBar: (isOrderRunning)
         //     ? BottomAppBar(
         //         child: Container(
@@ -190,22 +198,19 @@ Stream stream;
       ),
     );
   }
+
   getCurrentOrderID() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);
-  setState(() {
-    if (currentOrderId != null) {
-      
+    setState(() {
+      if (currentOrderId != null) {
         isOrderRunning = true;
-    
-    } else {
-      
+      } else {
         isOrderRunning = false;
-    
-    }
-  });
-    
+      }
+    });
   }
+
   getCurrentRestID() async {
     var currentRestId =
         await Preference.getPrefValue<int>(PreferenceKeys.currentRestaurantId);
@@ -214,6 +219,7 @@ Stream stream;
     }
     return;
   }
+
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
@@ -237,6 +243,7 @@ Stream stream;
       ),
     );
   }
+
   Widget _buildimage() {
     return Container(
         //width: MediaQuery.of(context).size.width / 1.32,
@@ -246,6 +253,7 @@ Stream stream;
           fit: BoxFit.fill,
         ));
   }
+
   Widget _buildMaintext() {
     return Row(
       children: <Widget>[
@@ -256,6 +264,7 @@ Stream stream;
       ],
     );
   }
+
   Widget _buidtext() {
     return LimitedBox(
       child: Column(
@@ -293,6 +302,7 @@ Stream stream;
       ),
     );
   }
+
   Widget _cardoption() {
     return LimitedBox(
       child: Container(
@@ -308,6 +318,7 @@ Stream stream;
       ),
     );
   }
+
   Widget _dineincard() {
     return Center(
       child: Card(
@@ -342,18 +353,19 @@ Stream stream;
       ),
     );
   }
+
   goToDineIn() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-            if (progressDialog != null) {
-await progressDialog.show();
-    //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-  _landingViewPresenter.getCurrentOrder(context);
-            }
-   
+    if (progressDialog != null) {
+      await progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+      _landingViewPresenter.getCurrentOrder(context);
+    }
   }
+
   Widget _buildinningtext() {
     return Column(
       //mainAxisAlignment: MainAxisAlignment.start,
@@ -380,52 +392,56 @@ await progressDialog.show();
       ],
     );
   }
+
   Widget _currentOrdertext() {
     return Stack(
       children: <Widget>[
-      Center(
-        child: Card(
+        Center(
+          child: Card(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.9,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40), topRight: Radius.circular(40))),
-          child: InkWell(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  flex: 9,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 38.0),
-                    child: Center(
-                      child: Text(STR_VIEW_YOUR_ORDER,
-                          style: TextStyle(
-                              fontSize: FONTSIZE_16,
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              color: greentheme100)),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40))),
+              child: InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 9,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 38.0),
+                        child: Center(
+                          child: Text(STR_VIEW_YOUR_ORDER,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_16,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w600,
+                                  color: greentheme100)),
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Icon(
+                        Icons.navigate_next,
+                        color: greytheme600,
+                      ),
+                    )
+                  ],
                 ),
-                Expanded(
-                  child: Icon(
-                    Icons.navigate_next,
-                    color: greytheme600,
-                  ),
-                )
-              ],
+                onTap: () {
+                  showStatusView();
+                },
+              ),
             ),
-            onTap: () {
-              showStatusView();
-            },
           ),
-        ),
-    ),
-      )
-    ],);
+        )
+      ],
+    );
   }
+
   Widget _takeAwaycard() {
     return Center(
       child: Card(
@@ -460,6 +476,7 @@ await progressDialog.show();
       ),
     );
   }
+
   goToTakeAway() async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
@@ -467,8 +484,9 @@ await progressDialog.show();
             )));
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-   _landingViewPresenter.getCurrentOrder(context);
+    _landingViewPresenter.getCurrentOrder(context);
   }
+
   showStatusView() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);
@@ -476,14 +494,11 @@ await progressDialog.show();
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => 
-              CartDetailsPage(
-                restId: _model.data.dineIn.restId,
-                orderId: Globle().orderID,
-                isFromOrder: true,
-              )
-              
-                  ));
+              builder: (context) => CartDetailsPage(
+                    restId: _model.data.dineIn.restId,
+                    orderId: Globle().orderID,
+                    isFromOrder: true,
+                  )));
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -492,13 +507,12 @@ await progressDialog.show();
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
           await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => 
-              PaymentTipAndPayDi(
-                        // orderID: widget.orderID,
-                        // tableId: widget.tableId,
-                        orderID: currentOrderId,
-                        tableId: _model.data.takeAway.tableId,
-                      )
+              builder: (context) => PaymentTipAndPayDi(
+                    // orderID: widget.orderID,
+                    // tableId: widget.tableId,
+                    orderID: currentOrderId,
+                    tableId: _model.data.takeAway.tableId,
+                  )
               // StatusTakeAwayView(
               //       orderID: currentOrderId,
               //       restId: (_model.data.takeAway.status != STR_PAID)
@@ -511,9 +525,8 @@ await progressDialog.show();
               //           ? _model.data.takeAway.restaurant.coverImage
               //           : _model.data.dineIn.restaurant.coverImage,
               //     )
-                  )
-                  );
-         await progressDialog.show();
+              ));
+          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context);
@@ -521,6 +534,7 @@ await progressDialog.show();
       }
     }
   }
+
   Widget _buildTakeAwaytext() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,11 +560,12 @@ await progressDialog.show();
       ],
     );
   }
+
   @override
-  void onFailedCurrentOrder() async{
+  void onFailedCurrentOrder() async {
     await progressDialog.hide();
-    
   }
+
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
     await progressDialog.hide();
@@ -558,7 +573,7 @@ await progressDialog.show();
     // if (_scaffoldKey.currentContext != null) {
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
     // }
-    
+
     _model = model;
     if (model != null) {
       if (model.data.dineIn != null) {
@@ -567,7 +582,7 @@ await progressDialog.show();
               model.data.dineIn.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
               model.data.dineIn.id, PreferenceKeys.orderId);
-              Globle().orderID = model.data.dineIn.id;
+          Globle().orderID = model.data.dineIn.id;
           Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
@@ -600,18 +615,21 @@ await progressDialog.show();
         } else {
           setDefaultData();
         }
-      } else if(model.data.cart!=null) {
+      } else if (model.data.cart != null) {
         Globle().dinecartValue += 1;
-    Preference.setPersistData<int>(
-        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData(model.data.cart.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData(model.data.cart.restName, PreferenceKeys.restaurantName);
+        Preference.setPersistData<int>(
+            Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+        Preference.setPersistData(
+            model.data.cart.restId, PreferenceKeys.restaurantID);
+        Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData(
+            model.data.cart.restName, PreferenceKeys.restaurantName);
       } else {
         setDefaultData();
       }
     }
   }
+
   setDefaultData() {
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -628,13 +646,14 @@ await progressDialog.show();
       getCurrentOrderID();
     });
   }
+
   @override
   void dispose() {
-    // TODO: implement dispose
     //progressDialog.hide();
     super.dispose();
   }
 }
+
 class MainWidget extends StatefulWidget {
   MainWidget({Key key, this.title, this.appbarTitle}) : super(key: key);
   final String title;
@@ -642,12 +661,13 @@ class MainWidget extends StatefulWidget {
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
+
 class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   HiddenDrawerController _drawerController;
   @override
   void initState() {
     super.initState();
-    
+
     _drawerController = HiddenDrawerController(
       initialPage: Landingview(
         title: STR_MAIN,
@@ -656,7 +676,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         DrawerItem(
             text: Text(STR_HOME,
                 style: TextStyle(
-                    color: (Globle().navigatorIndex == 1) ? orangetheme : greytheme800,
+                    color: (Globle().navigatorIndex == 1)
+                        ? orangetheme
+                        : greytheme800,
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
@@ -672,7 +694,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_ABOUT_US,
               style: TextStyle(
-                  color: (Globle().navigatorIndex == 2) ? orangetheme : greytheme800,
+                  color: (Globle().navigatorIndex == 2)
+                      ? orangetheme
+                      : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: 15),
@@ -692,7 +716,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_TERMS_CONDITION,
               style: TextStyle(
-                  color: (Globle().navigatorIndex == 3) ? orangetheme : greytheme800,
+                  color: (Globle().navigatorIndex == 3)
+                      ? orangetheme
+                      : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -712,7 +738,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_PRIVACY_POLICY,
               style: TextStyle(
-                  color: (Globle().navigatorIndex == 4) ? orangetheme : greytheme800,
+                  color: (Globle().navigatorIndex == 4)
+                      ? orangetheme
+                      : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -731,7 +759,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         DrawerItem(
             text: Text(STR_SETTING,
                 style: TextStyle(
-                    color: (Globle().navigatorIndex == 5) ? orangetheme : greytheme800,
+                    color: (Globle().navigatorIndex == 5)
+                        ? orangetheme
+                        : greytheme800,
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
@@ -744,7 +774,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Globle().navigatorIndex = 5;
               });
               widget.appbarTitle = STR_SETTING;
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => SettingView()));
               // _opennewpage(STR_SETTING);
             }), //SETTING
         // DrawerItem(
@@ -774,6 +805,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ],
     );
   }
+
   profilePic() {
     String imageUrl = STR_BLANK;
     if (Globle().loginModel.data.userDetails != null) {
@@ -785,7 +817,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
     }
     return imageUrl;
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -842,6 +874,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       ),
     );
   }
+
   void _opennewpage(String title) {
     if (title.contains(STR_HOME)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
@@ -883,11 +916,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   )));
     }
   }
-  
 }
-    //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
-    //                       style: TextStyle(
-    //                           fontSize: FONTSIZE_16,
-    //                           fontFamily: KEY_FONTFAMILY,
-    //                           fontWeight: FontWeight.w600,
-    //                           color: greentheme100)),)
+//  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
+//                       style: TextStyle(
+//                           fontSize: FONTSIZE_16,
+//                           fontFamily: KEY_FONTFAMILY,
+//                           fontWeight: FontWeight.w600,
+//                           color: greentheme100)),)

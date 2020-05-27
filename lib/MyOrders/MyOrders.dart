@@ -662,6 +662,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
     if (_orderdetailsList.length == 0) {
+      setDefaultData();
       return;
     }
 
@@ -675,6 +676,33 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList[0].id, PreferenceKeys.currentOrderId);
     Preference.setPersistData<int>(
         _orderDetailList[0].restId, PreferenceKeys.currentRestaurantId);
+
+    Preference.setPersistData<int>(
+        _orderDetailList[0].restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<int>(
+        _orderDetailList[0].id, PreferenceKeys.orderId);
+    Globle().orderID = _orderDetailList[0].id;
+    Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Globle().dinecartValue = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Globle().takeAwayCartItemCount = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+  }
+
+  setDefaultData() {
+    Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Globle().orderID = 0;
+    Preference.removeForKey(PreferenceKeys.orderId);
+    Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
   }
 
   @override
