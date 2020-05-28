@@ -19,6 +19,7 @@ class BoxAppTextField extends StatefulWidget {
   final bool autovalidate;
   final Function(String) onChanged;
   final FocusNode focusNode;
+  final List<TextInputFormatter> inputFormatters;
 
   const BoxAppTextField({
     this.onChanged,
@@ -34,6 +35,7 @@ class BoxAppTextField extends StatefulWidget {
     this.onSaved,
     this.keyboardType,
     this.icon,
+    this.inputFormatters,
     this.autovalidate = false,
     this.focusNode,
   });
@@ -46,6 +48,7 @@ class _AppTextFieldState extends State<BoxAppTextField> {
   @override
   Widget build(BuildContext context) {
     TextFormField tf = TextFormField(
+      inputFormatters: widget.inputFormatters,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText,
       readOnly: widget.readOnly,

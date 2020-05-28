@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/EditProfile/EditProfileContractor.dart';
 import 'package:foodzi/EditProfile/EditProfilePresenter.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
@@ -147,6 +148,10 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(6),
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
               onChanged: (text) {
                 pinCode = text;
               },
