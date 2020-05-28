@@ -60,6 +60,7 @@ class _DineViewState extends State<DineInView>
   var sliderValue;
   var sliderval;
   bool isIgnoreTouch = true;
+  int delivery = 0;
 
   @override
   void didChangeDependencies() {
@@ -111,6 +112,7 @@ class _DineViewState extends State<DineInView>
             sortedBy,
             filteredBy,
             page,
+            delivery,
             context);
       } else {
         setState(() {
@@ -131,6 +133,7 @@ class _DineViewState extends State<DineInView>
               sortedBy,
               filteredBy,
               page,
+              delivery,
               context);
         }
       }
@@ -434,8 +437,14 @@ class _DineViewState extends State<DineInView>
 
   callOnfilter() async {
     await progressDialog.show();
-    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
-        _position.longitude.toString(), sortedBy, filteredBy, page, context);
+    dinerestaurantPresenter.getrestaurantspage(
+        _position.latitude.toString(),
+        _position.longitude.toString(),
+        sortedBy,
+        filteredBy,
+        page,
+        delivery,
+        context);
   }
 
   Widget restaurantsInfo() {

@@ -56,6 +56,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   ];
   var sliderValue;
   bool isIgnoreTouch = true;
+  int delivery = 0;
   var sliderval;
   @override
   void initState() {
@@ -101,6 +102,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
             sortedBy,
             filteredBy,
             page,
+            delivery,
             context);
       } else {
         setState(() {
@@ -124,6 +126,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
               STR_BLANK,
               STR_BLANK,
               page,
+              delivery,
               context);
         }
       }
@@ -205,11 +208,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                 tile.isSelected = !tile.isSelected;
+                                tile.isSelected = !tile.isSelected;
                                 // tile.isSelected = true;
                                 // if (bottomList == optionSortBy) {
                                 //   sortedBy = bottomItem.title;
-                                  
+
                                 //   if (bottomItem.title == STR_DISTANCE) {
                                 //     sortedBy = STR_SMALL_DISTANCE;
                                 //   } else {
@@ -294,6 +297,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                                 sortedBy,
                                                 filteredBy,
                                                 page,
+                                                delivery,
                                                 context);
                                       },
                                       child: IconTheme(

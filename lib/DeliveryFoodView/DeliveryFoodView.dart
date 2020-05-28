@@ -63,6 +63,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   var sliderValue;
   var sliderval;
   bool isIgnoreTouch = true;
+  int delivery = 0;
 
   @override
   void didChangeDependencies() {
@@ -114,6 +115,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
             sortedBy,
             filteredBy,
             page,
+            delivery,
             context);
       } else {
         setState(() {
@@ -134,6 +136,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
               sortedBy,
               filteredBy,
               page,
+              delivery,
               context);
         }
       }
@@ -215,7 +218,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = ! tile.isSelected;
+                                tile.isSelected = !tile.isSelected;
                                 // if (bottomList == optionSortBy) {
                                 //   sortedBy = bottomItem.title;
                                 //   if (bottomItem.title == STR_DISTANCE) {
@@ -437,8 +440,14 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
 
   callOnfilter() async {
     await progressDialog.show();
-    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
-        _position.longitude.toString(), sortedBy, filteredBy, page, context);
+    dinerestaurantPresenter.getrestaurantspage(
+        _position.latitude.toString(),
+        _position.longitude.toString(),
+        sortedBy,
+        filteredBy,
+        page,
+        delivery,
+        context);
   }
 
   Widget restaurantsInfo() {
