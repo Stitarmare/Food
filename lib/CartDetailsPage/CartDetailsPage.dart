@@ -16,6 +16,8 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
+import '../Utils/shared_preference.dart';
+
 class CartDetailsPage extends StatefulWidget {
   int orderId;
   int flag;
@@ -147,6 +149,26 @@ class CartDetailsPageState extends State<CartDetailsPage>
     }
   }
 
+  bool isCancelOrder() {
+    if (myOrderDataDetails!=null) {
+      if(myOrderDataDetails.status=="cancelled") {
+        Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Globle().orderID = 0;
+    Preference.removeForKey(PreferenceKeys.orderId);
+    Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -273,7 +295,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
                   ],
                 ),
           bottomNavigationBar: BottomAppBar(
-            child: Container(
+            child: isCancelOrder() ? Container(
+              height: 40,
+              color: Colors.red,
+              child: Center(child: Text(
+                "Cancelled",
+                style:TextStyle(
+                                          fontFamily: "gotham",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                          color: Colors.white) ,
+              ),),
+            ) : Container(
                 height: 110,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,

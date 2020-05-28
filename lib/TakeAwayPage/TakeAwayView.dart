@@ -91,6 +91,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       if (_position != null) {
         setState(() {
           getttingLocation = true;
+
           locationNotFound = false;
         });
         // DialogsIndicator.showLoadingDialog(
@@ -106,6 +107,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
       } else {
         setState(() {
           locationNotFound = true;
+          isIgnoreTouch = false;
           getttingLocation = true;
         });
       }
@@ -654,6 +656,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
 
   @override
   Future<void> restaurantfailed() async {
+    isIgnoreTouch = false;
     await progressDialog.hide();
   }
 

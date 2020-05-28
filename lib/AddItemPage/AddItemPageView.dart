@@ -404,7 +404,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         if (extras != null) {
-                          if (extras.length > 0 &&
+                          if (extras.length == 0 &&
                               _addItemModelList.extrasrequired == "yes") {
                             DialogsIndicator.showAlert(
                                 context,
@@ -414,7 +414,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           }
                         }
                         if (switches != null) {
-                          if (switches.length > 0 &&
+                          if (switches.length == 0 &&
                               _addItemModelList.switchesrequired == "yes") {
                             DialogsIndicator.showAlert(
                                 context,

@@ -427,7 +427,11 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
-    var time = DateFormat("hh:mm a").format(date.toLocal());
+    
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+    
     return "$dateStr at $time";
   }
 
