@@ -315,12 +315,24 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
                     if (extras == null) {
                       addItemData();
-                    } else if (extras.length != 0 &&
-                        _addItemModelList.extrasrequired == "yes") {
+                      return;
+                    }
+                    // else if (extras.length != 0 &&
+                    //     _addItemModelList.extrasrequired == "yes") {
+                    //   addItemData();
+                    //   return;
+                    // }
+                    else if (extras.length != 0) {
                       addItemData();
-                    } else if (extras.length == 0) {
+                      return;
+                    } else if (extras.length == 0 &&
+                        _addItemModelList.extrasrequired == "yes") {
                       DialogsIndicator.showAlert(context, "Required Field",
                           "Please select required field");
+                      return;
+                    } else if (extras.length == 0) {
+                      addItemData();
+                      return;
                     }
 
                     // if (extras != null) {
@@ -958,7 +970,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             : Text(STR_DATA),
                         secondary: Padding(
                           padding: EdgeInsets.only(right: 15),
-                                 child: Text(Globle().currencySymb != null
+                          child: Text(Globle().currencySymb != null
                                   ? "${Globle().currencySymb} " +
                                       "${radionBtnsize.secondary}"
                                   : STR_R_CURRENCY_SYMBOL +
