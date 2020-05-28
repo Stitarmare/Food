@@ -13,6 +13,7 @@ import 'package:foodzi/widgets/BoxTextField.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:toast/toast.dart';
 
 class EditProfileview extends StatefulWidget {
   @override
@@ -79,6 +80,35 @@ class _EditProfileState extends State<EditProfileview>
 
   Future<void> updateButtonClicked() async {
     if (_editprofileFormKey.currentState.validate()) {
+      if (countryID == null) {
+Toast.show(
+      "Please select country.",
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    return;
+      }
+      if (stateID == null) {
+Toast.show(
+      "Please select state.",
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    return;
+      }
+      if (cityID == null) {
+Toast.show(
+      "Please select city.",
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    return;
+      }
+    
+
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
