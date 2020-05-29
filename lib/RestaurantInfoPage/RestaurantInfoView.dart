@@ -718,13 +718,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                               padding: const EdgeInsets.only(
                                                   left: 18, top: 16.5),
                                               child: Text(
-                                                  _getReviewData[index]
-                                                          .user
-                                                          .firstName +
-                                                      STR_SPACE +
-                                                      _getReviewData[index]
-                                                          .user
-                                                          .lastName,
+                                                  getName(index),
                                                   style: TextStyle(
                                                       fontSize: FONTSIZE_13,
                                                       color: greytheme1000,
@@ -816,6 +810,19 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         ],
       ),
     );
+  }
+
+  String getName(int index) {
+    if (_getReviewData[index].user == null) {
+      return "Unknown";
+    }
+    return _getReviewData[index]
+                                                          .user
+                                                          .firstName +
+                                                      STR_SPACE +
+                                                      _getReviewData[index]
+                                                          .user
+                                                          .lastName;
   }
 
   Widget customTabbar() {

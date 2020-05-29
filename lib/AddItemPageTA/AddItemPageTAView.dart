@@ -1116,7 +1116,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       for (var chekc in checkBoxOptionsPrice) {
         extPirce += double.parse(chekc.price);
       }
-      double douPrice2 = double.parse(price) + extPirce;
+      double douPrice2 = double.parse(price) + (extPirce*count);
       String strdoublePrice2 = douPrice2.toStringAsFixed(2);
       return strdoublePrice2;
       // return (double.parse(price) + extPirce).toString();

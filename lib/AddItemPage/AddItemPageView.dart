@@ -1336,7 +1336,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
-      double douPrice = double.parse(price) + extPirce;
+      double douPrice = double.parse(price) + (extPirce*count);
       String strdoublePrice = douPrice.toStringAsFixed(2);
       return strdoublePrice;
       // return (double.parse(price) + extPirce).toString();
