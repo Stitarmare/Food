@@ -551,13 +551,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     if (extras == null) {
       addItemData(alreadyAdde, restauran, restaurantName);
       return;
-    }
-    // else if (extras.length != 0 &&
-    //     _addItemModelList.extrasrequired == "yes") {
-    //   addItemData(alreadyAdde, restauran, restaurantName);
-    //   return;
-    // }
-    else if (extras.length != 0) {
+    } else if (extras.length != 0) {
       addItemData(alreadyAdde, restauran, restaurantName);
       return;
     } else if (extras.length == 0 &&
