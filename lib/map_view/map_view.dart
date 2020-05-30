@@ -90,7 +90,7 @@ class MapViewState extends State<MapView> {
   String strSubThoroughfare = "";
   String strAddress = "";
   String addres = "";
-  bool isFormEnabled = false;
+  bool isFormEnabled = true;
   bool enabletv = false;
   String strData = "";
   String landMark = "";
@@ -104,8 +104,6 @@ class MapViewState extends State<MapView> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     // create an instance of Location
     location = new Location();
     polylinePoints = PolylinePoints();
@@ -406,8 +404,8 @@ class MapViewState extends State<MapView> {
                             child: Text(strAddress),
                           ),
                         ),
-                        // _addressField(),
-                        // _landmarkField(),
+                        _addressField(),
+                        _landmarkField(),
                         _saveandproceedBtn(),
                       ],
                     )),
@@ -512,7 +510,7 @@ class MapViewState extends State<MapView> {
   }
 
   _showBottomSheetCallback() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 0), () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _bottomSheetController = _scaffoldKey.currentState
             .showBottomSheet<void>((BuildContext context) {
@@ -651,9 +649,9 @@ class MapViewState extends State<MapView> {
             ),
             onPressed: () {
               saveAddress();
-              setState(() {
-                isFormEnabled = false;
-              });
+              // setState(() {
+              //   isFormEnabled = false;
+              // });
             },
           ),
         ),
