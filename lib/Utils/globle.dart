@@ -27,6 +27,8 @@ class Globle {
   String currencySymb = STR_BLANK;
   var authKey;
   BuildContext context;
+  bool isTabelAvailable = false;
+  int tableID = 0;
   int orderID = 0;
   int navigatorIndex = 1;
 }

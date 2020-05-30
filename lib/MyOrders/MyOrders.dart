@@ -661,7 +661,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   }
 
   @override
-  void getOrderDetailsFailed() {}
+  void getOrderDetailsFailed() {
+    setDefaultData();
+  }
 
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
@@ -675,6 +677,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList = _orderdetailsList;
       }
     });
+    Globle().isTabelAvailable = true;
+    Globle().tableID = _orderDetailList[0].tableId;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(
         _orderDetailList[0].id, PreferenceKeys.currentOrderId);
@@ -701,6 +705,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
+    Globle().isTabelAvailable = false;
+    Globle().tableID = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);

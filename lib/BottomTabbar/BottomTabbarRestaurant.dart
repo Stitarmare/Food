@@ -105,6 +105,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
+    getTableID();
     super.didChangeDependencies();
   }
 
@@ -117,6 +118,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 
   @override
   Widget build(BuildContext context) {
+    getAlreadyInCart();
     return Scaffold(
       floatingActionButton: Container(
         width: 60,
@@ -127,9 +129,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
-                    if (tableID != null && tableID != 0) {
+                    if (Globle().isTabelAvailable && Globle().tableID != 0) {
                       restaurantPresenter.notifyWaiter(
-                          Globle().loginModel.data.id, tableID, "", context);
+                          Globle().loginModel.data.id, Globle().tableID, "", context);
                     }
                   },
                   heroTag: STR_BTN_BUZZER,

@@ -152,17 +152,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   bool isCancelOrder() {
     if (myOrderDataDetails!=null) {
       if(myOrderDataDetails.status=="cancelled") {
-        Preference.setPersistData<int>(null, PreferenceKeys.orderId);
-    Globle().orderID = 0;
-    Preference.removeForKey(PreferenceKeys.orderId);
-    Globle().dinecartValue = 0;
-    Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+        
         return true;
       }
     }
@@ -485,6 +475,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
         InkWell(
           onTap: () {
             if (!isAddMoreButtonEnable()) {
+              if (isCancelOrder()) {
+                return;
+              }
               callIncreaseQuantityApi(myOrderDataDetails.list[index].itemId,
                   myOrderDataDetails.list[index].id.toString());
             }
@@ -902,6 +895,20 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isloading = false;
       isFirst = false;
     });
+
+    if (isCancelOrder()) {
+      Preference.setPersistData<int>(null, PreferenceKeys.orderId);
+    Globle().orderID = 0;
+    Preference.removeForKey(PreferenceKeys.orderId);
+    Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
+    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    }
   }
 
   @override

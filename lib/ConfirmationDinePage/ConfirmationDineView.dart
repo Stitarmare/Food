@@ -654,6 +654,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         myOrderData = orderData;
       }
     });
+    Globle().isTabelAvailable = true;
+    Globle().tableID = widget.tableId;
     Preference.setPersistData<int>(widget.tableId, PreferenceKeys.tableId);
     Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);

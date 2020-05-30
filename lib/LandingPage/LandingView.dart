@@ -590,6 +590,8 @@ class _LandingStateView extends State<Landingview>
           Globle().takeAwayCartItemCount = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Globle().isTabelAvailable = true;
+          Globle().tableID =  model.data.dineIn.tableId;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -609,6 +611,8 @@ class _LandingStateView extends State<Landingview>
           Globle().takeAwayCartItemCount = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+          Globle().isTabelAvailable = false;
+          Globle().tableID =  0;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -616,6 +620,8 @@ class _LandingStateView extends State<Landingview>
           setDefaultData();
         }
       } else if (model.data.cart != null) {
+        Globle().isTabelAvailable = false;
+          Globle().tableID =  0;
         Globle().dinecartValue += 1;
         Preference.setPersistData<int>(
             Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -642,6 +648,8 @@ class _LandingStateView extends State<Landingview>
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Globle().isTabelAvailable = false;
+          Globle().tableID =  0;
     Future.delayed(Duration(microseconds: 500), () {
       getCurrentOrderID();
     });
