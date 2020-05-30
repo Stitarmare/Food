@@ -179,7 +179,7 @@ Toast.show(
             ),
             BoxAppTextField(
               inputFormatters: [
-                LengthLimitingTextInputFormatter(6),
+                LengthLimitingTextInputFormatter(4),
                 WhitelistingTextInputFormatter.digitsOnly
               ],
               onChanged: (text) {
@@ -435,7 +435,7 @@ Toast.show(
       return KEY_PINCODE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
       return KEY_PIN_NUMBER_TEXT;
-    } else if (value.length != 6) {
+    } else if (value.length != 4) {
       return KEY_PIN_NUMBER_LIMIT;
     }
     return null;

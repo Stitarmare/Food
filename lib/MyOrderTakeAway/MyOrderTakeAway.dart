@@ -541,7 +541,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      STR_TIME,
+                      "${getDateForOrderHistory(getmyOrderBookingHistory[index].createdAt)}",
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -612,7 +612,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         child: Container(
                           height: 10,
                           width: 10,
-                          color: greentheme,
+                          color: getmyOrderBookingHistory[index].status == "completed"? Colors.green : Colors.red,
                         ),
                       ),
                       SizedBox(
