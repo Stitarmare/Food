@@ -81,33 +81,32 @@ class _EditProfileState extends State<EditProfileview>
   Future<void> updateButtonClicked() async {
     if (_editprofileFormKey.currentState.validate()) {
       if (countryID == null) {
-Toast.show(
-      "Please select country.",
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM,
-    );
-    return;
+        Toast.show(
+          "Please select country.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
       }
       if (stateID == null) {
-Toast.show(
-      "Please select state.",
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM,
-    );
-    return;
+        Toast.show(
+          "Please select state.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
       }
       if (cityID == null) {
-Toast.show(
-      "Please select city.",
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM,
-    );
-    return;
+        Toast.show(
+          "Please select city.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
       }
-    
 
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
@@ -433,9 +432,11 @@ Toast.show(
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_PINCODE_NUMBER_REQUIRED;
-    } else if (!regExp.hasMatch(value)) {
-      return KEY_PIN_NUMBER_TEXT;
-    } else if (value.length != 4) {
+    }
+    // else if (!regExp.hasMatch(value)) {
+    //   return KEY_PIN_NUMBER_TEXT;
+    // }
+    else if (value.length != 4) {
       return KEY_PIN_NUMBER_LIMIT;
     }
     return null;
