@@ -52,6 +52,29 @@ class _EditProfileState extends State<EditProfileview>
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     editprofilepresenter.editCountry(context);
     editprofilepresenter.editState(context);
+    setData();
+  }
+
+  void setData() {
+    if (Globle().loginModel.data.userDetails != null) {
+      streetAddress = Globle().loginModel.data.userDetails.addressLine1;
+
+      if (Globle().loginModel.data.userDetails.country != null) {
+      _dropdownCountryValue = Globle().loginModel.data.userDetails.country.name;
+      countryID = Globle().loginModel.data.userDetails.country.id;
+    }
+    if (Globle().loginModel.data.userDetails.state != null) {
+      _dropdownStateValue = Globle().loginModel.data.userDetails.state.name;
+      stateID = Globle().loginModel.data.userDetails.state.id;
+    }
+    if (Globle().loginModel.data.userDetails.city != null) {
+      _dropdownCityValue = Globle().loginModel.data.userDetails.city.name;
+      cityID = Globle().loginModel.data.userDetails.city.id;
+      editprofilepresenter.editCity(stateID.toString(), context);
+    }
+    pinCode = Globle().loginModel.data.userDetails.postalCode;
+    }
+    
   }
 
   Widget build(BuildContext context) {
@@ -158,6 +181,7 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 streetAddress = text;
               },
+              tfValue: streetAddress,
               placeHolderName: KEY_STREET,
               validator: validateStreetname,
             ),
@@ -185,6 +209,7 @@ class _EditProfileState extends State<EditProfileview>
                 pinCode = text;
               },
               focusNode: _nodeText1,
+              tfValue: pinCode,
               placeHolderName: KEY_POSTAL_CODE,
               keyboardType: TextInputType.number,
               validator: validatePinCode,
