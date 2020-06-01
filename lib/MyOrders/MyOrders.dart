@@ -166,7 +166,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getitemname(List<ListElement> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname += "${_listitem[i].qty} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);

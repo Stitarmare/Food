@@ -117,6 +117,7 @@ class CurrentOrderList {
 class ListElement {
   int id;
   int quantity;
+  int qty;
   String preparationTime;
   int itemId;
   dynamic itemSizePriceId;
@@ -135,6 +136,7 @@ class ListElement {
   ListElement({
     this.id,
     this.quantity,
+    this.qty,
     this.preparationTime,
     this.itemId,
     this.itemSizePriceId,
@@ -154,6 +156,7 @@ class ListElement {
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
         quantity: json["quantity"],
+        qty: json["qty"],
         preparationTime: json["preparation_time"],
         itemId: json["item_id"],
         itemSizePriceId: json["item_size_price_id"],
@@ -173,6 +176,7 @@ class ListElement {
   Map<String, dynamic> toJson() => {
         "id": id,
         "quantity": quantity,
+        "qty": qty,
         "preparation_time": preparationTime,
         "item_id": itemId,
         "item_size_price_id": itemSizePriceId,
