@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 //import 'dart:html';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -90,6 +91,23 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     }
     onStreamListen();
     super.initState();
+  }
+
+  checkIntenet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        await progressDialog.show();
+
+        _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+            getOrderTotal(), sliderValue.toString(), "ZAR", context);
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      Constants.showAlert(
+          "Internet Status", "Internet conection lost", context);
+    }
   }
 
   onStreamListen() {
@@ -198,16 +216,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   isSplitAmount()
                       ? Container()
                       : GestureDetector(
-                          onTap: () async {
-                            await progressDialog.show();
+                          onTap: () {
+                            // await progressDialog.show();
                             // DialogsIndicator.showLoadingDialog(
                             //     context, _keyLoader, STR_BLANK);
-                            _billCheckoutPresenter.payBillCheckOut(
-                                myOrderData.restId,
-                                getOrderTotal(),
-                                sliderValue.toString(),
-                                "ZAR",
-                                context);
+                            checkIntenet();
+
+                            // _billCheckoutPresenter.payBillCheckOut(
+                            //     myOrderData.restId,
+                            //     getOrderTotal(),
+                            //     sliderValue.toString(),
+                            //     "ZAR",
+                            //     context);
                           },
                           child: Container(
                             height: 45,
@@ -639,8 +659,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 child: Text(
                   getAmount() != null
                       ? _model.currencySymbol != null
-                          ? '${_model.currencySymbol} ' +
-                              "${_model.grandTotal}"
+                          ? '${_model.currencySymbol} ' + "${_model.grandTotal}"
                           : ""
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
@@ -847,14 +866,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
 
     setState(() {
-      
-        myOrderData = orderData;
-        _model = model;
-        if (_model.data.invitation!=null) {
-            invitationOrder = _model.data.invitation;
-        }
-        
-      
+      myOrderData = orderData;
+      _model = model;
+      if (_model.data.invitation != null) {
+        invitationOrder = _model.data.invitation;
+      }
     });
     isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {

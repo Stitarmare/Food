@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +92,26 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     super.initState();
   }
 
+  checkIntenet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        await progressDialog.show();
+        _billCheckoutPresenter.payBillCheckOut(
+            widget.restId,
+            widget.totalAmount.toString(),
+            sliderValue.toString(),
+            "ZAR",
+            context);
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      Constants.showAlert(
+          "Internet Status", "Internet conection lost", context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -121,13 +142,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await progressDialog.show();
+                      checkIntenet();
+                      // await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(widget.restId,
-        widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+
+                      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+                      // _billCheckoutPresenter.payBillCheckOut(widget.restId,
+                      //     widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
                     },
                     child: Container(
                       height: 45,
@@ -550,17 +572,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
     _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        _paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
-    
+      Globle().loginModel.data.id,
+      myOrderData.restId,
+      myOrderData.id,
+      STR_CARD,
+      myOrderData.totalAmount,
+      (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      _paymentCheckoutModel.transactionId,
+      context,
+      sliderValue.toString(),
+    );
   }
 
   @override
@@ -587,7 +608,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert("Payment Failed!", "Please pay first before place order.", context);
+      Constants.showAlert(
+          "Payment Failed!", "Please pay first before place order.", context);
     }
   }
 
@@ -619,19 +641,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
     if (paymentCheckoutModel.statusCode == 200) {
-     _paymentCheckoutModel = paymentCheckoutModel;
+      _paymentCheckoutModel = paymentCheckoutModel;
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       await progressDialog.show();
-    _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
+      _paymentTipAndPayPresenter.placeOrder(
+          widget.restId,
+          Globle().loginModel.data.id,
+          widget.orderType,
+          widget.tableId,
+          widget.items,
+          widget.totalAmount,
+          widget.latitude,
+          widget.longitude,
+          context);
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -659,10 +681,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    
+
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    
   }
 
   @override
