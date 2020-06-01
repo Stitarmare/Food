@@ -327,10 +327,16 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         Globle().currencySymb != null
-                            ? '${Globle().currencySymb} ' +
-                                '${_orderDetailList[index].totalAmount}'
+                            ?
+                            // '${Globle().currencySymb} ' +
+                            //     '${_orderDetailList[index].totalAmount}'
+                            '${Globle().currencySymb} ' +
+                                strCurrentAmount(
+                                    _orderDetailList[index].totalAmount)
                             : STR_R_CURRENCY_SYMBOL +
-                                '${_orderDetailList[index].totalAmount}',
+                                // '${_orderDetailList[index].totalAmount}',
+                                strCurrentAmount(
+                                    _orderDetailList[index].totalAmount),
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -391,6 +397,13 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             );
           },
         ));
+  }
+
+  String strCurrentAmount(String str) {
+    double doublePrice = double.parse(str);
+    String strPrice = doublePrice.toStringAsFixed(2);
+    // String str1 = Globle().currencySymb + " " + s;
+    return strPrice;
   }
 
   int getLenghtOfHistoryOrder() {
@@ -563,9 +576,13 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     child: Text(
                       Globle().currencySymb != null
                           ? '${Globle().currencySymb} ' +
-                              '${getmyOrderBookingHistory[index].totalAmount}'
+                              // '${getmyOrderBookingHistory[index].totalAmount}'
+                              strHistoryAmount(
+                                  getmyOrderBookingHistory[index].totalAmount)
                           : STR_R_CURRENCY_SYMBOL +
-                              '${getmyOrderBookingHistory[index].totalAmount}',
+                              // '${getmyOrderBookingHistory[index].totalAmount}',
+                              strHistoryAmount(
+                                  getmyOrderBookingHistory[index].totalAmount),
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -649,14 +666,21 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         ));
   }
 
+  String strHistoryAmount(String str) {
+    double doublePrice = double.parse(str);
+    String strPrice = doublePrice.toStringAsFixed(2);
+    // String str1 = Globle().currencySymb + " " + s;
+    return strPrice;
+  }
+
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
-    
+
     DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
     DateTime time1 = format.parse(dateString, true);
     var time = DateFormat("hh:mm a").format(time1.toLocal());
-    
+
     return "$dateStr at $time";
   }
 
