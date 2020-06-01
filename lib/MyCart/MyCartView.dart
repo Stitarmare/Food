@@ -396,7 +396,7 @@ class _MyCartViewState extends State<MyCartView>
                             0, PreferenceKeys.dineCartItemCount);
                         Preference.setPersistData<int>(
                             0, PreferenceKeys.dineCartItemCount);
-                        (_cartItemList != null)
+                        (_cartItemList != null && _cartItemList.length > 0)
                             ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
