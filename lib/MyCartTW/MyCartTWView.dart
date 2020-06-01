@@ -591,7 +591,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
   String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return myCart.grandTotal;
+        String strAmount = myCart.grandTotal;
+        return strAmount;
       }
     }
     return "0";
