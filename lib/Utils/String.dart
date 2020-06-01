@@ -462,6 +462,8 @@ const JSON_STR_TOTAL_AMOUNT = "total_amount";
 const JSON_STR_LATITUDE = "latitude";
 const JSON_STR_LONGITUDE = "longitude";
 const JSON_STR_ITEMS = "items";
+const JSON_STR_ADDRESS_HOUSENO = "address";
+const JSON_STR_LANDMARK = "landmark";
 
 const STR_SPLIT_BILL = 'Split Bill';
 const STR_ADD_PEOPLE_FIRST_SPLIT_BILL =

@@ -121,18 +121,18 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
         height: 120,
         child: Column(
           children: <Widget>[
-            FittedBox(
-              child: FloatingActionButton(
-                  backgroundColor: getColorByHex(Globle().colorscode),
-                  onPressed: () {
-                    if (tableID != null && tableID != 0) {
-                      restaurantPresenter.notifyWaiter(
-                          Globle().loginModel.data.id, tableID, "", context);
-                    }
-                  },
-                  heroTag: STR_BTN_BUZZER,
-                  child: Image.asset(CLOCK_IMAGE_PATH)),
-            ),
+            // FittedBox(
+            //   child: FloatingActionButton(
+            //       backgroundColor: getColorByHex(Globle().colorscode),
+            //       onPressed: () {
+            //         if (tableID != null && tableID != 0) {
+            //           restaurantPresenter.notifyWaiter(
+            //               Globle().loginModel.data.id, tableID, "", context);
+            //         }
+            //       },
+            //       heroTag: STR_BTN_BUZZER,
+            //       child: Image.asset(CLOCK_IMAGE_PATH)),
+            // ),
             SizedBox(
               height: 5,
             ),

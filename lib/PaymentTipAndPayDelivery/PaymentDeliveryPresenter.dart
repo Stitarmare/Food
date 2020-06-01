@@ -18,28 +18,29 @@ class PaymentDeliveryPresenter extends PaymentDeliveryContractor {
   void onBackPresed() {}
 
   @override
-  void placeOrder(
-    int restId,
+  void placeOrderDelivery(
     int userId,
-    String orderType,
-    int tableId,
-    List items,
+    int restId,
     double totalAmount,
+    String address,
+    String landmark,
     String latitude,
     String longitude,
+    List items,
     BuildContext context,
   ) async {
-    var value = await ApiBaseHelper()
-        .post<PlaceOrderModel>(UrlConstant.placeOrderApi, context, body: {
-      JSON_STR_USER_ID: userId,
-      JSON_STR_REST_ID: restId,
-      JSON_STR_ORDER_TYPE: orderType,
-      JSON_STR_TABLE_ID: tableId,
-      JSON_STR_TOTAL_AMOUNT: totalAmount,
-      JSON_STR_LATITUDE: latitude,
-      JSON_STR_LONGITUDE: longitude,
-      JSON_STR_ITEMS: items
-    });
+    var value = await ApiBaseHelper().post<PlaceOrderModel>(
+        UrlConstant.placeOrderDeliveryApi, context,
+        body: {
+          JSON_STR_USER_ID: userId,
+          JSON_STR_REST_ID: restId,
+          JSON_STR_TOTAL_AMOUNT: totalAmount,
+          JSON_STR_ADDRESS_HOUSENO: address,
+          JSON_STR_LANDMARK: landmark,
+          JSON_STR_LATITUDE: latitude,
+          JSON_STR_LONGITUDE: longitude,
+          JSON_STR_ITEMS: items
+        });
 
     print(value);
     switch (value.result) {

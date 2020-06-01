@@ -39,6 +39,9 @@ class PaymentDeliveryView extends StatefulWidget {
   List<MenuCartList> itemdata;
   String currencySymbol;
   String addressData;
+  String address;
+  String houseNo;
+  String landmark;
   PaymentDeliveryView(
       {this.userId,
       this.price,
@@ -54,7 +57,10 @@ class PaymentDeliveryView extends StatefulWidget {
       this.currencySymbol,
       this.itemdata,
       this.restName,
-      this.flag});
+      this.flag,
+      this.address,
+      this.houseNo,
+      this.landmark});
   _PaymentDeliveryViewState createState() => _PaymentDeliveryViewState();
 }
 
@@ -72,6 +78,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   PayBillCheckoutPresenter _billCheckoutPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
+  PaymentCheckoutModel _paymentCheckoutModel;
+
   ProgressDialog progressDialog;
 
   String currencySymb = STR_BLANK;
@@ -129,16 +137,23 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      _paymentDeliveryPresenter.placeOrder(
+
+                      _billCheckoutPresenter.payBillCheckOut(
                           widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
+                          widget.totalAmount.toString(),
+                          sliderValue.toString(),
+                          "ZAR",
                           context);
+                      // _paymentDeliveryPresenter.placeOrder(
+                      //     widget.restId,
+                      //     Globle().loginModel.data.id,
+                      //     widget.orderType,
+                      //     widget.tableId,
+                      //     widget.items,
+                      //     widget.totalAmount,
+                      //     widget.latitude,
+                      //     widget.longitude,
+                      //     context);
                     },
                     child: Container(
                       height: 45,
@@ -170,34 +185,118 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Row(
+        child: Column(
+          children: <Widget>[
+            Card(
+              child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    width: 20,
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        STR_DELIVERY_TITLE,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_20,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: getColorByHex(Globle().colorscode)),
+                      )
+                    ],
                   ),
-                  Text(
-                    STR_DELIVERY_TITLE,
+                  SizedBox(
+                    height: 5,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: <Widget>[
+                Text(
+                  "House No : ",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  widget.houseNo,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w500,
+                      color: greytheme700),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              widget.address,
+              textAlign: TextAlign.start,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w500,
+                  color: greytheme700),
+            ),
+            SizedBox(height: 10),
+            Row(
+              children: <Widget>[
+                Text(
+                  "Landmark : ",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  widget.landmark,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w500,
+                      color: greytheme700),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: 200,
+              height: 50,
+              child: Card(
+                child: Center(
+                  child: Text(
+                    widget.restName,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: FONTSIZE_20,
+                        fontSize: 20,
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
-                  )
-                ],
+                  ),
+                ),
               ),
-              SizedBox(
-                height: 5,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -557,9 +656,21 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
+
+    _finalBillPresenter.payfinalOrderBill(
+      Globle().loginModel.data.id,
+      myOrderData.restId,
+      myOrderData.id,
+      STR_CARD,
+      myOrderData.totalAmount,
+      (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      _paymentCheckoutModel.transactionId,
+      context,
+      sliderValue.toString(),
+    );
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
+    // _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+    //     myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
   }
 
   @override
@@ -587,11 +698,12 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
       await progressDialog.hide();
-      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      Constants.showAlert(
+          "Payment Failed!", "Please pay first before place order.", context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
 
-      _paymentTipandPayDiPresenter.onCancelledPayment(
-          myOrderData.id, widget.orderType, context);
+      // _paymentTipandPayDiPresenter.onCancelledPayment(
+      //     myOrderData.id, widget.orderType, context);
     }
   }
 
@@ -623,19 +735,30 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
     if (paymentCheckoutModel.statusCode == 200) {
+      _paymentCheckoutModel = paymentCheckoutModel;
       await progressDialog.show();
+      _paymentDeliveryPresenter.placeOrderDelivery(
+          Globle().loginModel.data.id,
+          widget.restId,
+          widget.totalAmount,
+          widget.houseNo,
+          widget.landmark,
+          widget.latitude,
+          widget.longitude,
+          widget.items,
+          context);
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
+      // _finalBillPresenter.payfinalOrderBill(
+      //   Globle().loginModel.data.id,
+      //   myOrderData.restId,
+      //   myOrderData.id,
+      //   STR_CARD,
+      //   myOrderData.totalAmount,
+      //   (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      //   paymentCheckoutModel.transactionId,
+      //   context,
+      //   sliderValue.toString(),
+      // );
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -671,7 +794,6 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> cancelledPaymentFailed() async {
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement cancelledPaymentFailed
   }
 
   @override
@@ -679,16 +801,11 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void onFailedQuantityIncrease() {
-    // TODO: implement onFailedQuantityIncrease
-  }
+  void onFailedQuantityIncrease() {}
 
   @override
-  void onSuccessQuantityIncrease() {
-    // TODO: implement onSuccessQuantityIncrease
-  }
+  void onSuccessQuantityIncrease() {}
 }

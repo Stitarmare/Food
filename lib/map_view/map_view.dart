@@ -95,9 +95,16 @@ class MapViewState extends State<MapView> {
   String strData = "";
   String landMark = "";
   String homeAddress = "";
+  String strLat = "";
+  String strLong = "";
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController _bottomSheetController;
+
+  TextEditingController houseTxtEditContrl = TextEditingController();
+  TextEditingController landmarkTxtEditContrl = TextEditingController();
+  final GlobalKey<FormState> houseLandmarkFormKey = GlobalKey<FormState>();
+  bool _validate = false;
 
 //api key
   String googleAPIKey = "AIzaSyDme9kw3nMJil33E11ZdJHkJ-uML1HgDKk";
@@ -179,6 +186,8 @@ class MapViewState extends State<MapView> {
         "${cameraPosition.target.latitude},${cameraPosition.target.longitude}");
     moveLagLong =
         LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
+    strLat = (cameraPosition.target.latitude).toString();
+    strLong = (cameraPosition.target.longitude).toString();
     // setState(() {
     //   _markers.removeWhere((m) => m.markerId.value == 'myMarkerAdd');
 
@@ -345,70 +354,76 @@ class MapViewState extends State<MapView> {
           ),
           Expanded(
               flex: isFormEnabled ? 4 : 3,
-              child: Container(
-                // height: 360.0,
-                color: Color(0xFF737373),
-                child: new Container(
-                    decoration: new BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: new BorderRadius.only(
-                            topLeft: const Radius.circular(10.0),
-                            topRight: const Radius.circular(10.0))),
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                            child: Container(
-                              height: 25,
-                              child: RaisedButton(
-                                color: Colors.grey,
-                                child: Text(
-                                  "CHANGE",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: KEY_FONTFAMILY),
+              child: Form(
+                key: houseLandmarkFormKey,
+                autovalidate: _validate,
+                child: Container(
+                  // height: 360.0,
+                  color: Color(0xFF737373),
+                  child: new Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(10.0),
+                              topRight: const Radius.circular(10.0))),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                              child: Container(
+                                height: 25,
+                                child: RaisedButton(
+                                  color: Colors.grey,
+                                  child: Text(
+                                    "CHANGE",
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: KEY_FONTFAMILY),
+                                  ),
+                                  textColor: Colors.white,
+                                  textTheme: ButtonTextTheme.normal,
+                                  splashColor:
+                                      Color.fromRGBO(72, 189, 111, 0.80),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(8.0),
+                                  ),
+                                  onPressed: () {
+                                    // enableField();
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ChangeAddressView()))
+                                        .then((value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          strAddress = value["text"];
+                                        });
+                                      }
+                                    });
+                                  },
                                 ),
-                                textColor: Colors.white,
-                                textTheme: ButtonTextTheme.normal,
-                                splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                ),
-                                onPressed: () {
-                                  // enableField();
-                                  Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChangeAddressView()))
-                                      .then((value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        strAddress = value["text"];
-                                      });
-                                    }
-                                  });
-                                },
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(strAddress),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(strAddress),
+                            ),
                           ),
-                        ),
-                        _addressField(),
-                        _landmarkField(),
-                        _saveandproceedBtn(),
-                      ],
-                    )),
+                          _addressField(),
+                          _landmarkField(),
+                          _saveandproceedBtn(),
+                        ],
+                      )),
+                ),
               ))
         ],
       ),
@@ -584,11 +599,13 @@ class MapViewState extends State<MapView> {
         ? Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: AppTextField(
-              enable: isFormEnabled,
+              // enable: isFormEnabled,
               // inputFormatters: [
               //   LengthLimitingTextInputFormatter(20),
               //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
               // ],
+              controller: houseTxtEditContrl,
+
               onChanged: (text) {
                 homeAddress = text;
               },
@@ -606,11 +623,12 @@ class MapViewState extends State<MapView> {
         ? Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: AppTextField(
-              enable: isFormEnabled,
+              // enable: isFormEnabled,
               // inputFormatters: [
               //   LengthLimitingTextInputFormatter(20),
               //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
               // ],
+              controller: landmarkTxtEditContrl,
               onChanged: (text) {
                 landMark = text;
               },
@@ -676,7 +694,9 @@ class MapViewState extends State<MapView> {
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(8.0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              proceedBtn();
+            },
           ),
         ),
       ],
@@ -684,10 +704,43 @@ class MapViewState extends State<MapView> {
   }
 
   saveAddress() {
-    if (homeAddress != null && landMark != null) {
+    if (houseTxtEditContrl.text != "" && landmarkTxtEditContrl.text != "") {
+      if (homeAddress != null && landMark != null) {
+        // setState(() {
+        //   strAddress = homeAddress + ", " + landMark;
+        //   print(strAddress);
+        // });
+      }
+    }
+  }
+
+  proceedBtn() {
+    if (houseLandmarkFormKey.currentState.validate()) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentDeliveryView(
+                    flag: 1,
+                    restName: widget.restName,
+                    restId: widget.restId,
+                    userId: widget.userId,
+                    // price: int.parse(
+                    //     _cartItemList[indx].price),
+                    items: widget.items,
+                    totalAmount: widget.totalAmount,
+                    orderType: widget.orderType,
+                    latitude: strLat,
+                    longitude: strLong,
+                    itemdata: widget.itemdata,
+                    currencySymbol: widget.currencySymbol,
+                    tableId: widget.tableId,
+                    address: strAddress,
+                    houseNo: houseTxtEditContrl.text,
+                    landmark: landmarkTxtEditContrl.text,
+                  )));
+    } else {
       setState(() {
-        strAddress = homeAddress + ", " + landMark;
-        print(strAddress);
+        _validate = true;
       });
     }
   }
