@@ -756,7 +756,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? '${_model.currencySymbol} ' + '$grandTotal'
+                      ? '${_model.currencySymbol} ' + doubleGrandTotal()
                       : '${_model.currencySymbol}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -766,6 +766,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ],
       ),
     );
+  }
+
+  String doubleGrandTotal() {
+    String strAmount = grandTotal.toStringAsFixed(2);
+    return strAmount;
   }
 
   bool isAmountSplit() {
