@@ -12,10 +12,12 @@ import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:toast/toast.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
@@ -410,5 +412,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   @override
   void notifyWaiterSuccess() {
     // TODO: implement notifyWaiterSuccess
+    if (Globle().context!=null) {
+    Constants.showAlert("FoodZi"," Notified waiter successfully.", Globle().context);
+    }    
   }
 }
