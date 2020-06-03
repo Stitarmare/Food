@@ -7,6 +7,7 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryView.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
@@ -51,7 +52,7 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
   StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
     RestaurantDeliveryView(),
-    MyOrders(),
+    MyOrdersDelivery(),
     BottomNotificationView(),
     BottomProfileScreen()
   ];

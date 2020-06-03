@@ -53,10 +53,8 @@ class MapView extends StatefulWidget {
 const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 80;
 const double CAMERA_BEARING = 30;
-const LatLng SOURCE_LOCATION = LatLng(19.018078, 72.830329);
-const LatLng DEST_LOCATION = LatLng(19.018952, 72.843176);
-// const LatLng SOURCE_LOCATION = LatLng(42.747932, -71.167889);
-// const LatLng DEST_LOCATION = LatLng(19.1097269, 72.92253);
+const LatLng SOURCE_LOCATION_ADDRESS = LatLng(19.018078, 72.830329);
+const LatLng DEST_LOCATION_ADDRESS = LatLng(19.018952, 72.843176);
 
 class MapViewState extends State<MapView> {
   Completer<GoogleMapController> _controller = Completer();
@@ -119,7 +117,7 @@ class MapViewState extends State<MapView> {
         zoom: CAMERA_ZOOM,
         tilt: CAMERA_TILT,
         bearing: CAMERA_BEARING,
-        target: SOURCE_LOCATION);
+        target: SOURCE_LOCATION_ADDRESS);
 
     setLocationChange();
     // set the initial location
@@ -172,8 +170,8 @@ class MapViewState extends State<MapView> {
   void setInitialLocation() async {
     // set the initial location by pulling the user's
     destinationLocation = LocationData.fromMap({
-      "latitude": DEST_LOCATION.latitude,
-      "longitude": DEST_LOCATION.longitude
+      "latitude": DEST_LOCATION_ADDRESS.latitude,
+      "longitude": DEST_LOCATION_ADDRESS.longitude
     });
     // current location from the location's getLocation()
 

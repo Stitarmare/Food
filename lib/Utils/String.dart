@@ -329,6 +329,8 @@ const STR_ABOUT_US = 'About Us';
 const STR_INVITE = 'invite';
 const STR_HELP = 'Help';
 const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
+const STR_FIELD_REQUIRED = " This field required";
+
 const STR_COLLECT_FOOD = 'I WANT TO COLLECT MY FOOD';
 const STR_DELEIVER_FOOD = 'PLEASE DELIVER MY FOOD';
 const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
@@ -385,6 +387,8 @@ const STR_ORDERED_ON = 'ORDERED ON ';
 const STR_ORDER_TYPE = 'ORDERED TYPE';
 const STR_TOTAL_AMOUNT = 'TOTAL AMOUNT';
 const STR_VIEW_ORDER_DETAILS = "VIEW ORDER DETAILS";
+const STR_VIEW_DRIVER_DETAILS = "VIEW DRIVER DETAILS";
+
 const STR_TIME = '06 Feb 2020 at 12:05 PM';
 const STR_REPEAT_ORDER = 'Repeat Order';
 const JSON_STR_ORDER_TYPE = "order_type";
