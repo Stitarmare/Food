@@ -16,7 +16,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:foodzi/widgets/driverDetailsDialog.dart';
+import 'package:foodzi/widgets/DriverDetailDialog.dart';
 import 'package:intl/intl.dart';
 
 class MyOrdersDelivery extends StatefulWidget {
@@ -645,8 +645,12 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
 
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
-    var dateStr = DateFormat("dd MMM yyyy").format(date);
-    var time = DateFormat("hh:mm a").format(date);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    // var time = DateFormat("hh:mm a").format(date);
     return "$dateStr at $time";
   }
 

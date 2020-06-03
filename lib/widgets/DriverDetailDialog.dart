@@ -8,8 +8,6 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DriverDetailsView extends StatefulWidget {
-  String orderid;
-  DriverDetailsView({this.orderid});
   @override
   _DriverDetailsViewState createState() => _DriverDetailsViewState();
 }
@@ -36,17 +34,38 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
           child: Container(
               width: MediaQuery.of(context).size.width,
               child: Column(children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Text(
-                    "Driver Details",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "gotham",
-                      fontWeight: FontWeight.w600,
-                      color: greytheme1200,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 40.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Driver Details",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: "gotham",
+                              fontWeight: FontWeight.w600,
+                              color: greytheme1200,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                        flex: 1,
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Colors.black26,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            })),
+                  ],
                 ),
                 SizedBox(height: 20),
                 ClipOval(
@@ -71,7 +90,7 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                 Text(
                   '${Globle().loginModel.data.firstName ?? STR_BLANK} ${Globle().loginModel.data.lastName ?? STR_BLANK}',
                   style: TextStyle(
-                      fontSize: FONTSIZE_16,
+                      fontSize: 18,
                       color: greytheme1200,
                       fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600),
@@ -90,13 +109,15 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                             child: Icon(
                               Icons.phone,
                               size: 16,
-                              color: getColorByHex(Globle().colorscode),
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                             ),
                           )),
                       Text(
                         "${Globle().loginModel.data.mobileNumber}",
                         style: TextStyle(
-                            fontSize: FONTSIZE_14,
+                            fontSize: 16,
                             color: greytheme1200,
                             fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600),
@@ -104,13 +125,17 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                     ],
                   ),
                   onTap: () {
-                    UrlLauncher.launch(Globle().loginModel.data.mobileNumber);
+                    // UrlLauncher.launch(Globle().loginModel.data.mobileNumber);
                   },
                 ),
-                Divider(
-                  thickness: 2,
+                SizedBox(height: 10),
+                SizedBox(
+                  width: 200,
+                  child: Divider(
+                    thickness: 2,
+                  ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 Text(
                   "Number of Orders Delivered",
                   style: TextStyle(
@@ -123,44 +148,51 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                 Text(
                   "124",
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 25,
                       color: greytheme1200,
                       fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600),
                 ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    height: 80,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: greytheme600)),
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-                    child: TextFormField(
-                      // inputFormatters: [
-                      //   BlacklistingTextInputFormatter(RegExp('[ ]'))
-                      // ],
-                      decoration: InputDecoration(
-                          hintText: "Write reason",
-                          hintStyle: TextStyle(
-                            fontFamily: "gotham",
-                            color: greytheme700,
-                            fontSize: 14,
-                          )),
-                      maxLines: 1,
-                      validator: validateText,
-                      controller: _controller,
-                    ),
-                  ),
-                ),
+                SizedBox(height: 10),
+                // Center(
+                //   child: Container(
+                //     margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                //     height: 90,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(15),
+                //         border: Border.all(color: greytheme600)),
+                //     padding: EdgeInsets.fromLTRB(12, 0, 12, 16),
+                //     child: TextFormField(
+                //       // inputFormatters: [
+                //       //   BlacklistingTextInputFormatter(RegExp('[ ]'))
+                //       // ],
+                //       textAlign: TextAlign.start,
+                //       decoration: InputDecoration(
+                //           focusedBorder: InputBorder.none,
+                //           enabledBorder: InputBorder.none,
+                //           errorBorder: InputBorder.none,
+                //           disabledBorder: InputBorder.none,
+                //           hintText: "Type your message here",
+                //           hintStyle: TextStyle(
+                //             fontFamily: "gotham",
+                //             color: greytheme700,
+                //             fontSize: 16,
+                //           )),
+                //       maxLines: 3,
+                //       validator: validateText,
+                //       controller: _controller,
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(height: 20),
                 RaisedButton(
                   color: (Globle().colorscode) != null
                       ? getColorByHex(Globle().colorscode)
-                      : redtheme,
+                      : orangetheme,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   child: Text(
-                    "Send",
+                    "CALL",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 14,
@@ -169,7 +201,8 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                         color: Colors.white),
                   ),
                   onPressed: () {
-                    // reasonBtn();
+                    UrlLauncher.launch(
+                        "tel:" + Globle().loginModel.data.mobileNumber);
                   },
                 ),
               ])),
@@ -178,12 +211,12 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
     );
   }
 
-  String validateText(String value) {
-    if (value.isEmpty) {
-      return STR_FIELD_REQUIRED;
-    }
-    return null;
-  }
+  // String validateText(String value) {
+  //   if (value.isEmpty) {
+  //     return STR_FIELD_REQUIRED;
+  //   }
+  //   return null;
+  // }
 
   profilePic() {
     String imageUrl = imageURL;

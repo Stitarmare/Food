@@ -209,23 +209,22 @@ class CartExtraItem {
   List<Extra> switches;
   List<Subspreads> subspreads;
 
-  CartExtraItem({
-    this.id,
-    this.cartId,
-    this.itemId,
-    this.extraId,
-    this.spreadId,
-    this.switchId,
-    this.orderListId,
-    this.createdAt,
-    this.updatedAt,
-    this.switchOption,
-    this.price,
-    this.extras,
-    this.spreads,
-    this.switches,
-    this.subspreads
-  });
+  CartExtraItem(
+      {this.id,
+      this.cartId,
+      this.itemId,
+      this.extraId,
+      this.spreadId,
+      this.switchId,
+      this.orderListId,
+      this.createdAt,
+      this.updatedAt,
+      this.switchOption,
+      this.price,
+      this.extras,
+      this.spreads,
+      this.switches,
+      this.subspreads});
 
   factory CartExtraItem.fromJson(Map<String, dynamic> json) => CartExtraItem(
         id: json["id"],
@@ -245,7 +244,10 @@ class CartExtraItem {
             List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
         switches:
             List<Extra>.from(json["switches"].map((x) => Extra.fromJson(x))),
-      subspreads: List<Subspreads>.from(json["subspreads"].map((x) => Subspreads.fromJson(x))),
+        subspreads: json["subspreads"] != null
+            ? List<Subspreads>.from(
+                json["subspreads"].map((x) => Subspreads.fromJson(x)))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -313,22 +315,23 @@ class Extra {
         "option2": option2 == null ? null : option2,
       };
 }
+
 class Subspreads {
-    int id;
-    String name;
+  int id;
+  String name;
 
-    Subspreads({
-        this.id,
-        this.name,
-    });
+  Subspreads({
+    this.id,
+    this.name,
+  });
 
-    factory Subspreads.fromJson(Map<String, dynamic> json) => Subspreads(
+  factory Subspreads.fromJson(Map<String, dynamic> json) => Subspreads(
         id: json["id"],
         name: json["name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-    };
+      };
 }
