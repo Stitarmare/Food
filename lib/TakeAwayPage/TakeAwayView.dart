@@ -54,6 +54,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
     BottomItemButton(title: STR_RATINGS, id: 1, isSelected: false),
     BottomItemButton(title: STR_FAVORITE, id: 2, isSelected: false),
   ];
+  String favourite;
+  String rating;
+  String sortByDistance;
+  String sortByRating;
   var sliderValue;
   bool isIgnoreTouch = true;
   var sliderval;
@@ -100,8 +104,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            sortedBy,
-            filteredBy,
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
             page,
             context);
       } else {
@@ -125,8 +131,10 @@ class _TakeAwayViewState extends State<TakeAwayView>
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
-              STR_BLANK,
-              STR_BLANK,
+              rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
               page,
               context);
         }
@@ -200,35 +208,46 @@ class _TakeAwayViewState extends State<TakeAwayView>
 
                           void setSelectedSortItem(
                               BottomItemButton bottomItem, List bottomList) {
-                            for (int i = 0; i < bottomList.length; i++) {
-                              bottomList[i].isSelected = false;
-                            }
+                            // for (int i = 0; i < bottomList.length; i++) {
+                            //   bottomList[i].isSelected = false;
+                            // }
 
                             final tile = bottomList.firstWhere(
                                 (item) => item.id == bottomItem.id,
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = true;
-                                if (bottomList == optionSortBy) {
-                                  sortedBy = bottomItem.title;
-                                  if (bottomItem.title == STR_DISTANCE) {
-                                    sortedBy = STR_SMALL_DISTANCE;
-                                  } else {
-                                    sortedBy = STR_SMALL_RATING;
-                                  }
-                                }
+                                tile.isSelected = !tile.isSelected;
+                                bottomItem.isSelected = tile.isSelected;
                                 if (bottomList == optionFilterBy) {
+                                  
                                   filteredBy = bottomItem.title;
-                                  if (bottomItem.title == STR_RATINGS) {
+                                  rating = null;
+                                  if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == true) {
                                     getRatingValue().then((onValue) {
-                                      filteredBy = STR_SMALL_RATING +
+                                      rating = STR_SMALL_RATING +
                                           "${onValue.toString()}+";
                                       print(sliderValue.toString());
                                     });
+                                  } else if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == false) {
+                                      rating = null;
+                                  }
+                                  if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == true) {
+                                    favourite = "favourite";
+                                  } else if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == false){
+                                    favourite = null;
                                   }
                                 } else {
-                                  filteredBy = STR_SMALL_FAVOURITE;
+                                  if (bottomItem.title == "Distance" && bottomItem.isSelected == true) {
+                                    sortByDistance = "ASC";
+                                  }else if (bottomItem.title == "Distance" && bottomItem.isSelected == false){
+                                    favourite = null;
+                                  }
+                                  if (bottomItem.title == "Popularity" && bottomItem.isSelected == true) {
+                                      sortByRating = "ASC";
+                                  } else if (bottomItem.title == "Popularity" && bottomItem.isSelected == false) {
+                                    sortByRating = null;
+                                  }
                                 }
                               });
                             }
@@ -262,7 +281,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                         color: item.isSelected
                                             ? Colors.white
                                             : greytheme1000,
-                                        fontSize: 14),
+                                        fontSize: FONTSIZE_14),
                                   ),
                                 ),
                               ),
@@ -279,24 +298,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                       MediaQuery.of(context).size.height * 0.3 -
                                           38,
                                   child: FloatingActionButton(
-                                      onPressed: () async {
-                                        // Navigator.of(context,
-                                        //         rootNavigator: true)
-                                        //     .pop();
-                                        await progressDialog.hide();
+                                      onPressed: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pop();
                                         // DialogsIndicator.showLoadingDialog(
                                         //     context,
                                         //     _keyLoader,
                                         //     STR_PLEASE_WAIT);
-                                        await progressDialog.show();
-                                        dinerestaurantPresenter
-                                            .getrestaurantspage(
-                                                _position.latitude.toString(),
-                                                _position.longitude.toString(),
-                                                sortedBy,
-                                                filteredBy,
-                                                page,
-                                                context);
+                                        //progressDialog.hide();
+                                        callOnfilter();
                                       },
                                       child: IconTheme(
                                           data: IconThemeData(
@@ -453,6 +464,23 @@ class _TakeAwayViewState extends State<TakeAwayView>
                       ),
       ),
     );
+  }
+
+  void callOnfilter() async{
+    setState(() {
+      page = 1;
+      _restaurantList = null;
+    });
+    await progressDialog.show();
+          dinerestaurantPresenter.getrestaurantspage(
+              _position.latitude.toString(),
+              _position.longitude.toString(),
+              rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
+              page,
+              context);
   }
 
   int _getint() {
