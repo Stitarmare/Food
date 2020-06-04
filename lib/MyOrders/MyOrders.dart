@@ -591,7 +591,11 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     ),
                   ),
                   getmyOrderBookingHistory[index].splitAmount != null
-                      ? Padding(
+                      ?
+                      // getMethod(getmyOrderBookingHistory[index]
+                      //         .splitbilltransactions)
+                      //     ?
+                      Padding(
                           padding: const EdgeInsets.only(top: 10, left: 15),
                           child: Text(
                             STR_SPLIT_AMOUNT,
@@ -601,11 +605,17 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             ),
                           ),
                         )
-                      : Container(),
+                      : Container()
+                  // : Container(),
+                  ,
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: getmyOrderBookingHistory[index].splitAmount != null
-                        ? Text(
+                        ?
+                        // ? getMethod(getmyOrderBookingHistory[index]
+                        //         .splitbilltransactions)
+                        //     ?
+                        Text(
                             Globle().currencySymb != null
                                 ? '${Globle().currencySymb} ' +
                                     '${getmyOrderBookingHistory[index].splitAmount}'
@@ -617,7 +627,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                               color: greytheme700,
                             ),
                           )
-                        : Text(""),
+                        : Text("")
+                    // : Text(""),
+                    ,
                   ),
                   SizedBox(
                     height: 10,
@@ -665,6 +677,16 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           },
         ));
   }
+
+  // bool getMethod(List<Splitbilltransactions> list) {
+  //   for (int i = 0; i < list.length; i++) {
+  //     if (list[i].userId == Globle().loginModel.data.id) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  //   return false;
+  // }
 
   String strHistoryAmount(String str) {
     double doublePrice = double.parse(str);
