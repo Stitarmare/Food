@@ -416,7 +416,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname += "${_listitem[i].qty} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -590,46 +590,51 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       ),
                     ),
                   ),
-                  getmyOrderBookingHistory[index].splitAmount != null
-                      ?
-                      // getMethod(getmyOrderBookingHistory[index]
-                      //         .splitbilltransactions)
-                      //     ?
-                      Padding(
-                          padding: const EdgeInsets.only(top: 10, left: 15),
-                          child: Text(
-                            STR_SPLIT_AMOUNT,
-                            style: TextStyle(
-                              fontSize: FONTSIZE_14,
-                              color: greytheme1000,
-                            ),
-                          ),
-                        )
-                      : Container()
+                  getmyOrderBookingHistory[index]
+                              .splitbilltransactions
+                              .length !=
+                          0
+                      ? getMethod(getmyOrderBookingHistory[index]
+                              .splitbilltransactions)
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 10, left: 15),
+                              child: Text(
+                                STR_SPLIT_AMOUNT,
+                                style: TextStyle(
+                                  fontSize: FONTSIZE_14,
+                                  color: greytheme1000,
+                                ),
+                              ),
+                            )
+                          : Container()
+                      : Container(),
                   // : Container(),
-                  ,
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
-                    child: getmyOrderBookingHistory[index].splitAmount != null
-                        ?
-                        // ? getMethod(getmyOrderBookingHistory[index]
-                        //         .splitbilltransactions)
-                        //     ?
-                        Text(
-                            Globle().currencySymb != null
-                                ? '${Globle().currencySymb} ' +
-                                    '${getmyOrderBookingHistory[index].splitAmount}'
-                                : STR_R_CURRENCY_SYMBOL +
-                                    '${getmyOrderBookingHistory[index].splitAmount}',
-                            style: TextStyle(
-                              fontSize: FONTSIZE_16,
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700,
-                            ),
-                          )
-                        : Text("")
+                    child: getmyOrderBookingHistory[index]
+                                .splitbilltransactions
+                                .length !=
+                            0
+                        ? getMethod(getmyOrderBookingHistory[index]
+                                .splitbilltransactions)
+                            ? Text(
+                                Globle().currencySymb != null
+                                    ? '${Globle().currencySymb} ' +
+                                        // '${getmyOrderBookingHistory[index].splitAmount}'
+                                        getSplitAmount(
+                                            getmyOrderBookingHistory[index]
+                                                .splitbilltransactions)
+                                    : STR_R_CURRENCY_SYMBOL +
+                                        '${getmyOrderBookingHistory[index].splitAmount}',
+                                style: TextStyle(
+                                  fontSize: FONTSIZE_16,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700,
+                                ),
+                              )
+                            : Text("")
+                        : Text(""),
                     // : Text(""),
-                    ,
                   ),
                   SizedBox(
                     height: 10,
@@ -678,15 +683,24 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         ));
   }
 
-  // bool getMethod(List<Splitbilltransactions> list) {
-  //   for (int i = 0; i < list.length; i++) {
-  //     if (list[i].userId == Globle().loginModel.data.id) {
-  //       return true;
-  //     }
-  //     return false;
-  //   }
-  //   return false;
-  // }
+  bool getMethod(List<Splitbilltransactions> list) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].userId == Globle().loginModel.data.id) {
+        return true;
+      } else {}
+    }
+  }
+
+  String getSplitAmount(List<Splitbilltransactions> list) {
+    String str = "";
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].userId == Globle().loginModel.data.id) {
+        str = list[i].amount;
+        return str;
+      }
+    }
+    return "";
+  }
 
   String strHistoryAmount(String str) {
     double doublePrice = double.parse(str);
