@@ -53,7 +53,8 @@ class _LandingStateView extends State<Landingview>
     stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
 
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
     getCurrentOrderID();
@@ -87,7 +88,6 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -591,7 +591,7 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Globle().isTabelAvailable = true;
-          Globle().tableID =  model.data.dineIn.tableId;
+          Globle().tableID = model.data.dineIn.tableId;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -612,7 +612,7 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Globle().isTabelAvailable = false;
-          Globle().tableID =  0;
+          Globle().tableID = 0;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -621,7 +621,7 @@ class _LandingStateView extends State<Landingview>
         }
       } else if (model.data.cart != null) {
         Globle().isTabelAvailable = false;
-          Globle().tableID =  0;
+        Globle().tableID = 0;
         Globle().dinecartValue += 1;
         Preference.setPersistData<int>(
             Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
@@ -649,7 +649,7 @@ class _LandingStateView extends State<Landingview>
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Globle().isTabelAvailable = false;
-          Globle().tableID =  0;
+    Globle().tableID = 0;
     Future.delayed(Duration(microseconds: 500), () {
       getCurrentOrderID();
     });
