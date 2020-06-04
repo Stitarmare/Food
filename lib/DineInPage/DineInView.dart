@@ -36,6 +36,10 @@ class _DineViewState extends State<DineInView>
 
   int page = 1;
   String sortedBy = STR_BLANK;
+  String favourite;
+  String rating;
+  String sortByDistance;
+  String sortByRating;
   String filteredBy = STR_BLANK;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -109,8 +113,10 @@ class _DineViewState extends State<DineInView>
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            sortedBy,
-            filteredBy,
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
             page,
             context);
       } else {
@@ -129,12 +135,14 @@ class _DineViewState extends State<DineInView>
         if (_controller.position.pixels == 0) {
         } else {
           dinerestaurantPresenter.getrestaurantspage(
-              _position.latitude.toString(),
-              _position.longitude.toString(),
-              sortedBy,
-              filteredBy,
-              page,
-              context);
+            _position.latitude.toString(),
+            _position.longitude.toString(),
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
+            page,
+            context);
         }
       }
     });
@@ -206,35 +214,46 @@ class _DineViewState extends State<DineInView>
 
                           void setSelectedSortItem(
                               BottomItemButton bottomItem, List bottomList) {
-                            for (int i = 0; i < bottomList.length; i++) {
-                              bottomList[i].isSelected = false;
-                            }
+                            // for (int i = 0; i < bottomList.length; i++) {
+                            //   bottomList[i].isSelected = false;
+                            // }
 
                             final tile = bottomList.firstWhere(
                                 (item) => item.id == bottomItem.id,
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = true;
-                                if (bottomList == optionSortBy) {
-                                  sortedBy = bottomItem.title;
-                                  if (bottomItem.title == STR_DISTANCE) {
-                                    sortedBy = STR_SMALL_DISTANCE;
-                                  } else {
-                                    sortedBy = STR_SMALL_RATING;
-                                  }
-                                }
+                                tile.isSelected = !tile.isSelected;
+                                bottomItem.isSelected = tile.isSelected;
                                 if (bottomList == optionFilterBy) {
+                                  
                                   filteredBy = bottomItem.title;
-                                  if (bottomItem.title == STR_RATINGS) {
+                                  rating = null;
+                                  if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == true) {
                                     getRatingValue().then((onValue) {
-                                      filteredBy = STR_SMALL_RATING +
+                                      rating = STR_SMALL_RATING +
                                           "${onValue.toString()}+";
                                       print(sliderValue.toString());
                                     });
+                                  } else if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == false) {
+                                      rating = null;
+                                  }
+                                  if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == true) {
+                                    favourite = "favourite";
+                                  } else if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == false){
+                                    favourite = null;
                                   }
                                 } else {
-                                  filteredBy = STR_SMALL_FAVOURITE;
+                                  if (bottomItem.title == "Distance" && bottomItem.isSelected == true) {
+                                    sortByDistance = "ASC";
+                                  }else if (bottomItem.title == "Distance" && bottomItem.isSelected == false){
+                                    favourite = null;
+                                  }
+                                  if (bottomItem.title == "Popularity" && bottomItem.isSelected == true) {
+                                      sortByRating = "ASC";
+                                  } else if (bottomItem.title == "Popularity" && bottomItem.isSelected == false) {
+                                    sortByRating = null;
+                                  }
                                 }
                               });
                             }
@@ -458,9 +477,21 @@ class _DineViewState extends State<DineInView>
   }
 
   callOnfilter() async {
+
+    setState(() {
+      page = 1;
+      _restaurantList = null;
+    });
     await progressDialog.show();
-    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
-        _position.longitude.toString(), sortedBy, filteredBy, page, context);
+    dinerestaurantPresenter.getrestaurantspage(
+            _position.latitude.toString(),
+            _position.longitude.toString(),
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
+            page,
+            context);
   }
 
   Widget restaurantsInfo() {

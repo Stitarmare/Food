@@ -11,17 +11,29 @@ class DineInRestaurantPresenter extends DineInRestaurantListContractor {
 
   DineInRestaurantPresenter(this.restaurantModelView);
   @override
-  void getrestaurantspage(String latitude, String longitude, String sortBy,
-      String searchBy, int page, BuildContext context) {
-    ApiBaseHelper().post<RestaurantListModel>(
-        UrlConstant.restaurantListApi, context,
-        body: {
+  void getrestaurantspage(String latitude, String longitude, String rating,
+      String favourite,String sortByDistance,String sortByRating, int page, BuildContext context) {
+        var body =  {
           JSON_STR_LATI: latitude,
           JSON_STR_LONG: longitude,
-          JSON_STR_SORT_BY: sortBy,
-          JSON_STR_SEARCH_BY: searchBy,
           JSON_STR_PAGE: page
-        }).then((value) {
+        };
+        if (rating!=null) {
+          body["rating"] = rating;
+        }
+        if (favourite!= null) {
+          body["favourite"] = favourite;
+        }
+        if (sortByDistance!= null) {
+          body["sort_by_distance"] = sortByDistance;
+        }
+        if (sortByRating!= null) {
+          body["sort_by_rating"] = sortByRating;
+        }
+        
+    ApiBaseHelper().post<RestaurantListModel>(
+        UrlConstant.restaurantListApi, context,
+        body:body ).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
