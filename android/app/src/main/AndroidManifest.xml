@@ -14,6 +14,7 @@
 
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
+
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="foodzi"

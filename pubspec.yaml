@@ -46,7 +46,7 @@ dependencies:
   progress_dialog: ^1.2.1
   flappy_search_bar: ^1.7.2
   intl: ^0.16.1
-  flutter_local_notifications: ^1.4.3
+  flutter_local_notifications:
 
 
 dev_dependencies:
