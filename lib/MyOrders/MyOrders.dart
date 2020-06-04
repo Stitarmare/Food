@@ -689,6 +689,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         return true;
       } else {}
     }
+    return false;
   }
 
   String getSplitAmount(List<Splitbilltransactions> list) {

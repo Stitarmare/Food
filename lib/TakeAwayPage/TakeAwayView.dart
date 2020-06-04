@@ -60,9 +60,12 @@ class _TakeAwayViewState extends State<TakeAwayView>
   String sortByRating;
   var sliderValue;
   bool isIgnoreTouch = true;
+  bool isBackActive = false;
+
   var sliderval;
   @override
   void initState() {
+    isBackActive = false;
     locator();
     _detectScrollPosition();
     dinerestaurantPresenter = TakeAwayRestaurantPresenter(this);
@@ -132,9 +135,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
               _position.latitude.toString(),
               _position.longitude.toString(),
               rating,
-            favourite,
-            sortByDistance,
-            sortByRating,
+              favourite,
+              sortByDistance,
+              sortByRating,
               page,
               context);
         }
@@ -145,342 +148,356 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
-    return IgnorePointer(
-      ignoring: isIgnoreTouch,
-      child: Scaffold(
-        key: this._scaffoldKey,
-        appBar: AppBar(
-            brightness: Brightness.dark,
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: Text(
-              STR_COLLECTION,
-              style: TextStyle(
-                  fontSize: FONTSIZE_18,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w500,
-                  color: greytheme1200),
-            ),
-            actions: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        FOODZI_LOGO_PATH,
-                        height: 30,
-                      )),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text(
-                  //     STR_ORDER_EASY,
-                  //     style: TextStyle(
-                  //         fontFamily: KEY_FONTFAMILY,
-                  //         fontSize: FONTSIZE_6,
-                  //         color: greytheme400,
-                  //         fontWeight: FontWeight.w700,
-                  //         letterSpacing: 1),
-                  //   ),
-                  // ),
-                ],
+    return WillPopScope(
+      onWillPop: () async => isBackActive,
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          key: this._scaffoldKey,
+          appBar: AppBar(
+              brightness: Brightness.dark,
+              centerTitle: false,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              title: Text(
+                STR_COLLECTION,
+                style: TextStyle(
+                    fontSize: FONTSIZE_18,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200),
               ),
-              IconButton(
-                icon: Image.asset(LEVEL_IMAGE_PATH),
-                onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(18.0),
-                              topRight: Radius.circular(18.0))),
-                      builder: (context) {
-                        return StatefulBuilder(builder:
-                            (BuildContext context, StateSetter setBottomState) {
-                          Future<double> getRatingValue() async {
-                            var val = await showDialog(
-                                context: context, child: new SliderDialog());
+              actions: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(
+                          FOODZI_LOGO_PATH,
+                          height: 30,
+                        )),
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: Text(
+                    //     STR_ORDER_EASY,
+                    //     style: TextStyle(
+                    //         fontFamily: KEY_FONTFAMILY,
+                    //         fontSize: FONTSIZE_6,
+                    //         color: greytheme400,
+                    //         fontWeight: FontWeight.w700,
+                    //         letterSpacing: 1),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                IconButton(
+                  icon: Image.asset(LEVEL_IMAGE_PATH),
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18.0),
+                                topRight: Radius.circular(18.0))),
+                        builder: (context) {
+                          return StatefulBuilder(builder: (BuildContext context,
+                              StateSetter setBottomState) {
+                            Future<double> getRatingValue() async {
+                              var val = await showDialog(
+                                  context: context, child: new SliderDialog());
 
-                            return double.parse(val.toString());
-                          }
-
-                          void setSelectedSortItem(
-                              BottomItemButton bottomItem, List bottomList) {
-                            // for (int i = 0; i < bottomList.length; i++) {
-                            //   bottomList[i].isSelected = false;
-                            // }
-
-                            final tile = bottomList.firstWhere(
-                                (item) => item.id == bottomItem.id,
-                                orElse: null);
-                            if (tile != null) {
-                              setBottomState(() {
-                                tile.isSelected = !tile.isSelected;
-                                bottomItem.isSelected = tile.isSelected;
-                                if (bottomList == optionFilterBy) {
-                                  
-                                  filteredBy = bottomItem.title;
-                                  rating = null;
-                                  if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == true) {
-                                    getRatingValue().then((onValue) {
-                                      rating = STR_SMALL_RATING +
-                                          "${onValue.toString()}+";
-                                      print(sliderValue.toString());
-                                    });
-                                  } else if (bottomItem.title == STR_RATINGS && bottomItem.isSelected == false) {
-                                      rating = null;
-                                  }
-                                  if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == true) {
-                                    favourite = "favourite";
-                                  } else if (bottomItem.title == "Favourites Only" && bottomItem.isSelected == false){
-                                    favourite = null;
-                                  }
-                                } else {
-                                  if (bottomItem.title == "Distance" && bottomItem.isSelected == true) {
-                                    sortByDistance = "ASC";
-                                  }else if (bottomItem.title == "Distance" && bottomItem.isSelected == false){
-                                    favourite = null;
-                                  }
-                                  if (bottomItem.title == "Popularity" && bottomItem.isSelected == true) {
-                                      sortByRating = "ASC";
-                                  } else if (bottomItem.title == "Popularity" && bottomItem.isSelected == false) {
-                                    sortByRating = null;
-                                  }
-                                }
-                              });
+                              return double.parse(val.toString());
                             }
-                          }
 
-                          Widget _bottomSheetItem(
-                              BottomItemButton item, List bottomList) {
-                            return Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 29,
-                                child: FlatButton(
-                                  color: item.isSelected
-                                      ? greentheme100
-                                      : Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        10.0,
-                                      ),
-                                      side: BorderSide(
-                                        color: item.isSelected
-                                            ? greentheme100
-                                            : greytheme600,
-                                      )),
-                                  onPressed: () =>
-                                      setSelectedSortItem(item, bottomList),
-                                  child: Text(
-                                    item.title,
-                                    style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
-                                        color: item.isSelected
-                                            ? Colors.white
-                                            : greytheme1000,
-                                        fontSize: FONTSIZE_14),
+                            void setSelectedSortItem(
+                                BottomItemButton bottomItem, List bottomList) {
+                              // for (int i = 0; i < bottomList.length; i++) {
+                              //   bottomList[i].isSelected = false;
+                              // }
+
+                              final tile = bottomList.firstWhere(
+                                  (item) => item.id == bottomItem.id,
+                                  orElse: null);
+                              if (tile != null) {
+                                setBottomState(() {
+                                  tile.isSelected = !tile.isSelected;
+                                  bottomItem.isSelected = tile.isSelected;
+                                  if (bottomList == optionFilterBy) {
+                                    filteredBy = bottomItem.title;
+                                    rating = null;
+                                    if (bottomItem.title == STR_RATINGS &&
+                                        bottomItem.isSelected == true) {
+                                      getRatingValue().then((onValue) {
+                                        rating = STR_SMALL_RATING +
+                                            "${onValue.toString()}+";
+                                        print(sliderValue.toString());
+                                      });
+                                    } else if (bottomItem.title ==
+                                            STR_RATINGS &&
+                                        bottomItem.isSelected == false) {
+                                      rating = null;
+                                    }
+                                    if (bottomItem.title == "Favourites Only" &&
+                                        bottomItem.isSelected == true) {
+                                      favourite = "favourite";
+                                    } else if (bottomItem.title ==
+                                            "Favourites Only" &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
+                                    }
+                                  } else {
+                                    if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByDistance = "ASC";
+                                    } else if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
+                                    }
+                                    if (bottomItem.title == "Popularity" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByRating = "ASC";
+                                    } else if (bottomItem.title ==
+                                            "Popularity" &&
+                                        bottomItem.isSelected == false) {
+                                      sortByRating = null;
+                                    }
+                                  }
+                                });
+                              }
+                            }
+
+                            Widget _bottomSheetItem(
+                                BottomItemButton item, List bottomList) {
+                              return Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 29,
+                                  child: FlatButton(
+                                    color: item.isSelected
+                                        ? greentheme100
+                                        : Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          10.0,
+                                        ),
+                                        side: BorderSide(
+                                          color: item.isSelected
+                                              ? greentheme100
+                                              : greytheme600,
+                                        )),
+                                    onPressed: () =>
+                                        setSelectedSortItem(item, bottomList),
+                                    child: Text(
+                                      item.title,
+                                      style: TextStyle(
+                                          fontFamily: KEY_FONTFAMILY,
+                                          color: item.isSelected
+                                              ? Colors.white
+                                              : greytheme1000,
+                                          fontSize: FONTSIZE_14),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }
+                              );
+                            }
 
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  right: 47,
-                                  bottom:
-                                      MediaQuery.of(context).size.height * 0.3 -
-                                          38,
-                                  child: FloatingActionButton(
-                                      onPressed: () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                        // DialogsIndicator.showLoadingDialog(
-                                        //     context,
-                                        //     _keyLoader,
-                                        //     STR_PLEASE_WAIT);
-                                        //progressDialog.hide();
-                                        callOnfilter();
-                                      },
-                                      child: IconTheme(
-                                          data: IconThemeData(
-                                              color: greentheme200),
-                                          child: Icon(
-                                            Icons.check,
-                                            size: 45,
-                                            color: Colors.white,
-                                          ))),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, left: 28),
-                                          child: Text(
-                                            STR_SORT_BY,
-                                            style: TextStyle(
-                                                fontSize: FONTSIZE_16,
-                                                fontWeight: FontWeight.w500,
-                                                color: greytheme700),
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    right: 47,
+                                    bottom: MediaQuery.of(context).size.height *
+                                            0.3 -
+                                        38,
+                                    child: FloatingActionButton(
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                          // DialogsIndicator.showLoadingDialog(
+                                          //     context,
+                                          //     _keyLoader,
+                                          //     STR_PLEASE_WAIT);
+                                          //progressDialog.hide();
+                                          callOnfilter();
+                                        },
+                                        child: IconTheme(
+                                            data: IconThemeData(
+                                                color: greentheme200),
+                                            child: Icon(
+                                              Icons.check,
+                                              size: 45,
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20, left: 28),
+                                            child: Text(
+                                              STR_SORT_BY,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: greytheme700),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 28),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: optionSortBy
-                                                .map((itemSort) =>
-                                                    _bottomSheetItem(
-                                                        itemSort, optionSortBy))
-                                                .toList()),
-                                      ),
-                                      SizedBox(
-                                        height: 10.5,
-                                      ),
-                                      Divider(),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.5, left: 28),
-                                          child: Text(
-                                            STR_FLITER_BY,
-                                            style: TextStyle(
-                                                fontSize: FONTSIZE_16,
-                                                fontWeight: FontWeight.w500,
-                                                color: greytheme700),
-                                          ),
+                                        SizedBox(
+                                          height: 8,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
+                                        Container(
                                           margin: EdgeInsets.only(left: 28),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
-                                              children: optionFilterBy
-                                                  .map((itemFilter) =>
-                                                      _bottomSheetItem(
-                                                          itemFilter,
-                                                          optionFilterBy))
-                                                  .toList())),
-                                      SizedBox(
-                                        height: 20,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                              overflow: Overflow.visible,
-                            ),
-                          );
+                                              children: optionSortBy
+                                                  .map((itemSort) =>
+                                                      _bottomSheetItem(itemSort,
+                                                          optionSortBy))
+                                                  .toList()),
+                                        ),
+                                        SizedBox(
+                                          height: 10.5,
+                                        ),
+                                        Divider(),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.5, left: 28),
+                                            child: Text(
+                                              STR_FLITER_BY,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: greytheme700),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 28),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: optionFilterBy
+                                                    .map((itemFilter) =>
+                                                        _bottomSheetItem(
+                                                            itemFilter,
+                                                            optionFilterBy))
+                                                    .toList())),
+                                        SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                                overflow: Overflow.visible,
+                              ),
+                            );
+                          });
                         });
-                      });
-                },
-              )
-            ]),
-        body: getttingLocation == false
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        STR_CURRENT_LOCATION,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
-                    ),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              )
-            : locationNotFound
-                ? Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          child: Text(
-                            "Please enable location service and try again.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_15,
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w500,
-                                color: greytheme1200),
-                          ),
-                        ),
-                        FlatButton(
-                            onPressed: () {
-                              locator();
-                            },
-                            child: Text("Try again"))
-                      ],
-                    ),
-                  )
-                : (_restaurantList != null)
-                    ? restaurantsInfo()
-                    : Container(
-                        child: Center(
-                          child: Text(
-                            STR_NO_RESTAURANT,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_25,
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w500,
-                                color: greytheme700),
-                          ),
+                  },
+                )
+              ]),
+          body: getttingLocation == false
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          STR_CURRENT_LOCATION,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_15,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
                         ),
                       ),
+                      CircularProgressIndicator()
+                    ],
+                  ),
+                )
+              : locationNotFound
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Please enable location service and try again.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                locator();
+                              },
+                              child: Text("Try again"))
+                        ],
+                      ),
+                    )
+                  : (_restaurantList != null)
+                      ? restaurantsInfo()
+                      : Container(
+                          child: Center(
+                            child: Text(
+                              STR_NO_RESTAURANT,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_25,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                        ),
+        ),
       ),
     );
   }
 
-  void callOnfilter() async{
+  void callOnfilter() async {
     setState(() {
       page = 1;
       _restaurantList = null;
     });
     await progressDialog.show();
-          dinerestaurantPresenter.getrestaurantspage(
-              _position.latitude.toString(),
-              _position.longitude.toString(),
-              rating,
-            favourite,
-            sortByDistance,
-            sortByRating,
-              page,
-              context);
+    dinerestaurantPresenter.getrestaurantspage(
+        _position.latitude.toString(),
+        _position.longitude.toString(),
+        rating,
+        favourite,
+        sortByDistance,
+        sortByRating,
+        page,
+        context);
   }
 
   int _getint() {
@@ -685,12 +702,16 @@ class _TakeAwayViewState extends State<TakeAwayView>
   @override
   Future<void> restaurantfailed() async {
     isIgnoreTouch = false;
+    isBackActive = true;
+
     await progressDialog.hide();
   }
 
   @override
   Future<void> restaurantsuccess(List<RestaurantList> restlist) async {
     isIgnoreTouch = false;
+    isBackActive = true;
+
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // if (restlist.length == 0) {
