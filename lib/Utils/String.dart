@@ -454,6 +454,7 @@ const STR_SUBTOTAL = 'Subtotal';
 const SPLIT_AMOUNT = "Split amount";
 const STR_ELEVEN = ' 11.20';
 const STR_TIP = 'Tip';
+const DELV_CHARGE = "Delivery charge";
 const STR_TOTAL = 'Total';
 const STR_CHECKOUT_CODE = 'check_out_code';
 const STR_FOODZI_TITLE = "Foodzi";
