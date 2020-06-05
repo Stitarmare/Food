@@ -183,17 +183,15 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Column(
-          children: <Widget>[
-            Card(
+      child: Column(
+        children: <Widget>[
+          Card(
               child: Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
                       SizedBox(
-                        width: 20,
+                        width: 5,
                       ),
                       Text(
                         STR_DELIVERY_TITLE,
@@ -212,7 +210,11 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                 ],
               ),
             ),
-            SizedBox(height: 5),
+            Container(
+        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+        child: Column(
+          children: <Widget>[
+            
             Row(
               children: <Widget>[
                 Text(
@@ -299,6 +301,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           ],
         ),
       ),
+        ],
+      )
+       
     );
   }
 
@@ -311,10 +316,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           Divider(
             thickness: 2,
           ),
-          _getTipSlider(),
-          Divider(
-            thickness: 2,
-          ),
+          //_getTipSlider(),
+          // Divider(
+          //   thickness: 2,
+          // ),
           _getBillDetails(),
         ],
       ),
@@ -527,7 +532,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  STR_TIP,
+                  DELV_CHARGE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -540,7 +545,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${sliderValue.toInt()}',
+                  currencySymb + ' 12',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -567,7 +572,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt()}',
+                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
