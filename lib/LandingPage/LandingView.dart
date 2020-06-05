@@ -47,6 +47,7 @@ class _LandingStateView extends State<Landingview>
   StreamController<Position> _controllerPosition = new StreamController();
   Stream stream;
   StreamSubscription<double> _streamSubscription;
+  bool isIgnoring = true;
 
   @override
   void initState() {
@@ -101,6 +102,9 @@ class _LandingStateView extends State<Landingview>
   }
 
   callApi() async {
+    setState(() {
+        isIgnoring = true;
+      });
     //await progressDialog.show();
     _landingViewPresenter.getCurrentOrder(context);
   }
@@ -112,7 +116,9 @@ class _LandingStateView extends State<Landingview>
     progressDialog.style(message: STR_PLEASE_WAIT);
     return Card(
       elevation: 100.0,
-      child: Scaffold(
+      child: IgnorePointer(
+        ignoring: isIgnoring,
+        child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
           actions: <Widget>[
@@ -195,6 +201,7 @@ class _LandingStateView extends State<Landingview>
         //         ),
         //       )
         //     : Text(""),
+      ),
       ),
     );
   }
@@ -360,6 +367,9 @@ class _LandingStateView extends State<Landingview>
               tabValue: 0,
             )));
     if (progressDialog != null) {
+      setState(() {
+        isIgnoring = true;
+      });
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
       _landingViewPresenter.getCurrentOrder(context);
@@ -482,6 +492,9 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
+            setState(() {
+        isIgnoring = true;
+      });
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
@@ -499,6 +512,9 @@ class _LandingStateView extends State<Landingview>
                     orderId: Globle().orderID,
                     isFromOrder: true,
                   )));
+                  setState(() {
+        isIgnoring = true;
+      });
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -526,6 +542,9 @@ class _LandingStateView extends State<Landingview>
               //           : _model.data.dineIn.restaurant.coverImage,
               //     )
               ));
+              setState(() {
+        isIgnoring = true;
+      });
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -563,6 +582,9 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onFailedCurrentOrder() async {
+    setState(() {
+        isIgnoring = false;
+      });
     if (progressDialog.isShowing()) {
       await progressDialog.hide();
     }
@@ -570,6 +592,9 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
+    setState(() {
+        isIgnoring = false;
+      });
     if (progressDialog.isShowing()) {
       await progressDialog.hide();
     }
