@@ -117,6 +117,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
         setState(() {
           locationNotFound = true;
           isIgnoreTouch = false;
+          isBackActive = true;
           getttingLocation = true;
         });
       }
