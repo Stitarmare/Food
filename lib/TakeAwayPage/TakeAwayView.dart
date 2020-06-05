@@ -100,6 +100,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
           getttingLocation = true;
 
           locationNotFound = false;
+          isBackActive = true;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
@@ -118,6 +119,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
           locationNotFound = true;
           isIgnoreTouch = false;
           getttingLocation = true;
+          isBackActive = true;
         });
       }
     });
