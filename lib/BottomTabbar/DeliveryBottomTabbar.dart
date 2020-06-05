@@ -135,7 +135,7 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
             //       child: Image.asset(CLOCK_IMAGE_PATH)),
             // ),
             SizedBox(
-              height: 5,
+              height: 45,
             ),
             FittedBox(
               child: FloatingActionButton(
