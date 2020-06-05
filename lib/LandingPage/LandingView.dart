@@ -53,9 +53,6 @@ class _LandingStateView extends State<Landingview>
     stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
 
-    progressDialog = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
     getCurrentOrderID();
     Preference.getPrefValue<String>(STR_CURRENCY_SYMBOL).then((value) {
@@ -110,6 +107,9 @@ class _LandingStateView extends State<Landingview>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    progressDialog.style(message: STR_PLEASE_WAIT);
     return Card(
       elevation: 100.0,
       child: Scaffold(
