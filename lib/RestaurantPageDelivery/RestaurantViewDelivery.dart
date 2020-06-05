@@ -422,7 +422,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
             itemCount: _getMenucount(),
             itemBuilder: (context, index) {
               return Container(
-                width: MediaQuery.of(context).size.width / 5.5,
+                width: MediaQuery.of(context).size.width * 0.2,
+                // width: MediaQuery.of(context).size.width /5.5,
                 child: Column(
                   children: <Widget>[
                     SizedBox(
@@ -444,7 +445,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.19,
+                      width: MediaQuery.of(context).size.width * 0.2,
                       child: Divider(
                         thickness: 2,
                         color: _selectedMenu != null && _selectedMenu == index
