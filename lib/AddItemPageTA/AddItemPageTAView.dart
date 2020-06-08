@@ -1422,6 +1422,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Future<void> addMenuToCartsuccess() async {
     specialReq = "";
     Globle().takeAwayCartItemCount += 1;
+    Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);

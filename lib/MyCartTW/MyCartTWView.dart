@@ -352,6 +352,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                   GestureDetector(
                     onTap: () {
                       Globle().takeAwayCartItemCount = 0;
+                      Globle().dinecartValue = 0;
                       Preference.setPersistData<int>(
                           0, PreferenceKeys.takeAwayCartCount);
                       (_cartItemList != null)
@@ -619,6 +620,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       return;
     }
     Globle().takeAwayCartItemCount = menulist.length;
+    Globle().dinecartValue = menulist.length;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
@@ -654,6 +656,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
         Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
         Globle().takeAwayCartItemCount = 0;
+        Globle().dinecartValue = 0;
         Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
         setState(() {
           myCart = null;
@@ -663,6 +666,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
+    Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);

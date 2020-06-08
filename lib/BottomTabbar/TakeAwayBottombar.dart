@@ -82,6 +82,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
 
   @override
   Widget build(BuildContext context) {
+   // getAlreadyInCart();
     return Scaffold(
       floatingActionButton:
           //  Container(
@@ -104,16 +105,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
           FloatingActionButton(
               backgroundColor: getColorByHex(Globle().colorscode),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyCartTWView(
-                              restName: widget.title,
-                              restId: widget.restId,
-                              lat: widget.lat,
-                              long: widget.long,
-                              orderType: STR_TAKE_AWAY,
-                            )));
+                showCartDetails();
               },
               heroTag: STR_BTN_ADD_CART,
               child: Stack(
@@ -132,7 +124,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                               child: Badge(
                                   badgeColor: redtheme,
                                   badgeContent: Text(
-                                      "${Globle().takeAwayCartItemCount} ",
+                                      "${Globle().dinecartValue} ",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Colors.white))))
                           : Text(STR_BLANK)
@@ -220,6 +212,20 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 title: Text(STR_BLANK)),
           ]),
     );
+  }
+
+  showCartDetails() async{
+    var data = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyCartTWView(
+                              restName: widget.title,
+                              restId: widget.restId,
+                              lat: widget.lat,
+                              long: widget.long,
+                              orderType: STR_TAKE_AWAY,
+                            )));
+               getAlreadyInCart();
   }
 
   getAlreadyInCart() async {
