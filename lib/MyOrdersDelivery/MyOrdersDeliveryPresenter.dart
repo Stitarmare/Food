@@ -19,7 +19,7 @@ class MyOrdersDeliveryPresenter extends MyOrderDeliveryContractor {
     ApiBaseHelper().post<CurrentOrderDetailsModel>(
         UrlConstant.runningOrderApi, context,
         body: {
-          JSON_STR_ORDER_TYPE: orderType,
+          JSON_STR_ORDER_TYPE: "delivery",
         }).then((value) {
       print(value);
       switch (value.result) {
