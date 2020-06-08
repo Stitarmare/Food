@@ -183,128 +183,125 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
-      child: Column(
-        children: <Widget>[
-          Card(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        STR_DELIVERY_TITLE,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_20,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w600,
-                            color: getColorByHex(Globle().colorscode)),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
         child: Column(
-          children: <Widget>[
-            
-            Row(
-              children: <Widget>[
-                Text(
-                  "House No : ",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w600,
-                      color: greytheme700),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  widget.houseNo,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme700),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              widget.address,
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w500,
-                  color: greytheme700),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: <Widget>[
-                Text(
-                  "Landmark : ",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w600,
-                      color: greytheme700),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  widget.landmark,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w500,
-                      color: greytheme700),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: 200,
-              height: 50,
-              child: Card(
-                child: Center(
-                  child: Text(
-                    widget.restName,
+      children: <Widget>[
+        Card(
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    STR_DELIVERY_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: FONTSIZE_20,
                         fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text(
+                    "House No : ",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w600,
+                        color: greytheme700),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.houseNo,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(
+                widget.address,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w500,
+                    color: greytheme700),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: <Widget>[
+                  Text(
+                    "Landmark : ",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w600,
+                        color: greytheme700),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.landmark,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      widget.restName,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontWeight: FontWeight.w600,
+                          color: getColorByHex(Globle().colorscode)),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-        ],
-      )
-       
-    );
+      ],
+    ));
   }
 
   Widget _getOptions() {
@@ -572,7 +569,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt() + 12}',
+                  currencySymb +
+                      ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
