@@ -233,7 +233,8 @@ const JSON_STR_ITEM_ID = "item_id";
 const STR_CHANGE_PASSWORD = 'Change Your Password';
 const IMAGE_LOCK_PATH = 'assets/LockImage/Group_1560.png';
 const STR_PWD_NOT_MATCHED = 'Password does not match with confirm password.';
-const STR_PWD_CHANGED_SUCCESS = 'Your password has been successfully change, Please login again.';
+const STR_PWD_CHANGED_SUCCESS =
+    'Your password has been successfully change, Please login again.';
 const JSON_STR_OLD_PWD = 'old_password';
 const JSON_STR_NEW_PWD = 'new_password';
 const JSON_STR_PWD_CONFIRM = 'new_password_confirmation';
@@ -362,6 +363,7 @@ const JSON_STR_TABLE_ID = "table_id";
 const JSON_STR_QUANTITY = "quantity";
 const JSON_STR_AMOUNT = "amount";
 const JSON_STR_CURRENCY = "currency";
+const JSON_STR_ORDER_ID_1 = "order_id";
 
 const STR_SUMBIT = 'SUBMIT';
 const STR_ITEM_DESC = " Lorem Epsom is simply dummy text";
