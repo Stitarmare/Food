@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/DeliverBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryContractor.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -54,6 +55,19 @@ class MyOrdersDeliveryPresenter extends MyOrderDeliveryContractor {
     }).catchError((error) {
       print(error);
     });
+  }
+
+  void getDeliveryBoyInfo(String orderId,BuildContext context) async{
+    var responce  = await ApiBaseHelper().post<DeliveryBoyInfoModel>(UrlConstant.getDeliveryBoyInfoApi, context);
+    switch (responce.result) {
+        case SuccessType.success:
+          print(responce.model);
+         _myOrderModelView.getDeliveryBoyDetailSuccess(responce.model.data);
+          break;
+        case SuccessType.failed:
+          _myOrderModelView.getDeliveryBoyDetailFailed();
+          break;
+      }
   }
 
   @override

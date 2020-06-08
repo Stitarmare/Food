@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/DeliverBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
@@ -398,7 +399,8 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                                     color: Colors.white),
                               ),
                               onPressed: () {
-                                driverDetailsDialog();
+                                callApiDriverInfo(_orderDetailList[index].id.toString());
+                                
                               },
                             ),
                           ),
@@ -414,6 +416,11 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
             );
           },
         ));
+  }
+
+  void callApiDriverInfo(String orderId) async{
+
+    _myOrdersPresenter.getDeliveryBoyInfo(orderId, context);
   }
 
   int getLenghtOfHistoryOrder() {
@@ -693,5 +700,15 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void getDeliveryBoyDetailFailed() {
+    // TODO: implement getDeliveryBoyDetailFailed
+  }
+
+  @override
+  void getDeliveryBoyDetailSuccess(DeliveryBoyInfoData data) {
+    driverDetailsDialog();
   }
 }
