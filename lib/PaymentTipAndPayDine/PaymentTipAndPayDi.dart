@@ -100,8 +100,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         print('connected');
         await progressDialog.show();
 
-        _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-            getOrderTotal(), sliderValue.toString(), "ZAR", context);
+        _billCheckoutPresenter.payBillCheckOut(
+          myOrderData.restId,
+          getOrderTotal(),
+          sliderValue.toString(),
+          "ZAR",
+          context,
+          orderId: myOrderData.id,
+        );
       }
     } on SocketException catch (_) {
       print('not connected');

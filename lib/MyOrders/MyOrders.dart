@@ -788,14 +788,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
 
-      // Iterable<GetMyOrderBookingHistoryList> orderIterableList =
-      //     getmyOrderBookingHistory.reversed;
-      // List<GetMyOrderBookingHistoryList> list1 = [];
-      // for (int i = 0; i < orderIterableList.length; i++) {
-      //   GetMyOrderBookingHistoryList list = orderIterableList.elementAt(i);
-      //   list1.add(list);
-      //   getmyOrderBookingHistory = list1;
-      // }
+      Iterable<GetMyOrderBookingHistoryList> orderIterableList =
+          getmyOrderBookingHistory.reversed;
+      List<GetMyOrderBookingHistoryList> list1 = [];
+      for (int i = 0; i < orderIterableList.length; i++) {
+        GetMyOrderBookingHistoryList list = orderIterableList.elementAt(i);
+        list1.add(list);
+        getmyOrderBookingHistory = list1;
+      }
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
