@@ -242,11 +242,11 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                         bottomItem.isSelected == false) {
                                       rating = null;
                                     }
-                                    if (bottomItem.title == "Favourites Only" &&
+                                    if (bottomItem.title == "Favourites Only " &&
                                         bottomItem.isSelected == true) {
                                       favourite = "favourite";
                                     } else if (bottomItem.title ==
-                                            "Favourites Only" &&
+                                            "Favourites Only " &&
                                         bottomItem.isSelected == false) {
                                       favourite = null;
                                     }
@@ -467,7 +467,19 @@ class _TakeAwayViewState extends State<TakeAwayView>
                       ),
                     )
                   : (_restaurantList != null)
-                      ? restaurantsInfo()
+                      ? (_restaurantList.length>0) ? restaurantsInfo() :Container(
+                          child: Center(
+                            child: Text(
+                              STR_NO_RESTAURANT,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_25,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                        )
                       : Container(
                           child: Center(
                             child: Text(

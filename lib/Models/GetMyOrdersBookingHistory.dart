@@ -329,7 +329,7 @@ class GetMyOrderBookingHistoryList {
   Null additionalComments;
   int restId;
   String status;
-  Null cancellationReason;
+  String cancellationReason;
   String totalAmount;
   int splitType;
   String splitAmount;
