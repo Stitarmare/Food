@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -354,101 +355,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ),
                 GestureDetector(
                   onTap: () async {
-                    var alreadyAdde = await Preference.getPrefValue<bool>(
-                        PreferenceKeys.isAlreadyINCart);
-                    var restauran = await (Preference.getPrefValue<int>(
-                        PreferenceKeys.restaurantID));
-                    var restaurantName = await (Preference.getPrefValue<String>(
-                        PreferenceKeys.restaurantName));
-                    var orderId = await Preference.getPrefValue<int>(
-                        PreferenceKeys.orderId);
-
-                    if (orderId != null) {
-                      if (restauran == widget.restId) {
-                        if (_updateOrderModel == null) {
-                          _updateOrderModel = UpdateOrderModel();
-                        }
-                        _updateOrderModel.orderId = orderId;
-                        _updateOrderModel.userId = Globle().loginModel.data.id;
-                        if (items == null) {
-                          items = Item();
-                        }
-                        List<Extras> extras;
-                        if (extra != null) {
-                          extras = extra;
-                        } else {
-                          extras = defaultExtra ?? null;
-                        }
-
-                        List<Switches> switchess;
-                        if (switches != null) {
-                          switchess = switches;
-                        } else {
-                          switchess = defaultSwitch ?? null;
-                        }
-                        List<Sizes> sizess;
-                        if (size != null) {
-                          sizess = [size];
-                        } else if (defaultSize != null) {
-                          if (defaultSize.sizeid != null) {
-                            sizess = [defaultSize];
-                          }
-                        }
-
-                        _updateOrderModel.items = items;
-                        if (sizess != null) {
-                          if (sizess.length > 0) {
-                            _updateOrderModel.items.sizePriceId =
-                                sizess[0].sizeid;
-                          }
-                        }
-
-                        if (extras != null) {
-                          if (extras.length == 0 &&
-                              _addItemModelList.extrasrequired == "yes") {
-                            DialogsIndicator.showAlert(
-                                context,
-                                "Required Field",
-                                "Please select required field");
-                            return;
-                          }
-                        }
-                        if (switches != null) {
-                          if (switches.length == 0 &&
-                              _addItemModelList.switchesrequired == "yes") {
-                            DialogsIndicator.showAlert(
-                                context,
-                                "Required Field",
-                                "Please select required field");
-                            return;
-                          }
-                        }
-
-                        _updateOrderModel.items.quantity = count;
-                        _updateOrderModel.items.itemId = widget.itemId;
-                        _updateOrderModel.items.preparationNote = specialReq;
-                        _updateOrderModel.items.extra = extras;
-                        _updateOrderModel.items.spreads = spread == null
-                            ? (defaultSpread != null) ? [defaultSpread] : null
-                            : [spread];
-                        _updateOrderModel.items.switches = switchess;
-
-                        _updateOrderModel.items.sizes = sizess;
-                        print(_updateOrderModel.toJson());
-
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
-                        await progressDialog.show();
-                        _addItemPagepresenter.updateOrder(
-                            _updateOrderModel, context);
-                      } else {
-                        Constants.showAlert(
-                            KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
-                      }
-                    } else {
-                      checkForItemIsAlreadyInCart(
-                          alreadyAdde, restauran, restaurantName);
-                    }
+                    checkIntenet();
                   },
                   child: Container(
                       height: 54,
@@ -476,6 +383,131 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
       ),
     );
+  }
+
+  checkIntenet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        var alreadyAdde =
+            await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
+        var restauran =
+            await (Preference.getPrefValue<int>(PreferenceKeys.restaurantID));
+        var restaurantName = await (Preference.getPrefValue<String>(
+            PreferenceKeys.restaurantName));
+        var orderId =
+            await Preference.getPrefValue<int>(PreferenceKeys.orderId);
+
+        if (orderId != null) {
+          if (restauran == widget.restId) {
+            if (_updateOrderModel == null) {
+              _updateOrderModel = UpdateOrderModel();
+            }
+            _updateOrderModel.orderId = orderId;
+            _updateOrderModel.userId = Globle().loginModel.data.id;
+            if (items == null) {
+              items = Item();
+            }
+            List<Extras> extras;
+            if (extra != null) {
+              extras = extra;
+            } else {
+              extras = defaultExtra ?? null;
+            }
+
+            List<Switches> switchess;
+            if (switches != null) {
+              switchess = switches;
+            } else {
+              switchess = defaultSwitch ?? null;
+            }
+            List<Sizes> sizess;
+            if (size != null) {
+              sizess = [size];
+            } else if (defaultSize != null) {
+              if (defaultSize.sizeid != null) {
+                sizess = [defaultSize];
+              }
+            }
+
+            _updateOrderModel.items = items;
+            if (sizess != null) {
+              if (sizess.length > 0) {
+                _updateOrderModel.items.sizePriceId = sizess[0].sizeid;
+              }
+            }
+
+            if (extras != null) {
+              if (extras.length == 0 &&
+                  _addItemModelList.extrasrequired == "yes") {
+                DialogsIndicator.showAlert(
+                    context, "Required Field", "Please select required field");
+                return;
+              }
+            }
+            if (switches != null) {
+              if (switches.length == 0 &&
+                  _addItemModelList.switchesrequired == "yes") {
+                DialogsIndicator.showAlert(
+                    context, "Required Field", "Please select required field");
+                return;
+              }
+            }
+
+            _updateOrderModel.items.quantity = count;
+            _updateOrderModel.items.itemId = widget.itemId;
+            _updateOrderModel.items.preparationNote = specialReq;
+            _updateOrderModel.items.extra = extras;
+            _updateOrderModel.items.spreads = spread == null
+                ? (defaultSpread != null) ? [defaultSpread] : null
+                : [spread];
+            _updateOrderModel.items.switches = switchess;
+
+            _updateOrderModel.items.sizes = sizess;
+            print(_updateOrderModel.toJson());
+
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_BLANK);
+            await progressDialog.show();
+            _addItemPagepresenter.updateOrder(_updateOrderModel, context);
+          } else {
+            Constants.showAlert(KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
+          }
+        } else {
+          checkForItemIsAlreadyInCart(alreadyAdde, restauran, restaurantName);
+        }
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      showAlert(
+        context,
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
+        () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget totalamounttext() {
@@ -1330,7 +1362,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
-      double douPrice = double.parse(price) + (extPirce*count);
+      double douPrice = double.parse(price) + (extPirce * count);
       String strdoublePrice = douPrice.toStringAsFixed(2);
       return strdoublePrice;
       // return (double.parse(price) + extPirce).toString();

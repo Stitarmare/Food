@@ -111,8 +111,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       }
     } on SocketException catch (_) {
       print('not connected');
-      Constants.showAlert(
-          "Internet Status", "Internet conection lost", context);
+      showAlert(
+        context,
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
+        () {
+          Navigator.of(context).pop();
+        },
+      );
     }
   }
 
@@ -799,6 +805,25 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   title,
                   textAlign: TextAlign.center,
                 ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
                 actions: <Widget>[
                   FlatButton(
                     child: Text(STR_OK),

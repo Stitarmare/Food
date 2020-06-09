@@ -651,10 +651,12 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       ),
                       ClipOval(
                         child: Container(
-                          height: 10,
-                          width: 10,
-                          color: getmyOrderBookingHistory[index].status == "paid" ? Colors.green : Colors.red
-                        ),
+                            height: 10,
+                            width: 10,
+                            color:
+                                getmyOrderBookingHistory[index].status == "paid"
+                                    ? Colors.green
+                                    : Colors.red),
                       ),
                       SizedBox(
                         width: 10,
@@ -786,7 +788,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
       return;
     }
     setState(() {
-      getmyOrderBookingHistory = _getmyOrderBookingHistory;
+      // getmyOrderBookingHistory = _getmyOrderBookingHistory;
 
       // Iterable<GetMyOrderBookingHistoryList> orderIterableList =
       //     getmyOrderBookingHistory.reversed;
@@ -796,6 +798,11 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
       //   list1.add(list);
       //   getmyOrderBookingHistory = list1;
       // }
+      for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
+        _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
+      }
+
+      getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }

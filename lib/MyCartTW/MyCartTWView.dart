@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,6 +64,68 @@ class _MyCartTWViewState extends State<MyCartTWView>
     super.initState();
   }
 
+  checkIntenet(int i, int flag) async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        if (flag == 1) {
+          if (_cartItemList[i].quantity > 0) {
+            setState(() {
+              _cartItemList[i].quantity -= 1;
+              print(_cartItemList[i].quantity);
+            });
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_LOADING);
+            await progressDialog.show();
+            if (_cartItemList[i].quantity > 0) {
+              _myCartpresenter.updateQauntityCount(
+                  _cartItemList[i].id,
+                  _cartItemList[i].quantity,
+                  (double.parse(_cartItemList[i].totalAmount)) /
+                      _cartItemList[i].quantity,
+                  context);
+            }
+            if (_cartItemList[i].quantity == 0) {
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              _myCartpresenter.removeItemfromCart(
+                  _cartItemList[i].id, Globle().loginModel.data.id, context);
+              setState(() {
+                _cartItemList.removeAt(i);
+              });
+            }
+          }
+        } else {
+          setState(() {
+            _cartItemList[i].quantity += 1;
+            print(_cartItemList[i].quantity);
+          });
+          // DialogsIndicator.showLoadingDialog(
+          //     context, _keyLoader, STR_LOADING);
+          await progressDialog.show();
+          _myCartpresenter.updateQauntityCount(
+              _cartItemList[i].id,
+              _cartItemList[i].quantity,
+              (double.parse(_cartItemList[i].totalAmount)) /
+                  _cartItemList[i].quantity,
+              context);
+        }
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      showAlert(
+        context,
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
+        () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
+  }
+
   Widget steppercount(int i) {
     int count = _cartItemList[i].quantity;
     return Container(
@@ -70,33 +134,34 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-            if (_cartItemList[i].quantity > 0) {
-              setState(() {
-                _cartItemList[i].quantity -= 1;
-                print(_cartItemList[i].quantity);
-              });
-              // DialogsIndicator.showLoadingDialog(
-              //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
-              if (_cartItemList[i].quantity > 0) {
-                _myCartpresenter.updateQauntityCount(
-                    _cartItemList[i].id,
-                    _cartItemList[i].quantity,
-                    (double.parse(_cartItemList[i].totalAmount)) /
-                        _cartItemList[i].quantity,
-                    context);
-              }
-              if (_cartItemList[i].quantity == 0) {
-                // DialogsIndicator.showLoadingDialog(
-                //     context, _keyLoader, STR_LOADING);
-                await progressDialog.show();
-                _myCartpresenter.removeItemfromCart(
-                    _cartItemList[i].id, Globle().loginModel.data.id, context);
-                setState(() {
-                  _cartItemList.removeAt(i);
-                });
-              }
-            }
+            checkIntenet(i, 1);
+            // if (_cartItemList[i].quantity > 0) {
+            //   setState(() {
+            //     _cartItemList[i].quantity -= 1;
+            //     print(_cartItemList[i].quantity);
+            //   });
+            //   // DialogsIndicator.showLoadingDialog(
+            //   //     context, _keyLoader, STR_LOADING);
+            //   await progressDialog.show();
+            //   if (_cartItemList[i].quantity > 0) {
+            //     _myCartpresenter.updateQauntityCount(
+            //         _cartItemList[i].id,
+            //         _cartItemList[i].quantity,
+            //         (double.parse(_cartItemList[i].totalAmount)) /
+            //             _cartItemList[i].quantity,
+            //         context);
+            //   }
+            //   if (_cartItemList[i].quantity == 0) {
+            //     // DialogsIndicator.showLoadingDialog(
+            //     //     context, _keyLoader, STR_LOADING);
+            //     await progressDialog.show();
+            //     _myCartpresenter.removeItemfromCart(
+            //         _cartItemList[i].id, Globle().loginModel.data.id, context);
+            //     setState(() {
+            //       _cartItemList.removeAt(i);
+            //     });
+            //   }
+            // }
             // if (count > 1) {
             //   setState(() {
             //     --count;
@@ -132,19 +197,21 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            setState(() {
-              _cartItemList[i].quantity += 1;
-              print(_cartItemList[i].quantity);
-            });
-            // DialogsIndicator.showLoadingDialog(
-            //     context, _keyLoader, STR_LOADING);
-            await progressDialog.show();
-            _myCartpresenter.updateQauntityCount(
-                _cartItemList[i].id,
-                _cartItemList[i].quantity,
-                (double.parse(_cartItemList[i].totalAmount)) /
-                    _cartItemList[i].quantity,
-                context);
+            checkIntenet(i, 2);
+
+            // setState(() {
+            //   _cartItemList[i].quantity += 1;
+            //   print(_cartItemList[i].quantity);
+            // });
+            // // DialogsIndicator.showLoadingDialog(
+            // //     context, _keyLoader, STR_LOADING);
+            // await progressDialog.show();
+            // _myCartpresenter.updateQauntityCount(
+            //     _cartItemList[i].id,
+            //     _cartItemList[i].quantity,
+            //     (double.parse(_cartItemList[i].totalAmount)) /
+            //         _cartItemList[i].quantity,
+            //     context);
 
             // if (count < 100) {
             //   setState(() {
@@ -403,6 +470,25 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
       ),
     );
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget _getAddedListItem() {

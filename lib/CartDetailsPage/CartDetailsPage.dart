@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -12,6 +13,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -150,13 +152,40 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   bool isCancelOrder() {
-    if (myOrderDataDetails!=null) {
-      if(myOrderDataDetails.status=="cancelled") {
-        
+    if (myOrderDataDetails != null) {
+      if (myOrderDataDetails.status == "cancelled") {
         return true;
       }
     }
     return false;
+  }
+
+  checkIntenet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        await progressDialog.show();
+        _timer.cancel();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PaymentTipAndPayDi(
+                      orderID: widget.orderId,
+                      tableId: myOrderDataDetails.tableId,
+                    )));
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      _showAlert(
+        context,
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
+        () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
   }
 
   @override
@@ -285,156 +314,167 @@ class CartDetailsPageState extends State<CartDetailsPage>
                   ],
                 ),
           bottomNavigationBar: BottomAppBar(
-            child: isCancelOrder() ? Container(
-              height: 40,
-              color: Colors.red,
-              child: Center(child: Text(
-                "Cancelled",
-                style:TextStyle(
-                                          fontFamily: "gotham",
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: Colors.white) ,
-              ),),
-            ) : Container(
-                height: 110,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: _model != null ? totalamounttext() : Text(""),
+            child: isCancelOrder()
+                ? Container(
+                    height: 40,
+                    color: Colors.red,
+                    child: Center(
+                      child: Text(
+                        "Cancelled",
+                        style: TextStyle(
+                            fontFamily: "gotham",
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.white),
+                      ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    // Align(
-                    //   alignment: Alignment.bottomCenter,
-                    //   child: FlatButton(
-                    //     child: Text(
-                    //       "Add More Item",
-                    //       style: TextStyle(
-                    //           fontSize: 16,
-                    //           fontFamily: "gotham",
-                    //           decoration: TextDecoration.underline,
-                    //           decorationColor: getColorByHex(Globle().colorscode),
-                    //           color: getColorByHex(Globle().colorscode),
-                    //           fontWeight: FontWeight.w600),
-                    //     ),
-                    //     onPressed: () {
-                    //       //Add More Items Pressed
-                    //       Navigator.pop(context);
-                    //     },
-                    //   ),
-                    // ),
-                    Row(
+                  )
+                : Container(
+                    height: 110,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
-                        GestureDetector(
-                          onTap: () {
-                            _timer.cancel();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PaymentTipAndPayDi(
-                                          orderID: widget.orderId,
-                                          tableId: myOrderDataDetails.tableId,
-                                        )));
-                          },
-                          child: isPayBillButtonEnable()
-                              ? Container()
-                              : Container(
-                                  height: 54,
-                                  width: isAddMoreButtonEnable()
-                                      ? (MediaQuery.of(context).size.width *
-                                          0.96)
-                                      : (MediaQuery.of(context).size.width *
-                                          0.45),
-                                  decoration: BoxDecoration(
-                                      color: Globle().colorscode != null
-                                          ? getColorByHex(Globle().colorscode)
-                                          : orangetheme,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15))),
-                                  child: Center(
-                                    child: Text(
-                                      STR_PAY_BILL,
-                                      style: TextStyle(
-                                          fontFamily: "gotham",
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: _model != null ? totalamounttext() : Text(""),
                         ),
-                        isAddMoreButtonEnable()
-                            ? Container()
-                            : SizedBox(
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // Align(
+                        //   alignment: Alignment.bottomCenter,
+                        //   child: FlatButton(
+                        //     child: Text(
+                        //       "Add More Item",
+                        //       style: TextStyle(
+                        //           fontSize: 16,
+                        //           fontFamily: "gotham",
+                        //           decoration: TextDecoration.underline,
+                        //           decorationColor: getColorByHex(Globle().colorscode),
+                        //           color: getColorByHex(Globle().colorscode),
+                        //           fontWeight: FontWeight.w600),
+                        //     ),
+                        //     onPressed: () {
+                        //       //Add More Items Pressed
+                        //       Navigator.pop(context);
+                        //     },
+                        //   ),
+                        // ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
                                 width:
-                                    MediaQuery.of(context).size.width * 0.06),
-                        GestureDetector(
-                          onTap: () {
-                            if (widget.isFromOrder) {
-                              if (myOrderDataDetails != null) {
-                                if (myOrderDataDetails.restId != null) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => RestaurantView(
-                                                restId:
-                                                    myOrderDataDetails.restId,
-                                                title: "",
-                                                imageUrl: "",
-                                                isFromOrder: true,
-                                              )));
-                                }
-                              }
-                            } else {
-                              if (widget.flag == 1) {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              } else if (widget.flag == 2) {
-                                Navigator.of(context).pop();
-                              } else if (widget.flag == 3) {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
-                              }
-                            }
-                          },
-                          child: isAddMoreButtonEnable()
-                              ? Container()
-                              : Container(
-                                  height: 54,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.45,
-                                  decoration: BoxDecoration(
-                                      color: greentheme100,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15))),
-                                  child: Center(
-                                    child: Text(
-                                      "Add More Item",
-                                      style: TextStyle(
-                                          fontFamily: "gotham",
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                          color: Colors.white),
+                                    MediaQuery.of(context).size.width * 0.02),
+                            GestureDetector(
+                              onTap: () {
+                                checkIntenet();
+                                // _timer.cancel();
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             PaymentTipAndPayDi(
+                                //               orderID: widget.orderId,
+                                //               tableId:
+                                //                   myOrderDataDetails.tableId,
+                                //             )));
+                              },
+                              child: isPayBillButtonEnable()
+                                  ? Container()
+                                  : Container(
+                                      height: 54,
+                                      width: isAddMoreButtonEnable()
+                                          ? (MediaQuery.of(context).size.width *
+                                              0.96)
+                                          : (MediaQuery.of(context).size.width *
+                                              0.45),
+                                      decoration: BoxDecoration(
+                                          color: Globle().colorscode != null
+                                              ? getColorByHex(
+                                                  Globle().colorscode)
+                                              : orangetheme,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15))),
+                                      child: Center(
+                                        child: Text(
+                                          STR_PAY_BILL,
+                                          style: TextStyle(
+                                              fontFamily: "gotham",
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.white),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
+                            ),
+                            isAddMoreButtonEnable()
+                                ? Container()
+                                : SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.06),
+                            GestureDetector(
+                              onTap: () {
+                                if (widget.isFromOrder) {
+                                  if (myOrderDataDetails != null) {
+                                    if (myOrderDataDetails.restId != null) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RestaurantView(
+                                                    restId: myOrderDataDetails
+                                                        .restId,
+                                                    title: "",
+                                                    imageUrl: "",
+                                                    isFromOrder: true,
+                                                  )));
+                                    }
+                                  }
+                                } else {
+                                  if (widget.flag == 1) {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  } else if (widget.flag == 2) {
+                                    Navigator.of(context).pop();
+                                  } else if (widget.flag == 3) {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  }
+                                }
+                              },
+                              child: isAddMoreButtonEnable()
+                                  ? Container()
+                                  : Container(
+                                      height: 54,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.45,
+                                      decoration: BoxDecoration(
+                                          color: greentheme100,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15))),
+                                      child: Center(
+                                        child: Text(
+                                          "Add More Item",
+                                          style: TextStyle(
+                                              fontFamily: "gotham",
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.02),
+                          ],
                         ),
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.02),
                       ],
-                    ),
-                  ],
-                )),
+                    )),
           ),
         ),
       ),
@@ -677,6 +717,25 @@ class CartDetailsPageState extends State<CartDetailsPage>
           );
   }
 
+  void _showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
+  }
+
   bool isPayBillButtonEnable() {
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
@@ -849,9 +908,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
       if (menuCartList.cartExtras[i].switches.length > 0) {
-        for (int j = 0;
-            j < menuCartList.cartExtras[i].switches.length;
-            j++) {
+        for (int j = 0; j < menuCartList.cartExtras[i].switches.length; j++) {
           if (menuCartList.cartExtras[i].switchOption != null) {
             extras +=
                 "${menuCartList.cartExtras[i].switches[j].name} - ${menuCartList.cartExtras[i].switchOption}, ";
@@ -861,7 +918,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
-    
+
     if (extras.isNotEmpty) {
       extras = removeLastChar(extras);
       extras = removeLastChar(extras);
@@ -911,16 +968,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
     if (isCancelOrder()) {
       Preference.setPersistData<int>(null, PreferenceKeys.orderId);
-    Globle().orderID = 0;
-    Preference.removeForKey(PreferenceKeys.orderId);
-    Globle().dinecartValue = 0;
-    Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+      Globle().orderID = 0;
+      Preference.removeForKey(PreferenceKeys.orderId);
+      Globle().dinecartValue = 0;
+      Globle().takeAwayCartItemCount = 0;
+      Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+      Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+      Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+      Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
+      Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+      Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     }
   }
 

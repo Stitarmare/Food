@@ -680,14 +680,14 @@ class _MyOrdersState extends State<MyOrderTakeAway>
       if (_orderdetailsList.length != null) {
         _orderDetailList = _orderdetailsList;
 
-        // Iterable<CurrentOrderList> orderIterableList =
-        //     _orderDetailList.reversed;
-        // List<CurrentOrderList> list1 = [];
-        // for (int i = 0; i < orderIterableList.length; i++) {
-        //   CurrentOrderList list = orderIterableList.elementAt(i);
-        //   list1.add(list);
-        //   _orderDetailList = list1;
-        // }
+        Iterable<CurrentOrderList> orderIterableList =
+            _orderDetailList.reversed;
+        List<CurrentOrderList> list1 = [];
+        for (int i = 0; i < orderIterableList.length; i++) {
+          CurrentOrderList list = orderIterableList.elementAt(i);
+          list1.add(list);
+          _orderDetailList = list1;
+        }
       }
     });
   }
@@ -699,6 +699,11 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
     setState(() {
+      // getmyOrderBookingHistory = _getmyOrderBookingHistory;
+
+      for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
+        _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
+      }
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
   }
