@@ -64,7 +64,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     super.initState();
   }
 
-  checkIntenet(int i, int flag) async {
+  checkIntenet(int i, int flag, BuildContext context) async {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -126,7 +126,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     }
   }
 
-  Widget steppercount(int i) {
+  Widget steppercount(int i, context) {
     int count = _cartItemList[i].quantity;
     return Container(
       height: 24,
@@ -134,7 +134,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-            checkIntenet(i, 1);
+            checkIntenet(i, 1, context);
             // if (_cartItemList[i].quantity > 0) {
             //   setState(() {
             //     _cartItemList[i].quantity -= 1;
@@ -197,7 +197,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            checkIntenet(i, 2);
+            checkIntenet(i, 2, context);
 
             // setState(() {
             //   _cartItemList[i].quantity += 1;
@@ -585,7 +585,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(index),
+                                  steppercount(index, context),
                                 ],
                               ),
                               Expanded(
