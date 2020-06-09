@@ -57,17 +57,19 @@ class MyOrdersDeliveryPresenter extends MyOrderDeliveryContractor {
     });
   }
 
-  void getDeliveryBoyInfo(String orderId,BuildContext context) async{
-    var responce  = await ApiBaseHelper().post<DeliveryBoyInfoModel>(UrlConstant.getDeliveryBoyInfoApi, context);
+  void getDeliveryBoyInfo(String orderId, BuildContext context) async {
+    var responce = await ApiBaseHelper().post<DeliveryBoyInfoModel>(
+        UrlConstant.getDeliveryBoyInfoApi, context,
+        body: {"order_number": orderId});
     switch (responce.result) {
-        case SuccessType.success:
-          print(responce.model);
-         _myOrderModelView.getDeliveryBoyDetailSuccess(responce.model.data);
-          break;
-        case SuccessType.failed:
-          _myOrderModelView.getDeliveryBoyDetailFailed();
-          break;
-      }
+      case SuccessType.success:
+        print(responce.model);
+        _myOrderModelView.getDeliveryBoyDetailSuccess(responce.model.data);
+        break;
+      case SuccessType.failed:
+        _myOrderModelView.getDeliveryBoyDetailFailed();
+        break;
+    }
   }
 
   @override

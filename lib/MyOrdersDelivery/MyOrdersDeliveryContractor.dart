@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/DeliverBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 
 abstract class MyOrderDeliveryContractor {
@@ -20,4 +21,6 @@ abstract class MyOrderDeliveryModelView {
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory);
   void getmyOrderHistoryFailed();
+  void getDeliveryBoyDetailSuccess(DeliveryBoyInfoData data);
+  void getDeliveryBoyDetailFailed();
 }

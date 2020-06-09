@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/DeliverBoyInfoModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -8,6 +9,19 @@ import 'package:foodzi/theme/colors.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class DriverDetailsView extends StatefulWidget {
+  String firstName;
+  String lastName;
+  String mobNo;
+  String ordersCount;
+  String profilePic;
+  String countryCode;
+  DriverDetailsView(
+      {this.firstName,
+      this.lastName,
+      this.mobNo,
+      this.ordersCount,
+      this.countryCode,
+      this.profilePic});
   @override
   _DriverDetailsViewState createState() => _DriverDetailsViewState();
 }
@@ -88,7 +102,7 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  '${Globle().loginModel.data.firstName ?? STR_BLANK} ${Globle().loginModel.data.lastName ?? STR_BLANK}',
+                  '${widget.firstName ?? STR_BLANK} ${widget.lastName ?? STR_BLANK}',
                   style: TextStyle(
                       fontSize: 18,
                       color: greytheme1200,
@@ -115,7 +129,16 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                             ),
                           )),
                       Text(
-                        "${Globle().loginModel.data.mobileNumber}",
+                        "${widget.countryCode}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: greytheme1200,
+                            fontFamily: Constants.getFontType(),
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        "${widget.mobNo}",
                         style: TextStyle(
                             fontSize: 16,
                             color: greytheme1200,
@@ -125,7 +148,7 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
                     ],
                   ),
                   onTap: () {
-                    // UrlLauncher.launch(Globle().loginModel.data.mobileNumber);
+                    UrlLauncher.launch("tel:" + widget.mobNo);
                   },
                 ),
                 SizedBox(height: 10),
@@ -219,14 +242,17 @@ class _DriverDetailsViewState extends State<DriverDetailsView> {
   // }
 
   profilePic() {
-    String imageUrl = imageURL;
-    // if (Globle().loginModel.data.userDetails != null) {
-    //   imageUrl = (Globle().loginModel.data.userDetails.profileImage != null)
-    //       ? BaseUrl.getBaseUrlImages() +
-    //           '${Globle().loginModel.data.userDetails.profileImage}'
-    //       : PROFILE_IMAGE_PATH;
-    //   return imageUrl;
-    // }
+    String imageUrl = "";
+    if (widget.profilePic != null) {
+      imageUrl = (widget.profilePic != null)
+          ? '${widget.profilePic}'
+          : PROFILE_IMAGE_PATH;
+      // imageUrl = (widget.profilePic != null)
+      //     ? BaseUrl.getBaseUrlImages() + '${widget.profilePic}'
+      //     : PROFILE_IMAGE_PATH;
+
+      return imageUrl;
+    }
     return imageUrl;
   }
 }
