@@ -198,6 +198,9 @@ class _TakeAwayViewState extends State<TakeAwayView>
                 IconButton(
                   icon: Image.asset(LEVEL_IMAGE_PATH),
                   onPressed: () {
+                    if (locationNotFound) {
+                      return;
+                    }
                     showModalBottomSheet(
                         context: context,
                         shape: RoundedRectangleBorder(

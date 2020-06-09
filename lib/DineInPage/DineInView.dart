@@ -202,6 +202,9 @@ class _DineViewState extends State<DineInView>
                 IconButton(
                   icon: Image.asset(LEVEL_IMAGE_PATH),
                   onPressed: () {
+                    if (locationNotFound) {
+                      return;
+                    }
                     showModalBottomSheet(
                         context: context,
                         shape: RoundedRectangleBorder(

@@ -653,7 +653,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         child: Container(
                           height: 10,
                           width: 10,
-                          color: Colors.green,
+                          color: getmyOrderBookingHistory[index].status == "paid" ? Colors.green : Colors.red
                         ),
                       ),
                       SizedBox(

@@ -788,8 +788,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                         const EdgeInsets.only(
                                                              top: 10),
                                                     child: ExpandableText(
-                                                        _getReviewData[index]
-                                                            .description),
+                                                        getReview(index)),
                                                   )),
                                             ),
                                             SizedBox(
@@ -893,6 +892,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   Future<void> restaurantInfoFailed() async {
     //await progressDialog.hide();
+  }
+
+  String getReview(int index) {
+    var newLine = _getReviewData[index].description.replaceAll("\n", " ");
+    var newTab = newLine.replaceAll("\t", " ");
+    return newTab.trim();
   }
 
   @override
