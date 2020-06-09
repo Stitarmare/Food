@@ -680,14 +680,14 @@ class _MyOrdersState extends State<MyOrderTakeAway>
       if (_orderdetailsList.length != null) {
         _orderDetailList = _orderdetailsList;
 
-        Iterable<CurrentOrderList> orderIterableList =
-            _orderDetailList.reversed;
-        List<CurrentOrderList> list1 = [];
-        for (int i = 0; i < orderIterableList.length; i++) {
-          CurrentOrderList list = orderIterableList.elementAt(i);
-          list1.add(list);
-          _orderDetailList = list1;
-        }
+        // Iterable<CurrentOrderList> orderIterableList =
+        //     _orderDetailList.reversed;
+        // List<CurrentOrderList> list1 = [];
+        // for (int i = 0; i < orderIterableList.length; i++) {
+        //   CurrentOrderList list = orderIterableList.elementAt(i);
+        //   list1.add(list);
+        //   _orderDetailList = list1;
+        // }
       }
     });
   }
