@@ -52,8 +52,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
-  var _timer;
-  Duration _duration = Duration(seconds: 30);
+  Timer _timer;
+  Duration _duration = Duration(seconds: 10);
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
@@ -78,7 +78,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   setTimer() {
-    _timer = Timer(_duration, () {
+    // _timer = Timer(_duration, () {
+    //   isFirst = true;
+    //   callApi();
+    // });
+    _timer = Timer.periodic(Duration(seconds: 10), (Timer t) async {
       isFirst = true;
       callApi();
     });
@@ -766,6 +770,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
           isSplitTrans = true;
+          _timer.cancel();
           bool isSplitBillTrans = isSplitTrans;
           // for (var trans in myOrderDataDetails.splitbilltransactions) {
           //   if (trans.paystatus == "paid") {
