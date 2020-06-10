@@ -39,7 +39,7 @@ class Data {
   dynamic accessToken;
   String deviceToken;
   String deviceType;
-  int otp;
+  String otp;
   dynamic emailVerifiedAt;
   DateTime createdAt;
   DateTime updatedAt;

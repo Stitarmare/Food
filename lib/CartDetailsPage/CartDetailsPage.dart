@@ -370,16 +370,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             GestureDetector(
                               onTap: () {
                                 _timer.cancel();
-                                checkIntenet();
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             PaymentTipAndPayDi(
-                                //               orderID: widget.orderId,
-                                //               tableId:
-                                //                   myOrderDataDetails.tableId,
-                                //             )));
+                                // checkIntenet();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PaymentTipAndPayDi(
+                                              orderID: widget.orderId,
+                                              tableId:
+                                                  myOrderDataDetails.tableId,
+                                            )));
                               },
                               child: isPayBillButtonEnable()
                                   ? Container()
