@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
@@ -11,7 +12,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 class ResetPasswordview extends StatefulWidget {
   var mobno;
   var countryCode;
-  ResetPasswordview({this.mobno,this.countryCode});
+  ResetPasswordview({this.mobno, this.countryCode});
   @override
   State<StatefulWidget> createState() {
     return _ResetPasswordview();
@@ -87,7 +88,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
-          widget.mobno,widget.countryCode, _password, context);
+          widget.mobno, widget.countryCode, _password, context);
     } else {
       setState(() {
         _validate = true;
@@ -150,6 +151,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
     return Column(
       children: <Widget>[
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _password = text;
           },
@@ -202,7 +206,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
-      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+      return PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }
@@ -211,7 +215,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
-      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+      return PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }

@@ -228,18 +228,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   isSplitAmount()
                       ? Container()
                       : GestureDetector(
-                          onTap: () {
-                            // await progressDialog.show();
+                          onTap: () async {
+                            await progressDialog.show();
                             // DialogsIndicator.showLoadingDialog(
                             //     context, _keyLoader, STR_BLANK);
-                            checkIntenet();
+                            // checkIntenet();
 
-                            // _billCheckoutPresenter.payBillCheckOut(
-                            //     myOrderData.restId,
-                            //     getOrderTotal(),
-                            //     sliderValue.toString(),
-                            //     "ZAR",
-                            //     context);
+                            _billCheckoutPresenter.payBillCheckOut(
+                                myOrderData.restId,
+                                getOrderTotal(),
+                                sliderValue.toString(),
+                                "ZAR",
+                                context);
                           },
                           child: Container(
                             height: 45,

@@ -8,6 +8,7 @@ import 'package:foodzi/SplitBllNotification/SplitBillNotificationPresenter.dart'
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -42,7 +43,8 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     _splitBillNotificationPresenter = SplitBillNotificationPresenter(this);
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, widget.tableId, context,orderId: widget.orderID);
+        Globle().loginModel.data.id, widget.tableId, context,
+        orderId: widget.orderID);
 
     print(widget.tableId);
     super.initState();
@@ -139,8 +141,8 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                     Center(
                         child: RaisedButton(
                       color: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
@@ -158,12 +160,11 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                     Center(
                         child: RaisedButton(
                       color: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
-                      onPressed: (){
-                        
+                      onPressed: () {
                         callApi();
                       },
                       child: Text(
@@ -180,23 +181,25 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     );
   }
 
-  callApi() async{
+  callApi() async {
     List<String> users = [];
     if (_checkBoxOptions.length > 0) {
       for (var check in _checkBoxOptions) {
-          if (check.isChecked == true) {
-            users.add(check.index.toString());
-          }
+        if (check.isChecked == true) {
+          users.add(check.index.toString());
+        }
       }
     }
-    await progressDialog.show();
-    _billPresenter.getSPlitBill(
-                            widget.orderID,
-                            Globle().loginModel.data.id,
-                            2,
-                            widget.amount.toInt(),
-                            context,
-                            users: users);
+    if (users.length != 0) {
+      await progressDialog.show();
+      _billPresenter.getSPlitBill(widget.orderID, Globle().loginModel.data.id,
+          2, widget.amount.toInt(), context,
+          users: users);
+    } else {
+      Navigator.of(context).pop();
+      Constants.showAlert(
+          "Required members", "Please select at least one member", context);
+    }
   }
 
   int checkboxbtn(int length) {
@@ -246,13 +249,13 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   void getOrderStatussuccess(StatusData statusData) {}
 
   @override
-  void getSplitBillFailed() async{
+  void getSplitBillFailed() async {
     await progressDialog.hide();
     Navigator.of(context).pop(false);
   }
 
   @override
-  void getSplitBillSuccess() async{
+  void getSplitBillSuccess() async {
     await progressDialog.hide();
     Navigator.of(context).pop(true);
   }

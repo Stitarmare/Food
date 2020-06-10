@@ -126,6 +126,8 @@ const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
     'This should be more than 10 characters';
 const KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG =
     'This should be minimum 8 characters';
+const PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG =
+    'Password should be minimum 8 characters';
 const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';
 const KEY_TERMS_AND_CONDITIONS = 'Terms and conditions';
 const KEY_OK = 'OK';

@@ -34,7 +34,7 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
-  var otpsave;
+  String otpsave;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   OtpPresenter otppresenter;
@@ -87,7 +87,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Future<void> onsubmitButtonClicked() async {
-    if (otpsave != null) {
+    if (otpsave != null && otpsave.length == 6) {
       if (widget.value == 0 && otpsave != null) {
         await progressDialog.show();
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
@@ -197,8 +197,15 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           pinTextStyle: TextStyle(color: Colors.grey[600]),
           pinBoxRadius: 8.0,
           autofocus: false,
+          onTextChanged: (value) {
+            setState(() {
+              print(value);
+            });
+          },
           onDone: (String value) {
-            otpsave = value;
+            setState(() {
+              otpsave = value;
+            });
             print(value);
           },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),

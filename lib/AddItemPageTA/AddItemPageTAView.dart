@@ -285,75 +285,74 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ),
                 GestureDetector(
                   onTap: () async {
-                    checkIntenet();
-                    // if (addMenuToCartModel == null) {
-                    //   addMenuToCartModel = AddItemsToCartModel();
-                    // }
-                    // addMenuToCartModel.userId = Globle().loginModel.data.id;
-                    // addMenuToCartModel.restId = widget.restId;
-                    // addMenuToCartModel.tableId = null;
-                    // if (items == null) {
-                    //   items = Item();
-                    // }
+                    if (addMenuToCartModel == null) {
+                      addMenuToCartModel = AddItemsToCartModel();
+                    }
+                    addMenuToCartModel.userId = Globle().loginModel.data.id;
+                    addMenuToCartModel.restId = widget.restId;
+                    addMenuToCartModel.tableId = null;
+                    if (items == null) {
+                      items = Item();
+                    }
 
-                    // if (size != null) {
-                    //   sizess = [size];
-                    // } else if (defaultSize != null) {
-                    //   if (defaultSize.sizeid != null) {
-                    //     sizess = [defaultSize];
-                    //   }
-                    // }
+                    if (size != null) {
+                      sizess = [size];
+                    } else if (defaultSize != null) {
+                      if (defaultSize.sizeid != null) {
+                        sizess = [defaultSize];
+                      }
+                    }
 
-                    // if (extra != null) {
-                    //   extras = extra;
-                    // } else {
-                    //   extras = defaultExtra ?? null;
-                    // }
+                    if (extra != null) {
+                      extras = extra;
+                    } else {
+                      extras = defaultExtra ?? null;
+                    }
 
-                    // if (switches != null) {
-                    //   switchess = switches;
-                    // } else {
-                    //   switchess = defaultSwitch ?? null;
-                    // }
+                    if (switches != null) {
+                      switchess = switches;
+                    } else {
+                      switchess = defaultSwitch ?? null;
+                    }
 
-                    // if (extras == null) {
-                    //   addItemData();
-                    //   return;
-                    // }
-                    // // else if (extras.length != 0 &&
-                    // //     _addItemModelList.extrasrequired == "yes") {
-                    // //   addItemData();
-                    // //   return;
-                    // // }
-                    // else if (extras.length != 0) {
-                    //   addItemData();
-                    //   return;
-                    // } else if (extras.length == 0 &&
+                    if (extras == null) {
+                      addItemData();
+                      return;
+                    }
+                    // else if (extras.length != 0 &&
                     //     _addItemModelList.extrasrequired == "yes") {
-                    //   DialogsIndicator.showAlert(context, "Required Field",
-                    //       "Please select required field");
-                    //   return;
-                    // } else if (extras.length == 0) {
                     //   addItemData();
                     //   return;
                     // }
+                    else if (extras.length != 0) {
+                      addItemData();
+                      return;
+                    } else if (extras.length == 0 &&
+                        _addItemModelList.extrasrequired == "yes") {
+                      DialogsIndicator.showAlert(context, "Required Field",
+                          "Please select required field");
+                      return;
+                    } else if (extras.length == 0) {
+                      addItemData();
+                      return;
+                    }
 
-                    // // if (extras != null) {
-                    // //   if (extras.length > 0 &&
-                    // //       _addItemModelList.extrasrequired == "yes") {
-                    // //     DialogsIndicator.showAlert(context, "Required Field",
-                    // //         "Please select required field");
-                    // //     return;
-                    // //   }
-                    // // }
-                    // if (switches != null) {
-                    //   if (switches.length > 0 &&
-                    //       _addItemModelList.switchesrequired == "yes") {
+                    // if (extras != null) {
+                    //   if (extras.length > 0 &&
+                    //       _addItemModelList.extrasrequired == "yes") {
                     //     DialogsIndicator.showAlert(context, "Required Field",
                     //         "Please select required field");
                     //     return;
                     //   }
                     // }
+                    if (switches != null) {
+                      if (switches.length > 0 &&
+                          _addItemModelList.switchesrequired == "yes") {
+                        DialogsIndicator.showAlert(context, "Required Field",
+                            "Please select required field");
+                        return;
+                      }
+                    }
 
                     // addItemData();
                   },
@@ -429,93 +428,6 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       //     context, _keyLoader, STR_BLANK);
       await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
-    }
-  }
-
-  checkIntenet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        if (addMenuToCartModel == null) {
-          addMenuToCartModel = AddItemsToCartModel();
-        }
-        addMenuToCartModel.userId = Globle().loginModel.data.id;
-        addMenuToCartModel.restId = widget.restId;
-        addMenuToCartModel.tableId = null;
-        if (items == null) {
-          items = Item();
-        }
-
-        if (size != null) {
-          sizess = [size];
-        } else if (defaultSize != null) {
-          if (defaultSize.sizeid != null) {
-            sizess = [defaultSize];
-          }
-        }
-
-        if (extra != null) {
-          extras = extra;
-        } else {
-          extras = defaultExtra ?? null;
-        }
-
-        if (switches != null) {
-          switchess = switches;
-        } else {
-          switchess = defaultSwitch ?? null;
-        }
-
-        if (extras == null) {
-          addItemData();
-          return;
-        }
-        // else if (extras.length != 0 &&
-        //     _addItemModelList.extrasrequired == "yes") {
-        //   addItemData();
-        //   return;
-        // }
-        else if (extras.length != 0) {
-          addItemData();
-          return;
-        } else if (extras.length == 0 &&
-            _addItemModelList.extrasrequired == "yes") {
-          DialogsIndicator.showAlert(
-              context, "Required Field", "Please select required field");
-          return;
-        } else if (extras.length == 0) {
-          addItemData();
-          return;
-        }
-
-        // if (extras != null) {
-        //   if (extras.length > 0 &&
-        //       _addItemModelList.extrasrequired == "yes") {
-        //     DialogsIndicator.showAlert(context, "Required Field",
-        //         "Please select required field");
-        //     return;
-        //   }
-        // }
-        if (switches != null) {
-          if (switches.length > 0 &&
-              _addItemModelList.switchesrequired == "yes") {
-            DialogsIndicator.showAlert(
-                context, "Required Field", "Please select required field");
-            return;
-          }
-        }
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
     }
   }
 
