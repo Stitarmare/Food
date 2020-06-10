@@ -101,7 +101,7 @@ class MycartPresenter extends MyCartContarctor {
     ApiBaseHelper()
         .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
       JSON_STR_REST_ID: restId,
-    },isShowDialoag: true).then((value) {
+    },isShowDialoag: true,isShowNetwork: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

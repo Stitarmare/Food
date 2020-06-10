@@ -36,7 +36,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     super.initState();
     _myOrdersPresenter = MyOrderTakeAwayPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_TAKE_AWAY, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context,true);
   }
 
   @override

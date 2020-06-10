@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 
 abstract class MenuDropdownContractor {
-  void getMenuLCategory(int restId, BuildContext context);
+  void getMenuLCategory(int restId, BuildContext context,bool isShowNetwork);
   void onBackPresed();
 }
 
