@@ -240,8 +240,13 @@ class _DineViewState extends State<DineInView>
                                     if (bottomItem.title == STR_RATINGS &&
                                         bottomItem.isSelected == true) {
                                       getRatingValue().then((onValue) {
-                                        rating = STR_SMALL_RATING +
+                                        if (onValue>=5.0) {
+rating = STR_SMALL_RATING +
+                                            "${onValue.toString()}";
+                                        } else {
+rating = STR_SMALL_RATING +
                                             "${onValue.toString()}+";
+                                        }
                                         print(sliderValue.toString());
                                       });
                                     } else if (bottomItem.title ==
@@ -730,16 +735,20 @@ class _DineViewState extends State<DineInView>
 
   @override
   void restaurantfailed() async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
     isBackActive = true;
+    });
 
     await progressDialog.hide();
   }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
     isBackActive = true;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // if (restlist.length == 0) {
