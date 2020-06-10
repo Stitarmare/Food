@@ -57,6 +57,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
   ProgressDialog progressDialog;
+  bool isLoading = true;
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   OrderDetailsModel _model;
   //List<AddPeopleList> addedPeopleList = [];
@@ -75,6 +76,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    setState(() {
+      isLoading = true;
+    });
     confirmationDineviewPresenter.getPeopleList(searchText, context);
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
@@ -94,11 +98,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   checkIntenet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        await progressDialog.show();
+    await progressDialog.show();
 
         _billCheckoutPresenter.payBillCheckOut(
           myOrderData.restId,
@@ -108,18 +108,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           context,
           orderId: myOrderData.id,
         );
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
   }
 
   onStreamListen() {
@@ -190,11 +178,32 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
+        body: isLoading ? Container() : (myOrderData == null) ?
+            Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          "No data found.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_15,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
+                        ),
+                      ),
+                     
+                    ],
+                  ),
+                )
+         : CustomScrollView(
           controller: _controller,
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: isLoading ? Container(height:0) : (myOrderData == null) ?Container(height:0)  : BottomAppBar(
           child: Container(
               height: (isBillSplitedForUser) ? 0 : 80,
               child: Column(
@@ -893,6 +902,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void getOrderDetailsFailed() async {
+    setState(() {
+      isLoading = false;
+    });
     await progressDialog.hide();
   }
 
@@ -902,22 +914,24 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
 
     setState(() {
+      isLoading = false;
       myOrderData = orderData;
       _model = model;
       if (_model.data.invitation != null) {
         invitationOrder = _model.data.invitation;
       }
-    });
-    isBillSplitedForUsers();
+      isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {
-      setState(() {
+      
         grandTotal = double.parse(myOrderData.splitAmount);
-      });
+      
     } else {
-      setState(() {
+      
         grandTotal = double.parse(model.grandTotal);
-      });
+      
     }
+    });
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 

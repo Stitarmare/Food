@@ -51,7 +51,7 @@ class _EditProfileState extends State<EditProfileview>
     editprofilepresenter = EditProfilePresenter(this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     editprofilepresenter.editCountry(context);
-    editprofilepresenter.editState(context);
+    editprofilepresenter.editState(context,true);
     setData();
   }
 
@@ -70,7 +70,7 @@ class _EditProfileState extends State<EditProfileview>
     if (Globle().loginModel.data.userDetails.city != null) {
       _dropdownCityValue = Globle().loginModel.data.userDetails.city.name;
       cityID = Globle().loginModel.data.userDetails.city.id;
-      editprofilepresenter.editCity(stateID.toString(), context);
+      editprofilepresenter.editCity(stateID.toString(), context,false);
     }
     pinCode = Globle().loginModel.data.userDetails.postalCode;
     }
@@ -347,7 +347,7 @@ class _EditProfileState extends State<EditProfileview>
             });
             await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-            editprofilepresenter.editCity(stateID.toString(), context);
+            editprofilepresenter.editCity(stateID.toString(), context,false);
           });
         },
         value: _dropdownStateValue,

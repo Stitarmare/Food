@@ -46,7 +46,7 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
     ApiBaseHelper()
         .post<GetPeopleListModel>(UrlConstant.getPeopleListApi, context, body: {
       "search": searchText,
-    }).then((value) {
+    },isShowNetwork: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
