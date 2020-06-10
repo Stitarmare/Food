@@ -87,22 +87,31 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     _getRestaurantInfo();
-    _detectScrollPosition();
+    _scrollcontroller.addListener(_scrollListener);
     super.initState();
   }
 
-  _detectScrollPosition() {
-    _controller.addListener(() async {
-      if (_controller.position.atEdge) {
-        if (_controller.position.pixels == 0) {
-        } else {
-          await progressDialog.show();
-          // //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-          restaurantIdInfoPresenter.getRestaurantReview(
-              context, widget.restId, page);
-        }
-      }
-    });
+  _scrollListener() {
+    if (_scrollcontroller.offset >=
+            _scrollcontroller.position.maxScrollExtent &&
+        !_scrollcontroller.position.outOfRange) {
+      setState(() {
+        print("reach the bottom");
+        progressDialog.show();
+        restaurantIdInfoPresenter.getRestaurantReview(
+            context, widget.restId, page);
+      });
+    }
+    // if (_scrollcontroller.offset <=
+    //         _scrollcontroller.position.minScrollExtent &&
+    //     !_scrollcontroller.position.outOfRange) {
+    //   setState(() {
+    //     print("reach the top");
+    //     progressDialog.show();
+    //     restaurantIdInfoPresenter.getRestaurantReview(
+    //         context, widget.restId, page);
+    //   });
+    // }
   }
 
   _getRestaurantInfo() {
