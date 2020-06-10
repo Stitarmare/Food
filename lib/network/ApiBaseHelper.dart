@@ -125,7 +125,8 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-      _showAlert(
+       Future.delayed(const Duration(milliseconds: 100), () {
+_showAlert(
         context,
         STR_WIFI_INTERNET,
         STR_NO_WIFI_INTERNET,
@@ -133,6 +134,7 @@ class ApiBaseHelper {
           Navigator.of(context).pop();
         },
       );
+      });
       return errorResponce<T>();
     }
   }
@@ -162,7 +164,8 @@ class ApiBaseHelper {
       }
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-      _showAlert(
+       Future.delayed(const Duration(milliseconds: 100), () {
+_showAlert(
         context,
         STR_WIFI_INTERNET,
         STR_NO_WIFI_INTERNET,
@@ -170,6 +173,7 @@ class ApiBaseHelper {
           Navigator.of(context).pop();
         },
       );
+      });
       return errorResponce<T>();
     }
   }
@@ -197,7 +201,8 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(myRes, context, false);
     } on SocketException {
-      _showAlert(
+      Future.delayed(const Duration(milliseconds: 100), () {
+_showAlert(
         context,
         STR_WIFI_INTERNET,
         STR_NO_WIFI_INTERNET,
@@ -205,6 +210,8 @@ class ApiBaseHelper {
           Navigator.of(context).pop();
         },
       );
+      });
+      
       return errorResponce<T>();
     }
   }

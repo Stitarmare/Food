@@ -32,6 +32,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
   ProgressDialog progressDialog;
 
   bool _validate = false;
+  bool isIgnoring = false;
   final Map<String, dynamic> _enterOTP = {
     mobno: null,
   };
@@ -61,11 +62,14 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
           ),
           backgroundColor: Colors.white70,
         ),
-        body: KeyboardActions(
+        body: IgnorePointer(
+          ignoring:isIgnoring,
+  child:KeyboardActions(
           config: _buildConfig(context),
           child: SingleChildScrollView(
             child: mainview(),
           ),
+        ),
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.all(30),
@@ -140,6 +144,9 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
   }
 
   Future<void> onsubmitButtonClicked() async {
+    setState(() {
+      isIgnoring = true;
+    });
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 3) {
         await progressDialog.show();
@@ -307,12 +314,19 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
 
   @override
   Future<void> requestforUpdateNoOtpFailed() async {
+     setState(() {
+      isIgnoring = false;
+    });
+    
     await progressDialog.hide();
     // TODO: implement requestforUpdateNoOtpFailed
   }
 
   @override
   Future<void> requestforUpdateNoOtpSuccess() async {
+     setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
