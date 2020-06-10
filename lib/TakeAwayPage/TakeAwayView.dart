@@ -236,8 +236,14 @@ class _TakeAwayViewState extends State<TakeAwayView>
                                     if (bottomItem.title == STR_RATINGS &&
                                         bottomItem.isSelected == true) {
                                       getRatingValue().then((onValue) {
-                                        rating = STR_SMALL_RATING +
+                                        if (onValue>=5.0) {
+rating = STR_SMALL_RATING +
+                                            "${onValue.toString()}";
+                                        } else {
+rating = STR_SMALL_RATING +
                                             "${onValue.toString()}+";
+                                        }
+                                        
                                         print(sliderValue.toString());
                                       });
                                     } else if (bottomItem.title ==
@@ -719,16 +725,20 @@ class _TakeAwayViewState extends State<TakeAwayView>
 
   @override
   Future<void> restaurantfailed() async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
     isBackActive = true;
+    });
 
     await progressDialog.hide();
   }
 
   @override
   Future<void> restaurantsuccess(List<RestaurantList> restlist) async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
     isBackActive = true;
+    });
 
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
