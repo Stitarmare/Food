@@ -10,6 +10,7 @@ abstract class MyOrderContractor {
   void getmyOrderBookingHistory(
     String orderType,
     BuildContext context,
+    bool isNetwrokShow
   );
   void onBackPresed();
 }

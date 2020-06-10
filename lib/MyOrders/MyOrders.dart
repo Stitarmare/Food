@@ -39,7 +39,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context,true);
   }
 
   @override
