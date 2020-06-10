@@ -101,7 +101,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> get<T>(String url, BuildContext context,
-      {bool isShowDialoag}) async {
+      {bool isShowDialoag,bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -126,6 +126,11 @@ class ApiBaseHelper {
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
        Future.delayed(const Duration(milliseconds: 100), () {
+         if (isShowNetwork!= null) {
+           if (isShowNetwork) {
+             return;
+           }
+         }
 _showAlert(
         context,
         STR_WIFI_INTERNET,
@@ -140,7 +145,7 @@ _showAlert(
   }
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
-      {Map body, T model, bool isShowDialoag}) async {
+      {Map body, T model, bool isShowDialoag,bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -165,6 +170,11 @@ _showAlert(
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
        Future.delayed(const Duration(milliseconds: 100), () {
+         if (isShowNetwork!= null) {
+           if (isShowNetwork) {
+             return;
+           }
+         }
 _showAlert(
         context,
         STR_WIFI_INTERNET,
@@ -179,7 +189,7 @@ _showAlert(
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      {Map<String, String> body, String key, File imageBody}) async {
+      {Map<String, String> body, String key, File imageBody,bool isShowNetwork}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest(STR_POST, postURL);
@@ -202,6 +212,11 @@ _showAlert(
       return _returnResponse<T>(myRes, context, false);
     } on SocketException {
       Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork!= null) {
+           if (isShowNetwork) {
+             return;
+           }
+         }
 _showAlert(
         context,
         STR_WIFI_INTERNET,
