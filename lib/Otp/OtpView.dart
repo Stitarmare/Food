@@ -87,28 +87,32 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Future<void> onsubmitButtonClicked() async {
-    if (widget.value == 0 && otpsave != null) {
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.performOTP(
-          widget.mobno, widget.countryCode, otpsave, context);
-    } else if (widget.isFromFogetPass == true &&
-        widget.value == 1 &&
-        otpsave != null) {
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.perfromresetpassword(
-          widget.mobno, widget.countryCode, otpsave, context);
-    } else if ((widget.isFromUpadateNo == true &&
-        widget.value == 2 &&
-        otpsave != null)) {
-      await progressDialog.show();
-    } else if ((widget.isProvideAnotherNumber == true &&
-        widget.value == 3 &&
-        otpsave != null)) {
-      await progressDialog.show();
-      otppresenter.performOTP(
-          widget.mobno, widget.countryCode, otpsave, context);
+    if (otpsave != null) {
+      if (widget.value == 0 && otpsave != null) {
+        await progressDialog.show();
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        otppresenter.performOTP(
+            widget.mobno, widget.countryCode, otpsave, context);
+      } else if (widget.isFromFogetPass == true &&
+          widget.value == 1 &&
+          otpsave != null) {
+        await progressDialog.show();
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        otppresenter.perfromresetpassword(
+            widget.mobno, widget.countryCode, otpsave, context);
+      } else if ((widget.isFromUpadateNo == true &&
+          widget.value == 2 &&
+          otpsave != null)) {
+        await progressDialog.show();
+      } else if ((widget.isProvideAnotherNumber == true &&
+          widget.value == 3 &&
+          otpsave != null)) {
+        await progressDialog.show();
+        otppresenter.performOTP(
+            widget.mobno, widget.countryCode, otpsave, context);
+      }
+    } else {
+      Constants.showAlert("Error", "Please enter otp", context);
     }
   }
 
