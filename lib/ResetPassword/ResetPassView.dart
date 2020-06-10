@@ -177,6 +177,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
         ),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _confirmPassword = text;
           },

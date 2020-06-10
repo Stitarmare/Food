@@ -343,6 +343,7 @@ const JSON_STR_PWD = 'password';
 // MenuItemDropDown Page
 const STR_ZERO = "0";
 const JSON_STR_REST_ID = "rest_id";
+const JSON_STR_REST_PAGE = "page";
 
 // MyCartView Page and MyCartTakeAway
 const STR_LOADING = "Loading";

@@ -31,9 +31,12 @@ class RestaurantInfoPresenter extends RestaurantInfoContractor {
   }
 
   @override
-  void getRestaurantReview(BuildContext context, int restId) {
+  void getRestaurantReview(BuildContext context, int restId, int page) {
     ApiBaseHelper().post<GetRestaurantReview>(UrlConstant.getReviewApi, context,
-        body: {JSON_STR_REST_ID: restId}).then((value) {
+        body: {
+          JSON_STR_REST_ID: restId,
+          JSON_STR_REST_PAGE: page
+        }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

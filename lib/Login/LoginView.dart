@@ -204,7 +204,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
-                  WhitelistingTextInputFormatter.digitsOnly
+                  WhitelistingTextInputFormatter.digitsOnly,
                 ],
                 onChanged: (text) {
                   mobilenumber = text;
@@ -260,7 +260,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (value.length == 0) {
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
-      return KEY_MOBILE_NUMBER_TEXT;
+      return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (value.length > 10) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
