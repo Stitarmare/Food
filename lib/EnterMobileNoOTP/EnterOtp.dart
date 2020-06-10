@@ -41,6 +41,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   var _mobileNumber;
   var countrycode = '+91';
   var oldCountrycode = '+91';
+  bool isIgnoring = false;
 
   var enterOTPScreenPresenter;
   bool flagValue = false;
@@ -65,14 +66,18 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
           ),
           backgroundColor: Colors.white70,
         ),
-        body: Center(
+        body:IgnorePointer(
+          ignoring: isIgnoring,
+          child:  Center(
           child: KeyboardActions(
             config: _buildConfig(context),
             child: SingleChildScrollView(
               child: mainview(),
             ),
           ),
-        ));
+        ),
+        )
+        );
   }
 
   Widget mainview() {
@@ -95,6 +100,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   Future<void> onsubmitButtonClicked() async {
+    setState(() {
+      isIgnoring = true;
+    });
     if (_enterOTPFormKey.currentState.validate()) {
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
@@ -375,11 +383,17 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> onRequestOtpFailed() async {
+     setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   Future<void> onRequestOtpSuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
@@ -392,11 +406,17 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> requestforloginotpfailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   Future<void> requestforloginotpsuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
@@ -426,18 +446,32 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   @override
-  void requestforUpdateNoOtpFailed() {}
+  void requestforUpdateNoOtpFailed() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
-  void requestforUpdateNoOtpSuccess() {}
+  void requestforUpdateNoOtpSuccess() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
   void onProvideOtpFailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   void onProvideOtpSuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(

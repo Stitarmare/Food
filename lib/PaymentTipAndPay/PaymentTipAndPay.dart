@@ -93,10 +93,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   checkIntenet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
         await progressDialog.show();
         _billCheckoutPresenter.payBillCheckOut(
             widget.restId,
@@ -104,12 +100,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
             sliderValue.toString(),
             "ZAR",
             context);
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      Constants.showAlert(
-          "Internet Status", "Internet conection lost", context);
-    }
   }
 
   @override
