@@ -1015,7 +1015,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> cancelledPaymentFailed() async {
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement cancelledPaymentFailed
   }
 
   @override
@@ -1023,49 +1022,35 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-
-    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void addPeopleFailed() {
-    // TODO: implement addPeopleFailed
-  }
+  void addPeopleFailed() {}
 
   @override
-  void addPeopleSuccess() {
-    // TODO: implement addPeopleSuccess
-  }
+  void addPeopleSuccess() {}
 
   @override
-  void getPeopleListonFailed() {
-    // TODO: implement getPeopleListonFailed
-  }
+  void getPeopleListonFailed() {}
 
   @override
   void getPeopleListonSuccess(List<PeopleData> data) {
     setState(() {
       addedPeopleList = data;
     });
-    // TODO: implement getPeopleListonSuccess
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _streamSubscription.cancel();
     super.dispose();
   }
 
   @override
-  void onFailedQuantityIncrease() {
-    // TODO: implement onFailedQuantityIncrease
-  }
+  void onFailedQuantityIncrease() {}
 
   @override
-  void onSuccessQuantityIncrease() {
-    // TODO: implement onSuccessQuantityIncrease
-  }
+  void onSuccessQuantityIncrease() {}
 }
 
 enum Invited { yes, no }
