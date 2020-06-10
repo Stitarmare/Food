@@ -169,8 +169,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('connected');
-        await progressDialog.show();
-        _timer.cancel();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -371,8 +369,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                     MediaQuery.of(context).size.width * 0.02),
                             GestureDetector(
                               onTap: () {
+                                _timer.cancel();
                                 checkIntenet();
-                                // _timer.cancel();
                                 // Navigator.push(
                                 //     context,
                                 //     MaterialPageRoute(
