@@ -519,7 +519,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         flex: 2,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 20, top: 15),
+                        padding: EdgeInsets.only(right: 10, top: 15),
                         child: Text(
                           (getTotalAmount(index) != null)
                               ? _model.currencySymbol != null
