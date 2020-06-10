@@ -202,7 +202,7 @@ class _EditProfileState extends State<EditProfileview>
             ),
             BoxAppTextField(
               inputFormatters: [
-                LengthLimitingTextInputFormatter(4),
+                LengthLimitingTextInputFormatter(6),
                 WhitelistingTextInputFormatter.digitsOnly
               ],
               onChanged: (text) {
@@ -461,7 +461,7 @@ class _EditProfileState extends State<EditProfileview>
     // else if (!regExp.hasMatch(value)) {
     //   return KEY_PIN_NUMBER_TEXT;
     // }
-    else if (value.length != 4) {
+    else if (value.length < 4) {
       return KEY_PIN_NUMBER_LIMIT;
     }
     return null;
