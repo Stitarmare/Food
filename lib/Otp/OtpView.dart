@@ -200,14 +200,15 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           onTextChanged: (value) {
             setState(() {
               print(value);
-            });
-          },
-          onDone: (String value) {
-            setState(() {
               otpsave = value;
             });
-            print(value);
           },
+          // onDone: (String value) {
+          //   setState(() {
+          //     otpsave = value;
+          //   });
+          //   print(value);
+          // },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),

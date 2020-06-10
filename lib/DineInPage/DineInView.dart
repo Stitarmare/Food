@@ -240,12 +240,12 @@ class _DineViewState extends State<DineInView>
                                     if (bottomItem.title == STR_RATINGS &&
                                         bottomItem.isSelected == true) {
                                       getRatingValue().then((onValue) {
-                                        if (onValue>=5.0) {
-rating = STR_SMALL_RATING +
-                                            "${onValue.toString()}";
+                                        if (onValue >= 5.0) {
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}";
                                         } else {
-rating = STR_SMALL_RATING +
-                                            "${onValue.toString()}+";
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}+";
                                         }
                                         print(sliderValue.toString());
                                       });
@@ -254,7 +254,8 @@ rating = STR_SMALL_RATING +
                                         bottomItem.isSelected == false) {
                                       rating = null;
                                     }
-                                    if (bottomItem.title == "Favourites Only " &&
+                                    if (bottomItem.title ==
+                                            "Favourites Only " &&
                                         bottomItem.isSelected == true) {
                                       favourite = "favourite";
                                     } else if (bottomItem.title ==
@@ -479,19 +480,21 @@ rating = STR_SMALL_RATING +
                       ),
                     )
                   : (_restaurantList != null)
-                      ? (_restaurantList.length>0) ? restaurantsInfo() : Container(
-                        child: Center(
-                            child: Text(
-                              STR_NO_RESTAURANT,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_25,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700),
-                            ),
-                          ),
-                      )
+                      ? (_restaurantList.length > 0)
+                          ? restaurantsInfo()
+                          : Container(
+                              child: Center(
+                                child: Text(
+                                  STR_NO_RESTAURANT,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: FONTSIZE_25,
+                                      fontFamily: KEY_FONTFAMILY,
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme700),
+                                ),
+                              ),
+                            )
                       : Container(
                           child: Center(
                             child: Text(
@@ -737,7 +740,7 @@ rating = STR_SMALL_RATING +
   void restaurantfailed() async {
     setState(() {
       isIgnoreTouch = false;
-    isBackActive = true;
+      isBackActive = true;
     });
 
     await progressDialog.hide();
@@ -747,7 +750,7 @@ rating = STR_SMALL_RATING +
   void restaurantsuccess(List<RestaurantList> restlist) async {
     setState(() {
       isIgnoreTouch = false;
-    isBackActive = true;
+      isBackActive = true;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
