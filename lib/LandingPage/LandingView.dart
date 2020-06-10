@@ -102,9 +102,9 @@ class _LandingStateView extends State<Landingview>
   }
 
   callApi() async {
-    setState(() {
-        isIgnoring = true;
-      });
+    // setState(() {
+    //     isIgnoring = true;
+    //   });
     //await progressDialog.show();
     _landingViewPresenter.getCurrentOrder(context);
   }
@@ -119,89 +119,90 @@ class _LandingStateView extends State<Landingview>
       child: IgnorePointer(
         ignoring: isIgnoring,
         child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          actions: <Widget>[
-            new IconButton(
-              // icon: new Icon(
-              //   OMIcons.notifications,
-              //   color: greytheme100,
-              //   size: 28,
-              // ),
-              icon: (Globle().notificationFLag)
-                  ? Stack(
-                      fit: StackFit.passthrough,
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Icon(
-                          OMIcons.notifications,
-                          color: greytheme100,
-                          size: 30,
-                        ),
-                        Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                badgeColor: redtheme,
-                                badgeContent: Text(STR_ONE,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.white)))
-                            // : Text(STR_BLANK),
-                            )
-                      ],
-                    )
-                  : Icon(
-                      OMIcons.notifications,
-                      color: greytheme100,
-                      size: 30,
-                    ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationView()));
-              },
-            )
-          ],
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: Image.asset(MENU_IAMGE_PATH),
-            onPressed: widget.onMenuPressed,
-          ),
-        ),
-        body: SingleChildScrollView(child: _getmainView()),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: (isOrderRunning)
-            ? SizedBox(
-                width: MediaQuery.of(context).size.width * 0.65,
-                child: (FloatingActionButton.extended(
-                  onPressed: () {
-                    showStatusView();
-                  },
-                  elevation: 20,
-                  highlightElevation: 20,
-                  focusElevation: 20,
-                  backgroundColor: Colors.white70,
-                  label: Text(STR_VIEW_YOUR_ORDER,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
-                          fontWeight: FontWeight.w600,
-                          color: greentheme100)),
-                )),
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            actions: <Widget>[
+              new IconButton(
+                // icon: new Icon(
+                //   OMIcons.notifications,
+                //   color: greytheme100,
+                //   size: 28,
+                // ),
+                icon: (Globle().notificationFLag)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationView()));
+                },
               )
-            : (Container()),
-        // bottomNavigationBar: (isOrderRunning)
-        //     ? BottomAppBar(
-        //         child: Container(
-        //           color: greytheme1300,
-        //           height: 40,
-        //           child: _currentOrdertext(),
-        //         ),
-        //       )
-        //     : Text(""),
-      ),
+            ],
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: Image.asset(MENU_IAMGE_PATH),
+              onPressed: widget.onMenuPressed,
+            ),
+          ),
+          body: SingleChildScrollView(child: _getmainView()),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: (isOrderRunning)
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: (FloatingActionButton.extended(
+                    onPressed: () {
+                      showStatusView();
+                    },
+                    elevation: 20,
+                    highlightElevation: 20,
+                    focusElevation: 20,
+                    backgroundColor: Colors.white70,
+                    label: Text(STR_VIEW_YOUR_ORDER,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: greentheme100)),
+                  )),
+                )
+              : (Container()),
+          // bottomNavigationBar: (isOrderRunning)
+          //     ? BottomAppBar(
+          //         child: Container(
+          //           color: greytheme1300,
+          //           height: 40,
+          //           child: _currentOrdertext(),
+          //         ),
+          //       )
+          //     : Text(""),
+        ),
       ),
     );
   }
@@ -492,9 +493,9 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 1,
             )));
-            setState(() {
-        isIgnoring = true;
-      });
+    setState(() {
+      isIgnoring = true;
+    });
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context);
@@ -512,9 +513,9 @@ class _LandingStateView extends State<Landingview>
                     orderId: Globle().orderID,
                     isFromOrder: true,
                   )));
-                  setState(() {
-        isIgnoring = true;
-      });
+          setState(() {
+            isIgnoring = true;
+          });
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -542,9 +543,9 @@ class _LandingStateView extends State<Landingview>
               //           : _model.data.dineIn.restaurant.coverImage,
               //     )
               ));
-              setState(() {
-        isIgnoring = true;
-      });
+          setState(() {
+            isIgnoring = true;
+          });
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -583,8 +584,8 @@ class _LandingStateView extends State<Landingview>
   @override
   void onFailedCurrentOrder() async {
     setState(() {
-        isIgnoring = false;
-      });
+      isIgnoring = false;
+    });
     if (progressDialog.isShowing()) {
       await progressDialog.hide();
     }
@@ -593,12 +594,12 @@ class _LandingStateView extends State<Landingview>
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
     setState(() {
-        isIgnoring = false;
-      });
+      isIgnoring = false;
+    });
     if (progressDialog.isShowing()) {
       await progressDialog.hide();
     }
-    
+
     //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
