@@ -78,7 +78,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context);
+    menudropdownPresenter.getMenuLCategory(widget.restId, context,true);
     super.initState();
   }
 
