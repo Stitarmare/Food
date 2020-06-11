@@ -20,6 +20,7 @@ class _WebViewPageState extends State<WebViewPage> {
     return WebviewScaffold(
       url: widget.strURL,
       appBar: new AppBar(
+        centerTitle: true,
         brightness: Brightness.dark,
         //backgroundColor: Colors.transparent,
         title: new Text(

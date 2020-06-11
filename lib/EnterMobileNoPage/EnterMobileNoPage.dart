@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/OTPScreen/UpdateNoOtpScreen.dart';
@@ -63,13 +64,13 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
           backgroundColor: Colors.white70,
         ),
         body: IgnorePointer(
-          ignoring:isIgnoring,
-  child:KeyboardActions(
-          config: _buildConfig(context),
-          child: SingleChildScrollView(
-            child: mainview(),
+          ignoring: isIgnoring,
+          child: KeyboardActions(
+            config: _buildConfig(context),
+            child: SingleChildScrollView(
+              child: mainview(),
+            ),
           ),
-        ),
         ),
         bottomNavigationBar: Container(
           padding: EdgeInsets.all(30),
@@ -314,17 +315,17 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
 
   @override
   Future<void> requestforUpdateNoOtpFailed() async {
-     setState(() {
+    setState(() {
       isIgnoring = false;
     });
-    
+
     await progressDialog.hide();
     // TODO: implement requestforUpdateNoOtpFailed
   }
 
   @override
   Future<void> requestforUpdateNoOtpSuccess() async {
-     setState(() {
+    setState(() {
       isIgnoring = false;
     });
     await progressDialog.hide();

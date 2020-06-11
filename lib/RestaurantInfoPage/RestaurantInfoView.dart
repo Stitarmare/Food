@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -951,28 +953,24 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
     await progressDialog.hide();
-    if (getReviewList.length != 0) {
-      setState(() {
-        if (_getReviewData == null) {
-          // _getReviewData = getReviewList;
-          print(_getReviewData);
-          // for (int i = 0; i < getReviewList.length; i++) {
-          //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
-          // }
-          _getReviewData = getReviewList;
-        } else {
-          _getReviewData.addAll(getReviewList);
 
-          // for (int i = 0; i < _getReviewData.length; i++) {
-          //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
-          // }
-        }
+    setState(() {
+      if (_getReviewData == null) {
+        // _getReviewData = getReviewList;
+        print(_getReviewData);
+        // for (int i = 0; i < getReviewList.length; i++) {
+        //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
+        // }
+        _getReviewData = getReviewList;
+      } else {
+        _getReviewData.addAll(getReviewList);
 
-        if (getReviewList.length == 10) {
-          page++;
-        }
-      });
-    }
+        // for (int i = 0; i < _getReviewData.length; i++) {
+        //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
+        // }
+      }
+      page++;
+    });
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }

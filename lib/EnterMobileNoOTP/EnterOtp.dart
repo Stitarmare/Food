@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
@@ -66,18 +67,17 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
           ),
           backgroundColor: Colors.white70,
         ),
-        body:IgnorePointer(
+        body: IgnorePointer(
           ignoring: isIgnoring,
-          child:  Center(
-          child: KeyboardActions(
-            config: _buildConfig(context),
-            child: SingleChildScrollView(
-              child: mainview(),
+          child: Center(
+            child: KeyboardActions(
+              config: _buildConfig(context),
+              child: SingleChildScrollView(
+                child: mainview(),
+              ),
             ),
           ),
-        ),
-        )
-        );
+        ));
   }
 
   Widget mainview() {
@@ -207,6 +207,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                           Expanded(
                             flex: 4,
                             child: AppTextField(
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(10),
+                                BlacklistingTextInputFormatter(
+                                    RegExp(STR_INPUTFORMAT)),
+                                WhitelistingTextInputFormatter.digitsOnly,
+                              ],
                               onChanged: (text) {
                                 this.oldMobNumber = text;
                               },
@@ -270,6 +276,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                     Expanded(
                       flex: 4,
                       child: AppTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          BlacklistingTextInputFormatter(
+                              RegExp(STR_INPUTFORMAT)),
+                          WhitelistingTextInputFormatter.digitsOnly,
+                        ],
                         onChanged: (text) {
                           this._mobileNumber = text;
                         },
@@ -383,7 +395,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> onRequestOtpFailed() async {
-     setState(() {
+    setState(() {
       isIgnoring = false;
     });
     await progressDialog.hide();
