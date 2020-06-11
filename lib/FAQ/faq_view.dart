@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -21,7 +19,6 @@ Future<String> loadAsset() async {
 }
 
 class _FAQVIewState extends State<FAQVIew> {
-
   List<FaqModelDatum> faqModelTitles = [];
   @override
   void initState() {
@@ -30,7 +27,7 @@ class _FAQVIewState extends State<FAQVIew> {
     super.initState();
   }
 
-  void loadJson() async{
+  void loadJson() async {
     var data = await loadAsset();
     var model = FaqModel.fromJson(json.decode(data));
     setState(() {
@@ -41,40 +38,45 @@ class _FAQVIewState extends State<FAQVIew> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text("FAQS"),
       ),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
-            children:faqModelTitles.map((e) => GestureDetector(
-              onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => FaqQueAndView(e.data,e.title)));
-              },
-              child: Card(
-                elevation: 3.0,
-              child: Padding(padding: EdgeInsets.all(15),
-                child: Row(
-                  children: <Widget>[
-                    Text(e.title,
-                    style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w600,
-                  fontSize: FONTSIZE_15),
-                    ),
-                    Expanded(child: Container()),
-                    Text(">")
-                    ],
-                ),
-              ),
-            ),
-            )).toList() ,
+            children: faqModelTitles
+                .map((e) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                FaqQueAndView(e.data, e.title)));
+                      },
+                      child: Card(
+                        elevation: 3.0,
+                        child: Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                e.title,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: FONTSIZE_15),
+                              ),
+                              Expanded(child: Container()),
+                              Text(">")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ))
+                .toList(),
           ),
         ),
-      ) ,
+      ),
     );
   }
 }

@@ -290,13 +290,16 @@ class _LandingStateView extends State<Landingview>
           SizedBox(
             height: 10,
           ),
-          Text(
-            Globle().loginModel.data.firstName ?? '',
-            style: TextStyle(
-                fontSize: FONTSIZE_32,
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w600,
-                color: greytheme500),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Text(
+              Globle().loginModel.data.firstName ?? '',
+              style: TextStyle(
+                  fontSize: FONTSIZE_32,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  color: greytheme500),
+            ),
           ),
           SizedBox(
             height: 12,
