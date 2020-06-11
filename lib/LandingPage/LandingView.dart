@@ -822,7 +822,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(
               STR_HELP,
               style: TextStyle(
-                  color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
+                  color: (Globle().navigatorIndex == 6)
+                      ? orangetheme
+                      : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
@@ -919,11 +921,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   void _opennewpage(String title) {
     if (title.contains(STR_HOME)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FAQVIew()));
-      
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => Landingview()));
     } else if (title.contains(STR_SETTING)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
       Navigator.push(

@@ -57,7 +57,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -100,10 +101,10 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   Future<void> onsubmitButtonClicked() async {
-    setState(() {
-      isIgnoring = true;
-    });
     if (_enterOTPFormKey.currentState.validate()) {
+      setState(() {
+        isIgnoring = true;
+      });
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         await progressDialog.show();

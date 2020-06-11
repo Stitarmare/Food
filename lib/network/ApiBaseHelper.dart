@@ -14,7 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, UAT }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.PRODUCTION;
+  static var environment = Environment.UAT;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
