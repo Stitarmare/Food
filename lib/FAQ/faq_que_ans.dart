@@ -7,7 +7,8 @@ import 'package:foodzi/Utils/String.dart';
 
 class FaqQueAndView extends StatefulWidget {
   List<DatumDatum> dataList;
-  FaqQueAndView(this.dataList);
+  String title;
+  FaqQueAndView(this.dataList,this.title);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -32,7 +33,7 @@ class FaqQueAndViewState extends State<FaqQueAndView> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("FAQ"),
+        title: Text(widget.title),
       ),
       body: SingleChildScrollView(
         child: Column(

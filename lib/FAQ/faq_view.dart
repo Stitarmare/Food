@@ -43,7 +43,7 @@ class _FAQVIewState extends State<FAQVIew> {
     // TODO: implement build
     return  Scaffold(
       appBar: AppBar(
-        title: Text("Help"),
+        title: Text("FAQS"),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -51,7 +51,7 @@ class _FAQVIewState extends State<FAQVIew> {
             children:faqModelTitles.map((e) => GestureDetector(
               onTap: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => FaqQueAndView(e.data)));
+                  .push(MaterialPageRoute(builder: (context) => FaqQueAndView(e.data,e.title)));
               },
               child: Card(
                 elevation: 3.0,
@@ -64,7 +64,9 @@ class _FAQVIewState extends State<FAQVIew> {
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
                   fontSize: FONTSIZE_15),
-                    )
+                    ),
+                    Expanded(child: Container()),
+                    Text(">")
                     ],
                 ),
               ),
