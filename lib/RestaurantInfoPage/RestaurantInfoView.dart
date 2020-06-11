@@ -87,22 +87,31 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     _getRestaurantInfo();
-    _detectScrollPosition();
+    _scrollcontroller.addListener(_scrollListener);
     super.initState();
   }
 
-  _detectScrollPosition() {
-    _controller.addListener(() async {
-      if (_controller.position.atEdge) {
-        if (_controller.position.pixels == 0) {
-        } else {
-          await progressDialog.show();
-          // //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-          restaurantIdInfoPresenter.getRestaurantReview(
-              context, widget.restId, page);
-        }
-      }
-    });
+  _scrollListener() {
+    if (_scrollcontroller.offset >=
+            _scrollcontroller.position.maxScrollExtent &&
+        !_scrollcontroller.position.outOfRange) {
+      setState(() {
+        print("reach the bottom");
+        progressDialog.show();
+        restaurantIdInfoPresenter.getRestaurantReview(
+            context, widget.restId, page);
+      });
+    }
+    // if (_scrollcontroller.offset <=
+    //         _scrollcontroller.position.minScrollExtent &&
+    //     !_scrollcontroller.position.outOfRange) {
+    //   setState(() {
+    //     print("reach the top");
+    //     progressDialog.show();
+    //     restaurantIdInfoPresenter.getRestaurantReview(
+    //         context, widget.restId, page);
+    //   });
+    // }
   }
 
   _getRestaurantInfo() {
@@ -942,16 +951,28 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
     await progressDialog.hide();
+    if (getReviewList.length != 0) {
+      setState(() {
+        if (_getReviewData == null) {
+          // _getReviewData = getReviewList;
+          print(_getReviewData);
+          // for (int i = 0; i < getReviewList.length; i++) {
+          //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
+          // }
+          _getReviewData = getReviewList;
+        } else {
+          _getReviewData.addAll(getReviewList);
 
-    setState(() {
-      if (_getReviewData == null) {
-        _getReviewData = getReviewList;
-        print(_getReviewData);
-      } else {
-        _getReviewData.addAll(getReviewList);
-      }
-      page++;
-    });
+          // for (int i = 0; i < _getReviewData.length; i++) {
+          //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
+          // }
+        }
+
+        if (getReviewList.length == 10) {
+          page++;
+        }
+      });
+    }
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
