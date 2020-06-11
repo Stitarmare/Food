@@ -66,6 +66,7 @@ flutter:
       #Splashscreen Images
       - assets/SplashScreen/LauncherScreen.png
       - assets/SplashScreen/LauncherImg.png
+      - assets/faq.json
       #Logo Images  
       - assets/Logo/foodzi_logo.png
       #Lock Images

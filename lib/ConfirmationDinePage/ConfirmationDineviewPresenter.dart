@@ -25,7 +25,7 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
       JSON_STR_TABLE_ID: tableId,
       JSON_STR_REST_ID: restId,
       JSON_STR_ORDER_ID: orderId
-    },isShowDialoag: true).then((value) {
+    },isShowDialoag: true,isShowNetwork: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -46,7 +46,7 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
     ApiBaseHelper()
         .post<GetPeopleListModel>(UrlConstant.getPeopleListApi, context, body: {
       "search": searchText,
-    },isShowNetwork: true).then((value) {
+    },isShowNetwork: true,isShowDialoag: true).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
