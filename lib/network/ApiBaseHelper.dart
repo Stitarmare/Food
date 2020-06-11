@@ -14,7 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, UAT }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.UAT;
+  static var environment = Environment.PRODUCTION;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
@@ -101,7 +101,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> get<T>(String url, BuildContext context,
-      {bool isShowDialoag,bool isShowNetwork}) async {
+      {bool isShowDialoag, bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -125,27 +125,27 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-       Future.delayed(const Duration(milliseconds: 100), () {
-         if (isShowNetwork!= null) {
-           if (isShowNetwork) {
-             return;
-           }
-         }
-_showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
       });
       return errorResponce<T>();
     }
   }
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
-      {Map body, T model, bool isShowDialoag,bool isShowNetwork}) async {
+      {Map body, T model, bool isShowDialoag, bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -169,27 +169,30 @@ _showAlert(
       }
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-       Future.delayed(const Duration(milliseconds: 100), () {
-         if (isShowNetwork!= null) {
-           if (isShowNetwork) {
-             return;
-           }
-         }
-_showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
       });
       return errorResponce<T>();
     }
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      {Map<String, String> body, String key, File imageBody,bool isShowNetwork}) async {
+      {Map<String, String> body,
+      String key,
+      File imageBody,
+      bool isShowNetwork}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest(STR_POST, postURL);
@@ -212,21 +215,21 @@ _showAlert(
       return _returnResponse<T>(myRes, context, false);
     } on SocketException {
       Future.delayed(const Duration(milliseconds: 100), () {
-        if (isShowNetwork!= null) {
-           if (isShowNetwork) {
-             return;
-           }
-         }
-_showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
       });
-      
+
       return errorResponce<T>();
     }
   }
@@ -280,13 +283,13 @@ _showAlert(
           if (errorModel.message != null) {
             msg = errorModel.message;
           }
-          if(errorModel.mobileNumber != null) {
-            if (errorModel.mobileNumber.length>0) {
+          if (errorModel.mobileNumber != null) {
+            if (errorModel.mobileNumber.length > 0) {
               msg = errorModel.mobileNumber[0];
             }
           }
         }
-        
+
         if (isShowDialoag != null) {
           if (isShowDialoag) {
             return apiModel;

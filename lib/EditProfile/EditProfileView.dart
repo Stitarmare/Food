@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfileview>
     editprofilepresenter = EditProfilePresenter(this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     editprofilepresenter.editCountry(context);
-    editprofilepresenter.editState(context,true);
+    editprofilepresenter.editState(context, true);
     setData();
   }
 
@@ -61,25 +61,26 @@ class _EditProfileState extends State<EditProfileview>
       streetAddress = Globle().loginModel.data.userDetails.addressLine1;
 
       if (Globle().loginModel.data.userDetails.country != null) {
-      _dropdownCountryValue = Globle().loginModel.data.userDetails.country.name;
-      countryID = Globle().loginModel.data.userDetails.country.id;
+        _dropdownCountryValue =
+            Globle().loginModel.data.userDetails.country.name;
+        countryID = Globle().loginModel.data.userDetails.country.id;
+      }
+      if (Globle().loginModel.data.userDetails.state != null) {
+        _dropdownStateValue = Globle().loginModel.data.userDetails.state.name;
+        stateID = Globle().loginModel.data.userDetails.state.id;
+      }
+      if (Globle().loginModel.data.userDetails.city != null) {
+        _dropdownCityValue = Globle().loginModel.data.userDetails.city.name;
+        cityID = Globle().loginModel.data.userDetails.city.id;
+        editprofilepresenter.editCity(stateID.toString(), context, false);
+      }
+      pinCode = Globle().loginModel.data.userDetails.postalCode;
     }
-    if (Globle().loginModel.data.userDetails.state != null) {
-      _dropdownStateValue = Globle().loginModel.data.userDetails.state.name;
-      stateID = Globle().loginModel.data.userDetails.state.id;
-    }
-    if (Globle().loginModel.data.userDetails.city != null) {
-      _dropdownCityValue = Globle().loginModel.data.userDetails.city.name;
-      cityID = Globle().loginModel.data.userDetails.city.id;
-      editprofilepresenter.editCity(stateID.toString(), context,false);
-    }
-    pinCode = Globle().loginModel.data.userDetails.postalCode;
-    }
-    
   }
 
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -94,14 +95,14 @@ class _EditProfileState extends State<EditProfileview>
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500)),
         ),
-        body:IgnorePointer(
-          ignoring:isIgnoring ,
-          child:  KeyboardActions(
-          config: _buildConfig(context),
-          child: SingleChildScrollView(
-            child: _getmainView(context),
+        body: IgnorePointer(
+          ignoring: isIgnoring,
+          child: KeyboardActions(
+            config: _buildConfig(context),
+            child: SingleChildScrollView(
+              child: _getmainView(context),
+            ),
           ),
-        ),
         ));
   }
 
@@ -353,7 +354,7 @@ class _EditProfileState extends State<EditProfileview>
             });
             await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-            editprofilepresenter.editCity(stateID.toString(), context,false);
+            editprofilepresenter.editCity(stateID.toString(), context, false);
           });
         },
         value: _dropdownStateValue,
@@ -566,18 +567,18 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void profileUpdateFailed() async{
+  void profileUpdateFailed() async {
     setState(() {
-        isIgnoring = false;
-      });
-      await progressDialog.hide();
+      isIgnoring = false;
+    });
+    await progressDialog.hide();
   }
 
   @override
   Future<void> profileUpdateSuccess() async {
     setState(() {
-        isIgnoring = false;
-      });
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
