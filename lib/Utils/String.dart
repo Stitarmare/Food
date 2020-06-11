@@ -271,6 +271,7 @@ const JSON_STR_PAGE = "page";
 const STR_IMAGE_PATH = 'assets/BackgroundImage/Group1649.png';
 const STR_IMAGE_PATH1 = 'assets/SignOutIcon/Group1349.png';
 const STR_VERSION_NO = "Version";
+const STR_I_AGREE = "I AGREE";
 
 // EditProfile Page
 const STR_CHOOSE_COUNTRY = 'Choose Country';
@@ -604,6 +605,7 @@ const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
 // WebView Page
 const STR_GOOGLE_URL = "https://google.co.in";
 const STR_URL_TERMS_CONDITION = "http://foodzi.php-dev.in/terms-and-conditions";
+const STR_URL_TERMS_CONDITION_TITLE = "terms-and-conditions";
 const STR_URL_PRIVACY_POLICY = "http://foodzi.php-dev.in/privacy-policy";
 const STR_URL_ABOUT_US = "http://foodzi.php-dev.in/about";
 

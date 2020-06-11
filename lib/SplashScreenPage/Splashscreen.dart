@@ -14,6 +14,8 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'dart:async';
 
 import 'package:foodzi/customNavigator/customNavigation.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
+import 'package:foodzi/widgets/WebView.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,12 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  String strWebViewUrl = "";
   @override
   void initState() {
     super.initState();
     setForIosPushNotification();
     fcmConfiguration();
     getFcmToken();
+    strWebViewUrl = BaseUrl.getBaseUrl() + STR_URL_TERMS_CONDITION_TITLE;
     Timer(Duration(seconds: 2), () {
       Preference.getPrefValue<String>(PreferenceKeys.User_data).then((value) {
         if (value != null) {
@@ -41,18 +45,45 @@ class _SplashScreenState extends State<SplashScreen> {
             Globle().authKey = userData.token;
             Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
           } else {
-            Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+            // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => WebViewPage(
+                          title: STR_TERMS_CONDITION,
+                          strURL: strWebViewUrl,
+                          flag: 2,
+                        )),
+                ModalRoute.withName(STR_WEB_VIEW_PAGE));
           }
         } else {
-          Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+          // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WebViewPage(
+                        title: STR_TERMS_CONDITION,
+                        strURL: strWebViewUrl,
+                        flag: 2,
+                      )),
+              ModalRoute.withName(STR_WEB_VIEW_PAGE));
         }
       }).catchError(() {
-        Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+        // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WebViewPage(
+                      title: STR_TERMS_CONDITION,
+                      strURL: strWebViewUrl,
+                      flag: 2,
+                    )),
+            ModalRoute.withName(STR_WEB_VIEW_PAGE));
       });
     });
 
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('app_icon'); 
+        new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -61,9 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
         onSelectNotification: onSelectNotification);
   }
 
-  Future onSelectNotification(String payload) async {
-    
-}
+  Future onSelectNotification(String payload) async {}
 
   setForIosPushNotification() {
     if (Platform.isIOS) {
@@ -72,21 +101,21 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  Future _showNotificationWithDefaultSound(String title,String desc) async {
-  var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'FoodZiCustomer', 'FoodZi', 'Notification FoodZi',
-      importance: Importance.Max, priority: Priority.High);
-  var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-  var platformChannelSpecifics = new NotificationDetails(
-      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.show(
-    0,
-    title,
-    desc,
-    platformChannelSpecifics,
-    payload: 'Default_Sound',
-  );
-}
+  Future _showNotificationWithDefaultSound(String title, String desc) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'FoodZiCustomer', 'FoodZi', 'Notification FoodZi',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      desc,
+      platformChannelSpecifics,
+      payload: 'Default_Sound',
+    );
+  }
 
   fcmConfiguration() {
     _fcm.configure(
@@ -97,30 +126,32 @@ class _SplashScreenState extends State<SplashScreen> {
         Globle().streamController.add(1.0);
         //  final NavigationService _navigationService = locator<NavigationService>();
         //     _navigationService.navigateTo(STR_MAIN_WIDGET_PAGE);
-        
-          Globle().notificationFLag = true;
-          if (message['notification']!=null) {
-            String title = message['notification']['title'];
-            String desc = message['notification']['body'];
-            _showNotificationWithDefaultSound(title,desc);
-          }
-          
-          
-          // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
-          // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
-         
-        
+
+        Globle().notificationFLag = true;
+        if (message['notification'] != null) {
+          String title = message['notification']['title'];
+          String desc = message['notification']['body'];
+          _showNotificationWithDefaultSound(title, desc);
+        }
+
+        // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
+        // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print(message);
-        
-          Globle().notificationFLag = true;
-    if (Globle().context != null) {
+
+        Globle().notificationFLag = true;
+        if (Globle().context != null) {
           // Navigator.pushNamed(Globle().context, STR_NOTIFICATION_PAGE);
           // Navigator.pushReplacementNamed(context, STR_NOTIFICATION_PAGE,arguments:{"flage":1} );
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NotificationView(flag: 1,) ));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NotificationView(
+                        flag: 1,
+                      )));
         }
-        
+
         //var fcmModel = FcmModel.fromJson(message);
       },
       onResume: (Map<String, dynamic> message) async {
