@@ -951,16 +951,28 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
     await progressDialog.hide();
+    if (getReviewList.length != 0) {
+      setState(() {
+        if (_getReviewData == null) {
+          // _getReviewData = getReviewList;
+          print(_getReviewData);
+          // for (int i = 0; i < getReviewList.length; i++) {
+          //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
+          // }
+          _getReviewData = getReviewList;
+        } else {
+          _getReviewData.addAll(getReviewList);
 
-    setState(() {
-      if (_getReviewData == null) {
-        _getReviewData = getReviewList;
-        print(_getReviewData);
-      } else {
-        _getReviewData.addAll(getReviewList);
-      }
-      page++;
-    });
+          // for (int i = 0; i < _getReviewData.length; i++) {
+          //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
+          // }
+        }
+
+        if (getReviewList.length == 10) {
+          page++;
+        }
+      });
+    }
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
