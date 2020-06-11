@@ -36,14 +36,14 @@ const STR_ENTER_MOBILE_PAGE = '/EnterMobileNoPage';
 // API_BASE_HELPER Page
 
 // URLs
-const STR_PRODUCTION_URL = "http://3.12.75.171/";
+const STR_PRODUCTION_URL = "https://www.foodzi.app/";
 const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
-const STR_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+const STR_LOCAL_URL = "http://3.12.75.171/";
 
 // IMAGE_URLs
-const STR_IMAGE_PRODUCTION_URL = "http://3.12.75.171/storage/";
+const STR_IMAGE_PRODUCTION_URL = "https://www.foodzi.app/storage/";
 const STR_IMAGE_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/storage/";
-const STR_IMAGE_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+const STR_IMAGE_LOCAL_URL = "http://3.12.75.171/storage/";
 
 const STR_HEADER_TYPE = "application/json";
 const STR_BEARER = "Bearer ";

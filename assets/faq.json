@@ -1,0 +1,117 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "data": [{
+        "title":"Orders",
+        "data":[
+            {
+                "Que": "Can a Waitron still process my order?",
+                "Ans": "Yes, if you choose to still order via the waitron or you do not have a smart device or the app downloaded you may do so."
+            },
+            {
+                "Que": "Are there still Printed Menus available?",
+                "Ans": "Restaurants may still choose to supply printed menus but we are trying to adapt to the “New World” of contactless service. Various stores may also provide digital menus, handheld or mounted for patrons to be able to order from."
+            },
+            {
+                "Que": "My order is late",
+                "Ans": "Foodzi apologises for the late delivery. While we try our best to get restaurants and drivers to deliver promptly, we do sometimes experience delays due to unforeseen circumstances and it may take a little longer to deliver an order."
+            },
+            {
+                "Que": "I would like to cancel my order",
+                "Ans": "Foodzi can cancel your order as long as the order is not already being prepared and has not been confirmed or paid for and collected by the driver. If the order has been confirmed and or collected by the driver, we will unfortunately not be able to cancel"
+            },
+            {
+                "Que": "I got the wrong order",
+                "Ans": "Foodzi is extremely sorry for the mix up with your order. We will organise to get the right order delivered to you ASAP as well as to collect the wrong order at the same time. Once again, please accept our apologies for the mistake."
+            },
+            {
+                "Que": "My order was marked as delivered but I did not get my order",
+                "Ans": "Sorry for the inconvenience, the driver had mistakenly marked your order as delivered before completing the delivery. The driver is on his way and will be with you shortly."
+            },
+            {
+                "Que": "My order was delivered to the wrong location",
+                "Ans": "Please can you let us know the correct location for delivery? If the location is nearby, the driver can be routed to you now. However, if the location is in a different area / hub, we may need to cancel our order and you would need to update the address and replace the order. This is because the order would come from a different store and also our drivers are locked to certain areas / hubs based on these stores."
+            },
+            {
+                "Que": "I have already processed my order but I want to change location for delivery",
+                "Ans": "If the address is in the same general area, then this may be possible. However, if the location is very different, we would need you to place a new order and have the order delivered to the correct address details supplied."
+            },
+            {
+                "Que": "Can I track my order?",
+                "Ans": "No need to track, Foodzi will update you as to the status of your order from preparation, collection and finally delivered."
+            },
+            {
+                "Que": "My order is not prepared to satisfaction or standard expected",
+                "Ans": "Thanks for reaching out and we are very sorry for the inconvenience.Please can you send us pictures of the goods in question so we can investigate and take this up with our store partner in your area?"
+            },
+            {
+                "Que": "My order is incomplete",
+                "Ans": "Foodzi apologises the error.Please let us know which items were not received so we can remedy the error. Again, we apologise profusely for the error, please accept our apologies for the mistake."
+            }
+        ]},{
+        "title":"Account Settings",
+        "data": [
+            {
+                "Que": "I forgot my password",
+                "Ans": "You can reset your password from the app. Please click on forgot password and I forgot my password follow the prompts to reset your password. If you are still having issues, please contact us via the website and we will assist you further."
+            },
+            {
+                "Que": "How do update my account information?",
+                "Ans": "From the app, click on the menu in the top left and click on profile. From here you can view and update your account information."
+            },
+            {
+                "Que": "How do I view my receipts and order history?",
+                "Ans": "All your order history, favourites and spend history can be viewed from the app under the menu option in the top left of the app screen"
+            },
+            {
+                "Que": "How do I delete my account?",
+                "Ans": "You can delete the app from the menu in the top left corner of the app screen"
+            }
+        ]},
+        {
+        "title":"Payment",
+        "data": [
+            {
+                "Que": "How do I update my card details?",
+                "Ans": "Card details can be updates by clicking on the menu and selecting update payment options"
+            },
+            {
+                "Que": "Can I load more than one card?",
+                "Ans": "Yes, multiple payment options can be loaded."
+            },
+            {
+                "Que": "Can I split the Bill?",
+                "Ans": "Yes, Foodzi provides various unique payment options to be able to split the bill or pay for only your individual items ordered."
+            }
+        ]},
+        {
+        "title":"Pricing",
+        "data": [
+            {
+                "Que": "Are there any hidden costs to use Foodzi?",
+                "Ans": "No hidden costs, Foodzi is free to use and includes many unique features to add to your dining experience."
+            },
+            {
+                "Que": "What is the minimum order value?",
+                "Ans": "There is not a minimum order value but the may however be a minimum delivery cost based on radius from store."
+            },
+            {
+                "Que": "How much does delivery cost?",
+                "Ans": "Delivery cost are calculated differently based on delivery details, locations and peak times. There is however a minimum delivery cost of R35 per order."
+            }
+        ]},
+        {
+        "title":"General",
+        "data": [
+            {
+                "Que": "How long does delivery take?",
+                "Ans": "Delivery times may vary based on order size, delivery details, locations and peak times but we strive to get your order to you as expeditiously as possible keeping in mind."
+            },
+            {
+                "Que": "Can I collect my order?",
+                "Ans": "Yes you may choose the option to Collect your order or Dine In."
+            }
+        ]
+        }
+    ]
+}

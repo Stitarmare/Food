@@ -3,6 +3,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
+import 'package:foodzi/FAQ/faq_view.dart';
 import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -817,30 +818,31 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                   .push(MaterialPageRoute(builder: (context) => SettingView()));
               // _opennewpage(STR_SETTING);
             }), //SETTING
-        // DrawerItem(
-        //     text: Text(
-        //       STR_HELP,
-        //       style: TextStyle(
-        //           color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
-        //           fontFamily: KEY_FONTFAMILY,
-        //           fontWeight: FontWeight.w600,
-        //           fontSize: FONTSIZE_15),
-        //     ),
-        //     icon: Icon(
-        //       Icons.help,
-        //       color: greytheme800,
-        //       size: 20,
-        //     ),
-        //     page: Landingview(
-        //       title: STR_SETTING,
-        //     ),
-        //     onPressed: () {
-        //       setState(() {
-        //         Globle().navigatorIndex = 6;
-        //       });
-        //       widget.appbarTitle = STR_HELP;
-        //       _opennewpage(STR_HELP);
-        //     }), //HELP
+        DrawerItem(
+            text: Text(
+              STR_HELP,
+              style: TextStyle(
+                  color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  fontSize: FONTSIZE_15),
+            ),
+            icon: Icon(
+              Icons.help,
+              color: greytheme800,
+              size: 20,
+            ),
+            page: Landingview(
+              title: STR_SETTING,
+            ),
+            onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 6;
+              });
+              widget.appbarTitle = STR_HELP;
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => FAQVIew()));
+            }), //HELP
       ],
     );
   }
@@ -917,6 +919,11 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   void _opennewpage(String title) {
     if (title.contains(STR_HOME)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FAQVIew()));
+      
     } else if (title.contains(STR_SETTING)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
       Navigator.push(

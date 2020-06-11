@@ -44,6 +44,7 @@ class _EditProfileState extends State<EditProfileview>
   var stateID;
   var cityID;
   var pinCode;
+  var isIgnoring = false;
   EditProfilePresenter editprofilepresenter;
   @override
   void initState() {
@@ -93,11 +94,14 @@ class _EditProfileState extends State<EditProfileview>
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w500)),
         ),
-        body: KeyboardActions(
+        body:IgnorePointer(
+          ignoring:isIgnoring ,
+          child:  KeyboardActions(
           config: _buildConfig(context),
           child: SingleChildScrollView(
             child: _getmainView(context),
           ),
+        ),
         ));
   }
 
@@ -130,7 +134,9 @@ class _EditProfileState extends State<EditProfileview>
         );
         return;
       }
-
+      setState(() {
+        isIgnoring = true;
+      });
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
@@ -560,10 +566,18 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void profileUpdateFailed() {}
+  void profileUpdateFailed() async{
+    setState(() {
+        isIgnoring = false;
+      });
+      await progressDialog.hide();
+  }
 
   @override
   Future<void> profileUpdateSuccess() async {
+    setState(() {
+        isIgnoring = false;
+      });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
