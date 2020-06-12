@@ -134,8 +134,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         setState(() {
                           isIgnoreTouch = true;
                         });
-                        // checkIntenet();
-                        // await progressDialog.show();
+                        await progressDialog.show();
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
                         _billCheckoutPresenter.payBillCheckOut(
