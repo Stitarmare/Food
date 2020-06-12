@@ -151,14 +151,19 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
   }
 
   @override
-  void payBillCheckOut(int restId, String amount, String tip, String currency,
-      BuildContext context,
-      {int orderId}) {
+  void payBillCheckOut(
+    int restId,
+    String amount,
+    String tip,
+    String currency,
+    BuildContext context, {
+    int orderId,
+  }) {
     ApiBaseHelper().post<PaycheckoutNetbanking>(
         UrlConstant.paycheckOutNetbankingApi, context,
         body: {
           JSON_STR_REST_ID: restId,
-          "tip":tip,
+          "tip": tip,
           JSON_STR_AMOUNT: amount,
           JSON_STR_CURRENCY: currency,
           JSON_STR_ORDER_ID_1: orderId

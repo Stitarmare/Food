@@ -40,6 +40,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   OtpPresenter otppresenter;
   String mobileNo;
   ProgressDialog progressDialog;
+  bool isIgnoreTouch = false;
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
@@ -51,20 +52,23 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    return Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          elevation: 0,
-          iconTheme: IconThemeData(
-            color: Colors.black,
+    return IgnorePointer(
+      ignoring: isIgnoreTouch,
+      child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.white70,
           ),
-          backgroundColor: Colors.white70,
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: mainview(),
-          ),
-        ));
+          body: Center(
+            child: SingleChildScrollView(
+              child: mainview(),
+            ),
+          )),
+    );
   }
 
   Widget mainview() {
@@ -87,6 +91,9 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Future<void> onsubmitButtonClicked() async {
+    setState(() {
+      isIgnoreTouch = true;
+    });
     if (otpsave != null && otpsave.length == 6) {
       if (widget.value == 0 && otpsave != null) {
         await progressDialog.show();
@@ -311,12 +318,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> otpfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> otpsuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
@@ -324,12 +337,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> getFailedForForgetPass() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> getSuccesForForgetPass() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
@@ -341,32 +360,51 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> resendotpfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> resendotpsuccess(message) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_RESEND_OTP, message, context);
   }
 
   @override
-  void loginwithotpfailed() {}
+  void loginwithotpfailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   void loginwithotpsuccess() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Navigator.pushNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
   @override
   void performOTPUpdateNoFailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     // TODO: implement performOTPUpdateNoFailed
   }
 
   @override
   void performOTPUpdateNoSuccess() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     // TODO: implement performOTPUpdateNoSuccess
   }
 }

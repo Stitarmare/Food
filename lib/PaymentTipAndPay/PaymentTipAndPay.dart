@@ -137,12 +137,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         await progressDialog.show();
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        _billCheckoutPresenter.payBillCheckOut(
-                            widget.restId,
-                            widget.totalAmount.toString(),
-                            sliderValue.toString(),
-                            "ZAR",
-                            context);
+                        if (widget.totalAmount > 1.0) {
+                          _billCheckoutPresenter.payBillCheckOut(
+                              widget.restId,
+                              widget.totalAmount.toString(),
+                              sliderValue.toString(),
+                              "ZAR",
+                              context);
+                        } else {
+                          Constants.showAlert(
+                              "Amount",
+                              "Total amount should be more than ${widget.currencySymbol}1",
+                              context);
+                        }
                       },
                       child: Container(
                         height: 45,

@@ -476,33 +476,40 @@ class _MyCartViewState extends State<MyCartView>
                         Constants.showAlert(
                             STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
-                        Globle().dinecartValue = 0;
-                        Preference.setPersistData<int>(
-                            0, PreferenceKeys.dineCartItemCount);
-                        Preference.setPersistData<int>(
-                            0, PreferenceKeys.dineCartItemCount);
-                        (_cartItemList != null && _cartItemList.length > 0)
-                            ? Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ConfirmationDineView(
-                                    restId: widget.restId,
-                                    tablename: tableno,
-                                    restName: widget.restName,
-                                    tableId: _dropdownTableNumber,
-                                    totalAmount:
-                                        double.parse(myCart.grandTotal),
-                                    items: itemList,
-                                    itemdata: _cartItemList,
-                                    orderType: widget.orderType,
-                                    latitude: widget.lat,
-                                    longitude: widget.long,
-                                    currencySymbol: myCart.currencySymbol,
-                                    imgUrl: widget.imgUrl,
-                                  ),
-                                ))
-                            : Constants.showAlert(
-                                STR_MYCART, STR_ADD_ITEM_CART, context);
+                        if (double.parse(myCart.grandTotal) > 1.0) {
+                          Globle().dinecartValue = 0;
+                          Preference.setPersistData<int>(
+                              0, PreferenceKeys.dineCartItemCount);
+                          Preference.setPersistData<int>(
+                              0, PreferenceKeys.dineCartItemCount);
+                          (_cartItemList != null && _cartItemList.length > 0)
+                              ? Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ConfirmationDineView(
+                                      restId: widget.restId,
+                                      tablename: tableno,
+                                      restName: widget.restName,
+                                      tableId: _dropdownTableNumber,
+                                      totalAmount:
+                                          double.parse(myCart.grandTotal),
+                                      items: itemList,
+                                      itemdata: _cartItemList,
+                                      orderType: widget.orderType,
+                                      latitude: widget.lat,
+                                      longitude: widget.long,
+                                      currencySymbol: myCart.currencySymbol,
+                                      imgUrl: widget.imgUrl,
+                                    ),
+                                  ))
+                              : Constants.showAlert(
+                                  STR_MYCART, STR_ADD_ITEM_CART, context);
+                        } else {
+                          Constants.showAlert(
+                              "Amount",
+                              "Total Amount should be greater than ${getCurrency()}1",
+                              context);
+                        }
                       }
                     },
                     child: Container(
@@ -916,7 +923,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> updatequantitySuccess() async {
     //Globle().dinecartValue -= 1;
     await progressDialog.hide();
-    await progressDialog.show();
+    // await progressDialog.show();
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 

@@ -99,18 +99,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     super.initState();
   }
 
-  checkIntenet() async {
-    await progressDialog.show();
+  // checkIntenet() async {
+  //   await progressDialog.show();
 
-    _billCheckoutPresenter.payBillCheckOut(
-      myOrderData.restId,
-      getOrderTotal(),
-      sliderValue.toString(),
-      "ZAR",
-      context,
-      orderId: myOrderData.id,
-    );
-  }
+  //   _billCheckoutPresenter.payBillCheckOut(
+  //     myOrderData.restId,
+  //     getOrderTotal(),
+  //     sliderValue.toString(),
+  //     "ZAR",
+  //     myOrderData.id,
+  //     context,
+  //   );
+  // }
 
   onStreamListen() {
     if (stream != null) {
@@ -272,12 +272,34 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                                         // DialogsIndicator.showLoadingDialog(
                                         //     context, _keyLoader, STR_BLANK);
 
-                                        _billCheckoutPresenter.payBillCheckOut(
-                                            myOrderData.restId,
-                                            getOrderTotal(),
-                                            sliderValue.toString(),
-                                            "ZAR",
-                                            context);
+                                        if (_model.grandTotal != null) {
+                                          if (double.parse(
+                                                  (_model.grandTotal)) >
+                                              1.0) {
+                                            _billCheckoutPresenter
+                                                .payBillCheckOut(
+                                              myOrderData.restId,
+                                              getOrderTotal(),
+                                              sliderValue.toString(),
+                                              "ZAR",
+                                              context,
+                                              orderId: myOrderData.id,
+                                            );
+                                          } else {
+                                            Constants.showAlert(
+                                                "Amount",
+                                                "amount should be more than  1",
+                                                context);
+                                          }
+                                        }
+                                        // _billCheckoutPresenter.payBillCheckOut(
+                                        //   myOrderData.restId,
+                                        //   getOrderTotal(),
+                                        //   sliderValue.toString(),
+                                        //   "ZAR",
+                                        //   myOrderData.id,
+                                        //   context,
+                                        // );
                                       },
                                       child: Container(
                                         height: 45,
