@@ -229,7 +229,8 @@ class _NotificationViewState extends State<NotificationView>
   String getNotificationDate(int index) {
     if (notificationData != null) {
       if (notificationData[index].createdAt != null) {
-        return getDateForOrderHistory(notificationData[index].createdAt.toString());
+        return getDateForOrderHistory(
+            notificationData[index].createdAt.toString());
       }
       return STR_SPACE;
     }

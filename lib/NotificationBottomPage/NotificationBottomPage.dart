@@ -145,10 +145,10 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     if (notificationData[index].notifType == STR_INVITATION) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
-            notifytext = notificationData[index].notifText.split(STR_COMMA);
-          recipientName = notifytext[0];
-          recipientMobno = notifytext[1];
-          tableno = notifytext[3];
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        tableno = notifytext[3];
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
@@ -160,7 +160,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-         await progressDialog.show();
+          await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -197,7 +197,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   String getNotificationDate(int index) {
     if (notificationData != null) {
       if (notificationData[index].createdAt != null) {
-        return getDateForOrderHistory(notificationData[index].createdAt.toString());
+        return getDateForOrderHistory(
+            notificationData[index].createdAt.toString());
       }
       return STR_SPACE;
     }
@@ -216,13 +217,15 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       if (notificationData == null) {
         notificationData = getNotificationList;
       } else {
-        notificationData.addAll(getNotificationList);
+        // notificationData.addAll(getNotificationList);
+        notificationData = getNotificationList;
       }
       page++;
     });
-   await progressDialog.hide();
+    await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
+
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
@@ -236,7 +239,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   Future<void> acceptInvitationFailed(ErrorModel model) async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     Toast.show(
       model.message,
       context,
@@ -247,8 +250,10 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    notificationPresenter.getNotifications(context);
+
     Toast.show(
       model.message,
       context,

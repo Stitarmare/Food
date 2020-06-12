@@ -231,7 +231,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                               isInvited()
                                   ? Expanded(child: Container())
                                   : isSplitBillEnabled()
-                                      ? Text("")
+                                      ? SizedBox(height: 35, child: Text(""))
                                       : Container(
                                           height: 35,
                                           child: FlatButton(
