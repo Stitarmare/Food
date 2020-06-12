@@ -956,7 +956,6 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
     setState(() {
       if (_getReviewData == null) {
-        // _getReviewData = getReviewList;
         print(_getReviewData);
         // for (int i = 0; i < getReviewList.length; i++) {
         //   getReviewList.sort((b, a) => a.id.compareTo(b.id));

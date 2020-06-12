@@ -205,6 +205,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   LengthLimitingTextInputFormatter(10),
                   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
                   WhitelistingTextInputFormatter.digitsOnly,
+                  BlacklistingTextInputFormatter(RegExp("[*#@!\$]")),
                 ],
                 onChanged: (text) {
                   mobilenumber = text;
