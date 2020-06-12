@@ -164,31 +164,31 @@ class CartDetailsPageState extends State<CartDetailsPage>
     return false;
   }
 
-  checkIntenet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PaymentTipAndPayDi(
-                      orderID: widget.orderId,
-                      tableId: myOrderDataDetails.tableId,
-                    )));
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      _showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
-  }
+  // checkIntenet() async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => PaymentTipAndPayDi(
+  //                     orderID: widget.orderId,
+  //                     tableId: myOrderDataDetails.tableId,
+  //                   )));
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     _showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
