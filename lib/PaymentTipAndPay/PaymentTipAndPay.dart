@@ -93,11 +93,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     super.initState();
   }
 
-  checkIntenet() async {
-    await progressDialog.show();
-    _billCheckoutPresenter.payBillCheckOut(widget.restId,
-        widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
-  }
+  // checkIntenet() async {
+  //   await progressDialog.show();
+  //   _billCheckoutPresenter.payBillCheckOut(widget.restId,
+  //       widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -136,12 +136,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         });
                         // checkIntenet();
                         // await progressDialog.show();
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        // _billCheckoutPresenter.payBillCheckOut(widget.restId,
-                        //     widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+                        _billCheckoutPresenter.payBillCheckOut(
+                            widget.restId,
+                            widget.totalAmount.toString(),
+                            sliderValue.toString(),
+                            "ZAR",
+                            context);
                       },
                       child: Container(
                         height: 45,
