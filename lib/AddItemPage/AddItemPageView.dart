@@ -383,7 +383,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         List<Switches> switchess;
-                        if (switches != null) {
+                        if (switches != null && switches.length > 0) {
                           switchess = switches;
                         } else {
                           switchess = defaultSwitch ?? null;
@@ -415,8 +415,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             return;
                           }
                         }
-                        if (switches != null) {
-                          if (switches.length == 0 &&
+                        if (switchess != null) {
+                          if (switchess.length == 0 &&
                               _addItemModelList.switchesrequired == "yes") {
                             DialogsIndicator.showAlert(
                                 context,
@@ -1869,9 +1869,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   void getRequiredSwitch(int length) {
+    defaultSwitch = List<Switches>();
     for (int i = 1; i <= length; i++) {
       Switches requiredSwitch = Switches();
-      defaultSwitch = List<Switches>();
+      
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
