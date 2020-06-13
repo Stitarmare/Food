@@ -156,66 +156,66 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
-  checkIntenet(MenuCartList menuCartList, int index, int flag) async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        if (flag == 1) {
-          if (menuCartList.quantity > 0) {
-            setState(() {
-              menuCartList.quantity -= 1;
-              print(menuCartList.quantity);
-            });
-            // DialogsIndicator.showLoadingDialog(
-            //     context, _keyLoader, STR_LOADING);
-            await progressDialog.show();
-            if (menuCartList.quantity > 0) {
-              _myCartpresenter.updateQauntityCount(
-                  menuCartList.id,
-                  menuCartList.quantity,
-                  (double.parse(menuCartList.totalAmount)) /
-                      menuCartList.quantity,
-                  context);
-            }
-            if (menuCartList.quantity == 0) {
-              // DialogsIndicator.showLoadingDialog(
-              //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
-              _myCartpresenter.removeItemfromCart(
-                  menuCartList.id, Globle().loginModel.data.id, context);
-              setState(() {
-                _cartItemList.removeAt(index);
-              });
-            }
-          }
-        } else {
-          setState(() {
-            menuCartList.quantity += 1;
-            print(menuCartList.quantity);
-          });
-          // DialogsIndicator.showLoadingDialog(
-          //     context, _keyLoader, STR_LOADING);
-          await progressDialog.show();
-          _myCartpresenter.updateQauntityCount(
-              menuCartList.id,
-              menuCartList.quantity,
-              (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
-              context);
-        }
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
-  }
+  // checkIntenet(MenuCartList menuCartList, int index, int flag) async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       if (flag == 1) {
+  //         if (menuCartList.quantity > 0) {
+  //           setState(() {
+  //             menuCartList.quantity -= 1;
+  //             print(menuCartList.quantity);
+  //           });
+  //           // DialogsIndicator.showLoadingDialog(
+  //           //     context, _keyLoader, STR_LOADING);
+  //           await progressDialog.show();
+  //           if (menuCartList.quantity > 0) {
+  //             _myCartpresenter.updateQauntityCount(
+  //                 menuCartList.id,
+  //                 menuCartList.quantity,
+  //                 (double.parse(menuCartList.totalAmount)) /
+  //                     menuCartList.quantity,
+  //                 context);
+  //           }
+  //           if (menuCartList.quantity == 0) {
+  //             // DialogsIndicator.showLoadingDialog(
+  //             //     context, _keyLoader, STR_LOADING);
+  //             await progressDialog.show();
+  //             _myCartpresenter.removeItemfromCart(
+  //                 menuCartList.id, Globle().loginModel.data.id, context);
+  //             setState(() {
+  //               _cartItemList.removeAt(index);
+  //             });
+  //           }
+  //         }
+  //       } else {
+  //         setState(() {
+  //           menuCartList.quantity += 1;
+  //           print(menuCartList.quantity);
+  //         });
+  //         // DialogsIndicator.showLoadingDialog(
+  //         //     context, _keyLoader, STR_LOADING);
+  //         await progressDialog.show();
+  //         _myCartpresenter.updateQauntityCount(
+  //             menuCartList.id,
+  //             menuCartList.quantity,
+  //             (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
+  //             context);
+  //       }
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
 
   Widget steppercount(MenuCartList menuCartList, int index) {
     return Container(
@@ -224,35 +224,35 @@ class _MyCartViewState extends State<MyCartView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-            checkIntenet(menuCartList, index, 1);
+            // checkIntenet(menuCartList, index, 1);
 
-            // if (menuCartList.quantity > 0) {
-            //   setState(() {
-            //     menuCartList.quantity -= 1;
-            //     print(menuCartList.quantity);
-            //   });
-            //   // DialogsIndicator.showLoadingDialog(
-            //   //     context, _keyLoader, STR_LOADING);
-            //   // await progressDialog.show();
-            //   // if (menuCartList.quantity > 0) {
-            //   //   _myCartpresenter.updateQauntityCount(
-            //   //       menuCartList.id,
-            //   //       menuCartList.quantity,
-            //   //       (double.parse(menuCartList.totalAmount)) /
-            //   //           menuCartList.quantity,
-            //   //       context);
-            //   // }
-            //   // if (menuCartList.quantity == 0) {
-            //   //   // DialogsIndicator.showLoadingDialog(
-            //   //   //     context, _keyLoader, STR_LOADING);
-            //   //   await progressDialog.show();
-            //   //   _myCartpresenter.removeItemfromCart(
-            //   //       menuCartList.id, Globle().loginModel.data.id, context);
-            //   //   setState(() {
-            //   //     _cartItemList.removeAt(index);
-            //   //   });
-            //   // }
-            // }
+            if (menuCartList.quantity > 0) {
+              setState(() {
+                menuCartList.quantity -= 1;
+                print(menuCartList.quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              if (menuCartList.quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    (double.parse(menuCartList.totalAmount)) /
+                        menuCartList.quantity,
+                    context);
+              }
+              if (menuCartList.quantity == 0) {
+                // DialogsIndicator.showLoadingDialog(
+                //     context, _keyLoader, STR_LOADING);
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    menuCartList.id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(index);
+                });
+              }
+            }
           },
           splashColor: Colors.redAccent.shade200,
           child: Container(
@@ -280,20 +280,20 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () async {
-            checkIntenet(menuCartList, index, 2);
-            // setState(() {
-            //   menuCartList.quantity += 1;
-            //   print(menuCartList.quantity);
-            // });
-            // // DialogsIndicator.showLoadingDialog(
-            // //     context, _keyLoader, STR_LOADING);
-            // await progressDialog.show();
-            // _myCartpresenter.updateQauntityCount(
-            //     menuCartList.id,
-            //     menuCartList.quantity,
-            //     (double.parse(menuCartList.totalAmount)) /
-            //         menuCartList.quantity,
-            //     context);
+            // checkIntenet(menuCartList, index, 2);
+            setState(() {
+              menuCartList.quantity += 1;
+              print(menuCartList.quantity);
+            });
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_LOADING);
+            await progressDialog.show();
+            _myCartpresenter.updateQauntityCount(
+                menuCartList.id,
+                menuCartList.quantity,
+                (double.parse(menuCartList.totalAmount)) /
+                    menuCartList.quantity,
+                context);
           },
           splashColor: Colors.lightBlue,
           child: Container(
