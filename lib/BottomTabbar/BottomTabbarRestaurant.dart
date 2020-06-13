@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
@@ -26,12 +27,16 @@ class BottomTabbarHome extends StatefulWidget {
   String long;
   String imageUrl;
   String tableName;
+  RestaurantList restaurantList;
+  int flag;
   BottomTabbarHome(
       {this.title,
       this.restId,
       this.lat,
       this.long,
       this.imageUrl,
+      this.restaurantList,
+      this.flag,
       this.tableName});
   @override
   State<StatefulWidget> createState() {
@@ -71,10 +76,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
       setState(() {
         tabsHome.setAll(0, [
           RestaurantView(
-            title: widget.title,
-            restId: widget.restId,
-            imageUrl: widget.imageUrl,
-          )
+              title: widget.title,
+              restId: widget.restId,
+              imageUrl: widget.imageUrl,
+              restaurantList: widget.restaurantList)
         ]);
       });
     }
@@ -88,6 +93,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
         tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
       });
     }
+
     getTableID();
     getOrderID();
     getCartCount();
@@ -133,7 +139,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                   onPressed: () {
                     if (Globle().isTabelAvailable && Globle().tableID != 0) {
                       restaurantPresenter.notifyWaiter(
-                          Globle().loginModel.data.id, Globle().tableID, "", context);
+                          Globle().loginModel.data.id,
+                          Globle().tableID,
+                          "",
+                          context);
                     }
                   },
                   heroTag: STR_BTN_BUZZER,
@@ -412,8 +421,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   @override
   void notifyWaiterSuccess() {
     // TODO: implement notifyWaiterSuccess
-    if (Globle().context!=null) {
-    Constants.showAlert("FoodZi"," Notified waiter successfully.", Globle().context);
-    }    
+    if (Globle().context != null) {
+      Constants.showAlert(
+          "FoodZi", " Notified waiter successfully.", Globle().context);
+    }
   }
 }

@@ -4,11 +4,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
+import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
@@ -24,13 +27,16 @@ class RestaurantView extends StatefulWidget {
   int restId;
   String imageUrl;
   bool isFromOrder = false;
-
+  RestaurantList restaurantList;
   int categoryid;
+  int flag;
   RestaurantView(
       {this.title,
       this.restId,
       this.categoryid,
       this.imageUrl,
+      this.restaurantList,
+      this.flag,
       this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
@@ -54,6 +60,7 @@ class _RestaurantViewState extends State<RestaurantView>
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
   String menutype = " ";
+  RestaurantList restaurantList1;
   int restaurantId;
   int _selectedMenu = 0;
   int _selectedSubMenu = 0;
@@ -63,6 +70,8 @@ class _RestaurantViewState extends State<RestaurantView>
   var abc;
   @override
   void initState() {
+    restaurantList1 = RestaurantList();
+    restaurantList1 = widget.restaurantList;
     _detectScrollPosition();
     if (widget.isFromOrder == null) {
       setState(() {
@@ -145,6 +154,17 @@ class _RestaurantViewState extends State<RestaurantView>
           ),
           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => BottomTabbar(
+                            tabValue: 0,
+                          )));
+            },
+          ),
           elevation: 0,
           actions: <Widget>[
             Column(
@@ -516,17 +536,20 @@ class _RestaurantViewState extends State<RestaurantView>
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return GestureDetector(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AddItemPageView(
-                          itemId: _restaurantList[index].id,
-                          restId: _restaurantList[index].restId,
-                          title: '${_restaurantList[index].itemName}',
-                          description:
-                              '${_restaurantList[index].itemDescription}',
-                          restName: widget.title,
-                          itemImage: '${_restaurantList[index].itemImage}',
-                          isFromOrder: widget.isFromOrder,
-                        ))),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AddItemPageView(
+                            itemId: _restaurantList[index].id,
+                            restId: _restaurantList[index].restId,
+                            title: '${_restaurantList[index].itemName}',
+                            description:
+                                '${_restaurantList[index].itemDescription}',
+                            restName: widget.title,
+                            itemImage: '${_restaurantList[index].itemImage}',
+                            isFromOrder: widget.isFromOrder,
+                            restaurantList: restaurantList1,
+                          )));
+                },
                 child: Padding(
                   padding: EdgeInsets.all(8),
                   child: Container(
@@ -685,6 +708,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                                       '${_restaurantList[index].itemImage}',
                                                   isFromOrder:
                                                       widget.isFromOrder,
+                                                  restaurantList:
+                                                      restaurantList1,
                                                 )));
                                   },
                                   child: Container(
