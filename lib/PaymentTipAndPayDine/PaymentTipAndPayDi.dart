@@ -68,6 +68,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   StreamSubscription<double> _streamSubscription;
 
   String searchText;
+  int tipDefaultValue = 10;
 
   @override
   void initState() {
@@ -203,6 +204,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             await progressDialog.show();
                             // DialogsIndicator.showLoadingDialog(
                             //     context, _keyLoader, STR_BLANK);
+                            if (tipAmount == null) {
+                              tipAmount = (tipDefaultValue *
+                                      double.parse(getOrderTotal())) /
+                                  100;
+                            }
                             _billCheckoutPresenter.payBillCheckOut(
                                 myOrderData.restId,
                                 getOrderTotal(),
@@ -573,10 +579,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     ? getColorByHex(Globle().colorscode)
                     : orangetheme,
                 inactiveColor: greytheme100,
-                min: 0,
-                max: 100,
-                divisions: 10,
+                min: 1,
+                max: 25,
+                divisions: tipDefaultValue,
                 value: double.parse(sliderValue.toString()),
+                // onChangeStart: (value) {
+                //   sliderValue = value.round();
+                // },
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
@@ -720,7 +729,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
                     Text(
-                      tipAmount != null ? '${tipAmount.toInt()}' : "",
+                      tipAmount != null
+                          ? '${tipAmount.toInt()}'
+                          : "${(tipDefaultValue * double.parse(getOrderTotal())) / 100}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
@@ -870,11 +881,17 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {
       setState(() {
-        grandTotal = double.parse(myOrderData.splitAmount);
+        // grandTotal = double.parse(myOrderData.splitAmount);
+        double tipAmount =
+            (tipDefaultValue * double.parse(myOrderData.splitAmount)) / 100;
+        grandTotal = double.parse(myOrderData.splitAmount) + tipAmount;
       });
     } else {
       setState(() {
-        grandTotal = double.parse(model.grandTotal);
+        // grandTotal = double.parse(model.grandTotal);
+        double tipAmount =
+            (tipDefaultValue * double.parse(model.grandTotal)) / 100;
+        grandTotal = double.parse(model.grandTotal) + tipAmount;
       });
     }
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();

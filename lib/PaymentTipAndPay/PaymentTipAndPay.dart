@@ -74,6 +74,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
+  int tipDefaultValue = 10;
+  double tipAmount;
 
   PaycheckoutNetbanking billModel;
   @override
@@ -345,12 +347,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               child: Slider(
                 activeColor: getColorByHex(Globle().colorscode),
                 inactiveColor: greytheme100,
-                min: 0,
-                max: 20,
+                min: 1,
+                max: 25,
+                divisions: tipDefaultValue,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
+                    tipAmount = (sliderValue * widget.totalAmount) / 100;
                   });
                 },
               ),
@@ -361,7 +365,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               right: 10,
             ),
             child: Text(
-              currencySymb + ' $sliderValue',
+              // currencySymb + ' $sliderValue',
+              '${sliderValue.toInt()}' + "%",
+
               style: TextStyle(
                   fontSize: 16,
                   color: greytheme700,
@@ -436,9 +442,24 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20),
-                child: Text(
-                  currencySymb + ' ${sliderValue.toInt()}',
-                  style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      _model.currencySymbol != null
+                          ? '${_model.currencySymbol} '
+                          : "",
+                      style:
+                          TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                    ),
+                    Text(
+                      //  ' ${sliderValue.toInt()}',
+                      tipAmount != null
+                          ? '${tipAmount.toInt()}'
+                          : "${(tipDefaultValue * widget.totalAmount) / 100}",
+                      style:
+                          TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -464,7 +485,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt()}',
+                  currencySymb + ' ${widget.totalAmount + tipAmount}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -554,8 +575,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    // _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+    //     myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
     _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
+        myOrderData.totalAmount, tipAmount.toString(), "ZAR", context);
   }
 
   @override
@@ -603,6 +626,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       if (myOrderDataDetails == null) {
         myOrderDataDetails = orderData;
         _model = model;
+        double tipAmount =
+            (tipDefaultValue * double.parse(_model.grandTotal)) / 100;
+        widget.totalAmount = double.parse(_model.grandTotal) + tipAmount;
       }
     });
     await progressDialog.hide();
@@ -667,7 +693,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   Future<void> cancelledPaymentFailed() async {
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement cancelledPaymentFailed
   }
 
   @override
@@ -675,16 +700,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void onFailedQuantityIncrease() {
-    // TODO: implement onFailedQuantityIncrease
-  }
+  void onFailedQuantityIncrease() {}
 
   @override
-  void onSuccessQuantityIncrease() {
-    // TODO: implement onSuccessQuantityIncrease
-  }
+  void onSuccessQuantityIncrease() {}
 }
