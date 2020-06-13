@@ -497,6 +497,7 @@ class _LandingStateView extends State<Landingview>
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
               tabValue: 1,
+              index: index,
             )));
     setState(() {
       isIgnoring = true;
