@@ -48,7 +48,7 @@ class _LandingStateView extends State<Landingview>
   StreamController<Position> _controllerPosition = new StreamController();
   Stream stream;
   StreamSubscription<double> _streamSubscription;
-  bool isIgnoring = true;
+  bool isIgnoring = false;
 
   @override
   void initState() {
@@ -66,6 +66,7 @@ class _LandingStateView extends State<Landingview>
     Globle().context = context;
     Globle().navigatorIndex = 1;
     onStreamListen();
+
     super.initState();
   }
 
@@ -817,6 +818,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Globle().navigatorIndex = 5;
               });
               widget.appbarTitle = STR_SETTING;
+              Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => SettingView()));
               // _opennewpage(STR_SETTING);
@@ -845,6 +848,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Globle().navigatorIndex = 6;
               });
               widget.appbarTitle = STR_HELP;
+              Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => FAQVIew()));
             }), //HELP
