@@ -633,9 +633,9 @@ class _LandingStateView extends State<Landingview>
         } else {
           setDefaultData();
         }
-      } else if (model.data.dineIn != null) {
+      } else if (model.data.takeAway != null) {
         if (model.data.takeAway != null &&
-            model.data.takeAway.status != STR_PAID) {
+            model.data.takeAway.status == STR_PAID) {
           Preference.setPersistData<int>(
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
