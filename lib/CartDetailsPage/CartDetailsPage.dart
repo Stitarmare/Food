@@ -41,6 +41,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   int _dropdownTableNumber;
   Stream stream;
   StreamSubscription<double> _streamSubscription;
+  List<ListElements> list = [];
 
   String tableName;
   bool isTableList = false;
@@ -474,12 +475,29 @@ class CartDetailsPageState extends State<CartDetailsPage>
     );
   }
 
+  // int getlength() {
+  //   if (myOrderDataDetails != null) {
+  //     if (myOrderDataDetails.list != null) {
+  //       return myOrderDataDetails.list.length;
+  //     }
+  //   }
+  //   return 0;
+  // }
+  int getlength() {
+    if (list != null) {
+      if (list.length != 0) {
+        return list.length;
+      }
+    }
+    return 0;
+  }
+
   Widget _getAddedListItem() {
     return (myOrderDataDetails != null)
         ? Expanded(
             child: RefreshIndicator(
                 child: ListView.builder(
-                    itemCount: myOrderDataDetails.list.length,
+                    itemCount: getlength(),
                     itemBuilder: (BuildContext context, int index) {
                       id = myOrderDataDetails.list[index].itemId;
                       cartId = myOrderDataDetails.list[index].id;
@@ -807,12 +825,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
       if (menuCartList.cartExtras[i].subspreads.length > 0) {
         if (extras.isNotEmpty) {
-      extras = removeLastChar(extras);
-      extras = removeLastChar(extras);
-    }
-          for (int j = 0;
-            j < menuCartList.cartExtras[i].subspreads.length;
-            j++) {
+          extras = removeLastChar(extras);
+          extras = removeLastChar(extras);
+        }
+        for (int j = 0; j < menuCartList.cartExtras[i].subspreads.length; j++) {
           extras += " - ${menuCartList.cartExtras[i].subspreads[j].name}, ";
         }
       }
@@ -858,16 +874,19 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isloading = false;
       isFirst = false;
     });
-    // TODO: implement getOrderDetailsFailed
   }
 
   @override
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
-    setState(() {
-      myOrderDataDetails = orderData;
-      _model = model;
-    });
+    if (list.length == 0) {
+      setState(() {
+        myOrderDataDetails = orderData;
+        list = orderData.list;
+        _model = model;
+      });
+    }
+
     if (!isFirst) {
       await progressDialog.hide();
     }
@@ -875,27 +894,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
       isloading = false;
       isFirst = false;
     });
-    // TODO: implement getOrderDetailsSuccess
   }
 
   @override
-  void paymentCheckoutFailed() {
-    // TODO: implement paymentCheckoutFailed
-  }
+  void paymentCheckoutFailed() {}
 
   @override
-  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {
-    // TODO: implement paymentCheckoutSuccess
-  }
+  void paymentCheckoutSuccess(PaymentCheckoutModel paymentCheckoutModel) {}
   @override
-  void cancelledPaymentFailed() {
-    // TODO: implement cancelledPaymentFailed
-  }
+  void cancelledPaymentFailed() {}
 
   @override
-  void cancelledPaymentSuccess() {
-    // TODO: implement cancelledPaymentSuccess
-  }
+  void cancelledPaymentSuccess() {}
 
   getTableName() {
     if (myOrderDataDetails != null) {
@@ -909,19 +919,16 @@ class CartDetailsPageState extends State<CartDetailsPage>
   @override
   void onFailedQuantityIncrease() async {
     await progressDialog.hide();
-    // TODO: implement onFailedQuantityIncrease
   }
 
   @override
   void onSuccessQuantityIncrease() async {
     await progressDialog.hide();
     callApi();
-    // TODO: implement onSuccessQuantityIncrease
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (_timer != null) {
       _timer.cancel();
     }

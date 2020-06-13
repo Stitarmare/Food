@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
@@ -62,22 +63,22 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
-  var sliderValue = 0;
+  var sliderValue = 10;
   PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
   ProgressDialog progressDialog;
-
   String currencySymb = STR_BLANK;
   OrderDetailsModel _model;
-
+  bool isIgnoreTouch = false;
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
+  PaymentCheckoutModel _paymentCheckoutModel;
+  PaycheckoutNetbanking billModel;
   int tipDefaultValue = 10;
   double tipAmount;
 
-  PaycheckoutNetbanking billModel;
   @override
   void initState() {
     print(widget.items);
@@ -88,10 +89,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
-
     super.initState();
   }
 
+  // checkIntenet() async {
+  //   await progressDialog.show();
+  //   _billCheckoutPresenter.payBillCheckOut(widget.restId,
+  //       widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+  // }
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -100,63 +105,64 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       top: false,
       right: false,
       bottom: true,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          title: Text(STR_PAYMENT),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 80,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    height: 35,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await progressDialog.show();
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_BLANK);
-                      _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
-                    },
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          STR_PLACE_ORDER_PAY_BILL,
-                          style: TextStyle(
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            title: Text(STR_PAYMENT),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: CustomScrollView(
+            controller: _controller,
+            slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: 80,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      height: 35,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          isIgnoreTouch = true;
+                        });
+                        await progressDialog.show();
+                        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+                        _billCheckoutPresenter.payBillCheckOut(
+                            widget.restId,
+                            widget.totalAmount.toString(),
+                            tipAmount.toString(),
+                            "ZAR",
+                            context);
+                      },
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: getColorByHex(Globle().colorscode),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            STR_PLACE_ORDER_PAY_BILL,
+                            style: TextStyle(
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
@@ -185,7 +191,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -347,14 +353,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               child: Slider(
                 activeColor: getColorByHex(Globle().colorscode),
                 inactiveColor: greytheme100,
-                min: 1,
+                min: 0,
                 max: 25,
                 divisions: tipDefaultValue,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {
                   setState(() {
                     sliderValue = newValue.round();
-                    tipAmount = (sliderValue * widget.totalAmount) / 100;
+                    tipAmount = (sliderValue * (widget.totalAmount)) / 100;
                   });
                 },
               ),
@@ -445,17 +451,15 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 child: Row(
                   children: <Widget>[
                     Text(
-                      _model.currencySymbol != null
-                          ? '${_model.currencySymbol} '
-                          : "",
+                      currencySymb != null ? currencySymb : "",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
                     Text(
-                      //  ' ${sliderValue.toInt()}',
+                      // currencySymb + ' ${sliderValue.toInt()}',
                       tipAmount != null
                           ? '${tipAmount.toInt()}'
-                          : "${(tipDefaultValue * widget.totalAmount) / 100}",
+                          : "${(tipDefaultValue * (widget.totalAmount)) / 100}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
@@ -507,7 +511,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: Constants.getFontType(),
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -526,7 +530,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -541,7 +545,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -555,6 +559,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> placeOrderfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     await progressDialog.hide();
@@ -564,31 +571,46 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
     setState(() {
+      isIgnoreTouch = false;
+    });
+    await progressDialog.hide();
+    setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
         Globle().takeAwayCartItemCount = 0;
       }
     });
-
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    // _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-    //     myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
-    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount, tipAmount.toString(), "ZAR", context);
+    _finalBillPresenter.payfinalOrderBill(
+      Globle().loginModel.data.id,
+      myOrderData.restId,
+      myOrderData.id,
+      STR_CARD,
+      myOrderData.totalAmount,
+      (double.parse(myOrderData.totalAmount) + tipAmount).toString(),
+      _paymentCheckoutModel.transactionId,
+      context,
+      tipAmount.toString(),
+    );
   }
 
   @override
   Future<void> payBillCheckoutFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (billModel == null) {
       billModel = model;
     }
@@ -605,12 +627,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      await progressDialog.hide();
-      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-      _paymentTipandPayDiPresenter.onCancelledPayment(
-          myOrderData.id, widget.orderType, context);
+      Constants.showAlert(
+          "Payment Failed!", "Please pay first before place order.", context);
     }
   }
 
@@ -626,9 +644,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       if (myOrderDataDetails == null) {
         myOrderDataDetails = orderData;
         _model = model;
-        double tipAmount =
-            (tipDefaultValue * double.parse(_model.grandTotal)) / 100;
-        widget.totalAmount = double.parse(_model.grandTotal) + tipAmount;
       }
     });
     await progressDialog.hide();
@@ -637,6 +652,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> paymentCheckoutFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -644,20 +662,23 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   @override
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (paymentCheckoutModel.statusCode == 200) {
-      await progressDialog.show();
+      _paymentCheckoutModel = paymentCheckoutModel;
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
+      await progressDialog.show();
+      _paymentTipAndPayPresenter.placeOrder(
+          widget.restId,
+          Globle().loginModel.data.id,
+          widget.orderType,
+          widget.tableId,
+          widget.items,
+          widget.totalAmount,
+          widget.latitude,
+          widget.longitude,
+          context);
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -667,12 +688,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> payfinalBillFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payfinalBillSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+    await progressDialog.hide();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -684,27 +712,37 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> cancelledPaymentFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    // TODO: implement cancelledPaymentFailed
   }
 
   @override
   Future<void> cancelledPaymentSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void onFailedQuantityIncrease() {}
-
+  void onFailedQuantityIncrease() {
+    // TODO: implement onFailedQuantityIncrease
+  }
   @override
-  void onSuccessQuantityIncrease() {}
+  void onSuccessQuantityIncrease() {
+    // TODO: implement onSuccessQuantityIncrease
+  }
 }
