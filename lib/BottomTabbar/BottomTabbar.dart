@@ -17,8 +17,8 @@ class BottomTabbar extends StatefulWidget {
   int tabValue = 0;
   String tableName;
   int flag;
-  int index = 0;
-  BottomTabbar({this.tabValue, this.tableName, this.flag,this.index});
+  int index;
+  BottomTabbar({this.tabValue, this.tableName, this.flag, this.index});
   @override
   State<StatefulWidget> createState() {
     return _BottomTabbarState();
@@ -69,12 +69,12 @@ class _BottomTabbarState extends State<BottomTabbar> {
             tableName: widget.tableName,
           )
         ]);
-        if (widget.index!=null) {
-          currentTabIndex = widget.index;
-    }
       });
     }
-    
+    if (widget.index != null) {
+      currentTabIndex = widget.index;
+    }
+
     getOrderID();
     getAlreadyInCart();
     super.initState();
