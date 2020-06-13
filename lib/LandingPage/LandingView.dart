@@ -467,7 +467,7 @@ class _LandingStateView extends State<Landingview>
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            goToTakeAway();
+            goToTakeAway(0);
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -493,7 +493,7 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  goToTakeAway() async {
+  goToTakeAway(int index) async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
               tabValue: 1,
@@ -528,13 +528,7 @@ class _LandingStateView extends State<Landingview>
         }
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PaymentTipAndPayDi(
-                    // orderID: widget.orderID,
-                    // tableId: widget.tableId,
-                    orderID: currentOrderId,
-                    tableId: _model.data.takeAway.tableId,
-                  )
+           goToTakeAway(0);
               // StatusTakeAwayView(
               //       orderID: currentOrderId,
               //       restId: (_model.data.takeAway.status != STR_PAID)
@@ -547,7 +541,7 @@ class _LandingStateView extends State<Landingview>
               //           ? _model.data.takeAway.restaurant.coverImage
               //           : _model.data.dineIn.restaurant.coverImage,
               //     )
-              ));
+              
           setState(() {
             isIgnoring = true;
           });
