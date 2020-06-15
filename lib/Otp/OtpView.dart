@@ -91,10 +91,10 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Future<void> onsubmitButtonClicked() async {
-    setState(() {
-      isIgnoreTouch = true;
-    });
     if (otpsave != null && otpsave.length == 6) {
+      setState(() {
+        isIgnoreTouch = true;
+      });
       if (widget.value == 0 && otpsave != null) {
         await progressDialog.show();
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
@@ -397,7 +397,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     setState(() {
       isIgnoreTouch = false;
     });
-    // TODO: implement performOTPUpdateNoFailed
   }
 
   @override
@@ -405,6 +404,5 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     setState(() {
       isIgnoreTouch = false;
     });
-    // TODO: implement performOTPUpdateNoSuccess
   }
 }
