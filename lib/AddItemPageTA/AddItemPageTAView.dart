@@ -8,6 +8,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -293,6 +294,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 GestureDetector(
                   onTap: () async {
                     if (Globle().isCollectionOrder) {
+                      Constants.showAlert("FoodZi", "Your order is already running for another restaurant", context);
                       return;
                     }
                     if (addMenuToCartModel == null) {
