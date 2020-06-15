@@ -845,7 +845,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   String getName(int index) {
     if (_getReviewData[index].user == null) {
-      return "Unknown";
+      return "Anonymous";
     }
     return _getReviewData[index].user.firstName +
         STR_SPACE +
