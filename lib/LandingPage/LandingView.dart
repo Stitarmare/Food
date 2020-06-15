@@ -529,20 +529,20 @@ class _LandingStateView extends State<Landingview>
         }
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
-           goToTakeAway(0);
-              // StatusTakeAwayView(
-              //       orderID: currentOrderId,
-              //       restId: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restId
-              //           : _model.data.dineIn.restId,
-              //       title: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restaurant.restName
-              //           : _model.data.dineIn.restaurant.restName,
-              //       imgUrl: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restaurant.coverImage
-              //           : _model.data.dineIn.restaurant.coverImage,
-              //     )
-              
+          goToTakeAway(1);
+          // StatusTakeAwayView(
+          //       orderID: currentOrderId,
+          //       restId: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restId
+          //           : _model.data.dineIn.restId,
+          //       title: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restaurant.restName
+          //           : _model.data.dineIn.restaurant.restName,
+          //       imgUrl: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restaurant.coverImage
+          //           : _model.data.dineIn.restaurant.coverImage,
+          //     )
+
           setState(() {
             isIgnoring = true;
           });

@@ -174,6 +174,12 @@ class _DineViewState extends State<DineInView>
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+                },
+              ),
               actions: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -572,6 +578,7 @@ class _DineViewState extends State<DineInView>
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
                               tableName: widget.tableName,
+                              restaurantList: _restaurantList[i],
                             )));
                     setState(() {});
                   }));

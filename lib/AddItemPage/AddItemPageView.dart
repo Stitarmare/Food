@@ -6,10 +6,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -30,6 +32,7 @@ class AddItemPageView extends StatefulWidget {
   String restName;
   String itemImage;
   bool isFromOrder = false;
+  RestaurantList restaurantList;
 
   AddItemPageView(
       {this.title,
@@ -38,6 +41,7 @@ class AddItemPageView extends StatefulWidget {
       this.restId,
       this.restName,
       this.itemImage,
+      this.restaurantList,
       this.isFromOrder});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
@@ -86,6 +90,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<Extras> extras;
   List<Sizes> sizess;
   List<Switches> switchess;
+  int cartPageCount;
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -480,24 +485,24 @@ class _AddItemPageViewState extends State<AddItemPageView>
     );
   }
 
-  checkIntenet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
-  }
+  // checkIntenet() async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
 
   void showAlert(
       BuildContext context, String title, String message, Function onPressed) {
@@ -1629,8 +1634,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      //Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomTabbarHome(
+                                    title: widget.restaurantList.restName,
+                                    restId: widget.restaurantList.id,
+                                    lat: widget.restaurantList.latitude,
+                                    long: widget.restaurantList.longitude,
+                                    imageUrl: widget.restaurantList.coverImage,
+                                    restaurantList: widget.restaurantList,
+                                  )),
+                          ModalRoute.withName(STR_RETAURANT_PAGE));
                     },
                   )
                 ],
@@ -1754,6 +1771,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Future<void> addMenuToCartsuccess() async {
     specialReq = "";
     Globle().dinecartValue += 1;
+    int i = Globle().dinecartValue;
+    print(i);
+    // cartPageCount = Globle().dinecartValue += 1;
+
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
@@ -1872,7 +1893,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     defaultSwitch = List<Switches>();
     for (int i = 1; i <= length; i++) {
       Switches requiredSwitch = Switches();
-      
+
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
