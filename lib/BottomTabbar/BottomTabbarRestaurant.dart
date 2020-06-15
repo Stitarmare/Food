@@ -419,7 +419,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   void notifyWaiterSuccess() {
     if (Globle().context != null) {
       Constants.showAlert(
-          "FoodZi", " Notified waiter successfully.", Globle().context);
+          "FoodZi", " Notified waiter successfully.", context);
     }
   }
 }
