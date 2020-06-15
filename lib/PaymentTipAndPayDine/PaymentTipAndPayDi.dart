@@ -439,6 +439,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   onSplitBillButtonTap() {
+    if (_model.grandTotal != null) {
+      if (double.parse(_model.grandTotal) <= 10.00) {
+        _showAlert(context, "Amount is too low for splitting bill", STR_BLANK, () {
+            Navigator.of(context).pop();
+          });
+        return;
+      }
+    }
     invitationOrder.length > 0
         ? showSplitBill()
         : _showAlert(context, STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
