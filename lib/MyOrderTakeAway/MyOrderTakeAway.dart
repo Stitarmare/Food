@@ -355,9 +355,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       child: Text(
                         Globle().currencySymb != null
                             ? '${Globle().currencySymb} ' +
-                                '${_orderDetailList[index].totalAmount}'
+                                // '${_orderDetailList[index].totalAmount}'
+                                strCurrentAmount(
+                                    _orderDetailList[index].totalAmount)
                             : STR_R_CURRENCY_SYMBOL +
-                                '${_orderDetailList[index].totalAmount}',
+                                // '${_orderDetailList[index].totalAmount}',
+                                strCurrentAmount(
+                                    _orderDetailList[index].totalAmount),
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -405,6 +409,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
             );
           },
         ));
+  }
+
+  String strCurrentAmount(String str) {
+    double doublePrice = double.parse(str);
+    String strPrice = doublePrice.toStringAsFixed(2);
+    // String str1 = Globle().currencySymb + " " + s;
+    return strPrice;
   }
 
   int getLenghtOfHistoryOrder() {
@@ -583,9 +594,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     child: Text(
                       Globle().currencySymb != null
                           ? '${Globle().currencySymb} ' +
-                              '${getmyOrderBookingHistory[index].totalAmount}'
+                              // '${getmyOrderBookingHistory[index].totalAmount}'
+                              strHistoryAmount(
+                                  getmyOrderBookingHistory[index].totalAmount)
                           : STR_R_CURRENCY_SYMBOL +
-                              '${getmyOrderBookingHistory[index].totalAmount}',
+                              // '${getmyOrderBookingHistory[index].totalAmount}',
+                              strHistoryAmount(
+                                  getmyOrderBookingHistory[index].totalAmount),
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -640,6 +655,13 @@ class _MyOrdersState extends State<MyOrderTakeAway>
         ));
   }
 
+  String strHistoryAmount(String str) {
+    double doublePrice = double.parse(str);
+    String strPrice = doublePrice.toStringAsFixed(2);
+    // String str1 = Globle().currencySymb + " " + s;
+    return strPrice;
+  }
+
   @override
   void getOrderDetailsFailed() {}
 
@@ -651,16 +673,20 @@ class _MyOrdersState extends State<MyOrderTakeAway>
 
     setState(() {
       if (_orderdetailsList.length != null) {
-        _orderDetailList = _orderdetailsList;
+        // _orderDetailList = _orderdetailsList;
 
-        Iterable<CurrentOrderList> orderIterableList =
-            _orderDetailList.reversed;
-        List<CurrentOrderList> list1 = [];
-        for (int i = 0; i < orderIterableList.length; i++) {
-          CurrentOrderList list = orderIterableList.elementAt(i);
-          list1.add(list);
-          _orderDetailList = list1;
+        // Iterable<CurrentOrderList> orderIterableList =
+        //     _orderDetailList.reversed;
+        // List<CurrentOrderList> list1 = [];
+        // for (int i = 0; i < orderIterableList.length; i++) {
+        //   CurrentOrderList list = orderIterableList.elementAt(i);
+        //   list1.add(list);
+        //   _orderDetailList = list1;
+        // }
+        for (int i = 0; i < _orderdetailsList.length; i++) {
+          _orderdetailsList.sort((b, a) => a.id.compareTo(b.id));
         }
+        _orderDetailList = _orderdetailsList;
       }
     });
   }
@@ -672,6 +698,10 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   void getmyOrderHistorySuccess(
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
     setState(() {
+      // getmyOrderBookingHistory = _getmyOrderBookingHistory;
+      for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
+        _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
+      }
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
   }

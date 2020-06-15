@@ -370,6 +370,7 @@ const JSON_STR_TABLE_ID = "table_id";
 const JSON_STR_QUANTITY = "quantity";
 const JSON_STR_AMOUNT = "amount";
 const JSON_STR_CURRENCY = "currency";
+const JSON_STR_ORDER_ID_1 = "order_id";
 
 const STR_SUMBIT = 'SUBMIT';
 const STR_ITEM_DESC = " Lorem Epsom is simply dummy text";
@@ -391,6 +392,9 @@ const STR_REPEAT_ORDER = 'Repeat Order';
 const JSON_STR_ORDER_TYPE = "order_type";
 const STR_TAKE_AWAY = "take_away";
 const STR_STATUS = "Status :";
+const STR_VIEW_DRIVER_DETAILS = "VIEW DRIVER DETAILS";
+const STR_SMALL_DELIVERY = "delivery";
+const DELV_CHARGE = "Delivery charge";
 
 // MyProfileBottomPage
 const ITEM_IMAGE_PATH = 'assets/BlurImage/Group1612.png';

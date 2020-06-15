@@ -4,6 +4,7 @@ import 'package:foodzi/DeliveryFoodView/DeliveryFoodView.dart';
 import 'package:foodzi/DineInPage/DineInView.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAway.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
+import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryView.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayView.dart';
@@ -43,7 +44,7 @@ class _BottomTabbarState extends State<BottomTabbar> {
 
   List<Widget> tabsDeliveryFood = [
     DeliveryFoodView(),
-    MyOrders(),
+    MyOrdersDelivery(),
     BottomNotificationView(),
     BottomProfileScreen(),
   ];

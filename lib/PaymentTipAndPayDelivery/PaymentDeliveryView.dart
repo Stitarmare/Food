@@ -73,6 +73,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
   ProgressDialog progressDialog;
+  bool isIgnoreTouch = false;
 
   String currencySymb = STR_BLANK;
   OrderDetailsModel _model;
@@ -104,63 +105,69 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
       top: false,
       right: false,
       bottom: true,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          title: Text(STR_PAYMENT),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 80,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    height: 35,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await progressDialog.show();
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_BLANK);
-                      _paymentDeliveryPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
-                    },
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          STR_PLACE_ORDER_PAY_BILL,
-                          style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            title: Text(STR_PAYMENT),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: CustomScrollView(
+            controller: _controller,
+            slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: 80,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      height: 35,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_BLANK);
+                        setState(() {
+                          isIgnoreTouch = true;
+                        });
+                        await progressDialog.show();
+                        _paymentDeliveryPresenter.placeOrder(
+                            widget.restId,
+                            Globle().loginModel.data.id,
+                            widget.orderType,
+                            widget.tableId,
+                            widget.items,
+                            widget.totalAmount,
+                            widget.latitude,
+                            widget.longitude,
+                            context);
+                      },
+                      child: Container(
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: getColorByHex(Globle().colorscode),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            STR_PLACE_ORDER_PAY_BILL,
+                            style: TextStyle(
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
@@ -428,7 +435,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
-                  STR_TIP,
+                  DELV_CHARGE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -441,7 +448,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${sliderValue.toInt()}',
+                  currencySymb + ' 12',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -468,7 +475,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + sliderValue.toInt()}',
+                  currencySymb +
+                      ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -538,6 +546,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> placeOrderfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     await progressDialog.hide();
@@ -546,6 +557,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -564,12 +578,18 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> payBillCheckoutFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (billModel == null) {
       billModel = model;
     }
@@ -615,6 +635,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> paymentCheckoutFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -622,6 +645,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   @override
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (paymentCheckoutModel.statusCode == 200) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
@@ -645,12 +671,18 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> payfinalBillFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payfinalBillSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -669,26 +701,26 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> cancelledPaymentFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement cancelledPaymentFailed
   }
 
   @override
   Future<void> cancelledPaymentSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void onFailedQuantityIncrease() {
-    // TODO: implement onFailedQuantityIncrease
-  }
+  void onFailedQuantityIncrease() {}
 
   @override
-  void onSuccessQuantityIncrease() {
-    // TODO: implement onSuccessQuantityIncrease
-  }
+  void onSuccessQuantityIncrease() {}
 }

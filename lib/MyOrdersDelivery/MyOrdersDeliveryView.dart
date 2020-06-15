@@ -2,9 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
+import 'package:foodzi/Models/DeliveryBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
+import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryContractor.dart';
+import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -14,19 +17,21 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/DriverDetailDialog.dart';
 import 'package:intl/intl.dart';
 
-class MyOrders extends StatefulWidget {
+class MyOrdersDelivery extends StatefulWidget {
   String title;
   String ordertype;
   String tableName;
-  MyOrders({this.title, this.ordertype, this.tableName});
-  _MyOrdersState createState() => _MyOrdersState();
+  MyOrdersDelivery({this.title, this.ordertype, this.tableName});
+  _MyOrdersDeliveryState createState() => _MyOrdersDeliveryState();
 }
 
-class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
+class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
+    implements MyOrderDeliveryModelView {
   ScrollController _controller = ScrollController();
-  MyOrdersPresenter _myOrdersPresenter;
+  MyOrdersDeliveryPresenter _myOrdersPresenter;
   bool isCurrentOrders = true;
   bool isBookingHistory = false;
   int i;
@@ -38,9 +43,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void initState() {
     super.initState();
-    _myOrdersPresenter = MyOrdersPresenter(this);
-    _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
+    _myOrdersPresenter = MyOrdersDeliveryPresenter(this);
+    _myOrdersPresenter.getOrderDetails(STR_SMALL_DELIVERY, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DELIVERY, context);
   }
 
   @override
@@ -128,36 +133,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
             ),
           ),
           isCurrentOrders
-              ? getLenghtOfCurrentOrder() == 0
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.35,
-                          ),
-                          Text("No Current Orders")
-                        ],
-                      ),
-                    )
-                  : Container(child: _currentOrders(context))
-              : Container(
-                  child: getLenghtOfHistoryOrder() == 0
-                      ? Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.35,
-                              ),
-                              Text("No Booking History")
-                            ],
-                          ),
-                        )
-                      : _bookingHistoryList(context)),
+              ? Center(child: Container(child: _currentOrders(context)))
+              : Center(child: Container(child: _bookingHistoryList(context))),
         ],
       ),
     );
@@ -334,15 +311,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         Globle().currencySymb != null
-                            ?
-                            // '${Globle().currencySymb} ' +
-                            //     '${_orderDetailList[index].totalAmount}'
-                            strCurrentAmount(
-                                _orderDetailList[index].totalAmount)
+                            ? '${Globle().currencySymb} ' +
+                                '${_orderDetailList[index].totalAmount}'
                             : STR_R_CURRENCY_SYMBOL +
-                                // '${_orderDetailList[index].totalAmount}',
-                                strCurrentAmount(
-                                    _orderDetailList[index].totalAmount),
+                                '${_orderDetailList[index].totalAmount}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -361,38 +333,79 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     SizedBox(
                       height: 5,
                     ),
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 40,
-                        child: RaisedButton(
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Text(
-                            STR_VIEW_ORDER_DETAILS,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_13,
-                                fontFamily: Constants.getFontType(),
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white),
+                    Row(
+                      children: <Widget>[
+                        // Center(
+                        //   child:
+                        Expanded(
+                          child: Container(
+                            // width: MediaQuery.of(context).size.width * 0.5,
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+
+                            height: 40,
+                            child: RaisedButton(
+                              color: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                STR_VIEW_ORDER_DETAILS,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_13,
+                                    fontFamily: Constants.getFontType(),
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CartDetailsPage(
+                                              restId: _orderDetailList[index]
+                                                  .restId,
+                                              orderId:
+                                                  _orderDetailList[index].id,
+                                              isFromOrder: true,
+                                            )));
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CartDetailsPage(
-                                          restId:
-                                              _orderDetailList[index].restId,
-                                          orderId: _orderDetailList[index].id,
-                                          isFromOrder: true,
-                                        )));
-                          },
                         ),
-                      ),
+
+                        // ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: Container(
+                            // width: MediaQuery.of(context).size.width * 0.5,
+                            padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                            height: 40,
+                            child: RaisedButton(
+                              color: ((Globle().colorscode) != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                STR_VIEW_DRIVER_DETAILS,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_13,
+                                    fontFamily: Constants.getFontType(),
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
+                              onPressed: () {
+                                callApiDriverInfo(
+                                    _orderDetailList[index].orderNumber);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 10,
@@ -405,11 +418,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         ));
   }
 
-  String strCurrentAmount(String str) {
-    double doublePrice = double.parse(str);
-    String strPrice = doublePrice.toStringAsFixed(2);
-    // String str1 = Globle().currencySymb + " " + s;
-    return strPrice;
+  void callApiDriverInfo(String orderId) async {
+    _myOrdersPresenter.getDeliveryBoyInfo(orderId, context);
   }
 
   int getLenghtOfHistoryOrder() {
@@ -582,60 +592,15 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     child: Text(
                       Globle().currencySymb != null
                           ? '${Globle().currencySymb} ' +
-                              // '${getmyOrderBookingHistory[index].totalAmount}'
-                              strHistoryAmount(
-                                  getmyOrderBookingHistory[index].totalAmount)
+                              '${getmyOrderBookingHistory[index].totalAmount}'
                           : STR_R_CURRENCY_SYMBOL +
-                              // '${getmyOrderBookingHistory[index].totalAmount}',
-                              strHistoryAmount(
-                                  getmyOrderBookingHistory[index].totalAmount),
+                              '${getmyOrderBookingHistory[index].totalAmount}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
                         color: greytheme700,
                       ),
                     ),
-                  ),
-                  getmyOrderBookingHistory[index]
-                              .splitbilltransactions
-                              .length !=
-                          0
-                      ? getMethod(getmyOrderBookingHistory[index]
-                              .splitbilltransactions)
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 10, left: 15),
-                              child: Text(
-                                STR_SPLIT_AMOUNT,
-                                style: TextStyle(
-                                  fontSize: FONTSIZE_14,
-                                  color: greytheme1000,
-                                ),
-                              ),
-                            )
-                          : Container()
-                      : Container(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: getmyOrderBookingHistory[index]
-                                .splitbilltransactions
-                                .length !=
-                            0
-                        ? getMethod(getmyOrderBookingHistory[index]
-                                .splitbilltransactions)
-                            ? Text(
-                                Globle().currencySymb != null
-                                    ? '${Globle().currencySymb} ' +
-                                        '${getmyOrderBookingHistory[index].splitAmount}'
-                                    : STR_R_CURRENCY_SYMBOL +
-                                        '${getmyOrderBookingHistory[index].splitAmount}',
-                                style: TextStyle(
-                                  fontSize: FONTSIZE_16,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700,
-                                ),
-                              )
-                            : Text("")
-                        : Text(""),
                   ),
                   SizedBox(
                     height: 10,
@@ -654,10 +619,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         child: Container(
                           height: 10,
                           width: 10,
-                          color:
-                              getmyOrderBookingHistory[index].status == "paid"
-                                  ? Colors.green
-                                  : Colors.red,
+                          color: Colors.green,
                         ),
                       ),
                       SizedBox(
@@ -687,27 +649,28 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         ));
   }
 
-  bool getMethod(List<Splitbilltransactions> list) {
-    for (int i = 0; i < list.length; i++) {
-      if (list[i].userId == Globle().loginModel.data.id) {
-        return true;
-      } else {}
-    }
-    return false;
-  }
-
-  String strHistoryAmount(String str) {
-    double doublePrice = double.parse(str);
-    String strPrice = doublePrice.toStringAsFixed(2);
-    // String str1 = Globle().currencySymb + " " + s;
-    return strPrice;
-  }
-
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
-    var time = DateFormat("hh:mm a").format(date.toLocal());
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    // var time = DateFormat("hh:mm a").format(date);
     return "$dateStr at $time";
+  }
+
+  driverDetailsDialog(DeliveryBoyInfoData data) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        child: DriverDetailsView(
+          firstName: data.firstName,
+          lastName: data.lastName,
+          mobNo: data.mobileNumber,
+          countryCode: data.countryCode,
+          profilePic: data.userDetails.profileImage,
+        ));
   }
 
   @override
@@ -716,7 +679,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
     if (_orderdetailsList.length == 0) {
-      setDefaultData();
       return;
     }
 
@@ -730,33 +692,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList[0].id, PreferenceKeys.currentOrderId);
     Preference.setPersistData<int>(
         _orderDetailList[0].restId, PreferenceKeys.currentRestaurantId);
-
-    Preference.setPersistData<int>(
-        _orderDetailList[0].restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<int>(
-        _orderDetailList[0].id, PreferenceKeys.orderId);
-    Globle().orderID = _orderDetailList[0].id;
-    Preference.setPersistData<bool>(true, PreferenceKeys.isDineIn);
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Globle().dinecartValue = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
-  }
-
-  setDefaultData() {
-    Preference.setPersistData<int>(null, PreferenceKeys.orderId);
-    Globle().orderID = 0;
-    Preference.removeForKey(PreferenceKeys.orderId);
-    Globle().dinecartValue = 0;
-    Globle().takeAwayCartItemCount = 0;
-    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
   }
 
   @override
@@ -769,22 +704,16 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
       return;
     }
     setState(() {
-      // getmyOrderBookingHistory = _getmyOrderBookingHistory;
-
-      // Iterable<GetMyOrderBookingHistoryList> orderIterableList =
-      //     getmyOrderBookingHistory.reversed;
-      // List<GetMyOrderBookingHistoryList> list1 = [];
-      // for (int i = 0; i < orderIterableList.length; i++) {
-      //   GetMyOrderBookingHistoryList list = orderIterableList.elementAt(i);
-      //   list1.add(list);
-      //   getmyOrderBookingHistory = list1;
-      // }
-      for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
-        _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
-      }
-
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+  }
+
+  @override
+  void getDeliveryBoyDetailFailed() {}
+
+  @override
+  void getDeliveryBoyDetailSuccess(DeliveryBoyInfoData data) {
+    driverDetailsDialog(data);
   }
 }

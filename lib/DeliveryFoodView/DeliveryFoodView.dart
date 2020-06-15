@@ -59,6 +59,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
     BottomItemButton(title: STR_RATINGS, id: 1, isSelected: false),
     BottomItemButton(title: STR_FAVORITE, id: 2, isSelected: false),
   ];
+  int delivery = 1;
 
   var sliderValue;
   var sliderval;
@@ -114,6 +115,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
             sortedBy,
             filteredBy,
             page,
+            delivery,
             context);
       } else {
         setState(() {
@@ -134,6 +136,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
               sortedBy,
               filteredBy,
               page,
+              delivery,
               context);
         }
       }
@@ -215,7 +218,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = ! tile.isSelected;
+                                tile.isSelected = !tile.isSelected;
                                 // if (bottomList == optionSortBy) {
                                 //   sortedBy = bottomItem.title;
                                 //   if (bottomItem.title == STR_DISTANCE) {
@@ -437,8 +440,14 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
 
   callOnfilter() async {
     await progressDialog.show();
-    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
-        _position.longitude.toString(), sortedBy, filteredBy, page, context);
+    dinerestaurantPresenter.getrestaurantspage(
+        _position.latitude.toString(),
+        _position.longitude.toString(),
+        sortedBy,
+        filteredBy,
+        page,
+        delivery,
+        context);
   }
 
   Widget restaurantsInfo() {
@@ -642,12 +651,17 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
 
   @override
   void restaurantfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // if (restlist.length == 0) {

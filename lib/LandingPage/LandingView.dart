@@ -247,7 +247,14 @@ class _LandingStateView extends State<Landingview>
   Widget _getmainView() {
     return LimitedBox(
       child: Container(
-        color: Colors.white,
+        // color: Colors.white,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(SPLASH_SCREEN_LAUNCHER_IMAGE_PATH),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -255,13 +262,14 @@ class _LandingStateView extends State<Landingview>
             ),
             _buildimage(),
             SizedBox(
-              height: 100,
+              height: 30,
             ),
             _buildMaintext(),
             SizedBox(
               height: 16,
             ),
-            _cardoption()
+            // _cardoption()
+            _collectDeliverPlacCardOprions()
           ],
         ),
       ),
@@ -288,7 +296,7 @@ class _LandingStateView extends State<Landingview>
   Widget _buidtext() {
     return Container(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           // Row(children: <Widget>[
           Text(

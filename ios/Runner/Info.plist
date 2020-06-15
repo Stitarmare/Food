@@ -60,8 +60,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-<<<<<<< HEAD
-=======
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -80,6 +78,5 @@
        
        <key>io.flutter.embedded_views_preview</key>
        <true/>
->>>>>>> DeliveryFlow
 </dict>
 </plist>

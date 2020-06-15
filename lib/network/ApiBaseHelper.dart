@@ -101,7 +101,7 @@ class ApiBaseHelper {
   }
 
   Future<APIModel<T>> get<T>(String url, BuildContext context,
-      {bool isShowDialoag}) async {
+      {bool isShowDialoag, bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -125,20 +125,27 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-      _showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
+      });
       return errorResponce<T>();
     }
   }
 
   Future<APIModel<T>> post<T>(String url, BuildContext context,
-      {Map body, T model, bool isShowDialoag}) async {
+      {Map body, T model, bool isShowDialoag, bool isShowNetwork}) async {
     try {
       var isTimeOut = false;
       final response = await http
@@ -162,20 +169,30 @@ class ApiBaseHelper {
       }
       return _returnResponse<T>(response, context, isShowDialoag ?? false);
     } on SocketException {
-      _showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
+      });
       return errorResponce<T>();
     }
   }
 
   Future<APIModel<T>> imageUpload<T>(String url, BuildContext context,
-      {Map<String, String> body, String key, File imageBody}) async {
+      {Map<String, String> body,
+      String key,
+      File imageBody,
+      bool isShowNetwork}) async {
     try {
       var postURL = Uri.parse(_baseUrlString + url);
       final request = http.MultipartRequest(STR_POST, postURL);
@@ -197,14 +214,21 @@ class ApiBaseHelper {
 
       return _returnResponse<T>(myRes, context, false);
     } on SocketException {
-      _showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (isShowNetwork != null) {
+          if (isShowNetwork) {
+            return;
+          }
+        }
+        _showAlert(
+          context,
+          STR_WIFI_INTERNET,
+          STR_NO_WIFI_INTERNET,
+          () {
+            Navigator.of(context).pop();
+          },
+        );
+      });
       return errorResponce<T>();
     }
   }
@@ -258,13 +282,13 @@ class ApiBaseHelper {
           if (errorModel.message != null) {
             msg = errorModel.message;
           }
-          if(errorModel.mobileNumber != null) {
-            if (errorModel.mobileNumber.length>0) {
+          if (errorModel.mobileNumber != null) {
+            if (errorModel.mobileNumber.length > 0) {
               msg = errorModel.mobileNumber[0];
             }
           }
         }
-        
+
         if (isShowDialoag != null) {
           if (isShowDialoag) {
             return apiModel;

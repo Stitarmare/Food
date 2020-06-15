@@ -16,14 +16,10 @@ class PaymentTipandPayDiPresenter extends PaymentTipandPayDiContractor {
     this._paymentTipandPayDiModelView = _paymentTipandPayDiModelView;
   }
 
-  void increaseQuantity(String orderid,String itemId,String id,BuildContext context) {
-    
-    ApiBaseHelper()
-        .post<ErrorModel>(UrlConstant.increaseItemQuantity, context, body: {
-      "order_id": orderid,
-      "item_id":itemId,
-      "id":id
-    }).then((value) {
+  void increaseQuantity(
+      String orderid, String itemId, String id, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.increaseItemQuantity, context,
+        body: {"order_id": orderid, "item_id": itemId, "id": id}).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -160,14 +156,17 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
     String amount,
     String tip,
     String currency,
-    BuildContext context,
-  ) {
+    BuildContext context, {
+    int orderId,
+  }) {
     ApiBaseHelper().post<PaycheckoutNetbanking>(
-        UrlConstant.paycheckOutNetbankingApi, context, body: {
-      JSON_STR_REST_ID: restId,
-      JSON_STR_AMOUNT: amount,
-      JSON_STR_CURRENCY: currency
-    }).then((value) {
+        UrlConstant.paycheckOutNetbankingApi, context,
+        body: {
+          JSON_STR_REST_ID: restId,
+          JSON_STR_AMOUNT: amount,
+          JSON_STR_CURRENCY: currency,
+          JSON_STR_ORDER_ID_1: orderId
+        }).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

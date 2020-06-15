@@ -12,7 +12,7 @@ class TakeAwayRestaurantPresenter extends TakeAwayRestaurantListContractor {
   TakeAwayRestaurantPresenter(this.restaurantModelView);
   @override
   void getrestaurantspage(String latitude, String longitude, String sortBy,
-      String searchBy, int page, BuildContext context) {
+      String searchBy, int page, int delivery, BuildContext context) {
     ApiBaseHelper().post<RestaurantListModel>(
         UrlConstant.restaurantListApi, context,
         body: {
@@ -20,7 +20,8 @@ class TakeAwayRestaurantPresenter extends TakeAwayRestaurantListContractor {
           JSON_STR_LONG: longitude,
           JSON_STR_SORT_BY: sortBy,
           JSON_STR_SEARCH_BY: searchBy,
-          JSON_STR_PAGE: page
+          JSON_STR_PAGE: page,
+          "delivery": delivery
         }).then((value) {
       print(value);
       switch (value.result) {

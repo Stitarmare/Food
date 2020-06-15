@@ -57,4 +57,6 @@ class UrlConstant {
   static const updateNotificationSetting = "api/updateNotificationSetting";
   static const getNotificationSetting = "api/getNotificationSetting";
   static const provideAnotherNumberApi = "api/provideAnotherNumber";
+  static const getDeliveryBoyInfoApi = "api/get-deliveryboy-info";
+  static const placeOrderDeliveryApi = "api/placeOrderDelivery";
 }

@@ -57,6 +57,7 @@ class _DineViewState extends State<DineInView>
     BottomItemButton(title: STR_RATINGS, id: 1, isSelected: false),
     BottomItemButton(title: STR_FAVORITE, id: 2, isSelected: false),
   ];
+  int delivery = 0;
 
   var sliderValue;
   var sliderval;
@@ -113,6 +114,7 @@ class _DineViewState extends State<DineInView>
             sortedBy,
             filteredBy,
             page,
+            delivery,
             context);
       } else {
         setState(() {
@@ -135,6 +137,7 @@ class _DineViewState extends State<DineInView>
               sortedBy,
               filteredBy,
               page,
+              delivery,
               context);
         }
       }
@@ -410,43 +413,46 @@ class _DineViewState extends State<DineInView>
                   ],
                 ),
               )
-              : locationNotFound ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Please enable location service and try again.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
+            : locationNotFound
+                ? Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            "Please enable location service and try again.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_15,
+                                fontFamily: KEY_FONTFAMILY,
+                                fontWeight: FontWeight.w500,
+                                color: greytheme1200),
+                          ),
+                        ),
+                        FlatButton(
+                            onPressed: () {
+                              _getLocation();
+                            },
+                            child: Text("Try again"))
+                      ],
                     ),
-                    FlatButton(onPressed: (){
-                        _getLocation();
-                    }, child: Text("Try again"))
-                  ],
-                ),
-              )
-            : (_restaurantList != null)
-                ? restaurantsInfo()
-                : Container(
-                    child: Center(
-                      child: Text(
-                        STR_NO_RESTAURANT,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_25,
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w500,
-                            color: greytheme700),
+                  )
+                : (_restaurantList != null)
+                    ? restaurantsInfo()
+                    : Container(
+                        child: Center(
+                          child: Text(
+                            STR_NO_RESTAURANT,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: FONTSIZE_25,
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w500,
+                                color: greytheme700),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
       ),
     );
   }
@@ -460,8 +466,14 @@ class _DineViewState extends State<DineInView>
 
   callOnfilter() async {
     await progressDialog.show();
-    dinerestaurantPresenter.getrestaurantspage(_position.latitude.toString(),
-        _position.longitude.toString(), sortedBy, filteredBy, page, context);
+    dinerestaurantPresenter.getrestaurantspage(
+        _position.latitude.toString(),
+        _position.longitude.toString(),
+        sortedBy,
+        filteredBy,
+        page,
+        delivery,
+        context);
   }
 
   Widget restaurantsInfo() {
