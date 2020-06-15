@@ -739,7 +739,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
-    if (myOrderDataDetails.invitation !=null) {
+    if (myOrderDataDetails!=null) {
+if (myOrderDataDetails.invitation != null) {
       if (myOrderDataDetails.invitation.length>0) {
         for(var inv in myOrderDataDetails.invitation) {
           if (inv.fromId == Globle().loginModel.data.id) {
@@ -748,6 +749,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
+    }
+    
 
     return true;
   }
