@@ -314,7 +314,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    if (myOrderData.splitAmount != null) {
+    
       if (double.parse(getOrderTotal()) > 1.0) {
         await progressDialog.show();
 
@@ -338,33 +338,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             : Constants.showAlert(
                 "Amount", "Split Amount should be greater than 1.00", context);
       }
-    } else {
-      if (_model.grandTotal != null) {
-        if (double.parse((_model.grandTotal)) > 1.0) {
-          await progressDialog.show();
-
-          _billCheckoutPresenter.payBillCheckOut(
-            myOrderData.restId,
-            getOrderTotal(),
-            sliderValue.toString(),
-            "ZAR",
-            context,
-            orderId: myOrderData.id,
-          );
-        } else {
-          setState(() {
-            isIgnoreTouch = false;
-          });
-          _model.currencySymbol != null
-              ? Constants.showAlert(
-                  "Amount",
-                  "Total Amount should be greater than ${_model.currencySymbol}1",
-                  context)
-              : Constants.showAlert(
-                  "Amount", "Total Amount should be greater than 1", context);
-        }
-      }
-    }
+     
   }
 
   Widget _getmainviewTableno() {
