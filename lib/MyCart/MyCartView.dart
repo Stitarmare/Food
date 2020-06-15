@@ -476,7 +476,7 @@ class _MyCartViewState extends State<MyCartView>
                         Constants.showAlert(
                             STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
-                        if (double.parse(myCart.grandTotal) > 1.0) {
+                        if (double.parse(myCart.grandTotal) >= 1.0) {
                           Globle().dinecartValue = 0;
                           Preference.setPersistData<int>(
                               0, PreferenceKeys.dineCartItemCount);

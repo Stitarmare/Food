@@ -747,6 +747,8 @@ if (myOrderDataDetails.invitation != null) {
             return false;
           }
         }
+      } else {
+        return false;
       }
     }
     }
