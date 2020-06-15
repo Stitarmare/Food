@@ -315,7 +315,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   void getVerifyAmount() async {
     
-      if (double.parse(getOrderTotal()) > 1.0) {
+      if (double.parse(getOrderTotal()) >= 1.0) {
         await progressDialog.show();
 
         _billCheckoutPresenter.payBillCheckOut(
@@ -440,7 +440,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   onSplitBillButtonTap() {
     if (_model.grandTotal != null) {
-      if (double.parse(_model.grandTotal) <= 10.00) {
+      if (double.parse(_model.grandTotal) < 10.00) {
         _showAlert(context, "Amount is too low for splitting bill", STR_BLANK, () {
             Navigator.of(context).pop();
           });

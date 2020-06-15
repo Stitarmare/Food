@@ -134,10 +134,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         setState(() {
                           isIgnoreTouch = true;
                         });
-                        await progressDialog.show();
+                        
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        if (widget.totalAmount > 1.0) {
+                        if (widget.totalAmount >= 1.0) {
+                          await progressDialog.show();
                           _billCheckoutPresenter.payBillCheckOut(
                               widget.restId,
                               widget.totalAmount.toString(),

@@ -314,6 +314,11 @@ class ApiBaseHelper {
             msg = errorModel.message;
           }
         }
+        if (isShowDialoag != null) {
+          if (isShowDialoag) {
+            return apiModel;
+          }
+        }
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(context, STR_SESSION, msg, () {
             Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
