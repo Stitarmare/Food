@@ -392,7 +392,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             isAddMoreButtonEnable()
                                 ? Container()
                                 : SizedBox(
-                                    width: MediaQuery.of(context).size.width *
+                                    width:  MediaQuery.of(context).size.width *
                                         0.06),
                             GestureDetector(
                               onTap: () {
@@ -430,7 +430,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   ? Container()
                                   : Container(
                                       height: 54,
-                                      width: MediaQuery.of(context).size.width *
+                                      width: isPayBillButtonEnable()?(MediaQuery.of(context).size.width *
+                                              0.84) : MediaQuery.of(context).size.width *
                                           0.45,
                                       decoration: BoxDecoration(
                                           color: greentheme100,
@@ -721,7 +722,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          var isPaid = false;
+          var isPaid = true;
           for (var trans in myOrderDataDetails.splitbilltransactions) {
             if (trans.userId != null) {
               if (Globle().loginModel.data.id == trans.userId) {
@@ -738,23 +739,24 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
+    if (myOrderDataDetails.invitation !=null) {
+      if (myOrderDataDetails.invitation.length>0) {
+        for(var inv in myOrderDataDetails.invitation) {
+          if (inv.fromId == Globle().loginModel.data.id) {
+            return false;
+          }
+        }
+      }
+    }
 
-    return false;
+    return true;
   }
 
   bool isAddMoreButtonEnable() {
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          isSplitTrans = true;
-          _timer.cancel();
-          bool isSplitBillTrans = isSplitTrans;
-          // for (var trans in myOrderDataDetails.splitbilltransactions) {
-          //   if (trans.paystatus == "paid") {
-          //     isPaid = true;
-          //   }
-          // }
-          return isSplitBillTrans;
+          return true;
         }
       }
     }
@@ -914,9 +916,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   Future<void> _getData() async {
     setState(() {
-      setState(() {
-        isFirst = false;
-      });
+      isFirst = false;
       callApi();
     });
   }
