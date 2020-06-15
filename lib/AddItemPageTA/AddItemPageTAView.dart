@@ -292,6 +292,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if (Globle().isCollectionOrder) {
+                      return;
+                    }
                     if (addMenuToCartModel == null) {
                       addMenuToCartModel = AddItemsToCartModel();
                     }

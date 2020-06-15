@@ -28,6 +28,7 @@ class Globle {
   var authKey;
   BuildContext context;
   bool isTabelAvailable = false;
+  bool isCollectionOrder = true;
   int tableID = 0;
   int orderID = 0;
   int navigatorIndex = 1;

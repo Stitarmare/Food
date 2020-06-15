@@ -164,6 +164,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                           isFromOrder = true;
                         }
                       }
+                      if (Globle().isCollectionOrder) {
+                      return;
+                    }
                       Navigator.push(
                           context,
                           MaterialPageRoute(

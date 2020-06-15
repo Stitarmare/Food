@@ -360,6 +360,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ),
                 GestureDetector(
                   onTap: () async {
+ 
+                    if (Globle().isCollectionOrder) {
+                      return;
+                    }
                     // checkIntenet();
                     var alreadyAdde = await Preference.getPrefValue<bool>(
                         PreferenceKeys.isAlreadyINCart);

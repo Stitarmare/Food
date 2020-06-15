@@ -164,6 +164,21 @@ class CartDetailsPageState extends State<CartDetailsPage>
     return false;
   }
 
+  void gotoPaymentPage() async {
+    _timer.cancel();
+                                // checkIntenet();
+              await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PaymentTipAndPayDi(
+                                              orderID: widget.orderId,
+                                              tableId:
+                                                  myOrderDataDetails.tableId,
+                                            )));
+                                            callApi();
+  }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -343,17 +358,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                     MediaQuery.of(context).size.width * 0.02),
                             GestureDetector(
                               onTap: () {
-                                _timer.cancel();
-                                // checkIntenet();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PaymentTipAndPayDi(
-                                              orderID: widget.orderId,
-                                              tableId:
-                                                  myOrderDataDetails.tableId,
-                                            )));
+                                  gotoPaymentPage();
                               },
                               child: isPayBillButtonEnable()
                                   ? Container()

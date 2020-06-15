@@ -63,7 +63,7 @@ class _LandingStateView extends State<Landingview>
       }
     });
     _getLocation();
-    Globle().context = context;
+    
     Globle().navigatorIndex = 1;
     onStreamListen();
 
@@ -113,6 +113,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   Widget build(BuildContext context) {
+    Globle().context = context;
     progressDialog = ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
     progressDialog.style(message: STR_PLEASE_WAIT);
@@ -622,6 +623,7 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
           Globle().isTabelAvailable = true;
+          Globle().isCollectionOrder = false;
           Globle().tableID = model.data.dineIn.tableId;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -643,6 +645,7 @@ class _LandingStateView extends State<Landingview>
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
           Globle().isTabelAvailable = false;
+          Globle().isCollectionOrder = true;
           Globle().tableID = 0;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
@@ -653,7 +656,8 @@ class _LandingStateView extends State<Landingview>
       } else if (model.data.cart != null) {
         Globle().isTabelAvailable = false;
         Globle().tableID = 0;
-        Globle().dinecartValue += 1;
+        Globle().isCollectionOrder = false;
+        Globle().dinecartValue = 1;
         Preference.setPersistData<int>(
             Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
         Preference.setPersistData(
@@ -673,6 +677,7 @@ class _LandingStateView extends State<Landingview>
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
+    Globle().isCollectionOrder = false;
     Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
