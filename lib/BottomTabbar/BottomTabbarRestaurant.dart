@@ -403,24 +403,17 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   }
 
   @override
-  void getMenuListfailed() {
-    // TODO: implement getMenuListfailed
-  }
+  void getMenuListfailed() {}
 
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist,
-      RestaurantItemsModel restaurantItemsModel) {
-    // TODO: implement getMenuListsuccess
-  }
+      RestaurantItemsModel restaurantItemsModel) {}
 
   @override
-  void notifyWaiterFailed() {
-    // TODO: implement notifyWaiterFailed
-  }
+  void notifyWaiterFailed() {}
 
   @override
   void notifyWaiterSuccess() {
-    // TODO: implement notifyWaiterSuccess
     if (Globle().context != null) {
       Constants.showAlert(
           "FoodZi", " Notified waiter successfully.", Globle().context);
