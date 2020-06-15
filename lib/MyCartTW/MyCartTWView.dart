@@ -125,7 +125,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -200,7 +200,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                           STR_ADD_TABLE,
                           style: TextStyle(
                               fontSize: FONTSIZE_16,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: greytheme700),
                         ),
@@ -246,7 +246,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                               STR_SUMBIT,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
                             ),
@@ -281,7 +281,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -338,7 +338,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -389,7 +389,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -468,7 +468,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -540,7 +540,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),

@@ -3,6 +3,7 @@ import 'package:foodzi/ChangePassword/ChangePasswordContractor.dart';
 import 'package:foodzi/ChangePassword/ChangePasswordPresenter.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -55,6 +56,10 @@ class _ChangePasswordview extends State<ChangePasswordview>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          title: Image.asset(
+            FOODZI_LOGO_PATH,
+            height: 50,
+          ),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -112,7 +117,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
                   Text(
                     STR_CHANGE_PASSWORD,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         color: greytheme300,
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
@@ -256,7 +261,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
           style: TextStyle(
               fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w700,
-              fontFamily: KEY_FONTFAMILY),
+              fontFamily: Constants.getFontType()),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -290,7 +295,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontSize: FONTSIZE_20),
           ),
           actions: [
@@ -322,7 +327,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
 
   @override
   Future<void> changePasswordsuccess() async {
-   await progressDialog.hide();
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }

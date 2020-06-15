@@ -8,6 +8,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -54,7 +55,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
             STR_YOUR_ORDERS,
             style: TextStyle(
                 fontSize: FONTSIZE_18,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme1200),
           ),
@@ -80,14 +81,15 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       child: Text(
                         STR_CURRENT_ORDER,
                         style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_15),
                       ),
                     ),
                     Tab(
                       child: Text(
                         STR_BOOKING_HISTORY,
                         style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_15,
                         ),
                       ),

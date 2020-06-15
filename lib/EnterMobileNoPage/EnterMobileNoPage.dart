@@ -60,6 +60,15 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 30,
+              ),
+            )
+          ],
         ),
         body: KeyboardActions(
           config: _buildConfig(context),
@@ -84,7 +93,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     KEY_UPDATE,
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
@@ -103,7 +112,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     KEY_CANCEL_UC,
                     style: TextStyle(
                         color: greytheme1000,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_18,
                         fontWeight: FontWeight.w500),
                   ),
@@ -172,7 +181,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     style: TextStyle(
-                        fontFamily: KEY_FONT_SEGOEUI,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w400,
                         fontSize: FONTSIZE_18,
                         color: greytheme200),

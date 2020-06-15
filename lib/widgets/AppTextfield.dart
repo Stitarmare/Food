@@ -6,6 +6,7 @@ class AppTextField extends StatefulWidget {
   final String placeHolderName;
   final bool obscureText;
   final bool readOnly;
+  final bool enable;
   final bool interactiveSel;
   final bool flexible;
   final String prefixText;
@@ -24,6 +25,7 @@ class AppTextField extends StatefulWidget {
     this.initialvalue,
     this.onChanged,
     this.tfValue,
+    this.enable,
     this.placeHolderName,
     this.obscureText = false,
     this.readOnly = false,
@@ -54,6 +56,7 @@ class _AppTextFieldState extends State<AppTextField> {
       readOnly: widget.readOnly,
       enableInteractiveSelection: widget.interactiveSel,
       initialValue: widget.tfValue,
+      enabled: widget.enable,
       decoration: InputDecoration(
         labelText: widget.placeHolderName,
         prefixIcon: widget.icon,

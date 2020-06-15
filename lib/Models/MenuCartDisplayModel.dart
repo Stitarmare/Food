@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:foodzi/Models/AddMenuToCartModel.dart';
+
 MenuCartDisplayModel menuCartDisplayModelFromJson(String str) =>
     MenuCartDisplayModel.fromJson(json.decode(str));
 
@@ -205,6 +207,7 @@ class CartExtraItem {
   List<Extra> extras;
   List<Extra> spreads;
   List<Extra> switches;
+  List<Subspreads> subspreads;
 
   CartExtraItem({
     this.id,
@@ -221,6 +224,7 @@ class CartExtraItem {
     this.extras,
     this.spreads,
     this.switches,
+    this.subspreads
   });
 
   factory CartExtraItem.fromJson(Map<String, dynamic> json) => CartExtraItem(
@@ -241,6 +245,7 @@ class CartExtraItem {
             List<Extra>.from(json["spreads"].map((x) => Extra.fromJson(x))),
         switches:
             List<Extra>.from(json["switches"].map((x) => Extra.fromJson(x))),
+      subspreads: List<Subspreads>.from(json["subspreads"].map((x) => Subspreads.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -307,4 +312,23 @@ class Extra {
         "option1": option1 == null ? null : option1,
         "option2": option2 == null ? null : option2,
       };
+}
+class Subspreads {
+    int id;
+    String name;
+
+    Subspreads({
+        this.id,
+        this.name,
+    });
+
+    factory Subspreads.fromJson(Map<String, dynamic> json) => Subspreads(
+        id: json["id"],
+        name: json["name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+    };
 }

@@ -8,6 +8,7 @@ import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -53,13 +54,18 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
           elevation: 0.0,
-          title: Text(
-            STR_YOUR_ORDERS,
-            style: TextStyle(
-                fontSize: FONTSIZE_18,
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w500,
-                color: greytheme1200),
+          title: Column(
+            children: <Widget>[
+              Image.asset(FOODZI_LOGO_PATH, height: 40),
+              Text(
+                STR_YOUR_ORDERS,
+                style: TextStyle(
+                    fontSize: FONTSIZE_18,
+                    fontFamily: Constants.getFontType(),
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200),
+              ),
+            ],
           ),
         ),
         body: customTabbar(),
@@ -83,14 +89,15 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       child: Text(
                         STR_CURRENT_ORDER,
                         style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_15),
                       ),
                     ),
                     Tab(
                       child: Text(
                         STR_BOOKING_HISTORY,
                         style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_15,
                         ),
                       ),
@@ -364,7 +371,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: FONTSIZE_13,
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white),
                           ),

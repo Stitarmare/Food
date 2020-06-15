@@ -6,6 +6,7 @@ import 'package:foodzi/Login/LoginContractor.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -316,7 +317,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               KEY_FORGET_PASSWORD,
               style: TextStyle(
                   fontSize: FONTSIZE_12,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   color: greentheme100),
             ),
@@ -338,7 +339,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           style: TextStyle(
               fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w700,
-              fontFamily: KEY_FONTFAMILY),
+              fontFamily: Constants.getFontType()),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -366,7 +367,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           KEY_OTP_SIGN_IN,
           style: TextStyle(
             fontSize: FONTSIZE_16,
-            fontFamily: KEY_FONTFAMILY,
+            fontFamily: Constants.getFontType(),
             fontWeight: FontWeight.w600,
             color: greentheme100,
           ),
@@ -383,7 +384,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           Text(
             STR_ACCOUNT,
             style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100,
                 fontSize: FONTSIZE_16),
@@ -400,7 +401,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               style: TextStyle(
                   color: greentheme100,
                   fontWeight: FontWeight.w600,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_16),
             ),
           )

@@ -32,10 +32,12 @@ const STR_STATUS_TRACK_PAGE = '/StatusTrackView';
 const STR_WEB_VIEW_SCREEN_PAGE = '/WebViewScreen';
 const STR_CART_DETAILS_PAGE = '/CartDetailsPage';
 const STR_ENTER_MOBILE_PAGE = '/EnterMobileNoPage';
+const STR_CATEGORY_SECTION = '/CategoriesSection';
 
 // API_BASE_HELPER Page
 
 // URLs
+// const STR_PRODUCTION_URL = "http://18.219.185.86/";
 const STR_PRODUCTION_URL = "http://3.12.75.171/";
 const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
 const STR_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
@@ -215,7 +217,7 @@ const STR_NEWORDER = "NEW ORDER";
 const STR_CANCEL = "CANCEL";
 const RESTAURANT_IMAGE_PATH = "assets/HotelImages/Image12.png";
 const STR_QUANTITY = 'Quantity:';
-const STR_SPREADS = 'Spreads';
+const STR_SPREADS = 'Options';
 const STR_SPLREQ = 'Special Request (eg. No bacon)';
 const STR_REQUIRED = "REQUIRED";
 const STR_SELECT_OPTION = 'Please select any one option';
@@ -308,6 +310,7 @@ const STR_WHAT_LIKE_TO_DO = 'What would you like to do?';
 const DINE_IN_IMAGE_PATH = 'assets/DineInImage/Group1504.png';
 const STR_DINEIN_TITLE = 'Dine-in';
 const STR_DELIVERY_TITLE = "Delivery";
+
 const STR_SERVED_RESTAUTRANT = 'Get served in Restaurant';
 const STR_VIEW_YOUR_ORDER = 'Track Your Order';
 const TAKE_AWAY_IMAGE_PATH = 'assets/TakeAwayImage/Group1505.png';
@@ -329,6 +332,11 @@ const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
 const STR_COLLECT_FOOD = 'I WANT TO COLLECT MY FOOD';
 const STR_DELEIVER_FOOD = 'PLEASE DELIVER MY FOOD';
 const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
+
+// MapView Page
+const STR_ADDRESS_SELECTION = "Add Selection";
+const STR_CONFIRM_ADDRESS = "Confirm Address";
+const STR_CHANGE_ADDRESS = "Change Adddress";
 
 // Login Page
 const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';
@@ -515,6 +523,7 @@ const FOOD_IMAGE_PATH = "assets/PlaceholderFoodImage/MaskGroup55.png";
 const STR_ADD = "+ ADD";
 const JSON_STR_MENU_TYPE = "menu_type";
 const JSON_STR_CATEGORY_ID = "category_id";
+const JSON_STR_SUBCATEGORY_ID = "subcategory_id";
 const STR_NO_ITEMS_FOUND = 'No items found.';
 
 // SplashScreen Page

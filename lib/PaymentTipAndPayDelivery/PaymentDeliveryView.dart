@@ -9,6 +9,8 @@ import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
+import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryContractor.dart';
+import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryPresenter.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -18,9 +20,10 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
-class PaymentTipAndPay extends StatefulWidget {
+class PaymentDeliveryView extends StatefulWidget {
   String restName;
   int flag;
   int price;
@@ -35,13 +38,15 @@ class PaymentTipAndPay extends StatefulWidget {
   String longitude;
   List<MenuCartList> itemdata;
   String currencySymbol;
-  PaymentTipAndPay(
+  String addressData;
+  PaymentDeliveryView(
       {this.userId,
       this.price,
       this.items,
       this.restId,
       this.latitude,
       this.tablename,
+      this.addressData,
       this.longitude,
       this.orderType,
       this.tableId,
@@ -50,12 +55,12 @@ class PaymentTipAndPay extends StatefulWidget {
       this.itemdata,
       this.restName,
       this.flag});
-  _PaymentTipAndPayState createState() => _PaymentTipAndPayState();
+  _PaymentDeliveryViewState createState() => _PaymentDeliveryViewState();
 }
 
-class _PaymentTipAndPayState extends State<PaymentTipAndPay>
+class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     implements
-        PaymentTipAndPayModelView,
+        PaymentDeliveryModelView,
         PaymentTipandPayDiModelView,
         PayBillCheckoutModelView,
         PayFinalBillModelView {
@@ -63,7 +68,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   DialogsIndicator dialogs = DialogsIndicator();
   ScrollController _controller = ScrollController();
   var sliderValue = 0;
-  PaymentTipAndPayPresenter _paymentTipAndPayPresenter;
+  PaymentDeliveryPresenter _paymentDeliveryPresenter;
   PayBillCheckoutPresenter _billCheckoutPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
@@ -74,19 +79,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
-  PaymentCheckoutModel _paymentCheckoutModel;
 
   PaycheckoutNetbanking billModel;
   @override
   void initState() {
     print(widget.items);
-    _paymentTipAndPayPresenter = PaymentTipAndPayPresenter(this);
+    _paymentDeliveryPresenter = PaymentDeliveryPresenter(this);
     print(widget.itemdata.length);
     print(widget.currencySymbol);
     currencySymb = widget.currencySymbol;
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
+    print(widget.addressData);
 
     super.initState();
   }
@@ -124,10 +129,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(widget.restId,
-        widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+                      _paymentDeliveryPresenter.placeOrder(
+                          widget.restId,
+                          Globle().loginModel.data.id,
+                          widget.orderType,
+                          widget.tableId,
+                          widget.items,
+                          widget.totalAmount,
+                          widget.latitude,
+                          widget.longitude,
+                          context);
                     },
                     child: Container(
                       height: 45,
@@ -140,7 +151,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         child: Text(
                           STR_PLACE_ORDER_PAY_BILL,
                           style: TextStyle(
-                              fontFamily: Constants.getFontType(),
+                              fontFamily: KEY_FONTFAMILY,
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -172,13 +183,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     width: 20,
                   ),
                   Text(
-                    (widget.orderType == STR_SMALL_DINEIN)
-                        ? STR_DINEIN_TITLE
-                        : STR_COLLECTION,
+                    STR_DELIVERY_TITLE,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -481,7 +490,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: Constants.getFontType(),
+                      fontFamily: KEY_FONTFAMILY,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -500,7 +509,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: Constants.getFontType(),
+                        fontFamily: KEY_FONTFAMILY,
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -515,7 +524,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
+                            fontFamily: KEY_FONTFAMILY,
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -537,7 +546,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
-    await progressDialog.hide();
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -549,18 +557,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
-    _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        _paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
-    
+    //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
   }
 
   @override
@@ -587,7 +586,12 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       _paymentTipandPayDiPresenter.getCheckoutDetails(
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
-      Constants.showAlert("Payment Failed!", "Please pay first before place order.", context);
+      await progressDialog.hide();
+      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+
+      _paymentTipandPayDiPresenter.onCancelledPayment(
+          myOrderData.id, widget.orderType, context);
     }
   }
 
@@ -619,19 +623,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
     if (paymentCheckoutModel.statusCode == 200) {
-     _paymentCheckoutModel = paymentCheckoutModel;
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       await progressDialog.show();
-    _paymentTipAndPayPresenter.placeOrder(
-                          widget.restId,
-                          Globle().loginModel.data.id,
-                          widget.orderType,
-                          widget.tableId,
-                          widget.items,
-                          widget.totalAmount,
-                          widget.latitude,
-                          widget.longitude,
-                          context);
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      _finalBillPresenter.payfinalOrderBill(
+        Globle().loginModel.data.id,
+        myOrderData.restId,
+        myOrderData.id,
+        STR_CARD,
+        myOrderData.totalAmount,
+        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+        paymentCheckoutModel.transactionId,
+        context,
+        sliderValue.toString(),
+      );
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -647,7 +651,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   @override
   Future<void> payfinalBillSuccess() async {
-    await progressDialog.hide();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -659,10 +662,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-    
-    showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    
+    showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
   }
 
   @override

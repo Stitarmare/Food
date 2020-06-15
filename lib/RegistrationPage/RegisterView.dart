@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -366,7 +367,7 @@ class _RegisterviewState extends State<Registerview>
           style: TextStyle(
               fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w600,
-              fontFamily: KEY_FONTFAMILY),
+              fontFamily: Constants.getFontType()),
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
@@ -386,7 +387,7 @@ class _RegisterviewState extends State<Registerview>
           Text(
             STR_ALREADY_ACCOUNT,
             style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100,
                 fontSize: FONTSIZE_16),
@@ -403,7 +404,7 @@ class _RegisterviewState extends State<Registerview>
               style: TextStyle(
                   color: greentheme100,
                   fontWeight: FontWeight.w600,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_16),
             ),
           )

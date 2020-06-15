@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/RadioDailog.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -54,7 +55,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -124,7 +125,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: redtheme,
                             color: redtheme,
@@ -161,7 +162,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                             child: Text(
                               STR_MAKE_PAYMENT,
                               style: TextStyle(
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: FONTSIZE_16,
                                   color: Colors.white),
@@ -194,7 +195,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                             child: Text(
                               STR_PLACE_ORDER,
                               style: TextStyle(
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   fontSize: FONTSIZE_16,
                                   color: greytheme1000),
@@ -226,7 +227,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: FONTSIZE_20,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -245,7 +246,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       fontSize: FONTSIZE_20,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: redtheme),
                 )
@@ -264,7 +265,7 @@ class _OrderConfirmation2ViewState extends State<OrderConfirmation2View> {
                       decoration: TextDecoration.underline,
                       decorationColor: Colors.black,
                       fontSize: FONTSIZE_14,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme100),
                 )

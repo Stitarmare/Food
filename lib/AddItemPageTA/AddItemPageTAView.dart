@@ -6,6 +6,7 @@ import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -61,6 +62,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
   AddItemPageModelList addItemPageModelList1;
+  int subOptionId;
+  List<RadioButtonOptions> _subOptionList = [];
 
   String specialReq;
   Spreads defaultSpread;
@@ -92,21 +95,61 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   List<Switches> switchess;
   List<Extras> extras;
 
+  int selectedIndex = 0;
+
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-        index: _addItemModelList.spreads[i - 1].id,
+        id: _addItemModelList.spreads[i - 1].id,
+        index: i-1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
       ));
     }
+
     setState(() {
+      var index = 0;
       _radioOptions = radiolist;
+      for (var item in radiolist) {
+      if (item.spreadDefault == "yes") {
+          radioBtnId = item.id;
+          index = item.index;
+      }
+    }
+    
+    if (radioBtnId == null) {
+      if (_addItemModelList.spreads.length>0) {
+          radioBtnId = _addItemModelList.spreads[0].id;
+          
+      }
+      
+    }
+selectedIndex = index;
+    getSubOption(index);
     });
 
+    
+
     return radiolist.length;
+  }
+  void getSubOption(int index) {
+      if (_addItemModelList.spreads.length > 0) {
+        if (_addItemModelList.spreads[index].suboptions.length>0) {
+          List<RadioButtonOptions> subOptionRadiolist = [];
+            for (var value in _addItemModelList.spreads[index].suboptions)  {
+              subOptionRadiolist.add(RadioButtonOptions(
+                index: value.id,
+                 title: value.name ?? STR_BLANK,
+              ));
+            }
+            if (subOptionRadiolist.length > 0) {
+              _subOptionList = subOptionRadiolist;
+              subOptionId = _subOptionList[0].index; 
+            }
+        }
+      }
   }
 
   int getradiobtnsize(int length) {
@@ -203,7 +246,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -259,7 +302,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -337,6 +380,59 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         DialogsIndicator.showAlert(context, "Required Field",
                             "Please select required field");
                         return;
+                          }
+                    }
+                    addMenuToCartModel.items = [items];
+                    if (sizess != null) {
+                      if (sizess.length > 0) {
+                        addMenuToCartModel.items[0].sizePriceId =
+                            sizess[0].sizeid;
+                      }
+                    }
+                    List<SubSpread> subSpread;
+                        if (subOptionId != null) {
+                           subSpread = [];
+                           var sub = SubSpread();
+                           sub.subspreadId = subOptionId; 
+                           subSpread.add(sub);
+                        }
+
+                    addMenuToCartModel.items[0].itemId = widget.itemId;
+                    addMenuToCartModel.items[0].preparationNote = specialReq;
+                    addMenuToCartModel.items[0].extra = extras;
+                    addMenuToCartModel.items[0].subspreads = subSpread;
+                    addMenuToCartModel.items[0].spreads = spread == null
+                        ? (defaultSpread != null) ? [defaultSpread] : []
+                        : [spread];
+                    addMenuToCartModel.items[0].switches = switchess;
+                    addMenuToCartModel.items[0].quantity = count;
+                    addMenuToCartModel.items[0].sizes =
+                        size == null ? [defaultSize] : [size];
+
+                    print(addMenuToCartModel.toJson());
+
+                    var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                        PreferenceKeys.isAlreadyINCart);
+                    var restaurantTA = await Preference.getPrefValue<int>(
+                        PreferenceKeys.restaurantID);
+                    var restaurantName = await (Preference.getPrefValue<String>(
+                        PreferenceKeys.restaurantName));
+                    if (alreadyAddedTA != null && restaurantTA != null) {
+                      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
+                        cartAlert(
+                            STR_STARTNEWORDER,
+                            (restaurantName != null)
+                                ? STR_YOUR_UNFINIHED_ORDER +
+                                    "$restaurantName" +
+                                    STR_WILLDELETE
+                                : STR_UNFINISHEDORDER,
+                            context);
+                      } else {
+                        // DialogsIndicator.showLoadingDialog(
+                        //     context, _keyLoader, STR_BLANK);
+                        await progressDialog.show();
+                        _addItemPagepresenter.performaddMenuToCart(
+                            addMenuToCartModel, context);
                       }
                     }
 
@@ -353,7 +449,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                       child: Text(
                         STR_ADDTOCART,
                         style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             fontSize: FONTSIZE_16,
                             color: Colors.white),
@@ -489,7 +585,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -516,7 +612,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               STR_CANCEL,
                               style: TextStyle(
                                   fontSize: FONTSIZE_17,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -538,27 +634,38 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   Widget _foodItemLogo() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
-      child: CachedNetworkImage(
-        placeholder: (context, url) =>
-            Center(child: CircularProgressIndicator()),
-        imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
-        errorWidget: (context, url, error) => Image.asset(
-          RESTAURANT_IMAGE_PATH,
-          fit: BoxFit.fill,
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
         ),
-        imageBuilder: (context, imageProvider) => Container(
-          height: 175,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(10.0),
-              topRight: const Radius.circular(10.0),
-              bottomLeft: const Radius.circular(10.0),
-              bottomRight: const Radius.circular(10.0),
+        border: Border.all(),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: CachedNetworkImage(
+          placeholder: (context, url) =>
+              Center(child: CircularProgressIndicator()),
+          imageUrl: BaseUrl.getBaseUrlImages() + "${widget.imageUrl}",
+          errorWidget: (context, url, error) => Image.asset(
+            RESTAURANT_IMAGE_PATH,
+            fit: BoxFit.fill,
+          ),
+          imageBuilder: (context, imageProvider) => Container(
+            height: 175,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(10.0),
+                topRight: const Radius.circular(10.0),
+                bottomLeft: const Radius.circular(10.0),
+                bottomRight: const Radius.circular(10.0),
+              ),
+              image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
             ),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
           ),
         ),
       ),
@@ -578,7 +685,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 child: Text(
                   StringUtils.capitalize(widget.title),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -589,7 +696,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 child: Text(
                   StringUtils.capitalize(widget.description),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
@@ -612,7 +719,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     child: Text(
                       STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
@@ -653,7 +760,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     addItemPageModelList1.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -672,7 +779,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -690,7 +798,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -726,7 +834,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     addItemPageModelList1.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -745,7 +853,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -763,7 +872,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -798,7 +907,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     addItemPageModelList1.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -817,7 +926,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -864,7 +974,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     child: Text(
                                       STR_SIZE,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: redtheme),
                                     ),
@@ -882,7 +992,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                         child: Text(
                                           STR_REQUIRED,
                                           style: TextStyle(
-                                              fontFamily: KEY_FONTFAMILY,
+                                              fontFamily:
+                                                  Constants.getFontType(),
                                               fontSize: FONTSIZE_10,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600),
@@ -900,7 +1011,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -996,17 +1107,21 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             ? _radioOptions
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: RadioListTile(
+                      child: Column(
+                        children: <Widget>[
+                          RadioListTile(
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
                         // groupValue: (radionBtn.spreadDefault == "yes")
                         //     ? radionBtn.index
-                        //     : id,
+                        //     : radioBtnId,
                         groupValue: radioBtnId,
-                        value: radionBtn.index,
+                        value: radionBtn.id,
                         dense: true,
-                        activeColor: getColorByHex(Globle().colorscode),
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
                         onChanged: (val) {
                           setState(() {
                             if (spread == null) {
@@ -1015,11 +1130,47 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
+                            var index = 0;
+                            _radioOptions.forEach((value){
+                                if (radioBtnId == value.id) {
+                                    index = value.index;
+                                    selectedIndex = index;
+                                }   
+                            });
+                            getSubOption(index);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
+                            print(spread.spreadId);
                           });
                         },
                       ),
+                      selectedIndex == radionBtn.index ?
+                      Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                        children: _subOptionList.map((subOption)=>RadioListTile(
+                        title: radionBtn.title != null
+                            ? Text(StringUtils.capitalize("${subOption.title}"))
+                            : Text(STR_DATA),
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : radioBtnId,
+                        groupValue: subOptionId,
+                        value: subOption.index,
+                        dense: true,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        onChanged: (val) {
+                         setState(() {
+                           subOptionId = val;
+                         });
+                        },
+                      )).toList(),
+                      ),
+                      ) : Container()
+                        ],
+                      )
                     ))
                 .toList()
             : [Container()]);
@@ -1134,7 +1285,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -1161,7 +1312,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -1175,7 +1326,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -1321,7 +1472,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1340,7 +1491,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1355,7 +1506,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1444,6 +1595,13 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       } else {
         defaultSpread = null;
       }
+
+       if (defaultSpread == null) {
+      if (_addItemModelList.spreads.length>0) {
+        defaultSpread = Spreads();
+        defaultSpread.spreadId = _addItemModelList.spreads[0].id;
+      }
+    }
     }
   }
 
@@ -1505,11 +1663,12 @@ class CheckBoxOptions {
 }
 
 class RadioButtonOptions {
+  int id;
   int index;
   String title;
   String price;
   String spreadDefault;
-  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault});
+  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault,this.id});
 }
 
 class RadioButtonOptionsSizes {

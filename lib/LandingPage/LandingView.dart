@@ -12,10 +12,13 @@ import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:package_info/package_info.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/map_view/address_map_view.dart';
+import 'package:foodzi/map_view/map_view.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/Drawer/drawer.dart';
@@ -168,22 +171,43 @@ class _LandingStateView extends State<Landingview>
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: (isOrderRunning)
             ? SizedBox(
-                width: MediaQuery.of(context).size.width * 0.65,
-                child: (FloatingActionButton.extended(
-                  onPressed: () {
+                child: GestureDetector(
+                  onTap: () {
                     showStatusView();
                   },
-                  elevation: 20,
-                  highlightElevation: 20,
-                  focusElevation: 20,
-                  backgroundColor: Colors.white70,
-                  label: Text(STR_VIEW_YOUR_ORDER,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_16,
-                          fontFamily: KEY_FONTFAMILY,
-                          fontWeight: FontWeight.w600,
-                          color: greentheme100)),
-                )),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        border: Border.all()),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(STR_VIEW_YOUR_ORDER,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w600,
+                              color: greentheme100)),
+                    ),
+                    // child: (FloatingActionButton.extended(
+                    //   onPressed: () {
+                    //     showStatusView();
+                    //   },
+                    //   // elevation: 2,
+                    //   // highlightElevation: 2,
+                    //   // focusElevation: 2,
+                    //   backgroundColor: Colors.white,
+                    //   label: Text(STR_VIEW_YOUR_ORDER,
+                    //       style: TextStyle(
+                    //           fontSize: FONTSIZE_16,
+                    //           fontFamily: Constants.getFontType(),
+                    //           fontWeight: FontWeight.w600,
+                    //           color: greentheme100)),
+                    // )),
+                  ),
+                ),
               )
             : (Container()),
         // bottomNavigationBar: (isOrderRunning)
@@ -227,7 +251,7 @@ class _LandingStateView extends State<Landingview>
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: 30,
+              height: 10,
             ),
             _buildimage(),
             SizedBox(
@@ -256,51 +280,189 @@ class _LandingStateView extends State<Landingview>
 
   Widget _buildMaintext() {
     return Row(
-      children: <Widget>[
-        SizedBox(
-          width: 30,
-        ),
-        _buidtext()
-      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[_buidtext()],
     );
   }
 
   Widget _buidtext() {
-    return LimitedBox(
+    return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          // Row(children: <Widget>[
           Text(
-            STR_HELLO,
+            "$STR_HI ${Globle().loginModel.data.firstName ?? ''}",
+            textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontSize: FONTSIZE_20,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
-                color: greytheme100),
+                color: greytheme300),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            Globle().loginModel.data.firstName ?? '',
-            style: TextStyle(
-                fontSize: FONTSIZE_32,
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w600,
-                color: greytheme500),
-          ),
+          // SizedBox(
+          //   width: 10,
+          // ),
+          // Text(
+          //   Globle().loginModel.data.firstName ?? '',
+          //   style: TextStyle(
+          //       fontSize: FONTSIZE_20,
+          //       fontFamily: Constants.getFontType(),
+          //       fontWeight: FontWeight.w500,
+          //       color: greytheme300),
+          // ),
+          // ]),
           SizedBox(
             height: 12,
           ),
-          Text(STR_FAV_FINGERTIP,
+          Text(STR_WHAT_LIKE_TO_DO,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: FONTSIZE_14,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontSize: FONTSIZE_20,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
-                  color: greytheme100))
+                  color: greytheme300)),
         ],
       ),
     );
+  }
+
+  Widget _collectDeliverPlacCardOprions() {
+    return LimitedBox(
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            _collectFoodCard(),
+            SizedBox(
+              height: 12,
+            ),
+            _deliverFoodcard(),
+            SizedBox(
+              height: 12,
+            ),
+            _placeFoodCard(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _collectFoodCard() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+        child: Card(
+          color: greentheme300,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onTap: () {
+              goToTakeAway();
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.14 / 0.15,
+              height: 80,
+              child: _buildCollectFoodText(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _deliverFoodcard() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+        child: Card(
+          color: orangetheme200,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onTap: () {
+              goToDeliveryFood();
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.14 / 0.15,
+              height: 80,
+              child: _buildDeliverFoodText(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  goToDeliveryFood() async {
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => BottomTabbar(
+              tabValue: 0,
+              flag: 1,
+            )));
+    if (progressDialog != null) {
+      await progressDialog.show();
+      //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+      _landingViewPresenter.getCurrentOrder(context);
+    }
+  }
+
+  Widget _placeFoodCard() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+        child: Card(
+          color: greytheme1000,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: InkWell(
+            splashColor: Colors.blue.withAlpha(30),
+            onTap: () {
+              goToDineIn();
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.14 / 0.15,
+              height: 80,
+              child: _buildPlaceFoodText(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCollectFoodText() {
+    return Center(
+        child: Text(STR_COLLECT_FOOD,
+            style: TextStyle(
+                fontSize: FONTSIZE_14,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                color: Colors.white)));
+  }
+
+  Widget _buildDeliverFoodText() {
+    return Center(
+        child: Text(STR_DELEIVER_FOOD,
+            style: TextStyle(
+                fontSize: FONTSIZE_14,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                color: Colors.white)));
+  }
+
+  Widget _buildPlaceFoodText() {
+    return Center(
+        child: Text(STR_PLACE_FOOD,
+            style: TextStyle(
+                fontSize: FONTSIZE_14,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                color: Colors.white)));
   }
 
   Widget _cardoption() {
@@ -377,7 +539,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_DINEIN_TITLE,
             style: TextStyle(
                 fontSize: FONTSIZE_24,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
@@ -386,7 +548,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_SERVED_RESTAUTRANT,
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -417,7 +579,7 @@ class _LandingStateView extends State<Landingview>
                           child: Text(STR_VIEW_YOUR_ORDER,
                               style: TextStyle(
                                   fontSize: FONTSIZE_16,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
                                   color: greentheme100)),
                         ),
@@ -545,7 +707,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_COLLECTION,
             style: TextStyle(
                 fontSize: FONTSIZE_24,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greentheme100)),
         SizedBox(
@@ -554,7 +716,7 @@ class _LandingStateView extends State<Landingview>
         Text(STR_ORDER_TO_COLLECT,
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
                 color: greytheme100)),
       ],
@@ -676,10 +838,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         DrawerItem(
             text: Text(STR_HOME,
                 style: TextStyle(
-                    color: (Globle().navigatorIndex == 1)
-                        ? orangetheme
-                        : greytheme800,
-                    fontFamily: KEY_FONTFAMILY,
+                    color: greytheme800,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
             icon: Icon(Icons.home, size: 20, color: greytheme800),
@@ -860,7 +1020,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     style: TextStyle(
                         color: greytheme700,
                         fontSize: FONTSIZE_16,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500),
                   ),
                 )
@@ -920,6 +1080,6 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 //  (FloatingActionButton.extended(onPressed: null, label: Text(STR_VIEW_YOUR_ORDER,
 //                       style: TextStyle(
 //                           fontSize: FONTSIZE_16,
-//                           fontFamily: KEY_FONTFAMILY,
+//                           fontFamily: Constants.getFontType(),
 //                           fontWeight: FontWeight.w600,
 //                           color: greentheme100)),)

@@ -4,6 +4,7 @@ import 'package:foodzi/Setting/DeleteAccContractor.dart';
 import 'package:foodzi/Setting/DeleteAccPresenter.dart';
 import 'package:foodzi/Setting/NotificationSetting.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
@@ -13,7 +14,8 @@ class SettingView extends StatefulWidget {
   _SettingViewState createState() => _SettingViewState();
 }
 
-class _SettingViewState extends State<SettingView> implements DeleteAccModelView{
+class _SettingViewState extends State<SettingView>
+    implements DeleteAccModelView {
   var action;
   DeleteAccPresenter deleteAccPresenter;
   @override
@@ -22,6 +24,7 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
     deleteAccPresenter = DeleteAccPresenter(this);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,10 +38,19 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
           STR_SETTING,
           style: TextStyle(
               fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500,
               color: greytheme1200),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 15.0),
+            child: Image.asset(
+              FOODZI_LOGO_PATH,
+              height: 20,
+            ),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +74,7 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
                       'Notification Settings',
                       style: TextStyle(
                           fontSize: 16,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greytheme500),
                     ),
@@ -103,7 +115,7 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
                       'Update Mobile Number',
                       style: TextStyle(
                           fontSize: 16,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w600,
                           color: greytheme500),
                     ),
@@ -135,9 +147,9 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
                   'Are you sure you want to delete your account?',
                   'Yes',
                   'No');
-                  if(action == DailogAction.yes){
-                    deleteAccPresenter.deleteAccRequest(context);
-                  }
+              if (action == DailogAction.yes) {
+                deleteAccPresenter.deleteAccRequest(context);
+              }
             },
             child: Padding(
               padding: EdgeInsets.only(left: 25, bottom: 10),
@@ -145,7 +157,7 @@ class _SettingViewState extends State<SettingView> implements DeleteAccModelView
                 'Delete Account',
                 style: TextStyle(
                     fontSize: 16,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     color: greytheme500),
               ),

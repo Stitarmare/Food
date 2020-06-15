@@ -3,6 +3,7 @@ import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:toast/toast.dart';
@@ -70,7 +71,7 @@ class MyDialogRatingState extends State<MyDialogRating>
                         fontSize: FONTSIZE_16,
                         color: greytheme700,
                         fontWeight: FontWeight.w600,
-                        fontFamily: KEY_FONTFAMILY),
+                        fontFamily: Constants.getFontType()),
                   ),
                 ),
                 SizedBox(
@@ -149,7 +150,7 @@ class MyDialogRatingState extends State<MyDialogRating>
                       decoration: InputDecoration(
                           hintText: STR_WRITE_REVIEWS,
                           hintStyle: TextStyle(
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             color: greytheme700,
                             fontSize: FONTSIZE_13,
                           )),

@@ -5,6 +5,7 @@ import 'package:foodzi/Models/EditCityModel.dart';
 import 'package:foodzi/Models/EditCountryModel.dart';
 import 'package:foodzi/Models/EditStateModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -65,8 +66,14 @@ class _EditProfileState extends State<EditProfileview>
               style: TextStyle(
                   color: greytheme700,
                   fontSize: FONTSIZE_18,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500)),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Image.asset(FOODZI_LOGO_PATH, height: 20),
+            ),
+          ],
         ),
         body: KeyboardActions(
           config: _buildConfig(context),
@@ -173,7 +180,7 @@ class _EditProfileState extends State<EditProfileview>
                       KEY_UPDATE,
                       style: TextStyle(
                           color: Colors.white,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_18,
                           fontWeight: FontWeight.w500),
                     ),
@@ -192,7 +199,7 @@ class _EditProfileState extends State<EditProfileview>
                       KEY_CANCEL_UC,
                       style: TextStyle(
                           color: greytheme1000,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_18,
                           fontWeight: FontWeight.w500),
                     ),
@@ -255,7 +262,7 @@ class _EditProfileState extends State<EditProfileview>
           labelStyle: TextStyle(
               color: greytheme1000,
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500),
         ),
       );
@@ -311,7 +318,7 @@ class _EditProfileState extends State<EditProfileview>
           labelStyle: TextStyle(
               color: greytheme1000,
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500),
         ),
       );
@@ -364,7 +371,7 @@ class _EditProfileState extends State<EditProfileview>
           labelStyle: TextStyle(
               color: greytheme1000,
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500),
         ),
       );
@@ -428,7 +435,7 @@ class _EditProfileState extends State<EditProfileview>
             style: TextStyle(
                 color: greytheme100,
                 fontWeight: FontWeight.w500,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontSize: FONTSIZE_20),
           ),
           actions: [

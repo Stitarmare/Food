@@ -4,6 +4,7 @@ import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -64,6 +65,15 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             color: Colors.black,
           ),
           backgroundColor: Colors.white70,
+          actions: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 30,
+              ),
+            )
+          ],
         ),
         body: Center(
           child: KeyboardActions(
@@ -142,7 +152,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       style: TextStyle(
-                          fontFamily: KEY_FONT_SEGOEUI,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w400,
                           fontSize: FONTSIZE_18,
                           color: greytheme200),
@@ -360,7 +370,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
           KEY_SUBMIT_BUTTON,
           style: TextStyle(
               fontSize: FONTSIZE_16,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w700),
         ),
         textColor: Colors.white,

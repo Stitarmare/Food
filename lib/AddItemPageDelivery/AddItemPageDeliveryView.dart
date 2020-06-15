@@ -11,6 +11,7 @@ import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -71,6 +72,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   AddItemModelList _addItemModelList;
   int itemId;
   int restId;
+  List<Extras> extras;
+  List<Sizes> sizess;
+  List<Switches> switchess;
   ScrollController _controller = ScrollController();
   AddItemDeliverypresenter _addItemDeliverypresenter;
   List<TableList> _dropdownItemsTable = [];
@@ -110,6 +114,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     });
 
     _addItemPageModelList = AddItemPageModelList();
+
     _addItemDeliverypresenter.performAddItem(
         widget.itemId, widget.restId, context);
     // _addItemPagepresenter.getTableListno(widget.restId, context);
@@ -126,17 +131,22 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   int count = 1;
   String radioItem;
   String radioItemsize;
+  int subOptionId;
+  List<RadioButtonOptions> _subOptionList = [];
 
   List<RadioButtonOptions> _radioOptions = [];
   List<RadioButtonOptionsSizes> _radioOptionsSizes = [];
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<SwitchesItems> _switchOptions = [];
 
+  int selectedIndex = 0;
+
   int getradiobtn(int length) {
     List<RadioButtonOptions> radiolist = [];
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
-        index: _addItemModelList.spreads[i - 1].id,
+        id: _addItemModelList.spreads[i - 1].id,
+        index: i-1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
@@ -144,18 +154,47 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     }
 
     setState(() {
+      var index = 0;
       _radioOptions = radiolist;
-    });
-
-    for (var item in radiolist) {
+      for (var item in radiolist) {
       if (item.spreadDefault == "yes") {
-        setState(() {
-          radioBtnId = item.index;
-        });
+          radioBtnId = item.id;
+          index = item.index;
       }
     }
+    
+    if (radioBtnId == null) {
+      if (_addItemModelList.spreads.length>0) {
+          radioBtnId = _addItemModelList.spreads[0].id;
+          
+      }
+      
+    }
+selectedIndex = index;
+    getSubOption(index);
+    });
+
+    
 
     return radiolist.length;
+  }
+
+  void getSubOption(int index) {
+      if (_addItemModelList.spreads.length > 0) {
+        if (_addItemModelList.spreads[index].suboptions.length>0) {
+          List<RadioButtonOptions> subOptionRadiolist = [];
+            for (var value in _addItemModelList.spreads[index].suboptions)  {
+              subOptionRadiolist.add(RadioButtonOptions(
+                index: value.id,
+                 title: value.name ?? STR_BLANK,
+              ));
+            }
+            if (subOptionRadiolist.length > 0) {
+              _subOptionList = subOptionRadiolist;
+              subOptionId = _subOptionList[0].index; 
+            }
+        }
+      }
   }
 
   int getradiobtnsize(int length) {
@@ -269,7 +308,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             count.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -328,7 +367,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -437,7 +476,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         child: Text(
                           STR_ADDTOCART,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -503,20 +542,17 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       items = Item();
     }
 
-    List<Extras> extras;
     if (extra != null) {
       extras = extra;
     } else {
       extras = defaultExtra ?? null;
     }
 
-    List<Switches> switchess;
     if (switches != null) {
       switchess = switches;
     } else {
       switchess = defaultSwitch ?? null;
     }
-    List<Sizes> sizess;
     if (size != null) {
       sizess = [size];
     } else if (defaultSize != null) {
@@ -524,11 +560,33 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         sizess = [defaultSize];
       }
     }
+    
 
+    if (extras == null) {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length != 0 &&
+        _addItemModelList.extrasrequired == "yes") {
+      addItemData(alreadyAdde, restauran, restaurantName);
+    } else if (extras.length == 0) {
+      DialogsIndicator.showAlert(
+          context, "Required Field", "Please select required field");
+    }
+  }
+
+  void addItemData(
+      bool alreadyAdde, int restauran, String restaurantName) async {
+        List<SubSpread> subSpread;
+                        if (subOptionId != null) {
+                           subSpread = [];
+                           var sub = SubSpread();
+                           sub.subspreadId = subOptionId; 
+                           subSpread.add(sub);
+                        }
     addMenuToCartModel.items = [items];
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extras;
+    addMenuToCartModel.items[0].subspreads = subSpread;
     if (sizess != null) {
       if (sizess.length > 0) {
         addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
@@ -552,7 +610,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         cartAlert(
             STR_STARTNEWORDER,
             (restaurantName != null)
-                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName" + STR_WILLDELETE
+                ? STR_YOUR_UNFINIHED_ORDER + "$restaurantName " + STR_WILLDELETE
                 : STR_UNFINISHEDORDER,
             context);
       } else {
@@ -604,7 +662,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
@@ -631,7 +689,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               STR_CANCEL,
                               style: TextStyle(
                                   fontSize: FONTSIZE_17,
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w400,
                                   color: greytheme100),
                             ),
@@ -651,8 +709,17 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   Widget _foodItemLogo() {
     return Container(
       child: new Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(25.0),
+          ),
+          border: Border.all(),
+        ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
+          padding: const EdgeInsets.all(15),
           child: CachedNetworkImage(
             placeholder: (context, url) =>
                 Center(child: CircularProgressIndicator()),
@@ -726,7 +793,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 child: Text(
                   StringUtils.capitalize(widget.title),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -738,7 +805,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 child: Text(
                   StringUtils.capitalize(widget.description),
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       color: greytheme1000),
                 ),
@@ -761,7 +828,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(
                       STR_QUANTITY,
                       style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontSize: FONTSIZE_16,
                           color: greytheme700),
                     ),
@@ -802,7 +869,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.spreadsLabel ??
                                         STR_SPREADS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -821,7 +888,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -839,7 +907,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -876,7 +944,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.extrasLabel ??
                                         STR_ADDITIONS,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -895,7 +963,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -913,7 +982,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -951,7 +1020,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     _addItemModelList.switchesLabel ??
                                         STR_SWITCHES,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontSize: FONTSIZE_16,
                                         color: redtheme),
                                   ),
@@ -970,7 +1039,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                             child: Text(
                                               STR_REQUIRED,
                                               style: TextStyle(
-                                                  fontFamily: KEY_FONTFAMILY,
+                                                  fontFamily:
+                                                      Constants.getFontType(),
                                                   fontSize: FONTSIZE_10,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600),
@@ -1015,7 +1085,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     child: Text(
                                       STR_SIZE,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: redtheme),
                                     ),
@@ -1033,7 +1103,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                         child: Text(
                                           STR_REQUIRED,
                                           style: TextStyle(
-                                              fontFamily: KEY_FONTFAMILY,
+                                              fontFamily:
+                                                  Constants.getFontType(),
                                               fontSize: FONTSIZE_10,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600),
@@ -1051,7 +1122,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontSize: FONTSIZE_12,
                                 color: greytheme1000),
                           ),
@@ -1125,7 +1196,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             : [Container()]);
   }
 
-  _getRadioOptions() {
+   _getRadioOptions() {
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -1133,7 +1204,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             ? _radioOptions
                 .map((radionBtn) => Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: RadioListTile(
+                      child: Column(
+                        children: <Widget>[
+                          RadioListTile(
                         title: radionBtn.title != null
                             ? Text(StringUtils.capitalize("${radionBtn.title}"))
                             : Text(STR_DATA),
@@ -1141,7 +1214,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         //     ? radionBtn.index
                         //     : radioBtnId,
                         groupValue: radioBtnId,
-                        value: radionBtn.index,
+                        value: radionBtn.id,
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
@@ -1154,17 +1227,51 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                             radioBtnId = val;
                             radioItem = radionBtn.title;
                             print(radionBtn.title);
+                            var index = 0;
+                            _radioOptions.forEach((value){
+                                if (radioBtnId == value.id) {
+                                    index = value.index;
+                                    selectedIndex = index;
+                                }   
+                            });
+                            getSubOption(index);
                             // id = radionBtn.index;
                             spread.spreadId = radioBtnId;
                             print(spread.spreadId);
                           });
                         },
                       ),
+                      selectedIndex == radionBtn.index ?
+                      Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                        children: _subOptionList.map((subOption)=>RadioListTile(
+                        title: radionBtn.title != null
+                            ? Text(StringUtils.capitalize("${subOption.title}"))
+                            : Text(STR_DATA),
+                        // groupValue: (radionBtn.spreadDefault == "yes")
+                        //     ? radionBtn.index
+                        //     : radioBtnId,
+                        groupValue: subOptionId,
+                        value: subOption.index,
+                        dense: true,
+                        activeColor: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme,
+                        onChanged: (val) {
+                         setState(() {
+                           subOptionId = val;
+                         });
+                        },
+                      )).toList(),
+                      ),
+                      ) : Container()
+                        ],
+                      )
                     ))
                 .toList()
             : [Container()]);
   }
-
   String getCurrencySymbol() {
     if (_addItemPageModelList != null) {
       if (_addItemPageModelList.currencySymbol != null) {
@@ -1276,7 +1383,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_16,
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontWeight: FontWeight.w500,
                                     color: greytheme700),
                               ),
@@ -1305,7 +1412,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[0] == true)
                                             ? Colors.white
@@ -1319,7 +1426,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: FONTSIZE_14,
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         fontWeight: FontWeight.w500,
                                         color: (switchs.isSelected[1] == false)
                                             ? greytheme700
@@ -1466,7 +1573,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1485,7 +1592,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1500,7 +1607,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1527,7 +1634,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: FONTSIZE_18,
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
                 ),
@@ -1546,7 +1653,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: FONTSIZE_15,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         color: greytheme700),
                   )
@@ -1561,7 +1668,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
@@ -1705,7 +1812,14 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+if (defaultSpre == null) {
+      if (_addItemModelList.spreads.length>0) {
+        defaultSpre = Spreads();
+        defaultSpre.spreadId = _addItemModelList.spreads[0].id;
+      }
+    }
 
+    defaultSpread = defaultSpre;
     defaultSpread = defaultSpre;
   }
 
@@ -1772,11 +1886,12 @@ class CheckBoxOptions {
 }
 
 class RadioButtonOptions {
+  int id;
   int index;
   String title;
   String spreadDefault;
 // bool selected;
-  RadioButtonOptions({this.index, this.title, this.spreadDefault});
+  RadioButtonOptions({this.index, this.title, this.spreadDefault,this.id});
 }
 
 class RadioButtonOptionsSizes {

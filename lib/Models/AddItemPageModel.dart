@@ -231,6 +231,7 @@ class Spread {
   int restId;
   String status;
   String spreadDefault;
+  List<Suboptions> suboptions;
 
   Spread(
       {this.id,
@@ -238,7 +239,7 @@ class Spread {
       this.price,
       this.restId,
       this.status,
-      this.spreadDefault});
+      this.spreadDefault,this.suboptions});
 
   factory Spread.fromJson(Map<String, dynamic> json) => Spread(
         id: json["id"],
@@ -247,6 +248,7 @@ class Spread {
         restId: json["rest_id"],
         status: json["status"],
         spreadDefault: json["default"],
+        suboptions: List<Suboptions>.from(json["suboptions"].map((x) => Suboptions.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -258,6 +260,27 @@ class Spread {
         "default": spreadDefault
       };
 }
+
+class Suboptions {
+    int id;
+    String name;
+
+    Suboptions({
+        this.id,
+        this.name,
+    });
+
+    factory Suboptions.fromJson(Map<String, dynamic> json) => Suboptions(
+        id: json["id"],
+        name: json["name"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+    };
+}
+
 
 class Switch {
   int id;

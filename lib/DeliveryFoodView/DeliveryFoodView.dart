@@ -9,6 +9,7 @@ import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -155,7 +156,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
               STR_DELIVERY_FOOD,
               style: TextStyle(
                   fontSize: FONTSIZE_18,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w500,
                   color: greytheme1200),
             ),
@@ -175,7 +176,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                   //   child: Text(
                   //     STR_ORDER_EASY,
                   //     style: TextStyle(
-                  //         fontFamily: KEY_FONTFAMILY,
+                  //         fontFamily: Constants.getFontType(),
                   //         fontSize: FONTSIZE_6,
                   //         color: greytheme400,
                   //         fontWeight: FontWeight.w700,
@@ -205,24 +206,24 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
 
                           void setSelectedSortItem(
                               BottomItemButton bottomItem, List bottomList) {
-                            for (int i = 0; i < bottomList.length; i++) {
-                              bottomList[i].isSelected = false;
-                            }
+                            // for (int i = 0; i < bottomList.length; i++) {
+                            //   bottomList[i].isSelected = false;
+                            // }
 
                             final tile = bottomList.firstWhere(
                                 (item) => item.id == bottomItem.id,
                                 orElse: null);
                             if (tile != null) {
                               setBottomState(() {
-                                tile.isSelected = true;
-                                if (bottomList == optionSortBy) {
-                                  sortedBy = bottomItem.title;
-                                  if (bottomItem.title == STR_DISTANCE) {
-                                    sortedBy = STR_SMALL_DISTANCE;
-                                  } else {
-                                    sortedBy = STR_SMALL_RATING;
-                                  }
-                                }
+                                tile.isSelected = ! tile.isSelected;
+                                // if (bottomList == optionSortBy) {
+                                //   sortedBy = bottomItem.title;
+                                //   if (bottomItem.title == STR_DISTANCE) {
+                                //     sortedBy = STR_SMALL_DISTANCE;
+                                //   } else {
+                                //     sortedBy = STR_SMALL_RATING;
+                                //   }
+                                // }
                                 if (bottomList == optionFilterBy) {
                                   filteredBy = bottomItem.title;
                                   if (bottomItem.title == STR_RATINGS) {
@@ -263,7 +264,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                   child: Text(
                                     item.title,
                                     style: TextStyle(
-                                        fontFamily: KEY_FONTFAMILY,
+                                        fontFamily: Constants.getFontType(),
                                         color: item.isSelected
                                             ? Colors.white
                                             : greytheme1000,
@@ -399,7 +400,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: FONTSIZE_15,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme1200),
                       ),
@@ -417,7 +418,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: FONTSIZE_25,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             fontWeight: FontWeight.w500,
                             color: greytheme700),
                       ),
@@ -532,7 +533,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                   merchantName,
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_16,
                       fontWeight: FontWeight.w600,
                       color: greytheme700),
@@ -557,7 +558,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                   Text(
                     "${(shortdatetime == null || shortdatetime == "00:00") ? "- -" : shortdatetime} - ${(cLosingtime == null || cLosingtime == "00:00") ? "- -" : cLosingtime}",
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
@@ -594,7 +595,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                   Text(
                     '${distance} ' + STR_KM,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_12,
                         fontWeight: FontWeight.w500,
                         color: greytheme100),
@@ -615,7 +616,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                     (rating == "null") ? '-' : "$rating",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_10,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),

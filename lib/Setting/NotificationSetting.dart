@@ -4,6 +4,7 @@ import 'package:foodzi/Models/GetNotificationSetting.dart';
 import 'package:foodzi/Setting/NotificationSettingPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class NotificationSetting extends StatefulWidget {
@@ -53,7 +54,7 @@ class _NotificationSettingState extends State<NotificationSetting>
           'Notification Settings',
           style: TextStyle(
               fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontWeight: FontWeight.w500,
               color: greytheme1200),
         ),
@@ -75,7 +76,7 @@ class _NotificationSettingState extends State<NotificationSetting>
                     'Enable All',
                     style: TextStyle(
                         fontSize: FONTSIZE_18,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w400,
                         color: greytheme700),
                   ),
@@ -120,7 +121,7 @@ class _NotificationSettingState extends State<NotificationSetting>
                 'Push Notifications',
                 style: TextStyle(
                     fontSize: FONTSIZE_18,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w400,
                     color: greytheme700),
               ),

@@ -4,6 +4,7 @@ import 'package:foodzi/ProfilePage/ProfileScreenContractor.dart';
 import 'package:foodzi/ProfilePage/ProfileScreenPresenter.dart';
 import 'package:foodzi/Setting/Setting.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -58,9 +59,9 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
             child: Stack(overflow: Overflow.visible, children: <Widget>[
               Center(
                   child: Image.asset(
-                ITEM_IMAGE_PATH,
+                FODDZI_LOGO_3X,
                 height: MediaQuery.of(context).size.height * 0.35,
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
                 width: MediaQuery.of(context).size.width,
               )),
               Container(
@@ -74,7 +75,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                       style: TextStyle(
                           fontSize: FONTSIZE_18,
                           color: Colors.white,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -151,7 +152,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 style: TextStyle(
                     fontSize: FONTSIZE_16,
                     color: greytheme1200,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500),
               ),
               SizedBox(
@@ -162,7 +163,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w400),
               ),
               SizedBox(
@@ -173,7 +174,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 style: TextStyle(
                     fontSize: 14,
                     color: greytheme1200,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
@@ -207,7 +208,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: 18),
             ),
           ),
@@ -223,7 +224,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_18),
             ),
           ),
@@ -232,14 +233,15 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
           ),
           new GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SettingView()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => SettingView()));
             },
             child: new Text(
               KEY_SETTINGS,
               style: TextStyle(
                   color: greytheme1200,
                   fontWeight: FontWeight.w500,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_18),
             ),
           ),
@@ -279,7 +281,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               style: TextStyle(
                   fontSize: FONTSIZE_22,
                   color: greentheme100,
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w700),
             ),
             children: <Widget>[
@@ -295,7 +297,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -312,7 +314,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
                         color: greytheme100,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600),
                   ),
                 ),

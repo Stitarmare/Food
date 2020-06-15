@@ -11,6 +11,7 @@ import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
+import 'package:foodzi/SubCategory/CategoriesSection.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
@@ -48,7 +49,8 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   Stream stream;
   StreamSubscription<double> _streamSubscription;
   List<Widget> tabsHome = [
-    RestaurantView(),
+    CategoriesSection(),
+    //RestaurantView(),
     MyOrders(),
     BottomNotificationView(),
     BottomProfileScreen()

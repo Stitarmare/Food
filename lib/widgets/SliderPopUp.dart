@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 class SliderDialog extends StatefulWidget {
@@ -38,7 +39,7 @@ class SliderDialogState extends State<SliderDialog> {
                   STR_SELECT_RATING,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontSize: FONTSIZE_20,
                     fontWeight: FontWeight.w600,
                     color: greentheme100,
@@ -69,7 +70,7 @@ class SliderDialogState extends State<SliderDialog> {
                 STR_SELECTED_RATING + '$sliderValue' + STR_FIVE,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_16,
                   fontWeight: FontWeight.w500,
                   color: greytheme700,
@@ -87,7 +88,7 @@ class SliderDialogState extends State<SliderDialog> {
                   child: Text(
                     STR_DONE_TITLE,
                     style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontSize: FONTSIZE_18,
                       fontWeight: FontWeight.w600,
                       color: greentheme100,

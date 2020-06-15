@@ -48,6 +48,10 @@ dependencies:
   intl: ^0.16.1
   flutter_local_notifications: ^1.4.3
 
+  google_maps_flutter: ^0.5.27+1
+  location: ^3.0.2
+  flutter_polyline_points: ^0.1.0
+  geocoder: ^0.2.1
 
 dev_dependencies:
   flutter_test:
@@ -171,6 +175,8 @@ flutter:
       - assets/VegIcon/Group1661.png
       - assets/VegIcon/Group1661@2x.png
       - assets/VegIcon/Group1661@3x.png
+      #MappinImage
+      - assets/MappinImage/mappin.png
       
 
   fonts:
@@ -194,6 +200,14 @@ flutter:
     - family: SegoeUI
       fonts:
         - asset: fonts/segoe-ui.ttf
+    
+    - family: Roboto
+      fonts:
+        - asset: fonts/segoe-ui.ttf
+    
+    - family: SanFrancisco
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf
   
 
 

@@ -208,7 +208,7 @@ class _MyCartViewState extends State<MyCartView>
             menuCartList.quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -268,7 +268,7 @@ class _MyCartViewState extends State<MyCartView>
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: FONTSIZE_20,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
                         color: getColorByHex(Globle().colorscode)),
                   )
@@ -292,7 +292,7 @@ class _MyCartViewState extends State<MyCartView>
                         Text(STR_NO_TABLE,
                             style: TextStyle(
                                 fontSize: FONTSIZE_14,
-                                fontFamily: KEY_FONTFAMILY,
+                                fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w600,
                                 color: getColorByHex(Globle().colorscode))),
                       ],
@@ -371,7 +371,7 @@ class _MyCartViewState extends State<MyCartView>
                         STR_ADD_MORE_ITEM,
                         style: TextStyle(
                             fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
+                            fontFamily: Constants.getFontType(),
                             decoration: TextDecoration.underline,
                             decorationColor: getColorByHex(Globle().colorscode),
                             color: getColorByHex(Globle().colorscode),
@@ -433,7 +433,7 @@ class _MyCartViewState extends State<MyCartView>
                         child: Text(
                           STR_PLACE_ORDER,
                           style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
                               color: Colors.white),
@@ -469,7 +469,7 @@ class _MyCartViewState extends State<MyCartView>
                               decorationColor:
                                   getColorByHex(Globle().colorscode),
                               fontSize: FONTSIZE_14,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: getColorByHex(Globle().colorscode)),
                         )),
@@ -514,7 +514,7 @@ class _MyCartViewState extends State<MyCartView>
                 decoration: TextDecoration.underline,
                 decorationColor: Colors.black,
                 fontSize: FONTSIZE_14,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme100),
           ),
@@ -588,7 +588,7 @@ class _MyCartViewState extends State<MyCartView>
                                                   .itemName)
                                           : STR_ITEM_NAME,
                                       style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
+                                          fontFamily: Constants.getFontType(),
                                           fontSize: FONTSIZE_16,
                                           color: greytheme700),
                                     ),
@@ -651,7 +651,7 @@ class _MyCartViewState extends State<MyCartView>
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: FONTSIZE_22,
-                    fontFamily: KEY_FONTFAMILY,
+                    fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
               ),
@@ -697,6 +697,18 @@ class _MyCartViewState extends State<MyCartView>
             j < menuCartList.cartExtraItems[i].spreads.length;
             j++) {
           extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+          for (int j = 0;
+            j < menuCartList.cartExtraItems[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtraItems[i].subspreads[j].name}, ";
         }
       }
 

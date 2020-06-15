@@ -12,6 +12,7 @@ import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -248,7 +249,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: FONTSIZE_15,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w500,
                               color: greytheme1200),
                         ),
@@ -444,7 +445,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
             myOrderDataDetails.list[index].quantity.toString(),
             style: TextStyle(
                 fontSize: FONTSIZE_16,
-                fontFamily: KEY_FONTFAMILY,
+                fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
                 color: greytheme700),
           ),
@@ -809,6 +810,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
       if (menuCartList.cartExtras[i].spreads.length > 0) {
         for (int j = 0; j < menuCartList.cartExtras[i].spreads.length; j++) {
           extras += "${menuCartList.cartExtras[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtras[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+          for (int j = 0;
+            j < menuCartList.cartExtras[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtras[i].subspreads[j].name}, ";
         }
       }
 

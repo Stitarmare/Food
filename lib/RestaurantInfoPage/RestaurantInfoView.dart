@@ -26,8 +26,6 @@ class CallService {
   void call(String number) => launch("tel:$number");
 }
 
-
-
 class RestaurantInfoView extends StatefulWidget {
   int restId;
   RestaurantInfoView({this.restId});
@@ -215,7 +213,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     maxFontSize: FONTSIZE_16,
                     style: TextStyle(
                         color: greytheme700,
-                        fontFamily: KEY_FONTFAMILY,
+                        fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w500,
                         fontSize: FONTSIZE_16),
                   ),
@@ -233,7 +231,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             getAddressText(),
                             style: TextStyle(
                               color: greytheme100,
-                              fontFamily: KEY_FONTFAMILY,
+                              fontFamily: Constants.getFontType(),
                             ),
                             maxFontSize: FONTSIZE_14,
                             maxLines: 2,
@@ -299,7 +297,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                             child: Text(
                               getAverageRating(),
                               style: TextStyle(
-                                  fontFamily: KEY_FONTFAMILY,
+                                  fontFamily: Constants.getFontType(),
                                   fontSize: FONTSIZE_10,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
@@ -315,7 +313,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       '(${getReviewsCount()}+' + STR_REVIEWS + ')',
                       style: TextStyle(
                           fontSize: FONTSIZE_13,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           color: greytheme100),
                     )
                   ],
@@ -365,7 +363,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                               child: Text(
                                 getContactNumber(),
                                 style: TextStyle(
-                                    fontFamily: KEY_FONTFAMILY,
+                                    fontFamily: Constants.getFontType(),
                                     fontSize: FONTSIZE_14,
                                     color: Colors.white),
                               ),
@@ -395,7 +393,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: FONTSIZE_12,
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w500,
                           color: greytheme1200),
                     ),
@@ -479,7 +477,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
           child: Text(
             item.name,
             style: TextStyle(
-              fontFamily: KEY_FONTFAMILY,
+              fontFamily: Constants.getFontType(),
               fontSize: FONTSIZE_10,
               color: greytheme1000,
             ),
@@ -509,7 +507,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
             child: Text(
               STR_OPENING_HOURS,
               style: TextStyle(
-                  fontFamily: KEY_FONTFAMILY,
+                  fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w700,
                   fontSize: FONTSIZE_14,
                   color: greytheme700),
@@ -597,7 +595,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 child: Text(
                   STR_REVIEWS,
                   style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
+                      fontFamily: Constants.getFontType(),
                       fontWeight: FontWeight.w700,
                       fontSize: FONTSIZE_14,
                       color: greytheme700),
@@ -614,7 +612,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                   padding: EdgeInsets.only(top: 12, right: 20),
                   child: Text(STR_WRITE_REVIEWS,
                       style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
+                          fontFamily: Constants.getFontType(),
                           fontWeight: FontWeight.w700,
                           fontSize: FONTSIZE_14,
                           color: ((Globle().colorscode) != null)
@@ -728,8 +726,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                   style: TextStyle(
                                                       fontSize: FONTSIZE_13,
                                                       color: greytheme1000,
-                                                      fontFamily:
-                                                          KEY_FONTFAMILY,
+                                                      fontFamily: Constants
+                                                          .getFontType(),
                                                       fontWeight:
                                                           FontWeight.w700)),
                                             ),
@@ -768,8 +766,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                         //     .rating.toString(),
                                                         double.parse(_getReviewData[index].rating.toString()).toString(),
                                                         style: TextStyle(
-                                                            fontFamily:
-                                                                KEY_FONTFAMILY,
+                                                            fontFamily: Constants
+                                                                .getFontType(),
                                                             fontSize:
                                                                 FONTSIZE_12,
                                                             fontWeight:
@@ -833,15 +831,16 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                     Tab(
                       child: Text(
                         STR_RESTAURANT_INFO,
-                        style:
-                            TextStyle(fontFamily: KEY_FONTFAMILY, fontSize: 15),
+                        style: TextStyle(
+                            fontFamily: Constants.getFontType(), fontSize: 15),
                       ),
                     ),
                     Tab(
                       child: Text(
                         STR_REVIEWS,
                         style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY, fontSize: FONTSIZE_15),
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_15),
                       ),
                     )
                   ],
