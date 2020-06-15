@@ -44,8 +44,8 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
   void initState() {
     super.initState();
     _myOrdersPresenter = MyOrdersDeliveryPresenter(this);
-    _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
+    _myOrdersPresenter.getOrderDetails(STR_SMALL_DELIVERY, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DELIVERY, context);
   }
 
   @override

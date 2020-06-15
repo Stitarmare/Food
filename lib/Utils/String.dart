@@ -379,6 +379,7 @@ const STR_SEVENTEEN = '17';
 
 // MyOrders Page & MyOrderTake Away
 const STR_SMALL_DINEIN = "dine_in";
+const STR_SMALL_DELIVERY = "delivery";
 const STR_YOUR_ORDERS = "Your Orders";
 const STR_CURRENT_ORDER = 'Current Orders';
 const STR_BOOKING_HISTORY = 'Booking History';
