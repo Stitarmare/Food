@@ -18,9 +18,9 @@ class LandingViewPresenter {
 
   LandingViewPresenter(this.protocol);
 
-  void getCurrentOrder(BuildContext context) {
+  void getCurrentOrder(BuildContext context,bool isNetwork) {
     ApiBaseHelper()
-        .get<RunningOrderModel>(UrlConstant.getCurrentOrders, context)
+        .get<RunningOrderModel>(UrlConstant.getCurrentOrders, context,isShowNetwork: isNetwork)
         .then((value) {
       switch (value.result) {
         case SuccessType.success:
@@ -40,7 +40,7 @@ class LandingViewPresenter {
       "device_type": Platform.isIOS ? "1" : "2",
       "latitude":latitude,
       "longitude":longitude
-    },isShowDialoag: true);
+    },isShowDialoag: true,isShowNetwork: true);
     switch (value.result) {
         case SuccessType.success:
           

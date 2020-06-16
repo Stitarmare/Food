@@ -108,7 +108,7 @@ class _LandingStateView extends State<Landingview>
     //     isIgnoring = true;
     //   });
     //await progressDialog.show();
-    _landingViewPresenter.getCurrentOrder(context);
+    _landingViewPresenter.getCurrentOrder(context,false);
   }
 
   @override
@@ -379,7 +379,7 @@ class _LandingStateView extends State<Landingview>
       });
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-      _landingViewPresenter.getCurrentOrder(context);
+      _landingViewPresenter.getCurrentOrder(context,true);
     }
   }
 
@@ -505,7 +505,7 @@ class _LandingStateView extends State<Landingview>
     });
     await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-    _landingViewPresenter.getCurrentOrder(context);
+    _landingViewPresenter.getCurrentOrder(context,true);
   }
 
   showStatusView() async {
@@ -526,7 +526,7 @@ class _LandingStateView extends State<Landingview>
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
-          _landingViewPresenter.getCurrentOrder(context);
+          _landingViewPresenter.getCurrentOrder(context,true);
         }
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
@@ -550,7 +550,7 @@ class _LandingStateView extends State<Landingview>
           await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
-          _landingViewPresenter.getCurrentOrder(context);
+          _landingViewPresenter.getCurrentOrder(context,true);
         }
       }
     }
