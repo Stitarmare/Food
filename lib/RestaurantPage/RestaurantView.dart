@@ -368,8 +368,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                       style: TextStyle(
                                           color: _selectedSubMenu != null &&
                                                   _selectedSubMenu == index
-                                              ? getColorByHex(
-                                                  Globle().colorscode)
+                                              ? Globle().colorscode != null
+                                                  ? getColorByHex(
+                                                      Globle().colorscode)
+                                                  : orangetheme
                                               : Color.fromRGBO(
                                                   118, 118, 118, 1),
                                           fontSize: 16.0),
@@ -610,7 +612,9 @@ class _RestaurantViewState extends State<RestaurantView>
                         child: Divider(
                           thickness: 2,
                           color: _selectedMenu != null && _selectedMenu == index
-                              ? getColorByHex(Globle().colorscode)
+                              ? Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       )
