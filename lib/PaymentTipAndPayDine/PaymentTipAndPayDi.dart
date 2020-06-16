@@ -315,7 +315,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    if (double.parse(getOrderTotal()) >= 1.0) {
+    if (grandTotal >= 1.0) {
       await progressDialog.show();
 
       _billCheckoutPresenter.payBillCheckOut(

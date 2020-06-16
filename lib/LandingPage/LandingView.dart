@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/FAQ/faq_view.dart';
+import 'package:foodzi/FaqUserGuideView/FaqUserguideView.dart';
 import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -848,8 +849,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               widget.appbarTitle = STR_HELP;
               Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
 
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => FAQVIew()));
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => FAQVIew()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FaqUserGuideView()));
             }), //HELP
       ],
     );

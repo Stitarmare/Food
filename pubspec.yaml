@@ -1,7 +1,7 @@
 name: foodzi
 description: A new Flutter project.
 
-version: 3.3.4+1
+version: 3.3.5+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   carousel_slider:
   basic_utils: ^2.5.3
+  flutter_swiper: ^1.1.6
 
   cupertino_icons: ^0.1.2
   http: ^0.12.0+2
@@ -172,6 +173,18 @@ flutter:
       - assets/VegIcon/Group1661.png
       - assets/VegIcon/Group1661@2x.png
       - assets/VegIcon/Group1661@3x.png
+      #UserGuide
+      - assets/UserGuide/additemtocart.png
+      - assets/UserGuide/loginpage.png
+      - assets/UserGuide/menulist.png
+      - assets/UserGuide/menulist.png
+      - assets/UserGuide/otpscreen.png
+      - assets/UserGuide/Registerpage.png
+      - assets/UserGuide/restaurantview.png
+      - assets/UserGuide/splitbill.png
+      - assets/UserGuide/paymentpage.png
+      - assets/UserGuide/currentorders.png
+
       
 
   fonts:
