@@ -8,6 +8,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 
@@ -314,31 +315,29 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    
-      if (double.parse(getOrderTotal()) >= 1.0) {
-        await progressDialog.show();
+    if (double.parse(getOrderTotal()) >= 1.0) {
+      await progressDialog.show();
 
-        _billCheckoutPresenter.payBillCheckOut(
-          myOrderData.restId,
-          getOrderTotal(),
-          sliderValue.toString(),
-          "ZAR",
-          context,
-          orderId: myOrderData.id,
-        );
-      } else {
-        setState(() {
-          isIgnoreTouch = false;
-        });
-        _model.currencySymbol != null
-            ? Constants.showAlert(
-                "Amount",
-                "Split Amount should be greater than ${_model.currencySymbol} 1.00",
-                context)
-            : Constants.showAlert(
-                "Amount", "Split Amount should be greater than 1.00", context);
-      }
-     
+      _billCheckoutPresenter.payBillCheckOut(
+        myOrderData.restId,
+        getOrderTotal(),
+        sliderValue.toString(),
+        "ZAR",
+        context,
+        orderId: myOrderData.id,
+      );
+    } else {
+      setState(() {
+        isIgnoreTouch = false;
+      });
+      _model.currencySymbol != null
+          ? Constants.showAlert(
+              "Amount",
+              "Split Amount should be greater than ${_model.currencySymbol} 1.00",
+              context)
+          : Constants.showAlert(
+              "Amount", "Split Amount should be greater than 1.00", context);
+    }
   }
 
   Widget _getmainviewTableno() {
@@ -441,9 +440,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   onSplitBillButtonTap() {
     if (_model.grandTotal != null) {
       if (double.parse(_model.grandTotal) < 10.00) {
-        _showAlert(context, "Amount is too low for splitting bill", STR_BLANK, () {
-            Navigator.of(context).pop();
-          });
+        _showAlert(context, "Amount is too low for splitting bill", STR_BLANK,
+            () {
+          Navigator.of(context).pop();
+        });
         return;
       }
     }
@@ -963,7 +963,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.of(context).popUntil((route) => route.isFirst);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Landingview()),
+                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
                 ],
