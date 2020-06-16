@@ -47,8 +47,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   ProgressDialog progressDialog;
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
-  int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+  int _selectedMenu;
+  int _selectedSubMenu;
   bool valueBool = false;
   List<Category> category = [];
   List<Subcategories> subcategories = [];

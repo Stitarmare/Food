@@ -57,8 +57,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+  int _selectedMenu;
+  int _selectedSubMenu;
   var tableID;
   bool valueBool = false;
   RestaurantItemsModel restaurantItemsModel;
