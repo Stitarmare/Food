@@ -9,10 +9,14 @@ class UserGuideView extends StatefulWidget {
 }
 
 class _UserGuideViewState extends State<UserGuideView> {
+  SwiperController _controller = SwiperController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("UserGuide")),
+      appBar: AppBar(
+        title: Text("UserGuide"),
+        centerTitle: true,
+      ),
       body: new Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Column(
@@ -22,12 +26,15 @@ class _UserGuideViewState extends State<UserGuideView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("${index + 1}",
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w600,
-                            color: greytheme700)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("${index + 1}",
+                          style: TextStyle(
+                              fontSize: FONTSIZE_18,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              color: greytheme700)),
+                    ),
                     SizedBox(width: 10),
                     Text(data[index].title,
                         style: TextStyle(
@@ -55,6 +62,7 @@ class _UserGuideViewState extends State<UserGuideView> {
         itemCount: data.length,
         // pagination: SwiperPagination(),
         control: new SwiperControl(),
+        controller: _controller,
       ),
     );
   }
@@ -75,7 +83,7 @@ List<SwiperData> data = [
   ),
   SwiperData(
     title: "Locate desired Restaurant",
-    imagePath: "assets/UserGuide/Registerpage.png",
+    imagePath: "assets/UserGuide/restaurantview.png",
   ),
   SwiperData(
     title: "Choose items from menu ",

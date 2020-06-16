@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -16,6 +18,23 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   @override
+  void initState() {
+    checkInternet();
+    super.initState();
+  }
+
+  checkInternet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      Navigator.of(context).pop();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
       url: widget.strURL,
@@ -32,6 +51,11 @@ class _WebViewPageState extends State<WebViewPage> {
               color: greytheme1200),
         ),
         elevation: 0.0,
+        // leading: IconButton(
+        //     icon: Icon(Icons.arrow_back_ios),
+        //     onPressed: () {
+        //       Navigator.of(context).pop();
+        //     }),
       ),
       bottomNavigationBar: widget.flag == 2
           ? BottomAppBar(
