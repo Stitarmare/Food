@@ -964,10 +964,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             color: greytheme700)),
                     onPressed: () {
                       // Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.pushReplacementNamed(
+                      //     context, STR_MAIN_WIDGET_PAGE);
+
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => Landingview()),
+                          MaterialPageRoute(builder: (context) => MainWidget()),
                           ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
