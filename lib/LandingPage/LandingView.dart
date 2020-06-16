@@ -63,7 +63,7 @@ class _LandingStateView extends State<Landingview>
       }
     });
     _getLocation();
-    
+
     Globle().navigatorIndex = 1;
     onStreamListen();
 
@@ -587,9 +587,8 @@ class _LandingStateView extends State<Landingview>
     setState(() {
       isIgnoring = false;
     });
-    
-      await progressDialog.hide();
-    
+
+    await progressDialog.hide();
   }
 
   @override
@@ -597,9 +596,9 @@ class _LandingStateView extends State<Landingview>
     setState(() {
       isIgnoring = false;
     });
-    
-      await progressDialog.hide();
-    
+
+    await progressDialog.hide();
+
     //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
