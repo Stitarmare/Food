@@ -522,47 +522,56 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void editCityFailed() {}
+  void editCityFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editCitySuccess(List<CityList> cityList) async {
+    await progressDialog.hide();
     if (cityList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editCountryFailed() {}
+  void editCountryFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editCountrySuccess(List<CountryList> countryList) async {
+    await progressDialog.hide();
     if (countryList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editStateFailed() {}
+  void editStateFailed()async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editStateSuccess(List<StateList> stateList) async {
+    await progressDialog.hide();
     if (stateList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
