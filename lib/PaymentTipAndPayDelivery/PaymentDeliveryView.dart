@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -84,6 +85,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   String currencySymb = STR_BLANK;
   OrderDetailsModel _model;
+  DeliveryData data;
 
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
@@ -99,6 +101,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
+    _paymentDeliveryPresenter.getDeliveryChargeDetails(
+        widget.latitude, widget.longitude, widget.restId, context);
+
     print(widget.addressData);
 
     super.initState();
@@ -811,4 +816,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   void onSuccessQuantityIncrease() {}
+
+  @override
+  void getDeliveryDataFailed() {}
+
+  @override
+  void getDeliveryDataSuccess(DeliveryData data) {}
 }

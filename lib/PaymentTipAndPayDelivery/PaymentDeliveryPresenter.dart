@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryContractor.dart';
@@ -50,6 +51,27 @@ class PaymentDeliveryPresenter extends PaymentDeliveryContractor {
         break;
       case SuccessType.failed:
         _paymentTipAndPayModelView.placeOrderfailed();
+        break;
+    }
+  }
+
+  @override
+  void getDeliveryChargeDetails(String latitude, String longitude, int restId,
+      BuildContext context) async {
+    var value = await ApiBaseHelper().post<GetDeliveryChargeModel>(
+        UrlConstant.getdeliverychargeApi, context, body: {
+      "latitude": latitude,
+      "longitude": longitude,
+      "rest_id": restId
+    });
+    print(value);
+    switch (value.result) {
+      case SuccessType.success:
+        print(value.model);
+        _paymentTipAndPayModelView.getDeliveryDataSuccess(value.model.data);
+        break;
+      case SuccessType.failed:
+        _paymentTipAndPayModelView.getDeliveryDataFailed();
         break;
     }
   }
