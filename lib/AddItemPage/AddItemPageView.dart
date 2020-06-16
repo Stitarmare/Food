@@ -362,6 +362,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   onTap: () async {
  
                     if (Globle().isCollectionOrder) {
+                      Constants.showAlert("FoodZi", "Your order is already running for another restaurant", context);
                       return;
                     }
                     // checkIntenet();
