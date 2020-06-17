@@ -292,8 +292,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 GestureDetector(
                   onTap: () async {
                     if (Globle().isCollectionOrder) {
-                      Constants.showAlert(
-                          "FoodZi", "Your order is already running ", context);
+                      var id = await Preference.getPrefValue<int>(
+                          PreferenceKeys.restaurantID);
+                      if (widget.restId == id) {
+                        Constants.showAlert("FoodZi",
+                            "Your order is already running.", context);
+                      } else {
+                        Constants.showAlert(
+                            "FoodZi",
+                            "Your order is already running for another restaurant.",
+                            context);
+                      }
+
                       return;
                     }
                     if (addMenuToCartModel == null) {
