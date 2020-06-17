@@ -85,7 +85,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   String currencySymb = STR_BLANK;
   OrderDetailsModel _model;
-  DeliveryData data;
+  DeliveryData _deliveryData;
+  int deliveryCharge = 0;
 
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
@@ -146,7 +147,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                       _billCheckoutPresenter.payBillCheckOut(
                           widget.restId,
                           widget.totalAmount.toString(),
-                          sliderValue.toString(),
+                          deliveryCharge.toString(),
                           "ZAR",
                           context);
                       // _paymentDeliveryPresenter.placeOrder(
@@ -547,7 +548,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' 12',
+                  currencySymb + ' $deliveryCharge',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -574,8 +575,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb +
-                      ' ${widget.totalAmount + sliderValue.toInt() + 12}',
+                  currencySymb + ' ${widget.totalAmount + deliveryCharge}',
+                  // ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -671,10 +672,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
       myOrderData.id,
       STR_CARD,
       myOrderData.totalAmount,
-      (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      (double.parse(myOrderData.totalAmount) + deliveryCharge).toString(),
       _paymentCheckoutModel.transactionId,
       context,
-      sliderValue.toString(),
+      deliveryCharge.toString(),
     );
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     // _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
@@ -749,6 +750,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           Globle().loginModel.data.id,
           widget.restId,
           widget.totalAmount,
+          deliveryCharge,
           widget.houseNo,
           widget.landmark,
           widget.latitude,
@@ -821,5 +823,12 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   void getDeliveryDataFailed() {}
 
   @override
-  void getDeliveryDataSuccess(DeliveryData data) {}
+  void getDeliveryDataSuccess(DeliveryData data) {
+    if (data != null) {
+      setState(() {
+        _deliveryData = data;
+        deliveryCharge = _deliveryData.deliveryCharge;
+      });
+    }
+  }
 }

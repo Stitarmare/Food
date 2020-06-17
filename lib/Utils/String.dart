@@ -465,6 +465,7 @@ const STR_CARD = 'card';
 const STR_PAYMENT_SUCCESS = "Payment Success";
 const STR_TRANSACTION_DONE = "Your Transactions Has been Done Successfully";
 const JSON_STR_TOTAL_AMOUNT = "total_amount";
+const JSON_STR_DELIVERY_CHARGE = "delivery_charge";
 const JSON_STR_LATITUDE = "latitude";
 const JSON_STR_LONGITUDE = "longitude";
 const JSON_STR_ITEMS = "items";

@@ -7,6 +7,7 @@ abstract class PaymentDeliveryContractor {
     int userId,
     int restId,
     double totalAmount,
+    int deliveryCharge,
     String address,
     String landmark,
     String latitude,
