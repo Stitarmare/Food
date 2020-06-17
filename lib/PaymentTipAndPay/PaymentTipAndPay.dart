@@ -136,7 +136,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         });
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        if (widget.totalAmount >= 10.0) {
+                        if ((widget.totalAmount + sliderValue) >= 1.0) {
                           await progressDialog.show();
                           _billCheckoutPresenter.payBillCheckOut(
                               widget.restId,
@@ -147,7 +147,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         } else {
                           Constants.showAlert(
                               "Amount",
-                              "Total amount should be more than ${widget.currencySymbol}10 & you can try by adding tip",
+                              "Total amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
                               context);
                         }
                       },
