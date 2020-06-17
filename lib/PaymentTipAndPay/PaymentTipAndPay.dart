@@ -147,7 +147,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         } else {
                           Constants.showAlert(
                               "Amount",
-                              "Total amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
+                              "Amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
                               context);
                         }
                       },
