@@ -69,17 +69,21 @@ class _UserGuideViewState extends State<UserGuideView> {
 }
 
 List<SwiperData> data = [
+  // SwiperData(
+  //   title: "Register in a few steps",
+  //   imagePath: "assets/UserGuide/Registerpage.png",
+  // ),
+  // SwiperData(
+  //   title: "Please enter your mobile number to get OTP",
+  //   imagePath: "assets/UserGuide/otpscreen.png",
+  // ),
+  // SwiperData(
+  //   title: "Login",
+  //   imagePath: "assets/UserGuide/loginpage.png",
+  // ),
   SwiperData(
-    title: "Register in a few steps",
-    imagePath: "assets/UserGuide/Registerpage.png",
-  ),
-  SwiperData(
-    title: "Please enter your mobile number to get OTP",
-    imagePath: "assets/UserGuide/otpscreen.png",
-  ),
-  SwiperData(
-    title: "Login",
-    imagePath: "assets/UserGuide/loginpage.png",
+    title: "LandingView",
+    imagePath: "assets/UserGuide/LandingScreen.png",
   ),
   SwiperData(
     title: "Locate desired Restaurant",
