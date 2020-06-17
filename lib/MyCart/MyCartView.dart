@@ -507,7 +507,7 @@ class _MyCartViewState extends State<MyCartView>
                         } else {
                           Constants.showAlert(
                               "Amount",
-                              "Total Amount should be greater than ${getCurrency()} 1.00",
+                              "Amount should be greater than ${getCurrency()} 1.00",
                               context);
                         }
                       }

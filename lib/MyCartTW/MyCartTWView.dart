@@ -64,67 +64,67 @@ class _MyCartTWViewState extends State<MyCartTWView>
     super.initState();
   }
 
-  checkIntenet(int i, int flag, BuildContext context) async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        if (flag == 1) {
-          if (_cartItemList[i].quantity > 0) {
-            setState(() {
-              _cartItemList[i].quantity -= 1;
-              print(_cartItemList[i].quantity);
-            });
-            // DialogsIndicator.showLoadingDialog(
-            //     context, _keyLoader, STR_LOADING);
-            await progressDialog.show();
-            if (_cartItemList[i].quantity > 0) {
-              _myCartpresenter.updateQauntityCount(
-                  _cartItemList[i].id,
-                  _cartItemList[i].quantity,
-                  (double.parse(_cartItemList[i].totalAmount)) /
-                      _cartItemList[i].quantity,
-                  context);
-            }
-            if (_cartItemList[i].quantity == 0) {
-              // DialogsIndicator.showLoadingDialog(
-              //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
-              _myCartpresenter.removeItemfromCart(
-                  _cartItemList[i].id, Globle().loginModel.data.id, context);
-              setState(() {
-                _cartItemList.removeAt(i);
-              });
-            }
-          }
-        } else {
-          setState(() {
-            _cartItemList[i].quantity += 1;
-            print(_cartItemList[i].quantity);
-          });
-          // DialogsIndicator.showLoadingDialog(
-          //     context, _keyLoader, STR_LOADING);
-          await progressDialog.show();
-          _myCartpresenter.updateQauntityCount(
-              _cartItemList[i].id,
-              _cartItemList[i].quantity,
-              (double.parse(_cartItemList[i].totalAmount)) /
-                  _cartItemList[i].quantity,
-              context);
-        }
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      showAlert(
-        context,
-        STR_WIFI_INTERNET,
-        STR_NO_WIFI_INTERNET,
-        () {
-          Navigator.of(context).pop();
-        },
-      );
-    }
-  }
+  // checkIntenet(int i, int flag, BuildContext context) async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       if (flag == 1) {
+  //         if (_cartItemList[i].quantity > 0) {
+  //           setState(() {
+  //             _cartItemList[i].quantity -= 1;
+  //             print(_cartItemList[i].quantity);
+  //           });
+  //           // DialogsIndicator.showLoadingDialog(
+  //           //     context, _keyLoader, STR_LOADING);
+  //           await progressDialog.show();
+  //           if (_cartItemList[i].quantity > 0) {
+  //             _myCartpresenter.updateQauntityCount(
+  //                 _cartItemList[i].id,
+  //                 _cartItemList[i].quantity,
+  //                 (double.parse(_cartItemList[i].totalAmount)) /
+  //                     _cartItemList[i].quantity,
+  //                 context);
+  //           }
+  //           if (_cartItemList[i].quantity == 0) {
+  //             // DialogsIndicator.showLoadingDialog(
+  //             //     context, _keyLoader, STR_LOADING);
+  //             await progressDialog.show();
+  //             _myCartpresenter.removeItemfromCart(
+  //                 _cartItemList[i].id, Globle().loginModel.data.id, context);
+  //             setState(() {
+  //               _cartItemList.removeAt(i);
+  //             });
+  //           }
+  //         }
+  //       } else {
+  //         setState(() {
+  //           _cartItemList[i].quantity += 1;
+  //           print(_cartItemList[i].quantity);
+  //         });
+  //         // DialogsIndicator.showLoadingDialog(
+  //         //     context, _keyLoader, STR_LOADING);
+  //         await progressDialog.show();
+  //         _myCartpresenter.updateQauntityCount(
+  //             _cartItemList[i].id,
+  //             _cartItemList[i].quantity,
+  //             (double.parse(_cartItemList[i].totalAmount)) /
+  //                 _cartItemList[i].quantity,
+  //             context);
+  //       }
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
 
   Widget steppercount(int i, context) {
     int count = _cartItemList[i].quantity;
@@ -134,34 +134,34 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-            checkIntenet(i, 1, context);
-            // if (_cartItemList[i].quantity > 0) {
-            //   setState(() {
-            //     _cartItemList[i].quantity -= 1;
-            //     print(_cartItemList[i].quantity);
-            //   });
-            //   // DialogsIndicator.showLoadingDialog(
-            //   //     context, _keyLoader, STR_LOADING);
-            //   await progressDialog.show();
-            //   if (_cartItemList[i].quantity > 0) {
-            //     _myCartpresenter.updateQauntityCount(
-            //         _cartItemList[i].id,
-            //         _cartItemList[i].quantity,
-            //         (double.parse(_cartItemList[i].totalAmount)) /
-            //             _cartItemList[i].quantity,
-            //         context);
-            //   }
-            //   if (_cartItemList[i].quantity == 0) {
-            //     // DialogsIndicator.showLoadingDialog(
-            //     //     context, _keyLoader, STR_LOADING);
-            //     await progressDialog.show();
-            //     _myCartpresenter.removeItemfromCart(
-            //         _cartItemList[i].id, Globle().loginModel.data.id, context);
-            //     setState(() {
-            //       _cartItemList.removeAt(i);
-            //     });
-            //   }
-            // }
+            // checkIntenet(i, 1, context);
+            if (_cartItemList[i].quantity > 0) {
+              setState(() {
+                _cartItemList[i].quantity -= 1;
+                print(_cartItemList[i].quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              await progressDialog.show();
+              if (_cartItemList[i].quantity > 0) {
+                _myCartpresenter.updateQauntityCount(
+                    _cartItemList[i].id,
+                    _cartItemList[i].quantity,
+                    (double.parse(_cartItemList[i].totalAmount)) /
+                        _cartItemList[i].quantity,
+                    context);
+              }
+              if (_cartItemList[i].quantity == 0) {
+                // DialogsIndicator.showLoadingDialog(
+                //     context, _keyLoader, STR_LOADING);
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    _cartItemList[i].id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(i);
+                });
+              }
+            }
             // if (count > 1) {
             //   setState(() {
             //     --count;
@@ -197,21 +197,21 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
-            checkIntenet(i, 2, context);
+            // checkIntenet(i, 2, context);
 
-            // setState(() {
-            //   _cartItemList[i].quantity += 1;
-            //   print(_cartItemList[i].quantity);
-            // });
-            // // DialogsIndicator.showLoadingDialog(
-            // //     context, _keyLoader, STR_LOADING);
-            // await progressDialog.show();
-            // _myCartpresenter.updateQauntityCount(
-            //     _cartItemList[i].id,
-            //     _cartItemList[i].quantity,
-            //     (double.parse(_cartItemList[i].totalAmount)) /
-            //         _cartItemList[i].quantity,
-            //     context);
+            setState(() {
+              _cartItemList[i].quantity += 1;
+              print(_cartItemList[i].quantity);
+            });
+            // DialogsIndicator.showLoadingDialog(
+            //     context, _keyLoader, STR_LOADING);
+            await progressDialog.show();
+            _myCartpresenter.updateQauntityCount(
+                _cartItemList[i].id,
+                _cartItemList[i].quantity,
+                (double.parse(_cartItemList[i].totalAmount)) /
+                    _cartItemList[i].quantity,
+                context);
 
             // if (count < 100) {
             //   setState(() {
@@ -422,19 +422,17 @@ class _MyCartTWViewState extends State<MyCartTWView>
                       Globle().dinecartValue = 0;
                       Preference.setPersistData<int>(
                           0, PreferenceKeys.takeAwayCartCount);
-                          if (_cartItemList!=null) {
-                            if (double.parse(myCart.grandTotal) < 1.0) {
-                                Constants.showAlert(
+                      if (_cartItemList != null) {
+                        if (double.parse(myCart.grandTotal) < 1.0) {
+                          Constants.showAlert(
                               "Amount",
                               "Total Amount should be greater than ${getCurrency()} 1.00",
                               context);
-                              return;
-                            }
-                          }
+                          return;
+                        }
+                      }
                       (_cartItemList != null)
-                          ?
-                          
-                           Navigator.push(
+                          ? Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PaymentTipAndPay(

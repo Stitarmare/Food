@@ -293,9 +293,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                   onTap: () async {
                     if (Globle().isCollectionOrder) {
                       Constants.showAlert(
-                          "FoodZi",
-                          "Your order is already running for another restaurant",
-                          context);
+                          "FoodZi", "Your order is already running ", context);
                       return;
                     }
                     if (addMenuToCartModel == null) {
