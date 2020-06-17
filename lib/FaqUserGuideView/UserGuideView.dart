@@ -61,7 +61,7 @@ class _UserGuideViewState extends State<UserGuideView> {
         autoplay: false,
         itemCount: data.length,
         // pagination: SwiperPagination(),
-        control: new SwiperControl(),
+        control: SwiperControl(),
         controller: _controller,
       ),
     );

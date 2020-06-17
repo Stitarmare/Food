@@ -108,16 +108,17 @@ class _LandingStateView extends State<Landingview>
     // setState(() {
     //     isIgnoring = true;
     //   });
-    //await progressDialog.show();
+    // await progressDialog.show();
     _landingViewPresenter.getCurrentOrder(context, false);
   }
 
   @override
   Widget build(BuildContext context) {
     Globle().context = context;
-    // progressDialog = ProgressDialog(context,
-    //     type: ProgressDialogType.Normal, isDismissible: false);
-    // progressDialog.style(message: STR_PLEASE_WAIT);
+    // progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    // progressDialog.style(
+    //   message: STR_PLEASE_WAIT,
+    // );
     return Card(
       elevation: 100.0,
       child: IgnorePointer(
@@ -589,7 +590,6 @@ class _LandingStateView extends State<Landingview>
     setState(() {
       isIgnoring = false;
     });
-    print(Globle().loginModel.data.id);
     // await progressDialog.hide();
   }
 
@@ -693,7 +693,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void dispose() {
-    //progressDialog.hide();
+    // progressDialog.hide();
     super.dispose();
   }
 }
