@@ -108,13 +108,11 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       _radioOptions = radiolist;
       for (var item in radiolist) {
-      if (item.spreadDefault == "yes") {
-        
+        if (item.spreadDefault == "yes") {
           radioBtnId = item.index;
+        }
       }
-    }
     });
-    
 
     return radiolist.length;
   }
@@ -294,7 +292,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 GestureDetector(
                   onTap: () async {
                     if (Globle().isCollectionOrder) {
-                      Constants.showAlert("FoodZi", "Your order is already running for another restaurant", context);
+                      Constants.showAlert(
+                          "FoodZi",
+                          "Your order is already running for another restaurant",
+                          context);
                       return;
                     }
                     if (addMenuToCartModel == null) {
@@ -1482,15 +1483,16 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   void getRequiredSpread(int length) {
+    Spreads defaultSpre = Spreads();
+    defaultSpread = Spreads();
+
     for (int i = 1; i <= length; i++) {
-      defaultSpread = Spreads();
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
-        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
-      } else {
-        defaultSpread = null;
+        defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+    defaultSpread = defaultSpre;
   }
 
   void getRequiredExtra(int length) {

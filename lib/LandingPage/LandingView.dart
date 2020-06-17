@@ -115,9 +115,9 @@ class _LandingStateView extends State<Landingview>
   @override
   Widget build(BuildContext context) {
     Globle().context = context;
-    progressDialog = ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    progressDialog.style(message: STR_PLEASE_WAIT);
+    // progressDialog = ProgressDialog(context,
+    //     type: ProgressDialogType.Normal, isDismissible: false);
+    // progressDialog.style(message: STR_PLEASE_WAIT);
     return Card(
       elevation: 100.0,
       child: IgnorePointer(
@@ -374,14 +374,15 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-    if (progressDialog != null) {
-      setState(() {
-        isIgnoring = true;
-      });
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-      _landingViewPresenter.getCurrentOrder(context, true);
-    }
+    // if (progressDialog != null) {
+    //   setState(() {
+    //     isIgnoring = true;
+    //   });
+    //   await progressDialog.show();
+    //   //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    //   _landingViewPresenter.getCurrentOrder(context, true);
+    // }
+    _landingViewPresenter.getCurrentOrder(context, true);
   }
 
   Widget _buildinningtext() {
@@ -504,7 +505,7 @@ class _LandingStateView extends State<Landingview>
     setState(() {
       isIgnoring = true;
     });
-    await progressDialog.show();
+    // await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
     _landingViewPresenter.getCurrentOrder(context, true);
   }
@@ -524,7 +525,7 @@ class _LandingStateView extends State<Landingview>
           setState(() {
             isIgnoring = true;
           });
-          await progressDialog.show();
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context, true);
@@ -548,7 +549,7 @@ class _LandingStateView extends State<Landingview>
           setState(() {
             isIgnoring = true;
           });
-          await progressDialog.show();
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context, true);
@@ -589,7 +590,7 @@ class _LandingStateView extends State<Landingview>
       isIgnoring = false;
     });
     print(Globle().loginModel.data.id);
-    await progressDialog.hide();
+    // await progressDialog.hide();
   }
 
   @override
@@ -598,7 +599,7 @@ class _LandingStateView extends State<Landingview>
       isIgnoring = false;
     });
 
-    await progressDialog.hide();
+    // await progressDialog.hide();
 
     //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {

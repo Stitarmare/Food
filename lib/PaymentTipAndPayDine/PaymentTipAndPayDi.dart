@@ -315,7 +315,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    if (grandTotal >= 1.0) {
+    if (grandTotal >= 10.0) {
       await progressDialog.show();
 
       _billCheckoutPresenter.payBillCheckOut(
@@ -333,10 +333,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       _model.currencySymbol != null
           ? Constants.showAlert(
               "Amount",
-              "Split Amount should be greater than ${_model.currencySymbol} 1.00",
+              "Split Amount should be greater than ${_model.currencySymbol} 10.00 & you can try by adding tip",
               context)
           : Constants.showAlert(
-              "Amount", "Split Amount should be greater than 1.00", context);
+              "Amount",
+              "Split Amount should be greater than 10.00 & you can try by adding tip",
+              context);
     }
   }
 
