@@ -56,13 +56,15 @@ class _RestaurantViewState extends State<RestaurantView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu;
+  int _selectedMenu = 0;
   int previousValue;
   int _selectedSubMenu;
   var tableID;
   RestaurantItemsModel restaurantItemsModel;
   bool valueBool = false;
   List<Category> category = [];
+  List<Category> category2 = [];
+
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
 
@@ -114,12 +116,19 @@ class _RestaurantViewState extends State<RestaurantView>
       _selectedMenu = index;
 
       if (_selectedMenu == index) {
-        if (category[index].subcategories.length > 0) {
-          setState(() {
-            valueBool = true;
-            subcategoriesList = category[index].subcategories;
-            // _getSubMenucount();
-          });
+        if (category[index].subcategories != null) {
+          if (category[index].subcategories.length > 0) {
+            setState(() {
+              valueBool = true;
+              subcategoriesList = category[index].subcategories;
+              // _getSubMenucount();
+            });
+          } else {
+            setState(() {
+              valueBool = false;
+              subcategoriesList = [];
+            });
+          }
         } else {
           setState(() {
             valueBool = false;
@@ -604,11 +613,18 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   int _getMenucount() {
+    if (category.length == 0) {
+      category.insert(0, category1[0]);
+    }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
-          category = _categorydata[i].category;
+          category2 = _categorydata[i].category;
         });
+      }
+
+      if (category.length == 1) {
+        category.addAll(category2);
       }
       return category.length;
     }
@@ -1057,17 +1073,17 @@ class _RestaurantViewState extends State<RestaurantView>
       }
     });
 
-    if (categoryData[0].category[0].subcategories.length > 0) {
-      setState(() {
-        valueBool = true;
-        subcategoriesList = categoryData[0].category[0].subcategories;
-      });
-    } else {
-      setState(() {
-        valueBool = false;
-        subcategoriesList = [];
-      });
-    }
+    // if (categoryData[0].category[0].subcategories.length > 0) {
+    //   setState(() {
+    //     valueBool = true;
+    //     subcategoriesList = categoryData[0].category[0].subcategories;
+    //   });
+    // } else {
+    //   setState(() {
+    //     valueBool = false;
+    //     subcategoriesList = [];
+    //   });
+    // }
   }
 }
 
@@ -1096,3 +1112,5 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
+
+List<Category> category1 = [Category(id: 0, name: "All")];

@@ -57,13 +57,15 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu;
+  int _selectedMenu = 0;
   int previousValue;
   int _selectedSubMenu;
   var tableID;
   bool valueBool = false;
   RestaurantItemsModel restaurantItemsModel;
   List<Category> category = [];
+  List<Category> category2 = [];
+
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
 
@@ -106,12 +108,19 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       _selectedMenu = index;
 
       if (_selectedMenu == index) {
-        if (category[index].subcategories.length > 0) {
-          setState(() {
-            valueBool = true;
-            subcategoriesList = category[index].subcategories;
-            // _getSubMenucount();
-          });
+        if (category[index].subcategories != null) {
+          if (category[index].subcategories.length > 0) {
+            setState(() {
+              valueBool = true;
+              subcategoriesList = category[index].subcategories;
+              // _getSubMenucount();
+            });
+          } else {
+            setState(() {
+              valueBool = false;
+              subcategoriesList = [];
+            });
+          }
         } else {
           setState(() {
             valueBool = false;
@@ -519,7 +528,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: subcategoriesList.length,
+                itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
                   return Expanded(
                     child: Container(
@@ -604,14 +613,40 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     );
   }
 
+  // int _getMenucount() {
+  //   if (_categorydata != null) {
+  //     for (int i = 0; i < _categorydata.length; i++) {
+  //       setState(() {
+  //         category = _categorydata[i].category;
+  //       });
+  //     }
+  //     return category.length;
+  //   }
+  //   return 0;
+  // }
+
   int _getMenucount() {
+    if (category.length == 0) {
+      category.insert(0, category1[0]);
+    }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
-          category = _categorydata[i].category;
+          category2 = _categorydata[i].category;
         });
       }
+
+      if (category.length == 1) {
+        category.addAll(category2);
+      }
       return category.length;
+    }
+    return 0;
+  }
+
+  int _getSubMenucount() {
+    if (subcategoriesList != null) {
+      return subcategoriesList.length;
     }
     return 0;
   }
@@ -925,17 +960,17 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       } else {
         _categorydata.addAll(categoryData);
       }
-      if (categoryData[0].category[0].subcategories.length > 0) {
-        setState(() {
-          valueBool = true;
-          subcategoriesList = categoryData[0].category[0].subcategories;
-        });
-      } else {
-        setState(() {
-          valueBool = false;
-          subcategoriesList = [];
-        });
-      }
+      // if (categoryData[0].category[0].subcategories.length > 0) {
+      //   setState(() {
+      //     valueBool = true;
+      //     subcategoriesList = categoryData[0].category[0].subcategories;
+      //   });
+      // } else {
+      //   setState(() {
+      //     valueBool = false;
+      //     subcategoriesList = [];
+      //   });
+      // }
     });
   }
 }
@@ -965,3 +1000,5 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
+
+List<Category> category1 = [Category(id: 0, name: "All")];
