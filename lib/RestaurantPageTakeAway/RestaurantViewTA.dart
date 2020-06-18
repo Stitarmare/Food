@@ -50,6 +50,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   int _selectedMenu;
   int _selectedSubMenu;
   bool valueBool = false;
+  int previousValue;
   List<Category> category = [];
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
@@ -100,6 +101,16 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         }
       }
 
+      if (previousValue != null) {
+        if (previousValue != _selectedMenu) {
+          subCategoryIdabc = null;
+          _selectedSubMenu = null;
+          previousValue = _selectedMenu;
+        }
+      } else {
+        previousValue = _selectedMenu;
+      }
+
       print(_selectedMenu);
     });
     abc = category[index].id;
@@ -117,7 +128,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
       print(_selectedSubMenu);
     });
-    subCategoryIdabc = category[index].subcategories[index].id;
+    subCategoryIdabc =
+        category[_selectedMenu].subcategories[_selectedSubMenu].id;
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
     } else {

@@ -58,6 +58,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   String menutype = " ";
   int restaurantId;
   int _selectedMenu;
+  int previousValue;
   int _selectedSubMenu;
   var tableID;
   bool valueBool = false;
@@ -119,6 +120,16 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         }
       }
 
+      if (previousValue != null) {
+        if (previousValue != _selectedMenu) {
+          subCategoryIdabc = null;
+          _selectedSubMenu = null;
+          previousValue = _selectedMenu;
+        }
+      } else {
+        previousValue = _selectedMenu;
+      }
+
       print(_selectedMenu);
     });
     abc = category[index].id;
@@ -136,7 +147,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
       print(_selectedSubMenu);
     });
-    subCategoryIdabc = category[index].subcategories[index].id;
+    subCategoryIdabc =
+        category[_selectedMenu].subcategories[_selectedSubMenu].id;
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
     } else {
