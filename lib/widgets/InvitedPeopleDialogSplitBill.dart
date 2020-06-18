@@ -190,12 +190,6 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
         }
       }
     }
-<<<<<<< HEAD
-    await progressDialog.show();
-    _billPresenter.getSPlitBill(widget.orderID, Globle().loginModel.data.id, 2,
-        widget.amount.toInt(), context,
-        users: users);
-=======
     if (users.length != 0) {
       await progressDialog.show();
       _billPresenter.getSPlitBill(widget.orderID, Globle().loginModel.data.id,
@@ -206,7 +200,6 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
       Constants.showAlert(
           "Required members", "Please select at least one member", context);
     }
->>>>>>> NewUiChanges
   }
 
   int checkboxbtn(int length) {

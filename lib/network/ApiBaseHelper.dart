@@ -14,11 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, UAT }
 
 class BaseUrl {
   BaseUrl();
-<<<<<<< HEAD
-  static var environment = Environment.DEVLOPMENT;
-=======
   static var environment = Environment.UAT;
->>>>>>> NewUiChanges
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
@@ -233,10 +229,6 @@ class ApiBaseHelper {
           },
         );
       });
-<<<<<<< HEAD
-=======
-
->>>>>>> NewUiChanges
       return errorResponce<T>();
     }
   }

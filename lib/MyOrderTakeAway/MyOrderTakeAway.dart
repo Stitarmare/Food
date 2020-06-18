@@ -706,10 +706,6 @@ class _MyOrdersState extends State<MyOrderTakeAway>
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
     setState(() {
       // getmyOrderBookingHistory = _getmyOrderBookingHistory;
-<<<<<<< HEAD
-=======
-
->>>>>>> NewUiChanges
       for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
         _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
       }

@@ -337,14 +337,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             ?
                             // '${Globle().currencySymb} ' +
                             //     '${_orderDetailList[index].totalAmount}'
-<<<<<<< HEAD
-                            strCurrentAmount(
-                                _orderDetailList[index].totalAmount)
-=======
                             '${Globle().currencySymb} ' +
                                 strCurrentAmount(
                                     _orderDetailList[index].totalAmount)
->>>>>>> NewUiChanges
                             : STR_R_CURRENCY_SYMBOL +
                                 // '${_orderDetailList[index].totalAmount}',
                                 strCurrentAmount(
@@ -632,14 +627,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             ? Text(
                                 Globle().currencySymb != null
                                     ? '${Globle().currencySymb} ' +
-<<<<<<< HEAD
-                                        '${getmyOrderBookingHistory[index].splitAmount}'
-=======
                                         // '${getmyOrderBookingHistory[index].splitAmount}'
                                         getSplitAmount(
                                             getmyOrderBookingHistory[index]
                                                 .splitbilltransactions)
->>>>>>> NewUiChanges
                                     : STR_R_CURRENCY_SYMBOL +
                                         '${getmyOrderBookingHistory[index].splitAmount}',
                                 style: TextStyle(
@@ -667,22 +658,12 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       ),
                       ClipOval(
                         child: Container(
-<<<<<<< HEAD
-                          height: 10,
-                          width: 10,
-                          color:
-                              getmyOrderBookingHistory[index].status == "paid"
-                                  ? Colors.green
-                                  : Colors.red,
-                        ),
-=======
                             height: 10,
                             width: 10,
                             color:
                                 getmyOrderBookingHistory[index].status == "paid"
                                     ? Colors.green
                                     : Colors.red),
->>>>>>> NewUiChanges
                       ),
                       SizedBox(
                         width: 10,
@@ -720,8 +701,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     return false;
   }
 
-<<<<<<< HEAD
-=======
   String getSplitAmount(List<Splitbilltransactions> list) {
     String str = "";
     for (int i = 0; i < list.length; i++) {
@@ -733,7 +712,6 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     return "";
   }
 
->>>>>>> NewUiChanges
   String strHistoryAmount(String str) {
     double doublePrice = double.parse(str);
     String strPrice = doublePrice.toStringAsFixed(2);

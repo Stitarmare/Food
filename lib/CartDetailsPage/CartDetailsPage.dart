@@ -54,11 +54,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
   Timer _timer;
-<<<<<<< HEAD
-  Duration _duration = Duration(seconds: 30);
-=======
   Duration _duration = Duration(seconds: 10);
->>>>>>> NewUiChanges
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
@@ -169,8 +165,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
     return false;
   }
 
-<<<<<<< HEAD
-=======
   void gotoPaymentPage() async {
     _timer.cancel();
                                 // checkIntenet();
@@ -186,7 +180,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                             callApi();
   }
 
->>>>>>> NewUiChanges
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -366,20 +359,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                     MediaQuery.of(context).size.width * 0.02),
                             GestureDetector(
                               onTap: () {
-<<<<<<< HEAD
-                                _timer.cancel();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PaymentTipAndPayDi(
-                                              orderID: widget.orderId,
-                                              tableId:
-                                                  myOrderDataDetails.tableId,
-                                            )));
-=======
                                   gotoPaymentPage();
->>>>>>> NewUiChanges
                               },
                               child: isPayBillButtonEnable()
                                   ? Container()
@@ -413,11 +393,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             isAddMoreButtonEnable()
                                 ? Container()
                                 : SizedBox(
-<<<<<<< HEAD
-                                    width: MediaQuery.of(context).size.width *
-=======
                                     width:  MediaQuery.of(context).size.width *
->>>>>>> NewUiChanges
                                         0.06),
                             GestureDetector(
                               onTap: () {
@@ -455,12 +431,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   ? Container()
                                   : Container(
                                       height: 54,
-<<<<<<< HEAD
-                                      width: MediaQuery.of(context).size.width *
-=======
                                       width: isPayBillButtonEnable()?(MediaQuery.of(context).size.width *
                                               0.84) : MediaQuery.of(context).size.width *
->>>>>>> NewUiChanges
                                           0.45,
                                       decoration: BoxDecoration(
                                           color: greentheme100,
@@ -790,19 +762,7 @@ if (myOrderDataDetails.invitation != null) {
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
-<<<<<<< HEAD
-          isSplitTrans = true;
-          _timer.cancel();
-          bool isSplitBillTrans = isSplitTrans;
-          // for (var trans in myOrderDataDetails.splitbilltransactions) {
-          //   if (trans.paystatus == "paid") {
-          //     isPaid = true;
-          //   }
-          // }
-          return isSplitBillTrans;
-=======
           return true;
->>>>>>> NewUiChanges
         }
       }
     }

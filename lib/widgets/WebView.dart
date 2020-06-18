@@ -3,11 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:foodzi/Utils/String.dart';
-<<<<<<< HEAD
-import 'package:foodzi/Utils/constant.dart';
-=======
 import 'package:foodzi/Utils/globle.dart';
->>>>>>> NewUiChanges
 import 'package:foodzi/theme/colors.dart';
 
 class WebViewPage extends StatefulWidget {

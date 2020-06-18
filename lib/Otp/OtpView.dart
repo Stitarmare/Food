@@ -52,29 +52,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-<<<<<<< HEAD
-    return Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          elevation: 0,
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          backgroundColor: Colors.white70,
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: Image.asset(
-                FOODZI_LOGO_PATH,
-                height: 30,
-              ),
-            )
-          ],
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: mainview(),
-=======
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -85,7 +62,6 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
               color: Colors.black,
             ),
             backgroundColor: Colors.white70,
->>>>>>> NewUiChanges
           ),
           body: Center(
             child: SingleChildScrollView(

@@ -91,11 +91,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<Extras> extras;
   List<Sizes> sizess;
   List<Switches> switchess;
-<<<<<<< HEAD
   List<RadioButtonOptions> _subOptionList = [];
-=======
   int cartPageCount;
->>>>>>> NewUiChanges
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -457,13 +454,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             return;
                           }
                         }
-<<<<<<< HEAD
-                        if (switches != null) {
-                          if (switches.length == 0 &&
-=======
                         if (switchess != null) {
                           if (switchess.length == 0 &&
->>>>>>> NewUiChanges
                               _addItemModelList.switchesrequired == "yes") {
                             DialogsIndicator.showAlert(
                                 context,

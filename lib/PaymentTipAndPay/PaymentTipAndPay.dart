@@ -134,19 +134,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     ),
                     GestureDetector(
                       onTap: () async {
-<<<<<<< HEAD
-                        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        setState(() {
-                          isIgnoreTouch = true;
-                        });
-                        await progressDialog.show();
-                        _billCheckoutPresenter.payBillCheckOut(
-                            widget.restId,
-                            widget.totalAmount.toString(),
-                            sliderValue.toString(),
-                            "ZAR",
-                            context);
-=======
                         setState(() {
                           isIgnoreTouch = true;
                         });
@@ -166,7 +153,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                               "Amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
                               context);
                         }
->>>>>>> NewUiChanges
                       },
                       child: Container(
                         height: 45,
@@ -179,11 +165,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           child: Text(
                             STR_PLACE_ORDER_PAY_BILL,
                             style: TextStyle(
-<<<<<<< HEAD
-                                fontFamily: Constants.getFontType(),
-=======
                                 fontFamily: KEY_FONTFAMILY,
->>>>>>> NewUiChanges
                                 fontWeight: FontWeight.w600,
                                 fontSize: FONTSIZE_16,
                                 color: Colors.white),
@@ -610,17 +592,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       myOrderData.id,
       STR_CARD,
       myOrderData.totalAmount,
-<<<<<<< HEAD
-      (double.parse(myOrderData.totalAmount) + tipAmount).toString(),
-      _paymentCheckoutModel.transactionId,
-      context,
-      tipAmount.toString(),
-=======
       (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
       _paymentCheckoutModel.transactionId,
       context,
       sliderValue.toString(),
->>>>>>> NewUiChanges
     );
   }
 

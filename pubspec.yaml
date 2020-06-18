@@ -177,10 +177,8 @@ flutter:
       - assets/VegIcon/Group1661.png
       - assets/VegIcon/Group1661@2x.png
       - assets/VegIcon/Group1661@3x.png
-<<<<<<< HEAD
       #MappinImage
       - assets/MappinImage/mappin.png
-=======
       #UserGuide
       - assets/UserGuide/additemtocart.png
       - assets/UserGuide/loginpage.png
@@ -194,7 +192,6 @@ flutter:
       - assets/UserGuide/currentorders.png
       - assets/UserGuide/LandingScreen.png
 
->>>>>>> NewUiChanges
       
 
   fonts:

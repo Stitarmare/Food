@@ -476,21 +476,13 @@ class _MyCartViewState extends State<MyCartView>
                         Constants.showAlert(
                             STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
-<<<<<<< HEAD
-                        if (double.parse(myCart.grandTotal) > 1.0) {
-=======
                         if (double.parse(myCart.grandTotal) >= 1.0) {
->>>>>>> NewUiChanges
                           Globle().dinecartValue = 0;
                           Preference.setPersistData<int>(
                               0, PreferenceKeys.dineCartItemCount);
                           Preference.setPersistData<int>(
                               0, PreferenceKeys.dineCartItemCount);
-<<<<<<< HEAD
-                          (_cartItemList != null)
-=======
                           (_cartItemList != null && _cartItemList.length > 0)
->>>>>>> NewUiChanges
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -515,11 +507,7 @@ class _MyCartViewState extends State<MyCartView>
                         } else {
                           Constants.showAlert(
                               "Amount",
-<<<<<<< HEAD
-                              "Total Amount should be greater than ${getCurrency()} 1.00",
-=======
                               "Amount should be greater than ${getCurrency()} 1.00",
->>>>>>> NewUiChanges
                               context);
                         }
                       }

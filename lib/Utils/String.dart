@@ -37,12 +37,7 @@ const STR_CATEGORY_SECTION = '/CategoriesSection';
 // API_BASE_HELPER Page
 
 // URLs
-<<<<<<< HEAD
-// const STR_PRODUCTION_URL = "http://18.219.185.86/";
-const STR_PRODUCTION_URL = "http://3.12.75.171/";
-=======
 const STR_PRODUCTION_URL = "https://www.foodzi.app/";
->>>>>>> NewUiChanges
 const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
 const STR_LOCAL_URL = "http://3.12.75.171/";
 

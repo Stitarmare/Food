@@ -55,16 +55,13 @@ class _TakeAwayViewState extends State<TakeAwayView>
     BottomItemButton(title: STR_RATINGS, id: 1, isSelected: false),
     BottomItemButton(title: STR_FAVORITE, id: 2, isSelected: false),
   ];
-<<<<<<< HEAD
 
   int delivery = 0;
 
-=======
   String favourite;
   String rating;
   String sortByDistance;
   String sortByRating;
->>>>>>> NewUiChanges
   var sliderValue;
   bool isIgnoreTouch = true;
   bool isBackActive = false;
@@ -160,49 +157,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
-<<<<<<< HEAD
-    return IgnorePointer(
-      ignoring: isIgnoreTouch,
-      child: Scaffold(
-        key: this._scaffoldKey,
-        appBar: AppBar(
-            brightness: Brightness.dark,
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: Text(
-              STR_COLLECTION,
-              style: TextStyle(
-                  fontSize: FONTSIZE_18,
-                  fontFamily: Constants.getFontType(),
-                  fontWeight: FontWeight.w500,
-                  color: greytheme1200),
-            ),
-            actions: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        FOODZI_LOGO_PATH,
-                        height: 30,
-                      )),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text(
-                  //     STR_ORDER_EASY,
-                  //     style: TextStyle(
-                  //         fontFamily: Constants.getFontType(),
-                  //         fontSize: FONTSIZE_6,
-                  //         color: greytheme400,
-                  //         fontWeight: FontWeight.w700,
-                  //         letterSpacing: 1),
-                  //   ),
-                  // ),
-                ],
-=======
     return WillPopScope(
       onWillPop: () async => isBackActive,
       child: IgnorePointer(
@@ -221,7 +175,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
->>>>>>> NewUiChanges
               ),
               actions: <Widget>[
                 Column(
@@ -267,38 +220,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               var val = await showDialog(
                                   context: context, child: new SliderDialog());
 
-<<<<<<< HEAD
-                          void setSelectedSortItem(
-                              BottomItemButton bottomItem, List bottomList) {
-                            // for (int i = 0; i < bottomList.length; i++) {
-                            //   bottomList[i].isSelected = false;
-                            // }
-
-                            final tile = bottomList.firstWhere(
-                                (item) => item.id == bottomItem.id,
-                                orElse: null);
-                            if (tile != null) {
-                              setBottomState(() {
-                                tile.isSelected = !tile.isSelected;
-                                // tile.isSelected = true;
-                                // if (bottomList == optionSortBy) {
-                                //   sortedBy = bottomItem.title;
-
-                                //   if (bottomItem.title == STR_DISTANCE) {
-                                //     sortedBy = STR_SMALL_DISTANCE;
-                                //   } else {
-                                //     sortedBy = STR_SMALL_RATING;
-                                //   }
-                                // }
-                                if (bottomList == optionFilterBy) {
-                                  filteredBy = bottomItem.title;
-                                  if (bottomItem.title == STR_RATINGS) {
-                                    getRatingValue().then((onValue) {
-                                      filteredBy = STR_SMALL_RATING +
-                                          "${onValue.toString()}+";
-                                      print(sliderValue.toString());
-                                    });
-=======
                               return double.parse(val.toString());
                             }
 
@@ -360,43 +281,11 @@ rating = STR_SMALL_RATING +
                                         bottomItem.isSelected == false) {
                                       sortByRating = null;
                                     }
->>>>>>> NewUiChanges
                                   }
                                 });
                               }
                             }
 
-<<<<<<< HEAD
-                          Widget _bottomSheetItem(
-                              BottomItemButton item, List bottomList) {
-                            return Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 29,
-                                child: FlatButton(
-                                  color: item.isSelected
-                                      ? greentheme100
-                                      : Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        10.0,
-                                      ),
-                                      side: BorderSide(
-                                        color: item.isSelected
-                                            ? greentheme100
-                                            : greytheme600,
-                                      )),
-                                  onPressed: () =>
-                                      setSelectedSortItem(item, bottomList),
-                                  child: Text(
-                                    item.title,
-                                    style: TextStyle(
-                                        fontFamily: Constants.getFontType(),
-                                        color: item.isSelected
-                                            ? Colors.white
-                                            : greytheme1000,
-                                        fontSize: 14),
-=======
                             Widget _bottomSheetItem(
                                 BottomItemButton item, List bottomList) {
                               return Container(
@@ -427,68 +316,11 @@ rating = STR_SMALL_RATING +
                                               : greytheme1000,
                                           fontSize: FONTSIZE_14),
                                     ),
->>>>>>> NewUiChanges
                                   ),
                                 ),
                               );
                             }
 
-<<<<<<< HEAD
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  right: 47,
-                                  bottom:
-                                      MediaQuery.of(context).size.height * 0.3 -
-                                          38,
-                                  child: FloatingActionButton(
-                                      onPressed: () async {
-                                        // Navigator.of(context,
-                                        //         rootNavigator: true)
-                                        //     .pop();
-                                        await progressDialog.hide();
-                                        // DialogsIndicator.showLoadingDialog(
-                                        //     context,
-                                        //     _keyLoader,
-                                        //     STR_PLEASE_WAIT);
-                                        await progressDialog.show();
-                                        dinerestaurantPresenter
-                                            .getrestaurantspage(
-                                                _position.latitude.toString(),
-                                                _position.longitude.toString(),
-                                                sortedBy,
-                                                filteredBy,
-                                                page,
-                                                delivery,
-                                                context);
-                                      },
-                                      child: IconTheme(
-                                          data: IconThemeData(
-                                              color: greentheme200),
-                                          child: Icon(
-                                            Icons.check,
-                                            size: 45,
-                                            color: Colors.white,
-                                          ))),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, left: 28),
-                                          child: Text(
-                                            STR_SORT_BY,
-                                            style: TextStyle(
-                                                fontSize: FONTSIZE_16,
-                                                fontWeight: FontWeight.w500,
-                                                color: greytheme700),
-=======
                             return Container(
                               height: MediaQuery.of(context).size.height * 0.3,
                               child: Stack(
@@ -536,7 +368,6 @@ rating = STR_SMALL_RATING +
                                                   fontWeight: FontWeight.w500,
                                                   color: greytheme700),
                                             ),
->>>>>>> NewUiChanges
                                           ),
                                         ),
                                         SizedBox(
@@ -601,27 +432,6 @@ rating = STR_SMALL_RATING +
                             );
                           });
                         });
-<<<<<<< HEAD
-                      });
-                },
-              )
-            ]),
-        body: getttingLocation == false
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        STR_CURRENT_LOCATION,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-=======
                   },
                 )
               ]),
@@ -641,7 +451,6 @@ rating = STR_SMALL_RATING +
                               fontWeight: FontWeight.w500,
                               color: greytheme1200),
                         ),
->>>>>>> NewUiChanges
                       ),
                       CircularProgressIndicator()
                     ],
@@ -718,6 +527,7 @@ rating = STR_SMALL_RATING +
         sortByDistance,
         sortByRating,
         page,
+        delivery,
         context);
   }
 

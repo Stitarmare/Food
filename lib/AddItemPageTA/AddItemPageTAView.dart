@@ -115,28 +115,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       var index = 0;
       _radioOptions = radiolist;
       for (var item in radiolist) {
-<<<<<<< HEAD
-      if (item.spreadDefault == "yes") {
-          radioBtnId = item.id;
-          index = item.index;
-      }
-    }
-    
-    if (radioBtnId == null) {
-      if (_addItemModelList.spreads.length>0) {
-          radioBtnId = _addItemModelList.spreads[0].id;
-          
-      }
-      
-    }
-selectedIndex = index;
-    getSubOption(index);
-=======
         if (item.spreadDefault == "yes") {
           radioBtnId = item.index;
         }
       }
->>>>>>> NewUiChanges
     });
 
     

@@ -159,49 +159,6 @@ class _DineViewState extends State<DineInView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
-<<<<<<< HEAD
-    return IgnorePointer(
-      ignoring: isIgnoreTouch,
-      child: Scaffold(
-        key: this._scaffoldKey,
-        appBar: AppBar(
-            brightness: Brightness.dark,
-            centerTitle: false,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: Text(
-              STR_DINE_IN,
-              style: TextStyle(
-                  fontSize: FONTSIZE_18,
-                  fontFamily: Constants.getFontType(),
-                  fontWeight: FontWeight.w500,
-                  color: greytheme1200),
-            ),
-            actions: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        FOODZI_LOGO_PATH,
-                        height: 30,
-                      )),
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text(
-                  //     STR_ORDER_EASY,
-                  //     style: TextStyle(
-                  //         fontFamily: Constants.getFontType(),
-                  //         fontSize: FONTSIZE_6,
-                  //         color: greytheme400,
-                  //         fontWeight: FontWeight.w700,
-                  //         letterSpacing: 1),
-                  //   ),
-                  // ),
-                ],
-=======
     return WillPopScope(
       onWillPop: () async => isBackActive,
       child: IgnorePointer(
@@ -220,7 +177,6 @@ class _DineViewState extends State<DineInView>
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
->>>>>>> NewUiChanges
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
@@ -272,41 +228,6 @@ class _DineViewState extends State<DineInView>
                               var val = await showDialog(
                                   context: context, child: new SliderDialog());
 
-<<<<<<< HEAD
-                          void setSelectedSortItem(
-                              BottomItemButton bottomItem, List bottomList) {
-                            // for (int i = 0; i < bottomList.length; i++) {
-                            //   bottomList[i].isSelected = false;
-                            // }
-
-                            final tile = bottomList.firstWhere(
-                                (item) => item.id == bottomItem.id,
-                                orElse: null);
-                            if (tile != null) {
-                              setBottomState(() {
-                                tile.isSelected = !tile.isSelected;
-                                // if (bottomList == optionSortBy) {
-                                //   sortedBy = bottomItem.title;
-                                //   if (bottomItem.title == STR_DISTANCE) {
-                                //     sortedBy = STR_SMALL_DISTANCE;
-                                //   } else {
-                                //     sortedBy = STR_SMALL_RATING;
-                                //   }
-                                // }
-                                if (bottomList == optionFilterBy) {
-                                  filteredBy = bottomItem.title;
-                                  if (bottomItem.title == STR_RATINGS) {
-                                    getRatingValue().then((onValue) {
-                                      filteredBy = STR_SMALL_RATING +
-                                          "${onValue.toString()}+";
-                                      print(sliderValue.toString());
-                                    });
-                                  }
-                                } else {
-                                  filteredBy = STR_SMALL_FAVOURITE;
-                                }
-                              });
-=======
                               return double.parse(val.toString());
                             }
 
@@ -371,40 +292,8 @@ class _DineViewState extends State<DineInView>
                                   }
                                 });
                               }
->>>>>>> NewUiChanges
                             }
 
-<<<<<<< HEAD
-                          Widget _bottomSheetItem(
-                              BottomItemButton item, List bottomList) {
-                            return Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                height: 29,
-                                child: FlatButton(
-                                  color: item.isSelected
-                                      ? greentheme100
-                                      : Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        10.0,
-                                      ),
-                                      side: BorderSide(
-                                        color: item.isSelected
-                                            ? greentheme100
-                                            : greytheme600,
-                                      )),
-                                  onPressed: () =>
-                                      setSelectedSortItem(item, bottomList),
-                                  child: Text(
-                                    item.title,
-                                    style: TextStyle(
-                                        fontFamily: Constants.getFontType(),
-                                        color: item.isSelected
-                                            ? Colors.white
-                                            : greytheme1000,
-                                        fontSize: FONTSIZE_14),
-=======
                             Widget _bottomSheetItem(
                                 BottomItemButton item, List bottomList) {
                               return Container(
@@ -435,7 +324,6 @@ class _DineViewState extends State<DineInView>
                                               : greytheme1000,
                                           fontSize: FONTSIZE_14),
                                     ),
->>>>>>> NewUiChanges
                                   ),
                                 ),
                               );
@@ -552,73 +440,6 @@ class _DineViewState extends State<DineInView>
                             );
                           });
                         });
-<<<<<<< HEAD
-                      });
-                },
-              )
-            ]),
-        body: getttingLocation == false
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        STR_CURRENT_LOCATION,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
-                    ),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              )
-            : locationNotFound
-                ? Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                          child: Text(
-                            "Please enable location service and try again.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_15,
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w500,
-                                color: greytheme1200),
-                          ),
-                        ),
-                        FlatButton(
-                            onPressed: () {
-                              _getLocation();
-                            },
-                            child: Text("Try again"))
-                      ],
-                    ),
-                  )
-                : (_restaurantList != null)
-                    ? restaurantsInfo()
-                    : Container(
-                        child: Center(
-                          child: Text(
-                            STR_NO_RESTAURANT,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: FONTSIZE_25,
-                                fontFamily: Constants.getFontType(),
-                                fontWeight: FontWeight.w500,
-                                color: greytheme700),
-                          ),
-                        ),
-                      ),
-=======
                   },
                 )
               ]),
@@ -698,7 +519,6 @@ class _DineViewState extends State<DineInView>
                           ),
                         ),
         ),
->>>>>>> NewUiChanges
       ),
     );
   }
@@ -719,18 +539,12 @@ class _DineViewState extends State<DineInView>
     dinerestaurantPresenter.getrestaurantspage(
         _position.latitude.toString(),
         _position.longitude.toString(),
-<<<<<<< HEAD
-        sortedBy,
-        filteredBy,
-        page,
-        delivery,
-=======
         rating,
         favourite,
         sortByDistance,
         sortByRating,
         page,
->>>>>>> NewUiChanges
+        delivery,
         context);
   }
 

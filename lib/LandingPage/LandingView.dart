@@ -211,61 +211,6 @@ class _LandingStateView extends State<Landingview>
           //       )
           //     : Text(""),
         ),
-<<<<<<< HEAD
-        body: SingleChildScrollView(child: _getmainView()),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: (isOrderRunning)
-            ? SizedBox(
-                child: GestureDetector(
-                  onTap: () {
-                    showStatusView();
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        border: Border.all()),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(STR_VIEW_YOUR_ORDER,
-                          style: TextStyle(
-                              fontSize: FONTSIZE_16,
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
-                              color: greentheme100)),
-                    ),
-                    // child: (FloatingActionButton.extended(
-                    //   onPressed: () {
-                    //     showStatusView();
-                    //   },
-                    //   // elevation: 2,
-                    //   // highlightElevation: 2,
-                    //   // focusElevation: 2,
-                    //   backgroundColor: Colors.white,
-                    //   label: Text(STR_VIEW_YOUR_ORDER,
-                    //       style: TextStyle(
-                    //           fontSize: FONTSIZE_16,
-                    //           fontFamily: Constants.getFontType(),
-                    //           fontWeight: FontWeight.w600,
-                    //           color: greentheme100)),
-                    // )),
-                  ),
-                ),
-              )
-            : (Container()),
-        // bottomNavigationBar: (isOrderRunning)
-        //     ? BottomAppBar(
-        //         child: Container(
-        //           color: greytheme1300,
-        //           height: 40,
-        //           child: _currentOrdertext(),
-        //         ),
-        //       )
-        //     : Text(""),
-=======
->>>>>>> NewUiChanges
       ),
     );
   }
@@ -353,9 +298,6 @@ class _LandingStateView extends State<Landingview>
                 fontSize: FONTSIZE_20,
                 fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
-<<<<<<< HEAD
-                color: greytheme300),
-=======
                 color: greytheme100),
           ),
           SizedBox(
@@ -371,7 +313,6 @@ class _LandingStateView extends State<Landingview>
                   fontWeight: FontWeight.w600,
                   color: greytheme500),
             ),
->>>>>>> NewUiChanges
           ),
           // SizedBox(
           //   width: 10,
@@ -432,7 +373,7 @@ class _LandingStateView extends State<Landingview>
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              goToTakeAway();
+              goToTakeAway(1);
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -479,7 +420,7 @@ class _LandingStateView extends State<Landingview>
     if (progressDialog != null) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-      _landingViewPresenter.getCurrentOrder(context);
+      _landingViewPresenter.getCurrentOrder(context,false);
     }
   }
 
