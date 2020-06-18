@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -39,6 +40,9 @@ class PaymentDeliveryView extends StatefulWidget {
   List<MenuCartList> itemdata;
   String currencySymbol;
   String addressData;
+  String address;
+  String houseNo;
+  String landmark;
   PaymentDeliveryView(
       {this.userId,
       this.price,
@@ -54,7 +58,10 @@ class PaymentDeliveryView extends StatefulWidget {
       this.currencySymbol,
       this.itemdata,
       this.restName,
-      this.flag});
+      this.flag,
+      this.address,
+      this.houseNo,
+      this.landmark});
   _PaymentDeliveryViewState createState() => _PaymentDeliveryViewState();
 }
 
@@ -72,15 +79,14 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   PayBillCheckoutPresenter _billCheckoutPresenter;
   PaymentTipandPayDiPresenter _paymentTipandPayDiPresenter;
   PayFinalBillPresenter _finalBillPresenter;
+  PaymentCheckoutModel _paymentCheckoutModel;
   ProgressDialog progressDialog;
-  bool isIgnoreTouch = false;
-
   String currencySymb = STR_BLANK;
   OrderDetailsModel _model;
-
+  DeliveryData _deliveryData;
+  int deliveryCharge = 0;
   OrderData myOrderData;
   OrderDetailData myOrderDataDetails;
-
   PaycheckoutNetbanking billModel;
   @override
   void initState() {
@@ -92,8 +98,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
     _finalBillPresenter = PayFinalBillPresenter(this);
+    _paymentDeliveryPresenter.getDeliveryChargeDetails(
+        widget.latitude, widget.longitude, widget.restId, context);
     print(widget.addressData);
-
     super.initState();
   }
 
@@ -105,89 +112,99 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
       top: false,
       right: false,
       bottom: true,
-      child: IgnorePointer(
-        ignoring: isIgnoreTouch,
-        child: Scaffold(
-          appBar: AppBar(
-            brightness: Brightness.dark,
-            title: Text(STR_PAYMENT),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-          body: CustomScrollView(
-            controller: _controller,
-            slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-          ),
-          bottomNavigationBar: BottomAppBar(
-            child: Container(
-                height: 80,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      height: 35,
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
-                        setState(() {
-                          isIgnoreTouch = true;
-                        });
-                        await progressDialog.show();
-                        _paymentDeliveryPresenter.placeOrder(
-                            widget.restId,
-                            Globle().loginModel.data.id,
-                            widget.orderType,
-                            widget.tableId,
-                            widget.items,
-                            widget.totalAmount,
-                            widget.latitude,
-                            widget.longitude,
-                            context);
-                      },
-                      child: Container(
-                        height: 45,
-                        decoration: BoxDecoration(
-                            color: getColorByHex(Globle().colorscode),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15))),
-                        child: Center(
-                          child: Text(
-                            STR_PLACE_ORDER_PAY_BILL,
-                            style: TextStyle(
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w600,
-                                fontSize: FONTSIZE_16,
-                                color: Colors.white),
-                          ),
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          title: Text(STR_PAYMENT),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: CustomScrollView(
+          controller: _controller,
+          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+              height: 80,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    height: 35,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await progressDialog.show();
+                      // DialogsIndicator.showLoadingDialog(
+                      //     context, _keyLoader, STR_BLANK);
+                      getVerifyAmount();
+                      // _paymentDeliveryPresenter.placeOrder(
+                      //     widget.restId,
+                      //     Globle().loginModel.data.id,
+                      //     widget.orderType,
+                      //     widget.tableId,
+                      //     widget.items,
+                      //     widget.totalAmount,
+                      //     widget.latitude,
+                      //     widget.longitude,
+                      //     context);
+                    },
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: getColorByHex(Globle().colorscode),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          STR_PLACE_ORDER_PAY_BILL,
+                          style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
                         ),
                       ),
                     ),
-                  ],
-                )),
-          ),
+                  ),
+                ],
+              )),
         ),
       ),
     );
   }
 
+  getVerifyAmount() {
+    if ((widget.totalAmount + deliveryCharge) > 1.0) {
+      _billCheckoutPresenter.payBillCheckOut(
+          widget.restId,
+          widget.totalAmount.toString(),
+          deliveryCharge.toString(),
+          "ZAR",
+          context);
+    } else {
+      _model.currencySymbol != null
+          ? Constants.showAlert(
+              "Amount",
+              "Amount should be greater than ${_model.currencySymbol} 1.00",
+              context)
+          : Constants.showAlert(
+              "Amount", "Amount should be greater than 1.00", context);
+    }
+  }
+
   Widget _getmainviewTableno() {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-        child: Card(
+        child: Column(
+      children: <Widget>[
+        Card(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
               Row(
                 children: <Widget>[
                   SizedBox(
-                    width: 20,
+                    width: 5,
                   ),
                   Text(
                     STR_DELIVERY_TITLE,
@@ -206,8 +223,98 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
             ],
           ),
         ),
-      ),
-    );
+        Container(
+          margin: EdgeInsets.fromLTRB(15, 10, 15, 0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text(
+                    "House No : ",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w600,
+                        color: greytheme700),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.houseNo,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Text(
+                widget.address,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w500,
+                    color: greytheme700),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: <Widget>[
+                  Text(
+                    "Landmark : ",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w600,
+                        color: greytheme700),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    widget.landmark,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 200,
+                height: 50,
+                child: Card(
+                  child: Center(
+                    child: Text(
+                      widget.restName,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: KEY_FONTFAMILY,
+                          fontWeight: FontWeight.w600,
+                          color: getColorByHex(Globle().colorscode)),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ));
   }
 
   Widget _getOptions() {
@@ -219,10 +326,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           Divider(
             thickness: 2,
           ),
-          _getTipSlider(),
-          Divider(
-            thickness: 2,
-          ),
+          //_getTipSlider(),
+          // Divider(
+          //   thickness: 2,
+          // ),
           _getBillDetails(),
         ],
       ),
@@ -448,7 +555,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' 12',
+                  currencySymb + ' $deliveryCharge',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -475,8 +582,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb +
-                      ' ${widget.totalAmount + sliderValue.toInt() + 12}',
+                  currencySymb + ' ${widget.totalAmount + deliveryCharge}',
+                  // ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -546,9 +653,6 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> placeOrderfailed() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     await progressDialog.hide();
@@ -558,38 +662,39 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   @override
   Future<void> placeOrdersuccess(OrderData orderData) async {
     setState(() {
-      isIgnoreTouch = false;
-    });
-    setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
         Globle().takeAwayCartItemCount = 0;
       }
     });
-
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
     await progressDialog.show();
+    _finalBillPresenter.payfinalOrderBill(
+      Globle().loginModel.data.id,
+      myOrderData.restId,
+      myOrderData.id,
+      STR_CARD,
+      myOrderData.totalAmount,
+      (double.parse(myOrderData.totalAmount) + deliveryCharge).toString(),
+      _paymentCheckoutModel.transactionId,
+      context,
+      deliveryCharge.toString(),
+    );
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
-        myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
+    // _billCheckoutPresenter.payBillCheckOut(myOrderData.restId,
+    //     myOrderData.totalAmount, sliderValue.toString(), "ZAR", context);
   }
 
   @override
   Future<void> payBillCheckoutFailed() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     if (billModel == null) {
       billModel = model;
     }
@@ -607,11 +712,11 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           codec.encode(data[STR_CHECKOUT_CODE]), context);
     } else {
       await progressDialog.hide();
-      //Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
+      Constants.showAlert(
+          "Payment Failed!", "Please pay first before place order.", context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-
-      _paymentTipandPayDiPresenter.onCancelledPayment(
-          myOrderData.id, widget.orderType, context);
+      // _paymentTipandPayDiPresenter.onCancelledPayment(
+      //     myOrderData.id, widget.orderType, context);
     }
   }
 
@@ -635,9 +740,6 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> paymentCheckoutFailed() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -645,23 +747,32 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   @override
   Future<void> paymentCheckoutSuccess(
       PaymentCheckoutModel paymentCheckoutModel) async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     if (paymentCheckoutModel.statusCode == 200) {
+      _paymentCheckoutModel = paymentCheckoutModel;
       await progressDialog.show();
+      _paymentDeliveryPresenter.placeOrderDelivery(
+          Globle().loginModel.data.id,
+          widget.restId,
+          widget.totalAmount,
+          deliveryCharge,
+          widget.houseNo,
+          widget.landmark,
+          widget.latitude,
+          widget.longitude,
+          widget.items,
+          context);
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      _finalBillPresenter.payfinalOrderBill(
-        Globle().loginModel.data.id,
-        myOrderData.restId,
-        myOrderData.id,
-        STR_CARD,
-        myOrderData.totalAmount,
-        (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
-        paymentCheckoutModel.transactionId,
-        context,
-        sliderValue.toString(),
-      );
+      // _finalBillPresenter.payfinalOrderBill(
+      //   Globle().loginModel.data.id,
+      //   myOrderData.restId,
+      //   myOrderData.id,
+      //   STR_CARD,
+      //   myOrderData.totalAmount,
+      //   (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      //   paymentCheckoutModel.transactionId,
+      //   context,
+      //   sliderValue.toString(),
+      // );
     } else {
       await progressDialog.hide();
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
@@ -671,18 +782,12 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> payfinalBillFailed() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> payfinalBillSuccess() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -701,18 +806,12 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   Future<void> cancelledPaymentFailed() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> cancelledPaymentSuccess() async {
-    setState(() {
-      isIgnoreTouch = false;
-    });
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
@@ -720,7 +819,17 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
 
   @override
   void onFailedQuantityIncrease() {}
-
   @override
   void onSuccessQuantityIncrease() {}
+  @override
+  void getDeliveryDataFailed() {}
+  @override
+  void getDeliveryDataSuccess(DeliveryData data) {
+    if (data != null) {
+      setState(() {
+        _deliveryData = data;
+        deliveryCharge = _deliveryData.deliveryCharge;
+      });
+    }
+  }
 }

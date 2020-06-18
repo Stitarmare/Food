@@ -59,4 +59,5 @@ class UrlConstant {
   static const provideAnotherNumberApi = "api/provideAnotherNumber";
   static const getDeliveryBoyInfoApi = "api/get-deliveryboy-info";
   static const placeOrderDeliveryApi = "api/placeOrderDelivery";
+  static const getdeliverychargeApi = "api/get-delivery-charge";
 }

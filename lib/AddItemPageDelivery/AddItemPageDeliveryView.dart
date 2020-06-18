@@ -146,7 +146,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
         id: _addItemModelList.spreads[i - 1].id,
-        index: i-1,
+        index: i - 1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
@@ -157,44 +157,40 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       var index = 0;
       _radioOptions = radiolist;
       for (var item in radiolist) {
-      if (item.spreadDefault == "yes") {
+        if (item.spreadDefault == "yes") {
           radioBtnId = item.id;
           index = item.index;
+        }
       }
-    }
-    
-    if (radioBtnId == null) {
-      if (_addItemModelList.spreads.length>0) {
-          radioBtnId = _addItemModelList.spreads[0].id;
-          
-      }
-      
-    }
-selectedIndex = index;
-    getSubOption(index);
-    });
 
-    
+      if (radioBtnId == null) {
+        if (_addItemModelList.spreads.length > 0) {
+          radioBtnId = _addItemModelList.spreads[0].id;
+        }
+      }
+      selectedIndex = index;
+      getSubOption(index);
+    });
 
     return radiolist.length;
   }
 
   void getSubOption(int index) {
-      if (_addItemModelList.spreads.length > 0) {
-        if (_addItemModelList.spreads[index].suboptions.length>0) {
-          List<RadioButtonOptions> subOptionRadiolist = [];
-            for (var value in _addItemModelList.spreads[index].suboptions)  {
-              subOptionRadiolist.add(RadioButtonOptions(
-                index: value.id,
-                 title: value.name ?? STR_BLANK,
-              ));
-            }
-            if (subOptionRadiolist.length > 0) {
-              _subOptionList = subOptionRadiolist;
-              subOptionId = _subOptionList[0].index; 
-            }
+    if (_addItemModelList.spreads.length > 0) {
+      if (_addItemModelList.spreads[index].suboptions.length > 0) {
+        List<RadioButtonOptions> subOptionRadiolist = [];
+        for (var value in _addItemModelList.spreads[index].suboptions) {
+          subOptionRadiolist.add(RadioButtonOptions(
+            index: value.id,
+            title: value.name ?? STR_BLANK,
+          ));
+        }
+        if (subOptionRadiolist.length > 0) {
+          _subOptionList = subOptionRadiolist;
+          subOptionId = _subOptionList[0].index;
         }
       }
+    }
   }
 
   int getradiobtnsize(int length) {
@@ -560,7 +556,6 @@ selectedIndex = index;
         sizess = [defaultSize];
       }
     }
-    
 
     if (extras == null) {
       addItemData(alreadyAdde, restauran, restaurantName);
@@ -575,18 +570,13 @@ selectedIndex = index;
 
   void addItemData(
       bool alreadyAdde, int restauran, String restaurantName) async {
-        List<SubSpread> subSpread;
-                        if (subOptionId != null) {
-                           subSpread = [];
-                           var sub = SubSpread();
-                           sub.subspreadId = subOptionId; 
-                           subSpread.add(sub);
-                        }
-    addMenuToCartModel.items = [items];
-    addMenuToCartModel.items[0].itemId = widget.itemId;
-    addMenuToCartModel.items[0].preparationNote = specialReq;
-    addMenuToCartModel.items[0].extra = extras;
-    addMenuToCartModel.items[0].subspreads = subSpread;
+    List<SubSpread> subSpread;
+    if (subOptionId != null) {
+      subSpread = [];
+      var sub = SubSpread();
+      sub.subspreadId = subOptionId;
+      subSpread.add(sub);
+    }
     if (sizess != null) {
       if (sizess.length > 0) {
         addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
@@ -598,6 +588,11 @@ selectedIndex = index;
     // } else {
     //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     // }
+    addMenuToCartModel.items = [items];
+    addMenuToCartModel.items[0].itemId = widget.itemId;
+    addMenuToCartModel.items[0].preparationNote = specialReq;
+    addMenuToCartModel.items[0].extra = extras;
+    addMenuToCartModel.items[0].subspreads = subSpread;
     addMenuToCartModel.items[0].spreads = spread == null
         ? (defaultSpread != null) ? [defaultSpread] : null
         : [spread];
@@ -1196,82 +1191,89 @@ selectedIndex = index;
             : [Container()]);
   }
 
-   _getRadioOptions() {
+  _getRadioOptions() {
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
         children: _radioOptions.length > 0
             ? _radioOptions
                 .map((radionBtn) => Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Column(
-                        children: <Widget>[
-                          RadioListTile(
-                        title: radionBtn.title != null
-                            ? Text(StringUtils.capitalize("${radionBtn.title}"))
-                            : Text(STR_DATA),
-                        // groupValue: (radionBtn.spreadDefault == "yes")
-                        //     ? radionBtn.index
-                        //     : radioBtnId,
-                        groupValue: radioBtnId,
-                        value: radionBtn.id,
-                        dense: true,
-                        activeColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        onChanged: (val) {
-                          setState(() {
-                            if (spread == null) {
-                              spread = Spreads();
-                            }
-                            radioBtnId = val;
-                            radioItem = radionBtn.title;
-                            print(radionBtn.title);
-                            var index = 0;
-                            _radioOptions.forEach((value){
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Column(
+                      children: <Widget>[
+                        RadioListTile(
+                          title: radionBtn.title != null
+                              ? Text(
+                                  StringUtils.capitalize("${radionBtn.title}"))
+                              : Text(STR_DATA),
+                          // groupValue: (radionBtn.spreadDefault == "yes")
+                          //     ? radionBtn.index
+                          //     : radioBtnId,
+                          groupValue: radioBtnId,
+                          value: radionBtn.id,
+                          dense: true,
+                          activeColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          onChanged: (val) {
+                            setState(() {
+                              if (spread == null) {
+                                spread = Spreads();
+                              }
+                              radioBtnId = val;
+                              radioItem = radionBtn.title;
+                              print(radionBtn.title);
+                              var index = 0;
+                              _radioOptions.forEach((value) {
                                 if (radioBtnId == value.id) {
-                                    index = value.index;
-                                    selectedIndex = index;
-                                }   
+                                  index = value.index;
+                                  selectedIndex = index;
+                                }
+                              });
+                              getSubOption(index);
+                              // id = radionBtn.index;
+                              spread.spreadId = radioBtnId;
+                              print(spread.spreadId);
                             });
-                            getSubOption(index);
-                            // id = radionBtn.index;
-                            spread.spreadId = radioBtnId;
-                            print(spread.spreadId);
-                          });
-                        },
-                      ),
-                      selectedIndex == radionBtn.index ?
-                      Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Column(
-                        children: _subOptionList.map((subOption)=>RadioListTile(
-                        title: radionBtn.title != null
-                            ? Text(StringUtils.capitalize("${subOption.title}"))
-                            : Text(STR_DATA),
-                        // groupValue: (radionBtn.spreadDefault == "yes")
-                        //     ? radionBtn.index
-                        //     : radioBtnId,
-                        groupValue: subOptionId,
-                        value: subOption.index,
-                        dense: true,
-                        activeColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        onChanged: (val) {
-                         setState(() {
-                           subOptionId = val;
-                         });
-                        },
-                      )).toList(),
-                      ),
-                      ) : Container()
-                        ],
-                      )
-                    ))
+                          },
+                        ),
+                        selectedIndex == radionBtn.index
+                            ? Padding(
+                                padding: EdgeInsets.only(left: 30),
+                                child: Column(
+                                  children: _subOptionList
+                                      .map((subOption) => RadioListTile(
+                                            title: radionBtn.title != null
+                                                ? Text(StringUtils.capitalize(
+                                                    "${subOption.title}"))
+                                                : Text(STR_DATA),
+                                            // groupValue: (radionBtn.spreadDefault == "yes")
+                                            //     ? radionBtn.index
+                                            //     : radioBtnId,
+                                            groupValue: subOptionId,
+                                            value: subOption.index,
+                                            dense: true,
+                                            activeColor:
+                                                ((Globle().colorscode) != null)
+                                                    ? getColorByHex(
+                                                        Globle().colorscode)
+                                                    : orangetheme,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                subOptionId = val;
+                                              });
+                                            },
+                                          ))
+                                      .toList(),
+                                ),
+                              )
+                            : Container()
+                      ],
+                    )))
                 .toList()
             : [Container()]);
   }
+
   String getCurrencySymbol() {
     if (_addItemPageModelList != null) {
       if (_addItemPageModelList.currencySymbol != null) {
@@ -1812,8 +1814,8 @@ selectedIndex = index;
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
-if (defaultSpre == null) {
-      if (_addItemModelList.spreads.length>0) {
+    if (defaultSpre == null) {
+      if (_addItemModelList.spreads.length > 0) {
         defaultSpre = Spreads();
         defaultSpre.spreadId = _addItemModelList.spreads[0].id;
       }
@@ -1891,7 +1893,7 @@ class RadioButtonOptions {
   String title;
   String spreadDefault;
 // bool selected;
-  RadioButtonOptions({this.index, this.title, this.spreadDefault,this.id});
+  RadioButtonOptions({this.index, this.title, this.spreadDefault, this.id});
 }
 
 class RadioButtonOptionsSizes {

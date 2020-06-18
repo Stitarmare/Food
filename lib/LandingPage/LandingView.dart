@@ -298,22 +298,22 @@ class _LandingStateView extends State<Landingview>
                 fontSize: FONTSIZE_20,
                 fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
-                color: greytheme100),
+                color: greytheme300),
           ),
           SizedBox(
             height: 10,
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Text(
-              Globle().loginModel.data.firstName ?? '',
-              style: TextStyle(
-                  fontSize: FONTSIZE_32,
-                  fontFamily: KEY_FONTFAMILY,
-                  fontWeight: FontWeight.w600,
-                  color: greytheme500),
-            ),
-          ),
+          // SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.8,
+          //   child: Text(
+          //     Globle().loginModel.data.firstName ?? '',
+          //     style: TextStyle(
+          //         fontSize: FONTSIZE_32,
+          //         fontFamily: KEY_FONTFAMILY,
+          //         fontWeight: FontWeight.w600,
+          //         color: greytheme500),
+          //   ),
+          // ),
           // SizedBox(
           //   width: 10,
           // ),
@@ -373,7 +373,7 @@ class _LandingStateView extends State<Landingview>
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              goToTakeAway(1);
+              goToTakeAway(0);
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -420,7 +420,7 @@ class _LandingStateView extends State<Landingview>
     if (progressDialog != null) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-      _landingViewPresenter.getCurrentOrder(context,false);
+      _landingViewPresenter.getCurrentOrder(context, false);
     }
   }
 

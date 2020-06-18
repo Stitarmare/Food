@@ -267,6 +267,7 @@ const JSON_STR_LONG = "longitude";
 const JSON_STR_SORT_BY = "sort_by";
 const JSON_STR_SEARCH_BY = "search_by";
 const JSON_STR_PAGE = "page";
+const JSON_STR_DELIVERY = "delivery";
 
 // drawer page
 const STR_IMAGE_PATH = 'assets/BackgroundImage/Group1649.png';
@@ -484,6 +485,9 @@ const JSON_STR_ENCRYPTED_CODE = "encrypted_checkout_id";
 const JSON_STR_PAYMENT_MODE = "payment_mode";
 const JSON_STR_TIP = "tip";
 const JSON_STR_TRANSACTION_ID = "transaction_id";
+const JSON_STR_DELIVERY_CHARGE = "delivery_charge";
+const JSON_STR_ADDRESS_HOUSENO = "address";
+const JSON_STR_LANDMARK = "landmark";
 
 // ProfilePage
 const BACK_ARROW_IMAGE_PATH = 'assets/BackButtonIcon/Path1621.png';

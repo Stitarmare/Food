@@ -315,13 +315,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    if ((grandTotal + sliderValue) >= 1.0) {
+    if ((grandTotal) >= 1.0) {
       await progressDialog.show();
 
       _billCheckoutPresenter.payBillCheckOut(
         myOrderData.restId,
         getOrderTotal(),
-        sliderValue.toString(),
+        tipAmount.toString(),
         "ZAR",
         context,
         orderId: myOrderData.id,
@@ -835,7 +835,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     Text(
                       tipAmount != null
                           ? '${tipAmount.toInt()}'
-                          : "${(tipDefaultValue * double.parse(getOrderTotal())) / 100}",
+                          : "${getDefaultTipValue()}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
@@ -876,6 +876,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ],
       ),
     );
+  }
+
+  double getDefaultTipValue() {
+    tipAmount = (tipDefaultValue * double.parse(getOrderTotal())) / 100;
+    return tipAmount;
   }
 
   String doubleGrandTotal() {
@@ -1017,10 +1022,23 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         invitationOrder = _model.data.invitation;
       }
       isBillSplitedForUsers();
+      // if (myOrderData.splitAmount != null) {
+      //   grandTotal = double.parse(myOrderData.splitAmount);
+      // } else {
+      //   grandTotal = double.parse(model.grandTotal);
+      // }
       if (myOrderData.splitAmount != null) {
-        grandTotal = double.parse(myOrderData.splitAmount);
+        setState(() {
+          double tipAmount =
+              (tipDefaultValue * double.parse(myOrderData.splitAmount)) / 100;
+          grandTotal = double.parse(myOrderData.splitAmount) + tipAmount;
+        });
       } else {
-        grandTotal = double.parse(model.grandTotal);
+        setState(() {
+          double tipAmount =
+              (tipDefaultValue * double.parse(model.grandTotal)) / 100;
+          grandTotal = double.parse(model.grandTotal) + tipAmount;
+        });
       }
     });
 

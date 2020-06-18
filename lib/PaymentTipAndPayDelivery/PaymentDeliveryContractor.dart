@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 
 abstract class PaymentDeliveryContractor {
-  void placeOrder(
-    int restId,
+  void placeOrderDelivery(
     int userId,
-    String orderType,
-    int tableId,
-    List items,
+    int restId,
     double totalAmount,
+    int deliveryCharge,
+    String address,
+    String landmark,
     String latitude,
     String longitude,
+    List items,
     BuildContext context,
   );
+  void getDeliveryChargeDetails(
+      String latitude, String longitude, int restId, BuildContext context);
   void onBackPresed();
 }
 
 abstract class PaymentDeliveryModelView {
   void placeOrdersuccess(OrderData orderData);
   void placeOrderfailed();
+  void getDeliveryDataSuccess(DeliveryData data);
+  void getDeliveryDataFailed();
 }

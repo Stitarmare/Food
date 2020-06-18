@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDelivery/PaymentDeliveryContractor.dart';
@@ -18,29 +19,31 @@ class PaymentDeliveryPresenter extends PaymentDeliveryContractor {
   void onBackPresed() {}
 
   @override
-  void placeOrder(
-    int restId,
+  void placeOrderDelivery(
     int userId,
-    String orderType,
-    int tableId,
-    List items,
+    int restId,
     double totalAmount,
+    int deliveryCharge,
+    String address,
+    String landmark,
     String latitude,
     String longitude,
+    List items,
     BuildContext context,
   ) async {
-    var value = await ApiBaseHelper()
-        .post<PlaceOrderModel>(UrlConstant.placeOrderApi, context, body: {
-      JSON_STR_USER_ID: userId,
-      JSON_STR_REST_ID: restId,
-      JSON_STR_ORDER_TYPE: orderType,
-      JSON_STR_TABLE_ID: tableId,
-      JSON_STR_TOTAL_AMOUNT: totalAmount,
-      JSON_STR_LATITUDE: latitude,
-      JSON_STR_LONGITUDE: longitude,
-      JSON_STR_ITEMS: items
-    });
-
+    var value = await ApiBaseHelper().post<PlaceOrderModel>(
+        UrlConstant.placeOrderDeliveryApi, context,
+        body: {
+          JSON_STR_USER_ID: userId,
+          JSON_STR_REST_ID: restId,
+          JSON_STR_TOTAL_AMOUNT: totalAmount,
+          JSON_STR_DELIVERY_CHARGE: deliveryCharge,
+          JSON_STR_ADDRESS_HOUSENO: address,
+          JSON_STR_LANDMARK: landmark,
+          JSON_STR_LATITUDE: latitude,
+          JSON_STR_LONGITUDE: longitude,
+          JSON_STR_ITEMS: items
+        });
     print(value);
     switch (value.result) {
       case SuccessType.success:
@@ -49,6 +52,27 @@ class PaymentDeliveryPresenter extends PaymentDeliveryContractor {
         break;
       case SuccessType.failed:
         _paymentTipAndPayModelView.placeOrderfailed();
+        break;
+    }
+  }
+
+  @override
+  void getDeliveryChargeDetails(String latitude, String longitude, int restId,
+      BuildContext context) async {
+    var value = await ApiBaseHelper().post<GetDeliveryChargeModel>(
+        UrlConstant.getdeliverychargeApi, context, body: {
+      "latitude": latitude,
+      "longitude": longitude,
+      "rest_id": restId
+    });
+    print(value);
+    switch (value.result) {
+      case SuccessType.success:
+        print(value.model);
+        _paymentTipAndPayModelView.getDeliveryDataSuccess(value.model.data);
+        break;
+      case SuccessType.failed:
+        _paymentTipAndPayModelView.getDeliveryDataFailed();
         break;
     }
   }

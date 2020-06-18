@@ -11,28 +11,38 @@ class TakeAwayRestaurantPresenter extends TakeAwayRestaurantListContractor {
 
   TakeAwayRestaurantPresenter(this.restaurantModelView);
   @override
-  void getrestaurantspage(String latitude, String longitude, String rating,
-      String favourite,String sortByDistance,String sortByRating, int page,int delivery, BuildContext context) {
-        var body =  {
-          JSON_STR_LATI: latitude,
-          JSON_STR_LONG: longitude,
-          JSON_STR_PAGE: page
-        };
-        if (rating!=null) {
-          body["rating"] = rating;
-        }
-        if (favourite!= null) {
-          body["favourite"] = favourite;
-        }
-        if (sortByDistance!= null) {
-          body["sort_by_distance"] = sortByDistance;
-        }
-        if (sortByRating!= null) {
-          body["sort_by_rating"] = sortByRating;
-        }
-    ApiBaseHelper().post<RestaurantListModel>(
-        UrlConstant.restaurantListApi, context,
-        body:body).then((value) {
+  void getrestaurantspage(
+      String latitude,
+      String longitude,
+      String rating,
+      String favourite,
+      String sortByDistance,
+      String sortByRating,
+      int page,
+      int delivery,
+      BuildContext context) {
+    var body = {
+      JSON_STR_LATI: latitude,
+      JSON_STR_LONG: longitude,
+      JSON_STR_PAGE: page,
+      JSON_STR_DELIVERY: delivery,
+    };
+    if (rating != null) {
+      body["rating"] = rating;
+    }
+    if (favourite != null) {
+      body["favourite"] = favourite;
+    }
+    if (sortByDistance != null) {
+      body["sort_by_distance"] = sortByDistance;
+    }
+    if (sortByRating != null) {
+      body["sort_by_rating"] = sortByRating;
+    }
+    ApiBaseHelper()
+        .post<RestaurantListModel>(UrlConstant.restaurantListApi, context,
+            body: body)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

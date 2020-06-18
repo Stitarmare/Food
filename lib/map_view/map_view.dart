@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -45,7 +44,6 @@ class MapView extends StatefulWidget {
       this.flag});
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return MapViewState();
   }
 }
@@ -53,21 +51,17 @@ class MapView extends StatefulWidget {
 const double CAMERA_ZOOM = 16;
 const double CAMERA_TILT = 80;
 const double CAMERA_BEARING = 30;
-const LatLng SOURCE_LOCATION = LatLng(19.018078, 72.830329);
-const LatLng DEST_LOCATION = LatLng(19.018952, 72.843176);
-// const LatLng SOURCE_LOCATION = LatLng(42.747932, -71.167889);
-// const LatLng DEST_LOCATION = LatLng(19.1097269, 72.92253);
+const LatLng SOURCE_LOCATION_ADDRESS = LatLng(19.018078, 72.830329);
+const LatLng DEST_LOCATION_ADDRESS = LatLng(19.018952, 72.843176);
 
 class MapViewState extends State<MapView> {
   Completer<GoogleMapController> _controller = Completer();
-
   // for my drawn routes on the map
   Set<Polyline> _polylines = Set<Polyline>();
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints;
   Set<Marker> _markers = Set<Marker>();
   LatLng moveLagLong;
-
 // for my custom marker pins
   BitmapDescriptor sourceIcon;
   BitmapDescriptor destinationIcon;
@@ -90,49 +84,44 @@ class MapViewState extends State<MapView> {
   String strSubThoroughfare = "";
   String strAddress = "";
   String addres = "";
-  bool isFormEnabled = false;
+  bool isFormEnabled = true;
   bool enabletv = false;
   String strData = "";
   String landMark = "";
   String homeAddress = "";
-
+  String strLat = "";
+  String strLong = "";
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController _bottomSheetController;
-
+  TextEditingController houseTxtEditContrl = TextEditingController();
+  TextEditingController landmarkTxtEditContrl = TextEditingController();
+  final GlobalKey<FormState> houseLandmarkFormKey = GlobalKey<FormState>();
+  bool _validate = false;
 //api key
   String googleAPIKey = "AIzaSyDme9kw3nMJil33E11ZdJHkJ-uML1HgDKk";
-
   @override
   void initState() {
-    // TODO: implement initState
-
     // create an instance of Location
     location = new Location();
     polylinePoints = PolylinePoints();
-
     initialCameraPosition = CameraPosition(
         zoom: CAMERA_ZOOM,
         tilt: CAMERA_TILT,
         bearing: CAMERA_BEARING,
-        target: SOURCE_LOCATION);
-
+        target: SOURCE_LOCATION_ADDRESS);
     setLocationChange();
     // set the initial location
     setInitialLocation();
-
     // set custom marker pins
-
     // setSourceAndDestinationIcons();
     // _modalBottomSheetMenu();
     // _showBottomSheetCallback();
-
     super.initState();
   }
 
   void setSourceAndDestinationIcons() async {
     sourceIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 2.5), 'assets/icons8-car-48.png');
-
     destinationIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 2.5),
         'assets/icons8-map-pin-16.png');
@@ -144,16 +133,13 @@ class MapViewState extends State<MapView> {
     location.onLocationChanged.listen((cLoc) async {
       var latLong = LatLng(cLoc.latitude, cLoc.longitude);
       final GoogleMapController controller = await _controller.future;
-
       setState(() {
         currentLocation = cLoc;
-
         controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             zoom: CAMERA_ZOOM,
             tilt: CAMERA_TILT,
             bearing: CAMERA_BEARING,
             target: latLong)));
-
         initialCameraPosition = CameraPosition(
             zoom: CAMERA_ZOOM,
             tilt: CAMERA_TILT,
@@ -167,11 +153,10 @@ class MapViewState extends State<MapView> {
   void setInitialLocation() async {
     // set the initial location by pulling the user's
     destinationLocation = LocationData.fromMap({
-      "latitude": DEST_LOCATION.latitude,
-      "longitude": DEST_LOCATION.longitude
+      "latitude": DEST_LOCATION_ADDRESS.latitude,
+      "longitude": DEST_LOCATION_ADDRESS.longitude
     });
     // current location from the location's getLocation()
-
     currentLocation = await location.getLocation();
   }
 
@@ -181,9 +166,10 @@ class MapViewState extends State<MapView> {
         "${cameraPosition.target.latitude},${cameraPosition.target.longitude}");
     moveLagLong =
         LatLng(cameraPosition.target.latitude, cameraPosition.target.longitude);
+    strLat = (cameraPosition.target.latitude).toString();
+    strLong = (cameraPosition.target.longitude).toString();
     // setState(() {
     //   _markers.removeWhere((m) => m.markerId.value == 'myMarkerAdd');
-
     //   _markers.add(Marker(
     //       markerId: MarkerId('myMarkerAdd'),
     //       position: LatLng(cameraPosition.target.latitude,
@@ -209,7 +195,6 @@ class MapViewState extends State<MapView> {
         strThoroughfare = first.thoroughfare != null ? first.thoroughfare : "";
         strSubThoroughfare =
             first.subThoroughfare != null ? first.subThoroughfare : "";
-
         strAddress = strLocality +
             "," +
             strAdminArea +
@@ -225,10 +210,8 @@ class MapViewState extends State<MapView> {
             strThoroughfare +
             "," +
             strSubThoroughfare;
-
         strAddress = removeLastChar(strAddress);
       });
-
       // if (_bottomSheetController != null) {
       //   _bottomSheetController.setState(() {
       //     addres = strAddress;
@@ -238,10 +221,8 @@ class MapViewState extends State<MapView> {
       //     addres = strAddress;
       //   });
       // }
-
       // print(
       //     ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
-
       print(strAddress);
     }
     print("cameraIdeal");
@@ -250,6 +231,7 @@ class MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -257,162 +239,170 @@ class MapViewState extends State<MapView> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: isFormEnabled ? 6 : 8,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                GoogleMap(
-                  initialCameraPosition: initialCameraPosition,
-                  compassEnabled: true,
-                  onCameraIdle: onCameraIdle,
-                  onCameraMove: onCameraMove,
-                  tiltGesturesEnabled: false,
-                  markers: _markers,
-                  polylines: _polylines,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    if (destinationLocation != null) {
-                      // showPinsOnMap();
-                    }
-                  },
-                ),
-                Image.asset("assets/MappinImage/mappin.png"),
-                // Align(
-                //     alignment: Alignment.topCenter,
-                //     child: addressMap != null
-                //         ? Padding(
-                //             padding: const EdgeInsets.all(8.0),
-                //             child: Card(
-                //                 shape: RoundedRectangleBorder(
-                //                     borderRadius: BorderRadius.circular(12.0)),
-                //                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                //                 child: Padding(
-                //                   padding: const EdgeInsets.all(15.0),
-                //                   child: Text(strAddress),
-                //                 )),
-                //           )
-                //         : Container()),
-
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: Container(
-                //     width: 200,
-                //     height: 50,
-                //     child: RaisedButton(
-                //       color: greentheme100,
-                //       child: Text(
-                //         STR_CONFIRM_ADDRESS,
-                //         style: TextStyle(
-                //             fontSize: FONTSIZE_18,
-                //             fontWeight: FontWeight.w700,
-                //             fontFamily: KEY_FONTFAMILY),
-                //       ),
-                //       textColor: Colors.white,
-                //       textTheme: ButtonTextTheme.normal,
-                //       splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-                //       shape: RoundedRectangleBorder(
-                //           borderRadius: new BorderRadius.circular(32.0),
-                //           side:
-                //               BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-                //       onPressed: () {
-                //         Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => PaymentDeliveryView(
-                //                       flag: 1,
-                //                       restName: widget.restName,
-                //                       restId: widget.restId,
-                //                       userId: widget.userId,
-                //                       items: widget.items,
-                //                       totalAmount: widget.totalAmount,
-                //                       orderType: widget.orderType,
-                //                       latitude: widget.latitude,
-                //                       longitude: widget.longitude,
-                //                       itemdata: widget.itemdata,
-                //                       currencySymbol: widget.currencySymbol,
-                //                       tableId: widget.tableId,
-                //                       addressData: strAddress,
-                //                     )));
-                //       },
-                //     ),
-                //   ),
-                // ),
-              ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: isFormEnabled ? 6 : 8,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  GoogleMap(
+                    initialCameraPosition: initialCameraPosition,
+                    compassEnabled: true,
+                    onCameraIdle: onCameraIdle,
+                    onCameraMove: onCameraMove,
+                    tiltGesturesEnabled: false,
+                    markers: _markers,
+                    polylines: _polylines,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                      if (destinationLocation != null) {
+                        // showPinsOnMap();
+                      }
+                    },
+                  ),
+                  Image.asset("assets/MappinImage/mappin.png"),
+                  // Align(
+                  //     alignment: Alignment.topCenter,
+                  //     child: addressMap != null
+                  //         ? Padding(
+                  //             padding: const EdgeInsets.all(8.0),
+                  //             child: Card(
+                  //                 shape: RoundedRectangleBorder(
+                  //                     borderRadius: BorderRadius.circular(12.0)),
+                  //                 clipBehavior: Clip.antiAliasWithSaveLayer,
+                  //                 child: Padding(
+                  //                   padding: const EdgeInsets.all(15.0),
+                  //                   child: Text(strAddress),
+                  //                 )),
+                  //           )
+                  //         : Container()),
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: Container(
+                  //     width: 200,
+                  //     height: 50,
+                  //     child: RaisedButton(
+                  //       color: greentheme100,
+                  //       child: Text(
+                  //         STR_CONFIRM_ADDRESS,
+                  //         style: TextStyle(
+                  //             fontSize: FONTSIZE_18,
+                  //             fontWeight: FontWeight.w700,
+                  //             fontFamily: KEY_FONTFAMILY),
+                  //       ),
+                  //       textColor: Colors.white,
+                  //       textTheme: ButtonTextTheme.normal,
+                  //       splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: new BorderRadius.circular(32.0),
+                  //           side:
+                  //               BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
+                  //       onPressed: () {
+                  //         Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => PaymentDeliveryView(
+                  //                       flag: 1,
+                  //                       restName: widget.restName,
+                  //                       restId: widget.restId,
+                  //                       userId: widget.userId,
+                  //                       items: widget.items,
+                  //                       totalAmount: widget.totalAmount,
+                  //                       orderType: widget.orderType,
+                  //                       latitude: widget.latitude,
+                  //                       longitude: widget.longitude,
+                  //                       itemdata: widget.itemdata,
+                  //                       currencySymbol: widget.currencySymbol,
+                  //                       tableId: widget.tableId,
+                  //                       addressData: strAddress,
+                  //                     )));
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-              flex: isFormEnabled ? 4 : 3,
-              child: Container(
-                // height: 360.0,
-                color: Color(0xFF737373),
-                child: new Container(
-                    decoration: new BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: new BorderRadius.only(
-                            topLeft: const Radius.circular(10.0),
-                            topRight: const Radius.circular(10.0))),
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                            child: Container(
-                              height: 25,
-                              child: RaisedButton(
-                                color: Colors.grey,
-                                child: Text(
-                                  "CHANGE",
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: KEY_FONTFAMILY),
-                                ),
-                                textColor: Colors.white,
-                                textTheme: ButtonTextTheme.normal,
-                                splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
-                                ),
-                                onPressed: () {
-                                  // enableField();
-                                  Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ChangeAddressView()))
-                                      .then((value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        strAddress = value["text"];
+            Expanded(
+                flex: isFormEnabled ? 4 : 3,
+                child: Form(
+                  key: houseLandmarkFormKey,
+                  autovalidate: _validate,
+                  child: Container(
+                    // height: 360.0,
+                    color: Color(0xFF737373),
+                    child: new Container(
+                        decoration: new BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: new BorderRadius.only(
+                                topLeft: const Radius.circular(10.0),
+                                topRight: const Radius.circular(10.0))),
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                child: Container(
+                                  height: 25,
+                                  child: RaisedButton(
+                                    color: Colors.grey,
+                                    child: Text(
+                                      "CHANGE",
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: KEY_FONTFAMILY),
+                                    ),
+                                    textColor: Colors.white,
+                                    textTheme: ButtonTextTheme.normal,
+                                    splashColor:
+                                        Color.fromRGBO(72, 189, 111, 0.80),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(8.0),
+                                    ),
+                                    onPressed: () {
+                                      // enableField();
+                                      Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ChangeAddressView()))
+                                          .then((value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            strAddress = value["text"];
+                                          });
+                                        }
                                       });
-                                    }
-                                  });
-                                },
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text(strAddress),
-                          ),
-                        ),
-                        // _addressField(),
-                        // _landmarkField(),
-                        _saveandproceedBtn(),
-                      ],
-                    )),
-              ))
-        ],
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Text(strAddress),
+                              ),
+                            ),
+                            Expanded(child: _addressField()),
+                            Expanded(child: _landmarkField()),
+                            Expanded(child: _saveandproceedBtn()),
+                          ],
+                        )),
+                  ),
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -433,11 +423,9 @@ class MapViewState extends State<MapView> {
     if (currentLocation != null) {
       var pinPosition =
           LatLng(currentLocation.latitude, currentLocation.longitude);
-
       // get a LatLng out of the LocationData object
       var destPosition =
           LatLng(destinationLocation.latitude, destinationLocation.longitude);
-
       // add the initial source location pin
       _markers.add(Marker(
           markerId: MarkerId('sourcePin'),
@@ -491,7 +479,6 @@ class MapViewState extends State<MapView> {
       // updated position
       var pinPosition =
           LatLng(currentLocation.latitude, currentLocation.longitude);
-
       // the trick is to remove the marker (by id)
       // and add it again at the updated location
       _markers.removeWhere((m) => m.markerId.value == 'sourcePin');
@@ -502,17 +489,16 @@ class MapViewState extends State<MapView> {
     });
   }
 
-  enableField() {
-    // _bottomSheetController.setState(() {
-    //   isFormEnabled = true;
-    // });
-    setState(() {
-      isFormEnabled = true;
-    });
-  }
-
+  // enableField() {
+  //   // _bottomSheetController.setState(() {
+  //   //   isFormEnabled = true;
+  //   // });
+  //   setState(() {
+  //     isFormEnabled = true;
+  //   });
+  // }
   _showBottomSheetCallback() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 0), () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _bottomSheetController = _scaffoldKey.currentState
             .showBottomSheet<void>((BuildContext context) {
@@ -586,11 +572,12 @@ class MapViewState extends State<MapView> {
         ? Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: AppTextField(
-              enable: isFormEnabled,
+              // enable: isFormEnabled,
               // inputFormatters: [
               //   LengthLimitingTextInputFormatter(20),
               //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
               // ],
+              controller: houseTxtEditContrl,
               onChanged: (text) {
                 homeAddress = text;
               },
@@ -608,11 +595,12 @@ class MapViewState extends State<MapView> {
         ? Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: AppTextField(
-              enable: isFormEnabled,
+              // enable: isFormEnabled,
               // inputFormatters: [
               //   LengthLimitingTextInputFormatter(20),
               //   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
               // ],
+              controller: landmarkTxtEditContrl,
               onChanged: (text) {
                 landMark = text;
               },
@@ -630,7 +618,7 @@ class MapViewState extends State<MapView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
           height: 50,
           width: 120,
           child: RaisedButton(
@@ -651,15 +639,15 @@ class MapViewState extends State<MapView> {
             ),
             onPressed: () {
               saveAddress();
-              setState(() {
-                isFormEnabled = false;
-              });
+              // setState(() {
+              //   isFormEnabled = false;
+              // });
             },
           ),
         ),
         SizedBox(width: 20),
         Container(
-          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
           height: 50,
           width: 120,
           child: RaisedButton(
@@ -678,7 +666,9 @@ class MapViewState extends State<MapView> {
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(8.0),
             ),
-            onPressed: () {},
+            onPressed: () {
+              proceedBtn();
+            },
           ),
         ),
       ],
@@ -686,10 +676,43 @@ class MapViewState extends State<MapView> {
   }
 
   saveAddress() {
-    if (homeAddress != null && landMark != null) {
+    if (houseTxtEditContrl.text != "" && landmarkTxtEditContrl.text != "") {
+      if (homeAddress != null && landMark != null) {
+        // setState(() {
+        //   strAddress = homeAddress + ", " + landMark;
+        //   print(strAddress);
+        // });
+      }
+    }
+  }
+
+  proceedBtn() {
+    if (houseLandmarkFormKey.currentState.validate()) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentDeliveryView(
+                    flag: 1,
+                    restName: widget.restName,
+                    restId: widget.restId,
+                    userId: widget.userId,
+                    // price: int.parse(
+                    //     _cartItemList[indx].price),
+                    items: widget.items,
+                    totalAmount: widget.totalAmount,
+                    orderType: widget.orderType,
+                    latitude: strLat,
+                    longitude: strLong,
+                    itemdata: widget.itemdata,
+                    currencySymbol: widget.currencySymbol,
+                    tableId: widget.tableId,
+                    address: strAddress,
+                    houseNo: houseTxtEditContrl.text,
+                    landmark: landmarkTxtEditContrl.text,
+                  )));
+    } else {
       setState(() {
-        strAddress = homeAddress + ", " + landMark;
-        print(strAddress);
+        _validate = true;
       });
     }
   }

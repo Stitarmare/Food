@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 class AppTextField extends StatefulWidget {
   final String tfValue;
   final String placeHolderName;
+  final TextEditingController controller;
   final bool obscureText;
   final bool readOnly;
   final bool enable;
@@ -26,6 +27,7 @@ class AppTextField extends StatefulWidget {
     this.onChanged,
     this.tfValue,
     this.enable,
+    this.controller,
     this.placeHolderName,
     this.obscureText = false,
     this.readOnly = false,
@@ -50,6 +52,7 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     TextFormField tf = TextFormField(
+      controller: widget.controller,
       inputFormatters: widget.inputFormatters,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText,

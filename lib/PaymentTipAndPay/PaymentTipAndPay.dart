@@ -139,20 +139,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                         });
 
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-                        if ((widget.totalAmount + sliderValue) >= 1.0) {
-                          await progressDialog.show();
-                          _billCheckoutPresenter.payBillCheckOut(
-                              widget.restId,
-                              widget.totalAmount.toString(),
-                              sliderValue.toString(),
-                              "ZAR",
-                              context);
-                        } else {
-                          Constants.showAlert(
-                              "Amount",
-                              "Amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
-                              context);
-                        }
+                        getVerifyAmount();
                       },
                       child: Container(
                         height: 45,
@@ -179,6 +166,19 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         ),
       ),
     );
+  }
+
+  getVerifyAmount() async {
+    if ((widget.totalAmount + tipAmount) >= 1.0) {
+      await progressDialog.show();
+      _billCheckoutPresenter.payBillCheckOut(widget.restId,
+          widget.totalAmount.toString(), tipAmount.toString(), "ZAR", context);
+    } else {
+      Constants.showAlert(
+          "Amount",
+          "Amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
+          context);
+    }
   }
 
   Widget _getmainviewTableno() {
@@ -463,7 +463,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   // currencySymb + ' ${sliderValue.toInt()}',
                   tipAmount != null
                       ? '${tipAmount.toInt()}'
-                      : "${(tipDefaultValue * (widget.totalAmount)) / 100}",
+                      : "${getDefaultTipValue()}",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -499,6 +499,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         ],
       ),
     );
+  }
+
+  double getDefaultTipValue() {
+    tipAmount = (tipDefaultValue * (widget.totalAmount)) / 100;
+    return tipAmount;
   }
 
   void showAlertSuccess(String title, String message, BuildContext context) {
@@ -592,10 +597,10 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       myOrderData.id,
       STR_CARD,
       myOrderData.totalAmount,
-      (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      (double.parse(myOrderData.totalAmount) + tipAmount).toString(),
       _paymentCheckoutModel.transactionId,
       context,
-      sliderValue.toString(),
+      tipAmount.toString(),
     );
   }
 

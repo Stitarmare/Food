@@ -104,7 +104,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     for (int i = 1; i <= length; i++) {
       radiolist.add(RadioButtonOptions(
         id: _addItemModelList.spreads[i - 1].id,
-        index: i-1,
+        index: i - 1,
         title: _addItemModelList.spreads[i - 1].name ?? STR_BLANK,
         spreadDefault:
             _addItemModelList.spreads[i - 1].spreadDefault ?? STR_BLANK,
@@ -121,26 +121,25 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       }
     });
 
-    
-
     return radiolist.length;
   }
+
   void getSubOption(int index) {
-      if (_addItemModelList.spreads.length > 0) {
-        if (_addItemModelList.spreads[index].suboptions.length>0) {
-          List<RadioButtonOptions> subOptionRadiolist = [];
-            for (var value in _addItemModelList.spreads[index].suboptions)  {
-              subOptionRadiolist.add(RadioButtonOptions(
-                index: value.id,
-                 title: value.name ?? STR_BLANK,
-              ));
-            }
-            if (subOptionRadiolist.length > 0) {
-              _subOptionList = subOptionRadiolist;
-              subOptionId = _subOptionList[0].index; 
-            }
+    if (_addItemModelList.spreads.length > 0) {
+      if (_addItemModelList.spreads[index].suboptions.length > 0) {
+        List<RadioButtonOptions> subOptionRadiolist = [];
+        for (var value in _addItemModelList.spreads[index].suboptions) {
+          subOptionRadiolist.add(RadioButtonOptions(
+            index: value.id,
+            title: value.name ?? STR_BLANK,
+          ));
+        }
+        if (subOptionRadiolist.length > 0) {
+          _subOptionList = subOptionRadiolist;
+          subOptionId = _subOptionList[0].index;
         }
       }
+    }
   }
 
   int getradiobtnsize(int length) {
@@ -398,61 +397,61 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         DialogsIndicator.showAlert(context, "Required Field",
                             "Please select required field");
                         return;
-                          }
-                    }
-                    addMenuToCartModel.items = [items];
-                    if (sizess != null) {
-                      if (sizess.length > 0) {
-                        addMenuToCartModel.items[0].sizePriceId =
-                            sizess[0].sizeid;
                       }
                     }
-                    List<SubSpread> subSpread;
-                        if (subOptionId != null) {
-                           subSpread = [];
-                           var sub = SubSpread();
-                           sub.subspreadId = subOptionId; 
-                           subSpread.add(sub);
-                        }
+                    // addMenuToCartModel.items = [items];
+                    // if (sizess != null) {
+                    //   if (sizess.length > 0) {
+                    //     addMenuToCartModel.items[0].sizePriceId =
+                    //         sizess[0].sizeid;
+                    //   }
+                    // }
+                    // List<SubSpread> subSpread;
+                    //     if (subOptionId != null) {
+                    //        subSpread = [];
+                    //        var sub = SubSpread();
+                    //        sub.subspreadId = subOptionId;
+                    //        subSpread.add(sub);
+                    //     }
 
-                    addMenuToCartModel.items[0].itemId = widget.itemId;
-                    addMenuToCartModel.items[0].preparationNote = specialReq;
-                    addMenuToCartModel.items[0].extra = extras;
-                    addMenuToCartModel.items[0].subspreads = subSpread;
-                    addMenuToCartModel.items[0].spreads = spread == null
-                        ? (defaultSpread != null) ? [defaultSpread] : []
-                        : [spread];
-                    addMenuToCartModel.items[0].switches = switchess;
-                    addMenuToCartModel.items[0].quantity = count;
-                    addMenuToCartModel.items[0].sizes =
-                        size == null ? [defaultSize] : [size];
+                    // addMenuToCartModel.items[0].itemId = widget.itemId;
+                    // addMenuToCartModel.items[0].preparationNote = specialReq;
+                    // addMenuToCartModel.items[0].extra = extras;
+                    // addMenuToCartModel.items[0].subspreads = subSpread;
+                    // addMenuToCartModel.items[0].spreads = spread == null
+                    //     ? (defaultSpread != null) ? [defaultSpread] : []
+                    //     : [spread];
+                    // addMenuToCartModel.items[0].switches = switchess;
+                    // addMenuToCartModel.items[0].quantity = count;
+                    // addMenuToCartModel.items[0].sizes =
+                    //     size == null ? [defaultSize] : [size];
 
-                    print(addMenuToCartModel.toJson());
+                    // print(addMenuToCartModel.toJson());
 
-                    var alreadyAddedTA = await Preference.getPrefValue<bool>(
-                        PreferenceKeys.isAlreadyINCart);
-                    var restaurantTA = await Preference.getPrefValue<int>(
-                        PreferenceKeys.restaurantID);
-                    var restaurantName = await (Preference.getPrefValue<String>(
-                        PreferenceKeys.restaurantName));
-                    if (alreadyAddedTA != null && restaurantTA != null) {
-                      if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
-                        cartAlert(
-                            STR_STARTNEWORDER,
-                            (restaurantName != null)
-                                ? STR_YOUR_UNFINIHED_ORDER +
-                                    "$restaurantName" +
-                                    STR_WILLDELETE
-                                : STR_UNFINISHEDORDER,
-                            context);
-                      } else {
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
-                        await progressDialog.show();
-                        _addItemPagepresenter.performaddMenuToCart(
-                            addMenuToCartModel, context);
-                      }
-                    }
+                    // var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                    //     PreferenceKeys.isAlreadyINCart);
+                    // var restaurantTA = await Preference.getPrefValue<int>(
+                    //     PreferenceKeys.restaurantID);
+                    // var restaurantName = await (Preference.getPrefValue<String>(
+                    //     PreferenceKeys.restaurantName));
+                    // if (alreadyAddedTA != null && restaurantTA != null) {
+                    //   if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
+                    //     cartAlert(
+                    //         STR_STARTNEWORDER,
+                    //         (restaurantName != null)
+                    //             ? STR_YOUR_UNFINIHED_ORDER +
+                    //                 "$restaurantName" +
+                    //                 STR_WILLDELETE
+                    //             : STR_UNFINISHEDORDER,
+                    //         context);
+                    //   } else {
+                    //     // DialogsIndicator.showLoadingDialog(
+                    //     //     context, _keyLoader, STR_BLANK);
+                    //     await progressDialog.show();
+                    //     _addItemPagepresenter.performaddMenuToCart(
+                    //         addMenuToCartModel, context);
+                    //   }
+                    // }
 
                     // addItemData();
                   },
@@ -491,8 +490,17 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       }
     }
 
+    List<SubSpread> subSpread;
+    if (subOptionId != null) {
+      subSpread = [];
+      var sub = SubSpread();
+      sub.subspreadId = subOptionId;
+      subSpread.add(sub);
+    }
+
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
+    addMenuToCartModel.items[0].subspreads = subSpread;
     addMenuToCartModel.items[0].extra = extras;
     addMenuToCartModel.items[0].spreads = spread == null
         ? (defaultSpread != null) ? [defaultSpread] : []
@@ -1143,72 +1151,78 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         children: _radioOptions.length > 0
             ? _radioOptions
                 .map((radionBtn) => Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Column(
-                        children: <Widget>[
-                          RadioListTile(
-                        title: radionBtn.title != null
-                            ? Text(StringUtils.capitalize("${radionBtn.title}"))
-                            : Text(STR_DATA),
-                        // groupValue: (radionBtn.spreadDefault == "yes")
-                        //     ? radionBtn.index
-                        //     : radioBtnId,
-                        groupValue: radioBtnId,
-                        value: radionBtn.id,
-                        dense: true,
-                        activeColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        onChanged: (val) {
-                          setState(() {
-                            if (spread == null) {
-                              spread = Spreads();
-                            }
-                            radioBtnId = val;
-                            radioItem = radionBtn.title;
-                            print(radionBtn.title);
-                            var index = 0;
-                            _radioOptions.forEach((value){
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Column(
+                      children: <Widget>[
+                        RadioListTile(
+                          title: radionBtn.title != null
+                              ? Text(
+                                  StringUtils.capitalize("${radionBtn.title}"))
+                              : Text(STR_DATA),
+                          // groupValue: (radionBtn.spreadDefault == "yes")
+                          //     ? radionBtn.index
+                          //     : radioBtnId,
+                          groupValue: radioBtnId,
+                          value: radionBtn.id,
+                          dense: true,
+                          activeColor: ((Globle().colorscode) != null)
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme,
+                          onChanged: (val) {
+                            setState(() {
+                              if (spread == null) {
+                                spread = Spreads();
+                              }
+                              radioBtnId = val;
+                              radioItem = radionBtn.title;
+                              print(radionBtn.title);
+                              var index = 0;
+                              _radioOptions.forEach((value) {
                                 if (radioBtnId == value.id) {
-                                    index = value.index;
-                                    selectedIndex = index;
-                                }   
+                                  index = value.index;
+                                  selectedIndex = index;
+                                }
+                              });
+                              getSubOption(index);
+                              // id = radionBtn.index;
+                              spread.spreadId = radioBtnId;
+                              print(spread.spreadId);
                             });
-                            getSubOption(index);
-                            // id = radionBtn.index;
-                            spread.spreadId = radioBtnId;
-                            print(spread.spreadId);
-                          });
-                        },
-                      ),
-                      selectedIndex == radionBtn.index ?
-                      Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Column(
-                        children: _subOptionList.map((subOption)=>RadioListTile(
-                        title: radionBtn.title != null
-                            ? Text(StringUtils.capitalize("${subOption.title}"))
-                            : Text(STR_DATA),
-                        // groupValue: (radionBtn.spreadDefault == "yes")
-                        //     ? radionBtn.index
-                        //     : radioBtnId,
-                        groupValue: subOptionId,
-                        value: subOption.index,
-                        dense: true,
-                        activeColor: ((Globle().colorscode) != null)
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
-                        onChanged: (val) {
-                         setState(() {
-                           subOptionId = val;
-                         });
-                        },
-                      )).toList(),
-                      ),
-                      ) : Container()
-                        ],
-                      )
-                    ))
+                          },
+                        ),
+                        selectedIndex == radionBtn.index
+                            ? Padding(
+                                padding: EdgeInsets.only(left: 30),
+                                child: Column(
+                                  children: _subOptionList
+                                      .map((subOption) => RadioListTile(
+                                            title: radionBtn.title != null
+                                                ? Text(StringUtils.capitalize(
+                                                    "${subOption.title}"))
+                                                : Text(STR_DATA),
+                                            // groupValue: (radionBtn.spreadDefault == "yes")
+                                            //     ? radionBtn.index
+                                            //     : radioBtnId,
+                                            groupValue: subOptionId,
+                                            value: subOption.index,
+                                            dense: true,
+                                            activeColor:
+                                                ((Globle().colorscode) != null)
+                                                    ? getColorByHex(
+                                                        Globle().colorscode)
+                                                    : orangetheme,
+                                            onChanged: (val) {
+                                              setState(() {
+                                                subOptionId = val;
+                                              });
+                                            },
+                                          ))
+                                      .toList(),
+                                ),
+                              )
+                            : Container()
+                      ],
+                    )))
                 .toList()
             : [Container()]);
   }
@@ -1634,12 +1648,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
 
-       if (defaultSpread == null) {
-      if (_addItemModelList.spreads.length>0) {
-        defaultSpread = Spreads();
-        defaultSpread.spreadId = _addItemModelList.spreads[0].id;
+      if (defaultSpread == null) {
+        if (_addItemModelList.spreads.length > 0) {
+          defaultSpread = Spreads();
+          defaultSpread.spreadId = _addItemModelList.spreads[0].id;
+        }
       }
-    }
     }
     defaultSpread = defaultSpre;
   }
@@ -1707,7 +1721,8 @@ class RadioButtonOptions {
   String title;
   String price;
   String spreadDefault;
-  RadioButtonOptions({this.index, this.title, this.price, this.spreadDefault,this.id});
+  RadioButtonOptions(
+      {this.index, this.title, this.price, this.spreadDefault, this.id});
 }
 
 class RadioButtonOptionsSizes {

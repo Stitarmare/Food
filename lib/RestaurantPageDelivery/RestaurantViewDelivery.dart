@@ -8,7 +8,6 @@ import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
-
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryContractor.dart';
@@ -26,7 +25,6 @@ class RestaurantDeliveryView extends StatefulWidget {
   int restId;
   String imageUrl;
   bool isFromOrder = false;
-
   int categoryid;
   RestaurantDeliveryView(
       {this.title,
@@ -43,7 +41,6 @@ class RestaurantDeliveryView extends StatefulWidget {
 class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     implements RestaurantDeliveryModelView, MenuDropdownModelView {
   RestaurantDeliveryPresenter restaurantDeliveryPresenter;
-
   List<RestaurantMenuItem> _restaurantList;
   int page = 1;
   int restId;
@@ -58,14 +55,15 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   String menutype = " ";
   int restaurantId;
   int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+  int previousValue;
+  int _selectedSubMenu;
   var tableID;
   bool valueBool = false;
   RestaurantItemsModel restaurantItemsModel;
   List<Category> category = [];
+  List<Category> category2 = [];
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
-
   var abc;
   var subCategoryIdabc;
   @override
@@ -82,7 +80,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context,true);
+    menudropdownPresenter.getMenuLCategory(widget.restId, context, true);
     super.initState();
   }
 
@@ -103,14 +101,20 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
-
       if (_selectedMenu == index) {
-        if (category[index].subcategories.length > 0) {
-          setState(() {
-            valueBool = true;
-            subcategoriesList = category[index].subcategories;
-            // _getSubMenucount();
-          });
+        if (category[index].subcategories != null) {
+          if (category[index].subcategories.length > 0) {
+            setState(() {
+              valueBool = true;
+              subcategoriesList = category[index].subcategories;
+              // _getSubMenucount();
+            });
+          } else {
+            setState(() {
+              valueBool = false;
+              subcategoriesList = [];
+            });
+          }
         } else {
           setState(() {
             valueBool = false;
@@ -118,7 +122,15 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           });
         }
       }
-
+      if (previousValue != null) {
+        if (previousValue != _selectedMenu) {
+          subCategoryIdabc = null;
+          _selectedSubMenu = null;
+          previousValue = _selectedMenu;
+        }
+      } else {
+        previousValue = _selectedMenu;
+      }
       print(_selectedMenu);
     });
     abc = category[index].id;
@@ -133,10 +145,10 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _onSubMenuSelected(index) {
     setState(() {
       _selectedSubMenu = index;
-
       print(_selectedSubMenu);
     });
-    subCategoryIdabc = category[index].subcategories[index].id;
+    subCategoryIdabc =
+        category[_selectedMenu].subcategories[_selectedSubMenu].id;
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
     } else {
@@ -215,7 +227,6 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                 //     FOODZI_LOGO_PATH,
                 //     height: 30,
                 //   )),
-
                 // Align(
                 //   alignment: Alignment.centerRight,
                 //   child: Text(
@@ -414,25 +425,25 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
   _getMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Center(
-        child: Container(
-          height: 50,
-          width: MediaQuery.of(context).size.width / 1.6,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: _getMenucount(),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: MediaQuery.of(context).size.width * 0.13 / 0.7,
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _getMenucount(),
+            itemBuilder: (context, index) {
+              return Expanded(
+                child: Container(
+                  // width: MediaQuery.of(context).size.width * 0.2,
+                  // width: MediaQuery.of(context).size.width /5.5,
                   child: Column(
                     children: <Widget>[
-                      Center(
+                      SizedBox(
+                        // width: MediaQuery.of(context).size.width,
+                        child: Center(
                           child: GestureDetector(
                               onTap: () async {
                                 _onSelected(index);
-                                // restaurantDeliveryPresenter.getMenuList(
-                                //     widget.restId, context,
-                                //     categoryId: abc, menu: menutype);
                               },
                               child: Text(
                                 category[index].name,
@@ -442,11 +453,13 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                         ? getColorByHex(Globle().colorscode)
                                         : Color.fromRGBO(118, 118, 118, 1),
                                     fontSize: 16.0),
-                              ))),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.2,
                         child: Divider(
-                          thickness: 1,
+                          thickness: 2,
                           color: _selectedMenu != null && _selectedMenu == index
                               ? getColorByHex(Globle().colorscode)
                               : Color.fromRGBO(118, 118, 118, 1),
@@ -454,147 +467,173 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                       )
                     ],
                   ),
-                  // ),
-                );
-                // return GestureDetector(
-                //   onTap: () {
-                //     _onSelected(index);
-                //   },
-                //   child: Container(
-                //     height: 40,
-                //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                //     padding: EdgeInsets.only(
-                //         left: _categorydata[index].name.length > 5 ? 6 : 16,
-                //         right: _categorydata[index].name.length > 5 ? 6 : 16,
-                //         top: 10,
-                //         bottom: 0),
-                //     margin: EdgeInsets.only(left: 6),
-                //     decoration: BoxDecoration(
-                //       border: Border.all(
-                //         width: 1,
-                //         color: _selectedMenu != null && _selectedMenu == index
-                //             ? getColorByHex(Globle().colorscode)
-                //             : Color.fromRGBO(118, 118, 118, 1),
-                //       ),
-                //       borderRadius: BorderRadius.all(Radius.circular(8)),
-                //       // color: _selectedMenu != null && _selectedMenu == index
-                //       //                 ? getColorByHex(Globle().colorscode)
-                //       //                 : Color.fromRGBO(118, 118, 118, 1),
-                //     ),
-                //     child: Text(
-                //       _categorydata[index].name ?? STR_BLANK,
-                //       style: TextStyle(
-                //         fontSize: 16,
-                //         color: _selectedMenu != null && _selectedMenu == index
-                //             ? getColorByHex(Globle().colorscode)
-                //             : Color.fromRGBO(118, 118, 118, 1),
-                //       ),
-                //     ),
-                //   ),
-                // );
-              }),
-        ),
+                ),
+              );
+              // return GestureDetector(
+              //   onTap: () {
+              //     _onSelected(index);
+              //   },
+              //   child: Container(
+              //     height: 40,
+              //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+              //     padding: EdgeInsets.only(
+              //         left: _categorydata[index].name.length > 5 ? 6 : 16,
+              //         right: _categorydata[index].name.length > 5 ? 6 : 16,
+              //         top: 10,
+              //         bottom: 0),
+              //     margin: EdgeInsets.only(left: 6),
+              //     decoration: BoxDecoration(
+              //       border: Border.all(
+              //         width: 1,
+              //         color: _selectedMenu != null && _selectedMenu == index
+              //             ? getColorByHex(Globle().colorscode)
+              //             : Color.fromRGBO(118, 118, 118, 1),
+              //       ),
+              //       borderRadius: BorderRadius.all(Radius.circular(8)),
+              //       // color: _selectedMenu != null && _selectedMenu == index
+              //       //                 ? getColorByHex(Globle().colorscode)
+              //       //                 : Color.fromRGBO(118, 118, 118, 1),
+              //     ),
+              //     child: Text(
+              //       _categorydata[index].name ?? STR_BLANK,
+              //       style: TextStyle(
+              //         fontSize: 16,
+              //         color: _selectedMenu != null && _selectedMenu == index
+              //             ? getColorByHex(Globle().colorscode)
+              //             : Color.fromRGBO(118, 118, 118, 1),
+              //       ),
+              //     ),
+              //   ),
+              // );
+            }),
       ),
     );
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          height: 50,
-          width: MediaQuery.of(context).size.width / 0.5,
-          child: valueBool
-              ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: subcategoriesList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        height: 40,
+        child: valueBool
+            ? ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _getSubMenucount(),
+                itemBuilder: (context, index) {
+                  return Expanded(
+                    child: Container(
+                        // width: MediaQuery.of(context).size.width * 0.24,
+                        // width: MediaQuery.of(context).size.width / 4.5,
                         child: Column(
+                      children: <Widget>[
+                        Row(
                           children: <Widget>[
-                            Center(
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      _onSubMenuSelected(index);
-                                    },
-                                    child: Text(
-                                      subcategoriesList[index].name,
-                                      style: TextStyle(
-                                          color: _selectedSubMenu != null &&
-                                                  _selectedSubMenu == index
-                                              ? getColorByHex(
-                                                  Globle().colorscode)
-                                              : Color.fromRGBO(
-                                                  118, 118, 118, 1),
-                                          fontSize: 16.0),
-                                    ))),
+                            SizedBox(width: 10),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                              child: Divider(
-                                thickness: 1,
-                                color: _selectedSubMenu != null &&
-                                        _selectedSubMenu == index
-                                    ? getColorByHex(Globle().colorscode)
-                                    : Color.fromRGBO(118, 118, 118, 1),
-                              ),
-                            )
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6),
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    _onSubMenuSelected(index);
+                                  },
+                                  child: Text(
+                                    subcategoriesList[index].name,
+                                    style: TextStyle(
+                                        color: _selectedSubMenu != null &&
+                                                _selectedSubMenu == index
+                                            ? getColorByHex(Globle().colorscode)
+                                            : Color.fromRGBO(118, 118, 118, 1),
+                                        fontSize: 16.0),
+                                  )),
+                            ),
                           ],
-                        ));
-                    // return GestureDetector(
-                    //   onTap: () {
-                    //     _onSubMenuSelected(index);
-                    //   },
-                    //   child: Container(
-                    //     // height: 40,
-                    //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                    //     padding: EdgeInsets.only(
-                    //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                    //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                    //         top: 10,
-                    //         bottom: 0),
-                    //     margin: EdgeInsets.only(left: 6),
-                    //     // decoration: BoxDecoration(
-                    //     //   border: Border.all(
-                    //     //     width: 1,
-                    //     //     color: _selectedMenu != null && _selectedMenu == index
-                    //     //                   ? getColorByHex(Globle().colorscode)
-                    //     //                   : Color.fromRGBO(118, 118, 118, 1),
-                    //     //   ),
-                    //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                    //     //   // color: _selectedMenu != null && _selectedMenu == index
-                    //     //   //                 ? getColorByHex(Globle().colorscode)
-                    //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
-                    //     // ),
-                    //     child: Text(
-                    //       _subcategorydata[index].title,
-                    //       style: TextStyle(
-                    //         fontSize: 16,
-                    //         color:
-                    //             _selectedSubMenu != null && _selectedSubMenu == index
-                    //                 ? getColorByHex(Globle().colorscode)
-                    //                 : Color.fromRGBO(118, 118, 118, 1),
-                    //         decoration: TextDecoration.underline,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // );
-                  })
-              : Container(),
-        ),
+                        ),
+                        // Divider(
+                        //   thickness: 1,
+                        //   color: _selectedSubMenu != null &&
+                        //           _selectedSubMenu == index
+                        //       ? getColorByHex(Globle().colorscode)
+                        //       : Color.fromRGBO(118, 118, 118, 1),
+                        // )
+                      ],
+                    )),
+                  );
+                  // return GestureDetector(
+                  //   onTap: () {
+                  //     _onSubMenuSelected(index);
+                  //   },
+                  //   child: Container(
+                  //     // height: 40,
+                  //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                  //     padding: EdgeInsets.only(
+                  //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                  //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                  //         top: 10,
+                  //         bottom: 0),
+                  //     margin: EdgeInsets.only(left: 6),
+                  //     // decoration: BoxDecoration(
+                  //     //   border: Border.all(
+                  //     //     width: 1,
+                  //     //     color: _selectedMenu != null && _selectedMenu == index
+                  //     //                   ? getColorByHex(Globle().colorscode)
+                  //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                  //     //   ),
+                  //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //     //   // color: _selectedMenu != null && _selectedMenu == index
+                  //     //   //                 ? getColorByHex(Globle().colorscode)
+                  //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                  //     // ),
+                  //     child: Text(
+                  //       _subcategorydata[index].title,
+                  //       style: TextStyle(
+                  //         fontSize: 16,
+                  //         color:
+                  //             _selectedSubMenu != null && _selectedSubMenu == index
+                  //                 ? getColorByHex(Globle().colorscode)
+                  //                 : Color.fromRGBO(118, 118, 118, 1),
+                  //         decoration: TextDecoration.underline,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // );
+                })
+            : Container(),
       ),
     );
   }
 
+  // int _getMenucount() {
+  //   if (_categorydata != null) {
+  //     for (int i = 0; i < _categorydata.length; i++) {
+  //       setState(() {
+  //         category = _categorydata[i].category;
+  //       });
+  //     }
+  //     return category.length;
+  //   }
+  //   return 0;
+  // }
   int _getMenucount() {
+    if (category.length == 0) {
+      category.insert(0, category1[0]);
+    }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
-          category = _categorydata[i].category;
+          category2 = _categorydata[i].category;
         });
       }
+      if (category.length == 1) {
+        category.addAll(category2);
+      }
       return category.length;
+    }
+    return 0;
+  }
+
+  int _getSubMenucount() {
+    if (subcategoriesList != null) {
+      return subcategoriesList.length;
     }
     return 0;
   }
@@ -604,13 +643,11 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   //     return subcategoriesList.length;
   //   }
   //   return 0;
-
   //   // if (_subcategorydata != null) {
   //   //   return _subcategorydata.length;
   //   // }
   //   // return 0;
   // }
-
   Widget _restaurantLogo() {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 5),
@@ -650,7 +687,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.9,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -881,7 +918,6 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         _restaurantList.addAll(menulist);
         restaurantItemsModel = _restaurantItemsModel1;
       }
-
       page++;
     });
     await progressDialog.hide();
@@ -890,13 +926,10 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
   @override
   void notifyWaiterFailed() {}
-
   @override
   void notifyWaiterSuccess() {}
-
   @override
   void getMenuLCategoryfailed() {}
-
   @override
   void getMenuLCategorysuccess([List<CategoryItems> categoryData]) {
     if (categoryData.length == 0) {
@@ -908,17 +941,17 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       } else {
         _categorydata.addAll(categoryData);
       }
-      if (categoryData[0].category[0].subcategories.length > 0) {
-        setState(() {
-          valueBool = true;
-          subcategoriesList = categoryData[0].category[0].subcategories;
-        });
-      } else {
-        setState(() {
-          valueBool = false;
-          subcategoriesList = [];
-        });
-      }
+      // if (categoryData[0].category[0].subcategories.length > 0) {
+      //   setState(() {
+      //     valueBool = true;
+      //     subcategoriesList = categoryData[0].category[0].subcategories;
+      //   });
+      // } else {
+      //   setState(() {
+      //     valueBool = false;
+      //     subcategoriesList = [];
+      //   });
+      // }
     });
   }
 }
@@ -948,3 +981,4 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
+List<Category> category1 = [Category(id: 0, name: "All")];
