@@ -3,6 +3,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
+import 'package:foodzi/FAQ/faq_view.dart';
+import 'package:foodzi/FaqUserGuideView/FaqUserguideView.dart';
 import 'package:foodzi/LandingPage/landinViewPresenter.dart';
 import 'package:foodzi/Models/running_order_model.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
@@ -50,14 +52,13 @@ class _LandingStateView extends State<Landingview>
   StreamController<Position> _controllerPosition = new StreamController();
   Stream stream;
   StreamSubscription<double> _streamSubscription;
+  bool isIgnoring = false;
 
   @override
   void initState() {
     stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
 
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_PLEASE_WAIT);
     callApi();
     getCurrentOrderID();
     Preference.getPrefValue<String>(STR_CURRENCY_SYMBOL).then((value) {
@@ -66,9 +67,10 @@ class _LandingStateView extends State<Landingview>
       }
     });
     _getLocation();
-    Globle().context = context;
+
     Globle().navigatorIndex = 1;
     onStreamListen();
+
     super.initState();
   }
 
@@ -90,7 +92,6 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
@@ -107,66 +108,110 @@ class _LandingStateView extends State<Landingview>
   }
 
   callApi() async {
-    //await progressDialog.show();
-    _landingViewPresenter.getCurrentOrder(context);
+    // setState(() {
+    //     isIgnoring = true;
+    //   });
+    // await progressDialog.show();
+    _landingViewPresenter.getCurrentOrder(context, false);
   }
 
   @override
   Widget build(BuildContext context) {
+    Globle().context = context;
+    // progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    // progressDialog.style(
+    //   message: STR_PLEASE_WAIT,
+    // );
     return Card(
       elevation: 100.0,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          actions: <Widget>[
-            new IconButton(
-              // icon: new Icon(
-              //   OMIcons.notifications,
-              //   color: greytheme100,
-              //   size: 28,
-              // ),
-              icon: (Globle().notificationFLag)
-                  ? Stack(
-                      fit: StackFit.passthrough,
-                      overflow: Overflow.visible,
-                      children: <Widget>[
-                        Icon(
-                          OMIcons.notifications,
-                          color: greytheme100,
-                          size: 30,
-                        ),
-                        Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                badgeColor: redtheme,
-                                badgeContent: Text(STR_ONE,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(color: Colors.white)))
-                            // : Text(STR_BLANK),
-                            )
-                      ],
-                    )
-                  : Icon(
-                      OMIcons.notifications,
-                      color: greytheme100,
-                      size: 30,
-                    ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotificationView()));
-              },
-            )
-          ],
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: Image.asset(MENU_IAMGE_PATH),
-            onPressed: widget.onMenuPressed,
+      child: IgnorePointer(
+        ignoring: isIgnoring,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            actions: <Widget>[
+              new IconButton(
+                // icon: new Icon(
+                //   OMIcons.notifications,
+                //   color: greytheme100,
+                //   size: 28,
+                // ),
+                icon: (Globle().notificationFLag)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotificationView()));
+                },
+              )
+            ],
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: Image.asset(MENU_IAMGE_PATH),
+              onPressed: widget.onMenuPressed,
+            ),
           ),
+          body: SingleChildScrollView(child: _getmainView()),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: (isOrderRunning)
+              ? SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: (FloatingActionButton.extended(
+                    onPressed: () {
+                      showStatusView();
+                    },
+                    elevation: 20,
+                    highlightElevation: 20,
+                    focusElevation: 20,
+                    backgroundColor: Colors.white70,
+                    label: Text(STR_VIEW_YOUR_ORDER,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: greentheme100)),
+                  )),
+                )
+              : (Container()),
+          // bottomNavigationBar: (isOrderRunning)
+          //     ? BottomAppBar(
+          //         child: Container(
+          //           color: greytheme1300,
+          //           height: 40,
+          //           child: _currentOrdertext(),
+          //         ),
+          //       )
+          //     : Text(""),
         ),
+<<<<<<< HEAD
         body: SingleChildScrollView(child: _getmainView()),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: (isOrderRunning)
@@ -219,6 +264,8 @@ class _LandingStateView extends State<Landingview>
         //         ),
         //       )
         //     : Text(""),
+=======
+>>>>>>> NewUiChanges
       ),
     );
   }
@@ -306,7 +353,25 @@ class _LandingStateView extends State<Landingview>
                 fontSize: FONTSIZE_20,
                 fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w500,
+<<<<<<< HEAD
                 color: greytheme300),
+=======
+                color: greytheme100),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Text(
+              Globle().loginModel.data.firstName ?? '',
+              style: TextStyle(
+                  fontSize: FONTSIZE_32,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  color: greytheme500),
+            ),
+>>>>>>> NewUiChanges
           ),
           // SizedBox(
           //   width: 10,
@@ -529,11 +594,15 @@ class _LandingStateView extends State<Landingview>
         builder: (context) => BottomTabbar(
               tabValue: 0,
             )));
-    if (progressDialog != null) {
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-      _landingViewPresenter.getCurrentOrder(context);
-    }
+    // if (progressDialog != null) {
+    //   setState(() {
+    //     isIgnoring = true;
+    //   });
+    //   await progressDialog.show();
+    //   //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
+    //   _landingViewPresenter.getCurrentOrder(context, true);
+    // }
+    _landingViewPresenter.getCurrentOrder(context, true);
   }
 
   Widget _buildinningtext() {
@@ -621,7 +690,7 @@ class _LandingStateView extends State<Landingview>
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            goToTakeAway();
+            goToTakeAway(0);
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -647,14 +716,18 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  goToTakeAway() async {
+  goToTakeAway(int index) async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
               tabValue: 1,
+              index: index,
             )));
-    await progressDialog.show();
+    setState(() {
+      isIgnoring = true;
+    });
+    // await progressDialog.show();
     //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
-    _landingViewPresenter.getCurrentOrder(context);
+    _landingViewPresenter.getCurrentOrder(context, true);
   }
 
   showStatusView() async {
@@ -669,37 +742,37 @@ class _LandingStateView extends State<Landingview>
                     orderId: Globle().orderID,
                     isFromOrder: true,
                   )));
-          await progressDialog.show();
+          setState(() {
+            isIgnoring = true;
+          });
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //  context, _scaffoldKey, STR_PLEASE_WAIT);
-          _landingViewPresenter.getCurrentOrder(context);
+          _landingViewPresenter.getCurrentOrder(context, true);
         }
       } else if (_model.data.takeAway != null) {
         if (_model.data.takeAway.orderType != STR_PAID) {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => PaymentTipAndPayDi(
-                    // orderID: widget.orderID,
-                    // tableId: widget.tableId,
-                    orderID: currentOrderId,
-                    tableId: _model.data.takeAway.tableId,
-                  )
-              // StatusTakeAwayView(
-              //       orderID: currentOrderId,
-              //       restId: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restId
-              //           : _model.data.dineIn.restId,
-              //       title: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restaurant.restName
-              //           : _model.data.dineIn.restaurant.restName,
-              //       imgUrl: (_model.data.takeAway.status != STR_PAID)
-              //           ? _model.data.takeAway.restaurant.coverImage
-              //           : _model.data.dineIn.restaurant.coverImage,
-              //     )
-              ));
-          await progressDialog.show();
+          goToTakeAway(1);
+          // StatusTakeAwayView(
+          //       orderID: currentOrderId,
+          //       restId: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restId
+          //           : _model.data.dineIn.restId,
+          //       title: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restaurant.restName
+          //           : _model.data.dineIn.restaurant.restName,
+          //       imgUrl: (_model.data.takeAway.status != STR_PAID)
+          //           ? _model.data.takeAway.restaurant.coverImage
+          //           : _model.data.dineIn.restaurant.coverImage,
+          //     )
+
+          setState(() {
+            isIgnoring = true;
+          });
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(
           //context, _scaffoldKey, STR_PLEASE_WAIT);
-          _landingViewPresenter.getCurrentOrder(context);
+          _landingViewPresenter.getCurrentOrder(context, true);
         }
       }
     }
@@ -733,12 +806,20 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void onFailedCurrentOrder() async {
-    await progressDialog.hide();
+    setState(() {
+      isIgnoring = false;
+    });
+    // await progressDialog.hide();
   }
 
   @override
   void onSuccessCurrentOrder(RunningOrderModel model) async {
-    await progressDialog.hide();
+    setState(() {
+      isIgnoring = false;
+    });
+
+    // await progressDialog.hide();
+
     //progressDialog.hide();
     // if (_scaffoldKey.currentContext != null) {
     // Navigator.of(_scaffoldKey.currentContext, rootNavigator: true)..pop();
@@ -760,15 +841,18 @@ class _LandingStateView extends State<Landingview>
           Globle().takeAwayCartItemCount = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
+          Globle().isTabelAvailable = true;
+          Globle().isCollectionOrder = false;
+          Globle().tableID = model.data.dineIn.tableId;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
         } else {
           setDefaultData();
         }
-      } else if (model.data.dineIn != null) {
+      } else if (model.data.takeAway != null) {
         if (model.data.takeAway != null &&
-            model.data.takeAway.status != STR_PAID) {
+            model.data.takeAway.status == STR_PAID) {
           Preference.setPersistData<int>(
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
@@ -779,6 +863,9 @@ class _LandingStateView extends State<Landingview>
           Globle().takeAwayCartItemCount = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
           Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+          Globle().isTabelAvailable = false;
+          Globle().isCollectionOrder = true;
+          Globle().tableID = 0;
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
@@ -786,7 +873,10 @@ class _LandingStateView extends State<Landingview>
           setDefaultData();
         }
       } else if (model.data.cart != null) {
-        Globle().dinecartValue += 1;
+        Globle().isTabelAvailable = false;
+        Globle().tableID = 0;
+        Globle().isCollectionOrder = false;
+        Globle().dinecartValue = 1;
         Preference.setPersistData<int>(
             Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
         Preference.setPersistData(
@@ -806,12 +896,15 @@ class _LandingStateView extends State<Landingview>
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
+    Globle().isCollectionOrder = false;
     Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    Globle().isTabelAvailable = false;
+    Globle().tableID = 0;
     Future.delayed(Duration(microseconds: 500), () {
       getCurrentOrderID();
     });
@@ -819,7 +912,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void dispose() {
-    //progressDialog.hide();
+    // progressDialog.hide();
     super.dispose();
   }
 }
@@ -942,34 +1035,43 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                 Globle().navigatorIndex = 5;
               });
               widget.appbarTitle = STR_SETTING;
+              Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => SettingView()));
               // _opennewpage(STR_SETTING);
             }), //SETTING
-        // DrawerItem(
-        //     text: Text(
-        //       STR_HELP,
-        //       style: TextStyle(
-        //           color: (Globle().navigatorIndex == 6) ? orangetheme : greytheme800,
-        //           fontFamily: KEY_FONTFAMILY,
-        //           fontWeight: FontWeight.w600,
-        //           fontSize: FONTSIZE_15),
-        //     ),
-        //     icon: Icon(
-        //       Icons.help,
-        //       color: greytheme800,
-        //       size: 20,
-        //     ),
-        //     page: Landingview(
-        //       title: STR_SETTING,
-        //     ),
-        //     onPressed: () {
-        //       setState(() {
-        //         Globle().navigatorIndex = 6;
-        //       });
-        //       widget.appbarTitle = STR_HELP;
-        //       _opennewpage(STR_HELP);
-        //     }), //HELP
+        DrawerItem(
+            text: Text(
+              STR_HELP,
+              style: TextStyle(
+                  color: (Globle().navigatorIndex == 6)
+                      ? orangetheme
+                      : greytheme800,
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w600,
+                  fontSize: FONTSIZE_15),
+            ),
+            icon: Icon(
+              Icons.help,
+              color: greytheme800,
+              size: 20,
+            ),
+            page: Landingview(
+              title: STR_SETTING,
+            ),
+            onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 6;
+              });
+              widget.appbarTitle = STR_HELP;
+              Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => FAQVIew()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FaqUserGuideView()));
+            }), //HELP
       ],
     );
   }
@@ -1046,6 +1148,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   void _opennewpage(String title) {
     if (title.contains(STR_HOME)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => Landingview()));
     } else if (title.contains(STR_SETTING)) {
       Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
       Navigator.push(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/EditProfile/EditProfileContractor.dart';
 import 'package:foodzi/EditProfile/EditProfilePresenter.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
@@ -13,6 +14,7 @@ import 'package:foodzi/widgets/BoxTextField.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:toast/toast.dart';
 
 class EditProfileview extends StatefulWidget {
   @override
@@ -43,6 +45,7 @@ class _EditProfileState extends State<EditProfileview>
   var stateID;
   var cityID;
   var pinCode;
+  var isIgnoring = false;
   EditProfilePresenter editprofilepresenter;
   @override
   void initState() {
@@ -50,11 +53,35 @@ class _EditProfileState extends State<EditProfileview>
     editprofilepresenter = EditProfilePresenter(this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     editprofilepresenter.editCountry(context);
-    editprofilepresenter.editState(context);
+    editprofilepresenter.editState(context, true);
+    setData();
+  }
+
+  void setData() {
+    if (Globle().loginModel.data.userDetails != null) {
+      streetAddress = Globle().loginModel.data.userDetails.addressLine1;
+
+      if (Globle().loginModel.data.userDetails.country != null) {
+        _dropdownCountryValue =
+            Globle().loginModel.data.userDetails.country.name;
+        countryID = Globle().loginModel.data.userDetails.country.id;
+      }
+      if (Globle().loginModel.data.userDetails.state != null) {
+        _dropdownStateValue = Globle().loginModel.data.userDetails.state.name;
+        stateID = Globle().loginModel.data.userDetails.state.id;
+      }
+      if (Globle().loginModel.data.userDetails.city != null) {
+        _dropdownCityValue = Globle().loginModel.data.userDetails.city.name;
+        cityID = Globle().loginModel.data.userDetails.city.id;
+        editprofilepresenter.editCity(stateID.toString(), context, false);
+      }
+      pinCode = Globle().loginModel.data.userDetails.postalCode;
+    }
   }
 
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -75,16 +102,49 @@ class _EditProfileState extends State<EditProfileview>
             ),
           ],
         ),
-        body: KeyboardActions(
-          config: _buildConfig(context),
-          child: SingleChildScrollView(
-            child: _getmainView(context),
+        body: IgnorePointer(
+          ignoring: isIgnoring,
+          child: KeyboardActions(
+            config: _buildConfig(context),
+            child: SingleChildScrollView(
+              child: _getmainView(context),
+            ),
           ),
         ));
   }
 
   Future<void> updateButtonClicked() async {
     if (_editprofileFormKey.currentState.validate()) {
+      if (countryID == null) {
+        Toast.show(
+          "Please select country.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
+      }
+      if (stateID == null) {
+        Toast.show(
+          "Please select state.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
+      }
+      if (cityID == null) {
+        Toast.show(
+          "Please select city.",
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.BOTTOM,
+        );
+        return;
+      }
+      setState(() {
+        isIgnoring = true;
+      });
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
@@ -135,6 +195,7 @@ class _EditProfileState extends State<EditProfileview>
               onChanged: (text) {
                 streetAddress = text;
               },
+              tfValue: streetAddress,
               placeHolderName: KEY_STREET,
               validator: validateStreetname,
             ),
@@ -154,10 +215,15 @@ class _EditProfileState extends State<EditProfileview>
               height: 28,
             ),
             BoxAppTextField(
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(6),
+                WhitelistingTextInputFormatter.digitsOnly
+              ],
               onChanged: (text) {
                 pinCode = text;
               },
               focusNode: _nodeText1,
+              tfValue: pinCode,
               placeHolderName: KEY_POSTAL_CODE,
               keyboardType: TextInputType.number,
               validator: validatePinCode,
@@ -295,7 +361,7 @@ class _EditProfileState extends State<EditProfileview>
             });
             await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-            editprofilepresenter.editCity(stateID.toString(), context);
+            editprofilepresenter.editCity(stateID.toString(), context, false);
           });
         },
         value: _dropdownStateValue,
@@ -405,9 +471,11 @@ class _EditProfileState extends State<EditProfileview>
     RegExp regExp = RegExp(pattern);
     if (value.length == 0) {
       return KEY_PINCODE_NUMBER_REQUIRED;
-    } else if (!regExp.hasMatch(value)) {
-      return KEY_PIN_NUMBER_TEXT;
-    } else if (value.length != 6) {
+    }
+    // else if (!regExp.hasMatch(value)) {
+    //   return KEY_PIN_NUMBER_TEXT;
+    // }
+    else if (value.length < 4) {
       return KEY_PIN_NUMBER_LIMIT;
     }
     return null;
@@ -461,55 +529,72 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void editCityFailed() {}
+  void editCityFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editCitySuccess(List<CityList> cityList) async {
+    await progressDialog.hide();
     if (cityList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editCountryFailed() {}
+  void editCountryFailed() async{
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editCountrySuccess(List<CountryList> countryList) async {
+    await progressDialog.hide();
     if (countryList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editStateFailed() {}
+  void editStateFailed()async {
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> editStateSuccess(List<StateList> stateList) async {
+    await progressDialog.hide();
     if (stateList.length == 0) {
       return;
     }
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-    await progressDialog.hide();
+    
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void profileUpdateFailed() {}
+  void profileUpdateFailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
+    await progressDialog.hide();
+  }
 
   @override
   Future<void> profileUpdateSuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);

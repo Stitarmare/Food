@@ -163,6 +163,10 @@ class PayBillCheckoutPresenter extends PayBillCheckoutContaractor {
         UrlConstant.paycheckOutNetbankingApi, context,
         body: {
           JSON_STR_REST_ID: restId,
+<<<<<<< HEAD
+=======
+          "tip": tip,
+>>>>>>> NewUiChanges
           JSON_STR_AMOUNT: amount,
           JSON_STR_CURRENCY: currency,
           JSON_STR_ORDER_ID_1: orderId

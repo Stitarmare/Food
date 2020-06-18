@@ -38,12 +38,12 @@ class MyOrderTakeAwayPresenter extends MyOrderContractor {
   }
 
   @override
-  void getmyOrderBookingHistory(String orderType, BuildContext context) {
+  void getmyOrderBookingHistory(String orderType, BuildContext context,bool isNetwrokShow) {
     ApiBaseHelper().post<GetMyOrdersBookingHistory>(
         UrlConstant.getMyOrdersBookingHistory, context,
         body: {
           JSON_STR_ORDER_TYPE: orderType,
-        },isShowDialoag: true).then((value) {
+        },isShowDialoag: true,isShowNetwork: isNetwrokShow).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

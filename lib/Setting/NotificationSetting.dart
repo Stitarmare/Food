@@ -100,6 +100,14 @@ class _NotificationSettingState extends State<NotificationSetting>
                           this._switchvalue = value;
                           Preference.setPersistData<bool>(
                               value, "notificationKey");
+                          _checkBoxOptions = [
+    CheckBoxOptions(
+        index: 1, title: 'Activity on my Reviews', isChecked: value),
+    CheckBoxOptions(
+        index: 2, title: 'Important updates from Foodzi', isChecked: value),
+    CheckBoxOptions(
+        index: 3, title: 'Other social Notifications', isChecked: value)
+  ];
                         });
                         updateNotification();
                       },

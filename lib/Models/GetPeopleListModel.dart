@@ -163,7 +163,7 @@ class PeopleData {
   dynamic accessToken;
   String deviceToken;
   String deviceType;
-  int otp;
+  String otp;
   dynamic emailVerifiedAt;
   String latitude;
   String longitude;

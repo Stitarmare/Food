@@ -101,6 +101,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   Position _position;
   var getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
+  String strTotalAmount = "";
 
   @override
   void initState() {
@@ -112,6 +113,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
     print(widget.tableId);
+
+    strTotalAmount = (widget.totalAmount).toStringAsFixed(2);
     //_getLocation();
     super.initState();
   }
@@ -373,9 +376,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         child: Column(
           children: <Widget>[
             Text(
-              '${"Total  "}' +
-                  '${widget.currencySymbol}' +
-                  '${widget.totalAmount}',
+              '${"Total  "}' + '${widget.currencySymbol}' + strTotalAmount,
+              // '${widget.totalAmount}',
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.grey,
@@ -655,6 +657,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         myOrderData = orderData;
       }
     });
+    Globle().isTabelAvailable = true;
+    Globle().tableID = widget.tableId;
     Preference.setPersistData<int>(widget.tableId, PreferenceKeys.tableId);
     Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);

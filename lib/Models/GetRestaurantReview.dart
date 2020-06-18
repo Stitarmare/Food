@@ -70,7 +70,7 @@ class RestaurantReviewList {
         rating: json["rating"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        user: User.fromJson(json["user"]),
+        user:json["user"] != null ? User.fromJson(json["user"]) : null,
       );
 
   Map<String, dynamic> toJson() => {

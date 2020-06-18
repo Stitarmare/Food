@@ -10,18 +10,22 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 
-enum Environment { PRODUCTION, DEVLOPMENT, LOCAL }
+enum Environment { PRODUCTION, DEVLOPMENT, UAT }
 
 class BaseUrl {
   BaseUrl();
+<<<<<<< HEAD
   static var environment = Environment.DEVLOPMENT;
+=======
+  static var environment = Environment.UAT;
+>>>>>>> NewUiChanges
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
         return STR_PRODUCTION_URL;
       case Environment.DEVLOPMENT:
         return STR_DEVELOPEMENT_URL;
-      case Environment.LOCAL:
+      case Environment.UAT:
         return STR_LOCAL_URL;
       default:
         return STR_BLANK;
@@ -34,7 +38,7 @@ class BaseUrl {
         return STR_IMAGE_PRODUCTION_URL;
       case Environment.DEVLOPMENT:
         return STR_IMAGE_DEVELOPEMENT_URL;
-      case Environment.LOCAL:
+      case Environment.UAT:
         return STR_IMAGE_LOCAL_URL;
       default:
         return STR_BLANK;
@@ -229,6 +233,10 @@ class ApiBaseHelper {
           },
         );
       });
+<<<<<<< HEAD
+=======
+
+>>>>>>> NewUiChanges
       return errorResponce<T>();
     }
   }
@@ -311,6 +319,11 @@ class ApiBaseHelper {
         if (errorModel != null) {
           if (errorModel.message != null) {
             msg = errorModel.message;
+          }
+        }
+        if (isShowDialoag != null) {
+          if (isShowDialoag) {
+            return apiModel;
           }
         }
         Future.delayed(const Duration(milliseconds: 100), () {

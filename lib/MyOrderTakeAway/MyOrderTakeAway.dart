@@ -37,7 +37,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     super.initState();
     _myOrdersPresenter = MyOrderTakeAwayPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_TAKE_AWAY, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context,true);
   }
 
   @override
@@ -440,7 +440,11 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
-    var time = DateFormat("hh:mm a").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
     return "$dateStr at $time";
   }
 
@@ -550,7 +554,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      STR_TIME,
+                      "${getDateForOrderHistory(getmyOrderBookingHistory[index].createdAt)}",
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -625,7 +629,10 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         child: Container(
                           height: 10,
                           width: 10,
-                          color: greentheme,
+                          color: getmyOrderBookingHistory[index].status ==
+                                  "completed"
+                              ? Colors.green
+                              : Colors.red,
                         ),
                       ),
                       SizedBox(
@@ -699,6 +706,10 @@ class _MyOrdersState extends State<MyOrderTakeAway>
       List<GetMyOrderBookingHistoryList> _getmyOrderBookingHistory) {
     setState(() {
       // getmyOrderBookingHistory = _getmyOrderBookingHistory;
+<<<<<<< HEAD
+=======
+
+>>>>>>> NewUiChanges
       for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
         _getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
       }

@@ -56,7 +56,12 @@ class DrawerItem extends StatelessWidget {
 }
 
 class HiddenDrawer extends StatefulWidget {
-  HiddenDrawer({this.header, this.decoration, this.controller, this.isOpen,this.version});
+  HiddenDrawer(
+      {this.header,
+      this.decoration,
+      this.controller,
+      this.isOpen,
+      this.version});
   BoxDecoration decoration;
   Widget header;
   HiddenDrawerController controller;
@@ -77,7 +82,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
   @override
   void initState() {
     super.initState();
-    
+
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(animationController)
@@ -90,7 +95,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
             begin: BorderRadius.circular(0.0), end: BorderRadius.circular(32))
         .animate(
             CurvedAnimation(parent: animationController, curve: Curves.ease));
-            getVersion();
+    getVersion();
   }
 
   @override
@@ -149,11 +154,11 @@ class _HiddenDrawerState extends State<HiddenDrawer>
     }
   }
 
-  getVersion() async{
-PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  setState(() {
-    versionName = packageInfo.version;
-  });
+  getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      versionName = packageInfo.version;
+    });
   }
 
   @override
@@ -277,6 +282,4 @@ PackageInfo packageInfo = await PackageInfo.fromPlatform();
       ),
     );
   }
-
- 
 }

@@ -37,15 +37,19 @@ const STR_CATEGORY_SECTION = '/CategoriesSection';
 // API_BASE_HELPER Page
 
 // URLs
+<<<<<<< HEAD
 // const STR_PRODUCTION_URL = "http://18.219.185.86/";
 const STR_PRODUCTION_URL = "http://3.12.75.171/";
+=======
+const STR_PRODUCTION_URL = "https://www.foodzi.app/";
+>>>>>>> NewUiChanges
 const STR_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/";
-const STR_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+const STR_LOCAL_URL = "http://3.12.75.171/";
 
 // IMAGE_URLs
-const STR_IMAGE_PRODUCTION_URL = "http://3.12.75.171/storage/";
+const STR_IMAGE_PRODUCTION_URL = "https://www.foodzi.app/storage/";
 const STR_IMAGE_DEVELOPEMENT_URL = "http://foodzi.php-dev.in/storage/";
-const STR_IMAGE_LOCAL_URL = "https://jsonplaceholder.typicode.com/";
+const STR_IMAGE_LOCAL_URL = "http://3.12.75.171/storage/";
 
 const STR_HEADER_TYPE = "application/json";
 const STR_BEARER = "Bearer ";
@@ -104,10 +108,10 @@ const KEY_COUNTRYCODE_REQUIRED = 'Required code';
 const KEY_PINCODE_NUMBER_REQUIRED = 'Postal Code is Required';
 const KEY_MOBILE_NUMBER_LIMIT = 'Mobile No. must have maximum 13 digits';
 const KEY_COUNTRY_CODE_LIMIT = 'Out of limit';
-const KEY_PIN_NUMBER_LIMIT = 'Postal Code must have 6 digits only';
+const KEY_PIN_NUMBER_LIMIT = 'Postal Code must have 4 digits only';
 const KEY_MOBILE_NUMBER_TEXT = 'Mobile No. must be digits';
 const KEY_COUNTRY_CODE_TEXT = 'Must be digits';
-const KEY_PIN_NUMBER_TEXT = 'Postal Code must be digits';
+const KEY_PIN_NUMBER_TEXT = 'Postal Code must be 4 digits';
 const KEY_ENTER_PASSWORD = 'Enter Password';
 const KEY_ENTER_OLD_PASSWORD = 'Enter Old Password';
 const KEY_ENTER_NEW_PASSWORD = 'Enter New Password';
@@ -128,6 +132,8 @@ const KEY_THIS_SHOULD_BE_10_PLUS_CHAR_LONG =
     'This should be more than 10 characters';
 const KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG =
     'This should be minimum 8 characters';
+const PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG =
+    'Password should be minimum 8 characters';
 const KEY_PLEASE_ENTER_CORRECT_PASSWORD = 'Please enter correct password';
 const KEY_TERMS_AND_CONDITIONS = 'Terms and conditions';
 const KEY_OK = 'OK';
@@ -235,7 +241,8 @@ const JSON_STR_ITEM_ID = "item_id";
 const STR_CHANGE_PASSWORD = 'Change Your Password';
 const IMAGE_LOCK_PATH = 'assets/LockImage/Group_1560.png';
 const STR_PWD_NOT_MATCHED = 'Password does not match with confirm password.';
-const STR_PWD_CHANGED_SUCCESS = 'Your password has been successfully change. ';
+const STR_PWD_CHANGED_SUCCESS =
+    'Your password has been successfully change, Please login again.';
 const JSON_STR_OLD_PWD = 'old_password';
 const JSON_STR_NEW_PWD = 'new_password';
 const JSON_STR_PWD_CONFIRM = 'new_password_confirmation';
@@ -270,6 +277,7 @@ const JSON_STR_PAGE = "page";
 const STR_IMAGE_PATH = 'assets/BackgroundImage/Group1649.png';
 const STR_IMAGE_PATH1 = 'assets/SignOutIcon/Group1349.png';
 const STR_VERSION_NO = "Version";
+const STR_I_AGREE = "I AGREE";
 
 // EditProfile Page
 const STR_CHOOSE_COUNTRY = 'Choose Country';
@@ -348,6 +356,7 @@ const JSON_STR_PWD = 'password';
 // MenuItemDropDown Page
 const STR_ZERO = "0";
 const JSON_STR_REST_ID = "rest_id";
+const JSON_STR_REST_PAGE = "page";
 
 // MyCartView Page and MyCartTakeAway
 const STR_LOADING = "Loading";
@@ -612,6 +621,7 @@ const STR_PEOPLE_FOR_THE_ITEM = "People for the Item";
 // WebView Page
 const STR_GOOGLE_URL = "https://google.co.in";
 const STR_URL_TERMS_CONDITION = "http://foodzi.php-dev.in/terms-and-conditions";
+const STR_URL_TERMS_CONDITION_TITLE = "terms-and-conditions";
 const STR_URL_PRIVACY_POLICY = "http://foodzi.php-dev.in/privacy-policy";
 const STR_URL_ABOUT_US = "http://foodzi.php-dev.in/about";
 

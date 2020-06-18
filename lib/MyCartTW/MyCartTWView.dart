@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,7 +64,69 @@ class _MyCartTWViewState extends State<MyCartTWView>
     super.initState();
   }
 
-  Widget steppercount(int i) {
+  // checkIntenet(int i, int flag, BuildContext context) async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       if (flag == 1) {
+  //         if (_cartItemList[i].quantity > 0) {
+  //           setState(() {
+  //             _cartItemList[i].quantity -= 1;
+  //             print(_cartItemList[i].quantity);
+  //           });
+  //           // DialogsIndicator.showLoadingDialog(
+  //           //     context, _keyLoader, STR_LOADING);
+  //           await progressDialog.show();
+  //           if (_cartItemList[i].quantity > 0) {
+  //             _myCartpresenter.updateQauntityCount(
+  //                 _cartItemList[i].id,
+  //                 _cartItemList[i].quantity,
+  //                 (double.parse(_cartItemList[i].totalAmount)) /
+  //                     _cartItemList[i].quantity,
+  //                 context);
+  //           }
+  //           if (_cartItemList[i].quantity == 0) {
+  //             // DialogsIndicator.showLoadingDialog(
+  //             //     context, _keyLoader, STR_LOADING);
+  //             await progressDialog.show();
+  //             _myCartpresenter.removeItemfromCart(
+  //                 _cartItemList[i].id, Globle().loginModel.data.id, context);
+  //             setState(() {
+  //               _cartItemList.removeAt(i);
+  //             });
+  //           }
+  //         }
+  //       } else {
+  //         setState(() {
+  //           _cartItemList[i].quantity += 1;
+  //           print(_cartItemList[i].quantity);
+  //         });
+  //         // DialogsIndicator.showLoadingDialog(
+  //         //     context, _keyLoader, STR_LOADING);
+  //         await progressDialog.show();
+  //         _myCartpresenter.updateQauntityCount(
+  //             _cartItemList[i].id,
+  //             _cartItemList[i].quantity,
+  //             (double.parse(_cartItemList[i].totalAmount)) /
+  //                 _cartItemList[i].quantity,
+  //             context);
+  //       }
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
+
+  Widget steppercount(int i, context) {
     int count = _cartItemList[i].quantity;
     return Container(
       height: 24,
@@ -70,6 +134,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
+            // checkIntenet(i, 1, context);
             if (_cartItemList[i].quantity > 0) {
               setState(() {
                 _cartItemList[i].quantity -= 1;
@@ -132,6 +197,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
         InkWell(
           onTap: () async {
+            // checkIntenet(i, 2, context);
+
             setState(() {
               _cartItemList[i].quantity += 1;
               print(_cartItemList[i].quantity);
@@ -352,8 +419,18 @@ class _MyCartTWViewState extends State<MyCartTWView>
                   GestureDetector(
                     onTap: () {
                       Globle().takeAwayCartItemCount = 0;
+                      Globle().dinecartValue = 0;
                       Preference.setPersistData<int>(
                           0, PreferenceKeys.takeAwayCartCount);
+                      if (_cartItemList != null) {
+                        if (double.parse(myCart.grandTotal) < 1.0) {
+                          Constants.showAlert(
+                              "Amount",
+                              "Total Amount should be greater than ${getCurrency()} 1.00",
+                              context);
+                          return;
+                        }
+                      }
                       (_cartItemList != null)
                           ? Navigator.push(
                               context,
@@ -402,6 +479,25 @@ class _MyCartTWViewState extends State<MyCartTWView>
         ),
       ),
     );
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget _getAddedListItem() {
@@ -498,7 +594,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(index),
+                                  steppercount(index, context),
                                 ],
                               ),
                               Expanded(
@@ -591,7 +687,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
   String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return myCart.grandTotal;
+        String strAmount = myCart.grandTotal;
+        return strAmount;
       }
     }
     return "0";
@@ -618,6 +715,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
       return;
     }
     Globle().takeAwayCartItemCount = menulist.length;
+    Globle().dinecartValue = menulist.length;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     myCart = model;
@@ -653,6 +751,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
         Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
         Globle().takeAwayCartItemCount = 0;
+        Globle().dinecartValue = 0;
         Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
         setState(() {
           myCart = null;
@@ -662,6 +761,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
+    Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);

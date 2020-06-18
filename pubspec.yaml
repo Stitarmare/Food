@@ -1,7 +1,7 @@
 name: foodzi
 description: A new Flutter project.
 
-version: 2.2+1
+version: 3.3.7+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -11,11 +11,12 @@ dependencies:
     sdk: flutter
   carousel_slider:
   basic_utils: ^2.5.3
+  flutter_swiper: ^1.1.6
 
   cupertino_icons: ^0.1.2
   http: ^0.12.0+2
   pin_code_text_field: ^1.5.1
-  url_launcher: ^5.4.2
+  url_launcher: ^5.4.10
   shared_preferences: ^0.5.6+3
   package_info: ^0.4.0+18
 
@@ -24,7 +25,7 @@ dependencies:
 
   outline_material_icons: ^0.1.1
   image_picker:
-  path_provider: ^1.6.5
+  path_provider: ^1.6.10
   keyboard_actions: ^3.1.2
   geolocator: ^5.2.0 
 
@@ -46,7 +47,7 @@ dependencies:
   progress_dialog: ^1.2.1
   flappy_search_bar: ^1.7.2
   intl: ^0.16.1
-  flutter_local_notifications: ^1.4.3
+  flutter_local_notifications:
 
   google_maps_flutter: ^0.5.27+1
   location: ^3.0.2
@@ -70,6 +71,7 @@ flutter:
       #Splashscreen Images
       - assets/SplashScreen/LauncherScreen.png
       - assets/SplashScreen/LauncherImg.png
+      - assets/faq.json
       #Logo Images  
       - assets/Logo/foodzi_logo.png
       #Lock Images
@@ -175,8 +177,24 @@ flutter:
       - assets/VegIcon/Group1661.png
       - assets/VegIcon/Group1661@2x.png
       - assets/VegIcon/Group1661@3x.png
+<<<<<<< HEAD
       #MappinImage
       - assets/MappinImage/mappin.png
+=======
+      #UserGuide
+      - assets/UserGuide/additemtocart.png
+      - assets/UserGuide/loginpage.png
+      - assets/UserGuide/menulist.png
+      - assets/UserGuide/menulist.png
+      - assets/UserGuide/otpscreen.png
+      - assets/UserGuide/Registerpage.png
+      - assets/UserGuide/restaurantview.png
+      - assets/UserGuide/splitbill.png
+      - assets/UserGuide/paymentpage.png
+      - assets/UserGuide/currentorders.png
+      - assets/UserGuide/LandingScreen.png
+
+>>>>>>> NewUiChanges
       
 
   fonts:

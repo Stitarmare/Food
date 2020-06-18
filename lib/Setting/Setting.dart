@@ -1,5 +1,7 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/EnterMobileNoPage/EnterMobileNoPage.dart';
+import 'package:foodzi/Login/LoginView.dart';
 import 'package:foodzi/Setting/DeleteAccContractor.dart';
 import 'package:foodzi/Setting/DeleteAccPresenter.dart';
 import 'package:foodzi/Setting/NotificationSetting.dart';
@@ -20,7 +22,6 @@ class _SettingViewState extends State<SettingView>
   DeleteAccPresenter deleteAccPresenter;
   @override
   void initState() {
-    // TODO: implement initState
     deleteAccPresenter = DeleteAccPresenter(this);
     super.initState();
   }
@@ -171,19 +172,74 @@ class _SettingViewState extends State<SettingView>
     );
   }
 
-  @override
-  void deleteAccFailed() {
-    // TODO: implement deleteAccFailed
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(
+                  StringUtils.capitalize(title),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: FONTSIZE_18,
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700),
+                ),
+                content:
+                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  Image.asset(
+                    SUCCESS_IMAGE_PATH,
+                    width: 75,
+                    height: 75,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    StringUtils.capitalize(message),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_15,
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        color: greytheme700),
+                  )
+                ]),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text(STR_OK,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16,
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w600,
+                            color: greytheme700)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginView()),
+                          ModalRoute.withName("/loginView"));
+                    },
+                  )
+                ],
+              ),
+            ));
   }
 
   @override
-  void deleteAccSuccess() {
-    // TODO: implement deleteAccSuccess
-    Toast.show(
-      'Account Deleted',
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM,
-    );
+  void deleteAccFailed() {}
+
+  @override
+  void deleteAccSuccess(String message) {
+    showAlertSuccess("Account Status", message, context);
   }
 }

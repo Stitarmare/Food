@@ -1,10 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
+<<<<<<< HEAD
+=======
+import 'dart:io';
+//import 'dart:html';
+
+>>>>>>> NewUiChanges
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+<<<<<<< HEAD
+=======
+import 'package:foodzi/LandingPage/LandingView.dart';
+import 'package:foodzi/Models/AddItemPageModel.dart';
+>>>>>>> NewUiChanges
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -52,6 +63,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   OrderDetailData myOrderData;
   PaycheckoutNetbanking billModel;
   ProgressDialog progressDialog;
+  bool isLoading = true;
+  var isSplitTrans = false;
   ConfirmationDineviewPresenter confirmationDineviewPresenter;
   OrderDetailsModel _model;
   //List<AddPeopleList> addedPeopleList = [];
@@ -72,6 +85,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     _finalBillPresenter = PayFinalBillPresenter(this);
     _billCheckoutPresenter = PayBillCheckoutPresenter(this);
     confirmationDineviewPresenter = ConfirmationDineviewPresenter(this);
+    setState(() {
+      isLoading = true;
+    });
     confirmationDineviewPresenter.getPeopleList(searchText, context);
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
     selectedRadioTile = 1;
@@ -90,6 +106,19 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     super.initState();
   }
 
+  // checkIntenet() async {
+  //   await progressDialog.show();
+
+  //   _billCheckoutPresenter.payBillCheckOut(
+  //     myOrderData.restId,
+  //     getOrderTotal(),
+  //     sliderValue.toString(),
+  //     "ZAR",
+  //     myOrderData.id,
+  //     context,
+  //   );
+  // }
+
   onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
@@ -102,6 +131,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     setState(() {
       selectedRadioTile = val;
     });
+  }
+
+  bool isSplitBillEnabled() {
+    if (myOrderData.splitbilltransactions != null) {
+      if (myOrderData.splitbilltransactions.length > 0) {
+        isSplitTrans = true;
+        return isSplitTrans;
+      }
+    }
+    return isSplitTrans;
   }
 
   bool isInvited() {
@@ -160,6 +199,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
+<<<<<<< HEAD
           body: CustomScrollView(
             controller: _controller,
             slivers: <Widget>[_getmainviewTableno(), _getOptions()],
@@ -239,12 +279,131 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   ],
                 )),
           ),
+=======
+          body: isLoading
+              ? Container()
+              : (myOrderData == null)
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "No data found.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : CustomScrollView(
+                      controller: _controller,
+                      slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+                    ),
+          bottomNavigationBar: isLoading
+              ? Container(height: 0)
+              : (myOrderData == null)
+                  ? Container(height: 0)
+                  : BottomAppBar(
+                      child: Container(
+                          height: (isBillSplitedForUser) ? 0 : 80,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              isInvited()
+                                  ? Expanded(child: Container())
+                                  : isSplitBillEnabled()
+                                      ? SizedBox(height: 35, child: Text(""))
+                                      : Container(
+                                          height: 35,
+                                          child: FlatButton(
+                                            child: Text(
+                                              STR_SPLIT_BILL,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor: ((Globle()
+                                                              .colorscode) !=
+                                                          null)
+                                                      ? getColorByHex(
+                                                          Globle().colorscode)
+                                                      : orangetheme,
+                                                  color: ((Globle()
+                                                              .colorscode) !=
+                                                          null)
+                                                      ? getColorByHex(
+                                                          Globle().colorscode)
+                                                      : orangetheme,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            onPressed: () {
+                                              onSplitBillButtonTap();
+                                            },
+                                          ),
+                                        ),
+                              isSplitAmount()
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () async {
+                                        setState(() {
+                                          isIgnoreTouch = true;
+                                        });
+                                        // await progressDialog.show();
+                                        getVerifyAmount();
+                                        // DialogsIndicator.showLoadingDialog(
+                                        //     context, _keyLoader, STR_BLANK);
+
+                                        // _billCheckoutPresenter.payBillCheckOut(
+                                        //   myOrderData.restId,
+                                        //   getOrderTotal(),
+                                        //   sliderValue.toString(),
+                                        //   "ZAR",
+                                        //   myOrderData.id,
+                                        //   context,
+                                        // );
+                                      },
+                                      child: Container(
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                ((Globle().colorscode) != null)
+                                                    ? getColorByHex(
+                                                        Globle().colorscode)
+                                                    : orangetheme,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15))),
+                                        child: Center(
+                                          child: Text(
+                                            STR_PAY_BILL,
+                                            style: TextStyle(
+                                                fontFamily: KEY_FONTFAMILY,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: FONTSIZE_16,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          )),
+                    ),
+>>>>>>> NewUiChanges
         ),
       ),
     );
   }
 
   void getVerifyAmount() async {
+<<<<<<< HEAD
     if (myOrderData.splitAmount != null) {
       double doubleAmount = double.parse(getOrderTotal());
       if (doubleAmount > 1.0) {
@@ -294,6 +453,33 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
             context)
         : Constants.showAlert(
             "Amount", "Split Amount should be greater than 1", context);
+=======
+    if ((grandTotal + sliderValue) >= 1.0) {
+      await progressDialog.show();
+
+      _billCheckoutPresenter.payBillCheckOut(
+        myOrderData.restId,
+        getOrderTotal(),
+        sliderValue.toString(),
+        "ZAR",
+        context,
+        orderId: myOrderData.id,
+      );
+    } else {
+      setState(() {
+        isIgnoreTouch = false;
+      });
+      _model.currencySymbol != null
+          ? Constants.showAlert(
+              "Amount",
+              "Amount should be greater than ${_model.currencySymbol} 1.00 & you can try by adding tip",
+              context)
+          : Constants.showAlert(
+              "Amount",
+              "Amount should be greater than 1.00 & you can try by adding tip",
+              context);
+    }
+>>>>>>> NewUiChanges
   }
 
   Widget _getmainviewTableno() {
@@ -394,6 +580,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   onSplitBillButtonTap() {
+    if (_model.grandTotal != null) {
+      if (double.parse(_model.grandTotal) < 10.00) {
+        _showAlert(context, "Amount is too low for splitting bill", STR_BLANK,
+            () {
+          Navigator.of(context).pop();
+        });
+        return;
+      }
+    }
     invitationOrder.length > 0
         ? showSplitBill()
         : _showAlert(context, STR_ADD_PEOPLE_FIRST_SPLIT_BILL, STR_BLANK, () {
@@ -546,7 +741,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         flex: 2,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: 20, top: 15),
+                        padding: EdgeInsets.only(right: 10, top: 15),
                         child: Text(
                           (getTotalAmount(index) != null)
                               ? _model.currencySymbol != null
@@ -811,7 +1006,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (getAmount() != null)
-                      ? '${_model.currencySymbol} ' + '$grandTotal'
+                      ? '${_model.currencySymbol} ' + doubleGrandTotal()
                       : '${_model.currencySymbol}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -821,6 +1016,11 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ],
       ),
     );
+  }
+
+  String doubleGrandTotal() {
+    String strAmount = grandTotal.toStringAsFixed(2);
+    return strAmount;
   }
 
   bool isAmountSplit() {
@@ -843,6 +1043,25 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   title,
                   textAlign: TextAlign.center,
                 ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
                 actions: <Widget>[
                   FlatButton(
                     child: Text(STR_OK),
@@ -902,7 +1121,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.pushReplacementNamed(
+                      //     context, STR_MAIN_WIDGET_PAGE);
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainWidget()),
+                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
                 ],
@@ -912,6 +1138,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void getOrderDetailsFailed() async {
+    setState(() {
+      isLoading = false;
+    });
     await progressDialog.hide();
   }
 
@@ -921,11 +1150,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     await progressDialog.hide();
 
     setState(() {
+<<<<<<< HEAD
+=======
+      isLoading = false;
+>>>>>>> NewUiChanges
       myOrderData = orderData;
       _model = model;
       if (_model.data.invitation != null) {
         invitationOrder = _model.data.invitation;
       }
+<<<<<<< HEAD
     });
     isBillSplitedForUsers();
     if (myOrderData.splitAmount != null) {
@@ -943,6 +1177,16 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         grandTotal = double.parse(model.grandTotal) + tipAmount;
       });
     }
+=======
+      isBillSplitedForUsers();
+      if (myOrderData.splitAmount != null) {
+        grandTotal = double.parse(myOrderData.splitAmount);
+      } else {
+        grandTotal = double.parse(model.grandTotal);
+      }
+    });
+
+>>>>>>> NewUiChanges
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -1021,6 +1265,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   Future<void> paymentCheckoutFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;

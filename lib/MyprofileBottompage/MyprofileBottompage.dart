@@ -201,7 +201,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
         children: <Widget>[
           new GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, STR_EDIT_PROFILE_PAGE);
+              checkIntenet();
             },
             child: new Text(
               KEY_EDIT_PROFILE,
@@ -264,6 +264,45 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
         ],
       ),
     );
+  }
+
+  void checkIntenet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        Navigator.pushNamed(context, STR_EDIT_PROFILE_PAGE);
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      showAlert(
+        context,
+        STR_WIFI_INTERNET,
+        STR_NO_WIFI_INTERNET,
+        () {
+          Navigator.of(context).pop();
+        },
+      );
+    }
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   showDialooxg() {

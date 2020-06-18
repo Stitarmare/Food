@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/MyOrders/MyOrders.dart';
 import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
@@ -13,10 +14,12 @@ import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/SubCategory/CategoriesSection.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
+import 'package:toast/toast.dart';
 
 class BottomTabbarHome extends StatefulWidget {
   String title;
@@ -25,12 +28,16 @@ class BottomTabbarHome extends StatefulWidget {
   String long;
   String imageUrl;
   String tableName;
+  RestaurantList restaurantList;
+  int flag;
   BottomTabbarHome(
       {this.title,
       this.restId,
       this.lat,
       this.long,
       this.imageUrl,
+      this.restaurantList,
+      this.flag,
       this.tableName});
   @override
   State<StatefulWidget> createState() {
@@ -71,10 +78,10 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
       setState(() {
         tabsHome.setAll(0, [
           RestaurantView(
-            title: widget.title,
-            restId: widget.restId,
-            imageUrl: widget.imageUrl,
-          )
+              title: widget.title,
+              restId: widget.restId,
+              imageUrl: widget.imageUrl,
+              restaurantList: widget.restaurantList)
         ]);
       });
     }
@@ -88,6 +95,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
         tabsHome.setAll(1, [MyOrders(tableName: widget.tableName)]);
       });
     }
+
     getTableID();
     getOrderID();
     getCartCount();
@@ -107,6 +115,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
+    getTableID();
     super.didChangeDependencies();
   }
 
@@ -119,6 +128,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 
   @override
   Widget build(BuildContext context) {
+    getAlreadyInCart();
     return Scaffold(
       floatingActionButton: Container(
         width: 60,
@@ -129,9 +139,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () {
-                    if (tableID != null && tableID != 0) {
+                    if (Globle().isTabelAvailable && Globle().tableID != 0) {
                       restaurantPresenter.notifyWaiter(
-                          Globle().loginModel.data.id, tableID, "", context);
+                          Globle().loginModel.data.id,
+                          Globle().tableID,
+                          "",
+                          context);
                     }
                   },
                   heroTag: STR_BTN_BUZZER,
@@ -153,6 +166,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                           isFromOrder = true;
                         }
                       }
+                      if (Globle().isCollectionOrder) {
+                      return;
+                    }
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -392,23 +408,20 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   }
 
   @override
-  void getMenuListfailed() {
-    // TODO: implement getMenuListfailed
-  }
+  void getMenuListfailed() {}
 
   @override
   void getMenuListsuccess(List<RestaurantMenuItem> menulist,
-      RestaurantItemsModel restaurantItemsModel) {
-    // TODO: implement getMenuListsuccess
-  }
+      RestaurantItemsModel restaurantItemsModel) {}
 
   @override
-  void notifyWaiterFailed() {
-    // TODO: implement notifyWaiterFailed
-  }
+  void notifyWaiterFailed() {}
 
   @override
   void notifyWaiterSuccess() {
-    // TODO: implement notifyWaiterSuccess
+    if (Globle().context != null) {
+      Constants.showAlert(
+          "FoodZi", " Notified waiter successfully.", context);
+    }
   }
 }

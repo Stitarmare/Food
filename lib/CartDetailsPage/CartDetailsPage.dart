@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -17,6 +18,8 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+
+import '../Utils/shared_preference.dart';
 
 class CartDetailsPage extends StatefulWidget {
   int orderId;
@@ -51,7 +54,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
   Timer _timer;
+<<<<<<< HEAD
   Duration _duration = Duration(seconds: 30);
+=======
+  Duration _duration = Duration(seconds: 10);
+>>>>>>> NewUiChanges
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);
@@ -162,6 +169,24 @@ class CartDetailsPageState extends State<CartDetailsPage>
     return false;
   }
 
+<<<<<<< HEAD
+=======
+  void gotoPaymentPage() async {
+    _timer.cancel();
+                                // checkIntenet();
+              await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PaymentTipAndPayDi(
+                                              orderID: widget.orderId,
+                                              tableId:
+                                                  myOrderDataDetails.tableId,
+                                            )));
+                                            callApi();
+  }
+
+>>>>>>> NewUiChanges
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -341,6 +366,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                     MediaQuery.of(context).size.width * 0.02),
                             GestureDetector(
                               onTap: () {
+<<<<<<< HEAD
                                 _timer.cancel();
                                 Navigator.push(
                                     context,
@@ -351,6 +377,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                               tableId:
                                                   myOrderDataDetails.tableId,
                                             )));
+=======
+                                  gotoPaymentPage();
+>>>>>>> NewUiChanges
                               },
                               child: isPayBillButtonEnable()
                                   ? Container()
@@ -384,7 +413,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             isAddMoreButtonEnable()
                                 ? Container()
                                 : SizedBox(
+<<<<<<< HEAD
                                     width: MediaQuery.of(context).size.width *
+=======
+                                    width:  MediaQuery.of(context).size.width *
+>>>>>>> NewUiChanges
                                         0.06),
                             GestureDetector(
                               onTap: () {
@@ -422,7 +455,12 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   ? Container()
                                   : Container(
                                       height: 54,
+<<<<<<< HEAD
                                       width: MediaQuery.of(context).size.width *
+=======
+                                      width: isPayBillButtonEnable()?(MediaQuery.of(context).size.width *
+                                              0.84) : MediaQuery.of(context).size.width *
+>>>>>>> NewUiChanges
                                           0.45,
                                       decoration: BoxDecoration(
                                           color: greentheme100,
@@ -690,11 +728,30 @@ class CartDetailsPageState extends State<CartDetailsPage>
           );
   }
 
+  void _showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
+  }
+
   bool isPayBillButtonEnable() {
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          var isPaid = false;
+          var isPaid = true;
           for (var trans in myOrderDataDetails.splitbilltransactions) {
             if (trans.userId != null) {
               if (Globle().loginModel.data.id == trans.userId) {
@@ -711,14 +768,29 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
+    if (myOrderDataDetails!=null) {
+if (myOrderDataDetails.invitation != null) {
+      if (myOrderDataDetails.invitation.length>0) {
+        for(var inv in myOrderDataDetails.invitation) {
+          if (inv.fromId == Globle().loginModel.data.id) {
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
+    }
+    }
+    
 
-    return false;
+    return true;
   }
 
   bool isAddMoreButtonEnable() {
     if (myOrderDataDetails != null) {
       if (myOrderDataDetails.splitbilltransactions != null) {
         if (myOrderDataDetails.splitbilltransactions.length > 0) {
+<<<<<<< HEAD
           isSplitTrans = true;
           _timer.cancel();
           bool isSplitBillTrans = isSplitTrans;
@@ -728,6 +800,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
           //   }
           // }
           return isSplitBillTrans;
+=======
+          return true;
+>>>>>>> NewUiChanges
         }
       }
     }
@@ -876,7 +951,18 @@ class CartDetailsPageState extends State<CartDetailsPage>
           extras += "${menuCartList.cartExtras[i].switches[j].name}, ";
         }
       }
+      if (menuCartList.cartExtras[i].switches.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtras[i].switches.length; j++) {
+          if (menuCartList.cartExtras[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtras[i].switches[j].name} - ${menuCartList.cartExtras[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtras[i].switches[j].name},";
+          }
+        }
+      }
     }
+
     if (extras.isNotEmpty) {
       extras = removeLastChar(extras);
       extras = removeLastChar(extras);
@@ -890,9 +976,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   Future<void> _getData() async {
     setState(() {
-      setState(() {
-        isFirst = false;
-      });
+      isFirst = false;
       callApi();
     });
   }

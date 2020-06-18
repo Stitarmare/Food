@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/ChangePassword/ChangePasswordContractor.dart';
 import 'package:foodzi/ChangePassword/ChangePasswordPresenter.dart';
+import 'package:foodzi/Login/LoginView.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -155,6 +157,9 @@ class _ChangePasswordview extends State<ChangePasswordview>
     return Column(
       children: <Widget>[
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _oldPassword = text;
           },
@@ -179,6 +184,9 @@ class _ChangePasswordview extends State<ChangePasswordview>
         ),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _newPassword = text;
           },
@@ -203,6 +211,9 @@ class _ChangePasswordview extends State<ChangePasswordview>
         ),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _confirmPassword = text;
           },
@@ -309,8 +320,13 @@ class _ChangePasswordview extends State<ChangePasswordview>
                     fontSize: FONTSIZE_20),
               ),
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(STR_MAIN_WIDGET_PAGE);
+                //Navigator.of(context)
+                //   .pushReplacementNamed(STR_MAIN_WIDGET_PAGE);
+                // Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginView()),
+                    ModalRoute.withName(STR_LOGIN_PAGE));
               },
             ),
           ],

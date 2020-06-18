@@ -48,9 +48,11 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
   int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+  int _selectedSubMenu;
   bool valueBool = false;
+  int previousValue;
   List<Category> category = [];
+  List<Category> category2 = [];
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
   var abc;
@@ -86,18 +88,35 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       _selectedMenu = index;
 
       if (_selectedMenu == index) {
-        if (category[index].subcategories.length > 0) {
-          setState(() {
-            valueBool = true;
-            subcategoriesList = category[index].subcategories;
-            // _getSubMenucount();
-          });
+        if (category[index].subcategories != null) {
+          if (category[index].subcategories.length > 0) {
+            setState(() {
+              valueBool = true;
+              subcategoriesList = category[index].subcategories;
+              // _getSubMenucount();
+            });
+          } else {
+            setState(() {
+              valueBool = false;
+              subcategoriesList = [];
+            });
+          }
         } else {
           setState(() {
             valueBool = false;
             subcategoriesList = [];
           });
         }
+      }
+
+      if (previousValue != null) {
+        if (previousValue != _selectedMenu) {
+          subCategoryIdabc = null;
+          _selectedSubMenu = null;
+          previousValue = _selectedMenu;
+        }
+      } else {
+        previousValue = _selectedMenu;
       }
 
       print(_selectedMenu);
@@ -117,7 +136,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
       print(_selectedSubMenu);
     });
-    subCategoryIdabc = category[index].subcategories[index].id;
+    subCategoryIdabc =
+        category[_selectedMenu].subcategories[_selectedSubMenu].id;
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
     } else {
@@ -217,6 +237,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                               ),
+                              // CircularProgressIndicator(),
                               Text(
                                 STR_NO_ITEMS_FOUND,
                                 textAlign: TextAlign.start,
@@ -376,7 +397,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -574,73 +595,71 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 category[index].name,
                                 style: TextStyle(
                                     fontSize: 16,
-                                    // color: _selectedMenu != null &&
-                                    //         _selectedMenu == index
-                                    //     ? getColorByHex(Globle().colorscode)
-                                    //     : Color.fromRGBO(118, 118, 118, 1)
-                                    )
+                                    color: _selectedMenu != null &&
+                                            _selectedMenu == index
+                                        ? getColorByHex(Globle().colorscode)
+                                        : Color.fromRGBO(118, 118, 118, 1)),
                               ))),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.19,
                       child: Divider(
                           thickness: 2,
-                          // color: _selectedMenu != null && _selectedMenu == index
-                          //     ? getColorByHex(Globle().colorscode)
-                          //     : Color.fromRGBO(118, 118, 118, 1)
-                          ),
+                          color: _selectedMenu != null && _selectedMenu == index
+                              ? getColorByHex(Globle().colorscode)
+                              : Color.fromRGBO(118, 118, 118, 1)),
                     )
                   ],
                 ),
               );
-// return GestureDetector(
-// onTap: () async {
-// _onSelected(index);
-// await progressDialog.show();
-// abc = _categorydata[index].id;
-// if (abc != null) {
-// _restaurantList = null;
-// // DialogsIndicator.showLoadingDialog(
-// // context, _keyLoader, STR_LOADING);
-// await progressDialog.show();
-// restaurantPresenter.getMenuList(widget.restId, context,
-// categoryId: abc, menu: menutype);
-// print(abc);
-// }
-// restaurantPresenter.getMenuList(widget.restId, context,
-// categoryId: abc, menu: menutype);
-// },
-// child: Container(
-// height: 40,
-// // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-// padding: EdgeInsets.only(
-// left: _categorydata[index].name.length>5? 6: 16,
-// right: _categorydata[index].name.length>5? 6: 16,
-// top: 10,bottom: 0),
-// margin: EdgeInsets.only(left: 6),
-// decoration: BoxDecoration(
-// border: Border.all(
-// width: 1,
-// color: selectedMenu != null && selectedMenu == index
-// ? getColorByHex(Globle().colorscode)
-// : Color.fromRGBO(118, 118, 118, 1),
-// ),
-// borderRadius: BorderRadius.all(Radius.circular(8)),
-// // color: selectedMenu != null && selectedMenu == index
-// // ? getColorByHex(Globle().colorscode)
-// // : Color.fromRGBO(118, 118, 118, 1),
-// ),
-// child:Text(
-// _categorydata[index].name ?? STR_BLANK,
-// style: TextStyle(
-// fontSize: 16,
-// color: selectedMenu != null && selectedMenu == index
-// ? getColorByHex(Globle().colorscode)
-// : Color.fromRGBO(118, 118, 118, 1),
-// ),
-// ),
-// ),
-// );
+              // return GestureDetector(
+              //   onTap: () async {
+              //       _onSelected(index);
+              //       await progressDialog.show();
+              //       abc = _categorydata[index].id;
+              //       if (abc != null) {
+              //           _restaurantList = null;
+              //           // DialogsIndicator.showLoadingDialog(
+              //           //     context, _keyLoader, STR_LOADING);
+              //           await progressDialog.show();
+              //           restaurantPresenter.getMenuList(widget.restId, context,
+              //               categoryId: abc, menu: menutype);
+              //           print(abc);
+              //         }
+              //       restaurantPresenter.getMenuList(widget.restId, context,
+              //               categoryId: abc, menu: menutype);
+              //   },
+              //           child: Container(
+              //       height: 40,
+              //       // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+              //       padding: EdgeInsets.only(
+              //         left: _categorydata[index].name.length>5? 6: 16,
+              //         right: _categorydata[index].name.length>5? 6: 16,
+              //         top: 10,bottom: 0),
+              //       margin: EdgeInsets.only(left: 6),
+              //       decoration: BoxDecoration(
+              //         border: Border.all(
+              //           width: 1,
+              //           color: _selectedMenu != null && _selectedMenu == index
+              //                         ? getColorByHex(Globle().colorscode)
+              //                         : Color.fromRGBO(118, 118, 118, 1),
+              //         ),
+              //         borderRadius: BorderRadius.all(Radius.circular(8)),
+              //         // color: _selectedMenu != null && _selectedMenu == index
+              //         //                 ? getColorByHex(Globle().colorscode)
+              //         //                 : Color.fromRGBO(118, 118, 118, 1),
+              //       ),
+              //       child:Text(
+              //                   _categorydata[index].name ?? STR_BLANK,
+              //                   style: TextStyle(
+              //                     fontSize: 16,
+              //                     color: _selectedMenu != null && _selectedMenu == index
+              //                         ? getColorByHex(Globle().colorscode)
+              //                         : Color.fromRGBO(118, 118, 118, 1),
+              //                   ),
+              //                 ),
+              //   ),
+              // );
             }),
       ),
     );
@@ -648,21 +667,21 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          height: 50,
-          width: MediaQuery.of(context).size.width / 0.5,
-          child: valueBool
-              ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _getSubMenucount(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width * 0.13 / 0.5,
-                        child: Column(
-                          children: <Widget>[
-                            Center(
+      child: Container(
+        height: 40,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        child: valueBool
+            ? ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _getSubMenucount(),
+                itemBuilder: (context, index) {
+                  return Container(
+                      width: MediaQuery.of(context).size.width / 4.5,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
                                 child: GestureDetector(
                                     onTap: () async {
                                       _onSubMenuSelected(index);
@@ -670,77 +689,93 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                     child: Text(
                                       subcategoriesList[index].name,
                                       style: TextStyle(
-                                          // color: _selectedSubMenu != null &&
-                                          //         _selectedSubMenu == index
-                                          //     ? getColorByHex(
-                                          //         Globle().colorscode)
-                                          //     : Color.fromRGBO(
-                                          //         118, 118, 118, 1),
+                                          color: _selectedSubMenu != null &&
+                                                  _selectedSubMenu == index
+                                              ? getColorByHex(
+                                                  Globle().colorscode)
+                                              : Color.fromRGBO(
+                                                  118, 118, 118, 1),
                                           fontSize: 16.0),
                                     ))),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(1, 0, 1, 0),
-                              child: Divider(
-                                thickness: 1,
-                                // color: _selectedSubMenu != null &&
-                                //         _selectedSubMenu == index
-                                //     ? getColorByHex(Globle().colorscode)
-                                //     : Color.fromRGBO(118, 118, 118, 1),
-                              ),
-                            )
-                          ],
-                        ));
-                    // return GestureDetector(
-                    //   onTap: () {
-                    //     _onSubMenuSelected(index);
-                    //   },
-                    //   child: Container(
-                    //     // height: 40,
-                    //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-                    //     padding: EdgeInsets.only(
-                    //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                    //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
-                    //         top: 10,
-                    //         bottom: 0),
-                    //     margin: EdgeInsets.only(left: 6),
-                    //     // decoration: BoxDecoration(
-                    //     //   border: Border.all(
-                    //     //     width: 1,
-                    //     //     color: _selectedMenu != null && _selectedMenu == index
-                    //     //                   ? getColorByHex(Globle().colorscode)
-                    //     //                   : Color.fromRGBO(118, 118, 118, 1),
-                    //     //   ),
-                    //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
-                    //     //   // color: _selectedMenu != null && _selectedMenu == index
-                    //     //   //                 ? getColorByHex(Globle().colorscode)
-                    //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
-                    //     // ),
-                    //     child: Text(
-                    //       _subcategorydata[index].title,
-                    //       style: TextStyle(
-                    //         fontSize: 16,
-                    //         color:
-                    //             _selectedSubMenu != null && _selectedSubMenu == index
-                    //                 ? getColorByHex(Globle().colorscode)
-                    //                 : Color.fromRGBO(118, 118, 118, 1),
-                    //         decoration: TextDecoration.underline,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // );
-                  })
-              : Container(),
-        ),
+                          ),
+                          // Divider(
+                          //   thickness: 1,
+                          //   color: _selectedSubMenu != null &&
+                          //           _selectedSubMenu == index
+                          //       ? getColorByHex(Globle().colorscode)
+                          //       : Color.fromRGBO(118, 118, 118, 1),
+                          // )
+                        ],
+                      ));
+                  // return GestureDetector(
+                  //   onTap: () {
+                  //     _onSubMenuSelected(index);
+                  //   },
+                  //   child: Container(
+                  //     // height: 40,
+                  //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
+                  //     padding: EdgeInsets.only(
+                  //         left: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                  //         right: _subcategorydata[index].title.length > 5 ? 6 : 10,
+                  //         top: 10,
+                  //         bottom: 0),
+                  //     margin: EdgeInsets.only(left: 6),
+                  //     // decoration: BoxDecoration(
+                  //     //   border: Border.all(
+                  //     //     width: 1,
+                  //     //     color: _selectedMenu != null && _selectedMenu == index
+                  //     //                   ? getColorByHex(Globle().colorscode)
+                  //     //                   : Color.fromRGBO(118, 118, 118, 1),
+                  //     //   ),
+                  //     //   borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //     //   // color: _selectedMenu != null && _selectedMenu == index
+                  //     //   //                 ? getColorByHex(Globle().colorscode)
+                  //     //   //                 : Color.fromRGBO(118, 118, 118, 1),
+                  //     // ),
+                  //     child: Text(
+                  //       _subcategorydata[index].title,
+                  //       style: TextStyle(
+                  //         fontSize: 16,
+                  //         color:
+                  //             _selectedSubMenu != null && _selectedSubMenu == index
+                  //                 ? getColorByHex(Globle().colorscode)
+                  //                 : Color.fromRGBO(118, 118, 118, 1),
+                  //         decoration: TextDecoration.underline,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // );
+                })
+            : Container(),
       ),
     );
   }
 
+  // int _getMenucount() {
+  //   if (_categorydata != null) {
+  //     for (int i = 0; i < _categorydata.length; i++) {
+  //       setState(() {
+  //         category = _categorydata[i].category;
+  //       });
+  //     }
+  //     return category.length;
+  //   }
+  //   return 0;
+  // }
+
   int _getMenucount() {
+    if (category.length == 0) {
+      category.insert(0, category1[0]);
+    }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
-          category = _categorydata[i].category;
+          category2 = _categorydata[i].category;
         });
+      }
+
+      if (category.length == 1) {
+        category.addAll(category2);
       }
       return category.length;
     }
@@ -763,6 +798,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
 
   @override
   void restaurantfailed() {}
+
   @override
   void restaurantsuccess(List<RestaurantList> restlist) {}
   @override
@@ -779,6 +815,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
+
     setState(() {
       if (_restaurantList == null) {
         _restaurantList = menulist;
@@ -810,17 +847,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
     });
 
-    if (categoryData[0].category[0].subcategories.length > 0) {
-      setState(() {
-        valueBool = true;
-        subcategoriesList = categoryData[0].category[0].subcategories;
-      });
-    } else {
-      setState(() {
-        valueBool = false;
-        subcategoriesList = [];
-      });
-    }
+    // if (categoryData[0].category[0].subcategories.length > 0) {
+    //   setState(() {
+    //     valueBool = true;
+    //     subcategoriesList = categoryData[0].category[0].subcategories;
+    //   });
+    // } else {
+    //   setState(() {
+    //     valueBool = false;
+    //     subcategoriesList = [];
+    //   });
+    // }
   }
 }
 
@@ -849,3 +886,5 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
+
+List<Category> category1 = [Category(id: 0, name: "All")];

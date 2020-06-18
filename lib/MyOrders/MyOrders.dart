@@ -40,7 +40,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context,true);
   }
 
   @override
@@ -173,7 +173,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getitemname(List<ListElement> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname += "${_listitem[i].qty} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -337,8 +337,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             ?
                             // '${Globle().currencySymb} ' +
                             //     '${_orderDetailList[index].totalAmount}'
+<<<<<<< HEAD
                             strCurrentAmount(
                                 _orderDetailList[index].totalAmount)
+=======
+                            '${Globle().currencySymb} ' +
+                                strCurrentAmount(
+                                    _orderDetailList[index].totalAmount)
+>>>>>>> NewUiChanges
                             : STR_R_CURRENCY_SYMBOL +
                                 // '${_orderDetailList[index].totalAmount}',
                                 strCurrentAmount(
@@ -422,7 +428,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname += "${_listitem[i].qty} x ${_listitem[i].items.itemName}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -614,6 +620,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             )
                           : Container()
                       : Container(),
+                  // : Container(),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: getmyOrderBookingHistory[index]
@@ -625,7 +632,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                             ? Text(
                                 Globle().currencySymb != null
                                     ? '${Globle().currencySymb} ' +
+<<<<<<< HEAD
                                         '${getmyOrderBookingHistory[index].splitAmount}'
+=======
+                                        // '${getmyOrderBookingHistory[index].splitAmount}'
+                                        getSplitAmount(
+                                            getmyOrderBookingHistory[index]
+                                                .splitbilltransactions)
+>>>>>>> NewUiChanges
                                     : STR_R_CURRENCY_SYMBOL +
                                         '${getmyOrderBookingHistory[index].splitAmount}',
                                 style: TextStyle(
@@ -636,6 +650,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                               )
                             : Text("")
                         : Text(""),
+                    // : Text(""),
                   ),
                   SizedBox(
                     height: 10,
@@ -652,6 +667,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       ),
                       ClipOval(
                         child: Container(
+<<<<<<< HEAD
                           height: 10,
                           width: 10,
                           color:
@@ -659,6 +675,14 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                   ? Colors.green
                                   : Colors.red,
                         ),
+=======
+                            height: 10,
+                            width: 10,
+                            color:
+                                getmyOrderBookingHistory[index].status == "paid"
+                                    ? Colors.green
+                                    : Colors.red),
+>>>>>>> NewUiChanges
                       ),
                       SizedBox(
                         width: 10,
@@ -696,6 +720,20 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     return false;
   }
 
+<<<<<<< HEAD
+=======
+  String getSplitAmount(List<Splitbilltransactions> list) {
+    String str = "";
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].userId == Globle().loginModel.data.id) {
+        str = list[i].amount;
+        return str;
+      }
+    }
+    return "";
+  }
+
+>>>>>>> NewUiChanges
   String strHistoryAmount(String str) {
     double doublePrice = double.parse(str);
     String strPrice = doublePrice.toStringAsFixed(2);
@@ -706,12 +744,18 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getDateForOrderHistory(String dateString) {
     var date = DateTime.parse(dateString);
     var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
-    var time = DateFormat("hh:mm a").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
     return "$dateStr at $time";
   }
 
   @override
-  void getOrderDetailsFailed() {}
+  void getOrderDetailsFailed() {
+    setDefaultData();
+  }
 
   @override
   void getOrderDetailsSuccess(List<CurrentOrderList> _orderdetailsList) {
@@ -725,6 +769,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
         _orderDetailList = _orderdetailsList;
       }
     });
+    Globle().isTabelAvailable = true;
+    Globle().tableID = _orderDetailList[0].tableId;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(
         _orderDetailList[0].id, PreferenceKeys.currentOrderId);
@@ -751,6 +797,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().dinecartValue = 0;
     Globle().takeAwayCartItemCount = 0;
+    Globle().isTabelAvailable = false;
+    Globle().tableID = 0;
     Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);

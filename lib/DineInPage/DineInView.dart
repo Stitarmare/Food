@@ -37,6 +37,10 @@ class _DineViewState extends State<DineInView>
 
   int page = 1;
   String sortedBy = STR_BLANK;
+  String favourite;
+  String rating;
+  String sortByDistance;
+  String sortByRating;
   String filteredBy = STR_BLANK;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -62,6 +66,7 @@ class _DineViewState extends State<DineInView>
   var sliderValue;
   var sliderval;
   bool isIgnoreTouch = true;
+  bool isBackActive = false;
 
   @override
   void didChangeDependencies() {
@@ -85,6 +90,8 @@ class _DineViewState extends State<DineInView>
         Globle().dinecartValue = value;
       });
     }
+
+    isBackActive = false;
 
     _getLocation();
     _detectScrollPosition();
@@ -111,8 +118,10 @@ class _DineViewState extends State<DineInView>
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            sortedBy,
-            filteredBy,
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
             page,
             delivery,
             context);
@@ -121,6 +130,7 @@ class _DineViewState extends State<DineInView>
           getttingLocation = true;
           locationNotFound = true;
           isIgnoreTouch = false;
+          isBackActive = true;
         });
       }
     });
@@ -134,8 +144,10 @@ class _DineViewState extends State<DineInView>
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
-              sortedBy,
-              filteredBy,
+              rating,
+              favourite,
+              sortByDistance,
+              sortByRating,
               page,
               delivery,
               context);
@@ -147,6 +159,7 @@ class _DineViewState extends State<DineInView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_PLEASE_WAIT);
+<<<<<<< HEAD
     return IgnorePointer(
       ignoring: isIgnoreTouch,
       child: Scaffold(
@@ -188,26 +201,78 @@ class _DineViewState extends State<DineInView>
                   //   ),
                   // ),
                 ],
+=======
+    return WillPopScope(
+      onWillPop: () async => isBackActive,
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          key: this._scaffoldKey,
+          appBar: AppBar(
+              brightness: Brightness.dark,
+              centerTitle: false,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
+              title: Text(
+                STR_DINE_IN,
+                style: TextStyle(
+                    fontSize: FONTSIZE_18,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200),
+>>>>>>> NewUiChanges
               ),
-              IconButton(
-                icon: Image.asset(LEVEL_IMAGE_PATH),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(18.0),
-                              topRight: Radius.circular(18.0))),
-                      builder: (context) {
-                        return StatefulBuilder(builder:
-                            (BuildContext context, StateSetter setBottomState) {
-                          Future<double> getRatingValue() async {
-                            var val = await showDialog(
-                                context: context, child: new SliderDialog());
+                  Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+                },
+              ),
+              actions: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(
+                          FOODZI_LOGO_PATH,
+                          height: 30,
+                        )),
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: Text(
+                    //     STR_ORDER_EASY,
+                    //     style: TextStyle(
+                    //         fontFamily: KEY_FONTFAMILY,
+                    //         fontSize: FONTSIZE_6,
+                    //         color: greytheme400,
+                    //         fontWeight: FontWeight.w700,
+                    //         letterSpacing: 1),
+                    //   ),
+                    // ),
+                  ],
+                ),
+                IconButton(
+                  icon: Image.asset(LEVEL_IMAGE_PATH),
+                  onPressed: () {
+                    if (locationNotFound) {
+                      return;
+                    }
+                    showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18.0),
+                                topRight: Radius.circular(18.0))),
+                        builder: (context) {
+                          return StatefulBuilder(builder: (BuildContext context,
+                              StateSetter setBottomState) {
+                            Future<double> getRatingValue() async {
+                              var val = await showDialog(
+                                  context: context, child: new SliderDialog());
 
-                            return double.parse(val.toString());
-                          }
-
+<<<<<<< HEAD
                           void setSelectedSortItem(
                               BottomItemButton bottomItem, List bottomList) {
                             // for (int i = 0; i < bottomList.length; i++) {
@@ -241,9 +306,75 @@ class _DineViewState extends State<DineInView>
                                   filteredBy = STR_SMALL_FAVOURITE;
                                 }
                               });
+=======
+                              return double.parse(val.toString());
                             }
-                          }
 
+                            void setSelectedSortItem(
+                                BottomItemButton bottomItem, List bottomList) {
+                              // for (int i = 0; i < bottomList.length; i++) {
+                              //   bottomList[i].isSelected = false;
+                              // }
+
+                              final tile = bottomList.firstWhere(
+                                  (item) => item.id == bottomItem.id,
+                                  orElse: null);
+                              if (tile != null) {
+                                setBottomState(() {
+                                  tile.isSelected = !tile.isSelected;
+                                  bottomItem.isSelected = tile.isSelected;
+                                  if (bottomList == optionFilterBy) {
+                                    filteredBy = bottomItem.title;
+                                    rating = null;
+                                    if (bottomItem.title == STR_RATINGS &&
+                                        bottomItem.isSelected == true) {
+                                      getRatingValue().then((onValue) {
+                                        if (onValue >= 5.0) {
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}";
+                                        } else {
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}+";
+                                        }
+                                        print(sliderValue.toString());
+                                      });
+                                    } else if (bottomItem.title ==
+                                            STR_RATINGS &&
+                                        bottomItem.isSelected == false) {
+                                      rating = null;
+                                    }
+                                    if (bottomItem.title ==
+                                            "Favourites Only " &&
+                                        bottomItem.isSelected == true) {
+                                      favourite = "favourite";
+                                    } else if (bottomItem.title ==
+                                            "Favourites Only " &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
+                                    }
+                                  } else {
+                                    if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByDistance = "ASC";
+                                    } else if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
+                                    }
+                                    if (bottomItem.title == "Popularity" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByRating = "ASC";
+                                    } else if (bottomItem.title ==
+                                            "Popularity" &&
+                                        bottomItem.isSelected == false) {
+                                      sortByRating = null;
+                                    }
+                                  }
+                                });
+                              }
+>>>>>>> NewUiChanges
+                            }
+
+<<<<<<< HEAD
                           Widget _bottomSheetItem(
                               BottomItemButton item, List bottomList) {
                             return Container(
@@ -273,121 +404,155 @@ class _DineViewState extends State<DineInView>
                                             ? Colors.white
                                             : greytheme1000,
                                         fontSize: FONTSIZE_14),
+=======
+                            Widget _bottomSheetItem(
+                                BottomItemButton item, List bottomList) {
+                              return Container(
+                                margin: EdgeInsets.only(right: 10),
+                                child: SizedBox(
+                                  height: 29,
+                                  child: FlatButton(
+                                    color: item.isSelected
+                                        ? greentheme100
+                                        : Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          10.0,
+                                        ),
+                                        side: BorderSide(
+                                          color: item.isSelected
+                                              ? greentheme100
+                                              : greytheme600,
+                                        )),
+                                    onPressed: () =>
+                                        setSelectedSortItem(item, bottomList),
+                                    child: Text(
+                                      item.title,
+                                      style: TextStyle(
+                                          fontFamily: KEY_FONTFAMILY,
+                                          color: item.isSelected
+                                              ? Colors.white
+                                              : greytheme1000,
+                                          fontSize: FONTSIZE_14),
+                                    ),
+>>>>>>> NewUiChanges
                                   ),
                                 ),
-                              ),
-                            );
-                          }
+                              );
+                            }
 
-                          return Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  right: 47,
-                                  bottom:
-                                      MediaQuery.of(context).size.height * 0.3 -
-                                          38,
-                                  child: FloatingActionButton(
-                                      onPressed: () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pop();
-                                        // DialogsIndicator.showLoadingDialog(
-                                        //     context,
-                                        //     _keyLoader,
-                                        //     STR_PLEASE_WAIT);
-                                        //progressDialog.hide();
-                                        callOnfilter();
-                                      },
-                                      child: IconTheme(
-                                          data: IconThemeData(
-                                              color: greentheme200),
-                                          child: Icon(
-                                            Icons.check,
-                                            size: 45,
-                                            color: Colors.white,
-                                          ))),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, left: 28),
-                                          child: Text(
-                                            STR_SORT_BY,
-                                            style: TextStyle(
-                                                fontSize: FONTSIZE_16,
-                                                fontWeight: FontWeight.w500,
-                                                color: greytheme700),
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    right: 47,
+                                    bottom: MediaQuery.of(context).size.height *
+                                            0.3 -
+                                        38,
+                                    child: FloatingActionButton(
+                                        onPressed: () {
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop();
+                                          // DialogsIndicator.showLoadingDialog(
+                                          //     context,
+                                          //     _keyLoader,
+                                          //     STR_PLEASE_WAIT);
+                                          //progressDialog.hide();
+                                          callOnfilter();
+                                        },
+                                        child: IconTheme(
+                                            data: IconThemeData(
+                                                color: greentheme200),
+                                            child: Icon(
+                                              Icons.check,
+                                              size: 45,
+                                              color: Colors.white,
+                                            ))),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 20, left: 28),
+                                            child: Text(
+                                              STR_SORT_BY,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: greytheme700),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 28),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: optionSortBy
-                                                .map((itemSort) =>
-                                                    _bottomSheetItem(
-                                                        itemSort, optionSortBy))
-                                                .toList()),
-                                      ),
-                                      SizedBox(
-                                        height: 10.5,
-                                      ),
-                                      Divider(),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.5, left: 28),
-                                          child: Text(
-                                            STR_FLITER_BY,
-                                            style: TextStyle(
-                                                fontSize: FONTSIZE_16,
-                                                fontWeight: FontWeight.w500,
-                                                color: greytheme700),
-                                          ),
+                                        SizedBox(
+                                          height: 8,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
+                                        Container(
                                           margin: EdgeInsets.only(left: 28),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
-                                              children: optionFilterBy
-                                                  .map((itemFilter) =>
-                                                      _bottomSheetItem(
-                                                          itemFilter,
-                                                          optionFilterBy))
-                                                  .toList())),
-                                      SizedBox(
-                                        height: 20,
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                              overflow: Overflow.visible,
-                            ),
-                          );
+                                              children: optionSortBy
+                                                  .map((itemSort) =>
+                                                      _bottomSheetItem(itemSort,
+                                                          optionSortBy))
+                                                  .toList()),
+                                        ),
+                                        SizedBox(
+                                          height: 10.5,
+                                        ),
+                                        Divider(),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.5, left: 28),
+                                            child: Text(
+                                              STR_FLITER_BY,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: greytheme700),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(left: 28),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: optionFilterBy
+                                                    .map((itemFilter) =>
+                                                        _bottomSheetItem(
+                                                            itemFilter,
+                                                            optionFilterBy))
+                                                    .toList())),
+                                        SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                                overflow: Overflow.visible,
+                              ),
+                            );
+                          });
                         });
+<<<<<<< HEAD
                       });
                 },
               )
@@ -453,6 +618,87 @@ class _DineViewState extends State<DineInView>
                           ),
                         ),
                       ),
+=======
+                  },
+                )
+              ]),
+          body: getttingLocation == false
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          STR_CURRENT_LOCATION,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_15,
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
+                        ),
+                      ),
+                      CircularProgressIndicator()
+                    ],
+                  ),
+                )
+              : locationNotFound
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Please enable location service and try again.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                _getLocation();
+                              },
+                              child: Text("Try again"))
+                        ],
+                      ),
+                    )
+                  : (_restaurantList != null)
+                      ? (_restaurantList.length > 0)
+                          ? restaurantsInfo()
+                          : Container(
+                              child: Center(
+                                child: Text(
+                                  STR_NO_RESTAURANT,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: FONTSIZE_25,
+                                      fontFamily: KEY_FONTFAMILY,
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme700),
+                                ),
+                              ),
+                            )
+                      : Container(
+                          child: Center(
+                            child: Text(
+                              STR_NO_RESTAURANT,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_25,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                        ),
+        ),
+>>>>>>> NewUiChanges
       ),
     );
   }
@@ -465,14 +711,26 @@ class _DineViewState extends State<DineInView>
   }
 
   callOnfilter() async {
+    setState(() {
+      page = 1;
+      _restaurantList = null;
+    });
     await progressDialog.show();
     dinerestaurantPresenter.getrestaurantspage(
         _position.latitude.toString(),
         _position.longitude.toString(),
+<<<<<<< HEAD
         sortedBy,
         filteredBy,
         page,
         delivery,
+=======
+        rating,
+        favourite,
+        sortByDistance,
+        sortByRating,
+        page,
+>>>>>>> NewUiChanges
         context);
   }
 
@@ -511,6 +769,7 @@ class _DineViewState extends State<DineInView>
                               long: _restaurantList[i].longitude,
                               imageUrl: _restaurantList[i].coverImage,
                               tableName: widget.tableName,
+                              restaurantList: _restaurantList[i],
                             )));
                     setState(() {});
                   }));
@@ -677,13 +936,20 @@ class _DineViewState extends State<DineInView>
 
   @override
   void restaurantfailed() async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
+      isBackActive = true;
+    });
+
     await progressDialog.hide();
   }
 
   @override
   void restaurantsuccess(List<RestaurantList> restlist) async {
-    isIgnoreTouch = false;
+    setState(() {
+      isIgnoreTouch = false;
+      isBackActive = true;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     // if (restlist.length == 0) {

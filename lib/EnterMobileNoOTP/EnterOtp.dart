@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
@@ -42,6 +43,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   var _mobileNumber;
   var countrycode = '+91';
   var oldCountrycode = '+91';
+  bool isIgnoring = false;
 
   var enterOTPScreenPresenter;
   bool flagValue = false;
@@ -56,7 +58,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -75,11 +78,14 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             )
           ],
         ),
-        body: Center(
-          child: KeyboardActions(
-            config: _buildConfig(context),
-            child: SingleChildScrollView(
-              child: mainview(),
+        body: IgnorePointer(
+          ignoring: isIgnoring,
+          child: Center(
+            child: KeyboardActions(
+              config: _buildConfig(context),
+              child: SingleChildScrollView(
+                child: mainview(),
+              ),
             ),
           ),
         ));
@@ -106,6 +112,9 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   Future<void> onsubmitButtonClicked() async {
     if (_enterOTPFormKey.currentState.validate()) {
+      setState(() {
+        isIgnoring = true;
+      });
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         await progressDialog.show();
@@ -209,6 +218,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                           Expanded(
                             flex: 4,
                             child: AppTextField(
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(10),
+                                BlacklistingTextInputFormatter(
+                                    RegExp(STR_INPUTFORMAT)),
+                                WhitelistingTextInputFormatter.digitsOnly,
+                              ],
                               onChanged: (text) {
                                 this.oldMobNumber = text;
                               },
@@ -272,6 +287,12 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                     Expanded(
                       flex: 4,
                       child: AppTextField(
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          BlacklistingTextInputFormatter(
+                              RegExp(STR_INPUTFORMAT)),
+                          WhitelistingTextInputFormatter.digitsOnly,
+                        ],
                         onChanged: (text) {
                           this._mobileNumber = text;
                         },
@@ -385,11 +406,17 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> onRequestOtpFailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   Future<void> onRequestOtpSuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(
@@ -402,11 +429,17 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
 
   @override
   Future<void> requestforloginotpfailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   Future<void> requestforloginotpsuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Navigator.of(context).push(MaterialPageRoute(
@@ -436,18 +469,32 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   }
 
   @override
-  void requestforUpdateNoOtpFailed() {}
+  void requestforUpdateNoOtpFailed() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
-  void requestforUpdateNoOtpSuccess() {}
+  void requestforUpdateNoOtpSuccess() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
   void onProvideOtpFailed() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   void onProvideOtpSuccess() async {
+    setState(() {
+      isIgnoring = false;
+    });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => OTPScreen(

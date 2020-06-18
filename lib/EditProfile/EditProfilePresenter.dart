@@ -18,9 +18,9 @@ class EditProfilePresenter extends EditProfileContract {
   EditProfilePresenter(this.view);
 
   @override
-  void editCity(String stateId, BuildContext context) {
+  void editCity(String stateId, BuildContext context,bool showNetwrok) {
     ApiBaseHelper().post<EditCityModel>(UrlConstant.editCityField, context,
-        body: {JSON_STR_STATE_ID: stateId}).then((value) {
+        body: {JSON_STR_STATE_ID: stateId},isShowNetwork: showNetwrok).then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -57,9 +57,9 @@ class EditProfilePresenter extends EditProfileContract {
   }
 
   @override
-  void editState(BuildContext context) {
+  void editState(BuildContext context,bool showNetwrok) {
     ApiBaseHelper()
-        .post<EditStateModel>(UrlConstant.editState, context)
+        .post<EditStateModel>(UrlConstant.editState, context,isShowNetwork: showNetwrok)
         .then((value) {
       print(value);
       switch (value.result) {

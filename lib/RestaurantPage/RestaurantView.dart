@@ -57,11 +57,14 @@ class _RestaurantViewState extends State<RestaurantView>
   String menutype = " ";
   int restaurantId;
   int _selectedMenu = 0;
-  int _selectedSubMenu = 0;
+  int previousValue;
+  int _selectedSubMenu;
   var tableID;
   RestaurantItemsModel restaurantItemsModel;
   bool valueBool = false;
   List<Category> category = [];
+  List<Category> category2 = [];
+
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
 
@@ -113,18 +116,35 @@ class _RestaurantViewState extends State<RestaurantView>
       _selectedMenu = index;
 
       if (_selectedMenu == index) {
-        if (category[index].subcategories.length > 0) {
-          setState(() {
-            valueBool = true;
-            subcategoriesList = category[index].subcategories;
-            // _getSubMenucount();
-          });
+        if (category[index].subcategories != null) {
+          if (category[index].subcategories.length > 0) {
+            setState(() {
+              valueBool = true;
+              subcategoriesList = category[index].subcategories;
+              // _getSubMenucount();
+            });
+          } else {
+            setState(() {
+              valueBool = false;
+              subcategoriesList = [];
+            });
+          }
         } else {
           setState(() {
             valueBool = false;
             subcategoriesList = [];
           });
         }
+      }
+
+      if (previousValue != null) {
+        if (previousValue != _selectedMenu) {
+          subCategoryIdabc = null;
+          _selectedSubMenu = null;
+          previousValue = _selectedMenu;
+        }
+      } else {
+        previousValue = _selectedMenu;
       }
 
       print(_selectedMenu);
@@ -144,7 +164,8 @@ class _RestaurantViewState extends State<RestaurantView>
 
       print(_selectedSubMenu);
     });
-    subCategoryIdabc = category[index].subcategories[index].id;
+    subCategoryIdabc =
+        category[_selectedMenu].subcategories[_selectedSubMenu].id;
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
     } else {
@@ -167,16 +188,6 @@ class _RestaurantViewState extends State<RestaurantView>
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
   }
 
-  bool isImageAvailable() {
-    if (restaurantItemsModel != null) {
-      if (restaurantItemsModel.restLogo != null &&
-          restaurantItemsModel.restLogo != "") {
-        return true;
-      }
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -191,23 +202,21 @@ class _RestaurantViewState extends State<RestaurantView>
                 //           FOODZI_LOGO_PATH,
                 //           height: 50,
                 //         )),
-                !isImageAvailable()
-                    ? Container()
-                    : CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        imageUrl: BaseUrl.getBaseUrlImages() +
-                            "${restaurantItemsModel.restLogo}",
-                        height: 50,
-                        // width: MediaQuery.of(context).size.width * 5,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Image.asset(
-                          RESTAURANT_IMAGE_PATH,
-                          fit: BoxFit.cover,
-                          height: 40,
-                          width: 40,
-                        ),
-                      ),
+                CachedNetworkImage(
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              imageUrl: BaseUrl.getBaseUrlImages() +
+                  "${restaurantItemsModel.restLogo}",
+              height: 50,
+              // width: MediaQuery.of(context).size.width * 5,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) => Image.asset(
+                RESTAURANT_IMAGE_PATH,
+                fit: BoxFit.cover,
+                height: 40,
+                width: 40,
+              ),
+            ),
           ),
           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
@@ -291,27 +300,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     ),
                   ),
                   (_restaurantList != null)
-                      ? (_restaurantList.length == 0
-                          ? Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Center(
-                                    child: Text(
-                                      "No items found",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: FONTSIZE_15,
-                                          fontFamily: KEY_FONTFAMILY,
-                                          fontWeight: FontWeight.w500,
-                                          color: greytheme1200),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : _menuItemList())
+                      ? _menuItemList()
                       : SliverToBoxAdapter(
                           child: Center(
                           child: Container(
@@ -368,10 +357,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                       style: TextStyle(
                                           color: _selectedSubMenu != null &&
                                                   _selectedSubMenu == index
-                                              ? Globle().colorscode != null
-                                                  ? getColorByHex(
-                                                      Globle().colorscode)
-                                                  : orangetheme
+                                              ? getColorByHex(
+                                                  Globle().colorscode)
                                               : Color.fromRGBO(
                                                   118, 118, 118, 1),
                                           fontSize: 16.0),
@@ -612,9 +599,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         child: Divider(
                           thickness: 2,
                           color: _selectedMenu != null && _selectedMenu == index
-                              ? Globle().colorscode != null
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme
+                              ? getColorByHex(Globle().colorscode)
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       )
@@ -628,11 +613,18 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   int _getMenucount() {
+    if (category.length == 0) {
+      category.insert(0, category1[0]);
+    }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
-          category = _categorydata[i].category;
+          category2 = _categorydata[i].category;
         });
+      }
+
+      if (category.length == 1) {
+        category.addAll(category2);
       }
       return category.length;
     }
@@ -685,7 +677,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 1.0,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -1081,17 +1073,17 @@ class _RestaurantViewState extends State<RestaurantView>
       }
     });
 
-    if (categoryData[0].category[0].subcategories.length > 0) {
-      setState(() {
-        valueBool = true;
-        subcategoriesList = categoryData[0].category[0].subcategories;
-      });
-    } else {
-      setState(() {
-        valueBool = false;
-        subcategoriesList = [];
-      });
-    }
+    // if (categoryData[0].category[0].subcategories.length > 0) {
+    //   setState(() {
+    //     valueBool = true;
+    //     subcategoriesList = categoryData[0].category[0].subcategories;
+    //   });
+    // } else {
+    //   setState(() {
+    //     valueBool = false;
+    //     subcategoriesList = [];
+    //   });
+    // }
   }
 }
 
@@ -1120,3 +1112,5 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
+
+List<Category> category1 = [Category(id: 0, name: "All")];

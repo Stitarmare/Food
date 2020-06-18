@@ -9,6 +9,7 @@ import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -145,10 +146,10 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     if (notificationData[index].notifType == STR_INVITATION) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
-            notifytext = notificationData[index].notifText.split(STR_COMMA);
-          recipientName = notifytext[0];
-          recipientMobno = notifytext[1];
-          tableno = notifytext[3];
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        tableno = notifytext[3];
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
@@ -197,7 +198,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   String getNotificationDate(int index) {
     if (notificationData != null) {
       if (notificationData[index].createdAt != null) {
-        return notificationData[index].createdAt.toString();
+        return getDateForOrderHistory(
+            notificationData[index].createdAt.toString());
       }
       return STR_SPACE;
     }
@@ -216,12 +218,24 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       if (notificationData == null) {
         notificationData = getNotificationList;
       } else {
-        notificationData.addAll(getNotificationList);
+        // notificationData.addAll(getNotificationList);
+        notificationData = getNotificationList;
       }
       page++;
     });
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    return "$dateStr at $time";
   }
 
   @override
@@ -239,6 +253,8 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    notificationPresenter.getNotifications(context);
+
     Toast.show(
       model.message,
       context,

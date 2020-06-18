@@ -265,12 +265,14 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                                         ),
                                       ),
                                       SizedBox(width: 10),
-                                      Text(
-                                        "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
-                                            STR_BLANK,
-                                        style: TextStyle(
-                                            fontSize: FONTSIZE_13,
-                                            color: greytheme700),
+                                      Expanded(
+                                        child: Text(
+                                          "${peopleList[i].firstName ?? ""} ${peopleList[i].lastName ?? ""}" ??
+                                              STR_BLANK,
+                                          style: TextStyle(
+                                              fontSize: FONTSIZE_13,
+                                              color: greytheme700),
+                                        ),
                                       ),
                                     ],
                                   ));

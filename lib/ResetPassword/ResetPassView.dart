@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
@@ -154,6 +155,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
     return Column(
       children: <Widget>[
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _password = text;
           },
@@ -177,6 +181,9 @@ class _ResetPasswordview extends State<ResetPasswordview>
         ),
         SizedBox(height: 15),
         AppTextField(
+          inputFormatters: [
+            BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
+          ],
           onChanged: (text) {
             _confirmPassword = text;
           },
@@ -206,7 +213,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
-      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+      return PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }
@@ -215,7 +222,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
     if (value.length == 0) {
       return KEY_PASSWORD_REQUIRED;
     } else if (value.length < 8) {
-      return KEY_THIS_SHOULD_BE_MIN_8_CHAR_LONG;
+      return PASSWORD_SHOULD_BE_MIN_8_CHAR_LONG;
     }
     return null;
   }

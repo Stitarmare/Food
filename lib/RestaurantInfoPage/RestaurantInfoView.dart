@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -42,6 +44,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   bool isExpanded = false;
   ProgressDialog progressDialog;
   ScrollController _scrollcontroller;
+  ScrollController _controller;
+
+  int page = 1;
   List<MenuCategoryButton> menuOptionItem = [
     MenuCategoryButton(title: "Sea Food", id: 1, isSelected: false),
     MenuCategoryButton(title: "Arabic", id: 2, isSelected: false),
@@ -79,12 +84,36 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   void initState() {
     _scrollcontroller = ScrollController();
+    _controller = ScrollController();
     restaurantIdInfoPresenter =
         RestaurantInfoPresenter(restaurantInfoModelView: this);
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     _getRestaurantInfo();
-
+    _scrollcontroller.addListener(_scrollListener);
     super.initState();
+  }
+
+  _scrollListener() {
+    if (_scrollcontroller.offset >=
+            _scrollcontroller.position.maxScrollExtent &&
+        !_scrollcontroller.position.outOfRange) {
+      setState(() {
+        print("reach the bottom");
+        progressDialog.show();
+        restaurantIdInfoPresenter.getRestaurantReview(
+            context, widget.restId, page);
+      });
+    }
+    // if (_scrollcontroller.offset <=
+    //         _scrollcontroller.position.minScrollExtent &&
+    //     !_scrollcontroller.position.outOfRange) {
+    //   setState(() {
+    //     print("reach the top");
+    //     progressDialog.show();
+    //     restaurantIdInfoPresenter.getRestaurantReview(
+    //         context, widget.restId, page);
+    //   });
+    // }
   }
 
   _getRestaurantInfo() {
@@ -104,8 +133,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   _getRestaurantReview() async {
     await progressDialog.show();
-    //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId);
+    // //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId, page);
   }
 
   @override
@@ -556,9 +585,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                 Padding(
                                   padding: const EdgeInsets.only(right: 24),
                                   child: Text(
-                                      '${getDateForOrderHistory( _restaurantInfoData.schedule[index].fromTime)}' +
+                                      '${getDateForOrderHistory(_restaurantInfoData.schedule[index].fromTime)}' +
                                           STR_DASH_SIGN +
-                                          '${getDateForOrderHistory( _restaurantInfoData.schedule[index].toTime)}',
+                                          '${getDateForOrderHistory(_restaurantInfoData.schedule[index].toTime)}',
                                       style: TextStyle(
                                           fontSize: FONTSIZE_12,
                                           color: greytheme1000)),
@@ -648,7 +677,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                 )
               : Container(
                   child: ListView.builder(
-                  controller: _scrollcontroller,
+                  controller: _controller,
                   itemCount: getRestaurantReviewLength(),
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
@@ -715,14 +744,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 18, top: 16.5),
-                                              child: Text(
-                                                  _getReviewData[index]
-                                                          .user
-                                                          .firstName +
-                                                      STR_SPACE +
-                                                      _getReviewData[index]
-                                                          .user
-                                                          .lastName,
+                                              child: Text(getName(index),
                                                   style: TextStyle(
                                                       fontSize: FONTSIZE_13,
                                                       color: greytheme1000,
@@ -760,11 +782,17 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                           const EdgeInsets.only(
                                                               left: 4,
                                                               top: 2,
-                                                              bottom: 2,right: 4),
+                                                              bottom: 2,
+                                                              right: 4),
                                                       child: Text(
                                                         // _getReviewData[index]
                                                         //     .rating.toString(),
-                                                        double.parse(_getReviewData[index].rating.toString()).toString(),
+                                                        double.parse(
+                                                                _getReviewData[
+                                                                        index]
+                                                                    .rating
+                                                                    .toString())
+                                                            .toString(),
                                                         style: TextStyle(
                                                             fontFamily: Constants
                                                                 .getFontType(),
@@ -782,7 +810,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                             ),
                                             Align(
                                               alignment: Alignment.topLeft,
-                                               child: Container(
+                                              child: Container(
                                                   width: MediaQuery.of(context)
                                                           .size
                                                           .width *
@@ -790,10 +818,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                                   child: Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                             top: 10),
+                                                            top: 10),
                                                     child: ExpandableText(
-                                                        _getReviewData[index]
-                                                            .description),
+                                                        getReview(index)),
                                                   )),
                                             ),
                                             SizedBox(
@@ -814,6 +841,15 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         ],
       ),
     );
+  }
+
+  String getName(int index) {
+    if (_getReviewData[index].user == null) {
+      return "Anonymous";
+    }
+    return _getReviewData[index].user.firstName +
+        STR_SPACE +
+        _getReviewData[index].user.lastName;
   }
 
   Widget customTabbar() {
@@ -887,6 +923,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
     //await progressDialog.hide();
   }
 
+  String getReview(int index) {
+    var newLine = _getReviewData[index].description.replaceAll("\n", " ");
+    var newTab = newLine.replaceAll("\t", " ");
+    return newTab.trim();
+  }
+
   @override
   Future<void> restaurantInfoSuccess(RestaurantInfoData restInfoData) async {
     setState(() {
@@ -911,11 +953,25 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
-    setState(() {
-      _getReviewData = getReviewList;
-      print(_getReviewData);
-    });
     await progressDialog.hide();
+
+    setState(() {
+      if (_getReviewData == null) {
+        print(_getReviewData);
+        // for (int i = 0; i < getReviewList.length; i++) {
+        //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
+        // }
+        _getReviewData = getReviewList;
+      } else {
+        _getReviewData.addAll(getReviewList);
+
+        // for (int i = 0; i < _getReviewData.length; i++) {
+        //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
+        // }
+      }
+      page++;
+    });
+
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

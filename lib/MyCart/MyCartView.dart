@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -154,6 +156,67 @@ class _MyCartViewState extends State<MyCartView>
     );
   }
 
+  // checkIntenet(MenuCartList menuCartList, int index, int flag) async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       if (flag == 1) {
+  //         if (menuCartList.quantity > 0) {
+  //           setState(() {
+  //             menuCartList.quantity -= 1;
+  //             print(menuCartList.quantity);
+  //           });
+  //           // DialogsIndicator.showLoadingDialog(
+  //           //     context, _keyLoader, STR_LOADING);
+  //           await progressDialog.show();
+  //           if (menuCartList.quantity > 0) {
+  //             _myCartpresenter.updateQauntityCount(
+  //                 menuCartList.id,
+  //                 menuCartList.quantity,
+  //                 (double.parse(menuCartList.totalAmount)) /
+  //                     menuCartList.quantity,
+  //                 context);
+  //           }
+  //           if (menuCartList.quantity == 0) {
+  //             // DialogsIndicator.showLoadingDialog(
+  //             //     context, _keyLoader, STR_LOADING);
+  //             await progressDialog.show();
+  //             _myCartpresenter.removeItemfromCart(
+  //                 menuCartList.id, Globle().loginModel.data.id, context);
+  //             setState(() {
+  //               _cartItemList.removeAt(index);
+  //             });
+  //           }
+  //         }
+  //       } else {
+  //         setState(() {
+  //           menuCartList.quantity += 1;
+  //           print(menuCartList.quantity);
+  //         });
+  //         // DialogsIndicator.showLoadingDialog(
+  //         //     context, _keyLoader, STR_LOADING);
+  //         await progressDialog.show();
+  //         _myCartpresenter.updateQauntityCount(
+  //             menuCartList.id,
+  //             menuCartList.quantity,
+  //             (double.parse(menuCartList.totalAmount)) / menuCartList.quantity,
+  //             context);
+  //       }
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
+
   Widget steppercount(MenuCartList menuCartList, int index) {
     return Container(
       height: 24,
@@ -161,6 +224,8 @@ class _MyCartViewState extends State<MyCartView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
+            // checkIntenet(menuCartList, index, 1);
+
             if (menuCartList.quantity > 0) {
               setState(() {
                 menuCartList.quantity -= 1;
@@ -215,6 +280,7 @@ class _MyCartViewState extends State<MyCartView>
         ),
         InkWell(
           onTap: () async {
+            // checkIntenet(menuCartList, index, 2);
             setState(() {
               menuCartList.quantity += 1;
               print(menuCartList.quantity);
@@ -244,6 +310,25 @@ class _MyCartViewState extends State<MyCartView>
         ),
       ]),
     );
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   @override
@@ -391,13 +476,21 @@ class _MyCartViewState extends State<MyCartView>
                         Constants.showAlert(
                             STR_MYCART, STR_SELECT_TABLE, context);
                       } else {
+<<<<<<< HEAD
                         if (double.parse(myCart.grandTotal) > 1.0) {
+=======
+                        if (double.parse(myCart.grandTotal) >= 1.0) {
+>>>>>>> NewUiChanges
                           Globle().dinecartValue = 0;
                           Preference.setPersistData<int>(
                               0, PreferenceKeys.dineCartItemCount);
                           Preference.setPersistData<int>(
                               0, PreferenceKeys.dineCartItemCount);
+<<<<<<< HEAD
                           (_cartItemList != null)
+=======
+                          (_cartItemList != null && _cartItemList.length > 0)
+>>>>>>> NewUiChanges
                               ? Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -422,7 +515,11 @@ class _MyCartViewState extends State<MyCartView>
                         } else {
                           Constants.showAlert(
                               "Amount",
+<<<<<<< HEAD
                               "Total Amount should be greater than ${getCurrency()} 1.00",
+=======
+                              "Amount should be greater than ${getCurrency()} 1.00",
+>>>>>>> NewUiChanges
                               context);
                         }
                       }
@@ -690,7 +787,8 @@ class _MyCartViewState extends State<MyCartView>
   String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return myCart.grandTotal;
+        String strAmount = myCart.grandTotal;
+        return strAmount;
       }
     }
     return "0";
@@ -849,7 +947,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> updatequantitySuccess() async {
     //Globle().dinecartValue -= 1;
     await progressDialog.hide();
-    await progressDialog.show();
+    // await progressDialog.show();
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 

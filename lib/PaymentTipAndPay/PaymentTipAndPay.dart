@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,12 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     super.initState();
   }
 
+  // checkIntenet() async {
+  //   await progressDialog.show();
+  //   _billCheckoutPresenter.payBillCheckOut(widget.restId,
+  //       widget.totalAmount.toString(), sliderValue.toString(), "ZAR", context);
+  // }
+
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
@@ -127,6 +134,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     ),
                     GestureDetector(
                       onTap: () async {
+<<<<<<< HEAD
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
                         setState(() {
                           isIgnoreTouch = true;
@@ -138,6 +146,27 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             sliderValue.toString(),
                             "ZAR",
                             context);
+=======
+                        setState(() {
+                          isIgnoreTouch = true;
+                        });
+
+                        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+                        if ((widget.totalAmount + sliderValue) >= 1.0) {
+                          await progressDialog.show();
+                          _billCheckoutPresenter.payBillCheckOut(
+                              widget.restId,
+                              widget.totalAmount.toString(),
+                              sliderValue.toString(),
+                              "ZAR",
+                              context);
+                        } else {
+                          Constants.showAlert(
+                              "Amount",
+                              "Amount should be more than ${widget.currencySymbol} 1.00 & you can try by adding tip",
+                              context);
+                        }
+>>>>>>> NewUiChanges
                       },
                       child: Container(
                         height: 45,
@@ -150,7 +179,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                           child: Text(
                             STR_PLACE_ORDER_PAY_BILL,
                             style: TextStyle(
+<<<<<<< HEAD
                                 fontFamily: Constants.getFontType(),
+=======
+                                fontFamily: KEY_FONTFAMILY,
+>>>>>>> NewUiChanges
                                 fontWeight: FontWeight.w600,
                                 fontSize: FONTSIZE_16,
                                 color: Colors.white),
@@ -577,10 +610,17 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       myOrderData.id,
       STR_CARD,
       myOrderData.totalAmount,
+<<<<<<< HEAD
       (double.parse(myOrderData.totalAmount) + tipAmount).toString(),
       _paymentCheckoutModel.transactionId,
       context,
       tipAmount.toString(),
+=======
+      (double.parse(myOrderData.totalAmount) + sliderValue).toString(),
+      _paymentCheckoutModel.transactionId,
+      context,
+      sliderValue.toString(),
+>>>>>>> NewUiChanges
     );
   }
 

@@ -29,6 +29,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var countrycoder = STR_BLANK;
   var password = STR_BLANK;
   var countrycode = "+91";
+  bool isIgnoringTouch = false;
   bool _validate = false;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -47,12 +48,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    return Scaffold(
-        body: Center(
-      child: SingleChildScrollView(
-        child: mainview(),
-      ),
-    ));
+    return IgnorePointer(
+      ignoring: isIgnoringTouch,
+      child: Scaffold(
+          body: Center(
+        child: SingleChildScrollView(
+          child: mainview(),
+        ),
+      )),
+    );
   }
 
   Widget mainview() {
@@ -76,6 +80,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   Future<void> onSignInButtonClicked() async {
     if (_signInFormKey.currentState.validate()) {
+      setState(() {
+        isIgnoringTouch = true;
+      });
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       loginPresenter.performLogin(mobilenumber, countrycode, password, context);
@@ -205,7 +212,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(10),
                   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
-                  WhitelistingTextInputFormatter.digitsOnly
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  BlacklistingTextInputFormatter(RegExp("[*#@!\$]")),
                 ],
                 onChanged: (text) {
                   mobilenumber = text;
@@ -261,7 +269,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (value.length == 0) {
       return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (!regExp.hasMatch(value)) {
-      return KEY_MOBILE_NUMBER_TEXT;
+      return KEY_MOBILE_NUMBER_REQUIRED;
     } else if (value.length > 10) {
       return KEY_MOBILE_NUMBER_LIMIT;
     }
@@ -412,12 +420,18 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   @override
   Future<void> loginFailed() async {
+    setState(() {
+      isIgnoringTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> loginSuccess() async {
+    setState(() {
+      isIgnoringTouch = false;
+    });
     _signInFormKey.currentState.save();
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

@@ -5,7 +5,7 @@ import 'package:foodzi/Models/WriteRestaurantReview.dart';
 
 abstract class RestaurantInfoContractor {
   void getRestaurantInfoPage(BuildContext context, int restId);
-  void getRestaurantReview(BuildContext context, int restId);
+  void getRestaurantReview(BuildContext context, int restId, int page);
   void writeRestaurantReview(
       BuildContext context, int restId, String description, int rating);
   void onBackPresed();

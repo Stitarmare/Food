@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +115,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       var index = 0;
       _radioOptions = radiolist;
       for (var item in radiolist) {
+<<<<<<< HEAD
       if (item.spreadDefault == "yes") {
           radioBtnId = item.id;
           index = item.index;
@@ -128,6 +131,12 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     }
 selectedIndex = index;
     getSubOption(index);
+=======
+        if (item.spreadDefault == "yes") {
+          radioBtnId = item.index;
+        }
+      }
+>>>>>>> NewUiChanges
     });
 
     
@@ -326,6 +335,21 @@ selectedIndex = index;
                 ),
                 GestureDetector(
                   onTap: () async {
+                    if (Globle().isCollectionOrder) {
+                      var id = await Preference.getPrefValue<int>(
+                          PreferenceKeys.restaurantID);
+                      if (widget.restId == id) {
+                        Constants.showAlert("FoodZi",
+                            "Your order is already running.", context);
+                      } else {
+                        Constants.showAlert(
+                            "FoodZi",
+                            "Your order is already running for another restaurant.",
+                            context);
+                      }
+
+                      return;
+                    }
                     if (addMenuToCartModel == null) {
                       addMenuToCartModel = AddItemsToCartModel();
                     }
@@ -358,12 +382,24 @@ selectedIndex = index;
 
                     if (extras == null) {
                       addItemData();
-                    } else if (extras.length != 0 &&
-                        _addItemModelList.extrasrequired == "yes") {
+                      return;
+                    }
+                    // else if (extras.length != 0 &&
+                    //     _addItemModelList.extrasrequired == "yes") {
+                    //   addItemData();
+                    //   return;
+                    // }
+                    else if (extras.length != 0) {
                       addItemData();
-                    } else if (extras.length == 0) {
+                      return;
+                    } else if (extras.length == 0 &&
+                        _addItemModelList.extrasrequired == "yes") {
                       DialogsIndicator.showAlert(context, "Required Field",
                           "Please select required field");
+                      return;
+                    } else if (extras.length == 0) {
+                      addItemData();
+                      return;
                     }
 
                     // if (extras != null) {
@@ -511,6 +547,25 @@ selectedIndex = index;
       await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
+  }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget totalamounttext() {
@@ -1069,7 +1124,7 @@ selectedIndex = index;
                             : Text(STR_DATA),
                         secondary: Padding(
                           padding: EdgeInsets.only(right: 15),
-                                 child: Text(Globle().currencySymb != null
+                          child: Text(Globle().currencySymb != null
                                   ? "${Globle().currencySymb} " +
                                       "${radionBtnsize.secondary}"
                                   : STR_R_CURRENCY_SYMBOL +
@@ -1255,7 +1310,7 @@ selectedIndex = index;
       for (var chekc in checkBoxOptionsPrice) {
         extPirce += double.parse(chekc.price);
       }
-      double douPrice2 = double.parse(price) + extPirce;
+      double douPrice2 = double.parse(price) + (extPirce * count);
       String strdoublePrice2 = douPrice2.toStringAsFixed(2);
       return strdoublePrice2;
       // return (double.parse(price) + extPirce).toString();
@@ -1561,6 +1616,7 @@ selectedIndex = index;
   Future<void> addMenuToCartsuccess() async {
     specialReq = "";
     Globle().takeAwayCartItemCount += 1;
+    Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
@@ -1587,13 +1643,13 @@ selectedIndex = index;
   }
 
   void getRequiredSpread(int length) {
+    Spreads defaultSpre = Spreads();
+    defaultSpread = Spreads();
+
     for (int i = 1; i <= length; i++) {
-      defaultSpread = Spreads();
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
-        defaultSpread.spreadId = _addItemModelList.spreads[i - 1].id;
-      } else {
-        defaultSpread = null;
+        defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
 
        if (defaultSpread == null) {
@@ -1603,6 +1659,7 @@ selectedIndex = index;
       }
     }
     }
+    defaultSpread = defaultSpre;
   }
 
   void getRequiredExtra(int length) {

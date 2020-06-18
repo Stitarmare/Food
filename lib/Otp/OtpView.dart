@@ -34,12 +34,13 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
-  var otpsave;
+  String otpsave;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   OtpPresenter otppresenter;
   String mobileNo;
   ProgressDialog progressDialog;
+  bool isIgnoreTouch = false;
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
@@ -51,6 +52,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+<<<<<<< HEAD
     return Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
@@ -72,8 +74,25 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         body: Center(
           child: SingleChildScrollView(
             child: mainview(),
+=======
+    return IgnorePointer(
+      ignoring: isIgnoreTouch,
+      child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.white70,
+>>>>>>> NewUiChanges
           ),
-        ));
+          body: Center(
+            child: SingleChildScrollView(
+              child: mainview(),
+            ),
+          )),
+    );
   }
 
   Widget mainview() {
@@ -96,28 +115,35 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   }
 
   Future<void> onsubmitButtonClicked() async {
-    if (widget.value == 0 && otpsave != null) {
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.performOTP(
-          widget.mobno, widget.countryCode, otpsave, context);
-    } else if (widget.isFromFogetPass == true &&
-        widget.value == 1 &&
-        otpsave != null) {
-      await progressDialog.show();
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      otppresenter.perfromresetpassword(
-          widget.mobno, widget.countryCode, otpsave, context);
-    } else if ((widget.isFromUpadateNo == true &&
-        widget.value == 2 &&
-        otpsave != null)) {
-      await progressDialog.show();
-    } else if ((widget.isProvideAnotherNumber == true &&
-        widget.value == 3 &&
-        otpsave != null)) {
-      await progressDialog.show();
-      otppresenter.performOTP(
-          widget.mobno, widget.countryCode, otpsave, context);
+    if (otpsave != null && otpsave.length == 6) {
+      setState(() {
+        isIgnoreTouch = true;
+      });
+      if (widget.value == 0 && otpsave != null) {
+        await progressDialog.show();
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        otppresenter.performOTP(
+            widget.mobno, widget.countryCode, otpsave, context);
+      } else if (widget.isFromFogetPass == true &&
+          widget.value == 1 &&
+          otpsave != null) {
+        await progressDialog.show();
+        //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        otppresenter.perfromresetpassword(
+            widget.mobno, widget.countryCode, otpsave, context);
+      } else if ((widget.isFromUpadateNo == true &&
+          widget.value == 2 &&
+          otpsave != null)) {
+        await progressDialog.show();
+      } else if ((widget.isProvideAnotherNumber == true &&
+          widget.value == 3 &&
+          otpsave != null)) {
+        await progressDialog.show();
+        otppresenter.performOTP(
+            widget.mobno, widget.countryCode, otpsave, context);
+      }
+    } else {
+      Constants.showAlert("Error", "Please enter otp", context);
     }
   }
 
@@ -202,10 +228,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           pinTextStyle: TextStyle(color: Colors.grey[600]),
           pinBoxRadius: 8.0,
           autofocus: false,
-          onDone: (String value) {
-            otpsave = value;
-            print(value);
+          onTextChanged: (value) {
+            setState(() {
+              print(value);
+              otpsave = value;
+            });
           },
+          // onDone: (String value) {
+          //   setState(() {
+          //     otpsave = value;
+          //   });
+          //   print(value);
+          // },
           pinBoxOuterPadding: EdgeInsets.symmetric(horizontal: 8.0),
         ),
       ),
@@ -308,12 +342,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> otpfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> otpsuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
@@ -321,12 +361,18 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> getFailedForForgetPass() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> getSuccesForForgetPass() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
@@ -338,32 +384,49 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
 
   @override
   Future<void> resendotpfailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> resendotpsuccess(message) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_RESEND_OTP, message, context);
   }
 
   @override
-  void loginwithotpfailed() {}
+  void loginwithotpfailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   void loginwithotpsuccess() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Navigator.pushNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
   @override
   void performOTPUpdateNoFailed() {
-    // TODO: implement performOTPUpdateNoFailed
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   void performOTPUpdateNoSuccess() {
-    // TODO: implement performOTPUpdateNoSuccess
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 }

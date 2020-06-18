@@ -1,14 +1,17 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -29,6 +32,7 @@ class AddItemPageView extends StatefulWidget {
   String restName;
   String itemImage;
   bool isFromOrder = false;
+  RestaurantList restaurantList;
 
   AddItemPageView(
       {this.title,
@@ -37,6 +41,7 @@ class AddItemPageView extends StatefulWidget {
       this.restId,
       this.restName,
       this.itemImage,
+      this.restaurantList,
       this.isFromOrder});
   _AddItemPageViewState createState() => _AddItemPageViewState();
 }
@@ -86,7 +91,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<Extras> extras;
   List<Sizes> sizess;
   List<Switches> switchess;
+<<<<<<< HEAD
   List<RadioButtonOptions> _subOptionList = [];
+=======
+  int cartPageCount;
+>>>>>>> NewUiChanges
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -383,6 +392,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ),
                 GestureDetector(
                   onTap: () async {
+ 
+                    if (Globle().isCollectionOrder) {
+                      Constants.showAlert("FoodZi", "Your order is already running for another restaurant", context);
+                      return;
+                    }
+                    // checkIntenet();
                     var alreadyAdde = await Preference.getPrefValue<bool>(
                         PreferenceKeys.isAlreadyINCart);
                     var restauran = await (Preference.getPrefValue<int>(
@@ -410,7 +425,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         }
 
                         List<Switches> switchess;
-                        if (switches != null) {
+                        if (switches != null && switches.length > 0) {
                           switchess = switches;
                         } else {
                           switchess = defaultSwitch ?? null;
@@ -442,8 +457,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             return;
                           }
                         }
+<<<<<<< HEAD
                         if (switches != null) {
                           if (switches.length == 0 &&
+=======
+                        if (switchess != null) {
+                          if (switchess.length == 0 &&
+>>>>>>> NewUiChanges
                               _addItemModelList.switchesrequired == "yes") {
                             DialogsIndicator.showAlert(
                                 context,
@@ -513,6 +533,44 @@ class _AddItemPageViewState extends State<AddItemPageView>
         ),
       ),
     );
+  }
+
+  // checkIntenet() async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //     showAlert(
+  //       context,
+  //       STR_WIFI_INTERNET,
+  //       STR_NO_WIFI_INTERNET,
+  //       () {
+  //         Navigator.of(context).pop();
+  //       },
+  //     );
+  //   }
+  // }
+
+  void showAlert(
+      BuildContext context, String title, String message, Function onPressed) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: onPressed,
+                  )
+                ],
+              ),
+            ));
   }
 
   Widget totalamounttext() {
@@ -1433,7 +1491,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
       for (var chekc in result) {
         extPirce += double.parse(chekc.price);
       }
-      double douPrice = double.parse(price) + extPirce;
+      double douPrice = double.parse(price) + (extPirce * count);
       String strdoublePrice = douPrice.toStringAsFixed(2);
       return strdoublePrice;
       // return (double.parse(price) + extPirce).toString();
@@ -1692,8 +1750,20 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      //Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomTabbarHome(
+                                    title: widget.restaurantList.restName,
+                                    restId: widget.restaurantList.id,
+                                    lat: widget.restaurantList.latitude,
+                                    long: widget.restaurantList.longitude,
+                                    imageUrl: widget.restaurantList.coverImage,
+                                    restaurantList: widget.restaurantList,
+                                  )),
+                          ModalRoute.withName(STR_RETAURANT_PAGE));
                     },
                   )
                 ],
@@ -1817,6 +1887,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Future<void> addMenuToCartsuccess() async {
     specialReq = "";
     Globle().dinecartValue += 1;
+    int i = Globle().dinecartValue;
+    print(i);
+    // cartPageCount = Globle().dinecartValue += 1;
+
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
@@ -1939,9 +2013,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   void getRequiredSwitch(int length) {
+    defaultSwitch = List<Switches>();
     for (int i = 1; i <= length; i++) {
       Switches requiredSwitch = Switches();
-      defaultSwitch = List<Switches>();
+
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;

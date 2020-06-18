@@ -68,7 +68,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         //id: json["id"],
-        paymentType: json["paymentType"],
+        paymentType: json["paymentType"] == null ? null : json["paymentType"],
         paymentBrand: json["paymentBrand"],
         amount: json["amount"],
         currency: json["currency"],
