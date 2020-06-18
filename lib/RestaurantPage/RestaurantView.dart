@@ -9,6 +9,7 @@ import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
+import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/RestaurantPage/RestaurantContractor.dart';
 import 'package:foodzi/RestaurantPage/RestaurantPresenter.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
@@ -25,13 +26,14 @@ class RestaurantView extends StatefulWidget {
   int restId;
   String imageUrl;
   bool isFromOrder = false;
-
+  RestaurantList restaurantList;
   int categoryid;
   RestaurantView(
       {this.title,
       this.restId,
       this.categoryid,
       this.imageUrl,
+      this.restaurantList,
       this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
@@ -64,7 +66,7 @@ class _RestaurantViewState extends State<RestaurantView>
   bool valueBool = false;
   List<Category> category = [];
   List<Category> category2 = [];
-
+  RestaurantList restaurantList1;
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
 
@@ -79,13 +81,15 @@ class _RestaurantViewState extends State<RestaurantView>
         widget.isFromOrder = false;
       });
     }
+    restaurantList1 = RestaurantList();
+    restaurantList1 = widget.restaurantList;
     restaurantPresenter = RestaurantPresenter(this);
     restaurantItemsModel = RestaurantItemsModel();
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context,true);
+    menudropdownPresenter.getMenuLCategory(widget.restId, context, true);
     super.initState();
   }
 
@@ -696,6 +700,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         restName: widget.title,
                         itemImage: '${_restaurantList[index].itemImage}',
                         isFromOrder: widget.isFromOrder,
+                        restaurantList: restaurantList1,
                       ))),
               child: Padding(
                 padding: EdgeInsets.all(8),

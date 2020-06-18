@@ -21,7 +21,7 @@ class CategoriesSection extends StatefulWidget {
 
   bool isFromOrder = false;
 
-CategoriesSection({this.restId,this.isFromOrder,this.title});
+  CategoriesSection({this.restId, this.isFromOrder, this.title});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -30,23 +30,23 @@ CategoriesSection({this.restId,this.isFromOrder,this.title});
 }
 
 class CategoriesSectionState extends State<CategoriesSection>
-    implements RestaurantModelView,MenuDropdownModelView{
+    implements RestaurantModelView, MenuDropdownModelView {
   RestaurantPresenter restaurantPresenter;
   int _selectedMenu = 0;
-   List<RestaurantMenuItem> _restaurantList;
+  List<RestaurantMenuItem> _restaurantList;
 
   int _selectedsubMenu = 0;
   bool isSelected = false;
   MenuTitles items;
- // List<ItemMenu> itemMenuList = [];
+  // List<ItemMenu> itemMenuList = [];
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
- // MenuListModel _menuListModel;
+  // MenuListModel _menuListModel;
   ScrollController _controller = ScrollController();
   String currencySymbol = "R";
- List<Category> category = [];
+  List<Category> category = [];
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
-  
+
   List<CategoryItems> _categorydata = [
     // MenuTitles(title: 'STARTERS'),
     // MenuTitles(title: 'MAINS'),
@@ -62,7 +62,7 @@ class CategoriesSectionState extends State<CategoriesSection>
     MenuTitles(title: 'Wine'),
     MenuTitles(title: 'Beer'),
     MenuTitles(title: 'Soda'),
-  //  MenuTitles(title: 'Hot Drinks'),
+    //  MenuTitles(title: 'Hot Drinks'),
     // MenuTitles(title: 'Cold Drinks'),
   ];
 
@@ -77,14 +77,14 @@ class CategoriesSectionState extends State<CategoriesSection>
   @override
   void initState() {
     // TODO: implement initState
-  //  _menuListModel = MenuListModel();
+    //  _menuListModel = MenuListModel();
 
     super.initState();
 //isSelected = true;
     restaurantPresenter = RestaurantPresenter(this);
     restaurantPresenter.getMenuList(widget.restId, context);
-     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context);
+    menudropdownPresenter = MenuDropdpwnPresenter(this);
+    menudropdownPresenter.getMenuLCategory(widget.restId, context, true);
     _detectScrollPosition();
     if (widget.isFromOrder == null) {
       setState(() {
@@ -103,7 +103,7 @@ class CategoriesSectionState extends State<CategoriesSection>
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           title: Image.asset(
@@ -178,40 +178,41 @@ class CategoriesSectionState extends State<CategoriesSection>
                     children: <Widget>[
                       Expanded(
                         flex: 9,
-                       child: GestureDetector(
-                         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddItemPageView(
-                        itemId: _restaurantList[index].id,
-                        restId: _restaurantList[index].restId,
-                        title: '${_restaurantList[index].itemName}',
-                        description:
-                            '${_restaurantList[index].itemDescription}',
-                        restName: widget.title,
-                        itemImage: '${_restaurantList[index].itemImage}',
-                        isFromOrder: widget.isFromOrder,
-                      ))),
-                                                child: ClipRRect(
-                           borderRadius: BorderRadius.circular(18.0),
-
-                                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 100,
-                                    placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                      "assets/PlaceholderFoodImage/MaskGroup55.png",
-                                      fit: BoxFit.contain,
-                                      width: double.infinity,
-                                      height: 100,
-                                    ),
-                                    imageUrl: BaseUrl.getBaseUrlImages() +
-                                        '${_restaurantList[index].itemImage}',
-                                  ),
-                         ),
-                       ),
+                        child: GestureDetector(
+                          onTap: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => AddItemPageView(
+                                        itemId: _restaurantList[index].id,
+                                        restId: _restaurantList[index].restId,
+                                        title:
+                                            '${_restaurantList[index].itemName}',
+                                        description:
+                                            '${_restaurantList[index].itemDescription}',
+                                        restName: widget.title,
+                                        itemImage:
+                                            '${_restaurantList[index].itemImage}',
+                                        isFromOrder: widget.isFromOrder,
+                                      ))),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(18.0),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: 100,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                "assets/PlaceholderFoodImage/MaskGroup55.png",
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+                                height: 100,
+                              ),
+                              imageUrl: BaseUrl.getBaseUrlImages() +
+                                  '${_restaurantList[index].itemImage}',
+                            ),
+                          ),
+                        ),
                         // child: ClipRRect(
                         //   borderRadius: BorderRadius.only(
                         //     topLeft: Radius.circular(10.0),
@@ -259,7 +260,8 @@ class CategoriesSectionState extends State<CategoriesSection>
                                 children: <Widget>[
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: <Widget>[
                                       // (itemMenuList[index].menuType == "veg")
                                       //     ? Expanded(
@@ -286,18 +288,19 @@ class CategoriesSectionState extends State<CategoriesSection>
                                       //   width: 5,
                                       // ),
 
-                                     // SizedBox(width: 20,),
+                                      // SizedBox(width: 20,),
                                       Expanded(
                                         flex: 9,
                                         child: Center(
                                           child: Text(
-                                            _restaurantList[index].itemName != null
+                                            _restaurantList[index].itemName !=
+                                                    null
                                                 ? StringUtils.capitalize(
                                                     "${_restaurantList[index].itemName}")
                                                 : "",
                                             maxLines: 2,
                                             style: TextStyle(
-                                              //  fontFamily: FontNames.gotham,
+                                                //  fontFamily: FontNames.gotham,
                                                 fontSize: 13,
                                                 fontStyle: FontStyle.normal,
                                                 fontWeight: FontWeight.w600,
@@ -312,24 +315,26 @@ class CategoriesSectionState extends State<CategoriesSection>
                                   ),
 
                                   Center(
-                                child:  Text(
-                                  (_restaurantList[index].sizePrizes.isEmpty)
-                                      ? currencySymbol +
-                                              ' ${_restaurantList[index].price}' ??
-                                          ''
-                                      : currencySymbol +
-                                              " ${_restaurantList[index].sizePrizes[0].price}" ??
-                                          "",
-                                  // itemMenuList[index].price,
-                                  style: TextStyle(
-                                     // fontFamily: FontNames.gotham,
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.normal,
-                                      fontWeight: FontWeight.w700,
-                                      color: greytheme700),
-                                ),
-                              ),
-                                  //  
+                                    child: Text(
+                                      (_restaurantList[index]
+                                              .sizePrizes
+                                              .isEmpty)
+                                          ? currencySymbol +
+                                                  ' ${_restaurantList[index].price}' ??
+                                              ''
+                                          : currencySymbol +
+                                                  " ${_restaurantList[index].sizePrizes[0].price}" ??
+                                              "",
+                                      // itemMenuList[index].price,
+                                      style: TextStyle(
+                                          // fontFamily: FontNames.gotham,
+                                          fontSize: 16,
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.w700,
+                                          color: greytheme700),
+                                    ),
+                                  ),
+                                  //
                                 ]),
                           )),
                       Container(
@@ -430,7 +435,7 @@ class CategoriesSectionState extends State<CategoriesSection>
     );
   }
 
-   int _getint() {
+  int _getint() {
     if (_restaurantList != null) {
       return _restaurantList.length;
     }
@@ -526,13 +531,13 @@ class CategoriesSectionState extends State<CategoriesSection>
                                 color: _selectedMenu != null &&
                                         _selectedMenu == index
                                     ? Colors.orange
-                                    : Colors.grey ,
+                                    : Colors.grey,
                                 fontSize: 10.0),
                           ))),
                   Divider(
                     thickness: 2,
                     color: _selectedMenu != null && _selectedMenu == index
-                        ? Colors.orange 
+                        ? Colors.orange
                         : Colors.grey,
                   )
                 ],
@@ -543,7 +548,7 @@ class CategoriesSectionState extends State<CategoriesSection>
         });
   }
 
- int _getMenucount() {
+  int _getMenucount() {
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         category = _categorydata[i].category;
@@ -577,15 +582,19 @@ class CategoriesSectionState extends State<CategoriesSection>
                   children: <Widget>[
                     Center(
                         child: GestureDetector(
-                          onTap: (){
-                            _onSelectedsubmenu(index);
-
-                          },
-                                                  child: Text(
-                      subcategories[index].name,
-                      style: TextStyle(color: _selectedsubMenu!=null && _selectedsubMenu == index ? Colors.orange : Colors.grey, fontSize: 12.0),
-                    ),
-                        )),
+                      onTap: () {
+                        _onSelectedsubmenu(index);
+                      },
+                      child: Text(
+                        subcategories[index].name,
+                        style: TextStyle(
+                            color: _selectedsubMenu != null &&
+                                    _selectedsubMenu == index
+                                ? Colors.orange
+                                : Colors.grey,
+                            fontSize: 12.0),
+                      ),
+                    )),
                   ],
                 ),
               ),
@@ -600,7 +609,8 @@ class CategoriesSectionState extends State<CategoriesSection>
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
-    @override
+
+  @override
   Future<void> getMenuListsuccess(List<RestaurantMenuItem> menulist,
       RestaurantItemsModel _restaurantItemsModel1) async {
     if (menulist.length == 0) {
@@ -624,7 +634,6 @@ class CategoriesSectionState extends State<CategoriesSection>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
-
   @override
   void notifyWaiterFailed() {
     // TODO: implement notifyWaiterFailed
@@ -635,7 +644,6 @@ class CategoriesSectionState extends State<CategoriesSection>
     // TODO: implement notifyWaiterSuccess
   }
 
- 
   @override
   void getMenuLCategoryfailed() {}
 
@@ -690,7 +698,7 @@ class CategoriesSectionState extends State<CategoriesSection>
 
 // //
 
- }
+}
 
 class MenuTitles {
   String title;
