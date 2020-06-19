@@ -333,6 +333,8 @@ const STR_ABOUT_US = 'About Us';
 const STR_INVITE = 'invite';
 const STR_HELP = 'Help';
 const PROFILE_IMAGE_PATH = 'assets/PlaceholderImage/placeholder.png';
+const STR_FIELD_REQUIRED = " This field required";
+
 const STR_COLLECT_FOOD = 'I WANT TO COLLECT MY FOOD';
 const STR_DELEIVER_FOOD = 'PLEASE DELIVER MY FOOD';
 const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
@@ -392,6 +394,8 @@ const STR_ORDER_TYPE = 'ORDERED TYPE';
 const STR_TOTAL_AMOUNT = 'TOTAL AMOUNT';
 const STR_SPLIT_AMOUNT = 'SPLIT AMOUNT';
 const STR_VIEW_ORDER_DETAILS = "VIEW ORDER DETAILS";
+const STR_VIEW_DRIVER_DETAILS = "VIEW DRIVER DETAILS";
+
 const STR_TIME = '06 Feb 2020 at 12:05 PM';
 const STR_REPEAT_ORDER = 'Repeat Order';
 const JSON_STR_ORDER_TYPE = "order_type";
@@ -460,6 +464,7 @@ const STR_SUBTOTAL = 'Subtotal';
 const SPLIT_AMOUNT = "Split amount";
 const STR_ELEVEN = ' 11.20';
 const STR_TIP = 'Tip';
+const DELV_CHARGE = "Delivery charge";
 const STR_TOTAL = 'Total';
 const STR_CHECKOUT_CODE = 'check_out_code';
 const STR_FOODZI_TITLE = "Foodzi";
@@ -472,6 +477,8 @@ const JSON_STR_TOTAL_AMOUNT = "total_amount";
 const JSON_STR_LATITUDE = "latitude";
 const JSON_STR_LONGITUDE = "longitude";
 const JSON_STR_ITEMS = "items";
+const JSON_STR_ADDRESS_HOUSENO = "address";
+const JSON_STR_LANDMARK = "landmark";
 
 const STR_SPLIT_BILL = 'Split Bill';
 const STR_ADD_PEOPLE_FIRST_SPLIT_BILL =

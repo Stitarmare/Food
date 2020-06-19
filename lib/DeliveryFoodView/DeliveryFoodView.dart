@@ -64,16 +64,15 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   var sliderValue;
   var sliderval;
   bool isIgnoreTouch = true;
+  int delivery = 1;
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(DeliveryFoodView oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
   }
 

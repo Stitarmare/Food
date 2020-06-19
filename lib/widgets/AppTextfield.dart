@@ -11,6 +11,7 @@ class AppTextField extends StatefulWidget {
   final bool interactiveSel;
   final bool flexible;
   final String prefixText;
+
   final String hintText;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<String> onSaved;
@@ -19,8 +20,10 @@ class AppTextField extends StatefulWidget {
   final bool autovalidate;
   final Function(String) onChanged;
   final FocusNode focusNode;
+  final String strErrortext;
   final String initialvalue;
   final List<TextInputFormatter> inputFormatters;
+  final TextEditingController controller;
 
   const AppTextField({
     this.initialvalue,
@@ -29,6 +32,7 @@ class AppTextField extends StatefulWidget {
     this.enable,
     this.controller,
     this.placeHolderName,
+    this.strErrortext,
     this.obscureText = false,
     this.readOnly = false,
     this.interactiveSel = true,
@@ -56,6 +60,7 @@ class _AppTextFieldState extends State<AppTextField> {
       inputFormatters: widget.inputFormatters,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText,
+      controller: widget.controller,
       readOnly: widget.readOnly,
       enableInteractiveSelection: widget.interactiveSel,
       initialValue: widget.tfValue,

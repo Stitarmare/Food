@@ -137,7 +137,13 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                       await progressDialog.show();
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_BLANK);
-                      getVerifyAmount();
+
+                      _billCheckoutPresenter.payBillCheckOut(
+                          widget.restId,
+                          widget.totalAmount.toString(),
+                          sliderValue.toString(),
+                          "ZAR",
+                          context);
                       // _paymentDeliveryPresenter.placeOrder(
                       //     widget.restId,
                       //     Globle().loginModel.data.id,
