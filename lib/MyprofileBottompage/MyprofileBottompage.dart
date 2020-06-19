@@ -58,10 +58,11 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
             child: Stack(overflow: Overflow.visible, children: <Widget>[
               Center(
                   child: Image.asset(
-                ITEM_IMAGE_PATH,
+                // ITEM_IMAGE_PATH,
+                FOODZI_LOGO_PATH,
                 height: MediaQuery.of(context).size.height * 0.35,
-                fit: BoxFit.fill,
-                width: MediaQuery.of(context).size.width,
+                // fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width / 1.8,
               )),
               Container(
                 margin: EdgeInsets.fromLTRB(

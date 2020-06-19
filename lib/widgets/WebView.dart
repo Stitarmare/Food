@@ -41,15 +41,17 @@ class _WebViewPageState extends State<WebViewPage> {
       appBar: new AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        //backgroundColor: Colors.transparent,
-        title: new Text(
-          widget.title,
-          style: TextStyle(
-              fontSize: FONTSIZE_18,
-              fontFamily: KEY_FONTFAMILY,
-              fontWeight: FontWeight.w500,
-              color: greytheme1200),
-        ),
+        backgroundColor: Colors.transparent,
+        title: widget.title != STR_ABOUT_US
+            ? Text(
+                widget.title,
+                style: TextStyle(
+                    fontSize: FONTSIZE_18,
+                    fontFamily: KEY_FONTFAMILY,
+                    fontWeight: FontWeight.w500,
+                    color: greytheme1200),
+              )
+            : Image.asset(FOODZI_LOGO_PATH, height: 50),
         elevation: 0.0,
         // leading: IconButton(
         //     icon: Icon(Icons.arrow_back_ios),
