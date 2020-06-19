@@ -23,7 +23,6 @@ class AppTextField extends StatefulWidget {
   final String strErrortext;
   final String initialvalue;
   final List<TextInputFormatter> inputFormatters;
-  final TextEditingController controller;
 
   const AppTextField({
     this.initialvalue,
@@ -60,7 +59,6 @@ class _AppTextFieldState extends State<AppTextField> {
       inputFormatters: widget.inputFormatters,
       onChanged: widget.onChanged,
       obscureText: widget.obscureText,
-      controller: widget.controller,
       readOnly: widget.readOnly,
       enableInteractiveSelection: widget.interactiveSel,
       initialValue: widget.tfValue,

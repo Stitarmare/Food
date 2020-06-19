@@ -401,7 +401,6 @@ const STR_REPEAT_ORDER = 'Repeat Order';
 const JSON_STR_ORDER_TYPE = "order_type";
 const STR_TAKE_AWAY = "take_away";
 const STR_STATUS = "Status :";
-const STR_VIEW_DRIVER_DETAILS = "VIEW DRIVER DETAILS";
 const STR_SMALL_DELIVERY = "delivery";
 const DELV_CHARGE = "Delivery charge";
 
@@ -464,7 +463,6 @@ const STR_SUBTOTAL = 'Subtotal';
 const SPLIT_AMOUNT = "Split amount";
 const STR_ELEVEN = ' 11.20';
 const STR_TIP = 'Tip';
-const DELV_CHARGE = "Delivery charge";
 const STR_TOTAL = 'Total';
 const STR_CHECKOUT_CODE = 'check_out_code';
 const STR_FOODZI_TITLE = "Foodzi";
@@ -493,8 +491,6 @@ const JSON_STR_PAYMENT_MODE = "payment_mode";
 const JSON_STR_TIP = "tip";
 const JSON_STR_TRANSACTION_ID = "transaction_id";
 const JSON_STR_DELIVERY_CHARGE = "delivery_charge";
-const JSON_STR_ADDRESS_HOUSENO = "address";
-const JSON_STR_LANDMARK = "landmark";
 
 // ProfilePage
 const BACK_ARROW_IMAGE_PATH = 'assets/BackButtonIcon/Path1621.png';

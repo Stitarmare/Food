@@ -64,7 +64,6 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   var sliderValue;
   var sliderval;
   bool isIgnoreTouch = true;
-  int delivery = 1;
 
   @override
   void didChangeDependencies() {
