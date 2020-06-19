@@ -16,12 +16,13 @@ class RestaurantTAPresenter extends RestaurantTAContractor {
 
   @override
   void getMenuList(int restId, BuildContext context,
-      {String menu, int categoryId}) {
+      {String menu, int categoryId, int page}) {
     ApiBaseHelper()
         .post<RestaurantItemsModel>(UrlConstant.getMenuListApi, context, body: {
       JSON_STR_REST_ID: restId,
       JSON_STR_CATEGORY_ID: categoryId,
-      JSON_STR_MENU_TYPE: menu
+      JSON_STR_MENU_TYPE: menu,
+      STR_PAGE: page,
     }).then((value) {
       print(value);
       switch (value.result) {
