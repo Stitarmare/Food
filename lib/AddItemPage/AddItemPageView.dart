@@ -68,7 +68,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-  List<Switches> switches = [];
+  List<Switches> switches;
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
@@ -360,9 +360,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 ),
                 GestureDetector(
                   onTap: () async {
- 
                     if (Globle().isCollectionOrder) {
-                      Constants.showAlert("FoodZi", "Your order is already running for another restaurant", context);
+                      Constants.showAlert(
+                          "FoodZi",
+                          "Your order is already running for another restaurant",
+                          context);
                       return;
                     }
                     // checkIntenet();

@@ -1490,16 +1490,30 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     await progressDialog.hide();
   }
 
-  void getRequiredSpread(int length) {
-    Spreads defaultSpre = Spreads();
-    defaultSpread = Spreads();
+  // void getRequiredSpread(int length) {
+  //   Spreads defaultSpre = Spreads();
 
+  //   for (int i = 1; i <= length; i++) {
+  //     if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
+  //       defaultSpread = Spreads();
+
+  //       // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
+  //       defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
+  //     }
+  //   }
+  //   defaultSpread = defaultSpre;
+  // }
+
+  void getRequiredSpread(int length) {
+    Spreads defaultSpre;
     for (int i = 1; i <= length; i++) {
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
+        defaultSpre = Spreads();
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
     }
+
     defaultSpread = defaultSpre;
   }
 
@@ -1530,17 +1544,33 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     }
   }
 
+  // void getRequiredSwitch(int length) {
+  //   for (int i = 1; i <= length; i++) {
+  //     Switches requiredSwitch = Switches();
+  //     defaultSwitch = List<Switches>();
+  //     if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
+  //       requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+  //       requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+  //       defaultSwitch.add(requiredSwitch);
+  //     } else {
+  //       defaultSwitch = [];
+  //     }
+  //   }
+  // }
+
   void getRequiredSwitch(int length) {
+    defaultSwitch = List<Switches>();
     for (int i = 1; i <= length; i++) {
       Switches requiredSwitch = Switches();
-      defaultSwitch = List<Switches>();
+
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
-      } else {
-        defaultSwitch = [];
       }
+    }
+    if (defaultSwitch.length == 0) {
+      defaultSwitch = null;
     }
   }
 }

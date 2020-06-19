@@ -41,7 +41,8 @@ class _WebViewPageState extends State<WebViewPage> {
       appBar: new AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        backgroundColor: Colors.transparent,
+        backgroundColor:
+            widget.title == STR_ABOUT_US ? Colors.transparent : null,
         title: widget.title != STR_ABOUT_US
             ? Text(
                 widget.title,
