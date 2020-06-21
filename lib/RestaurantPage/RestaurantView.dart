@@ -60,7 +60,7 @@ class _RestaurantViewState extends State<RestaurantView>
   int restaurantId;
   int _selectedMenu = 0;
   int previousValue;
-  int _selectedSubMenu;
+  int _selectedSubMenu = 0;
   var tableID;
   RestaurantItemsModel restaurantItemsModel;
   bool valueBool = false;
@@ -69,6 +69,7 @@ class _RestaurantViewState extends State<RestaurantView>
   RestaurantList restaurantList1;
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
+  List<Subcategories> subcategoriesList2 = [];
 
   var abc;
   var subCategoryIdabc;
@@ -125,6 +126,9 @@ class _RestaurantViewState extends State<RestaurantView>
             setState(() {
               valueBool = true;
               subcategoriesList = category[index].subcategories;
+              subcategories = [];
+              subcategoriesList2 = [];
+              _selectedSubMenu = 0;
               // _getSubMenucount();
             });
           } else {
@@ -144,7 +148,7 @@ class _RestaurantViewState extends State<RestaurantView>
       if (previousValue != null) {
         if (previousValue != _selectedMenu) {
           subCategoryIdabc = null;
-          _selectedSubMenu = null;
+          _selectedSubMenu = 0;
           previousValue = _selectedMenu;
         }
       } else {
@@ -164,17 +168,25 @@ class _RestaurantViewState extends State<RestaurantView>
 
   _onSubMenuSelected(index) {
     setState(() {
-      _selectedSubMenu = index;
+      if (index == 0) {
+        _selectedSubMenu = index;
+        subCategoryIdabc = null;
+      } else {
+        _selectedSubMenu = index - 1;
+        subCategoryIdabc =
+            category[_selectedMenu].subcategories[_selectedSubMenu].id;
+      }
 
       print(_selectedSubMenu);
     });
-    subCategoryIdabc =
-        category[_selectedMenu].subcategories[_selectedSubMenu].id;
+
     if (subCategoryIdabc != null) {
       callItemOnCategorySelect();
+      _selectedSubMenu = index;
     } else {
       subCategoryIdabc = null;
       callItemOnCategorySelect();
+      _selectedSubMenu = index;
     }
     // abc = _categorydata[index].id;
     // if (abc != null) {
@@ -357,7 +369,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                       _onSubMenuSelected(index);
                                     },
                                     child: Text(
-                                      subcategoriesList[index].name,
+                                      subcategoriesList2[index].name,
                                       style: TextStyle(
                                           color: _selectedSubMenu != null &&
                                                   _selectedSubMenu == index
@@ -635,10 +647,25 @@ class _RestaurantViewState extends State<RestaurantView>
     return 0;
   }
 
+  // int _getSubMenucount() {
+  //   if (subcategoriesList != null) {
+  //     return subcategoriesList.length;
+  //   }
+  //   return 0;
+  // }
+
   int _getSubMenucount() {
-    if (subcategoriesList != null) {
-      return subcategoriesList.length;
+    if (subcategories.length == 0) {
+      subcategories.insert(0, subcategoriesList1[0]);
+      subcategoriesList2 = subcategories;
+      if (subcategoriesList != null) {
+        subcategoriesList2.addAll(subcategoriesList);
+        return subcategoriesList2.length;
+      }
+    } else {
+      return subcategoriesList2.length;
     }
+
     return 0;
   }
 
@@ -1119,3 +1146,4 @@ List<ItemGram> itemSizeinGramList = [
 ];
 
 List<Category> category1 = [Category(id: 0, name: "All")];
+List<Subcategories> subcategoriesList1 = [Subcategories(id: 0, name: "All")];
