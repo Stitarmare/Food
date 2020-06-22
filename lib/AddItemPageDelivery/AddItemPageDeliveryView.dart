@@ -92,6 +92,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   String specialReq;
 
   Spreads defaultSpread;
+  bool isIgnoreTouch = false;
 
   List<Extras> defaultExtra;
 
@@ -345,141 +346,146 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       top: false,
       right: false,
       bottom: true,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: isLoding
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Loading",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
-                      ),
-                    ),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              )
-            : CustomScrollView(
-                controller: _controller,
-                slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-              ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 91,
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: totalamounttext(),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    var alreadyAdde = await Preference.getPrefValue<bool>(
-                        PreferenceKeys.isAlreadyINCart);
-                    var restauran = await (Preference.getPrefValue<int>(
-                        PreferenceKeys.restaurantID));
-                    var restaurantName = await (Preference.getPrefValue<String>(
-                        PreferenceKeys.restaurantName));
-                    var orderId = await Preference.getPrefValue<int>(
-                        PreferenceKeys.orderId);
-
-                    if (orderId != null) {
-                      if (restauran == widget.restId) {
-                        if (_updateOrderModel == null) {
-                          _updateOrderModel = UpdateOrderModel();
-                        }
-                        _updateOrderModel.orderId = orderId;
-                        _updateOrderModel.userId = Globle().loginModel.data.id;
-                        if (items == null) {
-                          items = Item();
-                        }
-                        List<Extras> extras;
-                        if (extra != null) {
-                          extras = extra;
-                        } else {
-                          extras = defaultExtra ?? null;
-                        }
-
-                        List<Switches> switchess;
-                        if (switches != null) {
-                          switchess = switches;
-                        } else {
-                          switchess = defaultSwitch ?? null;
-                        }
-                        List<Sizes> sizess;
-                        if (size != null) {
-                          sizess = [size];
-                        } else if (defaultSize != null) {
-                          if (defaultSize.sizeid != null) {
-                            sizess = [defaultSize];
-                          }
-                        }
-
-                        _updateOrderModel.items = items;
-                        if (sizess.length > 0) {
-                          _updateOrderModel.items.sizePriceId =
-                              sizess[0].sizeid;
-                        }
-                        _updateOrderModel.items.quantity = count;
-                        _updateOrderModel.items.itemId = widget.itemId;
-                        _updateOrderModel.items.preparationNote = specialReq;
-                        _updateOrderModel.items.extra = extras;
-                        _updateOrderModel.items.spreads = spread == null
-                            ? (defaultSpread != null) ? [defaultSpread] : null
-                            : [spread];
-                        _updateOrderModel.items.switches = switchess;
-
-                        _updateOrderModel.items.sizes = sizess;
-                        print(_updateOrderModel.toJson());
-
-                        // DialogsIndicator.showLoadingDialog(
-                        //     context, _keyLoader, STR_BLANK);
-                        await progressDialog.show();
-                        _addItemDeliverypresenter.updateOrder(
-                            _updateOrderModel, context);
-                      } else {
-                        Constants.showAlert(
-                            KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
-                      }
-                    } else {
-                      checkForItemIsAlreadyInCart(
-                          alreadyAdde, restauran, restaurantName);
-                    }
-                  },
-                  child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: ((Globle().colorscode) != null)
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: isLoding
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
                         child: Text(
-                          STR_ADDTOCART,
+                          "Loading",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
+                              fontSize: FONTSIZE_15,
                               fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
                         ),
-                      )),
+                      ),
+                      CircularProgressIndicator()
+                    ],
+                  ),
+                )
+              : CustomScrollView(
+                  controller: _controller,
+                  slivers: <Widget>[_getmainviewTableno(), _getOptions()],
                 ),
-              ],
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+              height: 91,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: totalamounttext(),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      var alreadyAdde = await Preference.getPrefValue<bool>(
+                          PreferenceKeys.isAlreadyINCart);
+                      var restauran = await (Preference.getPrefValue<int>(
+                          PreferenceKeys.restaurantID));
+                      var restaurantName =
+                          await (Preference.getPrefValue<String>(
+                              PreferenceKeys.restaurantName));
+                      var orderId = await Preference.getPrefValue<int>(
+                          PreferenceKeys.orderId);
+
+                      if (orderId != null) {
+                        if (restauran == widget.restId) {
+                          if (_updateOrderModel == null) {
+                            _updateOrderModel = UpdateOrderModel();
+                          }
+                          _updateOrderModel.orderId = orderId;
+                          _updateOrderModel.userId =
+                              Globle().loginModel.data.id;
+                          if (items == null) {
+                            items = Item();
+                          }
+                          List<Extras> extras;
+                          if (extra != null) {
+                            extras = extra;
+                          } else {
+                            extras = defaultExtra ?? null;
+                          }
+
+                          List<Switches> switchess;
+                          if (switches != null) {
+                            switchess = switches;
+                          } else {
+                            switchess = defaultSwitch ?? null;
+                          }
+                          List<Sizes> sizess;
+                          if (size != null) {
+                            sizess = [size];
+                          } else if (defaultSize != null) {
+                            if (defaultSize.sizeid != null) {
+                              sizess = [defaultSize];
+                            }
+                          }
+
+                          _updateOrderModel.items = items;
+                          if (sizess.length > 0) {
+                            _updateOrderModel.items.sizePriceId =
+                                sizess[0].sizeid;
+                          }
+                          _updateOrderModel.items.quantity = count;
+                          _updateOrderModel.items.itemId = widget.itemId;
+                          _updateOrderModel.items.preparationNote = specialReq;
+                          _updateOrderModel.items.extra = extras;
+                          _updateOrderModel.items.spreads = spread == null
+                              ? (defaultSpread != null) ? [defaultSpread] : null
+                              : [spread];
+                          _updateOrderModel.items.switches = switchess;
+
+                          _updateOrderModel.items.sizes = sizess;
+                          print(_updateOrderModel.toJson());
+
+                          // DialogsIndicator.showLoadingDialog(
+                          //     context, _keyLoader, STR_BLANK);
+                          await progressDialog.show();
+                          _addItemDeliverypresenter.updateOrder(
+                              _updateOrderModel, context);
+                        } else {
+                          Constants.showAlert(
+                              KEY_INVALIDORDER, KEY_ORDERFROMREST, context);
+                        }
+                      } else {
+                        checkForItemIsAlreadyInCart(
+                            alreadyAdde, restauran, restaurantName);
+                      }
+                    },
+                    child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                            color: ((Globle().colorscode) != null)
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            STR_ADDTOCART,
+                            style: TextStyle(
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
+                          ),
+                        )),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -610,12 +616,18 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             context);
       } else {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        setState(() {
+          isIgnoreTouch = true;
+        });
         await progressDialog.show();
         _addItemDeliverypresenter.performaddMenuToCart(
             addMenuToCartModel, context);
       }
     } else {
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      setState(() {
+        isIgnoreTouch = true;
+      });
       await progressDialog.show();
       _addItemDeliverypresenter.performaddMenuToCart(
           addMenuToCartModel, context);
@@ -1701,6 +1713,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   void addItemfailed() {
     setState(() {
       isLoding = false;
+      isIgnoreTouch = false;
     });
   }
 
@@ -1709,6 +1722,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       AddItemPageModelList addItemPageModelList1) {
     setState(() {
       isLoding = false;
+      isIgnoreTouch = false;
       _addItemPageModelList = addItemPageModelList1;
     });
     _addItemModelList = _additemlist[0];
@@ -1733,10 +1747,16 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   @override
   Future<void> addMenuToCartfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> addMenuToCartsuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     specialReq = "";
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
@@ -1754,24 +1774,36 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   Future<void> addTablebnoSuccces() async {
     await progressDialog.hide();
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> addTablenofailed() async {
     await progressDialog.hide();
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> getTableListFailed() async {
     await progressDialog.hide();
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> getTableListSuccess(List<GetTableList> _getlist) async {
     await progressDialog.hide();
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     // getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -1781,11 +1813,18 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   }
 
   @override
-  void clearCartFailed() {}
+  void clearCartFailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   Future<void> clearCartSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -1793,10 +1832,17 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   }
 
   @override
-  void updateOrderFailed() {}
+  void updateOrderFailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   Future<void> updateOrderSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     specialReq = "";
     Globle().dinecartValue += 1;
     await progressDialog.hide();

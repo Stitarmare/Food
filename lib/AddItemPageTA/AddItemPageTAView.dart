@@ -71,6 +71,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Spreads defaultSpread;
 
   List<Extras> defaultExtra;
+  bool isIgnoreTouch = false;
 
   Sizes defaultSize;
   List<Switches> defaultSwitch;
@@ -274,207 +275,210 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       left: false,
       top: false,
       right: false,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: isLoding
-            ? Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                      child: Text(
-                        "Loading",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_15,
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w500,
-                            color: greytheme1200),
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+          body: isLoding
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          "Loading",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_15,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
+                        ),
                       ),
-                    ),
-                    CircularProgressIndicator()
-                  ],
+                      CircularProgressIndicator()
+                    ],
+                  ),
+                )
+              : CustomScrollView(
+                  controller: _controller,
+                  slivers: <Widget>[_getmainviewTableno(), _getOptions()],
                 ),
-              )
-            : CustomScrollView(
-                controller: _controller,
-                slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-              ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 91,
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: totalamounttext(),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (Globle().isCollectionOrder) {
-                      var id = await Preference.getPrefValue<int>(
-                          PreferenceKeys.restaurantID);
-                      if (widget.restId == id) {
-                        Constants.showAlert("FoodZi",
-                            "Your order is already running.", context);
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+              height: 91,
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: totalamounttext(),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (Globle().isCollectionOrder) {
+                        var id = await Preference.getPrefValue<int>(
+                            PreferenceKeys.restaurantID);
+                        if (widget.restId == id) {
+                          Constants.showAlert("FoodZi",
+                              "Your order is already running.", context);
+                        } else {
+                          Constants.showAlert(
+                              "FoodZi",
+                              "Your order is already running for another restaurant.",
+                              context);
+                        }
+
+                        return;
+                      }
+                      if (addMenuToCartModel == null) {
+                        addMenuToCartModel = AddItemsToCartModel();
+                      }
+                      addMenuToCartModel.userId = Globle().loginModel.data.id;
+                      addMenuToCartModel.restId = widget.restId;
+                      addMenuToCartModel.tableId = null;
+                      if (items == null) {
+                        items = Item();
+                      }
+
+                      if (size != null) {
+                        sizess = [size];
+                      } else if (defaultSize != null) {
+                        if (defaultSize.sizeid != null) {
+                          sizess = [defaultSize];
+                        }
+                      }
+
+                      if (extra != null) {
+                        extras = extra;
                       } else {
-                        Constants.showAlert(
-                            "FoodZi",
-                            "Your order is already running for another restaurant.",
-                            context);
+                        extras = defaultExtra ?? null;
                       }
 
-                      return;
-                    }
-                    if (addMenuToCartModel == null) {
-                      addMenuToCartModel = AddItemsToCartModel();
-                    }
-                    addMenuToCartModel.userId = Globle().loginModel.data.id;
-                    addMenuToCartModel.restId = widget.restId;
-                    addMenuToCartModel.tableId = null;
-                    if (items == null) {
-                      items = Item();
-                    }
-
-                    if (size != null) {
-                      sizess = [size];
-                    } else if (defaultSize != null) {
-                      if (defaultSize.sizeid != null) {
-                        sizess = [defaultSize];
+                      if (switches != null) {
+                        switchess = switches;
+                      } else {
+                        switchess = defaultSwitch ?? null;
                       }
-                    }
 
-                    if (extra != null) {
-                      extras = extra;
-                    } else {
-                      extras = defaultExtra ?? null;
-                    }
-
-                    if (switches != null) {
-                      switchess = switches;
-                    } else {
-                      switchess = defaultSwitch ?? null;
-                    }
-
-                    if (extras == null) {
-                      addItemData();
-                      return;
-                    }
-                    // else if (extras.length != 0 &&
-                    //     _addItemModelList.extrasrequired == "yes") {
-                    //   addItemData();
-                    //   return;
-                    // }
-                    else if (extras.length != 0) {
-                      addItemData();
-                      return;
-                    } else if (extras.length == 0 &&
-                        _addItemModelList.extrasrequired == "yes") {
-                      DialogsIndicator.showAlert(context, "Required Field",
-                          "Please select required field");
-                      return;
-                    } else if (extras.length == 0) {
-                      addItemData();
-                      return;
-                    }
-
-                    // if (extras != null) {
-                    //   if (extras.length > 0 &&
-                    //       _addItemModelList.extrasrequired == "yes") {
-                    //     DialogsIndicator.showAlert(context, "Required Field",
-                    //         "Please select required field");
-                    //     return;
-                    //   }
-                    // }
-                    if (switches != null) {
-                      if (switches.length > 0 &&
-                          _addItemModelList.switchesrequired == "yes") {
+                      if (extras == null) {
+                        addItemData();
+                        return;
+                      }
+                      // else if (extras.length != 0 &&
+                      //     _addItemModelList.extrasrequired == "yes") {
+                      //   addItemData();
+                      //   return;
+                      // }
+                      else if (extras.length != 0) {
+                        addItemData();
+                        return;
+                      } else if (extras.length == 0 &&
+                          _addItemModelList.extrasrequired == "yes") {
                         DialogsIndicator.showAlert(context, "Required Field",
                             "Please select required field");
                         return;
+                      } else if (extras.length == 0) {
+                        addItemData();
+                        return;
                       }
-                    }
-                    // addMenuToCartModel.items = [items];
-                    // if (sizess != null) {
-                    //   if (sizess.length > 0) {
-                    //     addMenuToCartModel.items[0].sizePriceId =
-                    //         sizess[0].sizeid;
-                    //   }
-                    // }
-                    // List<SubSpread> subSpread;
-                    //     if (subOptionId != null) {
-                    //        subSpread = [];
-                    //        var sub = SubSpread();
-                    //        sub.subspreadId = subOptionId;
-                    //        subSpread.add(sub);
-                    //     }
 
-                    // addMenuToCartModel.items[0].itemId = widget.itemId;
-                    // addMenuToCartModel.items[0].preparationNote = specialReq;
-                    // addMenuToCartModel.items[0].extra = extras;
-                    // addMenuToCartModel.items[0].subspreads = subSpread;
-                    // addMenuToCartModel.items[0].spreads = spread == null
-                    //     ? (defaultSpread != null) ? [defaultSpread] : []
-                    //     : [spread];
-                    // addMenuToCartModel.items[0].switches = switchess;
-                    // addMenuToCartModel.items[0].quantity = count;
-                    // addMenuToCartModel.items[0].sizes =
-                    //     size == null ? [defaultSize] : [size];
+                      // if (extras != null) {
+                      //   if (extras.length > 0 &&
+                      //       _addItemModelList.extrasrequired == "yes") {
+                      //     DialogsIndicator.showAlert(context, "Required Field",
+                      //         "Please select required field");
+                      //     return;
+                      //   }
+                      // }
+                      if (switches != null) {
+                        if (switches.length > 0 &&
+                            _addItemModelList.switchesrequired == "yes") {
+                          DialogsIndicator.showAlert(context, "Required Field",
+                              "Please select required field");
+                          return;
+                        }
+                      }
+                      // addMenuToCartModel.items = [items];
+                      // if (sizess != null) {
+                      //   if (sizess.length > 0) {
+                      //     addMenuToCartModel.items[0].sizePriceId =
+                      //         sizess[0].sizeid;
+                      //   }
+                      // }
+                      // List<SubSpread> subSpread;
+                      //     if (subOptionId != null) {
+                      //        subSpread = [];
+                      //        var sub = SubSpread();
+                      //        sub.subspreadId = subOptionId;
+                      //        subSpread.add(sub);
+                      //     }
 
-                    // print(addMenuToCartModel.toJson());
+                      // addMenuToCartModel.items[0].itemId = widget.itemId;
+                      // addMenuToCartModel.items[0].preparationNote = specialReq;
+                      // addMenuToCartModel.items[0].extra = extras;
+                      // addMenuToCartModel.items[0].subspreads = subSpread;
+                      // addMenuToCartModel.items[0].spreads = spread == null
+                      //     ? (defaultSpread != null) ? [defaultSpread] : []
+                      //     : [spread];
+                      // addMenuToCartModel.items[0].switches = switchess;
+                      // addMenuToCartModel.items[0].quantity = count;
+                      // addMenuToCartModel.items[0].sizes =
+                      //     size == null ? [defaultSize] : [size];
 
-                    // var alreadyAddedTA = await Preference.getPrefValue<bool>(
-                    //     PreferenceKeys.isAlreadyINCart);
-                    // var restaurantTA = await Preference.getPrefValue<int>(
-                    //     PreferenceKeys.restaurantID);
-                    // var restaurantName = await (Preference.getPrefValue<String>(
-                    //     PreferenceKeys.restaurantName));
-                    // if (alreadyAddedTA != null && restaurantTA != null) {
-                    //   if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
-                    //     cartAlert(
-                    //         STR_STARTNEWORDER,
-                    //         (restaurantName != null)
-                    //             ? STR_YOUR_UNFINIHED_ORDER +
-                    //                 "$restaurantName" +
-                    //                 STR_WILLDELETE
-                    //             : STR_UNFINISHEDORDER,
-                    //         context);
-                    //   } else {
-                    //     // DialogsIndicator.showLoadingDialog(
-                    //     //     context, _keyLoader, STR_BLANK);
-                    //     await progressDialog.show();
-                    //     _addItemPagepresenter.performaddMenuToCart(
-                    //         addMenuToCartModel, context);
-                    //   }
-                    // }
+                      // print(addMenuToCartModel.toJson());
 
-                    // addItemData();
-                  },
-                  child: Container(
-                    height: 54,
-                    decoration: BoxDecoration(
-                        color: getColorByHex(Globle().colorscode),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        STR_ADDTOCART,
-                        style: TextStyle(
-                            fontFamily: Constants.getFontType(),
-                            fontWeight: FontWeight.w600,
-                            fontSize: FONTSIZE_16,
-                            color: Colors.white),
+                      // var alreadyAddedTA = await Preference.getPrefValue<bool>(
+                      //     PreferenceKeys.isAlreadyINCart);
+                      // var restaurantTA = await Preference.getPrefValue<int>(
+                      //     PreferenceKeys.restaurantID);
+                      // var restaurantName = await (Preference.getPrefValue<String>(
+                      //     PreferenceKeys.restaurantName));
+                      // if (alreadyAddedTA != null && restaurantTA != null) {
+                      //   if ((widget.restId != restaurantTA) && (alreadyAddedTA)) {
+                      //     cartAlert(
+                      //         STR_STARTNEWORDER,
+                      //         (restaurantName != null)
+                      //             ? STR_YOUR_UNFINIHED_ORDER +
+                      //                 "$restaurantName" +
+                      //                 STR_WILLDELETE
+                      //             : STR_UNFINISHEDORDER,
+                      //         context);
+                      //   } else {
+                      //     // DialogsIndicator.showLoadingDialog(
+                      //     //     context, _keyLoader, STR_BLANK);
+                      //     await progressDialog.show();
+                      //     _addItemPagepresenter.performaddMenuToCart(
+                      //         addMenuToCartModel, context);
+                      //   }
+                      // }
+
+                      // addItemData();
+                    },
+                    child: Container(
+                      height: 54,
+                      decoration: BoxDecoration(
+                          color: getColorByHex(Globle().colorscode),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          STR_ADDTOCART,
+                          style: TextStyle(
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -528,12 +532,18 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       } else {
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_BLANK);
+        setState(() {
+          isIgnoreTouch = true;
+        });
         await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
       // DialogsIndicator.showLoadingDialog(
       //     context, _keyLoader, STR_BLANK);
+      setState(() {
+        isIgnoreTouch = true;
+      });
       await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
@@ -1574,6 +1584,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Future<void> addItemfailed() async {
     setState(() {
       isLoding = false;
+      isIgnoreTouch = false;
     });
     await progressDialog.hide();
   }
@@ -1583,6 +1594,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       AddItemPageModelList addItemPageModelList) async {
     setState(() {
       isLoding = false;
+      isIgnoreTouch = false;
       _addItemModelList = _additemlist[0];
       addItemPageModelList1 = addItemPageModelList;
     });
@@ -1606,10 +1618,16 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Future<void> addMenuToCartfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> addMenuToCartsuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     specialReq = "";
     Globle().takeAwayCartItemCount += 1;
     Globle().dinecartValue += 1;
@@ -1627,10 +1645,16 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   @override
   Future<void> clearCartFailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
   }
 
   @override
   Future<void> clearCartSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -1639,22 +1663,22 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   void getRequiredSpread(int length) {
-    Spreads defaultSpre = Spreads();
-    defaultSpread = Spreads();
+    Spreads defaultSpre;
 
     for (int i = 1; i <= length; i++) {
       if (_addItemModelList.spreads[i - 1].spreadDefault == "yes") {
         // defaultSpread = _addItemModelList.spreads[i - 1] as Spreads;
+        defaultSpre = Spreads();
         defaultSpre.spreadId = _addItemModelList.spreads[i - 1].id;
       }
-
-      if (defaultSpread == null) {
+      if (defaultSpre == null) {
         if (_addItemModelList.spreads.length > 0) {
-          defaultSpread = Spreads();
-          defaultSpread.spreadId = _addItemModelList.spreads[0].id;
+          defaultSpre = Spreads();
+          defaultSpre.spreadId = _addItemModelList.spreads[0].id;
         }
       }
     }
+
     defaultSpread = defaultSpre;
   }
 

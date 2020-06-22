@@ -253,23 +253,31 @@ class _NotificationViewState extends State<NotificationView>
   Future<void> acceptInvitationFailed(ErrorModel model) async {
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Toast.show(
-      model.message,
-      context,
-      duration: Toast.LENGTH_SHORT,
-      gravity: Toast.BOTTOM,
-    );
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
+
+      Toast.show(
+        model.message,
+        context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
   }
 
   @override
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // Toast.show(
-    //   model.message,
-    //   context,
-    //   duration: Toast.LENGTH_SHORT,
-    //   gravity: Toast.BOTTOM,
-    // );
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
+
+      Toast.show(
+        model.message,
+        context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
   }
 }

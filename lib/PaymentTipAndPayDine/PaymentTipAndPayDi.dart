@@ -266,9 +266,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                                   ? Container()
                                   : GestureDetector(
                                       onTap: () async {
-                                        setState(() {
-                                          isIgnoreTouch = true;
-                                        });
                                         // await progressDialog.show();
                                         getVerifyAmount();
                                         // DialogsIndicator.showLoadingDialog(
@@ -316,6 +313,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   void getVerifyAmount() async {
     if ((grandTotal) >= 1.0) {
+      setState(() {
+        isIgnoreTouch = true;
+      });
       await progressDialog.show();
 
       _billCheckoutPresenter.payBillCheckOut(
@@ -327,9 +327,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         orderId: myOrderData.id,
       );
     } else {
-      setState(() {
-        isIgnoreTouch = false;
-      });
       _model.currencySymbol != null
           ? Constants.showAlert(
               "Amount",
@@ -834,8 +831,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     ),
                     Text(
                       tipAmount != null
-                          ? '${tipAmount.toInt()}'
-                          : "${getDefaultTipValue()}",
+                          ? '${_model.currencySymbol} ${tipAmount.toDouble()}'
+                          : "${_model.currencySymbol} ${getDefaultTipValue()}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),

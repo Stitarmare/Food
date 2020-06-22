@@ -134,10 +134,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                     ),
                     GestureDetector(
                       onTap: () async {
-                        setState(() {
-                          isIgnoreTouch = true;
-                        });
-
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
                         getVerifyAmount();
                       },
@@ -170,6 +166,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
 
   getVerifyAmount() async {
     if ((widget.totalAmount + tipAmount) >= 1.0) {
+      setState(() {
+        isIgnoreTouch = true;
+      });
       await progressDialog.show();
       _billCheckoutPresenter.payBillCheckOut(widget.restId,
           widget.totalAmount.toString(), tipAmount.toString(), "ZAR", context);
@@ -462,8 +461,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 child: Text(
                   // currencySymb + ' ${sliderValue.toInt()}',
                   tipAmount != null
-                      ? '${tipAmount.toInt()}'
-                      : "${getDefaultTipValue()}",
+                      ? '$currencySymb ${tipAmount.toDouble()}'
+                      : "$currencySymb ${getDefaultTipValue()}",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
