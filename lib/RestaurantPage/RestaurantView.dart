@@ -96,7 +96,7 @@ class _RestaurantViewState extends State<RestaurantView>
           await progressDialog.show();
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
           restaurantPresenter.getMenuList(widget.restId, context,
-              categoryId: abc, menu: menutype);
+              categoryId: abc, menu: menutype, page: page);
         }
       }
     });
@@ -792,7 +792,7 @@ class _RestaurantViewState extends State<RestaurantView>
         _restaurantList = menulist;
         restaurantItemsModel = _restaurantItemsModel1;
       } else {
-        _restaurantList.removeRange(0, (_restaurantList.length));
+        // _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
         restaurantItemsModel = _restaurantItemsModel1;
       }

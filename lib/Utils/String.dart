@@ -522,6 +522,7 @@ const STR_ADD = "+ ADD";
 const JSON_STR_MENU_TYPE = "menu_type";
 const JSON_STR_CATEGORY_ID = "category_id";
 const STR_NO_ITEMS_FOUND = 'No items found.';
+const STR_PAGE = "page";
 
 // SplashScreen Page
 const STR_SMALL_NOTIFI = 'notification';
