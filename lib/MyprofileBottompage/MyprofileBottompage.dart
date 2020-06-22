@@ -61,8 +61,8 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                   child: Image.asset(
                 FODDZI_LOGO_3X,
                 height: MediaQuery.of(context).size.height * 0.35,
-                fit: BoxFit.fitWidth,
-                width: MediaQuery.of(context).size.width,
+                // fit: BoxFit.fitWidth,
+                width: MediaQuery.of(context).size.width / 1.8,
               )),
               Container(
                 margin: EdgeInsets.fromLTRB(

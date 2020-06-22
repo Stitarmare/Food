@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -181,7 +182,10 @@ class _DineViewState extends State<DineInView>
               leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainWidget()),
+                      ModalRoute.withName("/MainWidget"));
                 },
               ),
               actions: <Widget>[
@@ -352,7 +356,7 @@ class _DineViewState extends State<DineInView>
                                         },
                                         child: IconTheme(
                                             data: IconThemeData(
-                                                color: greentheme200),
+                                                color: greentheme100),
                                             child: Icon(
                                               Icons.check,
                                               size: 45,
@@ -657,7 +661,7 @@ class _DineViewState extends State<DineInView>
                 children: <Widget>[
                   Icon(
                     OMIcons.accessTime,
-                    color: Colors.green,
+                    color: greentheme100,
                     size: 15,
                   ),
                   SizedBox(

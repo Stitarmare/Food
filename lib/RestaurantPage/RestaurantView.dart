@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
@@ -198,6 +199,8 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   callItemOnCategorySelect() async {
+    print("CategoryId " + abc.toString());
+    print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
     await progressDialog.show();
     restaurantPresenter.getMenuList(widget.restId, context,
@@ -236,6 +239,18 @@ class _RestaurantViewState extends State<RestaurantView>
           ),
           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomTabbar(
+                            tabValue: 0,
+                          )),
+                  ModalRoute.withName("/BottomTabbar"));
+            },
+          ),
           elevation: 0,
           actions: <Widget>[
             Column(

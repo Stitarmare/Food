@@ -69,6 +69,7 @@ class _MyCartViewState extends State<MyCartView>
 
   int id;
   List<int> itemList = [];
+  bool isIgnoreTouch = false;
 
   List<MenuCartList> itemData;
 
@@ -396,145 +397,150 @@ class _MyCartViewState extends State<MyCartView>
       left: false,
       top: false,
       right: false,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          title: Text(STR_MYCART),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: Column(
-          children: <Widget>[
-            _getmainviewTableno(),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            isloading
-                ? Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            title: Text(STR_MYCART),
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: Column(
+            children: <Widget>[
+              _getmainviewTableno(),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                height: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              isloading
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          CircularProgressIndicator()
+                        ],
+                      ),
+                    )
+                  : _getAddedListItem()
+            ],
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: MediaQuery.of(context).size.height * 0.21,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: totalamounttext(),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
+                        child: Text(
+                          STR_ADD_MORE_ITEM,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: Constants.getFontType(),
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              color: getColorByHex(Globle().colorscode),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (_dropdownItemsTable.length == 0) {
+                          return;
+                        }
+                        if (_dropdownTableNumber == null) {
+                          Constants.showAlert(
+                              STR_MYCART, STR_SELECT_TABLE, context);
+                        } else {
+                          if (double.parse(myCart.grandTotal) >= 1.0) {
+                            Globle().dinecartValue = 0;
+                            Preference.setPersistData<int>(
+                                0, PreferenceKeys.dineCartItemCount);
+                            Preference.setPersistData<int>(
+                                0, PreferenceKeys.dineCartItemCount);
+                            (_cartItemList != null && _cartItemList.length > 0)
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ConfirmationDineView(
+                                        restId: widget.restId,
+                                        tablename: tableno,
+                                        restName: widget.restName,
+                                        tableId: _dropdownTableNumber,
+                                        totalAmount:
+                                            double.parse(myCart.grandTotal),
+                                        items: itemList,
+                                        itemdata: _cartItemList,
+                                        orderType: widget.orderType,
+                                        latitude: widget.lat,
+                                        longitude: widget.long,
+                                        currencySymbol: myCart.currencySymbol,
+                                        imgUrl: widget.imgUrl,
+                                      ),
+                                    ))
+                                : Constants.showAlert(
+                                    STR_MYCART, STR_ADD_ITEM_CART, context);
+                          } else {
+                            Constants.showAlert(
+                                "Amount",
+                                "Amount should be greater than ${getCurrency()} 1.00",
+                                context);
+                          }
+                        }
+                      },
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                            color: (_dropdownItemsTable.length == 0)
+                                ? greytheme100
+                                : getColorByHex(Globle().colorscode),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
                           child: Text(
-                            "",
-                            textAlign: TextAlign.center,
+                            STR_PLACE_ORDER,
                             style: TextStyle(
-                                fontSize: FONTSIZE_15,
-                                fontFamily: KEY_FONTFAMILY,
-                                fontWeight: FontWeight.w500,
-                                color: greytheme1200),
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
                           ),
                         ),
-                        CircularProgressIndicator()
-                      ],
-                    ),
-                  )
-                : _getAddedListItem()
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: MediaQuery.of(context).size.height * 0.21,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: totalamounttext(),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      child: Text(
-                        STR_ADD_MORE_ITEM,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
-                            decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (_dropdownItemsTable.length == 0) {
-                        return;
-                      }
-                      if (_dropdownTableNumber == null) {
-                        Constants.showAlert(
-                            STR_MYCART, STR_SELECT_TABLE, context);
-                      } else {
-                        if (double.parse(myCart.grandTotal) >= 1.0) {
-                          Globle().dinecartValue = 0;
-                          Preference.setPersistData<int>(
-                              0, PreferenceKeys.dineCartItemCount);
-                          Preference.setPersistData<int>(
-                              0, PreferenceKeys.dineCartItemCount);
-                          (_cartItemList != null && _cartItemList.length > 0)
-                              ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ConfirmationDineView(
-                                      restId: widget.restId,
-                                      tablename: tableno,
-                                      restName: widget.restName,
-                                      tableId: _dropdownTableNumber,
-                                      totalAmount:
-                                          double.parse(myCart.grandTotal),
-                                      items: itemList,
-                                      itemdata: _cartItemList,
-                                      orderType: widget.orderType,
-                                      latitude: widget.lat,
-                                      longitude: widget.long,
-                                      currencySymbol: myCart.currencySymbol,
-                                      imgUrl: widget.imgUrl,
-                                    ),
-                                  ))
-                              : Constants.showAlert(
-                                  STR_MYCART, STR_ADD_ITEM_CART, context);
-                        } else {
-                          Constants.showAlert(
-                              "Amount",
-                              "Amount should be greater than ${getCurrency()} 1.00",
-                              context);
-                        }
-                      }
-                    },
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: (_dropdownItemsTable.length == 0)
-                              ? greytheme100
-                              : getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          STR_PLACE_ORDER,
-                          style: TextStyle(
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
-                        ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );

@@ -179,6 +179,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   }
 
   callItemOnCategorySelect() async {
+    print("CategoryId " + abc.toString());
+    print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
     await progressDialog.show();
     restaurantDeliveryPresenter.getMenuList(widget.restId, context,

@@ -393,7 +393,7 @@ class _LandingStateView extends State<Landingview>
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
         child: Card(
-          color: greentheme300,
+          color: greentheme100,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           clipBehavior: Clip.antiAliasWithSaveLayer,

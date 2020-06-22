@@ -167,6 +167,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   callItemOnCategorySelect() async {
+    print("CategoryId " + abc.toString());
+    print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
     await progressDialog.show();
     restaurantPresenter.getMenuList(widget.restId, context,
