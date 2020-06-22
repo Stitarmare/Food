@@ -54,6 +54,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   List<int> itemList = [];
   MenuCartDisplayModel myCart;
   ProgressDialog progressDialog;
+  bool isIgnoreTouch = false;
 
   @override
   void initState() {

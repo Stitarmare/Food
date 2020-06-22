@@ -431,7 +431,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (widget.totalAmount) != null
-                      ? currencySymb + " ${widget.totalAmount}"
+                      ? currencySymb + " ${getAmount()}"
                       : currencySymb + STR_ELEVEN,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -461,7 +461,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 child: Text(
                   // currencySymb + ' ${sliderValue.toInt()}',
                   tipAmount != null
-                      ? '$currencySymb ${tipAmount.toDouble()}'
+                      ? '$currencySymb $tipAmount'
                       : "$currencySymb ${getDefaultTipValue()}",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -489,7 +489,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + tipAmount}',
+                  currencySymb + ' ${getTotalAmount()}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),
@@ -498,6 +498,16 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
         ],
       ),
     );
+  }
+
+  String getAmount() {
+    String str = (widget.totalAmount).toStringAsFixed(2);
+    return str;
+  }
+
+  String getTotalAmount() {
+    String str = (widget.totalAmount + tipAmount).toStringAsFixed(2);
+    return str;
   }
 
   double getDefaultTipValue() {

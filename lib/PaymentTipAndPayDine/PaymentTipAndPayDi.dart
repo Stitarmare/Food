@@ -754,7 +754,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 child: Text(
                   getAmount() != null
                       ? _model.currencySymbol != null
-                          ? '${_model.currencySymbol} ' + "${_model.grandTotal}"
+                          ? '${_model.currencySymbol} ' +
+                              "${getSubtotalAmount()}"
                           : ""
                       : STR_ELEVEN_TITLE,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
@@ -790,7 +791,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         getAmount() != null
                             ? _model.currencySymbol != null
                                 ? '${_model.currencySymbol} ' +
-                                    "${myOrderData.splitAmount}"
+                                    "${getSplitAmount()}"
                                 : ""
                             : STR_ELEVEN_TITLE,
                         style: TextStyle(
@@ -831,8 +832,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     ),
                     Text(
                       tipAmount != null
-                          ? '${_model.currencySymbol} ${tipAmount.toDouble()}'
-                          : "${_model.currencySymbol} ${getDefaultTipValue()}",
+                          ? '${tipAmount.toDouble()}'
+                          : "${getDefaultTipValue()}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),
@@ -873,6 +874,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         ],
       ),
     );
+  }
+
+  String getSubtotalAmount() {
+    double doubleSubTotal = double.parse(_model.grandTotal);
+    String str = doubleSubTotal.toStringAsFixed(2);
+    return str;
+  }
+
+  String getSplitAmount() {
+    double doubleValue = double.parse(myOrderData.splitAmount);
+    String str = doubleValue.toStringAsFixed(2);
+    return str;
   }
 
   double getDefaultTipValue() {

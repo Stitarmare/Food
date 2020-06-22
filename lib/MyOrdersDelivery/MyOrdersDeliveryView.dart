@@ -399,8 +399,8 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                                     color: Colors.white),
                               ),
                               onPressed: () {
-                                callApiDriverInfo(_orderDetailList[index].id.toString());
-                                
+                                callApiDriverInfo(
+                                    _orderDetailList[index].id.toString());
                               },
                             ),
                           ),
@@ -418,8 +418,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
         ));
   }
 
-  void callApiDriverInfo(String orderId) async{
-
+  void callApiDriverInfo(String orderId) async {
     _myOrdersPresenter.getDeliveryBoyInfo(orderId, context);
   }
 
@@ -661,9 +660,17 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
     return "$dateStr at $time";
   }
 
-  driverDetailsDialog() {
+  driverDetailsDialog(DeliveryBoyInfoData data) {
     showDialog(
-        context: context, barrierDismissible: true, child: DriverDetailsView());
+        context: context,
+        barrierDismissible: true,
+        child: DriverDetailsView(
+          firstName: data.firstName,
+          lastName: data.lastName,
+          mobNo: data.mobileNumber,
+          countryCode: data.countryCode,
+          profilePic: data.userDetails.profileImage,
+        ));
   }
 
   @override
@@ -709,6 +716,6 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
 
   @override
   void getDeliveryBoyDetailSuccess(DeliveryBoyInfoData data) {
-    driverDetailsDialog();
+    driverDetailsDialog(data);
   }
 }

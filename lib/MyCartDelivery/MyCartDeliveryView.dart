@@ -128,7 +128,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         child: Column(
           children: <Widget>[
             Text(
-              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
+              '${"Total "}' +
+                  '${getCurrency()}' +
+                  '${getGrandTotal().toStringAsFixed(2)}',
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.grey,
@@ -356,6 +358,16 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                       Globle().takeAwayCartItemCount = 0;
                       Preference.setPersistData<int>(
                           0, PreferenceKeys.takeAwayCartCount);
+                      if (_cartItemList != null) {
+                        if (double.parse(myCart.grandTotal) < 1.0) {
+                          Constants.showAlert(
+                              "Amount",
+                              "Total Amount should be greater than ${getCurrency()} 1.00",
+                              context);
+                          return;
+                        }
+                      }
+
                       (_cartItemList != null)
                           ? Navigator.push(
                               context,

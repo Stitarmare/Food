@@ -541,7 +541,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
                   (widget.totalAmount) != null
-                      ? currencySymb + " ${widget.totalAmount}"
+                      ? currencySymb + " ${getSubTotalAmount()}"
                       : currencySymb + STR_ELEVEN,
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -596,7 +596,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' ${widget.totalAmount + deliveryCharge}',
+                  currencySymb + ' ${getTotalAmount()}',
                   // ' ${widget.totalAmount + sliderValue.toInt() + 12}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
@@ -606,6 +606,16 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
         ],
       ),
     );
+  }
+
+  String getSubTotalAmount() {
+    String str = (widget.totalAmount).toStringAsFixed(2);
+    return str;
+  }
+
+  String getTotalAmount() {
+    String str = (widget.totalAmount + deliveryCharge).toStringAsFixed(2);
+    return str;
   }
 
   void showAlertSuccess(String title, String message, BuildContext context) {
