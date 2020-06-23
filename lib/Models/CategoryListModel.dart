@@ -31,8 +31,8 @@ class CategoryItems {
   int id;
   String restName;
   String addressLine1;
-  Null addressLine2;
-  Null addressLine3;
+  String addressLine2;
+  String addressLine3;
   String countryCode;
   String contactNumber;
   String coverImage;

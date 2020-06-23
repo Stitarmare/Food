@@ -84,7 +84,7 @@ class CategoriesSectionState extends State<CategoriesSection>
     restaurantPresenter = RestaurantPresenter(this);
     restaurantPresenter.getMenuList(widget.restId, context);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context, true);
+    menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
     _detectScrollPosition();
     if (widget.isFromOrder == null) {
       setState(() {

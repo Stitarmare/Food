@@ -34,7 +34,8 @@ class MenuItemState extends State<MenuItem>
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-    menudropdownPresenter.getMenuLCategory(widget.restaurantId, context, true);
+    menudropdownPresenter.getMenuCategoryList(
+        widget.restaurantId, context, true);
 
     controller.addListener(() {
       setState(() {});

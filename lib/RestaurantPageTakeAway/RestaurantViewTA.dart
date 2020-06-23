@@ -69,7 +69,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
-    menudropdownPresenter.getMenuLCategory(widget.restId, context, true);
+    menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
     super.initState();
   }
 

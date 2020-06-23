@@ -16,7 +16,8 @@ class MenuDropdpwnPresenter extends MenuDropdownContractor {
   void onBackPresed() {}
 
   @override
-  void getMenuLCategory(int restId, BuildContext context, bool isShowNetwork) {
+  void getMenuCategoryList(
+      int restId, BuildContext context, bool isShowNetwork) {
     ApiBaseHelper()
         .post<CategoryListModel>(UrlConstant.getCategoryList, context,
             body: {JSON_STR_REST_ID: restId}, isShowNetwork: isShowNetwork)
