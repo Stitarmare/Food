@@ -448,41 +448,39 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
             scrollDirection: Axis.horizontal,
             itemCount: _getMenucount(),
             itemBuilder: (context, index) {
-              return Expanded(
-                child: Container(
-                  // width: MediaQuery.of(context).size.width * 0.2,
-                  // width: MediaQuery.of(context).size.width /5.5,
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        // width: MediaQuery.of(context).size.width,
-                        child: Center(
-                          child: GestureDetector(
-                              onTap: () async {
-                                _onSelected(index);
-                              },
-                              child: Text(
-                                category[index].name,
-                                style: TextStyle(
-                                    color: _selectedMenu != null &&
-                                            _selectedMenu == index
-                                        ? getColorByHex(Globle().colorscode)
-                                        : Color.fromRGBO(118, 118, 118, 1),
-                                    fontSize: 16.0),
-                              )),
-                        ),
+              return Container(
+                // width: MediaQuery.of(context).size.width * 0.2,
+                // width: MediaQuery.of(context).size.width /5.5,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      // width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: GestureDetector(
+                            onTap: () async {
+                              _onSelected(index);
+                            },
+                            child: Text(
+                              category[index].name,
+                              style: TextStyle(
+                                  color: _selectedMenu != null &&
+                                          _selectedMenu == index
+                                      ? getColorByHex(Globle().colorscode)
+                                      : Color.fromRGBO(118, 118, 118, 1),
+                                  fontSize: 16.0),
+                            )),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        child: Divider(
-                          thickness: 2,
-                          color: _selectedMenu != null && _selectedMenu == index
-                              ? getColorByHex(Globle().colorscode)
-                              : Color.fromRGBO(118, 118, 118, 1),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Divider(
+                        thickness: 2,
+                        color: _selectedMenu != null && _selectedMenu == index
+                            ? getColorByHex(Globle().colorscode)
+                            : Color.fromRGBO(118, 118, 118, 1),
+                      ),
+                    )
+                  ],
                 ),
               );
               // return GestureDetector(
@@ -529,51 +527,48 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
         height: 40,
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
-                  return Expanded(
-                    child: Container(
-                        // width: MediaQuery.of(context).size.width * 0.24,
-                        // width: MediaQuery.of(context).size.width / 4.5,
-                        child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(width: 10),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 6),
-                              child: GestureDetector(
-                                  onTap: () async {
-                                    _onSubMenuSelected(index);
-                                  },
-                                  child: Text(
-                                    subcategoriesList2[index].name,
-                                    style: TextStyle(
-                                        color: _selectedSubMenu != null &&
-                                                _selectedSubMenu == index
-                                            ? getColorByHex(Globle().colorscode)
-                                            : Color.fromRGBO(118, 118, 118, 1),
-                                        fontSize: 16.0),
-                                  )),
-                            ),
-                          ],
-                        ),
-                        // Divider(
-                        //   thickness: 1,
-                        //   color: _selectedSubMenu != null &&
-                        //           _selectedSubMenu == index
-                        //       ? getColorByHex(Globle().colorscode)
-                        //       : Color.fromRGBO(118, 118, 118, 1),
-                        // )
-                      ],
-                    )),
-                  );
+                  return Container(
+                      // width: MediaQuery.of(context).size.width * 0.24,
+                      // width: MediaQuery.of(context).size.width / 5.5,
+                      child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          SizedBox(width: 0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  subcategoriesList2[index].name,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                )),
+                          ),
+                        ],
+                      ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   color: _selectedSubMenu != null &&
+                      //           _selectedSubMenu == index
+                      //       ? getColorByHex(Globle().colorscode)
+                      //       : Color.fromRGBO(118, 118, 118, 1),
+                      // )
+                    ],
+                  ));
                   // return GestureDetector(
                   //   onTap: () {
                   //     _onSubMenuSelected(index);

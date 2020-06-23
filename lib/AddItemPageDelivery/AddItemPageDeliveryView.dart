@@ -583,11 +583,6 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       sub.subspreadId = subOptionId;
       subSpread.add(sub);
     }
-    if (sizess != null) {
-      if (sizess.length > 0) {
-        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
-      }
-    }
 
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
@@ -602,6 +597,11 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     addMenuToCartModel.items[0].spreads = spread == null
         ? (defaultSpread != null) ? [defaultSpread] : null
         : [spread];
+    if (sizess != null) {
+      if (sizess.length > 0) {
+        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+      }
+    }
     addMenuToCartModel.items[0].switches = switchess;
     addMenuToCartModel.items[0].quantity = count;
     addMenuToCartModel.items[0].sizes = sizess;

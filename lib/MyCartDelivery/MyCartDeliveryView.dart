@@ -128,9 +128,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         child: Column(
           children: <Widget>[
             Text(
-              '${"Total "}' +
-                  '${getCurrency()}' +
-                  '${getGrandTotal().toStringAsFixed(2)}',
+              '${"Total "}' + '${getCurrency()}' + '${getGrandTotal()}',
               style: TextStyle(
                   fontSize: 30,
                   color: Colors.grey,
@@ -507,6 +505,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     await progressDialog.show();
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
+                    setState(() {
+                      _cartItemList.removeAt(index);
+                    });
                   },
                   child: Container(
                     child: Column(
@@ -642,13 +643,13 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     return "";
   }
 
-  double getGrandTotal() {
+  String getGrandTotal() {
     if (myCart != null) {
       if (myCart.currencySymbol != null) {
-        return double.parse(myCart.grandTotal);
+        return myCart.grandTotal;
       }
     }
-    return 0;
+    return "0";
   }
 
   String getExtra(MenuCartList menuCartList) {
@@ -740,13 +741,27 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Future<void> removeItemSuccess() async {
+    await progressDialog.hide();
+
+    if (_cartItemList != null) {
+      if (_cartItemList.length == 0) {
+        Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+        Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+        Globle().dinecartValue = 0;
+        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        setState(() {
+          myCart = null;
+        });
+      }
+    }
+
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    await progressDialog.hide();
   }
 
   @override

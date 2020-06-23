@@ -326,7 +326,7 @@ class _RestaurantViewState extends State<RestaurantView>
                   SliverToBoxAdapter(
                     child: Container(
                       child: SizedBox(
-                        height: 15,
+                        height: 0,
                       ),
                     ),
                   ),
@@ -365,7 +365,7 @@ class _RestaurantViewState extends State<RestaurantView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
         height: 40,
         child: valueBool
             ? ListView.builder(
@@ -373,27 +373,26 @@ class _RestaurantViewState extends State<RestaurantView>
                 itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
                   return Container(
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      alignment: Alignment.center,
+                      // width: MediaQuery.of(context).size.width / 4.5,
                       child: Column(
                         children: <Widget>[
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      _onSubMenuSelected(index);
-                                    },
-                                    child: Text(
-                                      subcategoriesList2[index].name,
-                                      style: TextStyle(
-                                          color: _selectedSubMenu != null &&
-                                                  _selectedSubMenu == index
-                                              ? getColorByHex(
-                                                  Globle().colorscode)
-                                              : Color.fromRGBO(
-                                                  118, 118, 118, 1),
-                                          fontSize: 16.0),
-                                    ))),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  subcategoriesList2[index].name,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                )),
                           ),
                           // Divider(
                           //   thickness: 1,
@@ -745,7 +744,7 @@ class _RestaurantViewState extends State<RestaurantView>
                         restaurantList: restaurantList1,
                       ))),
               child: Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: Container(
                   decoration: new BoxDecoration(
                     color: Colors.white,
