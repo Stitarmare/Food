@@ -83,7 +83,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
     //   isFirst = true;
     //   callApi();
     // });
-    _timer = Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    _timer = Timer.periodic(Duration(seconds: 10), (Timer t) async {
       isFirst = true;
       callApi();
     });
@@ -167,17 +167,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   void gotoPaymentPage() async {
     _timer.cancel();
-                                // checkIntenet();
-              await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PaymentTipAndPayDi(
-                                              orderID: widget.orderId,
-                                              tableId:
-                                                  myOrderDataDetails.tableId,
-                                            )));
-                                            callApi();
+    // checkIntenet();
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => PaymentTipAndPayDi(
+                  orderID: widget.orderId,
+                  tableId: myOrderDataDetails.tableId,
+                )));
+    callApi();
   }
 
   @override
@@ -359,7 +357,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                     MediaQuery.of(context).size.width * 0.02),
                             GestureDetector(
                               onTap: () {
-                                  gotoPaymentPage();
+                                gotoPaymentPage();
                               },
                               child: isPayBillButtonEnable()
                                   ? Container()
@@ -393,7 +391,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             isAddMoreButtonEnable()
                                 ? Container()
                                 : SizedBox(
-                                    width:  MediaQuery.of(context).size.width *
+                                    width: MediaQuery.of(context).size.width *
                                         0.06),
                             GestureDetector(
                               onTap: () {
@@ -431,9 +429,11 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   ? Container()
                                   : Container(
                                       height: 54,
-                                      width: isPayBillButtonEnable()?(MediaQuery.of(context).size.width *
-                                              0.84) : MediaQuery.of(context).size.width *
-                                          0.45,
+                                      width: isPayBillButtonEnable()
+                                          ? (MediaQuery.of(context).size.width *
+                                              0.84)
+                                          : MediaQuery.of(context).size.width *
+                                              0.45,
                                       decoration: BoxDecoration(
                                           color: greentheme100,
                                           borderRadius: BorderRadius.only(
@@ -740,20 +740,19 @@ class CartDetailsPageState extends State<CartDetailsPage>
         }
       }
     }
-    if (myOrderDataDetails!=null) {
-if (myOrderDataDetails.invitation != null) {
-      if (myOrderDataDetails.invitation.length>0) {
-        for(var inv in myOrderDataDetails.invitation) {
-          if (inv.fromId == Globle().loginModel.data.id) {
-            return false;
+    if (myOrderDataDetails != null) {
+      if (myOrderDataDetails.invitation != null) {
+        if (myOrderDataDetails.invitation.length > 0) {
+          for (var inv in myOrderDataDetails.invitation) {
+            if (inv.fromId == Globle().loginModel.data.id) {
+              return false;
+            }
           }
+        } else {
+          return false;
         }
-      } else {
-        return false;
       }
     }
-    }
-    
 
     return true;
   }
@@ -956,6 +955,8 @@ if (myOrderDataDetails.invitation != null) {
   @override
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
+    await progressDialog.hide();
+
     setState(() {
       myOrderDataDetails = orderData;
       _model = model;
@@ -1006,19 +1007,16 @@ if (myOrderDataDetails.invitation != null) {
   @override
   void onFailedQuantityIncrease() async {
     await progressDialog.hide();
-    // TODO: implement onFailedQuantityIncrease
   }
 
   @override
   void onSuccessQuantityIncrease() async {
     await progressDialog.hide();
     callApi();
-    // TODO: implement onSuccessQuantityIncrease
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (_timer != null) {
       _timer.cancel();
     }

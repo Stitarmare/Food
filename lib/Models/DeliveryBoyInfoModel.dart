@@ -1,11 +1,11 @@
-class DeliveryBoyInfoModel {
+class DeliveryBoyModel {
   String status;
   int statusCode;
   DeliveryBoyInfoData data;
 
-  DeliveryBoyInfoModel({this.status, this.statusCode, this.data});
+  DeliveryBoyModel({this.status, this.statusCode, this.data});
 
-  DeliveryBoyInfoModel.fromJson(Map<String, dynamic> json) {
+  DeliveryBoyModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     statusCode = json['status_code'];
     data = json['data'] != null

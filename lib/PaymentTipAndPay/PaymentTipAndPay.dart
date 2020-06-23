@@ -461,8 +461,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                 child: Text(
                   // currencySymb + ' ${sliderValue.toInt()}',
                   tipAmount != null
-                      ? '$currencySymb $tipAmount'
-                      : "$currencySymb ${getDefaultTipValue()}",
+                      ? '$currencySymb ${tipAmount.toStringAsFixed(2)}'
+                      : "$currencySymb ${getDefaultTipValue().toStringAsFixed(2)}",
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),

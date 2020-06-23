@@ -216,7 +216,7 @@ class _EditProfileState extends State<EditProfileview>
             ),
             BoxAppTextField(
               inputFormatters: [
-                LengthLimitingTextInputFormatter(6),
+                LengthLimitingTextInputFormatter(4),
                 WhitelistingTextInputFormatter.digitsOnly
               ],
               onChanged: (text) {
@@ -459,7 +459,7 @@ class _EditProfileState extends State<EditProfileview>
 
   String validateStreetname(String value) {
     if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+      return STR_STREET_TITLE;
     } else if (value.length > 30) {
       return KEY_THIS_SHOULD_BE_ONLY_30_CHAR_LONG;
     }
@@ -529,7 +529,7 @@ class _EditProfileState extends State<EditProfileview>
   }
 
   @override
-  void editCityFailed() async{
+  void editCityFailed() async {
     await progressDialog.hide();
   }
 
@@ -542,12 +542,12 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCity.addAll(cityList);
     });
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editCountryFailed() async{
+  void editCountryFailed() async {
     await progressDialog.hide();
   }
 
@@ -560,12 +560,12 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsCountry.addAll(countryList);
     });
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void editStateFailed()async {
+  void editStateFailed() async {
     await progressDialog.hide();
   }
 
@@ -578,7 +578,7 @@ class _EditProfileState extends State<EditProfileview>
     setState(() {
       _dropdownItemsState.addAll(stateList);
     });
-    
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 

@@ -426,8 +426,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                                     color: Colors.white),
                               ),
                               onPressed: () {
-                                callApiDriverInfo(
-                                    _orderDetailList[index].id.toString());
+                                callApiDriverInfo(_orderDetailList[index].id);
                               },
                             ),
                           ),
@@ -445,7 +444,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
         ));
   }
 
-  void callApiDriverInfo(String orderId) async {
+  void callApiDriverInfo(int orderId) async {
     _myOrdersPresenter.getDeliveryBoyInfo(orderId, context);
   }
 

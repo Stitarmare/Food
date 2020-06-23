@@ -65,6 +65,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   var sliderval;
   bool isIgnoreTouch = true;
   bool isBackActive = false;
+  bool locationNotFound = false;
 
   @override
   void didChangeDependencies() {
@@ -104,6 +105,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
       if (_position != null) {
         setState(() {
           getttingLocation = true;
+          locationNotFound = false;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
@@ -120,6 +122,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
         setState(() {
           getttingLocation = false;
           isBackActive = true;
+          locationNotFound = true;
         });
       }
     });
@@ -193,6 +196,9 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                 IconButton(
                   icon: Image.asset(LEVEL_IMAGE_PATH),
                   onPressed: () {
+                    if (locationNotFound) {
+                      return;
+                    }
                     showModalBottomSheet(
                         context: context,
                         shape: RoundedRectangleBorder(
@@ -415,9 +421,47 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                     ],
                   ),
                 )
-              : (_restaurantList != null)
-                  ? (_restaurantList.length > 0)
-                      ? restaurantsInfo()
+              : locationNotFound
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Please enable location service and try again.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          FlatButton(
+                              onPressed: () {
+                                _getLocation();
+                              },
+                              child: Text("Try again"))
+                        ],
+                      ),
+                    )
+                  : (_restaurantList != null)
+                      ? (_restaurantList.length > 0)
+                          ? restaurantsInfo()
+                          : Container(
+                              child: Center(
+                                child: Text(
+                                  STR_NO_RESTAURANT,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: FONTSIZE_25,
+                                      fontFamily: Constants.getFontType(),
+                                      fontWeight: FontWeight.w500,
+                                      color: greytheme700),
+                                ),
+                              ),
+                            )
                       : Container(
                           child: Center(
                             child: Text(
@@ -430,20 +474,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                   color: greytheme700),
                             ),
                           ),
-                        )
-                  : Container(
-                      child: Center(
-                        child: Text(
-                          STR_NO_RESTAURANT,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: FONTSIZE_25,
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w500,
-                              color: greytheme700),
                         ),
-                      ),
-                    ),
         ),
       ),
     );

@@ -865,17 +865,19 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
 
-    setState(() {
-      _cartItemList = menulist;
-      myCart = model;
+    if (mounted) {
+      setState(() {
+        _cartItemList = menulist;
+        myCart = model;
 
-      for (var i = 0; i < _cartItemList.length; i++) {
-        itemList.add(_cartItemList[i].id);
-        print(itemList);
-      }
+        for (var i = 0; i < _cartItemList.length; i++) {
+          itemList.add(_cartItemList[i].id);
+          print(itemList);
+        }
 
-      page++;
-    });
+        page++;
+      });
+    }
     //await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
