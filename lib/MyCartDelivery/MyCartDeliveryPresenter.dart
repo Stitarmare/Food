@@ -32,12 +32,14 @@ class MycartDeliveryPresenter extends MyCartDeliveryContarctor {
     BuildContext context,
     int userId,
   ) {
-    ApiBaseHelper().post<MenuCartDisplayModel>(
-        UrlConstant.getCartDetailsApi, context,
-        body: {
-          JSON_STR_USER_ID: userId,
-          JSON_STR_REST_ID: restId,
-        }).then((value) {
+    ApiBaseHelper()
+        .post<MenuCartDisplayModel>(UrlConstant.getCartDetailsApi, context,
+            body: {
+              JSON_STR_USER_ID: userId,
+              JSON_STR_REST_ID: restId,
+            },
+            isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

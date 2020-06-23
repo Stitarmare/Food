@@ -117,7 +117,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       if (previousValue != null) {
         if (previousValue != _selectedMenu) {
           subCategoryIdabc = null;
-          _selectedSubMenu = null;
+          _selectedSubMenu = 0;
           previousValue = _selectedMenu;
         }
       } else {
@@ -684,44 +684,41 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     return SliverToBoxAdapter(
       child: Container(
         height: 40,
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
                   return Container(
-                      width: MediaQuery.of(context).size.width / 4.5,
+                      // width: MediaQuery.of(context).size.width / 4.5,
                       child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                                child: GestureDetector(
-                                    onTap: () async {
-                                      _onSubMenuSelected(index);
-                                    },
-                                    child: Text(
-                                      subcategoriesList2[index].name,
-                                      style: TextStyle(
-                                          color: _selectedSubMenu != null &&
-                                                  _selectedSubMenu == index
-                                              ? getColorByHex(
-                                                  Globle().colorscode)
-                                              : Color.fromRGBO(
-                                                  118, 118, 118, 1),
-                                          fontSize: 16.0),
-                                    ))),
-                          ),
-                          // Divider(
-                          //   thickness: 1,
-                          //   color: _selectedSubMenu != null &&
-                          //           _selectedSubMenu == index
-                          //       ? getColorByHex(Globle().colorscode)
-                          //       : Color.fromRGBO(118, 118, 118, 1),
-                          // )
-                        ],
-                      ));
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                            onTap: () async {
+                              _onSubMenuSelected(index);
+                            },
+                            child: Text(
+                              subcategoriesList2[index].name,
+                              style: TextStyle(
+                                  color: _selectedSubMenu != null &&
+                                          _selectedSubMenu == index
+                                      ? getColorByHex(Globle().colorscode)
+                                      : Color.fromRGBO(118, 118, 118, 1),
+                                  fontSize: 16.0),
+                            )),
+                      ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   color: _selectedSubMenu != null &&
+                      //           _selectedSubMenu == index
+                      //       ? getColorByHex(Globle().colorscode)
+                      //       : Color.fromRGBO(118, 118, 118, 1),
+                      // )
+                    ],
+                  ));
                   // return GestureDetector(
                   //   onTap: () {
                   //     _onSubMenuSelected(index);
