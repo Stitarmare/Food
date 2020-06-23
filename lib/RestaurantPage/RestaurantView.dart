@@ -365,7 +365,7 @@ class _RestaurantViewState extends State<RestaurantView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
         height: 40,
         child: valueBool
             ? ListView.builder(
@@ -576,7 +576,7 @@ class _RestaurantViewState extends State<RestaurantView>
       child: Center(
         child: Container(
           height: 40,
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: _getMenucount(),

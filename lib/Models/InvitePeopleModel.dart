@@ -98,7 +98,7 @@ class UserList {
   Null accessToken;
   String deviceToken;
   String deviceType;
-  String otp;
+  int otp;
   Null emailVerifiedAt;
   Null deletedAt;
   String createdAt;

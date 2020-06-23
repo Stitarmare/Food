@@ -61,7 +61,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
           elevation: 0.0,
           title: Column(
             children: <Widget>[
-              Image.asset(FOODZI_LOGO_PATH, height: 40),
+              // Image.asset(FOODZI_LOGO_PATH, height: 40),
               Text(
                 STR_YOUR_ORDERS,
                 style: TextStyle(
@@ -133,8 +133,35 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
             ),
           ),
           isCurrentOrders
-              ? Center(child: Container(child: _currentOrders(context)))
-              : Center(child: Container(child: _bookingHistoryList(context))),
+              ? getLenghtOfCurrentOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Current Orders")
+                        ],
+                      ),
+                    )
+                  : Center(child: Container(child: _currentOrders(context)))
+              : getLenghtOfHistoryOrder() == 0
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          Text("No Booking History")
+                        ],
+                      ),
+                    )
+                  : Center(
+                      child: Container(child: _bookingHistoryList(context))),
         ],
       ),
     );
@@ -710,9 +737,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
   }
 
   @override
-  void getDeliveryBoyDetailFailed() {
-    // TODO: implement getDeliveryBoyDetailFailed
-  }
+  void getDeliveryBoyDetailFailed() {}
 
   @override
   void getDeliveryBoyDetailSuccess(DeliveryBoyInfoData data) {

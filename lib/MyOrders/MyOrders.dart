@@ -40,7 +40,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     super.initState();
     _myOrdersPresenter = MyOrdersPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_SMALL_DINEIN, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_SMALL_DINEIN, context,true);
+    _myOrdersPresenter.getmyOrderBookingHistory(
+        STR_SMALL_DINEIN, context, true);
   }
 
   @override
@@ -56,7 +57,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
           elevation: 0.0,
           title: Column(
             children: <Widget>[
-              Image.asset(FOODZI_LOGO_PATH, height: 40),
+              // Image.asset(FOODZI_LOGO_PATH, height: 40),
               Text(
                 STR_YOUR_ORDERS,
                 style: TextStyle(

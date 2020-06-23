@@ -17,11 +17,13 @@ class MyOrdersDeliveryPresenter extends MyOrderDeliveryContractor {
 
   @override
   void getOrderDetails(String orderType, BuildContext context) {
-    ApiBaseHelper().post<CurrentOrderDetailsModel>(
-        UrlConstant.runningOrderApi, context,
-        body: {
-          JSON_STR_ORDER_TYPE: "delivery",
-        }).then((value) {
+    ApiBaseHelper()
+        .post<CurrentOrderDetailsModel>(UrlConstant.runningOrderApi, context,
+            body: {
+              JSON_STR_ORDER_TYPE: "delivery",
+            },
+            isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -39,9 +41,11 @@ class MyOrdersDeliveryPresenter extends MyOrderDeliveryContractor {
 
   @override
   void getmyOrderBookingHistory(String orderType, BuildContext context) {
-    ApiBaseHelper().post<GetMyOrdersBookingHistory>(
-        UrlConstant.getMyOrdersBookingHistory, context,
-        body: {JSON_STR_ORDER_TYPE: orderType}).then((value) {
+    ApiBaseHelper()
+        .post<GetMyOrdersBookingHistory>(
+            UrlConstant.getMyOrdersBookingHistory, context,
+            body: {JSON_STR_ORDER_TYPE: orderType}, isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:

@@ -590,7 +590,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     return SliverToBoxAdapter(
       child: Container(
         height: 40,
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _getMenucount(),
@@ -684,7 +684,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     return SliverToBoxAdapter(
       child: Container(
         height: 40,
-        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,

@@ -832,7 +832,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     ),
                     Text(
                       tipAmount != null
-                          ? '${tipAmount.toDouble()}'
+                          ? '$tipAmount'
                           : "${getDefaultTipValue()}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
@@ -901,6 +901,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   bool isAmountSplit() {
     if (myOrderData != null) {
       if (myOrderData.splitAmount != null) {
+        tipAmount = (sliderValue * double.parse(myOrderData.splitAmount)) / 100;
         return true;
       }
     }

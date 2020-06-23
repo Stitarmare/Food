@@ -416,7 +416,21 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                   ),
                 )
               : (_restaurantList != null)
-                  ? restaurantsInfo()
+                  ? (_restaurantList.length > 0)
+                      ? restaurantsInfo()
+                      : Container(
+                          child: Center(
+                            child: Text(
+                              STR_NO_RESTAURANT,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_25,
+                                  fontFamily: Constants.getFontType(),
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            ),
+                          ),
+                        )
                   : Container(
                       child: Center(
                         child: Text(
