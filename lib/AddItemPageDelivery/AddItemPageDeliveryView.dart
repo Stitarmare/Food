@@ -583,6 +583,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       sub.subspreadId = subOptionId;
       subSpread.add(sub);
     }
+    
 
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
@@ -590,6 +591,11 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     // }
     addMenuToCartModel.items = [items];
+    if (sizess != null) {
+      if (sizess.length > 0) {
+        addMenuToCartModel.items[0].sizePriceId = sizess[0].sizeid;
+      }
+    }
     addMenuToCartModel.items[0].itemId = widget.itemId;
     addMenuToCartModel.items[0].preparationNote = specialReq;
     addMenuToCartModel.items[0].extra = extras;
@@ -1758,6 +1764,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       isIgnoreTouch = false;
     });
     specialReq = "";
+    if (Globle().dinecartValue == null) {
+      Globle().dinecartValue = 0;
+    }
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
