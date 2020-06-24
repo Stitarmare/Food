@@ -76,11 +76,12 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   TableList tableList;
   ProgressDialog progressDialog;
+  bool isIgnoreTouch = false;
 
   @override
   void initState() {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_LOADING);
+    // progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    // progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartDeliveryPresenter(this, this, this);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -156,8 +157,11 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     });
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
                     if (menuCartList.quantity > 0) {
+                      setState(() {
+                        isIgnoreTouch = true;
+                      });
+                      await progressDialog.show();
                       _myCartpresenter.updateQauntityCount(
                           menuCartList.id,
                           menuCartList.quantity,
@@ -168,6 +172,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     if (menuCartList.quantity == 0) {
                       // DialogsIndicator.showLoadingDialog(
                       //     context, _keyLoader, STR_LOADING);
+                      setState(() {
+                        isIgnoreTouch = true;
+                      });
                       await progressDialog.show();
                       _myCartpresenter.removeItemfromCart(menuCartList.id,
                           Globle().loginModel.data.id, context);
@@ -207,6 +214,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               setState(() {
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
+                isIgnoreTouch = true;
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
@@ -238,6 +246,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    progressDialog.style(message: STR_LOADING);
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -301,116 +312,120 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       left: false,
       top: false,
       right: false,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          title: Text(STR_MYCART),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: Column(
-          children: <Widget>[
-            _getmainviewTableno(),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            isloading ? Container() : _getAddedListItem()
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: MediaQuery.of(context).size.height * 0.21,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: totalamounttext(),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      child: Text(
-                        STR_ADD_MORE_ITEM,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
-                            decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            title: Text(STR_MYCART),
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: Column(
+            children: <Widget>[
+              _getmainviewTableno(),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                height: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              isloading ? Container() : _getAddedListItem()
+            ],
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: MediaQuery.of(context).size.height * 0.21,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: totalamounttext(),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Globle().takeAwayCartItemCount = 0;
-                      Preference.setPersistData<int>(
-                          0, PreferenceKeys.takeAwayCartCount);
-                      if (_cartItemList != null) {
-                        if (double.parse(myCart.grandTotal) < 1.0) {
-                          Constants.showAlert(
-                              "Amount",
-                              "Total Amount should be greater than ${getCurrency()} 1.00",
-                              context);
-                          return;
-                        }
-                      }
-
-                      (_cartItemList != null)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MapView(
-                                        flag: 1,
-                                        restName: widget.restName,
-                                        restId: widget.restId,
-                                        userId: _cartItemList[indx].userId,
-                                        // price: int.parse(
-                                        //     _cartItemList[indx].price),
-                                        items: itemList,
-                                        totalAmount:
-                                            double.parse(myCart.grandTotal),
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                        itemdata: _cartItemList,
-                                        currencySymbol: myCart.currencySymbol,
-                                        tableId: _cartItemList[indx].tableId,
-                                      )))
-                          : Constants.showAlert(
-                              STR_MYCART, STR_ADD_ITEM_CART, context);
-                    },
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
                         child: Text(
-                          STR_PLACE_ORDER,
+                          STR_ADD_MORE_ITEM,
                           style: TextStyle(
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
-                              color: Colors.white),
+                              fontFamily: Constants.getFontType(),
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              color: getColorByHex(Globle().colorscode),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Globle().takeAwayCartItemCount = 0;
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.takeAwayCartCount);
+                        if (_cartItemList != null) {
+                          if (double.parse(myCart.grandTotal) < 1.0) {
+                            Constants.showAlert(
+                                "Amount",
+                                "Total Amount should be greater than ${getCurrency()} 1.00",
+                                context);
+                            return;
+                          }
+                        }
+
+                        (_cartItemList != null)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MapView(
+                                          flag: 1,
+                                          restName: widget.restName,
+                                          restId: widget.restId,
+                                          userId: _cartItemList[indx].userId,
+                                          // price: int.parse(
+                                          //     _cartItemList[indx].price),
+                                          items: itemList,
+                                          totalAmount:
+                                              double.parse(myCart.grandTotal),
+                                          orderType: widget.orderType,
+                                          latitude: widget.lat,
+                                          longitude: widget.long,
+                                          itemdata: _cartItemList,
+                                          currencySymbol: myCart.currencySymbol,
+                                          tableId: _cartItemList[indx].tableId,
+                                        )))
+                            : Constants.showAlert(
+                                STR_MYCART, STR_ADD_ITEM_CART, context);
+                      },
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                            color: getColorByHex(Globle().colorscode),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            STR_PLACE_ORDER,
+                            style: TextStyle(
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
@@ -691,6 +706,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       _cartItemList = null;
+      isIgnoreTouch = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -699,6 +715,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   @override
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
@@ -732,6 +751,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Future<void> removeItemFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -742,6 +764,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   @override
   Future<void> removeItemSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
 
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
@@ -767,20 +792,33 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   @override
   Future<void> addTablebnoSuccces() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> addTablenofailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void getTableListFailed() {}
+  void getTableListFailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -789,6 +827,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Future<void> updatequantitySuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     _cartItemList = null;
     Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
@@ -800,6 +841,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   @override
   Future<void> updatequantityfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

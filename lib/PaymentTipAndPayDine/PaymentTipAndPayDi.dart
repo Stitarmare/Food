@@ -685,7 +685,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                 inactiveColor: greytheme100,
                 min: 1,
                 max: 25,
-                divisions: 10,
+                // divisions: 10,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {
                   setState(() {
@@ -1049,6 +1049,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           double tipAmount =
               (tipDefaultValue * double.parse(model.grandTotal)) / 100;
           grandTotal = double.parse(model.grandTotal) + tipAmount;
+          var abe = double.parse(model.grandTotal) + tipAmount;
+          print(abe);
         });
       }
     });

@@ -268,6 +268,7 @@ class _LandingStateView extends State<Landingview>
       child: Container(
         // color: Colors.white,
         height: MediaQuery.of(context).size.height,
+
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(SPLASH_SCREEN_LAUNCHER_IMAGE_PATH),
@@ -908,8 +909,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(STR_HOME,
                 style: TextStyle(
                     color: (Globle().navigatorIndex == 1)
-                      ? orangetheme
-                      : greytheme800,
+                        ? orangetheme
+                        : greytheme800,
                     fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),

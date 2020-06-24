@@ -143,8 +143,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
               if (_cartItemList[i].quantity > 0) {
+                setState(() {
+                  isIgnoreTouch = true;
+                });
+                await progressDialog.show();
+
                 _myCartpresenter.updateQauntityCount(
                     _cartItemList[i].id,
                     _cartItemList[i].quantity,
@@ -155,6 +159,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
               if (_cartItemList[i].quantity == 0) {
                 // DialogsIndicator.showLoadingDialog(
                 //     context, _keyLoader, STR_LOADING);
+                setState(() {
+                  isIgnoreTouch = true;
+                });
                 await progressDialog.show();
                 _myCartpresenter.removeItemfromCart(
                     _cartItemList[i].id, Globle().loginModel.data.id, context);
@@ -203,6 +210,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
             setState(() {
               _cartItemList[i].quantity += 1;
               print(_cartItemList[i].quantity);
+              isIgnoreTouch = true;
             });
             // DialogsIndicator.showLoadingDialog(
             //     context, _keyLoader, STR_LOADING);
@@ -241,7 +249,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   Widget build(BuildContext context) {
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
     progressDialog.style(message: STR_LOADING);
     addTablePopUp(BuildContext context) {
       return showDialog(
@@ -368,115 +377,119 @@ class _MyCartTWViewState extends State<MyCartTWView>
       left: false,
       top: false,
       right: false,
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          title: Text(STR_MYCART),
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        body: Column(
-          children: <Widget>[
-            _getmainviewTableno(),
-            SizedBox(
-              height: 20,
-            ),
-            Divider(
-              height: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            _getAddedListItem()
-          ],
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 140,
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: totalamounttext(),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FlatButton(
-                      child: Text(
-                        STR_ADD_MORE_ITEM,
-                        style: TextStyle(
-                            fontSize: FONTSIZE_16,
-                            fontFamily: Constants.getFontType(),
-                            decoration: TextDecoration.underline,
-                            decorationColor: getColorByHex(Globle().colorscode),
-                            color: getColorByHex(Globle().colorscode),
-                            fontWeight: FontWeight.w600),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+      child: IgnorePointer(
+        ignoring: isIgnoreTouch,
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            title: Text(STR_MYCART),
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: Column(
+            children: <Widget>[
+              _getmainviewTableno(),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                height: 2,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _getAddedListItem()
+            ],
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Container(
+                height: 140,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: totalamounttext(),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Globle().takeAwayCartItemCount = 0;
-                      Globle().dinecartValue = 0;
-                      Preference.setPersistData<int>(
-                          0, PreferenceKeys.takeAwayCartCount);
-                      if (_cartItemList != null) {
-                        if (double.parse(myCart.grandTotal) < 1.0) {
-                          Constants.showAlert(
-                              "Amount",
-                              "Total Amount should be greater than ${getCurrency()} 1.00",
-                              context);
-                          return;
-                        }
-                      }
-                      (_cartItemList != null)
-                          ? Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PaymentTipAndPay(
-                                        flag: 1,
-                                        restName: widget.restName,
-                                        restId: widget.restId,
-                                        userId: _cartItemList[indx].userId,
-                                        // price: int.parse(
-                                        //     _cartItemList[indx].price),
-                                        items: itemList,
-                                        totalAmount:
-                                            double.parse(myCart.grandTotal),
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                        itemdata: _cartItemList,
-                                        currencySymbol: myCart.currencySymbol,
-                                        tableId: _cartItemList[indx].tableId,
-                                      )))
-                          : Constants.showAlert(
-                              STR_MYCART, STR_ADD_ITEM_CART, context);
-                    },
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FlatButton(
                         child: Text(
-                          STR_PLACE_ORDER,
+                          STR_ADD_MORE_ITEM,
                           style: TextStyle(
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
                               fontSize: FONTSIZE_16,
-                              color: Colors.white),
+                              fontFamily: Constants.getFontType(),
+                              decoration: TextDecoration.underline,
+                              decorationColor:
+                                  getColorByHex(Globle().colorscode),
+                              color: getColorByHex(Globle().colorscode),
+                              fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Globle().takeAwayCartItemCount = 0;
+                        Globle().dinecartValue = 0;
+                        Preference.setPersistData<int>(
+                            0, PreferenceKeys.takeAwayCartCount);
+                        if (_cartItemList != null) {
+                          if (double.parse(myCart.grandTotal) < 1.0) {
+                            Constants.showAlert(
+                                "Amount",
+                                "Total Amount should be greater than ${getCurrency()} 1.00",
+                                context);
+                            return;
+                          }
+                        }
+                        (_cartItemList != null)
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentTipAndPay(
+                                          flag: 1,
+                                          restName: widget.restName,
+                                          restId: widget.restId,
+                                          userId: _cartItemList[indx].userId,
+                                          // price: int.parse(
+                                          //     _cartItemList[indx].price),
+                                          items: itemList,
+                                          totalAmount:
+                                              double.parse(myCart.grandTotal),
+                                          orderType: widget.orderType,
+                                          latitude: widget.lat,
+                                          longitude: widget.long,
+                                          itemdata: _cartItemList,
+                                          currencySymbol: myCart.currencySymbol,
+                                          tableId: _cartItemList[indx].tableId,
+                                        )))
+                            : Constants.showAlert(
+                                STR_MYCART, STR_ADD_ITEM_CART, context);
+                      },
+                      child: Container(
+                        height: 54,
+                        decoration: BoxDecoration(
+                            color: getColorByHex(Globle().colorscode),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            STR_PLACE_ORDER,
+                            style: TextStyle(
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w600,
+                                fontSize: FONTSIZE_16,
+                                color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
@@ -697,6 +710,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
 
   @override
   void getCartMenuListfailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
   }
@@ -705,6 +721,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
       Preference.setPersistData<int>(
@@ -736,6 +755,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   Future<void> removeItemFailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
@@ -746,6 +768,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   Future<void> removeItemSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
@@ -777,6 +802,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   Future<void> updatequantitySuccess() async {
     // Globle().takeAwayCartItemCount -= 1;
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     await progressDialog.show();
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -787,6 +815,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
   @override
   Future<void> updatequantityfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }

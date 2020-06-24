@@ -79,8 +79,9 @@ class _MyCartViewState extends State<MyCartView>
   @override
   void initState() {
     _dropdownTableNo = _dropdownTableNumber;
-    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    progressDialog.style(message: STR_LOADING);
+    // progressDialog = ProgressDialog(context,
+    //     type: ProgressDialogType.Normal, isDismissible: false);
+    // progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
 
     _myCartpresenter.getCartMenuList(
@@ -234,8 +235,11 @@ class _MyCartViewState extends State<MyCartView>
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
               if (menuCartList.quantity > 0) {
+                setState(() {
+                  isIgnoreTouch = true;
+                });
+                await progressDialog.show();
                 _myCartpresenter.updateQauntityCount(
                     menuCartList.id,
                     menuCartList.quantity,
@@ -246,6 +250,9 @@ class _MyCartViewState extends State<MyCartView>
               if (menuCartList.quantity == 0) {
                 // DialogsIndicator.showLoadingDialog(
                 //     context, _keyLoader, STR_LOADING);
+                setState(() {
+                  isIgnoreTouch = true;
+                });
                 await progressDialog.show();
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
@@ -285,9 +292,11 @@ class _MyCartViewState extends State<MyCartView>
             setState(() {
               menuCartList.quantity += 1;
               print(menuCartList.quantity);
+              isIgnoreTouch = true;
             });
             // DialogsIndicator.showLoadingDialog(
             //     context, _keyLoader, STR_LOADING);
+
             await progressDialog.show();
             _myCartpresenter.updateQauntityCount(
                 menuCartList.id,
@@ -334,6 +343,9 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    progressDialog.style(message: STR_LOADING);
     Widget _getmainviewTableno() {
       return Container(
         margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -844,6 +856,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       _cartItemList = null;
+      isIgnoreTouch = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -853,6 +866,9 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListsuccess(
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
@@ -884,6 +900,9 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemFailed() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     isBtnEnabled = false;
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -894,7 +913,10 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> removeItemSuccess() async {
-    isBtnEnabled = false;
+    setState(() {
+      isIgnoreTouch = false;
+      isBtnEnabled = false;
+    });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
@@ -919,20 +941,33 @@ class _MyCartViewState extends State<MyCartView>
   @override
   Future<void> addTablebnoSuccces() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> addTablenofailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
-  void getTableListFailed() {}
+  void getTableListFailed() {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
 
   @override
   void getTableListSuccess(List<GetTableList> _getlist) {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
       gettablelist(_getlist);
@@ -941,6 +976,9 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> updatequantitySuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Globle().dinecartValue -= 1;
     await progressDialog.hide();
     // await progressDialog.show();
@@ -953,6 +991,9 @@ class _MyCartViewState extends State<MyCartView>
   @override
   Future<void> updatequantityfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 }
