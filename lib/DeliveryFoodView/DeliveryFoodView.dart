@@ -45,6 +45,10 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   DialogsIndicator dialogs = DialogsIndicator();
   bool getttingLocation = false;
   Position _position;
+  String rating;
+  String favourite;
+  String sortByRating;
+  String sortByDistance;
   StreamController<Position> _controllerPosition = new StreamController();
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
@@ -110,14 +114,25 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
         await progressDialog.show();
+
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
-            sortedBy,
-            filteredBy,
+            rating,
+            favourite,
+            sortByDistance,
+            sortByRating,
             page,
             delivery,
             context);
+        // dinerestaurantPresenter.getrestaurantspage(
+        //     _position.latitude.toString(),
+        //     _position.longitude.toString(),
+        //     sortedBy,
+        //     filteredBy,
+        //     page,
+        //     delivery,
+        //     context);
       } else {
         setState(() {
           getttingLocation = false;
@@ -136,11 +151,21 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
-              sortedBy,
-              filteredBy,
+              rating,
+              favourite,
+              sortByDistance,
+              sortByRating,
               page,
               delivery,
               context);
+          // dinerestaurantPresenter.getrestaurantspage(
+          //     _position.latitude.toString(),
+          //     _position.longitude.toString(),
+          //     sortedBy,
+          //     filteredBy,
+          //     page,
+          //     delivery,
+          //     context);
         }
       }
     });
@@ -227,27 +252,77 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                               if (tile != null) {
                                 setBottomState(() {
                                   tile.isSelected = !tile.isSelected;
-                                  // if (bottomList == optionSortBy) {
-                                  //   sortedBy = bottomItem.title;
-                                  //   if (bottomItem.title == STR_DISTANCE) {
-                                  //     sortedBy = STR_SMALL_DISTANCE;
-                                  //   } else {
-                                  //     sortedBy = STR_SMALL_RATING;
-                                  //   }
-                                  // }
+                                  bottomItem.isSelected = tile.isSelected;
                                   if (bottomList == optionFilterBy) {
                                     filteredBy = bottomItem.title;
-                                    if (bottomItem.title == STR_RATINGS) {
+                                    rating = null;
+                                    if (bottomItem.title == STR_RATINGS &&
+                                        bottomItem.isSelected == true) {
                                       getRatingValue().then((onValue) {
-                                        filteredBy = STR_SMALL_RATING +
-                                            "${onValue.toString()}+";
+                                        if (onValue >= 5.0) {
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}";
+                                        } else {
+                                          rating = STR_SMALL_RATING +
+                                              "${onValue.toString()}+";
+                                        }
                                         print(sliderValue.toString());
                                       });
+                                    } else if (bottomItem.title ==
+                                            STR_RATINGS &&
+                                        bottomItem.isSelected == false) {
+                                      rating = null;
+                                    }
+                                    if (bottomItem.title ==
+                                            "Favourites Only " &&
+                                        bottomItem.isSelected == true) {
+                                      favourite = "favourite";
+                                    } else if (bottomItem.title ==
+                                            "Favourites Only " &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
                                     }
                                   } else {
-                                    filteredBy = STR_SMALL_FAVOURITE;
+                                    if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByDistance = "ASC";
+                                    } else if (bottomItem.title == "Distance" &&
+                                        bottomItem.isSelected == false) {
+                                      favourite = null;
+                                    }
+                                    if (bottomItem.title == "Popularity" &&
+                                        bottomItem.isSelected == true) {
+                                      sortByRating = "ASC";
+                                    } else if (bottomItem.title ==
+                                            "Popularity" &&
+                                        bottomItem.isSelected == false) {
+                                      sortByRating = null;
+                                    }
                                   }
                                 });
+                                // setBottomState(() {
+                                //   tile.isSelected = !tile.isSelected;
+                                //   // if (bottomList == optionSortBy) {
+                                //   //   sortedBy = bottomItem.title;
+                                //   //   if (bottomItem.title == STR_DISTANCE) {
+                                //   //     sortedBy = STR_SMALL_DISTANCE;
+                                //   //   } else {
+                                //   //     sortedBy = STR_SMALL_RATING;
+                                //   //   }
+                                //   // }
+                                //   if (bottomList == optionFilterBy) {
+                                //     filteredBy = bottomItem.title;
+                                //     if (bottomItem.title == STR_RATINGS) {
+                                //       getRatingValue().then((onValue) {
+                                //         filteredBy = STR_SMALL_RATING +
+                                //             "${onValue.toString()}+";
+                                //         print(sliderValue.toString());
+                                //       });
+                                //     }
+                                //   } else {
+                                //     filteredBy = STR_SMALL_FAVOURITE;
+                                //   }
+                                // });
                               }
                             }
 
@@ -488,15 +563,29 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   }
 
   callOnfilter() async {
+    setState(() {
+      page = 1;
+      _restaurantList = null;
+    });
     await progressDialog.show();
     dinerestaurantPresenter.getrestaurantspage(
         _position.latitude.toString(),
         _position.longitude.toString(),
-        sortedBy,
-        filteredBy,
+        rating,
+        favourite,
+        sortByDistance,
+        sortByRating,
         page,
         delivery,
         context);
+    // dinerestaurantPresenter.getrestaurantspage(
+    //     _position.latitude.toString(),
+    //     _position.longitude.toString(),
+    //     sortedBy,
+    //     filteredBy,
+    //     page,
+    //     delivery,
+    //     context);
   }
 
   Widget restaurantsInfo() {
