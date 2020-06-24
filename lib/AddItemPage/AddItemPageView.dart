@@ -68,7 +68,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-  List<Switches> switches = [];
+  List<Switches> switches;
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
