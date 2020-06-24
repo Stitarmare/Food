@@ -365,7 +365,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
               child: Slider(
                 activeColor: getColorByHex(Globle().colorscode),
                 inactiveColor: greytheme100,
-                min: 0,
+                min: 1,
                 max: 25,
                 value: double.parse(sliderValue.toString()),
                 onChanged: (newValue) {

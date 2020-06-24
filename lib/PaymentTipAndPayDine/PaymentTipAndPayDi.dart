@@ -832,8 +832,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     ),
                     Text(
                       tipAmount != null
-                          ? '$tipAmount'
-                          : "${getDefaultTipValue()}",
+                          ? '${tipAmount.toStringAsFixed(2)}'
+                          : "${getDefaultTipValue().toStringAsFixed(2)}",
                       style:
                           TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                     ),

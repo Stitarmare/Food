@@ -271,7 +271,6 @@ class _NotificationViewState extends State<NotificationView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (model != null) {
       notificationPresenter.getNotifications(context);
-
       Toast.show(
         model.message,
         context,

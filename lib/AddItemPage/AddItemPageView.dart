@@ -2051,9 +2051,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
   }
 
   void getRequiredSwitch(int length) {
-    defaultSwitch = List<Switches>();
     for (int i = 1; i <= length; i++) {
       Switches requiredSwitch = Switches();
+      defaultSwitch = List<Switches>();
 
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
