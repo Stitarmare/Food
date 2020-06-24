@@ -907,7 +907,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
         DrawerItem(
             text: Text(STR_HOME,
                 style: TextStyle(
-                    color: greytheme800,
+                    color: (Globle().navigatorIndex == 1)
+                      ? orangetheme
+                      : greytheme800,
                     fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
                     fontSize: FONTSIZE_15)),
@@ -916,6 +918,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               title: STR_HOME,
             ),
             onPressed: () {
+              setState(() {
+                Globle().navigatorIndex = 1;
+              });
               widget.appbarTitle = STR_HOME;
               _opennewpage(STR_HOME);
             }), //HOME
