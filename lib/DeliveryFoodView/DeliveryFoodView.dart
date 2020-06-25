@@ -135,9 +135,10 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
         //     context);
       } else {
         setState(() {
-          getttingLocation = false;
+          getttingLocation = true;
           isBackActive = true;
           locationNotFound = true;
+          isIgnoreTouch = false;
         });
       }
     });

@@ -102,7 +102,6 @@ class _TakeAwayViewState extends State<TakeAwayView>
       if (_position != null) {
         setState(() {
           getttingLocation = true;
-
           locationNotFound = false;
           isBackActive = true;
         });
@@ -125,7 +124,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
           isIgnoreTouch = false;
           isBackActive = true;
           getttingLocation = true;
-          isBackActive = true;
+          // isBackActive = true;
         });
       }
     });

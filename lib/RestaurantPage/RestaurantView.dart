@@ -92,6 +92,10 @@ class _RestaurantViewState extends State<RestaurantView>
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
+
+    if (Globle().colorscode != null) {
+      print(Globle().colorscode);
+    }
     super.initState();
   }
 
@@ -389,7 +393,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                   style: TextStyle(
                                       color: _selectedSubMenu != null &&
                                               _selectedSubMenu == index
-                                          ? getColorByHex(Globle().colorscode)
+                                          ? (Globle().colorscode != null)
+                                              ? getColorByHex(
+                                                  Globle().colorscode)
+                                              : orangetheme
                                           : Color.fromRGBO(118, 118, 118, 1),
                                       fontSize: 16.0),
                                 )),
@@ -629,7 +636,9 @@ class _RestaurantViewState extends State<RestaurantView>
                         child: Divider(
                           thickness: 2,
                           color: _selectedMenu != null && _selectedMenu == index
-                              ? getColorByHex(Globle().colorscode)
+                              ? (Globle().colorscode != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       )
@@ -722,7 +731,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 1.0,
+        childAspectRatio: 0.9,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
