@@ -678,6 +678,18 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         }
       }
 
+      if (menuCartList.cartExtraItems[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+          extras = removeLastChar(extras);
+          extras = removeLastChar(extras);
+        }
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtraItems[i].subspreads[j].name}, ";
+        }
+      }
+
       if (menuCartList.cartExtraItems[i].extras.length > 0) {
         for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
           extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
@@ -687,7 +699,12 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         for (int j = 0;
             j < menuCartList.cartExtraItems[i].switches.length;
             j++) {
-          extras += "${menuCartList.cartExtraItems[i].switches[j].name}, ";
+          if (menuCartList.cartExtraItems[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtraItems[i].switches[j].name} - ${menuCartList.cartExtraItems[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtraItems[i].switches[j].name},";
+          }
         }
       }
     }

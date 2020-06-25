@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 
 abstract class RestaurantDeliveryContractor {
-  void getMenuList(int restId, BuildContext context, {String menu});
+  void getMenuList(int restId, BuildContext context, {String menu, int page});
   void notifyWaiter(
       int userId, int tableId, String deviceToken, BuildContext context);
   void onBackPresed();

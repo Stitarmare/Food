@@ -116,6 +116,7 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
 
   @override
   Widget build(BuildContext context) {
+    getAlreadyInCart();
     return Scaffold(
       floatingActionButton: Container(
         width: 60,
@@ -170,7 +171,7 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
                     children: <Widget>[
                       Icon(Icons.shopping_cart, color: Colors.white),
                       (Globle().dinecartValue != null)
-                          ? Globle().dinecartValue > 0
+                          ? Globle().dinecartValue > 0 && cartStatus
                               ? Positioned(
                                   top: -20,
                                   right: -15,
@@ -331,10 +332,18 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
   getAlreadyInCart() async {
     var alreadyIncartStatus =
         await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
-    if (alreadyIncartStatus == true) {
-      setState(() {
-        cartStatus = true;
-      });
+    var restId =
+        await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
+    if (restId != null) {
+      if (alreadyIncartStatus == true && restId == widget.restId) {
+        setState(() {
+          cartStatus = true;
+        });
+      } else {
+        setState(() {
+          cartStatus = false;
+        });
+      }
     }
   }
 

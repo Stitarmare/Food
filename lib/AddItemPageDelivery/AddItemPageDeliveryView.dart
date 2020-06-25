@@ -63,7 +63,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   bool isAddBtnClicked = false;
   SharedPreferences prefs;
   List<int> listItemIdList = [];
-  List<Switches> switches = [];
+  List<Switches> switches;
   bool isTableList = false;
   List<String> listStrItemId = [];
   List<int> listIntItemId = [];
@@ -583,7 +583,6 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       sub.subspreadId = subOptionId;
       subSpread.add(sub);
     }
-    
 
     // if (_addItemModelList.spreadsrequired == "yes") {
     //   addMenuToCartModel.items[0].spreads = [];
