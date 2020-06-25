@@ -731,7 +731,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.9,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -793,7 +793,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           ),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -807,10 +807,10 @@ class _RestaurantViewState extends State<RestaurantView>
                                         "${_restaurantList[index].itemName}")
                                     : STR_SPACE,
                                 maxLines: 2,
-                                minFontSize: FONTSIZE_10,
-                                maxFontSize: FONTSIZE_13,
+                                // minFontSize: FONTSIZE_10,
+                                // maxFontSize: FONTSIZE_13,
                                 style: TextStyle(
-                                    fontSize: FONTSIZE_13,
+                                    fontSize: FONTSIZE_15,
                                     fontFamily: KEY_FONTFAMILY,
                                     fontWeight: FontWeight.w600,
                                     color: greytheme700),
@@ -818,7 +818,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             ),
                           ),
                           SizedBox(
-                            height: 3,
+                            height: 5,
                           ),
                           // priceWithGramWidget(_restaurantList, index),
 
@@ -831,7 +831,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                         "${_restaurantList[index].sizePrizes[0].price}" ??
                                     STR_BLANK,
                             style: TextStyle(
-                                fontSize: FONTSIZE_14,
+                                fontSize: FONTSIZE_15,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w600,
                                 // color: ((Globle().colorscode) != null)

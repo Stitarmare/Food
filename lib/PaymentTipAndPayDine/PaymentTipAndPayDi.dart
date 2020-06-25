@@ -693,8 +693,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                     tipAmount =
                         (sliderValue * double.parse(getOrderTotal())) / 100;
                     print(tipAmount);
-                    grandTotal =
-                        double.parse(getOrderTotal()) + tipAmount.toDouble();
+                    grandTotal = double.parse(getOrderTotal()) + tipAmount;
                   });
                 },
               ),
@@ -1042,15 +1041,17 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         setState(() {
           double tipAmount =
               (tipDefaultValue * double.parse(myOrderData.splitAmount)) / 100;
+          print(tipAmount);
           grandTotal = double.parse(myOrderData.splitAmount) + tipAmount;
+          print(grandTotal);
         });
       } else {
         setState(() {
           double tipAmount =
               (tipDefaultValue * double.parse(model.grandTotal)) / 100;
+          print(tipAmount);
           grandTotal = double.parse(model.grandTotal) + tipAmount;
-          var abe = double.parse(model.grandTotal) + tipAmount;
-          print(abe);
+          print(grandTotal);
         });
       }
     });

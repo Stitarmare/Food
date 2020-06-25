@@ -463,7 +463,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                           ),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -477,10 +477,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         "${_restaurantList[index].itemName}")
                                     : STR_SPACE,
                                 maxLines: 2,
-                                minFontSize: FONTSIZE_10,
-                                maxFontSize: FONTSIZE_13,
                                 style: TextStyle(
-                                    fontSize: FONTSIZE_13,
+                                    fontSize: FONTSIZE_15,
                                     fontFamily: KEY_FONTFAMILY,
                                     fontWeight: FontWeight.w600,
                                     color: greytheme700),
@@ -488,7 +486,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             ),
                           ),
                           SizedBox(
-                            height: 3,
+                            height: 5,
                           ),
                           // priceWithGramWidget(_restaurantList, index),
 
@@ -501,7 +499,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         "${_restaurantList[index].sizePrizes[0].price}" ??
                                     STR_BLANK,
                             style: TextStyle(
-                                fontSize: FONTSIZE_14,
+                                fontSize: FONTSIZE_15,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w600,
                                 // color: ((Globle().colorscode) != null)

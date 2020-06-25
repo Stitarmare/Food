@@ -706,7 +706,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.9,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -763,7 +763,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                           // ),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      SizedBox(height: 10),
                       // Expanded(
                       //     child: Padding(
                       //   padding: EdgeInsets.only(left: 10, top: 8),
@@ -805,7 +805,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                           "${_restaurantList[index].sizePrizes[0].price} " ??
                                       STR_BLANK,
                               style: TextStyle(
-                                  fontSize: FONTSIZE_14,
+                                  fontSize: FONTSIZE_15,
                                   fontStyle: FontStyle.normal,
                                   fontWeight: FontWeight.w600,
                                   // color: ((Globle().colorscode) != null)

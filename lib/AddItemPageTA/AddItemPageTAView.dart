@@ -86,7 +86,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     super.initState();
   }
 
-  int radioBtnId = 1;
+  int radioBtnId;
+  // int radioBtnId= 1;
   int count = 1;
   String radioItem;
   String radioItemsize;
