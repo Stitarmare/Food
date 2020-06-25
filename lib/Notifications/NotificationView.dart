@@ -219,7 +219,8 @@ class _NotificationViewState extends State<NotificationView>
       if (notificationData == null) {
         notificationData = getNotificationList;
       } else {
-        notificationData.addAll(getNotificationList);
+        // notificationData.addAll(getNotificationList);
+        notificationData = getNotificationList;
       }
       page++;
     });

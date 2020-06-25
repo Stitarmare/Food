@@ -64,23 +64,23 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
                 // fit: BoxFit.fitWidth,
                 width: MediaQuery.of(context).size.width / 1.8,
               )),
-              Container(
-                margin: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.4, 40, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      STR_MY_PROFILE,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_18,
-                          color: Colors.white,
-                          fontFamily: Constants.getFontType(),
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.fromLTRB(
+              //       MediaQuery.of(context).size.width * 0.4, 40, 0, 0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         STR_MY_PROFILE,
+              //         style: TextStyle(
+              //             fontSize: FONTSIZE_18,
+              //             color: Colors.white,
+              //             fontFamily: Constants.getFontType(),
+              //             fontWeight: FontWeight.w500),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
                 top: MediaQuery.of(context).size.height * 0.35 - 141,

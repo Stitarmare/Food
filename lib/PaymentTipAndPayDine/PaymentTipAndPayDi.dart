@@ -1023,6 +1023,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     await progressDialog.hide();
+    await progressDialog.hide();
 
     setState(() {
       isLoading = false;
@@ -1039,16 +1040,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       // }
       if (myOrderData.splitAmount != null) {
         setState(() {
+          // sliderValue = 10;
           double tipAmount =
-              (tipDefaultValue * double.parse(myOrderData.splitAmount)) / 100;
+              (sliderValue * double.parse(myOrderData.splitAmount)) / 100;
           print(tipAmount);
           grandTotal = double.parse(myOrderData.splitAmount) + tipAmount;
           print(grandTotal);
         });
       } else {
         setState(() {
+          // sliderValue = 10;
           double tipAmount =
-              (tipDefaultValue * double.parse(model.grandTotal)) / 100;
+              (sliderValue * double.parse(model.grandTotal)) / 100;
           print(tipAmount);
           grandTotal = double.parse(model.grandTotal) + tipAmount;
           print(grandTotal);

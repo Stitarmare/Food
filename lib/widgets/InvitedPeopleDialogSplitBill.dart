@@ -78,7 +78,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                   ),
                 ),
                 SizedBox(height: 10),
-                Text("${widget.amount}"),
+                Text("${(widget.amount).toStringAsFixed(2)}"),
                 Expanded(
                     flex: 4,
                     child: ListView.builder(
@@ -261,9 +261,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   }
 
   @override
-  void getSplitBillNotificationFailed() {
-    // TODO: implement getSplitBillNotificationFailed
-  }
+  void getSplitBillNotificationFailed() {}
 
   @override
   void getSplitBillNotificationSuccess() {
