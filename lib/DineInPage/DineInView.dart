@@ -180,7 +180,7 @@ class _DineViewState extends State<DineInView>
                     color: greytheme1200),
               ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                       context,

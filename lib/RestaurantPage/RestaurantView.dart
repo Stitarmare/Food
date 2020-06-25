@@ -107,7 +107,7 @@ class _RestaurantViewState extends State<RestaurantView>
           await progressDialog.show();
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
           restaurantPresenter.getMenuList(widget.restId, context,
-              categoryId: abc, menu: menutype);
+              categoryId: abc, menu: menutype, page: page);
         }
       }
     });
@@ -370,7 +370,7 @@ class _RestaurantViewState extends State<RestaurantView>
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
-        height: 40,
+        height: valueBool ? 40 : 0,
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,

@@ -74,12 +74,13 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   _detectScrollPosition() {
-    _controller.addListener(() {
+    _controller.addListener(() async {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
+          await progressDialog.show();
           restaurantPresenter.getMenuList(widget.restId, context,
-              categoryId: abc, menu: menutype);
+              categoryId: abc, menu: menutype, page: page);
         }
       }
     });
@@ -412,7 +413,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.9,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -683,7 +684,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        height: 40,
+        height: valueBool ? 40 : 0,
         padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
         child: valueBool
             ? ListView.builder(
