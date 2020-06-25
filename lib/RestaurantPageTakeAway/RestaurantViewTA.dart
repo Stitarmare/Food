@@ -413,7 +413,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.85,
+        childAspectRatio: 0.8,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
