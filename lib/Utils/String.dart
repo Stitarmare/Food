@@ -409,6 +409,9 @@ const STR_TAKE_AWAY = "take_away";
 const STR_STATUS = "Status :";
 const STR_SMALL_DELIVERY = "delivery";
 const DELV_CHARGE = "Delivery charge";
+const STR_DELIVERY = "delivery";
+const STR_BIG_DELIVERY = "DELIVERY";
+const STR_BIG_DINE_IN = "DINE IN";
 
 // MyProfileBottomPage
 const ITEM_IMAGE_PATH = 'assets/BlurImage/Group1612.png';

@@ -26,7 +26,9 @@ class CartDetailsPage extends StatefulWidget {
   int flag;
   bool isFromOrder = false;
   int restId;
-  CartDetailsPage({this.orderId, this.flag, this.isFromOrder, this.restId});
+  String orderType;
+  CartDetailsPage(
+      {this.orderId, this.flag, this.isFromOrder, this.restId, this.orderType});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -167,7 +169,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   void gotoPaymentPage() async {
     _timer.cancel();
-    // checkIntenet();
     await Navigator.push(
         context,
         MaterialPageRoute(
@@ -199,7 +200,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
                     width: 20,
                   ),
                   Text(
-                    "DINE IN",
+                    widget.orderType != STR_DELIVERY
+                        ? STR_BIG_DINE_IN
+                        : STR_BIG_DELIVERY,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                         fontSize: 20,
@@ -224,19 +227,23 @@ class CartDetailsPageState extends State<CartDetailsPage>
                   child: Row(
                 children: <Widget>[
                   SizedBox(width: 20),
-                  Text("${getTableName()}",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: "gotham",
-                          fontWeight: FontWeight.w600,
-                          color: Globle().colorscode != null
-                              ? getColorByHex(Globle().colorscode)
-                              : orangetheme)),
+                  widget.orderType != STR_DELIVERY
+                      ? Text("${getTableName()}",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: "gotham",
+                              fontWeight: FontWeight.w600,
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme))
+                      : Container(),
                 ],
               )),
-              SizedBox(
-                height: 10,
-              )
+              widget.orderType != STR_DELIVERY
+                  ? SizedBox(
+                      height: 10,
+                    )
+                  : Container()
             ],
           ),
         ),
@@ -602,19 +609,22 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                       SizedBox(
                                         height: 10,
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Text(
-                                            "Quantity : ",
-                                            style: TextStyle(
-                                                fontFamily: "gotham",
-                                                fontSize: 16,
-                                                color: greytheme700),
-                                          ),
-                                          SizedBox(width: 5),
-                                          steppercount(index)
-                                        ],
-                                      ),
+                                      myOrderDataDetails.orderType !=
+                                              STR_DELIVERY
+                                          ? Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Quantity : ",
+                                                  style: TextStyle(
+                                                      fontFamily: "gotham",
+                                                      fontSize: 16,
+                                                      color: greytheme700),
+                                                ),
+                                                SizedBox(width: 5),
+                                                steppercount(index)
+                                              ],
+                                            )
+                                          : Container(),
                                       // SizedBox(
                                       //   height: 30,
                                       //   width: 180,
@@ -721,35 +731,44 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   bool isPayBillButtonEnable() {
     if (myOrderDataDetails != null) {
-      if (myOrderDataDetails.splitbilltransactions != null) {
-        if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          var isPaid = true;
-          for (var trans in myOrderDataDetails.splitbilltransactions) {
-            if (trans.userId != null) {
-              if (Globle().loginModel.data.id == trans.userId) {
-                isPaid = false;
-                // if (trans.paystatus == "paid") {
-                //   isPaid = true;
-                // }
+      if (myOrderDataDetails.orderType != STR_DELIVERY) {
+        if (myOrderDataDetails.splitbilltransactions != null) {
+          if (myOrderDataDetails.splitbilltransactions.length > 0) {
+            var isPaid = true;
+            for (var trans in myOrderDataDetails.splitbilltransactions) {
+              if (trans.userId != null) {
+                if (Globle().loginModel.data.id == trans.userId) {
+                  isPaid = false;
+                  // if (trans.paystatus == "paid") {
+                  //   isPaid = true;
+                  // }
+                }
+              } else {
+                isPaid = true;
+              }
+            }
+            return isPaid;
+          }
+        }
+      } else {
+        return true;
+      }
+
+      if (myOrderDataDetails != null) {
+        if (myOrderDataDetails.orderType != STR_DELIVERY) {
+          if (myOrderDataDetails.invitation != null) {
+            if (myOrderDataDetails.invitation.length > 0) {
+              for (var inv in myOrderDataDetails.invitation) {
+                if (inv.fromId == Globle().loginModel.data.id) {
+                  return false;
+                }
               }
             } else {
-              isPaid = true;
-            }
-          }
-          return isPaid;
-        }
-      }
-    }
-    if (myOrderDataDetails != null) {
-      if (myOrderDataDetails.invitation != null) {
-        if (myOrderDataDetails.invitation.length > 0) {
-          for (var inv in myOrderDataDetails.invitation) {
-            if (inv.fromId == Globle().loginModel.data.id) {
               return false;
             }
           }
         } else {
-          return false;
+          return true;
         }
       }
     }
@@ -759,10 +778,14 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   bool isAddMoreButtonEnable() {
     if (myOrderDataDetails != null) {
-      if (myOrderDataDetails.splitbilltransactions != null) {
-        if (myOrderDataDetails.splitbilltransactions.length > 0) {
-          return true;
+      if (myOrderDataDetails.orderType != STR_DELIVERY) {
+        if (myOrderDataDetails.splitbilltransactions != null) {
+          if (myOrderDataDetails.splitbilltransactions.length > 0) {
+            return true;
+          }
         }
+      } else {
+        return true;
       }
     }
 

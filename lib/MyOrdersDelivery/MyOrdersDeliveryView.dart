@@ -395,6 +395,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                                               orderId:
                                                   _orderDetailList[index].id,
                                               isFromOrder: true,
+                                              orderType: STR_DELIVERY,
                                             )));
                               },
                             ),
