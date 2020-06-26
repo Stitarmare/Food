@@ -308,7 +308,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                 height: 10,
               ),
               Container(
-                width: 200,
+                width: MediaQuery.of(context).size.width / 0.1,
                 height: 50,
                 child: Card(
                   child: Center(

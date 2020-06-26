@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -133,20 +135,23 @@ class MapViewState extends State<MapView> {
     location.onLocationChanged.listen((cLoc) async {
       var latLong = LatLng(cLoc.latitude, cLoc.longitude);
       final GoogleMapController controller = await _controller.future;
-      setState(() {
-        currentLocation = cLoc;
-        controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            zoom: CAMERA_ZOOM,
-            tilt: CAMERA_TILT,
-            bearing: CAMERA_BEARING,
-            target: latLong)));
-        initialCameraPosition = CameraPosition(
-            zoom: CAMERA_ZOOM,
-            tilt: CAMERA_TILT,
-            bearing: CAMERA_BEARING,
-            target: latLong);
-        //  updatePinOnMap();
-      });
+      if (mounted) {
+        setState(() {
+          currentLocation = cLoc;
+          controller.animateCamera(CameraUpdate.newCameraPosition(
+              CameraPosition(
+                  zoom: CAMERA_ZOOM,
+                  tilt: CAMERA_TILT,
+                  bearing: CAMERA_BEARING,
+                  target: latLong)));
+          initialCameraPosition = CameraPosition(
+              zoom: CAMERA_ZOOM,
+              tilt: CAMERA_TILT,
+              bearing: CAMERA_BEARING,
+              target: latLong);
+          //  updatePinOnMap();
+        });
+      }
     });
   }
 
@@ -256,22 +261,24 @@ class MapViewState extends State<MapView> {
                     alignment: Alignment.center,
                     children: <Widget>[
                       GoogleMap(
-                        initialCameraPosition: initialCameraPosition,
-                        compassEnabled: true,
-                        onCameraIdle: onCameraIdle,
-                        onCameraMove: onCameraMove,
-                        tiltGesturesEnabled: false,
-                        markers: _markers,
-                        polylines: _polylines,
-                        myLocationEnabled: true,
-                        myLocationButtonEnabled: true,
-                        onMapCreated: (GoogleMapController controller) {
-                          _controller.complete(controller);
-                          if (destinationLocation != null) {
-                            // showPinsOnMap();
-                          }
-                        },
-                      ),
+                          initialCameraPosition: initialCameraPosition,
+                          compassEnabled: true,
+                          onCameraIdle: onCameraIdle,
+                          onCameraMove: onCameraMove,
+                          tiltGesturesEnabled: false,
+                          markers: _markers,
+                          polylines: _polylines,
+                          myLocationEnabled: true,
+                          myLocationButtonEnabled: true,
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller.complete(controller);
+                            if (destinationLocation != null) {
+                              // showPinsOnMap();
+                            }
+                          },
+                          gestureRecognizers: Set()
+                            ..add(Factory<PanGestureRecognizer>(
+                                () => PanGestureRecognizer()))),
                       Image.asset("assets/MappinImage/mappin.png"),
                       // Align(
                       //     alignment: Alignment.topCenter,
@@ -734,5 +741,10 @@ class MapViewState extends State<MapView> {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
     return null;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

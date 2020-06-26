@@ -141,7 +141,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     );
   }
 
-  Widget steppercount(MenuCartList menuCartList) {
+  Widget steppercount(MenuCartList menuCartList, int index) {
     return Container(
       height: 24,
       width: 150,
@@ -181,7 +181,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
                 setState(() {
-                  _cartItemList.removeAt(menuCartList.id);
+                  _cartItemList.removeAt(index);
                 });
               }
             }
@@ -590,7 +590,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  steppercount(_cartItemList[index]),
+                                  steppercount(_cartItemList[index], index),
                                 ],
                               ),
                               Expanded(
