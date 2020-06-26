@@ -799,7 +799,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       }
     }
 
-    _cartItemList = null;
+    // _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);

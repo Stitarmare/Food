@@ -784,7 +784,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
         });
       }
     }
-    _cartItemList = null;
+    // _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     Globle().takeAwayCartItemCount -= 1;
     Globle().dinecartValue -= 1;

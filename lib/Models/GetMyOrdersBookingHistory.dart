@@ -494,7 +494,7 @@ class GetMyOrderBookingList {
   int userId;
   int restId;
   int workstationId;
-  Null waiterId;
+  int waiterId;
   String price;
   String status;
   String sizePrice;

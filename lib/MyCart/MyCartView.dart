@@ -927,7 +927,7 @@ class _MyCartViewState extends State<MyCartView>
         });
       }
     }
-    _cartItemList = null;
+    // _cartItemList = null;
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
