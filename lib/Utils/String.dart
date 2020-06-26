@@ -114,6 +114,11 @@ const KEY_CONFIRM_PASSWORD = 'Confirm Password';
 const KEY_SIGN_UP_WITH = KEY_SIGN_UP + ' with';
 const KEY_SIGN_IN_WITH = KEY_SIGN_IN + ' with';
 const KEY_THIS_SHOULD_NOT_BE_EMPTY = 'This should not be empty.';
+const STR_ADDRESS_REQUIRED = 'Address field is required';
+const STR_CITY_REQUIRED = 'City field is required';
+const STR_STATE_REQUIRED = 'State field is required';
+const STR_COUNTRY_REQUIRED = 'Country field is required';
+
 const STR_STREET_TITLE = 'Street field is required';
 const STR_FIRST_NAME_REQUIRED = 'First name is required';
 const STR_LAST_NAME_REQUIRED = 'Last name is required';
@@ -343,7 +348,7 @@ const STR_PLACE_FOOD = 'I AM PLACING A DINE-IN ORDER';
 // MapView Page
 const STR_ADDRESS_SELECTION = "Add Selection";
 const STR_CONFIRM_ADDRESS = "Confirm Address";
-const STR_CHANGE_ADDRESS = "Change Adddress";
+const STR_CHANGE_ADDRESS = "Change Address";
 
 // Login Page
 const KEY_FONT_HELVETICANEUE = 'HelveticaNeue';

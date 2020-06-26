@@ -312,7 +312,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   void getVerifyAmount() async {
-    if ((grandTotal) >= 1.0) {
+    if ((grandTotal.roundToDouble()) >= 1.0) {
       setState(() {
         isIgnoreTouch = true;
       });

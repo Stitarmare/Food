@@ -230,8 +230,11 @@ class MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -239,169 +242,176 @@ class MapViewState extends State<MapView> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: isFormEnabled ? 6 : 8,
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  GoogleMap(
-                    initialCameraPosition: initialCameraPosition,
-                    compassEnabled: true,
-                    onCameraIdle: onCameraIdle,
-                    onCameraMove: onCameraMove,
-                    tiltGesturesEnabled: false,
-                    markers: _markers,
-                    polylines: _polylines,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: true,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                      if (destinationLocation != null) {
-                        // showPinsOnMap();
-                      }
-                    },
+      body: SingleChildScrollView(
+        reverse: true,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: bottom),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: isFormEnabled ? 6 : 8,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      GoogleMap(
+                        initialCameraPosition: initialCameraPosition,
+                        compassEnabled: true,
+                        onCameraIdle: onCameraIdle,
+                        onCameraMove: onCameraMove,
+                        tiltGesturesEnabled: false,
+                        markers: _markers,
+                        polylines: _polylines,
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                          if (destinationLocation != null) {
+                            // showPinsOnMap();
+                          }
+                        },
+                      ),
+                      Image.asset("assets/MappinImage/mappin.png"),
+                      // Align(
+                      //     alignment: Alignment.topCenter,
+                      //     child: addressMap != null
+                      //         ? Padding(
+                      //             padding: const EdgeInsets.all(8.0),
+                      //             child: Card(
+                      //                 shape: RoundedRectangleBorder(
+                      //                     borderRadius: BorderRadius.circular(12.0)),
+                      //                 clipBehavior: Clip.antiAliasWithSaveLayer,
+                      //                 child: Padding(
+                      //                   padding: const EdgeInsets.all(15.0),
+                      //                   child: Text(strAddress),
+                      //                 )),
+                      //           )
+                      //         : Container()),
+                      // Align(
+                      //   alignment: Alignment.bottomCenter,
+                      //   child: Container(
+                      //     width: 200,
+                      //     height: 50,
+                      //     child: RaisedButton(
+                      //       color: greentheme100,
+                      //       child: Text(
+                      //         STR_CONFIRM_ADDRESS,
+                      //         style: TextStyle(
+                      //             fontSize: FONTSIZE_18,
+                      //             fontWeight: FontWeight.w700,
+                      //             fontFamily: KEY_FONTFAMILY),
+                      //       ),
+                      //       textColor: Colors.white,
+                      //       textTheme: ButtonTextTheme.normal,
+                      //       splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+                      //       shape: RoundedRectangleBorder(
+                      //           borderRadius: new BorderRadius.circular(32.0),
+                      //           side:
+                      //               BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
+                      //       onPressed: () {
+                      //         Navigator.push(
+                      //             context,
+                      //             MaterialPageRoute(
+                      //                 builder: (context) => PaymentDeliveryView(
+                      //                       flag: 1,
+                      //                       restName: widget.restName,
+                      //                       restId: widget.restId,
+                      //                       userId: widget.userId,
+                      //                       items: widget.items,
+                      //                       totalAmount: widget.totalAmount,
+                      //                       orderType: widget.orderType,
+                      //                       latitude: widget.latitude,
+                      //                       longitude: widget.longitude,
+                      //                       itemdata: widget.itemdata,
+                      //                       currencySymbol: widget.currencySymbol,
+                      //                       tableId: widget.tableId,
+                      //                       addressData: strAddress,
+                      //                     )));
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  Image.asset("assets/MappinImage/mappin.png"),
-                  // Align(
-                  //     alignment: Alignment.topCenter,
-                  //     child: addressMap != null
-                  //         ? Padding(
-                  //             padding: const EdgeInsets.all(8.0),
-                  //             child: Card(
-                  //                 shape: RoundedRectangleBorder(
-                  //                     borderRadius: BorderRadius.circular(12.0)),
-                  //                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                  //                 child: Padding(
-                  //                   padding: const EdgeInsets.all(15.0),
-                  //                   child: Text(strAddress),
-                  //                 )),
-                  //           )
-                  //         : Container()),
-                  // Align(
-                  //   alignment: Alignment.bottomCenter,
-                  //   child: Container(
-                  //     width: 200,
-                  //     height: 50,
-                  //     child: RaisedButton(
-                  //       color: greentheme100,
-                  //       child: Text(
-                  //         STR_CONFIRM_ADDRESS,
-                  //         style: TextStyle(
-                  //             fontSize: FONTSIZE_18,
-                  //             fontWeight: FontWeight.w700,
-                  //             fontFamily: KEY_FONTFAMILY),
-                  //       ),
-                  //       textColor: Colors.white,
-                  //       textTheme: ButtonTextTheme.normal,
-                  //       splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: new BorderRadius.circular(32.0),
-                  //           side:
-                  //               BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-                  //       onPressed: () {
-                  //         Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => PaymentDeliveryView(
-                  //                       flag: 1,
-                  //                       restName: widget.restName,
-                  //                       restId: widget.restId,
-                  //                       userId: widget.userId,
-                  //                       items: widget.items,
-                  //                       totalAmount: widget.totalAmount,
-                  //                       orderType: widget.orderType,
-                  //                       latitude: widget.latitude,
-                  //                       longitude: widget.longitude,
-                  //                       itemdata: widget.itemdata,
-                  //                       currencySymbol: widget.currencySymbol,
-                  //                       tableId: widget.tableId,
-                  //                       addressData: strAddress,
-                  //                     )));
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-            Expanded(
-                flex: isFormEnabled ? 4 : 3,
-                child: Form(
-                  key: houseLandmarkFormKey,
-                  autovalidate: _validate,
-                  child: Container(
-                    // height: 360.0,
-                    color: Color(0xFF737373),
-                    child: new Container(
-                        decoration: new BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: new BorderRadius.only(
-                                topLeft: const Radius.circular(10.0),
-                                topRight: const Radius.circular(10.0))),
-                        child: Column(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
-                                child: Container(
-                                  height: 25,
-                                  child: RaisedButton(
-                                    color: Colors.grey,
-                                    child: Text(
-                                      "CHANGE",
-                                      style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: KEY_FONTFAMILY),
-                                    ),
-                                    textColor: Colors.white,
-                                    textTheme: ButtonTextTheme.normal,
-                                    splashColor:
-                                        Color.fromRGBO(72, 189, 111, 0.80),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(8.0),
-                                    ),
-                                    onPressed: () {
-                                      // enableField();
-                                      Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ChangeAddressView()))
-                                          .then((value) {
-                                        if (value != null) {
-                                          setState(() {
-                                            strAddress = value["text"];
+                ),
+                Expanded(
+                    flex: isFormEnabled ? 4 : 3,
+                    child: Form(
+                      key: houseLandmarkFormKey,
+                      autovalidate: _validate,
+                      child: Container(
+                        // height: 360.0,
+                        color: Color(0xFF737373),
+                        child: new Container(
+                            decoration: new BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: new BorderRadius.only(
+                                    topLeft: const Radius.circular(10.0),
+                                    topRight: const Radius.circular(10.0))),
+                            child: Column(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                                    child: Container(
+                                      height: 25,
+                                      child: RaisedButton(
+                                        color: Colors.grey,
+                                        child: Text(
+                                          "CHANGE",
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: KEY_FONTFAMILY),
+                                        ),
+                                        textColor: Colors.white,
+                                        textTheme: ButtonTextTheme.normal,
+                                        splashColor:
+                                            Color.fromRGBO(72, 189, 111, 0.80),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(8.0),
+                                        ),
+                                        onPressed: () {
+                                          // enableField();
+                                          Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChangeAddressView()))
+                                              .then((value) {
+                                            if (value != null) {
+                                              setState(() {
+                                                strAddress = value["text"];
+                                              });
+                                            }
                                           });
-                                        }
-                                      });
-                                    },
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Text(strAddress),
-                              ),
-                            ),
-                            Expanded(child: _addressField()),
-                            Expanded(child: _landmarkField()),
-                            Expanded(child: _saveandproceedBtn()),
-                          ],
-                        )),
-                  ),
-                ))
-          ],
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Text(strAddress),
+                                  ),
+                                ),
+                                Expanded(child: _addressField()),
+                                Expanded(child: _landmarkField()),
+                                Expanded(child: _saveandproceedBtn()),
+                              ],
+                            )),
+                      ),
+                    ))
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -617,35 +627,35 @@ class MapViewState extends State<MapView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-          height: 50,
-          width: 120,
-          child: RaisedButton(
-            color: greentheme100,
-            child: Text(
-              "Save",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: KEY_FONTFAMILY),
-            ),
-            textColor: Colors.white,
-            textTheme: ButtonTextTheme.normal,
-            splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
-            ),
-            onPressed: () {
-              saveAddress();
-              // setState(() {
-              //   isFormEnabled = false;
-              // });
-            },
-          ),
-        ),
-        SizedBox(width: 20),
+        // Container(
+        //   padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        //   height: 50,
+        //   width: 120,
+        //   child: RaisedButton(
+        //     color: greentheme100,
+        //     child: Text(
+        //       "Save",
+        //       style: TextStyle(
+        //           fontSize: 16,
+        //           color: Colors.white,
+        //           fontWeight: FontWeight.w700,
+        //           fontFamily: KEY_FONTFAMILY),
+        //     ),
+        //     textColor: Colors.white,
+        //     textTheme: ButtonTextTheme.normal,
+        //     splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: new BorderRadius.circular(8.0),
+        //     ),
+        //     onPressed: () {
+        //       saveAddress();
+        //       // setState(() {
+        //       //   isFormEnabled = false;
+        //       // });
+        //     },
+        //   ),
+        // ),
+        // SizedBox(width: 20),
         Container(
           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
           height: 50,

@@ -226,8 +226,6 @@ class _MyCartViewState extends State<MyCartView>
       child: Row(children: <Widget>[
         InkWell(
           onTap: () async {
-            // checkIntenet(menuCartList, index, 1);
-
             if (menuCartList.quantity > 0) {
               setState(() {
                 menuCartList.quantity -= 1;

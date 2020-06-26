@@ -165,7 +165,7 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   getVerifyAmount() async {
-    if ((widget.totalAmount + tipAmount) >= 1.0) {
+    if ((widget.totalAmount + tipAmount).roundToDouble() >= 1.0) {
       setState(() {
         isIgnoreTouch = true;
       });

@@ -133,7 +133,7 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
           validator: validatename,
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         AppTextField(
           onChanged: (text) {
@@ -144,7 +144,7 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
           validator: validatename,
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         AppTextField(
           onChanged: (text) {
@@ -152,21 +152,25 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
           },
           keyboardType: TextInputType.text,
           placeHolderName: "City",
-          validator: validatename,
+          validator: validateCity,
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         AppTextField(
           onChanged: (text) {
             _pincode = text;
           },
-          keyboardType: TextInputType.text,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(4),
+            WhitelistingTextInputFormatter.digitsOnly
+          ],
+          keyboardType: TextInputType.number,
           placeHolderName: "ZIP / Postal Code",
-          validator: validatename,
+          validator: validatePinCode,
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         AppTextField(
           onChanged: (text) {
@@ -174,10 +178,10 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
           },
           keyboardType: TextInputType.text,
           placeHolderName: "State",
-          validator: validatename,
+          validator: validateState,
         ),
         SizedBox(
-          height: 15,
+          height: 10,
         ),
         AppTextField(
           onChanged: (text) {
@@ -185,7 +189,7 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
           },
           keyboardType: TextInputType.text,
           placeHolderName: "Country",
-          validator: validatename,
+          validator: validateCountry,
         ),
       ],
     );
@@ -195,11 +199,51 @@ class _ChangeAddressViewState extends State<ChangeAddressView> {
     String validCharacters = STR_VALIDATE_NAME_TITLE;
     RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
-    } else if (value.length > 20) {
-      return KEY_THIS_SHOULD_BE_ONLY_20_CHAR_LONG;
+      return STR_ADDRESS_REQUIRED;
     } else if (!regexp.hasMatch(value)) {
       return Key_SPECIAL_CHAR;
+    }
+    return null;
+  }
+
+  String validateCity(String value) {
+    String validCharacters = STR_VALIDATE_NAME_TITLE;
+    RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return STR_CITY_REQUIRED;
+    } else if (!regexp.hasMatch(value)) {
+      return Key_SPECIAL_CHAR;
+    }
+    return null;
+  }
+
+  String validateState(String value) {
+    String validCharacters = STR_VALIDATE_NAME_TITLE;
+    RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return STR_STATE_REQUIRED;
+    } else if (!regexp.hasMatch(value)) {
+      return Key_SPECIAL_CHAR;
+    }
+    return null;
+  }
+
+  String validateCountry(String value) {
+    String validCharacters = STR_VALIDATE_NAME_TITLE;
+    RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return STR_COUNTRY_REQUIRED;
+    } else if (!regexp.hasMatch(value)) {
+      return Key_SPECIAL_CHAR;
+    }
+    return null;
+  }
+
+  String validatePinCode(String value) {
+    if (value.length == 0) {
+      return KEY_PINCODE_NUMBER_REQUIRED;
+    } else if (value.length < 4) {
+      return KEY_PIN_NUMBER_LIMIT;
     }
     return null;
   }

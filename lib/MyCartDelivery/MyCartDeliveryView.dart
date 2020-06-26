@@ -147,43 +147,45 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       width: 150,
       child: Row(children: <Widget>[
         InkWell(
-          onTap: (menuCartList.quantity == 1)
-              ? () {}
-              : () async {
-                  if (menuCartList.quantity > 0) {
-                    setState(() {
-                      menuCartList.quantity -= 1;
-                      print(menuCartList.quantity);
-                    });
-                    // DialogsIndicator.showLoadingDialog(
-                    //     context, _keyLoader, STR_LOADING);
-                    if (menuCartList.quantity > 0) {
-                      setState(() {
-                        isIgnoreTouch = true;
-                      });
-                      await progressDialog.show();
-                      _myCartpresenter.updateQauntityCount(
-                          menuCartList.id,
-                          menuCartList.quantity,
-                          (double.parse(menuCartList.totalAmount)) /
-                              menuCartList.quantity,
-                          context);
-                    }
-                    if (menuCartList.quantity == 0) {
-                      // DialogsIndicator.showLoadingDialog(
-                      //     context, _keyLoader, STR_LOADING);
-                      setState(() {
-                        isIgnoreTouch = true;
-                      });
-                      await progressDialog.show();
-                      _myCartpresenter.removeItemfromCart(menuCartList.id,
-                          Globle().loginModel.data.id, context);
-                      setState(() {
-                        _cartItemList.removeAt(menuCartList.id);
-                      });
-                    }
-                  }
-                },
+          onTap:
+              // (menuCartList.quantity == 1)
+              //     ? () {}
+              //     :
+              () async {
+            if (menuCartList.quantity > 0) {
+              setState(() {
+                menuCartList.quantity -= 1;
+                print(menuCartList.quantity);
+              });
+              // DialogsIndicator.showLoadingDialog(
+              //     context, _keyLoader, STR_LOADING);
+              if (menuCartList.quantity > 0) {
+                setState(() {
+                  isIgnoreTouch = true;
+                });
+                await progressDialog.show();
+                _myCartpresenter.updateQauntityCount(
+                    menuCartList.id,
+                    menuCartList.quantity,
+                    (double.parse(menuCartList.totalAmount)) /
+                        menuCartList.quantity,
+                    context);
+              }
+              if (menuCartList.quantity == 0) {
+                // DialogsIndicator.showLoadingDialog(
+                //     context, _keyLoader, STR_LOADING);
+                setState(() {
+                  isIgnoreTouch = true;
+                });
+                await progressDialog.show();
+                _myCartpresenter.removeItemfromCart(
+                    menuCartList.id, Globle().loginModel.data.id, context);
+                setState(() {
+                  _cartItemList.removeAt(menuCartList.id);
+                });
+              }
+            }
+          },
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
@@ -748,18 +750,17 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
 
     setState(() {
-      if (_cartItemList == null) {
-        _cartItemList = menulist;
-        myCart = model;
+      _cartItemList = menulist;
+      myCart = model;
 
-        for (var i = 0; i < _cartItemList.length; i++) {
-          itemList.add(_cartItemList[i].id);
-          print(itemList);
-        }
-      } else {
-        _cartItemList.addAll(menulist);
-        myCart = model;
+      for (var i = 0; i < _cartItemList.length; i++) {
+        itemList.add(_cartItemList[i].id);
+        print(itemList);
       }
+      // else {
+      //   _cartItemList.addAll(menulist);
+      //   myCart = model;
+      // }
       page++;
     });
     await progressDialog.hide();
@@ -847,11 +848,12 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     setState(() {
       isIgnoreTouch = false;
     });
-    _cartItemList = null;
-    Globle().dinecartValue -= 1;
+    await progressDialog.hide();
+
+    // _cartItemList = null;
+    // Globle().dinecartValue -= 1;
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
-    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
