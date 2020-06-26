@@ -617,9 +617,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                   url: billModel.url,
                 )));
     if (data != null && data[STR_CHECKOUT_CODE] != null) {
-      var codec = latin1.fuse(base64);
+      // var codec = latin1.fuse(base64);
+      // _paymentTipandPayDiPresenter.getCheckoutDetails(
+      //     codec.encode(data[STR_CHECKOUT_CODE]), context);
       _paymentTipandPayDiPresenter.getCheckoutDetails(
-          codec.encode(data[STR_CHECKOUT_CODE]), context);
+          model.encryptedCheckoutId, context);
     } else {
       Constants.showAlert(
           "Payment Failed!", "Please pay first before place order.", context);
