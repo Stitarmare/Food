@@ -56,6 +56,7 @@ class _LandingStateView extends State<Landingview>
 
   @override
   void initState() {
+    Globle().context = context;
     stream = Globle().streamController.stream;
     _landingViewPresenter = LandingViewPresenter(this);
 

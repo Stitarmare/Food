@@ -259,7 +259,7 @@ class _NotificationViewState extends State<NotificationView>
 
       Toast.show(
         model.message,
-        context,
+        Globle().context,
         duration: Toast.LENGTH_SHORT,
         gravity: Toast.BOTTOM,
       );
@@ -274,7 +274,7 @@ class _NotificationViewState extends State<NotificationView>
       notificationPresenter.getNotifications(context);
       Toast.show(
         model.message,
-        context,
+        Globle().context,
         duration: Toast.LENGTH_SHORT,
         gravity: Toast.BOTTOM,
       );

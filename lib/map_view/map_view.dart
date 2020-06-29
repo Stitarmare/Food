@@ -191,30 +191,31 @@ class MapViewState extends State<MapView> {
       var first = addresses.first;
       setState(() {
         addressMap = first;
-        strLocality = first.locality != null ? first.locality : "";
-        strAdminArea = first.adminArea != null ? first.adminArea : "";
-        strSubLOcality = first.subLocality != null ? first.subLocality : "";
-        strSubAdminArea = first.subAdminArea != null ? first.subAdminArea : "";
-        strAddressLine = first.addressLine != null ? first.addressLine : "";
-        strFeatureName = first.featureName != null ? first.featureName : "";
-        strThoroughfare = first.thoroughfare != null ? first.thoroughfare : "";
-        strSubThoroughfare =
-            first.subThoroughfare != null ? first.subThoroughfare : "";
-        strAddress = strLocality +
-            "," +
-            strAdminArea +
-            "," +
-            strSubLOcality +
-            "," +
-            strSubAdminArea +
-            "," +
-            strAddressLine +
-            "," +
-            strFeatureName +
-            "," +
-            strThoroughfare +
-            "," +
-            strSubThoroughfare;
+        // strLocality = first.locality != null ? first.locality : "";
+        // strAdminArea = first.adminArea != null ? first.adminArea : "";
+        // strSubLOcality = first.subLocality != null ? first.subLocality : "";
+        // strSubAdminArea = first.subAdminArea != null ? first.subAdminArea : "";
+        // strAddressLine = first.addressLine != null ? first.addressLine : "";
+        // strFeatureName = first.featureName != null ? first.featureName : "";
+        // strThoroughfare = first.thoroughfare != null ? first.thoroughfare : "";
+        // strSubThoroughfare =
+        //     first.subThoroughfare != null ? first.subThoroughfare : "";
+        // strAddress = strLocality +
+        //     "," +
+        //     strAdminArea +
+        //     "," +
+        //     strSubLOcality +
+        //     "," +
+        //     strSubAdminArea +
+        //     "," +
+        //     strAddressLine +
+        //     "," +
+        //     strFeatureName +
+        //     "," +
+        //     strThoroughfare +
+        //     "," +
+        //     strSubThoroughfare;
+        strAddress = first.addressLine;
         strAddress = removeLastChar(strAddress);
       });
       // if (_bottomSheetController != null) {
@@ -741,10 +742,5 @@ class MapViewState extends State<MapView> {
       return KEY_THIS_SHOULD_NOT_BE_EMPTY;
     }
     return null;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
