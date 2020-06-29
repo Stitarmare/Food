@@ -712,6 +712,10 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
     setState(() {
       if (_orderdetailsList.length != null) {
         _orderDetailList = _orderdetailsList;
+
+        for (int i = 0; i < _orderdetailsList.length; i++) {
+          _orderDetailList.sort((b, a) => a.id.compareTo(b.id));
+        }
       }
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -732,6 +736,9 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
     }
     setState(() {
       getmyOrderBookingHistory = _getmyOrderBookingHistory;
+      for (int i = 0; i < _getmyOrderBookingHistory.length; i++) {
+        getmyOrderBookingHistory.sort((b, a) => a.id.compareTo(b.id));
+      }
     });
     Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
