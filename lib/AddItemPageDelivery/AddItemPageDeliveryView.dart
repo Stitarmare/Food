@@ -279,6 +279,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 --count;
                 print(count);
               });
+              if (items == null) {
+                items = Item();
+              }
               items.quantity = count;
             }
           },
@@ -317,6 +320,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 ++count;
                 print(count);
               });
+              if (items == null) {
+                items = Item();
+              }
               items.quantity = count;
             }
           },

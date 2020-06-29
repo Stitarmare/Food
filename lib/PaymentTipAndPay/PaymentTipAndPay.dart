@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -564,7 +565,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.pushReplacementNamed(
+                      //     context, STR_MAIN_WIDGET_PAGE);
+                      Navigator.of(context).pop();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainWidget()),
+                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
                 ],

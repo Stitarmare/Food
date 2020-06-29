@@ -999,6 +999,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       // Navigator.of(context).popUntil((route) => route.isFirst);
                       // Navigator.pushReplacementNamed(
                       //     context, STR_MAIN_WIDGET_PAGE);
+                      Navigator.of(context).pop();
 
                       Navigator.pushAndRemoveUntil(
                           context,

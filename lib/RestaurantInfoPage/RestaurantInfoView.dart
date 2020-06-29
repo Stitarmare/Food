@@ -953,11 +953,14 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
-    await progressDialog.hide();
+    if (getReviewList.length == 0) {
+      await progressDialog.hide();
+
+      return;
+    }
 
     setState(() {
       if (_getReviewData == null) {
-        print(_getReviewData);
         // for (int i = 0; i < getReviewList.length; i++) {
         //   getReviewList.sort((b, a) => a.id.compareTo(b.id));
         // }
@@ -969,8 +972,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         //   _getReviewData.sort((b, a) => a.id.compareTo(b.id));
         // }
       }
+
       page++;
     });
+    await progressDialog.hide();
 
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }

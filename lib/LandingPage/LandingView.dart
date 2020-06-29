@@ -269,7 +269,6 @@ class _LandingStateView extends State<Landingview>
       child: Container(
         // color: Colors.white,
         height: MediaQuery.of(context).size.height,
-
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(SPLASH_SCREEN_LAUNCHER_IMAGE_PATH),

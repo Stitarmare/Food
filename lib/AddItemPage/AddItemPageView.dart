@@ -283,6 +283,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                 --count;
                 print(count);
               });
+              if (items == null) {
+                items = Item();
+              }
               items.quantity = count;
             }
           },
@@ -320,6 +323,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
               ++count;
               print(count);
             });
+            if (items == null) {
+              items = Item();
+            }
             items.quantity = count;
           },
           splashColor: Colors.lightBlue,

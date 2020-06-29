@@ -790,8 +790,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
     Globle().dinecartValue -= 1;
     Preference.setPersistData<int>(
         Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
-    Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
+    // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
+    // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 

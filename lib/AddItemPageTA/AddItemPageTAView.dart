@@ -226,6 +226,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                 --count;
                 print(count);
               });
+              if (items == null) {
+                items = Item();
+              }
               items.quantity = count;
             }
           },
@@ -259,6 +262,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
               ++count;
               print(count);
             });
+            if (items == null) {
+              items = Item();
+            }
             items.quantity = count;
           },
           splashColor: Colors.lightBlue,
