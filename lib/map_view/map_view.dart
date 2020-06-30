@@ -667,7 +667,7 @@ class MapViewState extends State<MapView> {
         Container(
           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
           height: 50,
-          width: 120,
+          width: MediaQuery.of(context).size.width * 0.5,
           child: RaisedButton(
             color: greentheme100,
             child: Text(

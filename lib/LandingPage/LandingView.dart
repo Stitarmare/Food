@@ -270,9 +270,10 @@ class _LandingStateView extends State<Landingview>
         // color: Colors.white,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
+          color: Colors.white,
           image: DecorationImage(
             image: AssetImage(SPLASH_SCREEN_LAUNCHER_IMAGE_PATH),
-            fit: BoxFit.fill,
+            fit: BoxFit.contain,
           ),
         ),
         child: Column(
