@@ -427,7 +427,7 @@ class _LandingStateView extends State<Landingview>
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              goToDeliveryFood();
+              goToDeliveryFood(0);
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -440,12 +440,10 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  goToDeliveryFood() async {
+  goToDeliveryFood(int index) async {
     await Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => BottomTabbar(
-              tabValue: 0,
-              flag: 1,
-            )));
+        builder: (context) =>
+            BottomTabbar(tabValue: 0, flag: 1, index: index)));
     if (progressDialog != null) {
       await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _scaffoldKey, STR_PLEASE_WAIT);
@@ -744,6 +742,15 @@ class _LandingStateView extends State<Landingview>
           //context, _scaffoldKey, STR_PLEASE_WAIT);
           _landingViewPresenter.getCurrentOrder(context, true);
         }
+      } else if (_model.data.delivery != null) {
+        if (_model.data.delivery.orderType == STR_DELIVERY) {
+          goToDeliveryFood(1);
+          setState(() {
+            isIgnoring = true;
+          });
+
+          _landingViewPresenter.getCurrentOrder(context, true);
+        }
       }
     }
   }
@@ -827,6 +834,28 @@ class _LandingStateView extends State<Landingview>
               model.data.takeAway.restId, PreferenceKeys.restaurantID);
           Preference.setPersistData<int>(
               model.data.takeAway.id, PreferenceKeys.orderId);
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+          Globle().dinecartValue = 0;
+          Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+          Globle().takeAwayCartItemCount = 0;
+          Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+          Preference.setPersistData<bool>(null, PreferenceKeys.isDineIn);
+          Globle().isTabelAvailable = false;
+          Globle().isCollectionOrder = true;
+          Globle().tableID = 0;
+          Future.delayed(Duration(microseconds: 500), () {
+            getCurrentOrderID();
+          });
+        } else {
+          setDefaultData();
+        }
+      } else if (model.data.delivery != null) {
+        if (model.data.delivery != null &&
+            model.data.delivery.status == STR_PAID) {
+          Preference.setPersistData<int>(
+              model.data.delivery.restId, PreferenceKeys.restaurantID);
+          Preference.setPersistData<int>(
+              model.data.delivery.id, PreferenceKeys.orderId);
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
           Globle().dinecartValue = 0;
           Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
