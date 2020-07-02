@@ -691,6 +691,12 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     setState(() {
       isIgnoreTouch = false;
     });
+
+    if (orderData == null) {
+      await progressDialog.hide();
+      Globle().takeAwayCartItemCount = 0;
+      return;
+    }
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
