@@ -1843,15 +1843,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       } else {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => CartDetailsPage(
-                        //           orderId: _updateOrderModel.orderId,
-                        //           flag: 1,
-                        //           isFromOrder: false,
-                        // ))
-
-                        //         );
-
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
@@ -2108,6 +2099,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     specialReq = "";
     Globle().dinecartValue += 1;
+    Preference.setPersistData<int>(
+        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertUpdateOrderSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);

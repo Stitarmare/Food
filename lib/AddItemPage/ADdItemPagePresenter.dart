@@ -185,10 +185,10 @@ class AddItemPagepresenter extends AddItemPageContractor {
 
   @override
   void orderAddMenuCart(
-      UpdateOrderModel orderAddMenuModel, BuildContext context) {
+      UpdateOrderModel updateOrderModel, BuildContext context) {
     ApiBaseHelper()
         .post<OrderAddMenuModel>(UrlConstant.orderAddMenuToCartApi, context,
-            body: orderAddMenuModel.toJson())
+            body: updateOrderModel.toJson())
         .then((value) {
       print(value);
       switch (value.result) {
