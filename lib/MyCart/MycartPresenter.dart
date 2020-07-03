@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -32,12 +33,14 @@ class MycartPresenter extends MyCartContarctor {
     BuildContext context,
     int userId,
   ) {
-    ApiBaseHelper().post<MenuCartDisplayModel>(
-        UrlConstant.getCartDetailsApi, context,
-        body: {
-          JSON_STR_USER_ID: userId,
-          JSON_STR_REST_ID: restId,
-        },isShowDialoag: true).then((value) {
+    ApiBaseHelper()
+        .post<MenuCartDisplayModel>(UrlConstant.getCartDetailsApi, context,
+            body: {
+              JSON_STR_USER_ID: userId,
+              JSON_STR_REST_ID: restId,
+            },
+            isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -99,9 +102,13 @@ class MycartPresenter extends MyCartContarctor {
   @override
   void getTableListno(int restId, BuildContext context) {
     ApiBaseHelper()
-        .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
-      JSON_STR_REST_ID: restId,
-    },isShowDialoag: true,isShowNetwork: true).then((value) {
+        .post<GetTableListModel>(UrlConstant.getTablenoListApi, context,
+            body: {
+              JSON_STR_REST_ID: restId,
+            },
+            isShowDialoag: true,
+            isShowNetwork: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -137,5 +144,41 @@ class MycartPresenter extends MyCartContarctor {
     }).catchError((error) {
       print(error);
     });
+  }
+
+  @override
+  void placeOrderCartItemsList(
+      int userId,
+      int restId,
+      int orderId,
+      String orderType,
+      int tableId,
+      String longitude,
+      String latitude,
+      List items,
+      BuildContext context) async {
+    var value = await ApiBaseHelper().post<PlaceOrderModel>(
+        UrlConstant.placeOrderToCartItemsApi, context,
+        body: {
+          JSON_STR_USER_ID: userId,
+          JSON_STR_REST_ID: restId,
+          "order_id": orderId,
+          JSON_STR_ORDER_TYPE: orderType,
+          JSON_STR_TABLE_ID: tableId,
+          JSON_STR_LONGITUDE: longitude,
+          JSON_STR_LATITUDE: latitude,
+          JSON_STR_ITEMS: items
+        });
+
+    print(value);
+    switch (value.result) {
+      case SuccessType.success:
+        print(value.model);
+        _cartModelView.placeOrderCartSuccess(value.model.orderData);
+        break;
+      case SuccessType.failed:
+        _cartModelView.placeOrderCartFailed();
+        break;
+    }
   }
 }

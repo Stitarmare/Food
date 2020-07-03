@@ -6,12 +6,14 @@ import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
 import 'package:foodzi/Models/UpdateOrderResponseModel.dart';
 import 'package:foodzi/Models/error_model.dart';
+import 'package:foodzi/Models/orderAddMenuCartModel.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/network/api_model.dart';
 import 'package:foodzi/network/url_constant.dart';
 
 class AddItemPagepresenter extends AddItemPageContractor {
   GetTableListModelView getTableListModel;
+  OrderAddMenuCartModelView orderAddMenuCartModelView;
 
   AddTablenoModelView addTablenoModelView;
 
@@ -29,6 +31,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
     GetTableListModelView getTableListModel,
     ClearCartModelView clearCartModelView,
     UpdateCartModelView updateCartModelView,
+    OrderAddMenuCartModelView orderAddMenuCartModelView,
   ) {
     this.addItemPageModelView = addItemPageView;
     this.addMenuToCartModel = addMenuToCartModel;
@@ -36,6 +39,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
     this.getTableListModel = getTableListModel;
     this.clearCartModelView = clearCartModelView;
     this.updateCartModelView = updateCartModelView;
+    this.orderAddMenuCartModelView = orderAddMenuCartModelView;
   }
 
   @override
@@ -172,6 +176,27 @@ class AddItemPagepresenter extends AddItemPageContractor {
           break;
         case SuccessType.failed:
           updateCartModelView.updateOrderFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  @override
+  void orderAddMenuCart(
+      UpdateOrderModel orderAddMenuModel, BuildContext context) {
+    ApiBaseHelper()
+        .post<OrderAddMenuModel>(UrlConstant.orderAddMenuToCartApi, context,
+            body: orderAddMenuModel.toJson())
+        .then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          orderAddMenuCartModelView.orderAddMenuCartSuccess();
+          break;
+        case SuccessType.failed:
+          orderAddMenuCartModelView.orderAddMenuCartFailed();
           break;
       }
     }).catchError((error) {

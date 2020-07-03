@@ -456,7 +456,7 @@ class _LandingStateView extends State<Landingview>
           child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              goToDineIn();
+              goToDineIn(0);
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.14 / 0.15,
@@ -499,61 +499,62 @@ class _LandingStateView extends State<Landingview>
                 color: Colors.white)));
   }
 
-  Widget _cardoption() {
-    return LimitedBox(
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            _dineincard(),
-            SizedBox(
-              height: 12,
-            ),
-            _takeAwaycard(),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _cardoption() {
+  //   return LimitedBox(
+  //     child: Container(
+  //       child: Column(
+  //         children: <Widget>[
+  //           _dineincard(),
+  //           SizedBox(
+  //             height: 12,
+  //           ),
+  //           _takeAwaycard(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _dineincard() {
-    return Center(
-      child: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          onTap: () {
-            goToDineIn();
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
-            height: 90,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 17,
-                ),
-                Image.asset(DINE_IN_IMAGE_PATH),
-                SizedBox(
-                  width: 36,
-                ),
-                _buildinningtext(),
-                SizedBox(
-                  width: 40,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _dineincard() {
+  //   return Center(
+  //     child: Card(
+  //       shape:
+  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+  //       clipBehavior: Clip.antiAliasWithSaveLayer,
+  //       child: InkWell(
+  //         splashColor: Colors.blue.withAlpha(30),
+  //         onTap: () {
+  //           goToDineIn(0);
+  //         },
+  //         child: Container(
+  //           width: MediaQuery.of(context).size.width * 0.14 / 0.15,
+  //           height: 90,
+  //           child: Row(
+  //             children: <Widget>[
+  //               SizedBox(
+  //                 width: 17,
+  //               ),
+  //               Image.asset(DINE_IN_IMAGE_PATH),
+  //               SizedBox(
+  //                 width: 36,
+  //               ),
+  //               _buildinningtext(),
+  //               SizedBox(
+  //                 width: 40,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  goToDineIn() async {
+  goToDineIn(int index) async {
     await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => BottomTabbar(
               tabValue: 0,
+              index: index,
             )));
     // if (progressDialog != null) {
     //   setState(() {
@@ -642,40 +643,40 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  Widget _takeAwaycard() {
-    return Center(
-      child: Card(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
-          onTap: () {
-            goToTakeAway(0);
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.14 / 0.15,
-            height: 90,
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 17,
-                ),
-                Image.asset(TAKE_AWAY_IMAGE_PATH),
-                SizedBox(
-                  width: 40,
-                ),
-                _buildTakeAwaytext(),
-                SizedBox(
-                  width: 40,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _takeAwaycard() {
+  //   return Center(
+  //     child: Card(
+  //       shape:
+  //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+  //       clipBehavior: Clip.antiAliasWithSaveLayer,
+  //       child: InkWell(
+  //         splashColor: Colors.blue.withAlpha(30),
+  //         onTap: () {
+  //           goToTakeAway(0);
+  //         },
+  //         child: Container(
+  //           width: MediaQuery.of(context).size.width * 0.14 / 0.15,
+  //           height: 90,
+  //           child: Row(
+  //             children: <Widget>[
+  //               SizedBox(
+  //                 width: 17,
+  //               ),
+  //               Image.asset(TAKE_AWAY_IMAGE_PATH),
+  //               SizedBox(
+  //                 width: 40,
+  //               ),
+  //               _buildTakeAwaytext(),
+  //               SizedBox(
+  //                 width: 40,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   goToTakeAway(int index) async {
     await Navigator.of(context).push(MaterialPageRoute(
@@ -697,12 +698,13 @@ class _LandingStateView extends State<Landingview>
     if (_model != null) {
       if (_model.data.dineIn != null) {
         if (_model.data.dineIn.status != STR_PAID) {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => CartDetailsPage(
-                    restId: _model.data.dineIn.restId,
-                    orderId: Globle().orderID,
-                    isFromOrder: true,
-                  )));
+          // await Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (context) => CartDetailsPage(
+          //           restId: _model.data.dineIn.restId,
+          //           orderId: Globle().orderID,
+          //           isFromOrder: true,
+          //         )));
+          goToDineIn(1);
           setState(() {
             isIgnoring = true;
           });

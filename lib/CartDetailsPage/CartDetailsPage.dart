@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
@@ -270,6 +271,15 @@ class CartDetailsPageState extends State<CartDetailsPage>
                   color: Globle().colorscode != null
                       ? getColorByHex(Globle().colorscode)
                       : orangetheme),
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainWidget()),
+                    ModalRoute.withName("/MainWidget"));
+              },
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,

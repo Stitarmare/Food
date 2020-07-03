@@ -53,7 +53,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
         AddTablenoModelView,
         GetTableListModelView,
         ClearCartModelView,
-        UpdateCartModelView {
+        UpdateCartModelView,
+        OrderAddMenuCartModelView {
   List<bool> isSelected;
   int tableId;
   AddItemsToCartModel addMenuToCartModel;
@@ -109,7 +110,6 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<Switches> defaultSwitch;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     super.didChangeDependencies();
   }
@@ -117,7 +117,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   @override
   void initState() {
     _addItemPagepresenter =
-        AddItemPagepresenter(this, this, this, this, this, this);
+        AddItemPagepresenter(this, this, this, this, this, this, this);
     isSelected = [true, false];
     setState(() {
       isLoding = true;
@@ -421,7 +421,8 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           if (_updateOrderModel == null) {
                             _updateOrderModel = UpdateOrderModel();
                           }
-                          _updateOrderModel.orderId = orderId;
+                          _updateOrderModel.restId = widget.restId;
+                          // _updateOrderModel.orderId = orderId;
                           _updateOrderModel.userId =
                               Globle().loginModel.data.id;
                           if (items == null) {
@@ -449,10 +450,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             }
                           }
 
-                          _updateOrderModel.items = items;
+                          _updateOrderModel.items = [items];
                           if (sizess != null) {
                             if (sizess.length > 0) {
-                              _updateOrderModel.items.sizePriceId =
+                              _updateOrderModel.items[0].sizePriceId =
                                   sizess[0].sizeid;
                             }
                           }
@@ -485,23 +486,26 @@ class _AddItemPageViewState extends State<AddItemPageView>
                             subSpread.add(sub);
                           }
 
-                          _updateOrderModel.items.quantity = count;
-                          _updateOrderModel.items.itemId = widget.itemId;
-                          _updateOrderModel.items.preparationNote = specialReq;
-                          _updateOrderModel.items.subspreads = subSpread;
-                          _updateOrderModel.items.extra = extras;
-                          _updateOrderModel.items.spreads = spread == null
+                          _updateOrderModel.items[0].quantity = count;
+                          _updateOrderModel.items[0].itemId = widget.itemId;
+                          _updateOrderModel.items[0].preparationNote =
+                              specialReq;
+                          _updateOrderModel.items[0].subspreads = subSpread;
+                          _updateOrderModel.items[0].extra = extras;
+                          _updateOrderModel.items[0].spreads = spread == null
                               ? (defaultSpread != null) ? [defaultSpread] : null
                               : [spread];
-                          _updateOrderModel.items.switches = switchess;
+                          _updateOrderModel.items[0].switches = switchess;
 
-                          _updateOrderModel.items.sizes = sizess;
+                          _updateOrderModel.items[0].sizes = sizess;
                           print(_updateOrderModel.toJson());
 
                           // DialogsIndicator.showLoadingDialog(
                           //     context, _keyLoader, STR_BLANK);
                           await progressDialog.show();
-                          _addItemPagepresenter.updateOrder(
+                          // _addItemPagepresenter.updateOrder(
+                          //     _updateOrderModel, context);
+                          _addItemPagepresenter.orderAddMenuCart(
                               _updateOrderModel, context);
                         } else {
                           Constants.showAlert(
@@ -1839,12 +1843,28 @@ class _AddItemPageViewState extends State<AddItemPageView>
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CartDetailsPage(
-                                  orderId: _updateOrderModel.orderId,
-                                  flag: 1,
-                                  isFromOrder: false,
-                                )));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => CartDetailsPage(
+                        //           orderId: _updateOrderModel.orderId,
+                        //           flag: 1,
+                        //           isFromOrder: false,
+                        // ))
+
+                        //         );
+
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomTabbarHome(
+                                      title: widget.restaurantList.restName,
+                                      restId: widget.restaurantList.id,
+                                      lat: widget.restaurantList.latitude,
+                                      long: widget.restaurantList.longitude,
+                                      imageUrl:
+                                          widget.restaurantList.coverImage,
+                                      restaurantList: widget.restaurantList,
+                                    )),
+                            ModalRoute.withName(STR_RETAURANT_PAGE));
                       }
 
                       // Navigator.of(context).pop();
@@ -2070,6 +2090,27 @@ class _AddItemPageViewState extends State<AddItemPageView>
     if (defaultSwitch.length == 0) {
       defaultSwitch = null;
     }
+  }
+
+  @override
+  void orderAddMenuCartFailed() async {
+    await progressDialog.hide();
+    setState(() {
+      isIgnoreTouch = false;
+    });
+  }
+
+  @override
+  void orderAddMenuCartSuccess() async {
+    setState(() {
+      isIgnoreTouch = false;
+    });
+    await progressDialog.hide();
+    specialReq = "";
+    Globle().dinecartValue += 1;
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    showAlertUpdateOrderSuccess(
+        "${widget.title}", "${widget.title} " + STR_CARTADDED, context);
   }
 }
 

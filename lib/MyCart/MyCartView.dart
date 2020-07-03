@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
+import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/MyCart/MyCartContarctor.dart';
 import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -58,6 +60,7 @@ class _MyCartViewState extends State<MyCartView>
 
   String tableno;
   int count;
+  int orderId;
 
   GetTableList getTableListModel;
 
@@ -72,6 +75,7 @@ class _MyCartViewState extends State<MyCartView>
   bool isIgnoreTouch = false;
 
   List<MenuCartList> itemData;
+  OrderData myOrderData;
 
   TableList tableList;
   ProgressDialog progressDialog;
@@ -102,7 +106,20 @@ class _MyCartViewState extends State<MyCartView>
     //     }
     //   }
     // });
+    Preference.getPrefValue<int>(PreferenceKeys.tableId).then((value) {
+      if (value != null) {
+        setState(() {
+          _dropdownTableNo = value;
+          _dropdownTableNumber = value;
+        });
+      }
+    });
 
+    Preference.getPrefValue<int>(PreferenceKeys.orderId).then((value) {
+      if (value != null) {
+        orderId = value;
+      }
+    });
     super.initState();
   }
 
@@ -491,34 +508,48 @@ class _MyCartViewState extends State<MyCartView>
                               STR_MYCART, STR_SELECT_TABLE, context);
                         } else {
                           if (double.parse(myCart.grandTotal) >= 1.0) {
-                            Globle().dinecartValue = 0;
-                            Preference.setPersistData<int>(
-                                0, PreferenceKeys.dineCartItemCount);
-                            Preference.setPersistData<int>(
-                                0, PreferenceKeys.dineCartItemCount);
-                            (_cartItemList != null && _cartItemList.length > 0)
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ConfirmationDineView(
-                                        restId: widget.restId,
-                                        tablename: tableno,
-                                        restName: widget.restName,
-                                        tableId: _dropdownTableNumber,
-                                        totalAmount:
-                                            double.parse(myCart.grandTotal),
-                                        items: itemList,
-                                        itemdata: _cartItemList,
-                                        orderType: widget.orderType,
-                                        latitude: widget.lat,
-                                        longitude: widget.long,
-                                        currencySymbol: myCart.currencySymbol,
-                                        imgUrl: widget.imgUrl,
-                                      ),
-                                    ))
-                                : Constants.showAlert(
-                                    STR_MYCART, STR_ADD_ITEM_CART, context);
+                            if (orderId != null) {
+                              _myCartpresenter.placeOrderCartItemsList(
+                                  Globle().loginModel.data.id,
+                                  widget.restId,
+                                  orderId,
+                                  widget.orderType,
+                                  _dropdownTableNo,
+                                  widget.long,
+                                  widget.lat,
+                                  itemList,
+                                  context);
+                            } else {
+                              Globle().dinecartValue = 0;
+                              Preference.setPersistData<int>(
+                                  0, PreferenceKeys.dineCartItemCount);
+                              Preference.setPersistData<int>(
+                                  0, PreferenceKeys.dineCartItemCount);
+                              (_cartItemList != null &&
+                                      _cartItemList.length > 0)
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConfirmationDineView(
+                                          restId: widget.restId,
+                                          tablename: tableno,
+                                          restName: widget.restName,
+                                          tableId: _dropdownTableNumber,
+                                          totalAmount:
+                                              double.parse(myCart.grandTotal),
+                                          items: itemList,
+                                          itemdata: _cartItemList,
+                                          orderType: widget.orderType,
+                                          latitude: widget.lat,
+                                          longitude: widget.long,
+                                          currencySymbol: myCart.currencySymbol,
+                                          imgUrl: widget.imgUrl,
+                                        ),
+                                      ))
+                                  : Constants.showAlert(
+                                      STR_MYCART, STR_ADD_ITEM_CART, context);
+                            }
                           } else {
                             Constants.showAlert(
                                 "Amount",
@@ -896,6 +927,74 @@ class _MyCartViewState extends State<MyCartView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
+  void showAlertSuccess(String title, String message, BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 18,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                color: greytheme700),
+          ),
+          content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Image.asset(
+              SUCCESS_IMAGE_PATH,
+              width: 75,
+              height: 75,
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: FONTSIZE_15,
+                  fontFamily: Constants.getFontType(),
+                  fontWeight: FontWeight.w500,
+                  color: greytheme700),
+            )
+          ]),
+          actions: <Widget>[
+            Divider(
+              endIndent: 15,
+              indent: 15,
+              color: Colors.black,
+            ),
+            FlatButton(
+              child: Text(STR_OK,
+                  style: TextStyle(
+                      fontSize: FONTSIZE_16,
+                      fontFamily: Constants.getFontType(),
+                      fontWeight: FontWeight.w600,
+                      color: greytheme700)),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Navigator.of(context).pop();
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CartDetailsPage(
+                              orderId: Globle().orderID,
+                              flag: 2,
+                              isFromOrder: true,
+                            )));
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Future<void> removeItemFailed() async {
     setState(() {
@@ -993,6 +1092,29 @@ class _MyCartViewState extends State<MyCartView>
       isIgnoreTouch = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+  }
+
+  @override
+  void placeOrderCartFailed() {}
+
+  @override
+  void placeOrderCartSuccess(OrderData orderData) {
+    setState(() {
+      if (myOrderData == null) {
+        myOrderData = orderData;
+      }
+    });
+    Globle().isTabelAvailable = true;
+    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
+    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+    Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);
+    Globle().orderID = orderData.id;
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Globle().orderNumber = orderData.orderNumber;
+    Globle().dinecartValue = 0;
+    //await progressDialog.hide();
+    progressDialog.hide();
+    showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 }
 

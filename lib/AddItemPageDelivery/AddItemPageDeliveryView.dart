@@ -439,21 +439,22 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                             }
                           }
 
-                          _updateOrderModel.items = items;
+                          _updateOrderModel.items = [items];
                           if (sizess.length > 0) {
-                            _updateOrderModel.items.sizePriceId =
+                            _updateOrderModel.items[0].sizePriceId =
                                 sizess[0].sizeid;
                           }
-                          _updateOrderModel.items.quantity = count;
-                          _updateOrderModel.items.itemId = widget.itemId;
-                          _updateOrderModel.items.preparationNote = specialReq;
-                          _updateOrderModel.items.extra = extras;
-                          _updateOrderModel.items.spreads = spread == null
+                          _updateOrderModel.items[0].quantity = count;
+                          _updateOrderModel.items[0].itemId = widget.itemId;
+                          _updateOrderModel.items[0].preparationNote =
+                              specialReq;
+                          _updateOrderModel.items[0].extra = extras;
+                          _updateOrderModel.items[0].spreads = spread == null
                               ? (defaultSpread != null) ? [defaultSpread] : null
                               : [spread];
-                          _updateOrderModel.items.switches = switchess;
+                          _updateOrderModel.items[0].switches = switchess;
 
-                          _updateOrderModel.items.sizes = sizess;
+                          _updateOrderModel.items[0].sizes = sizess;
                           print(_updateOrderModel.toJson());
 
                           // DialogsIndicator.showLoadingDialog(

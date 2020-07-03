@@ -26,6 +26,7 @@ import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Models/loginmodel.dart';
+import 'package:foodzi/Models/orderAddMenuCartModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/Models/registermodel.dart';
 import 'package:foodzi/Models/error_model.dart';
@@ -144,6 +145,8 @@ class GenericModel<T> {
         return GetDeliveryChargeModel.fromJson(json) as T;
       case DeliveryBoyModel:
         return DeliveryBoyModel.fromJson(json) as T;
+      case OrderAddMenuModel:
+        return OrderAddMenuModel.fromJson(json) as T;
 
       default:
         break;

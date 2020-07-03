@@ -157,38 +157,48 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               child: FloatingActionButton(
                   backgroundColor: getColorByHex(Globle().colorscode),
                   onPressed: () async {
-                    if (Globle().orderID != null && Globle().orderID != 0) {
-                      var isFromOrder = false;
-                      var id = await Preference.getPrefValue<int>(
-                          PreferenceKeys.restaurantID);
-                      if (id != null) {
-                        if (widget.restId != id) {
-                          isFromOrder = true;
-                        }
-                      }
-                      if (Globle().isCollectionOrder) {
-                      return;
-                    }
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CartDetailsPage(
-                                    orderId: Globle().orderID,
-                                    flag: 2,
-                                    isFromOrder: isFromOrder,
-                                  )));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyCartView(
-                                  restId: widget.restId,
-                                  lat: widget.lat,
-                                  long: widget.long,
-                                  orderType: STR_SMALL_DINEIN,
-                                  restName: widget.title,
-                                  imgUrl: widget.imageUrl)));
-                    }
+                    // if (Globle().orderID != null && Globle().orderID != 0) {
+                    //   var isFromOrder = false;
+                    //   var id = await Preference.getPrefValue<int>(
+                    //       PreferenceKeys.restaurantID);
+                    //   if (id != null) {
+                    //     if (widget.restId != id) {
+                    //       isFromOrder = true;
+                    //     }
+                    //   }
+                    //   if (Globle().isCollectionOrder) {
+                    //   return;
+                    // }
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => CartDetailsPage(
+                    //                 orderId: Globle().orderID,
+                    //                 flag: 2,
+                    //                 isFromOrder: isFromOrder,
+                    //               )));
+                    // } else {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => MyCartView(
+                    //               restId: widget.restId,
+                    //               lat: widget.lat,
+                    //               long: widget.long,
+                    //               orderType: STR_SMALL_DINEIN,
+                    //               restName: widget.title,
+                    //               imgUrl: widget.imageUrl)));
+                    // }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyCartView(
+                                restId: widget.restId,
+                                lat: widget.lat,
+                                long: widget.long,
+                                orderType: STR_SMALL_DINEIN,
+                                restName: widget.title,
+                                imgUrl: widget.imageUrl)));
                   },
                   heroTag: STR_BTN_ADD_CART,
                   child: Stack(
@@ -420,8 +430,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
   @override
   void notifyWaiterSuccess() {
     if (Globle().context != null) {
-      Constants.showAlert(
-          "FoodZi", " Notified waiter successfully.", context);
+      Constants.showAlert("FoodZi", " Notified waiter successfully.", context);
     }
   }
 }
