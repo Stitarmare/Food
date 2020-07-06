@@ -7,7 +7,6 @@ import 'package:foodzi/AddItemPageDelivery/AddItemPageDeliveryView.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
-import 'package:foodzi/Models/CategoryListModel.dart';
 import 'package:foodzi/Models/RestaurantItemsList.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageDelivery/RestaurantDeliveryContractor.dart';
@@ -543,7 +542,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                         children: <Widget>[
                           SizedBox(width: 0),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
                             child: GestureDetector(
                                 onTap: () async {
                                   _onSubMenuSelected(index);

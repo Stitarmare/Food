@@ -1140,7 +1140,15 @@ class _MyCartViewState extends State<MyCartView>
     Globle().dinecartValue = 0;
     //await progressDialog.hide();
     progressDialog.hide();
-    showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CartDetailsPage(
+                  orderId: Globle().orderID,
+                  flag: 2,
+                  isFromOrder: true,
+                )));
+    // showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 }
 

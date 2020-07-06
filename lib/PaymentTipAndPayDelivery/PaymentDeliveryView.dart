@@ -569,7 +569,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  currencySymb + ' $deliveryCharge',
+                  currencySymb + ' ${deliveryCharge.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: FONTSIZE_12, color: greytheme700),
                 ),
               ),

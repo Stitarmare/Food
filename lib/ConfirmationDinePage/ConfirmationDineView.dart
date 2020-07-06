@@ -669,7 +669,13 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Globle().dinecartValue = 0;
     //await progressDialog.hide();
     progressDialog.hide();
-    showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CartDetailsPage(
+              orderId: myOrderData.id,
+              flag: 3,
+              isFromOrder: false,
+            )));
+    // showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }
 
   @override

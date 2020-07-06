@@ -1,13 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
-import 'package:foodzi/MyCart/MycartPresenter.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryContractor.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryPresenter.dart';
-import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -15,7 +13,6 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/map_view/map_view.dart';
 import 'package:foodzi/theme/colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class MyCartDeliveryView extends StatefulWidget {
@@ -340,7 +337,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.21,
+                height: MediaQuery.of(context).size.height * 0.2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
