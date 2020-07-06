@@ -28,6 +28,7 @@ class MyCartView extends StatefulWidget {
   double total;
   String restName;
   String imgUrl;
+  bool isFromOrder;
 
   MyCartView(
       {this.restId,
@@ -37,6 +38,7 @@ class MyCartView extends StatefulWidget {
       this.long,
       this.total,
       this.restName,
+      this.isFromOrder,
       this.imgUrl});
   @override
   State<StatefulWidget> createState() {
@@ -280,7 +282,9 @@ class _MyCartViewState extends State<MyCartView>
           splashColor: Colors.redAccent.shade200,
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -323,7 +327,9 @@ class _MyCartViewState extends State<MyCartView>
           splashColor: Colors.lightBlue,
           child: Container(
             decoration: BoxDecoration(
-                color: getColorByHex(Globle().colorscode),
+                color: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -383,7 +389,9 @@ class _MyCartViewState extends State<MyCartView>
                         fontSize: FONTSIZE_20,
                         fontFamily: Constants.getFontType(),
                         fontWeight: FontWeight.w600,
-                        color: getColorByHex(Globle().colorscode)),
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme),
                   )
                 ],
               ),
@@ -407,7 +415,9 @@ class _MyCartViewState extends State<MyCartView>
                                 fontSize: FONTSIZE_14,
                                 fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w600,
-                                color: getColorByHex(Globle().colorscode))),
+                                color: Globle().colorscode != null
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme)),
                       ],
                     )),
               SizedBox(
@@ -488,13 +498,22 @@ class _MyCartViewState extends State<MyCartView>
                               fontSize: FONTSIZE_16,
                               fontFamily: Constants.getFontType(),
                               decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
-                              color: getColorByHex(Globle().colorscode),
+                              decorationColor: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                               fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
+                          if (widget.isFromOrder != null &&
+                              widget.isFromOrder) {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          } else {
+                            Navigator.pop(context);
+                          }
                         },
                       ),
                     ),
@@ -563,7 +582,9 @@ class _MyCartViewState extends State<MyCartView>
                         decoration: BoxDecoration(
                             color: (_dropdownItemsTable.length == 0)
                                 ? greytheme100
-                                : getColorByHex(Globle().colorscode),
+                                : Globle().colorscode != null
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15))),
@@ -605,12 +626,15 @@ class _MyCartViewState extends State<MyCartView>
                           "${tableNumber.name}",
                           style: TextStyle(
                               decoration: TextDecoration.underline,
-                              decorationColor:
-                                  getColorByHex(Globle().colorscode),
+                              decorationColor: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme,
                               fontSize: FONTSIZE_14,
                               fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
-                              color: getColorByHex(Globle().colorscode)),
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme),
                         )),
                   ],
                 ));
@@ -801,7 +825,9 @@ class _MyCartViewState extends State<MyCartView>
   Widget refreshBg() {
     return Container(
       alignment: Alignment.centerRight,
-      color: getColorByHex(Globle().colorscode),
+      color: Globle().colorscode != null
+          ? getColorByHex(Globle().colorscode)
+          : orangetheme,
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,

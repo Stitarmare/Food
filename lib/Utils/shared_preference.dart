@@ -20,6 +20,8 @@ class PreferenceKeys {
   static final tableId = STR_TABLE_ID;
   static final myCartRestIdKey = "Restkey";
   static final mycartTableIdKey = "TableKey";
+  static final keyLatitude = "keyLatitude";
+  static final keyLongitude = "keyLongitude";
 }
 
 class Preference {

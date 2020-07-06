@@ -13,6 +13,7 @@ import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
+import 'package:foodzi/MyCart/MyCartView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
@@ -1840,9 +1841,26 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     onPressed: () {
                       Navigator.of(context).pop();
                       if (widget.isFromOrder) {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
+                        // Navigator.of(context).pop();
+                        // Navigator.of(context).pop();
+                        var strLatitude =
+                            Preference.getPrefValue(PreferenceKeys.keyLatitude);
+                        var strLongitutde = Preference.getPrefValue(
+                            PreferenceKeys.keyLongitude);
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MyCartView(
+                                      restId: widget.restId,
+                                      lat: strLatitude.toString(),
+                                      long: strLongitutde.toString(),
+                                      orderType: STR_SMALL_DINEIN,
+                                      restName: widget.title,
+                                      isFromOrder: widget.isFromOrder,
+                                    )));
                       } else {
+                        // Navigator.of(context).pop();
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

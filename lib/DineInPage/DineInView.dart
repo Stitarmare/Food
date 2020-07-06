@@ -579,6 +579,14 @@ class _DineViewState extends State<DineInView>
                     //Globle().dinecartValue = 0;
                     //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
                     Globle().colorscode = _restaurantList[i].colourCode;
+                    setState(() {
+                      Preference.setPersistData<String>(
+                          _restaurantList[i].latitude,
+                          PreferenceKeys.keyLatitude);
+                      Preference.setPersistData<String>(
+                          _restaurantList[i].longitude,
+                          PreferenceKeys.keyLongitude);
+                    });
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => BottomTabbarHome(
                               title: _restaurantList[i].restName,
@@ -589,7 +597,6 @@ class _DineViewState extends State<DineInView>
                               tableName: widget.tableName,
                               restaurantList: _restaurantList[i],
                             )));
-                    setState(() {});
                   }));
         },
       ),
