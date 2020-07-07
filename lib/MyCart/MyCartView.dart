@@ -63,6 +63,7 @@ class _MyCartViewState extends State<MyCartView>
   String tableno;
   int count;
   int orderId;
+  bool isTableExists = false;
 
   GetTableList getTableListModel;
 
@@ -113,6 +114,7 @@ class _MyCartViewState extends State<MyCartView>
         setState(() {
           _dropdownTableNo = value;
           _dropdownTableNumber = value;
+          isTableExists = true;
         });
       }
     });
@@ -609,80 +611,83 @@ class _MyCartViewState extends State<MyCartView>
   }
 
   Widget getTableNumber() {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      height: 50,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: FormField(builder: (FormFieldState state) {
-        return DropdownButtonFormField(
-          items: _dropdownItemsTable.map((tableNumber) {
-            return new DropdownMenuItem(
-                value: tableNumber.id,
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(
-                          "${tableNumber.name}",
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              decorationColor: Globle().colorscode != null
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme300,
-                              fontSize: FONTSIZE_14,
-                              fontFamily: Constants.getFontType(),
-                              fontWeight: FontWeight.w600,
-                              color: Globle().colorscode != null
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme300),
-                        )),
-                  ],
-                ));
-          }).toList(),
-          onChanged: (newValue) async {
-            setState(() {
-              _dropdownTableNumber = newValue;
-              _dropdownTableNo = _dropdownTableNumber;
-              // Preference.setPersistData<int>(
-              //     _dropdownTableNumber, PreferenceKeys.mycartTableIdKey);
-              // Preference.setPersistData(
-              //     widget.restId, PreferenceKeys.myCartRestIdKey);
-            });
-            for (int i = 0; i < _dropdownItemsTable.length; i++) {
-              if (newValue == _dropdownItemsTable[i].id) {
-                print(_dropdownItemsTable[i].name);
-                tableno = _dropdownItemsTable[i].name;
+    return IgnorePointer(
+      ignoring: isTableExists,
+      child: Container(
+        margin: EdgeInsets.only(left: 20),
+        height: 50,
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: FormField(builder: (FormFieldState state) {
+          return DropdownButtonFormField(
+            items: _dropdownItemsTable.map((tableNumber) {
+              return new DropdownMenuItem(
+                  value: tableNumber.id,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Text(
+                            "${tableNumber.name}",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                decorationColor: Globle().colorscode != null
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme300,
+                                fontSize: FONTSIZE_14,
+                                fontFamily: Constants.getFontType(),
+                                fontWeight: FontWeight.w600,
+                                color: Globle().colorscode != null
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme300),
+                          )),
+                    ],
+                  ));
+            }).toList(),
+            onChanged: (newValue) async {
+              setState(() {
+                _dropdownTableNumber = newValue;
+                _dropdownTableNo = _dropdownTableNumber;
+                // Preference.setPersistData<int>(
+                //     _dropdownTableNumber, PreferenceKeys.mycartTableIdKey);
+                // Preference.setPersistData(
+                //     widget.restId, PreferenceKeys.myCartRestIdKey);
+              });
+              for (int i = 0; i < _dropdownItemsTable.length; i++) {
+                if (newValue == _dropdownItemsTable[i].id) {
+                  print(_dropdownItemsTable[i].name);
+                  tableno = _dropdownItemsTable[i].name;
+                }
               }
-            }
-            await progressDialog.show();
-            //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-            _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
-                widget.restId, _dropdownTableNumber, context);
-          },
-          value: _dropdownTableNo,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme400, width: 2),
+              await progressDialog.show();
+              //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+              _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
+                  widget.restId, _dropdownTableNumber, context);
+            },
+            value: _dropdownTableNo,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: greentheme400, width: 2),
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: greytheme900, width: 2)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
+              filled: false,
+              hintText: STR_CHOOSE_TABLE,
+              labelText:
+                  _dropdownTableNumber == null ? STR_ADD_TABLE : STR_TABLE_NO,
+              labelStyle: TextStyle(
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.black,
+                  fontSize: FONTSIZE_14,
+                  fontFamily: Constants.getFontType(),
+                  fontWeight: FontWeight.w600,
+                  color: greytheme100),
             ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: greytheme900, width: 2)),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(6.0)),
-            filled: false,
-            hintText: STR_CHOOSE_TABLE,
-            labelText:
-                _dropdownTableNumber == null ? STR_ADD_TABLE : STR_TABLE_NO,
-            labelStyle: TextStyle(
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.black,
-                fontSize: FONTSIZE_14,
-                fontFamily: Constants.getFontType(),
-                fontWeight: FontWeight.w600,
-                color: greytheme100),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
@@ -1130,6 +1135,7 @@ class _MyCartViewState extends State<MyCartView>
         myOrderData = orderData;
       }
     });
+
     Globle().isTabelAvailable = true;
     Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
@@ -1139,6 +1145,9 @@ class _MyCartViewState extends State<MyCartView>
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
     //await progressDialog.hide();
+    setState(() {
+      isTableExists = false;
+    });
     progressDialog.hide();
     Navigator.push(
         context,

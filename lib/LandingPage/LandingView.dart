@@ -816,6 +816,9 @@ class _LandingStateView extends State<Landingview>
           Globle().isTabelAvailable = true;
           Globle().isCollectionOrder = false;
           Globle().tableID = model.data.dineIn.tableId;
+          Preference.setPersistData<int>(
+              model.data.dineIn.tableId, PreferenceKeys.tableId);
+
           Future.delayed(Duration(microseconds: 500), () {
             getCurrentOrderID();
           });
