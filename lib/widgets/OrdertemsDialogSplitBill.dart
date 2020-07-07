@@ -65,7 +65,7 @@ class _OrderItemsDialogState extends State<OrderItemsDialog> {
                               return CheckboxListTile(
                                   activeColor: ((Globle().colorscode) != null)
                                       ? getColorByHex(Globle().colorscode)
-                                      : orangetheme,
+                                      : orangetheme300,
                                   value: _checkBoxOptions[i].isChecked,
                                   controlAffinity:
                                       ListTileControlAffinity.leading,

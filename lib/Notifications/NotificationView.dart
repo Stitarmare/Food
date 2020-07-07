@@ -142,7 +142,7 @@ class _NotificationViewState extends State<NotificationView>
                         0.015
                       ], colors: [
                         _selectedIndex != null && _selectedIndex == index
-                            ? greentheme100
+                            ? greentheme400
                             : greytheme1500,
                         Colors.white
                       ])),

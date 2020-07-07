@@ -287,12 +287,12 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
           },
           splashColor: ((Globle().colorscode) != null)
               ? getColorByHex(Globle().colorscode)
-              : orangetheme,
+              : orangetheme300,
           child: Container(
             decoration: BoxDecoration(
                 color: ((Globle().colorscode) != null)
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -331,7 +331,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             decoration: BoxDecoration(
                 color: ((Globle().colorscode) != null)
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -476,7 +476,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         decoration: BoxDecoration(
                             color: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
+                                : orangetheme300,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15))),
@@ -673,7 +673,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           child: RaisedButton(
                             color: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
+                                : orangetheme300,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text(
@@ -1195,7 +1195,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
+                            : orangetheme300,
                         onChanged: (val) {
                           setState(() {
                             if (size == null) {
@@ -1238,7 +1238,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           dense: true,
                           activeColor: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
+                              : orangetheme300,
                           onChanged: (val) {
                             setState(() {
                               if (spread == null) {
@@ -1281,7 +1281,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                                                 ((Globle().colorscode) != null)
                                                     ? getColorByHex(
                                                         Globle().colorscode)
-                                                    : orangetheme,
+                                                    : orangetheme300,
                                             onChanged: (val) {
                                               setState(() {
                                                 subOptionId = val;
@@ -1425,7 +1425,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               borderColor: greytheme1300,
                               fillColor: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                                  : orangetheme300,
                               borderWidth: 2,
                               selectedBorderColor: Colors.transparent,
                               selectedColor: Colors.white,
@@ -1524,7 +1524,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                 .map((checkBtn) => CheckboxListTile(
                     activeColor: ((Globle().colorscode) != null)
                         ? getColorByHex(Globle().colorscode)
-                        : orangetheme,
+                        : orangetheme300,
                     value: checkBtn.isChecked,
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (val) {

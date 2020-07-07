@@ -370,7 +370,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         child: RaisedButton(
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
+                              : greentheme300,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(

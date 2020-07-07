@@ -248,13 +248,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                                                           null)
                                                       ? getColorByHex(
                                                           Globle().colorscode)
-                                                      : orangetheme,
+                                                      : orangetheme300,
                                                   color: ((Globle()
                                                               .colorscode) !=
                                                           null)
                                                       ? getColorByHex(
                                                           Globle().colorscode)
-                                                      : orangetheme,
+                                                      : orangetheme300,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                             onPressed: () {
@@ -287,7 +287,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                                                 ((Globle().colorscode) != null)
                                                     ? getColorByHex(
                                                         Globle().colorscode)
-                                                    : orangetheme,
+                                                    : orangetheme300,
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(15),
                                                 topRight: Radius.circular(15))),
@@ -364,7 +364,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       fontWeight: FontWeight.w600,
                       color: ((Globle().colorscode) != null)
                           ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
+                          : orangetheme300,
                     ),
                   )
                 ],
@@ -681,7 +681,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
               child: Slider(
                 activeColor: ((Globle().colorscode) != null)
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 inactiveColor: greytheme100,
                 min: 1,
                 max: 25,

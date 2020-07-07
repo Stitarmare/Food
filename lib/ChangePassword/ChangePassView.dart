@@ -172,7 +172,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
               transform: Matrix4.rotationY(math.pi),
               child: Icon(
                 Icons.vpn_key,
-                color: greentheme100,
+                color: greentheme400,
               ),
             ),
           ),
@@ -199,7 +199,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
               transform: Matrix4.rotationY(math.pi),
               child: Icon(
                 Icons.vpn_key,
-                color: greentheme100,
+                color: greentheme400,
               ),
             ),
           ),
@@ -226,7 +226,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
               transform: Matrix4.rotationY(math.pi),
               child: Icon(
                 Icons.vpn_key,
-                color: greentheme100,
+                color: greentheme400,
               ),
             ),
           ),
@@ -265,7 +265,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme100,
+        color: greentheme400,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
@@ -295,7 +295,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
             KEY_CHANGE_PASSWORD,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: greentheme100,
+                color: greentheme400,
                 fontWeight: FontWeight.w600,
                 fontFamily: KEY_FONTFAMILY,
                 fontSize: FONTSIZE_22),
@@ -314,7 +314,7 @@ class _ChangePasswordview extends State<ChangePasswordview>
               child: const Text(
                 STR_OK,
                 style: TextStyle(
-                    color: greentheme100,
+                    color: greentheme400,
                     fontWeight: FontWeight.w600,
                     fontFamily: KEY_FONTFAMILY,
                     fontSize: FONTSIZE_20),

@@ -241,7 +241,7 @@ class _EditProfileState extends State<EditProfileview>
                     shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(6.0),
                     ),
-                    color: greentheme100,
+                    color: greentheme400,
                     child: Text(
                       KEY_UPDATE,
                       style: TextStyle(
@@ -312,7 +312,7 @@ class _EditProfileState extends State<EditProfileview>
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: greentheme100, width: 2),
+            borderSide: BorderSide(color: greentheme400, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: greytheme900, width: 2)),
@@ -368,7 +368,7 @@ class _EditProfileState extends State<EditProfileview>
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: greentheme100, width: 2),
+            borderSide: BorderSide(color: greentheme400, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: greytheme900, width: 2)),
@@ -421,7 +421,7 @@ class _EditProfileState extends State<EditProfileview>
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(0, 0, 5, 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: greentheme100, width: 2),
+            borderSide: BorderSide(color: greentheme400, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: greytheme900, width: 2)),
@@ -492,7 +492,7 @@ class _EditProfileState extends State<EditProfileview>
             STR_EDIT_PROFILE,
             textAlign: TextAlign.center,
             style: TextStyle(
-                color: greentheme100,
+                color: greentheme400,
                 fontWeight: FontWeight.w600,
                 fontFamily: KEY_FONTFAMILY,
                 fontSize: FONTSIZE_22),
@@ -511,7 +511,7 @@ class _EditProfileState extends State<EditProfileview>
               child: const Text(
                 STR_OK,
                 style: TextStyle(
-                    color: greentheme100,
+                    color: greentheme400,
                     fontWeight: FontWeight.w600,
                     fontFamily: KEY_FONTFAMILY,
                     fontSize: FONTSIZE_20),

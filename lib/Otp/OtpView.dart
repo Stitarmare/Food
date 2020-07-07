@@ -200,7 +200,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           pinBoxWidth: 36.0,
           pinBoxHeight: 41.0,
           defaultBorderColor: Colors.grey[300],
-          hasTextBorderColor: greentheme,
+          hasTextBorderColor: greentheme400,
           pinTextStyle: TextStyle(color: Colors.grey[600]),
           pinBoxRadius: 8.0,
           autofocus: false,
@@ -236,7 +236,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme100,
+        color: greentheme400,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,
@@ -261,7 +261,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
         child: Text(
           KEY_PROVIDE_ANOTHER_NO,
           style: TextStyle(
-              color: greentheme100,
+              color: greentheme400,
               fontFamily: Constants.getFontType(),
               fontSize: FONTSIZE_16,
               fontWeight: FontWeight.w600),

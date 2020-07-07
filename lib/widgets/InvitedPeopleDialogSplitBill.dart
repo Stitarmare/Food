@@ -88,7 +88,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                           return CheckboxListTile(
                               activeColor: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                                  : orangetheme300,
                               value: _checkBoxOptions[i].isChecked,
                               controlAffinity: ListTileControlAffinity.leading,
                               onChanged: (val) {
@@ -142,7 +142,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         child: RaisedButton(
                       color: ((Globle().colorscode) != null)
                           ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
+                          : orangetheme300,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () async {
@@ -161,7 +161,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                         child: RaisedButton(
                       color: ((Globle().colorscode) != null)
                           ? getColorByHex(Globle().colorscode)
-                          : orangetheme,
+                          : orangetheme300,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                       onPressed: () {

@@ -138,7 +138,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                         return CheckboxListTile(
                             activeColor: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
+                                : orangetheme300,
                             value: _checkBoxOptions.isChecked,
                             controlAffinity: ListTileControlAffinity.leading,
                             onChanged: (val) {
@@ -204,7 +204,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                               return CheckboxListTile(
                                   activeColor: ((Globle().colorscode) != null)
                                       ? getColorByHex(Globle().colorscode)
-                                      : orangetheme,
+                                      : orangetheme300,
                                   value: _checkBoxOptions[i].isChecked,
                                   controlAffinity:
                                       ListTileControlAffinity.leading,
@@ -285,7 +285,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                       child: RaisedButton(
                     color: Globle().colorscode != null
                         ? getColorByHex(Globle().colorscode)
-                        : orangetheme,
+                        : orangetheme300,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     onPressed: () async {

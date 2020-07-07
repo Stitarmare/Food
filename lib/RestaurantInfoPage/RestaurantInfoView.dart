@@ -283,7 +283,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                                 NAVIGATE_IMAGE_PATH,
                                 color: ((Globle().colorscode) != null)
                                     ? getColorByHex(Globle().colorscode)
-                                    : orangetheme,
+                                    : orangetheme300,
                                 width: 14,
                               ),
                             ),
@@ -367,7 +367,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                         decoration: BoxDecoration(
                             color: ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme,
+                                : orangetheme300,
                             borderRadius: BorderRadius.all(Radius.circular(6))),
                         child: Row(
                           children: <Widget>[
@@ -646,7 +646,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                           fontSize: FONTSIZE_14,
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
+                              : orangetheme300,
                           decoration: TextDecoration.underline,
                           decorationThickness: 5.0)),
                 ),
@@ -884,12 +884,12 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
                       borderSide: BorderSide(
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
+                              : orangetheme300,
                           width: 2),
                       insets: EdgeInsets.symmetric(horizontal: 30)),
                   labelColor: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
-                      : orangetheme,
+                      : orangetheme300,
                   unselectedLabelColor: greytheme1000,
                   onTap: (index) {
                     switch (index) {

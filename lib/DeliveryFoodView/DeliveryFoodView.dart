@@ -335,7 +335,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                   height: 29,
                                   child: FlatButton(
                                     color: item.isSelected
-                                        ? greentheme100
+                                        ? greentheme400
                                         : Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(
@@ -343,7 +343,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                         ),
                                         side: BorderSide(
                                           color: item.isSelected
-                                              ? greentheme100
+                                              ? greentheme400
                                               : greytheme600,
                                         )),
                                     onPressed: () =>
@@ -734,7 +734,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                 children: <Widget>[
                   Icon(
                     Icons.location_on,
-                    color: greentheme100,
+                    color: greentheme400,
                     size: 15,
                   ),
                   SizedBox(
@@ -755,7 +755,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: greentheme100,
+                    color: greentheme400,
                     borderRadius: BorderRadius.all(Radius.circular(3))),
                 width: 30,
                 height: 16,

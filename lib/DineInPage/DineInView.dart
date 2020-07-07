@@ -306,7 +306,7 @@ class _DineViewState extends State<DineInView>
                                   height: 29,
                                   child: FlatButton(
                                     color: item.isSelected
-                                        ? greentheme100
+                                        ? greentheme400
                                         : Colors.white,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(
@@ -314,7 +314,7 @@ class _DineViewState extends State<DineInView>
                                         ),
                                         side: BorderSide(
                                           color: item.isSelected
-                                              ? greentheme100
+                                              ? greentheme400
                                               : greytheme600,
                                         )),
                                     onPressed: () =>
@@ -356,7 +356,7 @@ class _DineViewState extends State<DineInView>
                                         },
                                         child: IconTheme(
                                             data: IconThemeData(
-                                                color: greentheme100),
+                                                color: greentheme400),
                                             child: Icon(
                                               Icons.check,
                                               size: 45,
@@ -668,7 +668,7 @@ class _DineViewState extends State<DineInView>
                 children: <Widget>[
                   Icon(
                     OMIcons.accessTime,
-                    color: greentheme100,
+                    color: greentheme400,
                     size: 15,
                   ),
                   SizedBox(
@@ -705,14 +705,14 @@ class _DineViewState extends State<DineInView>
                 children: <Widget>[
                   Icon(
                     Icons.location_on,
-                    color: greentheme100,
+                    color: greentheme400,
                     size: 15,
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   Text(
-                    '${distance} ' + STR_KM,
+                    '$distance ' + STR_KM,
                     style: TextStyle(
                         fontFamily: Constants.getFontType(),
                         fontSize: FONTSIZE_12,
@@ -726,7 +726,7 @@ class _DineViewState extends State<DineInView>
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: greentheme100,
+                    color: greentheme400,
                     borderRadius: BorderRadius.all(Radius.circular(3))),
                 width: 30,
                 height: 16,

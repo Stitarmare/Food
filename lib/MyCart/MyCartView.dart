@@ -286,7 +286,7 @@ class _MyCartViewState extends State<MyCartView>
             decoration: BoxDecoration(
                 color: Globle().colorscode != null
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -331,7 +331,7 @@ class _MyCartViewState extends State<MyCartView>
             decoration: BoxDecoration(
                 color: Globle().colorscode != null
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -393,7 +393,7 @@ class _MyCartViewState extends State<MyCartView>
                         fontWeight: FontWeight.w600,
                         color: Globle().colorscode != null
                             ? getColorByHex(Globle().colorscode)
-                            : orangetheme),
+                            : orangetheme300),
                   )
                 ],
               ),
@@ -419,7 +419,7 @@ class _MyCartViewState extends State<MyCartView>
                                 fontWeight: FontWeight.w600,
                                 color: Globle().colorscode != null
                                     ? getColorByHex(Globle().colorscode)
-                                    : orangetheme)),
+                                    : orangetheme300)),
                       ],
                     )),
               SizedBox(
@@ -502,10 +502,10 @@ class _MyCartViewState extends State<MyCartView>
                               decoration: TextDecoration.underline,
                               decorationColor: Globle().colorscode != null
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                                  : orangetheme300,
                               color: Globle().colorscode != null
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                                  : orangetheme300,
                               fontWeight: FontWeight.w600),
                         ),
                         onPressed: () {
@@ -586,7 +586,7 @@ class _MyCartViewState extends State<MyCartView>
                                 ? greytheme100
                                 : Globle().colorscode != null
                                     ? getColorByHex(Globle().colorscode)
-                                    : orangetheme,
+                                    : orangetheme300,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15))),
@@ -630,13 +630,13 @@ class _MyCartViewState extends State<MyCartView>
                               decoration: TextDecoration.underline,
                               decorationColor: Globle().colorscode != null
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme,
+                                  : orangetheme300,
                               fontSize: FONTSIZE_14,
                               fontFamily: Constants.getFontType(),
                               fontWeight: FontWeight.w600,
                               color: Globle().colorscode != null
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme),
+                                  : orangetheme300),
                         )),
                   ],
                 ));
@@ -665,7 +665,7 @@ class _MyCartViewState extends State<MyCartView>
           decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: greentheme100, width: 2),
+              borderSide: BorderSide(color: greentheme400, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: greytheme900, width: 2)),
@@ -829,7 +829,7 @@ class _MyCartViewState extends State<MyCartView>
       alignment: Alignment.centerRight,
       color: Globle().colorscode != null
           ? getColorByHex(Globle().colorscode)
-          : orangetheme,
+          : orangetheme300,
       padding: EdgeInsets.only(right: 20),
       child: Icon(
         Icons.delete,
