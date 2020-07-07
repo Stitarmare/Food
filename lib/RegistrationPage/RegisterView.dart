@@ -205,8 +205,8 @@ class _RegisterviewState extends State<Registerview>
                   countrycode = text.toString();
                 },
                 // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                initialSelection: '+91',
-                favorite: ['+91', 'IN'],
+                initialSelection: '+27',
+                favorite: ['+27', 'SA'],
                 // optional. Shows only country name and flag
                 showCountryOnly: false,
                 // optional. Shows only country name and flag when popup is closed.
