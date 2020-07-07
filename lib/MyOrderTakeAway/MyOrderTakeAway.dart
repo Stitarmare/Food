@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
@@ -37,7 +38,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     super.initState();
     _myOrdersPresenter = MyOrderTakeAwayPresenter(this);
     _myOrdersPresenter.getOrderDetails(STR_TAKE_AWAY, context);
-    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context,true);
+    _myOrdersPresenter.getmyOrderBookingHistory(STR_TAKE_AWAY, context, true);
   }
 
   @override
@@ -168,7 +169,8 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   String getitemname(List<ListElement> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname +=
+          "${_listitem[i].quantity} x ${StringUtils.capitalize(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -332,7 +334,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].orderType}',
+                        '${StringUtils.capitalize(_orderDetailList[index].orderType)}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -397,7 +399,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                               left: 15, top: 5, bottom: 8),
                           child: Text(
                             // STR_STATUS + '${_orderDetailList[index].status}',
-                            '${_orderDetailList[index].status}',
+                            '${StringUtils.capitalize(_orderDetailList[index].status)}',
                             style: TextStyle(color: greytheme400, fontSize: 18),
                           ),
                         ),
@@ -428,7 +430,8 @@ class _MyOrdersState extends State<MyOrderTakeAway>
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname +=
+          "${_listitem[i].quantity} x ${StringUtils.capitalize(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -575,7 +578,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].orderType}',
+                      '${StringUtils.capitalize(getmyOrderBookingHistory[index].orderType)}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -639,7 +642,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                         width: 10,
                       ),
                       Text(
-                        '${getmyOrderBookingHistory[index].status}',
+                        '${StringUtils.capitalize(getmyOrderBookingHistory[index].status)}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),
