@@ -90,7 +90,9 @@ class _MyCartViewState extends State<MyCartView>
     //     type: ProgressDialogType.Normal, isDismissible: false);
     // progressDialog.style(message: STR_LOADING);
     _myCartpresenter = MycartPresenter(this, this, this);
-
+    setState(() {
+      isloading = true;
+    });
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
@@ -915,6 +917,8 @@ class _MyCartViewState extends State<MyCartView>
   @override
   Future<void> getCartMenuListfailed() async {
     setState(() {
+      isloading = false;
+
       _cartItemList = null;
       isIgnoreTouch = false;
     });
@@ -928,6 +932,7 @@ class _MyCartViewState extends State<MyCartView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isloading = false;
     });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;

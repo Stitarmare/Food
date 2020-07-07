@@ -56,6 +56,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   List<Subcategories> subcategories = [];
   List<Subcategories> subcategoriesList = [];
   List<Subcategories> subcategoriesList2 = [];
+  bool isLoading = false;
 
   var abc;
   var subCategoryIdabc;
@@ -65,6 +66,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     _detectScrollPosition();
     restaurantPresenter = RestaurantTAPresenter(this);
     _restaurantItemsModel = RestaurantItemsModel();
+    setState(() {
+      isLoading = true;
+    });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
@@ -244,29 +248,53 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                 ),
                 (_restaurantList != null)
                     ? _menuItemList()
-                    : SliverToBoxAdapter(
-                        child: Center(
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
+                    : isLoading
+                        ? SliverToBoxAdapter(
+                            child: Center(
+                            child: Container(
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                  ),
+                                  CircularProgressIndicator(),
+                                  // Text(
+                                  //   STR_NO_ITEM_FOUND,
+                                  //   textAlign: TextAlign.start,
+                                  //   style: TextStyle(
+                                  //       fontSize: FONTSIZE_25,
+                                  //       fontFamily: Constants.getFontType(),
+                                  //       fontWeight: FontWeight.w500,
+                                  //       color: greytheme700),
+                                  // ),
+                                ],
                               ),
-                              // CircularProgressIndicator(),
-                              Text(
-                                STR_NO_ITEMS_FOUND,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: FONTSIZE_25,
-                                    fontFamily: Constants.getFontType(),
-                                    fontWeight: FontWeight.w500,
-                                    color: greytheme700),
+                            ),
+                          ))
+                        : SliverToBoxAdapter(
+                            child: Center(
+                            child: Container(
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.25,
+                                  ),
+                                  // CircularProgressIndicator(),
+                                  Text(
+                                    STR_NO_ITEMS_FOUND,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontSize: FONTSIZE_25,
+                                        fontFamily: Constants.getFontType(),
+                                        fontWeight: FontWeight.w500,
+                                        color: greytheme700),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      )),
+                            ),
+                          )),
               ],
             ),
           ),
@@ -823,12 +851,18 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   @override
   Future<void> getMenuListfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoading = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> getMenuListsuccess(List<RestaurantMenuItem> menulist,
       RestaurantItemsModel restaurantItemsModel1) async {
+    setState(() {
+      isLoading = false;
+    });
     if (menulist.length == 0) {
       await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
