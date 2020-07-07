@@ -76,7 +76,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           // title: new Text("Payment"),
           brightness: Brightness.dark,
           title: new Text("Payment"),
-          backgroundColor: orangetheme,
+          backgroundColor: orangetheme300,
         ));
   }
 }

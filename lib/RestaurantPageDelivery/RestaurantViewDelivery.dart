@@ -348,7 +348,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               child: CupertinoSwitch(
                 activeColor: ((Globle().colorscode) != null)
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 onChanged: (bool value) {
                   setState(() {
                     this._switchvalue = value;
@@ -382,14 +382,14 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                         color: (isselected)
                             ? ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme
+                                : orangetheme300
                             : greytheme100),
                   ),
                   borderSide: (isselected)
                       ? BorderSide(
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme)
+                              : orangetheme300)
                       : BorderSide(color: greytheme100),
                   onPressed: () async {
                     setState(() {
@@ -809,7 +809,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                   fontWeight: FontWeight.w600,
                                   // color: ((Globle().colorscode) != null)
                                   //     ? getColorByHex(Globle().colorscode)
-                                  //     : orangetheme
+                                  //     : orangetheme300
                                   color: greytheme700),
                             ),
                           ]),
@@ -844,7 +844,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                   fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
-                      : orangetheme),
+                      : orangetheme300),
             ),
             SizedBox(width: 5),
             Padding(
@@ -864,7 +864,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                     fontWeight: FontWeight.w600,
                     color: ((Globle().colorscode) != null)
                         ? getColorByHex(Globle().colorscode)
-                        : orangetheme),
+                        : orangetheme300),
               ),
             ),
           ],

@@ -93,7 +93,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(6.0),
                   ),
-                  color: greentheme100,
+                  color: greentheme400,
                   child: Text(
                     KEY_UPDATE,
                     style: TextStyle(
@@ -204,7 +204,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                     flex: 2,
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: greentheme100),
+                          border: Border.all(color: greentheme400),
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: CountryCodePicker(
                         onChanged: (text) {
@@ -235,7 +235,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                       focusNode: _nodeText1,
                       icon: Icon(
                         Icons.call,
-                        color: greentheme100,
+                        color: greentheme400,
                       ),
                       placeHolderName: KEY_MOBILE_NUMBER,
                       validator: validatemobno,

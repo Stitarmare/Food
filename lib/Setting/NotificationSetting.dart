@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetNotificationSetting.dart';
 import 'package:foodzi/Setting/NotificationSettingPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
@@ -95,19 +96,26 @@ class _NotificationSettingState extends State<NotificationSetting>
                       // activeColor: ((Globle().colorscode) != null)
                       //     ? getColorByHex(Globle().colorscode)
                       //     : orangetheme,
+                      activeColor: greentheme400,
                       onChanged: (bool value) {
                         setState(() {
                           this._switchvalue = value;
                           Preference.setPersistData<bool>(
                               value, "notificationKey");
                           _checkBoxOptions = [
-    CheckBoxOptions(
-        index: 1, title: 'Activity on my Reviews', isChecked: value),
-    CheckBoxOptions(
-        index: 2, title: 'Important updates from Foodzi', isChecked: value),
-    CheckBoxOptions(
-        index: 3, title: 'Other social Notifications', isChecked: value)
-  ];
+                            CheckBoxOptions(
+                                index: 1,
+                                title: 'Activity on my Reviews',
+                                isChecked: value),
+                            CheckBoxOptions(
+                                index: 2,
+                                title: 'Important updates from Foodzi',
+                                isChecked: value),
+                            CheckBoxOptions(
+                                index: 3,
+                                title: 'Other social Notifications',
+                                isChecked: value)
+                          ];
                         });
                         updateNotification();
                       },
@@ -149,31 +157,32 @@ class _NotificationSettingState extends State<NotificationSetting>
         children: _checkBoxOptions
             .map((checkBtn) => CheckboxListTile(
                   value: checkBtn.isChecked,
+                  activeColor: greentheme400,
                   onChanged: (val) {
                     checkBtn.isChecked = val;
                     setState(() {
-                      _checkBoxOptions[checkBtn.index-1].isChecked = val;
+                      _checkBoxOptions[checkBtn.index - 1].isChecked = val;
                       var check1 = false;
-          var check2 = false;
-          var check3 = false;
-          
-          if (_checkBoxOptions[0].isChecked){
-              check1 = true;
-          }
-          if (_checkBoxOptions[1].isChecked){
-            check2 = true;
-          }
-          if (_checkBoxOptions[2].isChecked){
-            check3 = true;
-          }
+                      var check2 = false;
+                      var check3 = false;
 
-          if (check3 && check2 && check1) {
-            this._switchvalue = true;
-          } else {
-            this._switchvalue = false;
-          }
+                      if (_checkBoxOptions[0].isChecked) {
+                        check1 = true;
+                      }
+                      if (_checkBoxOptions[1].isChecked) {
+                        check2 = true;
+                      }
+                      if (_checkBoxOptions[2].isChecked) {
+                        check3 = true;
+                      }
+
+                      if (check3 && check2 && check1) {
+                        this._switchvalue = true;
+                      } else {
+                        this._switchvalue = false;
+                      }
                     });
-                    
+
                     updateNotification();
                   },
                   controlAffinity: ListTileControlAffinity.leading,

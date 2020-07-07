@@ -1153,7 +1153,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                         dense: true,
                         activeColor: ((Globle().colorscode) != null)
                             ? getColorByHex(Globle().colorscode)
-                            : orangetheme,
+                            : orangetheme300,
                         onChanged: (val) {
                           setState(() {
                             if (size == null) {
@@ -1194,7 +1194,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           dense: true,
                           activeColor: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme,
+                              : orangetheme300,
                           onChanged: (val) {
                             setState(() {
                               if (spread == null) {
@@ -1237,7 +1237,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                                                 ((Globle().colorscode) != null)
                                                     ? getColorByHex(
                                                         Globle().colorscode)
-                                                    : orangetheme,
+                                                    : orangetheme300,
                                             onChanged: (val) {
                                               setState(() {
                                                 subOptionId = val;

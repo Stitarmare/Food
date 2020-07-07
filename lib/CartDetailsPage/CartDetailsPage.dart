@@ -211,7 +211,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                         fontWeight: FontWeight.w600,
                         color: Globle().colorscode != null
                             ? getColorByHex(Globle().colorscode)
-                            : orangetheme),
+                            : orangetheme300),
                   )
                 ],
               ),
@@ -236,7 +236,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                               fontWeight: FontWeight.w600,
                               color: Globle().colorscode != null
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme))
+                                  : orangetheme300))
                       : Container(),
                 ],
               )),
@@ -270,7 +270,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                   fontWeight: FontWeight.w600,
                   color: Globle().colorscode != null
                       ? getColorByHex(Globle().colorscode)
-                      : orangetheme),
+                      : orangetheme300),
             ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
@@ -389,7 +389,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                           color: Globle().colorscode != null
                                               ? getColorByHex(
                                                   Globle().colorscode)
-                                              : orangetheme,
+                                              : orangetheme300,
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(15),
                                               topRight: Radius.circular(15))),
@@ -452,7 +452,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                           : MediaQuery.of(context).size.width *
                                               0.45,
                                       decoration: BoxDecoration(
-                                          color: greentheme100,
+                                          color: greentheme400,
                                           borderRadius: BorderRadius.only(
                                               topLeft: Radius.circular(15),
                                               topRight: Radius.circular(15))),
@@ -527,7 +527,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
             decoration: BoxDecoration(
                 color: Globle().colorscode != null
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             alignment: Alignment.center,
             child: Icon(
@@ -887,7 +887,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
   //         decoration: InputDecoration(
   //           contentPadding: EdgeInsets.fromLTRB(10, 0, 5, 0),
   //           focusedBorder: OutlineInputBorder(
-  //             borderSide: BorderSide(color: greentheme100, width: 2),
+  //             borderSide: BorderSide(color: greentheme400, width: 2),
   //           ),
   //           enabledBorder: OutlineInputBorder(
   //               borderSide: BorderSide(color: greytheme900, width: 2)),

@@ -504,7 +504,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                 fontWeight: FontWeight.w600,
                                 // color: ((Globle().colorscode) != null)
                                 //     ? getColorByHex(Globle().colorscode)
-                                //     : orangetheme
+                                //     : orangetheme300
                                 color: greytheme700),
                           ),
                         ],
@@ -539,7 +539,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
-                      : orangetheme),
+                      : orangetheme300),
             ),
             SizedBox(width: 5),
             Padding(
@@ -559,7 +559,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                     fontWeight: FontWeight.w600,
                     color: ((Globle().colorscode) != null)
                         ? getColorByHex(Globle().colorscode)
-                        : orangetheme),
+                        : orangetheme300),
               ),
             ),
           ],

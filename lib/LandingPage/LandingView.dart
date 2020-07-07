@@ -191,7 +191,7 @@ class _LandingStateView extends State<Landingview>
           //                   fontSize: FONTSIZE_16,
           //                   fontFamily: KEY_FONTFAMILY,
           //                   fontWeight: FontWeight.w600,
-          //                   color: greentheme100)),
+          //                   color: greentheme400)),
           //         )),
           //       )
           //     : (Container()),
@@ -216,7 +216,7 @@ class _LandingStateView extends State<Landingview>
                                 fontSize: FONTSIZE_16,
                                 fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w600,
-                                color: greentheme100)),
+                                color: greentheme400)),
                       ),
                     ),
                   ),
@@ -388,7 +388,7 @@ class _LandingStateView extends State<Landingview>
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
         child: Card(
-          color: greentheme100,
+          color: greentheme400,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -413,7 +413,7 @@ class _LandingStateView extends State<Landingview>
       child: Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
         child: Card(
-          color: orangetheme200,
+          color: orangetheme300,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -580,7 +580,7 @@ class _LandingStateView extends State<Landingview>
                 fontSize: FONTSIZE_24,
                 fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
-                color: greentheme100)),
+                color: greentheme400)),
         SizedBox(
           height: 2,
         ),
@@ -620,7 +620,7 @@ class _LandingStateView extends State<Landingview>
                                   fontSize: FONTSIZE_16,
                                   fontFamily: Constants.getFontType(),
                                   fontWeight: FontWeight.w600,
-                                  color: greentheme100)),
+                                  color: greentheme400)),
                         ),
                       ),
                     ),
@@ -762,7 +762,7 @@ class _LandingStateView extends State<Landingview>
                 fontSize: FONTSIZE_24,
                 fontFamily: Constants.getFontType(),
                 fontWeight: FontWeight.w600,
-                color: greentheme100)),
+                color: greentheme400)),
         SizedBox(
           height: 2,
         ),
@@ -934,7 +934,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(STR_HOME,
                 style: TextStyle(
                     color: (Globle().navigatorIndex == 1)
-                        ? orangetheme
+                        ? orangetheme300
                         : greytheme800,
                     fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w600,
@@ -955,7 +955,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_ABOUT_US,
               style: TextStyle(
                   color: (Globle().navigatorIndex == 2)
-                      ? orangetheme
+                      ? orangetheme300
                       : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
@@ -977,7 +977,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_TERMS_CONDITION,
               style: TextStyle(
                   color: (Globle().navigatorIndex == 3)
-                      ? orangetheme
+                      ? orangetheme300
                       : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
@@ -999,7 +999,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_PRIVACY_POLICY,
               style: TextStyle(
                   color: (Globle().navigatorIndex == 4)
-                      ? orangetheme
+                      ? orangetheme300
                       : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
@@ -1020,7 +1020,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             text: Text(STR_SETTING,
                 style: TextStyle(
                     color: (Globle().navigatorIndex == 5)
-                        ? orangetheme
+                        ? orangetheme300
                         : greytheme800,
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w600,
@@ -1045,7 +1045,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
               STR_HELP,
               style: TextStyle(
                   color: (Globle().navigatorIndex == 6)
-                      ? orangetheme
+                      ? orangetheme300
                       : greytheme800,
                   fontFamily: KEY_FONTFAMILY,
                   fontWeight: FontWeight.w600,
@@ -1193,4 +1193,4 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 //                           fontSize: FONTSIZE_16,
 //                           fontFamily: Constants.getFontType(),
 //                           fontWeight: FontWeight.w600,
-//                           color: greentheme100)),)
+//                           color: greentheme400)),)

@@ -144,7 +144,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           height: 5,
         ),
         Divider(
-          color: greentheme,
+          color: greentheme400,
           indent: 138,
           endIndent: 135,
           height: 10,
@@ -164,7 +164,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               flex: 2,
               child: Container(
                 decoration: BoxDecoration(
-                    border: Border.all(color: greentheme100),
+                    border: Border.all(color: greentheme400),
                     borderRadius: BorderRadius.all(Radius.circular(8))),
                 child: CountryCodePicker(
                   onChanged: (text) {
@@ -189,7 +189,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               //   ],
               //   icon: Icon(
               //     Icons.language,
-              //     color: greentheme100,
+              //     color: greentheme400,
               //   ),
               //   keyboardType: TextInputType.phone,
               //   placeHolderName: STR_CODE,
@@ -221,7 +221,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                 keyboardType: TextInputType.phone,
                 icon: Icon(
                   Icons.call,
-                  color: greentheme100,
+                  color: greentheme400,
                 ),
                 placeHolderName: KEY_MOBILE_NUMBER,
                 validator: validatemobno,
@@ -250,7 +250,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
               transform: Matrix4.rotationY(math.pi),
               child: Icon(
                 Icons.vpn_key,
-                color: greentheme100,
+                color: greentheme400,
               ),
             ),
           ),
@@ -327,7 +327,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   fontSize: FONTSIZE_12,
                   fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
-                  color: greentheme100),
+                  color: greentheme400),
             ),
           ),
         )
@@ -340,7 +340,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme100,
+        color: greentheme400,
         onPressed: () => onSignInButtonClicked(),
         child: Text(
           KEY_SIGN_IN,
@@ -377,7 +377,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             fontSize: FONTSIZE_16,
             fontFamily: Constants.getFontType(),
             fontWeight: FontWeight.w600,
-            color: greentheme100,
+            color: greentheme400,
           ),
         ),
       ),
@@ -407,7 +407,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             child: new Text(
               KEY_SIGNUP,
               style: TextStyle(
-                  color: greentheme100,
+                  color: greentheme400,
                   fontWeight: FontWeight.w600,
                   fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_16),

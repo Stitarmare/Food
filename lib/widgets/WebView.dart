@@ -76,7 +76,7 @@ class _WebViewPageState extends State<WebViewPage> {
                           decoration: BoxDecoration(
                               color: ((Globle().colorscode) != null)
                                   ? getColorByHex(Globle().colorscode)
-                                  : greentheme100,
+                                  : greentheme400,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(15),
                                   topRight: Radius.circular(15))),

@@ -177,7 +177,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                             flex: 2,
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(color: greentheme100),
+                                  border: Border.all(color: greentheme400),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8))),
                               child: CountryCodePicker(
@@ -198,7 +198,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                             // AppTextField(
                             //   icon: Icon(
                             //     Icons.language,
-                            //     color: greentheme100,
+                            //     color: greentheme400,
                             //   ),
                             //   keyboardType: TextInputType.phone,
                             //   placeHolderName: STR_CODE,
@@ -231,7 +231,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                               focusNode: _nodeText2,
                               icon: Icon(
                                 Icons.call,
-                                color: greentheme100,
+                                color: greentheme400,
                               ),
                               placeHolderName: "Old mobile number",
                               validator: validateOldmobno,
@@ -247,7 +247,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       flex: 2,
                       child: Container(
                         decoration: BoxDecoration(
-                            border: Border.all(color: greentheme100),
+                            border: Border.all(color: greentheme400),
                             borderRadius: BorderRadius.all(Radius.circular(8))),
                         child: CountryCodePicker(
                           onChanged: (text) {
@@ -267,7 +267,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                       // AppTextField(
                       //   icon: Icon(
                       //     Icons.language,
-                      //     color: greentheme100,
+                      //     color: greentheme400,
                       //   ),
                       //   keyboardType: TextInputType.phone,
                       //   placeHolderName: STR_CODE,
@@ -300,7 +300,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                         focusNode: _nodeText1,
                         icon: Icon(
                           Icons.call,
-                          color: greentheme100,
+                          color: greentheme400,
                         ),
                         placeHolderName:
                             flagValue ? "New mobile number" : KEY_MOBILE_NUMBER,
@@ -385,7 +385,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme100,
+        color: greentheme400,
         onPressed: () => onsubmitButtonClicked(),
         child: Text(
           KEY_SUBMIT_BUTTON,

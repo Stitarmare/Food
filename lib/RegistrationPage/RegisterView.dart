@@ -130,7 +130,7 @@ class _RegisterviewState extends State<Registerview>
           height: 5,
         ),
         Divider(
-          color: greentheme,
+          color: greentheme400,
           indent: 138,
           endIndent: 135,
           height: 10,
@@ -160,7 +160,7 @@ class _RegisterviewState extends State<Registerview>
           keyboardType: TextInputType.text,
           icon: Icon(
             Icons.person,
-            color: greentheme100,
+            color: greentheme400,
           ),
           placeHolderName: KEY_FIRST_NAME,
           validator: validatFirstename,
@@ -182,7 +182,7 @@ class _RegisterviewState extends State<Registerview>
           keyboardType: TextInputType.text,
           icon: Icon(
             Icons.person,
-            color: greentheme100,
+            color: greentheme400,
           ),
           placeHolderName: KEY_LAST_NAME,
           validator: validateLastname,
@@ -198,7 +198,7 @@ class _RegisterviewState extends State<Registerview>
             flex: 2,
             child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: greentheme100),
+                  border: Border.all(color: greentheme400),
                   borderRadius: BorderRadius.all(Radius.circular(8))),
               child: CountryCodePicker(
                 onChanged: (text) {
@@ -222,7 +222,7 @@ class _RegisterviewState extends State<Registerview>
             //   ],
             //   icon: Icon(
             //     Icons.language,
-            //     color: greentheme100,
+            //     color: greentheme400,
             //   ),
             //   keyboardType: TextInputType.phone,
             //   placeHolderName: STR_CODE,
@@ -251,7 +251,7 @@ class _RegisterviewState extends State<Registerview>
                 _phoneno = text;
               },
               keyboardType: TextInputType.phone,
-              icon: Icon(Icons.call, color: greentheme100),
+              icon: Icon(Icons.call, color: greentheme400),
               placeHolderName: KEY_MOBILE_NUMBER,
               validator: validatemobno,
               onSaved: (String value) {
@@ -276,7 +276,7 @@ class _RegisterviewState extends State<Registerview>
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
-              child: Icon(Icons.vpn_key, color: greentheme100),
+              child: Icon(Icons.vpn_key, color: greentheme400),
             ),
           ),
           validator: validatepassword,
@@ -360,7 +360,7 @@ class _RegisterviewState extends State<Registerview>
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme100,
+        color: greentheme400,
         onPressed: () => onSignUpButtonClicked(),
         child: Text(
           KEY_SIGN_UP,
@@ -402,7 +402,7 @@ class _RegisterviewState extends State<Registerview>
             child: new Text(
               KEY_SIGNIN,
               style: TextStyle(
-                  color: greentheme100,
+                  color: greentheme400,
                   fontWeight: FontWeight.w600,
                   fontFamily: Constants.getFontType(),
                   fontSize: FONTSIZE_16),

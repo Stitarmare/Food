@@ -24,6 +24,8 @@ const greentheme = Color.fromRGBO(0, 128, 0, 1);
 const greentheme100 = Color.fromRGBO(0, 140, 0, 1);
 const greentheme200 = Color.fromRGBO(24, 214, 101, 1);
 const greentheme300 = Color.fromRGBO(75, 148, 52, 1);
+const greentheme400 = Color.fromRGBO(0, 154, 23, 1); //009A17
+
 //Grey themes
 const greytheme100 = Color.fromRGBO(170, 170, 170, 1);
 const greytheme200 = Color.fromRGBO(58, 63, 67, 0.7);
@@ -45,6 +47,7 @@ const greytheme1500 = Color.fromRGBO(112, 112, 112, 0.2);
 const orangetheme = Color.fromRGBO(255, 105, 58, 1);
 const orangetheme100 = Color.fromRGBO(253, 88, 0, 1);
 const orangetheme200 = Color.fromRGBO(236, 116, 67, 1);
+const orangetheme300 = Color.fromRGBO(255, 109, 43, 1); //FF6D2B
 
 //Green Themes
 //const greentheme = Color.fromRGBO(0, 153, 53, 1);

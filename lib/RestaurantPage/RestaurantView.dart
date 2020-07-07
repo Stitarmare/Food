@@ -396,7 +396,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                           ? (Globle().colorscode != null)
                                               ? getColorByHex(
                                                   Globle().colorscode)
-                                              : orangetheme
+                                              : orangetheme300
                                           : Color.fromRGBO(118, 118, 118, 1),
                                       fontSize: 16.0),
                                 )),
@@ -490,7 +490,7 @@ class _RestaurantViewState extends State<RestaurantView>
               child: CupertinoSwitch(
                 activeColor: ((Globle().colorscode) != null)
                     ? getColorByHex(Globle().colorscode)
-                    : orangetheme,
+                    : orangetheme300,
                 onChanged: (bool value) {
                   setState(() {
                     this._switchvalue = value;
@@ -524,14 +524,14 @@ class _RestaurantViewState extends State<RestaurantView>
                         color: (isselected)
                             ? ((Globle().colorscode) != null)
                                 ? getColorByHex(Globle().colorscode)
-                                : orangetheme
+                                : orangetheme300
                             : greytheme100),
                   ),
                   borderSide: (isselected)
                       ? BorderSide(
                           color: ((Globle().colorscode) != null)
                               ? getColorByHex(Globle().colorscode)
-                              : orangetheme)
+                              : orangetheme300)
                       : BorderSide(color: greytheme100),
                   onPressed: () async {
                     setState(() {
@@ -624,7 +624,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                         _selectedMenu == index
                                     ? (((Globle().colorscode) != null)
                                         ? getColorByHex(Globle().colorscode)
-                                        : orangetheme)
+                                        : orangetheme300)
                                     : Color.fromRGBO(118, 118, 118, 1),
                               ),
                             ),
@@ -638,7 +638,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           color: _selectedMenu != null && _selectedMenu == index
                               ? (Globle().colorscode != null)
                                   ? getColorByHex(Globle().colorscode)
-                                  : orangetheme
+                                  : orangetheme300
                               : Color.fromRGBO(118, 118, 118, 1),
                         ),
                       )
@@ -836,7 +836,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                 fontWeight: FontWeight.w600,
                                 // color: ((Globle().colorscode) != null)
                                 //     ? getColorByHex(Globle().colorscode)
-                                //     : orangetheme
+                                //     : orangetheme300
                                 color: greytheme700),
                           ),
                         ],
@@ -925,7 +925,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       //                 fontWeight: FontWeight.w600,
                       //                 color: ((Globle().colorscode) != null)
                       //                     ? getColorByHex(Globle().colorscode)
-                      //                     : orangetheme),
+                      //                     : orangetheme300),
                       //           ),
                       //         ),
                       //       ),
@@ -954,7 +954,7 @@ class _RestaurantViewState extends State<RestaurantView>
                       //             decoration: BoxDecoration(
                       //                 color: ((Globle().colorscode) != null)
                       //                     ? getColorByHex(Globle().colorscode)
-                      //                     : orangetheme,
+                      //                     : orangetheme300,
                       //                 borderRadius: BorderRadius.only(
                       //                   bottomRight: Radius.circular(12.0),
                       //                 )),
@@ -1003,7 +1003,7 @@ class _RestaurantViewState extends State<RestaurantView>
                   fontWeight: FontWeight.w400,
                   color: ((Globle().colorscode) != null)
                       ? getColorByHex(Globle().colorscode)
-                      : orangetheme),
+                      : orangetheme300),
             ),
             SizedBox(width: 5),
             Padding(
@@ -1023,7 +1023,7 @@ class _RestaurantViewState extends State<RestaurantView>
                     fontWeight: FontWeight.w600,
                     color: ((Globle().colorscode) != null)
                         ? getColorByHex(Globle().colorscode)
-                        : orangetheme),
+                        : orangetheme300),
               ),
             ),
           ],
