@@ -79,6 +79,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   void initState() {
     // progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     // progressDialog.style(message: STR_LOADING);
+    setState(() {
+      isloading = true;
+    });
     _myCartpresenter = MycartDeliveryPresenter(this, this, this);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
@@ -332,7 +335,28 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               SizedBox(
                 height: 10,
               ),
-              isloading ? Container() : _getAddedListItem()
+              isloading
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          CircularProgressIndicator()
+                        ],
+                      ),
+                    )
+                  : _getAddedListItem()
             ],
           ),
           bottomNavigationBar: BottomAppBar(
@@ -723,6 +747,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     setState(() {
       _cartItemList = null;
       isIgnoreTouch = false;
+      isloading = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -733,6 +758,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       List<MenuCartList> menulist, MenuCartDisplayModel model) async {
     setState(() {
       isIgnoreTouch = false;
+      isloading = false;
     });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;

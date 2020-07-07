@@ -55,10 +55,14 @@ class _MyCartTWViewState extends State<MyCartTWView>
   MenuCartDisplayModel myCart;
   ProgressDialog progressDialog;
   bool isIgnoreTouch = false;
+  bool isloading = false;
 
   @override
   void initState() {
     _myCartpresenter = MycartTWPresenter(this);
+    setState(() {
+      isloading = true;
+    });
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 
@@ -398,7 +402,28 @@ class _MyCartTWViewState extends State<MyCartTWView>
               SizedBox(
                 height: 10,
               ),
-              _getAddedListItem()
+              isloading
+                  ? Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_15,
+                                  fontFamily: KEY_FONTFAMILY,
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme1200),
+                            ),
+                          ),
+                          CircularProgressIndicator()
+                        ],
+                      ),
+                    )
+                  : _getAddedListItem()
             ],
           ),
           bottomNavigationBar: BottomAppBar(
@@ -712,6 +737,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   void getCartMenuListfailed() {
     setState(() {
       isIgnoreTouch = false;
+      isloading = false;
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -723,6 +749,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isloading = false;
     });
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;

@@ -73,6 +73,7 @@ class _RestaurantViewState extends State<RestaurantView>
   List<Subcategories> subcategoriesList2 = [];
 
   var abc;
+  bool isLoading = false;
   var subCategoryIdabc;
 
   @override
@@ -87,6 +88,9 @@ class _RestaurantViewState extends State<RestaurantView>
     restaurantList1 = widget.restaurantList;
     restaurantPresenter = RestaurantPresenter(this);
     restaurantItemsModel = RestaurantItemsModel();
+    setState(() {
+      isLoading = true;
+    });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
     print(widget.imageUrl);
@@ -206,6 +210,7 @@ class _RestaurantViewState extends State<RestaurantView>
     print("CategoryId " + abc.toString());
     print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
+
     await progressDialog.show();
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
@@ -336,29 +341,55 @@ class _RestaurantViewState extends State<RestaurantView>
                   ),
                   (_restaurantList != null)
                       ? _menuItemList()
-                      : SliverToBoxAdapter(
-                          child: Center(
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.25,
+                      : isLoading
+                          ? SliverToBoxAdapter(
+                              child: Center(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                    ),
+                                    CircularProgressIndicator(),
+                                    // Text(
+                                    //   STR_NO_ITEM_FOUND,
+                                    //   textAlign: TextAlign.start,
+                                    //   style: TextStyle(
+                                    //       fontSize: FONTSIZE_25,
+                                    //       fontFamily: Constants.getFontType(),
+                                    //       fontWeight: FontWeight.w500,
+                                    //       color: greytheme700),
+                                    // ),
+                                  ],
                                 ),
-                                // CircularProgressIndicator(),
-                                Text(
-                                  STR_NO_ITEM_FOUND,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontSize: FONTSIZE_25,
-                                      fontFamily: Constants.getFontType(),
-                                      fontWeight: FontWeight.w500,
-                                      color: greytheme700),
+                              ),
+                            ))
+                          : SliverToBoxAdapter(
+                              child: Center(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                    ),
+                                    // CircularProgressIndicator(),
+                                    Text(
+                                      STR_NO_ITEM_FOUND,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_25,
+                                          fontFamily: Constants.getFontType(),
+                                          fontWeight: FontWeight.w500,
+                                          color: greytheme700),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        )),
+                              ),
+                            )),
                 ],
               ),
             ),
@@ -1075,6 +1106,9 @@ class _RestaurantViewState extends State<RestaurantView>
   @override
   Future<void> getMenuListfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoading = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -1083,6 +1117,9 @@ class _RestaurantViewState extends State<RestaurantView>
       RestaurantItemsModel _restaurantItemsModel1) async {
     if (menulist.length == 0) {
       await progressDialog.hide();
+      setState(() {
+        isLoading = false;
+      });
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -1099,6 +1136,9 @@ class _RestaurantViewState extends State<RestaurantView>
       page++;
     });
     await progressDialog.hide();
+    setState(() {
+      isLoading = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
