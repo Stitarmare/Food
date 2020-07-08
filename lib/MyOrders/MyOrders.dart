@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
@@ -174,7 +175,8 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
   String getitemname(List<ListElement> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].qty} x ${_listitem[i].items.itemName}, ";
+      itemname +=
+          "${_listitem[i].qty} x ${capitalizeFirst(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -185,6 +187,10 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
 
   static String removeLastChar(String str) {
     return str.substring(0, str.length - 1);
+  }
+
+  String capitalizeFirst(String str) {
+    return StringUtils.capitalize(str);
   }
 
   Widget _currentOrders(BuildContext context) {
