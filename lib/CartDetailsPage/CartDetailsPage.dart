@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
@@ -27,9 +28,15 @@ class CartDetailsPage extends StatefulWidget {
   int flag;
   bool isFromOrder = false;
   int restId;
+  String title;
   String orderType;
   CartDetailsPage(
-      {this.orderId, this.flag, this.isFromOrder, this.restId, this.orderType});
+      {this.orderId,
+      this.flag,
+      this.isFromOrder,
+      this.restId,
+      this.orderType,
+      this.title});
   @override
   State<StatefulWidget> createState() {
     return CartDetailsPageState();
@@ -415,14 +422,25 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                 if (widget.isFromOrder) {
                                   if (myOrderDataDetails != null) {
                                     if (myOrderDataDetails.restId != null) {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             RestaurantView(
+                                      //               restId: myOrderDataDetails
+                                      //                   .restId,
+                                      //               title: "",
+                                      //               imageUrl: "",
+                                      //               isFromOrder: true,
+                                      //             )));
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  RestaurantView(
+                                                  BottomTabbarHome(
+                                                    title: widget.title,
                                                     restId: myOrderDataDetails
                                                         .restId,
-                                                    title: "",
                                                     imageUrl: "",
                                                     isFromOrder: true,
                                                   )));

@@ -105,7 +105,6 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   List<Switches> defaultSwitch;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     super.didChangeDependencies();
   }

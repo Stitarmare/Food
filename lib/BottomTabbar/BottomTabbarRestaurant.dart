@@ -28,6 +28,7 @@ class BottomTabbarHome extends StatefulWidget {
   String long;
   String imageUrl;
   String tableName;
+  bool isFromOrder;
   RestaurantList restaurantList;
   int flag;
   BottomTabbarHome(
@@ -38,6 +39,7 @@ class BottomTabbarHome extends StatefulWidget {
       this.imageUrl,
       this.restaurantList,
       this.flag,
+      this.isFromOrder,
       this.tableName});
   @override
   State<StatefulWidget> createState() {
@@ -81,6 +83,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
               title: widget.title,
               restId: widget.restId,
               imageUrl: widget.imageUrl,
+              isFromOrder: widget.isFromOrder,
               restaurantList: widget.restaurantList)
         ]);
       });
@@ -189,6 +192,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                     //               restName: widget.title,
                     //               imgUrl: widget.imageUrl)));
                     // }
+                    setState(() {
+                      widget.isFromOrder = false;
+                    });
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -196,6 +202,7 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
                                 restId: widget.restId,
                                 lat: widget.lat,
                                 long: widget.long,
+                                isFromOrder: widget.isFromOrder,
                                 orderType: STR_SMALL_DINEIN,
                                 restName: widget.title,
                                 imgUrl: widget.imageUrl)));

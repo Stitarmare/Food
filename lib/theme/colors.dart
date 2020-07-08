@@ -56,7 +56,10 @@ const orangetheme300 = Color.fromRGBO(255, 109, 43, 1); //FF6D2B
 const redtheme = Color.fromRGBO(237, 29, 37, 1);
 
 Color getColorByHex(String hex) {
-  return HexColor.fromHex(hex);
+  if (hex != null) {
+    return HexColor.fromHex(hex);
+  }
+  return orangetheme300;
 }
 
 extension HexColor on Color {

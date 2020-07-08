@@ -430,6 +430,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.21,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Align(
                       alignment: Alignment.bottomCenter,

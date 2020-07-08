@@ -397,6 +397,9 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                                               _orderDetailList[index].restId,
                                           orderId: _orderDetailList[index].id,
                                           isFromOrder: true,
+                                          title: _orderDetailList[index]
+                                              .restaurant
+                                              .restName,
                                         )));
                           },
                         ),
