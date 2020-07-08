@@ -815,6 +815,7 @@ class _LandingStateView extends State<Landingview>
     _model = model;
     if (model != null) {
       setState(() {
+        Globle().notificationFLag = true;
         notifiCount = model.data.notificationCount;
       });
       if (model.data.dineIn != null) {
