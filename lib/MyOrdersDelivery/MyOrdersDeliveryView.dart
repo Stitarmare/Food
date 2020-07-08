@@ -1,18 +1,14 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/DeliveryBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
-import 'package:foodzi/MyOrders/MyOrderContractor.dart';
-import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
 import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryContractor.dart';
 import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryPresenter.dart';
-import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
-import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
-import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
@@ -177,7 +173,8 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
   String getitemname(List<ListElement> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname +=
+          "${_listitem[i].quantity} x ${capitalizeFirst(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -316,7 +313,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].orderType}',
+                        '${capitalizeFirst(_orderDetailList[index].orderType)}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -459,7 +456,8 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
   String getBookingHistoryitemname(List<GetMyOrderBookingList> _listitem) {
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
-      itemname += "${_listitem[i].quantity} x ${_listitem[i].items.itemName}, ";
+      itemname +=
+          "${_listitem[i].quantity} x ${capitalizeFirst(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -596,7 +594,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].orderType}',
+                      '${capitalizeFirst(getmyOrderBookingHistory[index].orderType)}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -653,7 +651,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                         width: 10,
                       ),
                       Text(
-                        '${getmyOrderBookingHistory[index].status}',
+                        '${capitalizeFirst(getmyOrderBookingHistory[index].status)}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),
@@ -674,6 +672,10 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
             );
           },
         ));
+  }
+
+  String capitalizeFirst(String str) {
+    return StringUtils.capitalize(str);
   }
 
   String getDateForOrderHistory(String dateString) {

@@ -6,9 +6,11 @@ import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:foodzi/RegistrationPage/RegisterPresenter.dart';
+import 'package:foodzi/widgets/WebView.dart';
 import 'RegisterContractor.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -28,6 +30,8 @@ class _RegisterviewState extends State<Registerview>
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ProgressDialog progressDialog;
+  bool isSelected = false;
+  String strWebViewUrl = "";
 
   bool _validate = false;
   var countrycode = "+91";
@@ -41,6 +45,8 @@ class _RegisterviewState extends State<Registerview>
   @override
   void initState() {
     registerPresenter = RegisterPresenter(this);
+    strWebViewUrl = BaseUrl.getBaseUrl() + STR_URL_TERMS_CONDITION_TITLE;
+
     super.initState();
   }
 
@@ -105,6 +111,10 @@ class _RegisterviewState extends State<Registerview>
                   SizedBox(
                     height: 50,
                   ),
+                  _termsConditionText(),
+                  SizedBox(
+                    height: 10,
+                  ),
                   _signUpButton(),
                   SizedBox(
                     height: 60,
@@ -116,6 +126,46 @@ class _RegisterviewState extends State<Registerview>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _termsConditionText() {
+    return Column(
+      children: <Widget>[
+        CheckboxListTile(
+          title: new Text("I agree to the terms and conditions"),
+          value: isSelected,
+          controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (bool value) {
+            setState(() {
+              isSelected = value;
+            });
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => WebViewPage(
+                        title: STR_TERMS_CONDITION,
+                        strURL: strWebViewUrl,
+                        flag: 2,
+                      ),
+                    ));
+              },
+              child: Text(
+                "Terms & Condition",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              )),
+        ),
+      ],
     );
   }
 
@@ -360,8 +410,8 @@ class _RegisterviewState extends State<Registerview>
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme400,
-        onPressed: () => onSignUpButtonClicked(),
+        color: isSelected ? greentheme400 : greytheme100,
+        onPressed: () => isSelected ? onSignUpButtonClicked() : null,
         child: Text(
           KEY_SIGN_UP,
           style: TextStyle(

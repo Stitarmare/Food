@@ -54,48 +54,7 @@ class _WebViewPageState extends State<WebViewPage> {
               )
             : Image.asset(FODDZI_LOGO_3X, height: 50),
         elevation: 0.0,
-        // leading: IconButton(
-        //     icon: Icon(Icons.arrow_back_ios),
-        //     onPressed: () {
-        //       Navigator.of(context).pop();
-        //     }),
       ),
-      bottomNavigationBar: widget.flag == 2
-          ? BottomAppBar(
-              child: Container(
-                height: 55,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () async {
-                        Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
-                      },
-                      child: Container(
-                          height: 54,
-                          decoration: BoxDecoration(
-                              color: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : greentheme400,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15))),
-                          child: Center(
-                            child: Text(
-                              STR_I_AGREE,
-                              style: TextStyle(
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: FONTSIZE_16,
-                                  color: Colors.white),
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Text(""),
     );
   }
 }

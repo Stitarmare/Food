@@ -8,8 +8,10 @@ import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+import 'package:foodzi/widgets/WebView.dart';
 import 'LoginPresenter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -31,6 +33,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var countrycode = "+91";
   bool isIgnoringTouch = false;
   bool _validate = false;
+  bool isSelected = false;
+  String strWebViewUrl = "";
+
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   ProgressDialog progressDialog;
@@ -38,6 +43,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   @override
   void initState() {
     loginPresenter = LoginPresenter(this);
+    strWebViewUrl = BaseUrl.getBaseUrl() + STR_URL_TERMS_CONDITION_TITLE;
+
     super.initState();
   }
 
@@ -113,11 +120,15 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   ),
                   _forgotpassword(),
                   SizedBox(
-                    height: 27,
+                    height: 20,
+                  ),
+                  _termsConditionText(),
+                  SizedBox(
+                    height: 10,
                   ),
                   _signinButton(),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   _otptext(),
                   SizedBox(
@@ -130,6 +141,46 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _termsConditionText() {
+    return Column(
+      children: <Widget>[
+        CheckboxListTile(
+          title: new Text("I agree to the terms and conditions"),
+          value: isSelected,
+          controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (bool value) {
+            setState(() {
+              isSelected = value;
+            });
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => WebViewPage(
+                        title: STR_TERMS_CONDITION,
+                        strURL: strWebViewUrl,
+                        flag: 2,
+                      ),
+                    ));
+              },
+              child: Text(
+                "Terms & Condition",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              )),
+        ),
+      ],
     );
   }
 
@@ -324,7 +375,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
             child: Text(
               KEY_FORGET_PASSWORD,
               style: TextStyle(
-                  fontSize: FONTSIZE_12,
+                  fontSize: FONTSIZE_13,
                   fontFamily: Constants.getFontType(),
                   fontWeight: FontWeight.w600,
                   color: greentheme400),
@@ -340,8 +391,8 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: greentheme400,
-        onPressed: () => onSignInButtonClicked(),
+        color: isSelected ? greentheme400 : greytheme100,
+        onPressed: () => isSelected ? onSignInButtonClicked() : null,
         child: Text(
           KEY_SIGN_IN,
           style: TextStyle(

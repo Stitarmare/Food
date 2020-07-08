@@ -88,7 +88,7 @@ class SplitBillCertainPeopleList {
   dynamic accessToken;
   String deviceToken;
   String deviceType;
-  int otp;
+  String otp;
   dynamic emailVerifiedAt;
   dynamic deletedAt;
   DateTime createdAt;

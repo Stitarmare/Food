@@ -1,21 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:foodzi/LandingPage/LandingView.dart';
-import 'package:foodzi/Models/fcm_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Notifications/NotificationView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
-import 'package:foodzi/Utils/locator.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
-import 'dart:async';
-
-import 'package:foodzi/customNavigator/customNavigation.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
-import 'package:foodzi/widgets/WebView.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -45,40 +40,46 @@ class _SplashScreenState extends State<SplashScreen> {
             Globle().authKey = userData.token;
             Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
           } else {
-            // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WebViewPage(
-                          title: STR_TERMS_CONDITION,
-                          strURL: strWebViewUrl,
-                          flag: 2,
-                        )),
-                ModalRoute.withName(STR_WEB_VIEW_PAGE));
+            Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+            // Navigator.pushAndRemoveUntil(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) =>
+            //             // WebViewPage(
+            //             //       title: STR_TERMS_CONDITION,
+            //             //       strURL: strWebViewUrl,
+            //             //       flag: 2,
+            //             //     ),
+            //             ),
+            //     ModalRoute.withName(STR_WEB_VIEW_PAGE));
           }
         } else {
-          // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WebViewPage(
-                        title: STR_TERMS_CONDITION,
-                        strURL: strWebViewUrl,
-                        flag: 2,
-                      )),
-              ModalRoute.withName(STR_WEB_VIEW_PAGE));
+          Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+          // Navigator.pushAndRemoveUntil(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) =>
+          //             //  WebViewPage(
+          //             //       title: STR_TERMS_CONDITION,
+          //             //       strURL: strWebViewUrl,
+          //             //       flag: 2,
+          //             //     ),
+          //             ),
+          //     ModalRoute.withName(STR_WEB_VIEW_PAGE));
         }
       }).catchError(() {
-        // Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WebViewPage(
-                      title: STR_TERMS_CONDITION,
-                      strURL: strWebViewUrl,
-                      flag: 2,
-                    )),
-            ModalRoute.withName(STR_WEB_VIEW_PAGE));
+        Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
+        // Navigator.pushAndRemoveUntil(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             // WebViewPage(
+        //             //       title: STR_TERMS_CONDITION,
+        //             //       strURL: strWebViewUrl,
+        //             //       flag: 2,
+        //             //     ),
+        //             ),
+        //     ModalRoute.withName(STR_WEB_VIEW_PAGE));
       });
     });
 

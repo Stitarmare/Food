@@ -1139,6 +1139,7 @@ class _MyCartViewState extends State<MyCartView>
       if (myOrderData == null) {
         myOrderData = orderData;
       }
+      isTableExists = false;
     });
 
     Globle().isTabelAvailable = true;
@@ -1150,9 +1151,6 @@ class _MyCartViewState extends State<MyCartView>
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
     //await progressDialog.hide();
-    setState(() {
-      isTableExists = false;
-    });
     progressDialog.hide();
     Navigator.push(
         context,
