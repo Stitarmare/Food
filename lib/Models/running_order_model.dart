@@ -28,12 +28,14 @@ class Data {
   DineIn takeAway;
   CartModel cart;
   Delivery delivery;
+  int notificationCount;
 
   Data({
     this.dineIn,
     this.takeAway,
     this.cart,
     this.delivery,
+    this.notificationCount,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -41,14 +43,16 @@ class Data {
       takeAway:
           json["take_away"] != null ? DineIn.fromJson(json["take_away"]) : null,
       cart: json["cart"] != null ? CartModel.fromJson(json["cart"]) : null,
-      delivery: json['delivery'] != null
-          ? Delivery.fromJson(json['delivery'])
-          : null);
+      delivery:
+          json['delivery'] != null ? Delivery.fromJson(json['delivery']) : null,
+      notificationCount:
+          json['notificationCount'] != null ? json['notificationCount'] : null);
 
   Map<String, dynamic> toJson() => {
         "dine_in": dineIn.toJson(),
         "take_away": takeAway.toJson(),
         "delivery": delivery.toJson(),
+        "notificationCount": notificationCount,
       };
 }
 

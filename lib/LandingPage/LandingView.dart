@@ -46,6 +46,7 @@ class _LandingStateView extends State<Landingview>
   Stream stream;
   StreamSubscription<double> _streamSubscription;
   bool isIgnoring = false;
+  int notifiCount;
 
   @override
   void initState() {
@@ -143,11 +144,14 @@ class _LandingStateView extends State<Landingview>
                           Positioned(
                               top: -11,
                               right: -11,
-                              child: Badge(
-                                  badgeColor: redtheme,
-                                  badgeContent: Text(STR_ONE,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white)))
+                              child: notifiCount != null && notifiCount > 0
+                                  ? Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text("$notifiCount",
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  : Text("")
                               // : Text(STR_BLANK),
                               )
                         ],
@@ -234,6 +238,16 @@ class _LandingStateView extends State<Landingview>
         ),
       ),
     );
+  }
+
+  int getNotifCount() {
+    if (notifiCount != null) {
+      if (notifiCount > 0) {
+        return notifiCount;
+      }
+      return 0;
+    }
+    return 0;
   }
 
   getCurrentOrderID() async {
@@ -799,6 +813,9 @@ class _LandingStateView extends State<Landingview>
 
     _model = model;
     if (model != null) {
+      setState(() {
+        notifiCount = model.data.notificationCount;
+      });
       if (model.data.dineIn != null) {
         if (model.data.dineIn != null && model.data.dineIn.status != STR_PAID) {
           Preference.setPersistData<int>(

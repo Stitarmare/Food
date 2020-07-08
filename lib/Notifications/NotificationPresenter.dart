@@ -59,4 +59,23 @@ class NotificationPresenter extends NotoficationContractor {
       print(error);
     });
   }
+
+  @override
+  void updateNotification(BuildContext context) {
+    ApiBaseHelper()
+        .get<ErrorModel>(UrlConstant.updateNotificationApi, context)
+        .then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          notificationModelView.updateNotificationSuccess(value.model.message);
+          break;
+        case SuccessType.failed:
+          notificationModelView.updateNotificationFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
 }

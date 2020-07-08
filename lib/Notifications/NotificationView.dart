@@ -50,7 +50,9 @@ class _NotificationViewState extends State<NotificationView>
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
     Globle().notificationFLag = false;
+    notificationPresenter.updateNotification(context);
     notificationPresenter.getNotifications(context);
+
     super.initState();
   }
 
@@ -280,4 +282,10 @@ class _NotificationViewState extends State<NotificationView>
       );
     }
   }
+
+  @override
+  void updateNotificationFailed() {}
+
+  @override
+  void updateNotificationSuccess(String message) {}
 }

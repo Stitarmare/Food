@@ -62,4 +62,5 @@ class UrlConstant {
   static const getdeliverychargeApi = "api/v1/get-delivery-charge";
   static const orderAddMenuToCartApi = "api/v1/orderAddMenuToCart";
   static const placeOrderToCartItemsApi = "api/v1/placeOrderToCartItems";
+  static const updateNotificationApi = "api/v1/updateNotification";
 }

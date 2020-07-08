@@ -262,4 +262,14 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
       gravity: Toast.BOTTOM,
     );
   }
+
+  @override
+  void updateNotificationFailed() {
+    // TODO: implement updateNotificationFailed
+  }
+
+  @override
+  void updateNotificationSuccess(String message) {
+    // TODO: implement updateNotificationSuccess
+  }
 }
