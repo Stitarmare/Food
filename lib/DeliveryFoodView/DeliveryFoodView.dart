@@ -7,6 +7,7 @@ import 'package:foodzi/DeliveryFoodView/DeliveryContractor.dart';
 import 'package:foodzi/DeliveryFoodView/DeliveryPresenter.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -193,6 +194,15 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                     fontFamily: Constants.getFontType(),
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainWidget()),
+                      ModalRoute.withName("/MainWidget"));
+                },
               ),
               actions: <Widget>[
                 Column(

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
@@ -25,7 +26,10 @@ class RestaurantTAView extends StatefulWidget {
   String title;
   int restId;
   String imageUrl;
-  RestaurantTAView({this.title, this.restId, this.imageUrl});
+  String lat;
+  String long;
+  RestaurantTAView(
+      {this.title, this.restId, this.imageUrl, this.lat, this.long});
   @override
   State<StatefulWidget> createState() {
     return _RestaurantTAViewState();
@@ -204,6 +208,18 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
               width: 40,
             ),
           ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BottomTabbar(
+                          tabValue: 1,
+                        )),
+                ModalRoute.withName("/BottomTabbar"));
+          },
         ),
         actions: <Widget>[
           IconButton(
@@ -458,6 +474,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         description:
                             '${_restaurantList[index].itemDescription}',
                         imageUrl: '${_restaurantList[index].itemImage}',
+                        lat: widget.lat,
+                        long: widget.long,
                         restName: widget.title,
                       ))),
               child: Padding(

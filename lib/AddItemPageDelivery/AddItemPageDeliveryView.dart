@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryContractor.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryPresenter.dart';
+import 'package:foodzi/BottomTabbar/DeliveryBottomTabbar.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
@@ -28,6 +29,8 @@ class AddItemDeliveryPageView extends StatefulWidget {
   String restName;
   String itemImage;
   bool isFromOrder = false;
+  String lat;
+  String long;
 
   AddItemDeliveryPageView(
       {this.title,
@@ -35,6 +38,8 @@ class AddItemDeliveryPageView extends StatefulWidget {
       this.itemId,
       this.restId,
       this.restName,
+      this.lat,
+      this.long,
       this.itemImage,
       this.isFromOrder});
   _AddItemDeliveryPageViewState createState() =>
@@ -1638,8 +1643,26 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                             color: greytheme700)),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      //Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeliveryBottomTabbarHome(
+                                    title: widget.restName,
+                                    restId: widget.restId,
+                                    lat: widget.lat,
+                                    long: widget.long,
+                                    imageUrl: widget.itemImage,
+                                  )),
+                          ModalRoute.withName(STR_RETAURANT_PAGE));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => DeliveryBottomTabbarHome(
+                      //           title: widget.restName,
+                      //           restId: widget.restId,
+                      //           lat: widget.lat,
+                      //           long: widget.long,
+                      //           imageUrl: widget.itemImage,
+                      //         )));
                     },
                   )
                 ],

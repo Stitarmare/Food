@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
+import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/AddMenuToCartModel.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -24,13 +25,17 @@ class AddItemPageTAView extends StatefulWidget {
   int restId;
   String imageUrl;
   String restName;
+  String lat;
+  String long;
   AddItemPageTAView(
       {this.title,
       this.description,
       this.itemId,
       this.restId,
       this.imageUrl,
-      String restName});
+      this.lat,
+      this.long,
+      this.restName});
   _AddItemPageTAViewState createState() => _AddItemPageTAViewState();
 }
 
@@ -1588,8 +1593,27 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
+                      // Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TakeAwayBottombar(
+                                    title: widget.restName,
+                                    restId: widget.restId,
+                                    lat: widget.lat,
+                                    long: widget.long,
+                                    imageUrl: widget.imageUrl,
+                                  )),
+                          ModalRoute.withName(STR_RETAURANT_PAGE));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => TakeAwayBottombar(
+                      //           title: widget.title,
+                      //           restId: widget.restId,
+                      //           lat: widget.lat,
+                      //           long: widget.long,
+                      //           imageUrl: widget.imageUrl,
+                      //         )));
                     },
                   )
                 ],

@@ -52,10 +52,11 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
       setState(() {
         tabsHome.setAll(0, [
           RestaurantTAView(
-            title: widget.title,
-            restId: widget.restId,
-            imageUrl: widget.imageUrl,
-          )
+              title: widget.title,
+              restId: widget.restId,
+              imageUrl: widget.imageUrl,
+              lat: widget.lat,
+              long: widget.long)
         ]);
       });
     }
@@ -64,7 +65,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
     getAlreadyInCart();
   }
 
-   onStreamListen() {
+  onStreamListen() {
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
         // callApi();
@@ -82,7 +83,7 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
 
   @override
   Widget build(BuildContext context) {
-   // getAlreadyInCart();
+    // getAlreadyInCart();
     return Scaffold(
       floatingActionButton:
           //  Container(
@@ -168,30 +169,33 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                 ),
                 title: Text('')),
             BottomNavigationBarItem(
-                icon:  (Globle().notificationFLag)?
-                Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
-                 Positioned(
-                            top: -11,
-                            right: -11,
-                            child: Badge(
-                                    badgeColor: redtheme,
-                                    badgeContent: Text(STR_ONE,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(color: Colors.white)))
-                                // : Text(STR_BLANK),
-                          )
-                ],):Icon(
-                  OMIcons.notifications,
-                  color: greytheme100,
-                  size: 30,
-                ),
+                icon: (Globle().notificationFLag)
+                    ? Stack(
+                        fit: StackFit.passthrough,
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Icon(
+                            OMIcons.notifications,
+                            color: greytheme100,
+                            size: 30,
+                          ),
+                          Positioned(
+                              top: -11,
+                              right: -11,
+                              child: Badge(
+                                  badgeColor: redtheme,
+                                  badgeContent: Text(STR_ONE,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: Colors.white)))
+                              // : Text(STR_BLANK),
+                              )
+                        ],
+                      )
+                    : Icon(
+                        OMIcons.notifications,
+                        color: greytheme100,
+                        size: 30,
+                      ),
                 activeIcon: Icon(
                   OMIcons.notifications,
                   color: orangetheme,
@@ -214,35 +218,34 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
     );
   }
 
-  showCartDetails() async{
+  showCartDetails() async {
     var data = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyCartTWView(
-                              restName: widget.title,
-                              restId: widget.restId,
-                              lat: widget.lat,
-                              long: widget.long,
-                              orderType: STR_TAKE_AWAY,
-                            )));
-               getAlreadyInCart();
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyCartTWView(
+                  restName: widget.title,
+                  restId: widget.restId,
+                  lat: widget.lat,
+                  long: widget.long,
+                  orderType: STR_TAKE_AWAY,
+                )));
+    getAlreadyInCart();
   }
 
   getAlreadyInCart() async {
-    
-    var restId = await Preference.getPrefValue<int>( PreferenceKeys.restaurantID);
+    var restId =
+        await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
     if (restId != null) {
-if (restId == widget.restId) {
-      setState(() {
-        cartStatus = true;
-      });
-    } else {
-      setState(() {
-        cartStatus = false;
-      });
+      if (restId == widget.restId) {
+        setState(() {
+          cartStatus = true;
+        });
+      } else {
+        setState(() {
+          cartStatus = false;
+        });
+      }
     }
-    }
-    
   }
 
   getCartCount() async {

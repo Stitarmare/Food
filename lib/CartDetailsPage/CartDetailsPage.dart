@@ -437,8 +437,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                   } else if (widget.flag == 3) {
                                     Navigator.of(context).pop();
                                     Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
                                   }
                                 }
                               },

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayContractor.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayPresenter.dart';
 import 'package:foodzi/Models/RestaurantListModel.dart';
@@ -174,6 +175,15 @@ class _TakeAwayViewState extends State<TakeAwayView>
                     fontFamily: KEY_FONTFAMILY,
                     fontWeight: FontWeight.w500,
                     color: greytheme1200),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainWidget()),
+                      ModalRoute.withName("/MainWidget"));
+                },
               ),
               actions: <Widget>[
                 Column(

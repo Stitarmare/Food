@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemPageDeliveryView.dart';
+import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownContractor.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDownPresenter.dart';
 import 'package:foodzi/Models/CategoryListModel.dart';
@@ -25,11 +26,15 @@ class RestaurantDeliveryView extends StatefulWidget {
   String imageUrl;
   bool isFromOrder = false;
   int categoryid;
+  String lat;
+  String long;
   RestaurantDeliveryView(
       {this.title,
       this.restId,
       this.categoryid,
       this.imageUrl,
+      this.lat,
+      this.long,
       this.isFromOrder});
   @override
   State<StatefulWidget> createState() {
@@ -222,6 +227,19 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           brightness: Brightness.dark,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomTabbar(
+                            tabValue: 0,
+                            flag: 1,
+                          )),
+                  ModalRoute.withName("/BottomTabbar"));
+            },
+          ),
           actions: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -753,6 +771,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                         restName: widget.title,
                         itemImage: '${_restaurantList[index].itemImage}',
                         isFromOrder: widget.isFromOrder,
+                        lat: widget.lat,
+                        long: widget.long,
                       ))),
               child: Padding(
                 padding: EdgeInsets.all(8),

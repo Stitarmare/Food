@@ -75,6 +75,8 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
             title: widget.title,
             restId: widget.restId,
             imageUrl: widget.imageUrl,
+            lat: widget.lat,
+            long: widget.long,
           )
         ]);
       });
