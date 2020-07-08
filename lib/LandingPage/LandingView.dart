@@ -73,6 +73,7 @@ class _LandingStateView extends State<Landingview>
     if (stream != null) {
       _streamSubscription = stream.listen((onData) {
         // pushToNotification();
+        callApi();
         setState(() {
           Globle().notificationFLag = true;
         });
