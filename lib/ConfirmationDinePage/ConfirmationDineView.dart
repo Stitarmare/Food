@@ -698,9 +698,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         placeOrderModel = model;
       });
       if (placeOrderModel.tableBook == true) {
-        String message = placeOrderModel.message +
-            " or you can send request for table owner to join table";
-        showAlertTableStatus("Table Status", message, context);
+        String message = placeOrderModel.message + STR_REQUEST_TBL_MSG;
+        showAlertTableStatus(STR_TABLE_STATUS_TITLE, message, context);
       } else {
         setState(() {
           if (myOrderData == null) {

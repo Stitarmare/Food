@@ -269,6 +269,9 @@ const STR_FLITER_BY = 'Filter By';
 const STR_CURRENT_LOCATION = "Please wait while getting your current location!";
 const STR_NO_RESTAURANT = 'No restaurants found.';
 const STR_KM = "km";
+const STR_REQUEST_TBL_MSG =
+    " or you can send request for table owner to join table";
+const STR_TABLE_STATUS_TITLE = "Table Status";
 const JSON_STR_LATI = "latitude";
 const JSON_STR_LONG = "longitude";
 const JSON_STR_SORT_BY = "sort_by";

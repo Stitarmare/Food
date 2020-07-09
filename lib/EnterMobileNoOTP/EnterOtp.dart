@@ -41,8 +41,8 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   };
   var oldMobNumber;
   var _mobileNumber;
-  var countrycode = '+91';
-  var oldCountrycode = '+91';
+  var countrycode = '+27';
+  var oldCountrycode = '+27';
   bool isIgnoring = false;
 
   var enterOTPScreenPresenter;

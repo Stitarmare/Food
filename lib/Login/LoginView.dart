@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var mobilenumber = STR_BLANK;
   var countrycoder = STR_BLANK;
   var password = STR_BLANK;
-  var countrycode = "+91";
+  var countrycode = "+27";
   bool isIgnoringTouch = false;
   bool _validate = false;
   bool isSelected = false;
