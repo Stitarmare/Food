@@ -34,7 +34,7 @@ class _RegisterviewState extends State<Registerview>
   String strWebViewUrl = "";
 
   bool _validate = false;
-  var countrycode = "+27";
+  var countrycode = "";
 
   final Map<String, dynamic> _signUpData = {
     mobno: null,
@@ -263,6 +263,10 @@ class _RegisterviewState extends State<Registerview>
                 showOnlyCountryWhenClosed: false,
                 // optional. aligns the flag and the Text left
                 alignLeft: false,
+                onInit: (code) {
+                  countrycode = code.dialCode;
+                  print(countrycode);
+                },
               ),
             ),
             //  AppTextField(

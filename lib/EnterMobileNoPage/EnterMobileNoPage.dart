@@ -38,7 +38,7 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
     mobno: null,
   };
   var _mobileNumber;
-  var countrycode = '+27';
+  var countrycode = '';
   var enterOTPScreenPresenter;
   @override
   void initState() {
@@ -219,6 +219,10 @@ class EnterMobileNoPageState extends State<EnterMobileNoPage>
                         showOnlyCountryWhenClosed: false,
                         // optional. aligns the flag and the Text left
                         alignLeft: false,
+                        onInit: (code) {
+                          countrycode = code.dialCode;
+                          print(countrycode);
+                        },
                       ),
                     ),
                   ),

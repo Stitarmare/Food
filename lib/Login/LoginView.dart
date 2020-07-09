@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   var mobilenumber = STR_BLANK;
   var countrycoder = STR_BLANK;
   var password = STR_BLANK;
-  var countrycode = "+27";
+  var countrycode = "";
   bool isIgnoringTouch = false;
   bool _validate = false;
   bool isSelected = false;
@@ -230,6 +230,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                   showOnlyCountryWhenClosed: false,
                   // optional. aligns the flag and the Text left
                   alignLeft: false,
+                  onInit: (code) {
+                    countrycode = code.dialCode;
+                    print(countrycode);
+                  },
                 ),
               ),
 
