@@ -708,4 +708,12 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   void onSuccessQuantityIncrease() {
     // TODO: implement onSuccessQuantityIncrease
   }
+
+  @override
+  void inviteRequestFailed() {}
+
+  @override
+  void inviteRequestSuccess(String message) {
+    // TODO: implement inviteRequestSuccess
+  }
 }

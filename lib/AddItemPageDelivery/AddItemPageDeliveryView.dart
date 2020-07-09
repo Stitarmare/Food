@@ -393,6 +393,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             child: Container(
               height: 91,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,

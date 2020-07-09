@@ -319,7 +319,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        '${_orderDetailList[index].orderType}',
+                        '${capitalizeFirst(_orderDetailList[index].orderType)}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,
@@ -570,7 +570,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      '${getmyOrderBookingHistory[index].orderType}',
+                      '${capitalizeFirst(getmyOrderBookingHistory[index].orderType)}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -679,7 +679,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                         width: 10,
                       ),
                       Text(
-                        '${getmyOrderBookingHistory[index].status}',
+                        '${capitalizeFirst(getmyOrderBookingHistory[index].status)}',
                         style: TextStyle(color: greytheme400, fontSize: 18),
                       ),
                       Spacer(),

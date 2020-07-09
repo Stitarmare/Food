@@ -234,6 +234,7 @@ const STR_MULIPLE_OPTIONS = 'You can select multiple options';
 const STR_SIZE = 'Size';
 const STR_DATA = "data";
 const STR_OK = "Ok";
+const STR_OK_TITLE = "OK";
 const STR_CARTADDED = "is successfully added to your cart.";
 const SUCCESS_IMAGE_PATH = 'assets/SuccessIcon/success.png';
 const JSON_STR_ITEM_ID = "item_id";

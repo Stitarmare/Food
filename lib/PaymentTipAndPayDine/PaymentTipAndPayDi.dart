@@ -1220,6 +1220,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   @override
   void onSuccessQuantityIncrease() {}
+
+  @override
+  void inviteRequestFailed() {}
+
+  @override
+  void inviteRequestSuccess(String message) {}
 }
 
 enum Invited { yes, no }

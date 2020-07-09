@@ -148,7 +148,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     return Column(
       children: <Widget>[
         CheckboxListTile(
-          title: new Text("I agree to the terms and conditions"),
+          title: Text("I agree to the terms and conditions"),
           value: isSelected,
           controlAffinity: ListTileControlAffinity.leading,
           onChanged: (bool value) {

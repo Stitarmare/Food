@@ -163,7 +163,7 @@ class _NotificationViewState extends State<NotificationView>
         notifytext = notificationData[index].notifText.split(STR_COMMA);
         recipientName = notifytext[0];
         recipientMobno = notifytext[1];
-        tableno = notifytext[3];
+        tableno = notifytext[2];
         status = await DailogBox.notification_1(
             context, recipientName, recipientMobno, tableno);
         print(status);
@@ -198,7 +198,7 @@ class _NotificationViewState extends State<NotificationView>
           notifytext = notificationData[index].notifText.split(STR_COMMA);
           recipientName = notifytext[0];
           recipientMobno = notifytext[1];
-          tableno = notifytext[3];
+          tableno = notifytext[2];
           print(recipientName);
           print(tableno);
         }

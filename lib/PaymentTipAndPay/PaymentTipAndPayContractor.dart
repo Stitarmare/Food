@@ -17,6 +17,6 @@ abstract class PaymentTipAndPayContarctor {
 }
 
 abstract class PaymentTipAndPayModelView {
-  void placeOrdersuccess(OrderData orderData);
+  void placeOrdersuccess(OrderData orderData, PlaceOrderModel model);
   void placeOrderfailed();
 }

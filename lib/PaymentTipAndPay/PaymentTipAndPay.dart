@@ -592,7 +592,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   }
 
   @override
-  Future<void> placeOrdersuccess(OrderData orderData) async {
+  Future<void> placeOrdersuccess(
+      OrderData orderData, PlaceOrderModel model) async {
     setState(() {
       isIgnoreTouch = false;
     });

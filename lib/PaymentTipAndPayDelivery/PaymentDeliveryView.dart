@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -667,7 +668,13 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                             fontWeight: FontWeight.w600,
                             color: greytheme700)),
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Navigator.of(context).popUntil((route) => route.isFirst);
+                      Navigator.of(context).pop();
+
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainWidget()),
+                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
                 ],

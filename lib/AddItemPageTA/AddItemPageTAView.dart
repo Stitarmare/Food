@@ -334,6 +334,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
             child: Container(
               height: 91,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,
