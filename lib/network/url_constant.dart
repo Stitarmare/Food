@@ -64,4 +64,5 @@ class UrlConstant {
   static const placeOrderToCartItemsApi = "api/v1/placeOrderToCartItems";
   static const updateNotificationApi = "api/v1/updateNotification";
   static const requestToJoinTableApi = "api/v1/requestToJoinTable";
+  static const acceptRejectRequestApi = "api/v1/acceptRejectRequest";
 }

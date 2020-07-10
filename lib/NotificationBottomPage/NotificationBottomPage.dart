@@ -167,6 +167,33 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
               notificationData[index].invitationId, statusStr, context);
         }
       }
+    } else {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        tableno = notifytext[2];
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno, tableno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          await progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+          notificationPresenter.acceptRequestInvitiation(
+              notificationData[index].fromId,
+              notificationData[index].invitationId,
+              statusStr,
+              context);
+        }
+      }
     }
   }
 
@@ -271,5 +298,15 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   @override
   void updateNotificationSuccess(String message) {
     // TODO: implement updateNotificationSuccess
+  }
+
+  @override
+  void acceptRejectFailed(ErrorModel model) {
+    // TODO: implement acceptRejectFailed
+  }
+
+  @override
+  void acceptRejectSuccess(ErrorModel model) {
+    // TODO: implement acceptRejectSuccess
   }
 }

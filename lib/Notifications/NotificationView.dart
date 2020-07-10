@@ -181,6 +181,33 @@ class _NotificationViewState extends State<NotificationView>
               notificationData[index].invitationId, statusStr, context);
         }
       }
+    } else {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        tableno = notifytext[2];
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno, tableno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          await progressDialog.show();
+          //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+          notificationPresenter.acceptRequestInvitiation(
+              notificationData[index].fromId,
+              notificationData[index].invitationId,
+              statusStr,
+              context);
+        }
+      }
     }
   }
 
@@ -288,4 +315,34 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void updateNotificationSuccess(String message) {}
+
+  @override
+  void acceptRejectFailed(ErrorModel model) async {
+    await progressDialog.hide();
+
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
+      Toast.show(
+        model.message,
+        Globle().context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
+  }
+
+  @override
+  void acceptRejectSuccess(ErrorModel model) async {
+    await progressDialog.hide();
+
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
+      Toast.show(
+        model.message,
+        Globle().context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
+  }
 }

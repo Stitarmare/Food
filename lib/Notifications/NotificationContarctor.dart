@@ -5,6 +5,8 @@ import 'package:foodzi/Models/error_model.dart';
 abstract class NotoficationContractor {
   void getNotifications(BuildContext context);
   void updateNotification(BuildContext context);
+  void acceptRequestInvitiation(
+      int fromId, int invitationId, String status, BuildContext context);
   void onBackPresed();
 }
 
@@ -16,4 +18,6 @@ abstract class NotificationModelView {
 
   void acceptInvitationSuccess(ErrorModel model);
   void acceptInvitationFailed(ErrorModel model);
+  void acceptRejectSuccess(ErrorModel model);
+  void acceptRejectFailed(ErrorModel model);
 }

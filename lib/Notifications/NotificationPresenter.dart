@@ -78,4 +78,27 @@ class NotificationPresenter extends NotoficationContractor {
       print(error);
     });
   }
+
+  @override
+  void acceptRequestInvitiation(
+      int fromId, int invitationId, String status, BuildContext context) {
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.acceptRejectRequestApi, context, body: {
+      JSON_STR_FORM_ID: fromId,
+      JSON_STR_INVITATION_ID: invitationId,
+      JSON_STR_STATUS: status,
+    }).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          notificationModelView.acceptRejectSuccess(value.model);
+          break;
+        case SuccessType.failed:
+          notificationModelView.acceptRejectFailed(value.model);
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
 }
