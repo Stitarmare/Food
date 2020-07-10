@@ -317,7 +317,7 @@ class _RegisterviewState extends State<Registerview>
         SizedBox(height: 15),
         AppTextField(
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            // LengthLimitingTextInputFormatter(15),
             BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {

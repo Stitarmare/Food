@@ -117,14 +117,12 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     getTableID();
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     // _streamSubscription.cancel();
     super.dispose();
   }

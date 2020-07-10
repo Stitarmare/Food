@@ -57,11 +57,15 @@ class DailogBox {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              recipientMobno,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(64, 64, 64, 1),
-                                  fontSize: FONTSIZE_14),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8),
+                              child: Text(
+                                recipientMobno,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(64, 64, 64, 1),
+                                    fontSize: FONTSIZE_14),
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -90,12 +94,14 @@ class DailogBox {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: Text(
-                              tableno,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_24,
-                                  color: Color.fromRGBO(55, 180, 76, 1)),
-                            ),
+                            child: tableno != null
+                                ? Text(
+                                    tableno,
+                                    style: TextStyle(
+                                        fontSize: FONTSIZE_24,
+                                        color: Color.fromRGBO(55, 180, 76, 1)),
+                                  )
+                                : Text(""),
                           ),
                         ],
                       ),

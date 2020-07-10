@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Notifications/NotificationContarctor.dart';
@@ -165,6 +166,32 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
+        }
+      }
+    } else if (notificationData[index].notifType == null) {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        // tableno = notifytext[2];
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno, tableno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          if (statusStr == "accept") {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MainWidget()),
+                ModalRoute.withName("/MainWidget"));
+          }
         }
       }
     } else {

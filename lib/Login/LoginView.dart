@@ -290,7 +290,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
         SizedBox(height: 15),
         AppTextField(
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            // LengthLimitingTextInputFormatter(15),
             BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))
           ],
           onChanged: (text) {

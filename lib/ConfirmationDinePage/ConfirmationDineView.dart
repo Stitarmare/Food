@@ -730,33 +730,6 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     }
   }
 
-  void _showAlert(
-    BuildContext context,
-    String title,
-    String message,
-  ) {
-    showDialog(
-        context: context,
-        builder: (context) => WillPopScope(
-              onWillPop: () async => false,
-              child: AlertDialog(
-                title: Text(title),
-                content: Text(message),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text(STR_OK),
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MainWidget()),
-                          ModalRoute.withName("/MainWidget"));
-                    },
-                  )
-                ],
-              ),
-            ));
-  }
-
   @override
   void addPeopleFailed() {}
 
