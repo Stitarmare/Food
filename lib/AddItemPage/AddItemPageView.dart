@@ -392,6 +392,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             child: Container(
               height: 91,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,

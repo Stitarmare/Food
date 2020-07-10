@@ -12,6 +12,7 @@ class PlaceOrderModel {
   OrderData orderData;
   String colourCode;
   String message;
+  bool tableBook;
 
   PlaceOrderModel({
     this.status,
@@ -19,6 +20,7 @@ class PlaceOrderModel {
     this.orderData,
     this.colourCode,
     this.message,
+    this.tableBook,
   });
 
   factory PlaceOrderModel.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +31,7 @@ class PlaceOrderModel {
             json["data"] != null ? OrderData.fromJson(json["data"]) : null,
         colourCode: json["colour_code"],
         message: json["message"],
+        tableBook: json["table_book"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +40,7 @@ class PlaceOrderModel {
         "data": orderData.toJson(),
         "colour_code": colourCode,
         "message": message,
+        "table_book": tableBook,
       };
 }
 

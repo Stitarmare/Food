@@ -44,7 +44,8 @@ class PaymentTipAndPayPresenter extends PaymentTipAndPayContarctor {
     switch (value.result) {
       case SuccessType.success:
         print(value.model);
-        _paymentTipAndPayModelView.placeOrdersuccess(value.model.orderData);
+        _paymentTipAndPayModelView.placeOrdersuccess(
+            value.model.orderData, value.model);
         break;
       case SuccessType.failed:
         _paymentTipAndPayModelView.placeOrderfailed();

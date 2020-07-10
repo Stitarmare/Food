@@ -105,7 +105,6 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   List<Switches> defaultSwitch;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     super.didChangeDependencies();
   }
@@ -394,6 +393,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             child: Container(
               height: 91,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.bottomCenter,

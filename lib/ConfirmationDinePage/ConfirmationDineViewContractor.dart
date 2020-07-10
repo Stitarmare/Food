@@ -6,6 +6,8 @@ abstract class ConfirmationDineViewContractor {
       int orderId, BuildContext context);
 
   void getPeopleList(String searchText, BuildContext context);
+
+  void sentInvitRequest(int tableId, int restId, BuildContext context);
 }
 
 abstract class ConfirmationDineViewModelView {
@@ -14,4 +16,6 @@ abstract class ConfirmationDineViewModelView {
 
   void getPeopleListonSuccess(List<PeopleData> data);
   void getPeopleListonFailed();
+  void inviteRequestSuccess(String message);
+  void inviteRequestFailed();
 }

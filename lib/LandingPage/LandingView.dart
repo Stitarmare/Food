@@ -241,16 +241,6 @@ class _LandingStateView extends State<Landingview>
     );
   }
 
-  int getNotifCount() {
-    if (notifiCount != null) {
-      if (notifiCount > 0) {
-        return notifiCount;
-      }
-      return 0;
-    }
-    return 0;
-  }
-
   getCurrentOrderID() async {
     var currentOrderId =
         await Preference.getPrefValue<int>(PreferenceKeys.orderId);

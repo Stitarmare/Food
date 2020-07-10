@@ -566,6 +566,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
     print(invitePeopleList.length);
     print(invitePeopleList[0].toUser.firstName);
   }
+
+  @override
+  void inviteRequestFailed() {}
+
+  @override
+  void inviteRequestSuccess(String message) {}
 }
 
 abstract class AddPeopleInterface {

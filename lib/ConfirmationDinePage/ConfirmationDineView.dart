@@ -97,11 +97,13 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   String radioOrderItemsub;
   int cartId;
   OrderData myOrderData;
+  PlaceOrderModel placeOrderModel;
   ProgressDialog progressDialog;
   Position _position;
   var getttingLocation = false;
   StreamController<Position> _controllerPosition = new StreamController();
   String strTotalAmount = "";
+  GlobalKey _scaffold = GlobalKey();
 
   @override
   void initState() {
@@ -154,6 +156,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       top: false,
       right: false,
       child: Scaffold(
+        key: _scaffold,
         appBar: AppBar(
           brightness: Brightness.dark,
           centerTitle: true,
@@ -638,44 +641,91 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     );
   }
 
-  @override
-  Future<void> placeOrderfailed() async {
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    Preference.setPersistData(null, PreferenceKeys.restaurantID);
-    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
-    //await progressDialog.hide();
-    await progressDialog.hide();
+  void showAlertTableStatus(
+      String title, String message, BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  Divider(
+                    endIndent: 15,
+                    indent: 15,
+                    color: Colors.black,
+                  ),
+                  FlatButton(
+                    child: Text(STR_OK_TITLE),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      confirmationDineviewPresenter.sentInvitRequest(
+                          widget.tableId,
+                          widget.restId,
+                          _scaffold.currentContext);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(STR_CANCEL),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      await progressDialog.hide();
+                    },
+                  ),
+                ],
+              ),
+            ));
   }
 
   @override
-  void placeOrdersuccess(OrderData orderData) {
+  Future<void> placeOrderfailed() async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    await progressDialog.hide();
+    Preference.setPersistData(null, PreferenceKeys.restaurantID);
+    Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //await progressDialog.hide();
+  }
 
-    setState(() {
-      if (myOrderData == null) {
-        myOrderData = orderData;
+  @override
+  void placeOrdersuccess(OrderData orderData, PlaceOrderModel model) async {
+    //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
+    await progressDialog.hide();
+    await progressDialog.hide();
+
+    if (model != null) {
+      setState(() {
+        placeOrderModel = model;
+      });
+      if (placeOrderModel.tableBook == true) {
+        String message = placeOrderModel.message + STR_REQUEST_TBL_MSG;
+        showAlertTableStatus(STR_TABLE_STATUS_TITLE, message, context);
+      } else {
+        setState(() {
+          if (myOrderData == null) {
+            myOrderData = orderData;
+          }
+        });
+        Globle().isTabelAvailable = true;
+        Globle().tableID = widget.tableId;
+        Preference.setPersistData<int>(widget.tableId, PreferenceKeys.tableId);
+        Preference.setPersistData<int>(
+            widget.restId, PreferenceKeys.restaurantID);
+        Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
+        Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);
+        Globle().orderID = orderData.id;
+        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        Globle().orderNumber = orderData.orderNumber;
+        Globle().dinecartValue = 0;
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => CartDetailsPage(
+                  orderId: myOrderData.id,
+                  flag: 3,
+                  isFromOrder: false,
+                )));
+        // showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
       }
-    });
-    Globle().isTabelAvailable = true;
-    Globle().tableID = widget.tableId;
-    Preference.setPersistData<int>(widget.tableId, PreferenceKeys.tableId);
-    Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
-    Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<int>(orderData.id, PreferenceKeys.orderId);
-    Globle().orderID = orderData.id;
-    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-    Globle().orderNumber = orderData.orderNumber;
-    Globle().dinecartValue = 0;
-    //await progressDialog.hide();
-    progressDialog.hide();
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CartDetailsPage(
-              orderId: myOrderData.id,
-              flag: 3,
-              isFromOrder: false,
-            )));
-    // showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
+    }
   }
 
   @override
@@ -714,6 +764,18 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
   @override
   void getOrderStatussuccess(StatusData statusData) {}
+
+  @override
+  void inviteRequestFailed() async {
+    await progressDialog.hide();
+  }
+
+  @override
+  void inviteRequestSuccess(String message) async {
+    await progressDialog.hide();
+
+    Constants.showAlertSuccess("Success", message, context);
+  }
 }
 
 class RadioButtonOptions {

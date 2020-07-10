@@ -109,7 +109,7 @@ class _RegisterviewState extends State<Registerview>
                   ),
                   _buildTextField(),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
                   _termsConditionText(),
                   SizedBox(
@@ -117,7 +117,7 @@ class _RegisterviewState extends State<Registerview>
                   ),
                   _signUpButton(),
                   SizedBox(
-                    height: 60,
+                    height: 45,
                   ),
                   _signinbutton()
                 ],
@@ -263,6 +263,10 @@ class _RegisterviewState extends State<Registerview>
                 showOnlyCountryWhenClosed: false,
                 // optional. aligns the flag and the Text left
                 alignLeft: false,
+                onInit: (code) {
+                  countrycode = code.dialCode;
+                  print(countrycode);
+                },
               ),
             ),
             //  AppTextField(

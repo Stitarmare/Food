@@ -20,12 +20,16 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
   void addPeople(List<String> mobileNumber, int tableId, int restId,
       int orderId, BuildContext context) {
     ApiBaseHelper()
-        .post<ErrorModel>(UrlConstant.addPeopleToOrderApi, context, body: {
-      JSON_STR_MOB_NO: mobileNumber,
-      JSON_STR_TABLE_ID: tableId,
-      JSON_STR_REST_ID: restId,
-      JSON_STR_ORDER_ID: orderId
-    },isShowDialoag: true,isShowNetwork: true).then((value) {
+        .post<ErrorModel>(UrlConstant.addPeopleToOrderApi, context,
+            body: {
+              JSON_STR_MOB_NO: mobileNumber,
+              JSON_STR_TABLE_ID: tableId,
+              JSON_STR_REST_ID: restId,
+              JSON_STR_ORDER_ID: orderId
+            },
+            isShowDialoag: true,
+            isShowNetwork: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -44,9 +48,13 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
   @override
   void getPeopleList(String searchText, BuildContext context) {
     ApiBaseHelper()
-        .post<GetPeopleListModel>(UrlConstant.getPeopleListApi, context, body: {
-      "search": searchText,
-    },isShowNetwork: true,isShowDialoag: true).then((value) {
+        .post<GetPeopleListModel>(UrlConstant.getPeopleListApi, context,
+            body: {
+              "search": searchText,
+            },
+            isShowNetwork: true,
+            isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -56,6 +64,25 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
           break;
         case SuccessType.failed:
           _confirmationDineViewModelView.getPeopleListonFailed();
+          break;
+      }
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  @override
+  void sentInvitRequest(int tableId, int restId, BuildContext context) {
+    ApiBaseHelper().post<ErrorModel>(UrlConstant.requestToJoinTableApi, context,
+        body: {"table_id": tableId, "rest_id": restId}).then((value) {
+      print(value);
+      switch (value.result) {
+        case SuccessType.success:
+          _confirmationDineViewModelView
+              .inviteRequestSuccess(value.model.message);
+          break;
+        case SuccessType.failed:
+          _confirmationDineViewModelView.inviteRequestFailed();
           break;
       }
     }).catchError((error) {

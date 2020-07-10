@@ -123,7 +123,9 @@ class _MyCartViewState extends State<MyCartView>
 
     Preference.getPrefValue<int>(PreferenceKeys.orderId).then((value) {
       if (value != null) {
-        orderId = value;
+        setState(() {
+          orderId = value;
+        });
       }
     });
     super.initState();
@@ -446,6 +448,21 @@ class _MyCartViewState extends State<MyCartView>
             title: Text(STR_MYCART),
             backgroundColor: Colors.white,
             elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                if (orderId != null) {
+                  if (widget.isFromOrder != null && widget.isFromOrder) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  } else {
+                    Navigator.of(context).pop();
+                  }
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+            ),
           ),
           body: Column(
             children: <Widget>[
@@ -1159,6 +1176,7 @@ class _MyCartViewState extends State<MyCartView>
                   orderId: Globle().orderID,
                   flag: 2,
                   isFromOrder: true,
+                  title: widget.restName,
                 )));
     // showAlertSuccess(STR_ORDER_PLACED, STR_ORDER_SUCCESS, context);
   }

@@ -262,6 +262,10 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
                           showOnlyCountryWhenClosed: false,
                           // optional. aligns the flag and the Text left
                           alignLeft: false,
+                          onInit: (code) {
+                            countrycode = code.dialCode;
+                            print(countrycode);
+                          },
                         ),
                       ),
                       // AppTextField(

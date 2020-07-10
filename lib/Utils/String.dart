@@ -234,6 +234,7 @@ const STR_MULIPLE_OPTIONS = 'You can select multiple options';
 const STR_SIZE = 'Size';
 const STR_DATA = "data";
 const STR_OK = "Ok";
+const STR_OK_TITLE = "OK";
 const STR_CARTADDED = "is successfully added to your cart.";
 const SUCCESS_IMAGE_PATH = 'assets/SuccessIcon/success.png';
 const JSON_STR_ITEM_ID = "item_id";
@@ -268,6 +269,9 @@ const STR_FLITER_BY = 'Filter By';
 const STR_CURRENT_LOCATION = "Please wait while getting your current location!";
 const STR_NO_RESTAURANT = 'No restaurants found.';
 const STR_KM = "km";
+const STR_REQUEST_TBL_MSG =
+    " or you can send request for table owner to join table";
+const STR_TABLE_STATUS_TITLE = "Table Status";
 const JSON_STR_LATI = "latitude";
 const JSON_STR_LONG = "longitude";
 const JSON_STR_SORT_BY = "sort_by";
