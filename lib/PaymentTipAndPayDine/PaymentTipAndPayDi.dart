@@ -13,6 +13,7 @@ import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
@@ -1222,7 +1223,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void onSuccessQuantityIncrease() {}
 
   @override
-  void inviteRequestFailed() {}
+  void inviteRequestFailed(ErrorModel model) {}
 
   @override
   void inviteRequestSuccess(String message) {}

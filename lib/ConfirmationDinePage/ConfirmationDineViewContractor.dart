@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 
 abstract class ConfirmationDineViewContractor {
   void addPeople(List<String> mobileNumber, int tableId, int restId,
@@ -17,5 +18,5 @@ abstract class ConfirmationDineViewModelView {
   void getPeopleListonSuccess(List<PeopleData> data);
   void getPeopleListonFailed();
   void inviteRequestSuccess(String message);
-  void inviteRequestFailed();
+  void inviteRequestFailed(ErrorModel model);
 }

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:badges/badges.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
@@ -728,6 +730,33 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     }
   }
 
+  void _showAlert(
+    BuildContext context,
+    String title,
+    String message,
+  ) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainWidget()),
+                          ModalRoute.withName("/MainWidget"));
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   void addPeopleFailed() {}
 
@@ -766,15 +795,23 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   void getOrderStatussuccess(StatusData statusData) {}
 
   @override
-  void inviteRequestFailed() async {
+  void inviteRequestFailed(ErrorModel model) async {
     await progressDialog.hide();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainWidget()),
+        ModalRoute.withName("/MainWidget"));
   }
 
   @override
   void inviteRequestSuccess(String message) async {
     await progressDialog.hide();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainWidget()),
+        ModalRoute.withName("/MainWidget"));
 
-    Constants.showAlertSuccess("Success", message, context);
+    // Constants.showAlertSuccess("Success", message, context);
   }
 }
 

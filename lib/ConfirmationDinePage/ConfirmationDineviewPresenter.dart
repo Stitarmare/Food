@@ -73,8 +73,10 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
 
   @override
   void sentInvitRequest(int tableId, int restId, BuildContext context) {
-    ApiBaseHelper().post<ErrorModel>(UrlConstant.requestToJoinTableApi, context,
-        body: {"table_id": tableId, "rest_id": restId}).then((value) {
+    ApiBaseHelper()
+        .post<ErrorModel>(UrlConstant.requestToJoinTableApi, context,
+            body: {"table_id": tableId, "rest_id": restId}, isShowDialoag: true)
+        .then((value) {
       print(value);
       switch (value.result) {
         case SuccessType.success:
@@ -82,7 +84,7 @@ class ConfirmationDineviewPresenter extends ConfirmationDineViewContractor {
               .inviteRequestSuccess(value.model.message);
           break;
         case SuccessType.failed:
-          _confirmationDineViewModelView.inviteRequestFailed();
+          _confirmationDineViewModelView.inviteRequestFailed(value.model);
           break;
       }
     }).catchError((error) {

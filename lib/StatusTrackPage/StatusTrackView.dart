@@ -10,6 +10,7 @@ import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 //import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
@@ -710,7 +711,7 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   }
 
   @override
-  void inviteRequestFailed() {}
+  void inviteRequestFailed(ErrorModel model) {}
 
   @override
   void inviteRequestSuccess(String message) {
