@@ -1008,10 +1008,12 @@ class CartDetailsPageState extends State<CartDetailsPage>
       OrderDetailData orderData, OrderDetailsModel model) async {
     await progressDialog.hide();
 
-    setState(() {
-      myOrderDataDetails = orderData;
-      _model = model;
-    });
+    if (mounted) {
+      setState(() {
+        myOrderDataDetails = orderData;
+        _model = model;
+      });
+    }
     if (!isFirst) {
       await progressDialog.hide();
     }
