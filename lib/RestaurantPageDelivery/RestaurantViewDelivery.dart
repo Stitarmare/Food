@@ -487,124 +487,120 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
   _getMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
-        height: 40,
-        padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: _getMenucount(),
-            itemBuilder: (context, index) {
-              return Container(
-                // width: MediaQuery.of(context).size.width * 0.2,
-                // width: MediaQuery.of(context).size.width /5.5,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      // width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: GestureDetector(
+      child: Center(
+        child: Container(
+          height: 40,
+          padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 0.0),
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _getMenucount(),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: _textSize(
+                          category[index].name,
+                          TextStyle(
+                            fontSize: 16,
+                            color:
+                                _selectedMenu != null && _selectedMenu == index
+                                    ? (((Globle().colorscode) != null)
+                                        ? getColorByHex(Globle().colorscode)
+                                        : orangetheme300)
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                          )).width +
+                      20,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: GestureDetector(
                             onTap: () async {
                               _onSelected(index);
                             },
                             child: Text(
                               category[index].name,
                               style: TextStyle(
+                                fontSize: 16,
+                                color: _selectedMenu != null &&
+                                        _selectedMenu == index
+                                    ? (((Globle().colorscode) != null)
+                                        ? getColorByHex(Globle().colorscode)
+                                        : orangetheme300)
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: _textSize(
+                                category[index].name,
+                                TextStyle(
+                                  fontSize: 16,
                                   color: _selectedMenu != null &&
                                           _selectedMenu == index
-                                      ? getColorByHex(Globle().colorscode)
+                                      ? (((Globle().colorscode) != null)
+                                          ? getColorByHex(Globle().colorscode)
+                                          : orangetheme300)
                                       : Color.fromRGBO(118, 118, 118, 1),
-                                  fontSize: 16.0),
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: Divider(
-                        thickness: 2,
-                        color: _selectedMenu != null && _selectedMenu == index
-                            ? getColorByHex(Globle().colorscode)
-                            : Color.fromRGBO(118, 118, 118, 1),
-                      ),
-                    )
-                  ],
-                ),
-              );
-              // return GestureDetector(
-              //   onTap: () {
-              //     _onSelected(index);
-              //   },
-              //   child: Container(
-              //     height: 40,
-              //     // padding: EdgeInsets.all(_categorydata[index].name.length>5? 6: 10),
-              //     padding: EdgeInsets.only(
-              //         left: _categorydata[index].name.length > 5 ? 6 : 16,
-              //         right: _categorydata[index].name.length > 5 ? 6 : 16,
-              //         top: 10,
-              //         bottom: 0),
-              //     margin: EdgeInsets.only(left: 6),
-              //     decoration: BoxDecoration(
-              //       border: Border.all(
-              //         width: 1,
-              //         color: _selectedMenu != null && _selectedMenu == index
-              //             ? getColorByHex(Globle().colorscode)
-              //             : Color.fromRGBO(118, 118, 118, 1),
-              //       ),
-              //       borderRadius: BorderRadius.all(Radius.circular(8)),
-              //       // color: _selectedMenu != null && _selectedMenu == index
-              //       //                 ? getColorByHex(Globle().colorscode)
-              //       //                 : Color.fromRGBO(118, 118, 118, 1),
-              //     ),
-              //     child: Text(
-              //       _categorydata[index].name ?? STR_BLANK,
-              //       style: TextStyle(
-              //         fontSize: 16,
-              //         color: _selectedMenu != null && _selectedMenu == index
-              //             ? getColorByHex(Globle().colorscode)
-              //             : Color.fromRGBO(118, 118, 118, 1),
-              //       ),
-              //     ),
-              //   ),
-              // );
-            }),
+                                )).width +
+                            20,
+                        child: Divider(
+                          thickness: 2,
+                          color: _selectedMenu != null && _selectedMenu == index
+                              ? (Globle().colorscode != null)
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme300
+                              : Color.fromRGBO(118, 118, 118, 1),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }),
+        ),
       ),
     );
+  }
+
+  Size _textSize(String text, TextStyle style) {
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: style),
+        maxLines: 1,
+        textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
+    return textPainter.size;
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
         height: valueBool ? 40 : 0,
+        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
                   return Container(
-                      // width: MediaQuery.of(context).size.width * 0.24,
-                      // width: MediaQuery.of(context).size.width / 5.5,
+                      // width: MediaQuery.of(context).size.width / 4.5,
                       child: Column(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          SizedBox(width: 0),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: GestureDetector(
-                                onTap: () async {
-                                  _onSubMenuSelected(index);
-                                },
-                                child: Text(
-                                  subcategoriesList2[index].name,
-                                  style: TextStyle(
-                                      color: _selectedSubMenu != null &&
-                                              _selectedSubMenu == index
-                                          ? getColorByHex(Globle().colorscode)
-                                          : Color.fromRGBO(118, 118, 118, 1),
-                                      fontSize: 16.0),
-                                )),
-                          ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.0),
+                        child: GestureDetector(
+                            onTap: () async {
+                              _onSubMenuSelected(index);
+                            },
+                            child: Text(
+                              subcategoriesList2[index].name,
+                              style: TextStyle(
+                                  color: _selectedSubMenu != null &&
+                                          _selectedSubMenu == index
+                                      ? getColorByHex(Globle().colorscode)
+                                      : Color.fromRGBO(118, 118, 118, 1),
+                                  fontSize: 16.0),
+                            )),
                       ),
                       // Divider(
                       //   thickness: 1,
