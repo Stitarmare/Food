@@ -291,22 +291,38 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   }
 
   @override
-  void updateNotificationFailed() {
-    // TODO: implement updateNotificationFailed
+  void updateNotificationFailed() {}
+
+  @override
+  void updateNotificationSuccess(String message) {}
+
+  @override
+  void acceptRejectFailed(ErrorModel model) async {
+    await progressDialog.hide();
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
+
+      Toast.show(
+        model.message,
+        Globle().context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
   }
 
   @override
-  void updateNotificationSuccess(String message) {
-    // TODO: implement updateNotificationSuccess
-  }
+  void acceptRejectSuccess(ErrorModel model) async {
+    await progressDialog.hide();
+    if (model != null) {
+      notificationPresenter.getNotifications(context);
 
-  @override
-  void acceptRejectFailed(ErrorModel model) {
-    // TODO: implement acceptRejectFailed
-  }
-
-  @override
-  void acceptRejectSuccess(ErrorModel model) {
-    // TODO: implement acceptRejectSuccess
+      Toast.show(
+        model.message,
+        Globle().context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.BOTTOM,
+      );
+    }
   }
 }
