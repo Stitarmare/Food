@@ -416,6 +416,7 @@ const DELV_CHARGE = "Delivery charge";
 const STR_DELIVERY = "delivery";
 const STR_BIG_DELIVERY = "DELIVERY";
 const STR_BIG_DINE_IN = "DINE IN";
+const STR_PAID_SMALL = "paid";
 
 // MyProfileBottomPage
 const ITEM_IMAGE_PATH = 'assets/BlurImage/Group1612.png';
