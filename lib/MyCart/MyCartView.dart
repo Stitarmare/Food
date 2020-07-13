@@ -96,21 +96,7 @@ class _MyCartViewState extends State<MyCartView>
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
-    // Preference.getPrefValue<int>(PreferenceKeys.myCartRestIdKey).then((value) {
-    //   if (value != null) {
-    //     if (value == widget.restId) {
-    //       Preference.getPrefValue<int>(PreferenceKeys.mycartTableIdKey)
-    //           .then((valueTableKey) {
-    //         if (valueTableKey != null) {
-    //           setState(() {
-    //             _dropdownTableNo = valueTableKey;
-    //             _dropdownTableNumber = valueTableKey;
-    //           });
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
+
     Preference.getPrefValue<int>(PreferenceKeys.tableId).then((value) {
       if (value != null) {
         setState(() {
