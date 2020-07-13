@@ -576,7 +576,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     return SliverToBoxAdapter(
       child: Container(
         height: valueBool ? 40 : 0,
-        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 0.0),
         child: valueBool
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -584,33 +584,45 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                 itemBuilder: (context, index) {
                   return Container(
                       // width: MediaQuery.of(context).size.width / 4.5,
-                      child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.0),
-                        child: GestureDetector(
-                            onTap: () async {
-                              _onSubMenuSelected(index);
-                            },
-                            child: Text(
+                      width: _textSize(
                               subcategoriesList2[index].name,
-                              style: TextStyle(
-                                  color: _selectedSubMenu != null &&
-                                          _selectedSubMenu == index
-                                      ? getColorByHex(Globle().colorscode)
-                                      : Color.fromRGBO(118, 118, 118, 1),
-                                  fontSize: 16.0),
-                            )),
-                      ),
-                      // Divider(
-                      //   thickness: 1,
-                      //   color: _selectedSubMenu != null &&
-                      //           _selectedSubMenu == index
-                      //       ? getColorByHex(Globle().colorscode)
-                      //       : Color.fromRGBO(118, 118, 118, 1),
-                      // )
-                    ],
-                  ));
+                              TextStyle(
+                                fontSize: 16,
+                                color: _selectedSubMenu != null &&
+                                        _selectedSubMenu == index
+                                    ? (((Globle().colorscode) != null)
+                                        ? getColorByHex(Globle().colorscode)
+                                        : orangetheme300)
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                              )).width +
+                          30,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15.0),
+                            child: GestureDetector(
+                                onTap: () async {
+                                  _onSubMenuSelected(index);
+                                },
+                                child: Text(
+                                  subcategoriesList2[index].name,
+                                  style: TextStyle(
+                                      color: _selectedSubMenu != null &&
+                                              _selectedSubMenu == index
+                                          ? getColorByHex(Globle().colorscode)
+                                          : Color.fromRGBO(118, 118, 118, 1),
+                                      fontSize: 16.0),
+                                )),
+                          ),
+                          // Divider(
+                          //   thickness: 1,
+                          //   color: _selectedSubMenu != null &&
+                          //           _selectedSubMenu == index
+                          //       ? getColorByHex(Globle().colorscode)
+                          //       : Color.fromRGBO(118, 118, 118, 1),
+                          // )
+                        ],
+                      ));
                   // return GestureDetector(
                   //   onTap: () {
                   //     _onSubMenuSelected(index);

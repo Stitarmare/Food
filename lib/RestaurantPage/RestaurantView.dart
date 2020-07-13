@@ -391,7 +391,7 @@ class _RestaurantViewState extends State<RestaurantView>
   _getSubMenuListHorizontal(BuildContext context) {
     return SliverToBoxAdapter(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 55.0, vertical: 0.0),
+        padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 0.0),
         height: valueBool ? 40 : 0,
         child: valueBool
             ? ListView.builder(
@@ -399,8 +399,20 @@ class _RestaurantViewState extends State<RestaurantView>
                 itemCount: _getSubMenucount(),
                 itemBuilder: (context, index) {
                   return Container(
-                      alignment: Alignment.center,
+                      // alignment: Alignment.center,
                       // width: MediaQuery.of(context).size.width / 4.5,
+                      width: _textSize(
+                              subcategoriesList2[index].name,
+                              TextStyle(
+                                fontSize: 16,
+                                color: _selectedSubMenu != null &&
+                                        _selectedSubMenu == index
+                                    ? (((Globle().colorscode) != null)
+                                        ? getColorByHex(Globle().colorscode)
+                                        : orangetheme300)
+                                    : Color.fromRGBO(118, 118, 118, 1),
+                              )).width +
+                          30,
                       child: Column(
                         children: <Widget>[
                           Padding(

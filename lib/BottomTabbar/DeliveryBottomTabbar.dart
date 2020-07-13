@@ -105,14 +105,14 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    _streamSubscription.cancel();
+    if (_streamSubscription != null) {
+      _streamSubscription.cancel();
+    }
     super.dispose();
   }
 
