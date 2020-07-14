@@ -167,7 +167,8 @@ class _NotificationViewState extends State<NotificationView>
         recipientMobno = notifytext[1];
         tableno = notifytext[2];
         status = await DailogBox.notification_1(
-            context, recipientName, recipientMobno, tableno);
+            context, recipientName, recipientMobno,
+            tableno: tableno);
         print(status);
         if (status == DailogAction.abort || status == DailogAction.yes) {
           var statusStr = "";
@@ -183,33 +184,7 @@ class _NotificationViewState extends State<NotificationView>
               notificationData[index].invitationId, statusStr, context);
         }
       }
-    } else if (notificationData[index].notifType == null) {
-      if (notificationData[index].invitationStatus == null ||
-          notificationData[index].invitationStatus.isEmpty) {
-        notifytext = notificationData[index].notifText.split(STR_COMMA);
-        recipientName = notifytext[0];
-        recipientMobno = notifytext[1];
-        // tableno = notifytext[2];
-        status = await DailogBox.notification_1(
-            context, recipientName, recipientMobno, tableno);
-        print(status);
-        if (status == DailogAction.abort || status == DailogAction.yes) {
-          var statusStr = "";
-          if (status == DailogAction.abort) {
-            statusStr = "reject";
-          }
-          if (status == DailogAction.yes) {
-            statusStr = "accept";
-          }
-          if (statusStr == "accept") {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainWidget()),
-                ModalRoute.withName("/MainWidget"));
-          }
-        }
-      }
-    } else {
+    } else if (notificationData[index].notifType == STR_INVITE_REQUEST) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
         notifytext = notificationData[index].notifText.split(STR_COMMA);
@@ -217,7 +192,8 @@ class _NotificationViewState extends State<NotificationView>
         recipientMobno = notifytext[1];
         tableno = notifytext[2];
         status = await DailogBox.notification_1(
-            context, recipientName, recipientMobno, tableno);
+            context, recipientName, recipientMobno,
+            tableno: tableno);
         print(status);
         if (status == DailogAction.abort || status == DailogAction.yes) {
           var statusStr = "";
@@ -234,6 +210,32 @@ class _NotificationViewState extends State<NotificationView>
               notificationData[index].invitationId,
               statusStr,
               context);
+        }
+      }
+    } else if (notificationData[index].notifType == null) {
+      if (notificationData[index].invitationStatus == null ||
+          notificationData[index].invitationStatus.isEmpty) {
+        notifytext = notificationData[index].notifText.split(STR_COMMA);
+        recipientName = notifytext[0];
+        recipientMobno = notifytext[1];
+        // tableno = notifytext[2];
+        status = await DailogBox.notification_1(
+            context, recipientName, recipientMobno);
+        print(status);
+        if (status == DailogAction.abort || status == DailogAction.yes) {
+          var statusStr = "";
+          if (status == DailogAction.abort) {
+            statusStr = "reject";
+          }
+          if (status == DailogAction.yes) {
+            statusStr = "accept";
+          }
+          if (statusStr == "accept") {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MainWidget()),
+                ModalRoute.withName("/MainWidget"));
+          }
         }
       }
     }

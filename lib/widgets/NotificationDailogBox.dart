@@ -6,11 +6,8 @@ enum DailogAction { yes, abort }
 
 class DailogBox {
   static Future<DailogAction> notification_1(
-    BuildContext context,
-    String recipientName,
-    String recipientMobno,
-    String tableno,
-  ) async {
+      BuildContext context, String recipientName, String recipientMobno,
+      {String tableno}) async {
     final action = await showDialog(
         context: context,
         barrierDismissible: true,

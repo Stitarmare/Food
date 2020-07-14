@@ -741,7 +741,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         : orangetheme300)
                                     : Color.fromRGBO(118, 118, 118, 1),
                               )).width +
-                          30,
+                          32,
                       child: Column(
                         children: <Widget>[
                           Padding(

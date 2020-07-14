@@ -438,6 +438,7 @@ const MOVINGOUTOFRADIUS = "moving_out_of_radius";
 const SPLITBILLREQUEST = "split_bill_request";
 const APPUPDATE = "app_update";
 const SPLITBILLPAYMENT = "split bill payment";
+const STR_INVITE_REQUEST = "invite request";
 
 // Notifications Page
 const STR_NOTIFICATION_TITLE = "Notifications";

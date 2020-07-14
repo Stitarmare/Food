@@ -1,31 +1,29 @@
 import 'dart:async';
 
 import 'package:badges/badges.dart';
-import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
-import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
-import 'package:foodzi/LandingPage/LandingView.dart';
-import 'package:foodzi/Models/error_model.dart';
-import 'package:foodzi/Utils/constant.dart';
-import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:flutter/material.dart';
+import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
+import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPay.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPay/PaymentTipAndPayPresenter.dart';
-import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/theme/colors.dart';
+import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -700,9 +698,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         placeOrderModel = model;
       });
       if (placeOrderModel.tableBook == true) {
-        // String message = placeOrderModel.message + STR_REQUEST_TBL_MSG;
-        Constants.showAlert("Table Status", placeOrderModel.message, context);
-        // showAlertTableStatus(STR_TABLE_STATUS_TITLE, message, context);
+        String message = placeOrderModel.message + STR_REQUEST_TBL_MSG;
+        // Constants.showAlert("Table Status", placeOrderModel.message, context);
+        showAlertTableStatus(STR_TABLE_STATUS_TITLE, message, context);
       } else {
         setState(() {
           if (myOrderData == null) {
