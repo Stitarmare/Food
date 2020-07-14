@@ -795,6 +795,7 @@ class _RestaurantViewState extends State<RestaurantView>
                                         "${_restaurantList[index].itemName}")
                                     : STR_SPACE,
                                 maxLines: 2,
+                                textAlign: TextAlign.center,
                                 // minFontSize: FONTSIZE_10,
                                 // maxFontSize: FONTSIZE_13,
                                 style: TextStyle(
@@ -1085,7 +1086,7 @@ class _RestaurantViewState extends State<RestaurantView>
         _restaurantList = menulist;
         restaurantItemsModel = _restaurantItemsModel1;
       } else {
-        _restaurantList.removeRange(0, (_restaurantList.length));
+        // _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
         restaurantItemsModel = _restaurantItemsModel1;
       }
@@ -1100,14 +1101,10 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   @override
-  void notifyWaiterFailed() {
-    // TODO: implement notifyWaiterFailed
-  }
+  void notifyWaiterFailed() {}
 
   @override
-  void notifyWaiterSuccess() {
-    // TODO: implement notifyWaiterSuccess
-  }
+  void notifyWaiterSuccess() {}
 
   @override
   void getMenuLCategoryfailed() {}

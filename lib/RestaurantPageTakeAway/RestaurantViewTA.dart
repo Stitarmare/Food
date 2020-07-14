@@ -523,6 +523,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         "${_restaurantList[index].itemName}")
                                     : STR_SPACE,
                                 maxLines: 2,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: FONTSIZE_15,
                                     fontFamily: KEY_FONTFAMILY,
@@ -897,7 +898,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         _restaurantList = menulist;
         _restaurantItemsModel = restaurantItemsModel1;
       } else {
-        _restaurantList.removeRange(0, (_restaurantList.length));
+        // _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
         _restaurantItemsModel = restaurantItemsModel1;
       }

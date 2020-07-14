@@ -97,13 +97,20 @@ class _MyCartViewState extends State<MyCartView>
         widget.restId, context, Globle().loginModel.data.id);
     _myCartpresenter.getTableListno(widget.restId, context);
 
-    Preference.getPrefValue<int>(PreferenceKeys.tableId).then((value) {
+    Preference.getPrefValue<int>(PreferenceKeys.restaurantID).then((value) {
       if (value != null) {
-        setState(() {
-          _dropdownTableNo = value;
-          _dropdownTableNumber = value;
-          isTableExists = true;
-        });
+        print(value);
+        if (widget.restId == value) {
+          Preference.getPrefValue<int>(PreferenceKeys.tableId).then((value) {
+            if (value != null) {
+              setState(() {
+                _dropdownTableNo = value;
+                _dropdownTableNumber = value;
+                isTableExists = true;
+              });
+            }
+          });
+        }
       }
     });
 

@@ -364,7 +364,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
             child: Container(
               width: MediaQuery.of(context).size.width * 0.65,
               child: Slider(
-                activeColor: getColorByHex(Globle().colorscode),
+                activeColor: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme300,
                 inactiveColor: greytheme100,
                 min: 1,
                 max: 25,

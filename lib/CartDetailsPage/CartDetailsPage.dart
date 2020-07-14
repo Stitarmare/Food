@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -8,12 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
-import 'package:foodzi/Models/PlaceOrderModel.dart';
 import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
-import 'package:foodzi/RestaurantPage/RestaurantView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -64,7 +61,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
   Timer _timer;
-  Duration _duration = Duration(seconds: 10);
   @override
   void initState() {
     _paymentTipandPayDiPresenter = PaymentTipandPayDiPresenter(this);

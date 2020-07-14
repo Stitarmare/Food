@@ -837,10 +837,11 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                           "${_restaurantList[index].itemName}")
                                       : STR_SPACE,
                                   maxLines: 2,
-                                  minFontSize: FONTSIZE_10,
-                                  maxFontSize: FONTSIZE_13,
+                                  // minFontSize: FONTSIZE_10,
+                                  // maxFontSize: FONTSIZE_13,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: FONTSIZE_13,
+                                      fontSize: FONTSIZE_15,
                                       fontFamily: Constants.getFontType(),
                                       fontWeight: FontWeight.w600,
                                       color: greytheme700),
@@ -995,7 +996,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         _restaurantList = menulist;
         restaurantItemsModel = _restaurantItemsModel1;
       } else {
-        _restaurantList.removeRange(0, (_restaurantList.length));
+        // _restaurantList.removeRange(0, (_restaurantList.length));
         _restaurantList.addAll(menulist);
         restaurantItemsModel = _restaurantItemsModel1;
       }
