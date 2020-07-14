@@ -697,7 +697,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
       setState(() {
         placeOrderModel = model;
       });
-      if (placeOrderModel.tableBook == true) {
+      if (placeOrderModel.userId == null && placeOrderModel.tableBook == true) {
+        Constants.showAlert("Table Status", placeOrderModel.message, context);
+      } else if (placeOrderModel.tableBook == true) {
         String message = placeOrderModel.message + STR_REQUEST_TBL_MSG;
         // Constants.showAlert("Table Status", placeOrderModel.message, context);
         showAlertTableStatus(STR_TABLE_STATUS_TITLE, message, context);

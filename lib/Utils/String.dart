@@ -439,6 +439,7 @@ const SPLITBILLREQUEST = "split_bill_request";
 const APPUPDATE = "app_update";
 const SPLITBILLPAYMENT = "split bill payment";
 const STR_INVITE_REQUEST = "invite request";
+const STR_INVITE_RESPONSE = "invitation response";
 
 // Notifications Page
 const STR_NOTIFICATION_TITLE = "Notifications";

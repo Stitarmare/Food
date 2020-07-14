@@ -212,7 +212,7 @@ class _NotificationViewState extends State<NotificationView>
               context);
         }
       }
-    } else if (notificationData[index].notifType == null) {
+    } else if (notificationData[index].notifType == STR_INVITE_RESPONSE) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
         notifytext = notificationData[index].notifText.split(STR_COMMA);

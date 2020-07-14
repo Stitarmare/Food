@@ -41,7 +41,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   String recipientMobno;
   String tableno;
   List notifytext;
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  // final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
   @override
   void initState() {
@@ -197,7 +197,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
               context);
         }
       }
-    } else if (notificationData[index].notifType == null) {
+    } else if (notificationData[index].notifType == STR_INVITE_RESPONSE) {
       if (notificationData[index].invitationStatus == null ||
           notificationData[index].invitationStatus.isEmpty) {
         notifytext = notificationData[index].notifText.split(STR_COMMA);
