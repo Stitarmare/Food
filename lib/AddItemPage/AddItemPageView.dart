@@ -20,6 +20,7 @@ import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+import 'package:foodzi/widgets/TableSelectDialog.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,6 +94,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   List<Switches> switchess;
   List<RadioButtonOptions> _subOptionList = [];
   int cartPageCount;
+  int mycartTableId;
 
   bool isLoding = false;
   ProgressDialog progressDialog;
@@ -130,6 +132,19 @@ class _AddItemPageViewState extends State<AddItemPageView>
     // getRequiredSpread(_addItemModelList.spreads.length);
     // getRequiredExtra(_addItemModelList.extras.length);
     // getRequiredSize(_addItemModelList.sizePrizes.length);
+    Preference.getPrefValue<int>(PreferenceKeys.restaurantID).then((value) {
+      if (value != null) {
+        if (widget.restId == value) {
+          Preference.getPrefValue<int>(PreferenceKeys.tableId).then((value) {
+            if (value != null) {
+              setState(() {
+                mycartTableId = value;
+              });
+            }
+          });
+        }
+      }
+    });
 
     super.initState();
   }
@@ -752,19 +767,74 @@ class _AddItemPageViewState extends State<AddItemPageView>
             context);
       } else {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+        if (mycartTableId != null) {
+          setState(() {
+            isIgnoreTouch = true;
+          });
+          await progressDialog.show();
+          _addItemPagepresenter.performaddMenuToCart(
+              addMenuToCartModel, context);
+        } else {
+          var data = await showDialog(
+              context: context,
+              barrierDismissible: true,
+              child: TableSelectDialogView(
+                restId: widget.restId,
+              ));
+          if (data != null) {
+            if (data["tableDataId"] != null) {
+              setState(() {
+                mycartTableId = data["tableDataId"];
+              });
+              Preference.setPersistData<int>(
+                  data["tableDataId"], PreferenceKeys.tableId);
+              Preference.setPersistData<int>(
+                  widget.restId, PreferenceKeys.restaurantID);
+            }
+
+            if (data["tableDataName"] != null) {
+              Preference.setPersistData<int>(
+                  widget.restId, PreferenceKeys.restaurantID);
+            }
+          }
+        }
+      }
+    } else {
+      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
+      if (mycartTableId != null) {
         setState(() {
           isIgnoreTouch = true;
         });
         await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
+      } else {
+        // Constants.showAlert(
+        //     "Select Table",
+        //     "Please select table first and then add items in your cart.",
+        //     context);
+        var data = await showDialog(
+            context: context,
+            barrierDismissible: true,
+            child: TableSelectDialogView(
+              restId: widget.restId,
+            ));
+        if (data != null) {
+          if (data["tableDataId"] != null) {
+            setState(() {
+              mycartTableId = data["tableDataId"];
+            });
+            Preference.setPersistData<int>(
+                data["tableDataId"], PreferenceKeys.tableId);
+            Preference.setPersistData<int>(
+                widget.restId, PreferenceKeys.restaurantID);
+          }
+
+          if (data["tableDataName"] != null) {
+            Preference.setPersistData<int>(
+                widget.restId, PreferenceKeys.restaurantID);
+          }
+        }
       }
-    } else {
-      //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
-      setState(() {
-        isIgnoreTouch = true;
-      });
-      await progressDialog.show();
-      _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
 

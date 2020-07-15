@@ -27,6 +27,7 @@ import 'package:foodzi/widgets/GeoLocationTracking.dart';
 import 'package:foodzi/widgets/RadioDialogAddPeople.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmationDineView extends StatefulWidget {
   String restName;
@@ -117,6 +118,15 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     print(widget.tableId);
 
     strTotalAmount = (widget.totalAmount).toStringAsFixed(2);
+    Preference.getPrefValue<String>("tableName").then((tableName) {
+      if (tableName != null) {
+        if (widget.tablename == null) {
+          setState(() {
+            widget.tablename = tableName;
+          });
+        }
+      }
+    });
     //_getLocation();
     super.initState();
   }
@@ -167,8 +177,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         body: CustomScrollView(
           controller: _controller,
           slivers: <Widget>[
-            _getorderOptions(),
-            radioId == 1 ? _gettableText() : _gettimeOptions(),
+            // _getorderOptions(),
+            _gettableText(),
+            // radioId == 1 ? _gettableText() : _gettimeOptions(),
           ],
         ),
         bottomNavigationBar: BottomAppBar(

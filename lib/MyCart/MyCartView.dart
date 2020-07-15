@@ -106,7 +106,7 @@ class _MyCartViewState extends State<MyCartView>
               setState(() {
                 _dropdownTableNo = value;
                 _dropdownTableNumber = value;
-                isTableExists = true;
+                // isTableExists = true;
               });
             }
           });
@@ -118,6 +118,7 @@ class _MyCartViewState extends State<MyCartView>
       if (value != null) {
         setState(() {
           orderId = value;
+          isTableExists = true;
         });
       }
     });
@@ -659,15 +660,16 @@ class _MyCartViewState extends State<MyCartView>
               setState(() {
                 _dropdownTableNumber = newValue;
                 _dropdownTableNo = _dropdownTableNumber;
-                // Preference.setPersistData<int>(
-                //     _dropdownTableNumber, PreferenceKeys.mycartTableIdKey);
-                // Preference.setPersistData(
-                //     widget.restId, PreferenceKeys.myCartRestIdKey);
+                Preference.setPersistData<int>(
+                    _dropdownTableNumber, PreferenceKeys.tableId);
+                Preference.setPersistData<int>(
+                    widget.restId, PreferenceKeys.restaurantID);
               });
               for (int i = 0; i < _dropdownItemsTable.length; i++) {
                 if (newValue == _dropdownItemsTable[i].id) {
                   print(_dropdownItemsTable[i].name);
                   tableno = _dropdownItemsTable[i].name;
+                  Preference.setPersistData<String>(tableno, "tableName");
                 }
               }
               await progressDialog.show();

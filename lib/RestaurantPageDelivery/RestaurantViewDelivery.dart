@@ -58,9 +58,9 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu = 0;
+  int _selectedMenu;
   int previousValue;
-  int _selectedSubMenu = 0;
+  int _selectedSubMenu;
   var tableID;
   bool valueBool = false;
   RestaurantItemsModel restaurantItemsModel;
@@ -110,15 +110,16 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
+
       if (_selectedMenu == index) {
-        if (category[index].subcategories != null) {
-          if (category[index].subcategories.length > 0) {
+        if (category2[index].subcategories != null) {
+          if (category2[index].subcategories.length > 0) {
             setState(() {
               valueBool = true;
-              subcategoriesList = category[index].subcategories;
-              subcategories = [];
+              subcategoriesList = category2[index].subcategories;
+              // subcategories = [];
               subcategoriesList2 = [];
-              _selectedSubMenu = 0;
+              // _selectedSubMenu = 0;
               // _getSubMenucount();
             });
           } else {
@@ -134,18 +135,45 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           });
         }
       }
+      // for All as category
+      // if (_selectedMenu == index) {
+      //   if (category[index].subcategories != null) {
+      //     if (category[index].subcategories.length > 0) {
+      //       setState(() {
+      //         valueBool = true;
+      //         subcategoriesList = category[index].subcategories;
+      //         subcategories = [];
+      //         subcategoriesList2 = [];
+      //         _selectedSubMenu = 0;
+      //         // _getSubMenucount();
+      //       });
+      //     } else {
+      //       setState(() {
+      //         valueBool = false;
+      //         subcategoriesList = [];
+      //       });
+      //     }
+      //   } else {
+      //     setState(() {
+      //       valueBool = false;
+      //       subcategoriesList = [];
+      //     });
+      //   }
+      // }
+
       if (previousValue != null) {
         if (previousValue != _selectedMenu) {
           subCategoryIdabc = null;
-          _selectedSubMenu = 0;
+          _selectedSubMenu = null;
           previousValue = _selectedMenu;
         }
       } else {
         previousValue = _selectedMenu;
       }
+
       print(_selectedMenu);
     });
-    abc = category[index].id;
+    abc = category2[index].id;
     if (abc != null) {
       callItemOnCategorySelect();
     } else {
@@ -156,14 +184,18 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
   _onSubMenuSelected(index) {
     setState(() {
-      if (index == 0) {
-        _selectedSubMenu = index;
-        subCategoryIdabc = null;
-      } else {
-        _selectedSubMenu = index - 1;
-        subCategoryIdabc =
-            category[_selectedMenu].subcategories[_selectedSubMenu].id;
-      }
+      _selectedSubMenu = index;
+      subCategoryIdabc =
+          category2[_selectedMenu].subcategories[_selectedSubMenu].id;
+
+      // if (index == 0) {
+      //   _selectedSubMenu = index;
+      //   subCategoryIdabc = null;
+      // } else {
+      //   _selectedSubMenu = index - 1;
+      //   subCategoryIdabc =
+      //       category2[_selectedMenu].subcategories[_selectedSubMenu].id;
+      // }
 
       print(_selectedSubMenu);
     });
@@ -497,7 +529,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               itemBuilder: (context, index) {
                 return Container(
                   width: _textSize(
-                          category[index].name,
+                          category2[index].name,
                           TextStyle(
                             fontSize: 16,
                             color:
@@ -518,7 +550,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                               _onSelected(index);
                             },
                             child: Text(
-                              category[index].name,
+                              category2[index].name,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: _selectedMenu != null &&
@@ -534,7 +566,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                       ),
                       SizedBox(
                         width: _textSize(
-                                category[index].name,
+                                category2[index].name,
                                 TextStyle(
                                   fontSize: 16,
                                   color: _selectedMenu != null &&
@@ -667,48 +699,44 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     );
   }
 
-  // int _getMenucount() {
-  //   if (_categorydata != null) {
-  //     for (int i = 0; i < _categorydata.length; i++) {
-  //       setState(() {
-  //         category = _categorydata[i].category;
-  //       });
-  //     }
-  //     return category.length;
-  //   }
-  //   return 0;
-  // }
   int _getMenucount() {
-    if (category.length == 0) {
-      category.insert(0, category1[0]);
-    }
+    // if (category.length == 0) {
+    //   category.insert(0, category1[0]);
+    // }
     if (_categorydata != null) {
       for (int i = 0; i < _categorydata.length; i++) {
         setState(() {
           category2 = _categorydata[i].category;
         });
       }
-      if (category.length == 1) {
-        category.addAll(category2);
-      }
-      return category.length;
+
+      // if (category.length == 1) {
+      //   category.addAll(category2);
+      // }
+      return category2.length;
     }
     return 0;
   }
 
   int _getSubMenucount() {
-    if (subcategories.length == 0) {
-      subcategories.insert(0, subcategoriesList1[0]);
-      subcategoriesList2 = subcategories;
-      if (subcategoriesList != null) {
-        subcategoriesList2.addAll(subcategoriesList);
-        return subcategoriesList2.length;
-      }
-    } else {
+    if (subcategoriesList != null) {
+      subcategoriesList2 = subcategoriesList;
       return subcategoriesList2.length;
+    } else {
+      return 0;
     }
 
-    return 0;
+    //for All as subcategory
+    // if (subcategories.length == 0) {
+    //   // subcategories.insert(0, subcategoriesList1[0]);
+    //   subcategoriesList2 = subcategories;
+    //   if (subcategoriesList != null) {
+    //     subcategoriesList2.addAll(subcategoriesList);
+    //     return subcategoriesList2.length;
+    //   }
+    // } else {
+    //   return subcategoriesList2.length;
+    // }
   }
 
   // int _getSubMenucount() {
@@ -760,7 +788,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.8,
+        childAspectRatio: 0.85,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -1063,5 +1091,5 @@ List<ItemGram> itemSizeinGramList = [
   ItemGram(title: '250g'),
   ItemGram(title: '300g'),
 ];
-List<Category> category1 = [Category(id: 0, name: "All")];
-List<Subcategories> subcategoriesList1 = [Subcategories(id: 0, name: "All")];
+// List<Category> category1 = [Category(id: 0, name: "All")];
+// List<Subcategories> subcategoriesList1 = [Subcategories(id: 0, name: "All")];
