@@ -9,6 +9,7 @@ import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
@@ -500,7 +501,9 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
       isIgnoringTouch = false;
     });
     await progressDialog.hide();
-    // _showAlert(context, "Login Failed", "You need to register first");
+    if (Globle().isRegister) {
+      _showAlert(context, "Login Failed", "You need to register first");
+    }
   }
 
   @override

@@ -17,7 +17,8 @@ class Globle {
   LoginModel loginModel;
   MenuCartDisplayModel menuCartDisplayModel;
   String fcmToken = "";
-  StreamController<double> streamController = StreamController<double>.broadcast();
+  StreamController<double> streamController =
+      StreamController<double>.broadcast();
   bool notificationFLag = false;
   String colorscode;
   int dinecartValue = 0;
@@ -32,4 +33,5 @@ class Globle {
   int tableID = 0;
   int orderID = 0;
   int navigatorIndex = 1;
+  bool isRegister = false;
 }

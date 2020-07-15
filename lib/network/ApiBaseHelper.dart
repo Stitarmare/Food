@@ -287,9 +287,12 @@ class ApiBaseHelper {
               msg = errorModel.mobileNumber[0];
             }
           }
-          // if (errorModel.message == STR_MESSAGE) {
-          //   isShowDialoag = true;
-          // }
+          if (errorModel.message == STR_MESSAGE) {
+            isShowDialoag = true;
+            Globle().isRegister = true;
+          } else {
+            Globle().isRegister = false;
+          }
         }
 
         if (isShowDialoag != null) {
