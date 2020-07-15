@@ -41,7 +41,9 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       children: <Widget>[
         Container(
-          height: 190,
+          height: isTableList
+              ? MediaQuery.of(context).size.height * 0.21
+              : MediaQuery.of(context).size.height * 0.19,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Column(
@@ -70,14 +72,14 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
               isTableList
                   ? getTableNumber()
                   : Container(
-                      child: Row(
+                      child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(width: 20),
+                        SizedBox(height: 20),
                         Text(STR_NO_TABLE,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: FONTSIZE_14,
+                                fontSize: FONTSIZE_15,
                                 fontFamily: Constants.getFontType(),
                                 fontWeight: FontWeight.w600,
                                 color: Globle().colorscode != null
@@ -88,17 +90,24 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
               Align(
                 alignment: Alignment.bottomRight,
                 child: FlatButton(
-                  child: Text(STR_OK),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Text(STR_OK,
+                        style: TextStyle(
+                            fontSize: FONTSIZE_14,
+                            fontFamily: Constants.getFontType(),
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black)),
+                  ),
                   onPressed: () {
                     if (_dropdownTableNo != null) {
                       Navigator.of(context).pop({
                         "tableDataId": _dropdownTableNo,
                         "tableDataName": tableno
                       });
-                    }else{
-                    Navigator.of(context).pop();
+                    } else {
+                      Navigator.of(context).pop();
                     }
-
                   },
                 ),
               )
