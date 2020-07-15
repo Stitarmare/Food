@@ -287,6 +287,9 @@ class ApiBaseHelper {
               msg = errorModel.mobileNumber[0];
             }
           }
+          // if (errorModel.message == STR_MESSAGE) {
+          //   isShowDialoag = true;
+          // }
         }
 
         if (isShowDialoag != null) {

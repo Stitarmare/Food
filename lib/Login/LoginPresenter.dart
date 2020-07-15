@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
+import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/Models/loginmodel.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -23,10 +24,11 @@ class LoginPresenter extends LoginContract {
     return EncryptionAES.getData(value);
   }
 
-  void performLogin(String mobno ,String countryCode, String password, BuildContext context) {
+  void performLogin(
+      String mobno, String countryCode, String password, BuildContext context) {
     ApiBaseHelper().post<LoginModel>(UrlConstant.loginApi, context, body: {
       JSON_STR_MOB_NO: mobno,
-      "country_code":countryCode,
+      "country_code": countryCode,
       JSON_STR_PWD: _encryptValue(password),
     }).then((value) {
       print(value);

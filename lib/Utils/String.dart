@@ -360,6 +360,7 @@ const STR_PLUS_SIGN = '+';
 const STR_ACCOUNT = "Don't have an account?";
 const STR_INPUTFORMAT = '[ ]';
 const JSON_STR_PWD = 'password';
+const STR_MESSAGE = "Mobile number not registered";
 
 // MenuItemDropDown Page
 const STR_ZERO = "0";

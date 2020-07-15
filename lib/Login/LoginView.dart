@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -473,13 +474,33 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     );
   }
 
+  void _showAlert(BuildContext context, String title, String message) {
+    showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+              onWillPop: () async => false,
+              child: AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(STR_OK),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+            ));
+  }
+
   @override
   Future<void> loginFailed() async {
     setState(() {
       isIgnoringTouch = false;
     });
     await progressDialog.hide();
-    //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    // _showAlert(context, "Login Failed", "You need to register first");
   }
 
   @override
