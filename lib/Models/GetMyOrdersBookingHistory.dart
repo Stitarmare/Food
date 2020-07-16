@@ -331,6 +331,7 @@ class GetMyOrderBookingHistoryList {
   String status;
   String cancellationReason;
   String totalAmount;
+  String deliveryCharge;
   int splitType;
   String splitAmount;
   Null timeToPickupOrder;
@@ -352,6 +353,7 @@ class GetMyOrderBookingHistoryList {
       this.additionalComments,
       this.restId,
       this.status,
+      this.deliveryCharge,
       this.cancellationReason,
       this.totalAmount,
       this.splitType,
@@ -385,6 +387,7 @@ class GetMyOrderBookingHistoryList {
     updatedAt = json['updated_at'];
     orderNumber = json['order_number'];
     isRunning = json['is_running'];
+    deliveryCharge = json['delivery_charge'];
     restaurant = json['restaurant'] != null
         ? new Restaurant.fromJson(json['restaurant'])
         : null;
@@ -423,6 +426,7 @@ class GetMyOrderBookingHistoryList {
     data['split_amount'] = this.splitAmount;
     data['time_to_pickup_order'] = this.timeToPickupOrder;
     data['waiter_id'] = this.waiterId;
+    data['delivery_charge'] = this.deliveryCharge;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['order_number'] = this.orderNumber;
@@ -485,6 +489,7 @@ class GetMyOrderBookingList {
   int id;
   int quantity;
   int qty;
+  String totalAmount;
   String preparationTime;
   String preparationNote;
   int itemId;
@@ -521,12 +526,14 @@ class GetMyOrderBookingList {
       this.sizePrice,
       this.createdAt,
       this.updatedAt,
+      this.totalAmount,
       this.items});
 
   GetMyOrderBookingList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     quantity = json['quantity'];
     qty = json['qty'];
+    totalAmount = json['totalAmount'];
     preparationTime = json['preparation_time'];
     preparationNote = json['preparation_note'];
     itemId = json['item_id'];
@@ -562,6 +569,7 @@ class GetMyOrderBookingList {
     data['waiter_id'] = this.waiterId;
     data['price'] = this.price;
     data['status'] = this.status;
+    data['totalAmount'] = this.totalAmount;
     data['size_price'] = this.sizePrice;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

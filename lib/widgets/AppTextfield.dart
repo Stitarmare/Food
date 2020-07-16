@@ -23,6 +23,7 @@ class AppTextField extends StatefulWidget {
   final String strErrortext;
   final String initialvalue;
   final List<TextInputFormatter> inputFormatters;
+  final InputBorder inputBorder;
 
   const AppTextField({
     this.initialvalue,
@@ -45,6 +46,7 @@ class AppTextField extends StatefulWidget {
     this.autovalidate = false,
     this.focusNode,
     this.inputFormatters,
+    this.inputBorder,
   });
 
   @override
@@ -64,9 +66,9 @@ class _AppTextFieldState extends State<AppTextField> {
       initialValue: widget.tfValue,
       enabled: widget.enable,
       decoration: InputDecoration(
-        labelText: widget.placeHolderName,
-        prefixIcon: widget.icon,
-      ),
+          labelText: widget.placeHolderName,
+          prefixIcon: widget.icon,
+          enabledBorder: widget.inputBorder),
       autovalidate: widget.autovalidate,
       validator: widget.validator,
       onSaved: widget.onSaved,

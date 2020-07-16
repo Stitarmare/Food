@@ -6,6 +6,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrders/MyOrderContractor.dart';
 import 'package:foodzi/MyOrders/MyOrdersPresenter.dart';
+import 'package:foodzi/PaymentReceiptDine/PaymentReceiptView.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/Utils/String.dart';
@@ -690,6 +691,31 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       //     child: Text(STR_REPEAT_ORDER),
                       //   ),
                       // ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          color: Colors.blue,
+                          child: Text(
+                            "Payment Receipt",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentReceiptDineView(
+                                          getmyOrderBookingHistory:
+                                              getmyOrderBookingHistory[index],
+                                          list: getmyOrderBookingHistory[index]
+                                              .list,
+                                        )));
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -715,7 +741,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
     String str = "";
     for (int i = 0; i < list.length; i++) {
       if (list[i].userId == Globle().loginModel.data.id) {
-        str = list[i].amount;
+        str = double.parse(list[i].amount).toStringAsFixed(2);
         return str;
       }
     }

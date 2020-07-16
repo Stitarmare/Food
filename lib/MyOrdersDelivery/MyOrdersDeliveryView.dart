@@ -7,6 +7,7 @@ import 'package:foodzi/Models/DeliveryBoyInfoModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryContractor.dart';
 import 'package:foodzi/MyOrdersDelivery/MyOrdersDeliveryPresenter.dart';
+import 'package:foodzi/PaymentReceiptDelivery/PaymentReceiptDelivery.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -457,7 +458,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
       itemname +=
-          "${_listitem[i].quantity} x ${capitalizeFirst(_listitem[i].items.itemName)}, ";
+          "${_listitem[i].qty} x ${capitalizeFirst(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -617,9 +618,9 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                     child: Text(
                       Globle().currencySymb != null
                           ? '${Globle().currencySymb} ' +
-                              '${getmyOrderBookingHistory[index].totalAmount}'
+                              '${getTotalAmount(getmyOrderBookingHistory[index].totalAmount)}'
                           : STR_R_CURRENCY_SYMBOL +
-                              '${getmyOrderBookingHistory[index].totalAmount}',
+                              '${getTotalAmount(getmyOrderBookingHistory[index].totalAmount)}',
                       style: TextStyle(
                         fontSize: FONTSIZE_16,
                         fontWeight: FontWeight.w500,
@@ -662,6 +663,31 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                       //     child: Text(STR_REPEAT_ORDER),
                       //   ),
                       // ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          color: Colors.blue,
+                          child: Text(
+                            "Payment Receipt",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentReceiptDeliveryView(
+                                          getmyOrderBookingHistory:
+                                              getmyOrderBookingHistory[index],
+                                          list: getmyOrderBookingHistory[index]
+                                              .list,
+                                        )));
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -700,6 +726,11 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
           countryCode: data.countryCode,
           profilePic: data.userDetails.profileImage,
         ));
+  }
+
+  String getTotalAmount(String str) {
+    String str1 = double.parse(str).toStringAsFixed(2);
+    return str1;
   }
 
   @override

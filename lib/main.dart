@@ -10,6 +10,7 @@ import 'package:foodzi/MyprofileBottompage/MyprofileBottompage.dart';
 import 'package:foodzi/NotificationBottomPage/NotificationBottomPage.dart';
 import 'package:foodzi/OTPScreen/UpdateNoOtpScreen.dart';
 import 'package:foodzi/PaymentMethod/PaymentMethod.dart';
+import 'package:foodzi/PaymentReceiptDine/PaymentReceiptView.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoView.dart';
 import 'package:foodzi/RestaurantPageTakeAway/RestaurantViewTA.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
@@ -71,7 +72,8 @@ var routes = <String, WidgetBuilder>{
   STR_WEB_VIEW_SCREEN_PAGE: (BuildContext context) => WebViewScreen(),
   STR_CART_DETAILS_PAGE: (BuildContext context) => CartDetailsPage(),
   STR_ENTER_MOBILE_PAGE: (BuildContext context) => EnterMobileNoPage(),
-  STR_CATEGORY_SECTION : (BuildContext context) => CategoriesSection(),
+  STR_CATEGORY_SECTION: (BuildContext context) => CategoriesSection(),
+  STR_PAYMENT_RECEIPT_DINE: (BuildContext context) => PaymentReceiptDineView(),
 };
 void main() {
   setupLocator();

@@ -5,6 +5,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayContractor.dart';
 import 'package:foodzi/MyOrderTakeAway/MyOrderTakeAwayPresenter.dart';
+import 'package:foodzi/PaymentReceiptTA/PaymentReceiptTAView.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDi.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackView.dart';
 import 'package:foodzi/StatusTrackviewTakeAway.dart/StatusTakeAwayView.dart';
@@ -170,7 +171,7 @@ class _MyOrdersState extends State<MyOrderTakeAway>
     var itemname = '';
     for (i = 0; i < _listitem.length; i++) {
       itemname +=
-          "${_listitem[i].quantity} x ${StringUtils.capitalize(_listitem[i].items.itemName)}, ";
+          "${_listitem[i].qty} x ${StringUtils.capitalize(_listitem[i].items.itemName)}, ";
     }
     if (itemname.isNotEmpty) {
       itemname = removeLastChar(itemname);
@@ -653,6 +654,30 @@ class _MyOrdersState extends State<MyOrderTakeAway>
                       //     // child: Text(STR_REPEAT_ORDER),
                       //   ),
                       // ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          color: Colors.blue,
+                          child: Text(
+                            "Payment Receipt",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PaymentReceiptTAView(
+                                          getmyOrderBookingHistory:
+                                              getmyOrderBookingHistory[index],
+                                          list: getmyOrderBookingHistory[index]
+                                              .list,
+                                        )));
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
