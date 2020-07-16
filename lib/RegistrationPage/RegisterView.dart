@@ -15,6 +15,10 @@ import 'RegisterContractor.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class Registerview extends StatefulWidget {
+  String mobileNumber;
+  String countryCode;
+  String password;
+  Registerview({this.mobileNumber, this.countryCode, this.password});
   @override
   State<StatefulWidget> createState() {
     return _RegisterviewState();
@@ -32,6 +36,10 @@ class _RegisterviewState extends State<Registerview>
   ProgressDialog progressDialog;
   bool isSelected = false;
   String strWebViewUrl = "";
+  var _firstname = STR_BLANK;
+  var _lastname = STR_BLANK;
+  var _phoneno = STR_BLANK;
+  var _password = STR_BLANK;
 
   bool _validate = false;
   var countrycode = "+27";
@@ -46,7 +54,8 @@ class _RegisterviewState extends State<Registerview>
   void initState() {
     registerPresenter = RegisterPresenter(this);
     strWebViewUrl = BaseUrl.getBaseUrl() + STR_URL_TERMS_CONDITION_TITLE;
-
+    _phoneno = widget.mobileNumber ?? null;
+    _password = widget.password ?? null;
     super.initState();
   }
 
@@ -190,11 +199,6 @@ class _RegisterviewState extends State<Registerview>
     );
   }
 
-  var _firstname = STR_BLANK;
-  var _lastname = STR_BLANK;
-  var _phoneno = STR_BLANK;
-  var _password = STR_BLANK;
-
   Widget _buildTextField() {
     const pi = 3.14;
     return Column(
@@ -255,7 +259,7 @@ class _RegisterviewState extends State<Registerview>
                   countrycode = text.toString();
                 },
                 // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                initialSelection: '+27',
+                initialSelection: widget.countryCode ?? '+27',
                 favorite: ['+27', 'SA'],
                 // optional. Shows only country name and flag
                 showCountryOnly: false,
@@ -296,6 +300,7 @@ class _RegisterviewState extends State<Registerview>
           Expanded(
             flex: 4,
             child: AppTextField(
+              tfValue: widget.mobileNumber ?? null,
               inputFormatters: [
                 LengthLimitingTextInputFormatter(10),
                 BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
@@ -316,6 +321,7 @@ class _RegisterviewState extends State<Registerview>
         ]),
         SizedBox(height: 15),
         AppTextField(
+          tfValue: widget.password ?? null,
           inputFormatters: [
             // LengthLimitingTextInputFormatter(15),
             BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT))

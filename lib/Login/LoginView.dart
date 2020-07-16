@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
+import 'package:foodzi/RegistrationPage/RegisterView.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -488,6 +489,13 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
                     child: Text(STR_OK),
                     onPressed: () {
                       Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Registerview(
+                                  mobileNumber: mobilenumber,
+                                  countryCode: countrycode,
+                                  password: password)));
                     },
                   )
                 ],
