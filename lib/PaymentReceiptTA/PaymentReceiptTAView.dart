@@ -418,20 +418,22 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: widget.getmyOrderBookingHistory.deliveryCharge != ""
-                        ? Text(
-                            widget.getmyOrderBookingHistory.deliveryCharge ??
+                    child:
+                        widget.getmyOrderBookingHistory.waiterTip.amount != null
+                            ? Text(
+                                getTipChargers(widget.getmyOrderBookingHistory
+                                        .waiterTip.amount) ??
+                                    "0.00",
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_16,
+                                    fontWeight: FontWeight.w500),
+                              )
+                            : Text(
                                 "0.00",
-                            style: TextStyle(
-                                fontSize: FONTSIZE_16,
-                                fontWeight: FontWeight.w500),
-                          )
-                        : Text(
-                            "0.00",
-                            style: TextStyle(
-                                fontSize: FONTSIZE_16,
-                                fontWeight: FontWeight.w500),
-                          ),
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_16,
+                                    fontWeight: FontWeight.w500),
+                              ),
                   ),
                 ],
               ),
@@ -498,10 +500,15 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
     return 0;
   }
 
+  String getTipChargers(String str) {
+    String strTipCharge = double.parse(str).toStringAsFixed(2);
+    return strTipCharge;
+  }
+
   String getTotalAmount() {
     double dou = double.parse(widget.getmyOrderBookingHistory.totalAmount);
-    double dou1 = widget.getmyOrderBookingHistory.deliveryCharge != ""
-        ? double.parse(widget.getmyOrderBookingHistory.deliveryCharge)
+    double dou1 = widget.getmyOrderBookingHistory.waiterTip.amount != null
+        ? double.parse(widget.getmyOrderBookingHistory.waiterTip.amount)
         : 0;
     double dou2 = dou + dou1;
     String strTotalAmount = dou2.toStringAsFixed(2);
