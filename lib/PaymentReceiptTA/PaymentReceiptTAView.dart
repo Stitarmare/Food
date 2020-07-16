@@ -93,7 +93,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 48.0),
+              padding: const EdgeInsets.only(left: 18.0),
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -117,16 +117,20 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    widget.getmyOrderBookingHistory.restaurant.restName ?? null,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        fontSize: FONTSIZE_22,
-                        fontFamily: Constants.getFontType(),
-                        fontWeight: FontWeight.w700,
-                        color: Globle().colorscode != null
-                            ? getColorByHex(Globle().colorscode)
-                            : orangetheme300),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: Text(
+                      widget.getmyOrderBookingHistory.restaurant.restName ??
+                          null,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_22,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w700,
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300),
+                    ),
                   ),
                 ],
               ),
@@ -254,14 +258,14 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                                 SizedBox(width: 10),
                                 Row(
                                   children: <Widget>[
-                                    Text(
-                                      Globle().currencySymb != null
-                                          ? Globle().currencySymb
-                                          : STR_R_CURRENCY_SYMBOL,
-                                      style: TextStyle(
-                                          fontSize: FONTSIZE_15,
-                                          fontWeight: FontWeight.w700),
-                                    ),
+                                    // Text(
+                                    //   Globle().currencySymb != null
+                                    //       ? Globle().currencySymb
+                                    //       : STR_R_CURRENCY_SYMBOL,
+                                    //   style: TextStyle(
+                                    //       fontSize: FONTSIZE_15,
+                                    //       fontWeight: FontWeight.w700),
+                                    // ),
                                     Text(
                                       widget.list[index].price != null
                                           ? widget.list[index].price
