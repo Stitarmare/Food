@@ -344,6 +344,7 @@ class GetMyOrderBookingHistoryList {
   List<GetMyOrderBookingList> list;
   List<Splitbilltransactions> splitbilltransactions;
   List<Null> invitation;
+  WaiterTip waiterTip;
 
   GetMyOrderBookingHistoryList(
       {this.id,
@@ -367,7 +368,8 @@ class GetMyOrderBookingHistoryList {
       this.restaurant,
       this.list,
       this.splitbilltransactions,
-      this.invitation});
+      this.invitation,
+      this.waiterTip});
 
   GetMyOrderBookingHistoryList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -409,6 +411,9 @@ class GetMyOrderBookingHistoryList {
     //     invitation.add(new Null.fromJson(v));
     //   });
     // }
+    waiterTip = json['waiter_tip'] != null
+        ? WaiterTip.fromJson(json['waiter_tip'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -444,6 +449,9 @@ class GetMyOrderBookingHistoryList {
     // if (this.invitation != null) {
     //   data['invitation'] = this.invitation.map((v) => v.toJson()).toList();
     // }
+    if (this.waiterTip != null) {
+      data['waiter_tip'] = this.waiterTip.toJson();
+    }
     return data;
   }
 }
@@ -688,6 +696,51 @@ class Splitbilltransactions {
     data['order_id'] = this.orderId;
     data['rest_id'] = this.restId;
     data['user_id'] = this.userId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class WaiterTip {
+  int id;
+  int waiterId;
+  int userId;
+  int orderId;
+  int tableId;
+  String amount;
+  String createdAt;
+  String updatedAt;
+
+  WaiterTip(
+      {this.id,
+      this.waiterId,
+      this.userId,
+      this.orderId,
+      this.tableId,
+      this.amount,
+      this.createdAt,
+      this.updatedAt});
+
+  WaiterTip.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    waiterId = json['waiter_id'];
+    userId = json['user_id'];
+    orderId = json['order_id'];
+    tableId = json['table_id'];
+    amount = json['amount'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['waiter_id'] = this.waiterId;
+    data['user_id'] = this.userId;
+    data['order_id'] = this.orderId;
+    data['table_id'] = this.tableId;
+    data['amount'] = this.amount;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
