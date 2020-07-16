@@ -93,7 +93,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 48.0),
+              padding: const EdgeInsets.only(left: 18.0),
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -451,7 +451,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                   STR_TOTAL,
                   style: TextStyle(
                     fontSize: FONTSIZE_18,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -475,7 +475,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                     child: Text(
                       getTotalAmount(),
                       style: TextStyle(
-                          fontSize: FONTSIZE_18, fontWeight: FontWeight.w600),
+                          fontSize: FONTSIZE_18, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ],

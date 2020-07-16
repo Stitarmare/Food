@@ -51,8 +51,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   ProgressDialog progressDialog;
   MenuDropdpwnPresenter menudropdownPresenter;
   List<CategoryItems> _categorydata;
-  int _selectedMenu;
-  int _selectedSubMenu;
+  int _selectedMenu = 0;
+  int _selectedSubMenu = 0;
   bool valueBool = false;
   int previousValue;
   List<Category> category = [];
@@ -270,27 +270,35 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         children: <Widget>[
           // Expanded(flex: 2, child: _restaurantLogo()),
           Expanded(
-            flex: 7,
+            child: Column(
+              children: <Widget>[
+                _getMenuListHorizontal(context),
+                _getSubMenuListHorizontal(context),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 9,
             child: CustomScrollView(
               controller: _controller,
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: Container(
                     child: SizedBox(
-                      height: 15,
+                      height: 0,
                     ),
                   ),
                 ),
                 // _getOptionsformenu(context),
-                _getMenuListHorizontal(context),
-                _getSubMenuListHorizontal(context),
-                SliverToBoxAdapter(
-                  child: Container(
-                    child: SizedBox(
-                      height: 15,
-                    ),
-                  ),
-                ),
+                // _getMenuListHorizontal(context),
+                // _getSubMenuListHorizontal(context),
+                // SliverToBoxAdapter(
+                //   child: Container(
+                //     child: SizedBox(
+                //       height: 15,
+                //     ),
+                //   ),
+                // ),
                 (_restaurantList != null)
                     ? _menuItemList()
                     : isLoading
@@ -662,7 +670,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   _getMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Center(
         child: Container(
           height: 40,
@@ -749,7 +757,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Container(
         height: valueBool ? 40 : 0,
         padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 0.0),
@@ -959,17 +967,17 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       }
     });
 
-    // if (categoryData[0].category[0].subcategories.length > 0) {
-    //   setState(() {
-    //     valueBool = true;
-    //     subcategoriesList = categoryData[0].category[0].subcategories;
-    //   });
-    // } else {
-    //   setState(() {
-    //     valueBool = false;
-    //     subcategoriesList = [];
-    //   });
-    // }
+    if (categoryData[0].category[0].subcategories.length > 0) {
+      setState(() {
+        valueBool = true;
+        subcategoriesList = categoryData[0].category[0].subcategories;
+      });
+    } else {
+      setState(() {
+        valueBool = false;
+        subcategoriesList = [];
+      });
+    }
   }
 }
 
