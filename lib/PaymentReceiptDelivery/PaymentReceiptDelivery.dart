@@ -9,6 +9,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/EmailReceiptDialog.dart';
+import 'package:intl/intl.dart';
 
 class PaymentReceiptDeliveryView extends StatefulWidget {
   GetMyOrderBookingHistoryList getmyOrderBookingHistory;
@@ -44,13 +45,14 @@ class _PaymentReceiptDeliveryViewState
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 80,
+              height: 55,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Container(
-                    height: 35,
-                  ),
+                  // Container(
+                  //   height: 35,
+                  // ),
                   GestureDetector(
                     onTap: () async {
                       showDialog(
@@ -136,7 +138,41 @@ class _PaymentReceiptDeliveryViewState
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Time :",
+                        style: TextStyle(
+                          fontSize: FONTSIZE_18,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Text(
+                          getDateForOrderHistory(
+                              widget.getmyOrderBookingHistory.createdAt),
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -359,7 +395,7 @@ class _PaymentReceiptDeliveryViewState
                 child: Text(
                   "Item Total",
                   style: TextStyle(
-                      fontSize: FONTSIZE_18, fontWeight: FontWeight.w500),
+                      fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                 ),
               ),
               Expanded(
@@ -375,7 +411,7 @@ class _PaymentReceiptDeliveryViewState
                         ? Globle().currencySymb
                         : STR_R_CURRENCY_SYMBOL,
                     style: TextStyle(
-                        fontSize: FONTSIZE_15, fontWeight: FontWeight.w500),
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
@@ -416,14 +452,14 @@ class _PaymentReceiptDeliveryViewState
                         ? Globle().currencySymb
                         : STR_R_CURRENCY_SYMBOL,
                     style: TextStyle(
-                        fontSize: FONTSIZE_15, fontWeight: FontWeight.w500),
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: widget.getmyOrderBookingHistory.deliveryCharge != ""
                         ? Text(
-                            widget.getmyOrderBookingHistory.deliveryCharge ??
-                                "0.00",
+                            getDeliveryCharge(
+                                widget.getmyOrderBookingHistory.deliveryCharge),
                             style: TextStyle(
                                 fontSize: FONTSIZE_16,
                                 fontWeight: FontWeight.w500),
@@ -440,6 +476,45 @@ class _PaymentReceiptDeliveryViewState
             ],
           ),
           SizedBox(
+            height: 18,
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  "Tax 0%",
+                  style: TextStyle(
+                      fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 120,
+                ),
+                flex: 2,
+              ),
+              Row(
+                children: <Widget>[
+                  Text(
+                    Globle().currencySymb != null
+                        ? Globle().currencySymb
+                        : STR_R_CURRENCY_SYMBOL,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        "0.00",
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                      )),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
             height: 5,
           ),
           Padding(
@@ -448,7 +523,6 @@ class _PaymentReceiptDeliveryViewState
               thickness: 0.5,
             ),
           ),
-          SizedBox(height: 10),
           Row(
             children: <Widget>[
               Padding(
@@ -487,7 +561,16 @@ class _PaymentReceiptDeliveryViewState
                 ],
               ),
             ],
-          )
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 0.5,
+            ),
+          ),
         ],
       ),
     );
@@ -508,5 +591,21 @@ class _PaymentReceiptDeliveryViewState
     double dou2 = dou + dou1;
     String strTotalAmount = dou2.toStringAsFixed(2);
     return strTotalAmount;
+  }
+
+  String getDeliveryCharge(String str) {
+    String strCharge = double.parse(str).toStringAsFixed(2);
+    return strCharge;
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    return "$dateStr $time";
   }
 }

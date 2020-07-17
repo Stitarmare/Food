@@ -49,7 +49,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   int page = 1;
   int restId;
   ScrollController _controller = ScrollController();
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  // final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
   bool _switchvalue = false;
   bool isselected = false;
@@ -58,9 +58,9 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu;
+  int _selectedMenu = 0;
   int previousValue;
-  int _selectedSubMenu;
+  int _selectedSubMenu = 0;
   var tableID;
   bool valueBool = false;
   RestaurantItemsModel restaurantItemsModel;
@@ -119,7 +119,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               subcategoriesList = category2[index].subcategories;
               // subcategories = [];
               subcategoriesList2 = [];
-              // _selectedSubMenu = 0;
+              _selectedSubMenu = null;
               // _getSubMenucount();
             });
           } else {
@@ -328,27 +328,32 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           children: <Widget>[
             // Expanded(flex: 1, child: _restaurantLogo()),
             Expanded(
-              flex: 7,
+                child: Column(children: <Widget>[
+              _getMenuListHorizontal(context),
+              _getSubMenuListHorizontal(context),
+            ])),
+            Expanded(
+              flex: 9,
               child: CustomScrollView(
                 controller: _controller,
                 slivers: <Widget>[
                   SliverToBoxAdapter(
                     child: Container(
                       child: SizedBox(
-                        height: 15,
+                        height: 0,
                       ),
                     ),
                   ),
-                  _getMenuListHorizontal(context),
-                  _getSubMenuListHorizontal(context),
-                  // _getOptionsformenu(context),
-                  SliverToBoxAdapter(
-                    child: Container(
-                      child: SizedBox(
-                        height: 15,
-                      ),
-                    ),
-                  ),
+                  // _getMenuListHorizontal(context),
+                  // _getSubMenuListHorizontal(context),
+                  // // _getOptionsformenu(context),
+                  // SliverToBoxAdapter(
+                  //   child: Container(
+                  //     child: SizedBox(
+                  //       height: 15,
+                  //     ),
+                  //   ),
+                  // ),
                   (_restaurantList != null)
                       ? _menuItemList()
                       : isLoading
@@ -518,7 +523,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   }
 
   _getMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Center(
         child: Container(
           height: 40,
@@ -605,7 +610,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Container(
         height: valueBool ? 40 : 0,
         padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 0.0),
@@ -1051,17 +1056,17 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       } else {
         _categorydata.addAll(categoryData);
       }
-      // if (categoryData[0].category[0].subcategories.length > 0) {
-      //   setState(() {
-      //     valueBool = true;
-      //     subcategoriesList = categoryData[0].category[0].subcategories;
-      //   });
-      // } else {
-      //   setState(() {
-      //     valueBool = false;
-      //     subcategoriesList = [];
-      //   });
-      // }
+      if (categoryData[0].category[0].subcategories.length > 0) {
+        setState(() {
+          valueBool = true;
+          subcategoriesList = categoryData[0].category[0].subcategories;
+        });
+      } else {
+        setState(() {
+          valueBool = false;
+          subcategoriesList = [];
+        });
+      }
     });
   }
 }

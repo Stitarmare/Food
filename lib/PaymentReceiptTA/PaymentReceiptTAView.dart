@@ -9,6 +9,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/EmailReceiptDialog.dart';
+import 'package:intl/intl.dart';
 
 class PaymentReceiptTAView extends StatefulWidget {
   GetMyOrderBookingHistoryList getmyOrderBookingHistory;
@@ -42,13 +43,14 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-              height: 80,
+              height: 55,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Container(
-                    height: 35,
-                  ),
+                  // Container(
+                  //   height: 35,
+                  // ),
                   GestureDetector(
                     onTap: () async {
                       showDialog(
@@ -134,7 +136,41 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 18.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Time :",
+                        style: TextStyle(
+                          fontSize: FONTSIZE_18,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Text(
+                          getDateForOrderHistory(
+                              widget.getmyOrderBookingHistory.createdAt),
+                          style: TextStyle(
+                              fontSize: FONTSIZE_16,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w500,
+                              color: greytheme700),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -147,7 +183,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 30),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 20),
             child: Text(
@@ -244,7 +280,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                                   child: AutoSizeText(
                                     widget.list[index].qty != null
                                         ? widget.list[index].qty.toString()
-                                        : "",
+                                        : null,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.blue,
@@ -350,6 +386,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
           SizedBox(
             height: 25,
           ),
+
           Row(
             children: <Widget>[
               Padding(
@@ -357,7 +394,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                 child: Text(
                   "Item Total",
                   style: TextStyle(
-                      fontSize: FONTSIZE_18, fontWeight: FontWeight.w500),
+                      fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                 ),
               ),
               Expanded(
@@ -373,7 +410,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                         ? Globle().currencySymb
                         : STR_R_CURRENCY_SYMBOL,
                     style: TextStyle(
-                        fontSize: FONTSIZE_15, fontWeight: FontWeight.w500),
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
@@ -388,6 +425,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
               ),
             ],
           ),
+
           SizedBox(
             height: 18,
           ),
@@ -414,27 +452,66 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                         ? Globle().currencySymb
                         : STR_R_CURRENCY_SYMBOL,
                     style: TextStyle(
-                        fontSize: FONTSIZE_15, fontWeight: FontWeight.w500),
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child:
-                        widget.getmyOrderBookingHistory.waiterTip.amount != null
-                            ? Text(
-                                getTipChargers(widget.getmyOrderBookingHistory
-                                        .waiterTip.amount) ??
-                                    "0.00",
-                                style: TextStyle(
-                                    fontSize: FONTSIZE_16,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            : Text(
+                    child: widget.getmyOrderBookingHistory.waiterTip != null
+                        ? Text(
+                            getWaiterTip(widget
+                                    .getmyOrderBookingHistory.waiterTip) ??
                                 "0.00",
-                                style: TextStyle(
-                                    fontSize: FONTSIZE_16,
-                                    fontWeight: FontWeight.w500),
-                              ),
+                            style: TextStyle(
+                                fontSize: FONTSIZE_16,
+                                fontWeight: FontWeight.w500),
+                          )
+                        : Text(
+                            "0.00",
+                            style: TextStyle(
+                                fontSize: FONTSIZE_16,
+                                fontWeight: FontWeight.w500),
+                          ),
                   ),
+                ],
+              ),
+            ],
+          ),
+
+          SizedBox(
+            height: 18,
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  "Tax 0%",
+                  style: TextStyle(
+                      fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 120,
+                ),
+                flex: 2,
+              ),
+              Row(
+                children: <Widget>[
+                  Text(
+                    Globle().currencySymb != null
+                        ? Globle().currencySymb
+                        : STR_R_CURRENCY_SYMBOL,
+                    style: TextStyle(
+                        fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Text(
+                        "0.00",
+                        style: TextStyle(
+                            fontSize: FONTSIZE_16, fontWeight: FontWeight.w500),
+                      )),
                 ],
               ),
             ],
@@ -448,7 +525,6 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
               thickness: 0.5,
             ),
           ),
-          SizedBox(height: 10),
           Row(
             children: <Widget>[
               Padding(
@@ -479,7 +555,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      getTotalAmount(),
+                      getTotalAmount(widget.getmyOrderBookingHistory.waiterTip),
                       style: TextStyle(
                           fontSize: FONTSIZE_18, fontWeight: FontWeight.w600),
                     ),
@@ -487,7 +563,14 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
                 ],
               ),
             ],
-          )
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 0.5,
+            ),
+          ),
         ],
       ),
     );
@@ -500,18 +583,54 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
     return 0;
   }
 
-  String getTipChargers(String str) {
-    String strTipCharge = double.parse(str).toStringAsFixed(2);
-    return strTipCharge;
+  String getWaiterTip(List<WaiterTip> list) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].userId == Globle().loginModel.data.id) {
+        String str = double.parse(list[i].amount).toStringAsFixed(2);
+        return str;
+      } else {
+        return "0.00";
+      }
+    }
+    return "0.00";
   }
 
-  String getTotalAmount() {
-    double dou = double.parse(widget.getmyOrderBookingHistory.totalAmount);
-    double dou1 = widget.getmyOrderBookingHistory.waiterTip.amount != null
-        ? double.parse(widget.getmyOrderBookingHistory.waiterTip.amount)
-        : 0;
-    double dou2 = dou + dou1;
-    String strTotalAmount = dou2.toStringAsFixed(2);
-    return strTotalAmount;
+  bool getMethodSplit(List<Splitbilltransactions> list) {
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].userId == Globle().loginModel.data.id) {
+        return true;
+      } else {}
+    }
+    return false;
+  }
+
+  String getTotalAmount(List<WaiterTip> list) {
+    if (list != null) {
+      double d2 = 0;
+      for (int i = 0; i < list.length; i++) {
+        if (list[i].userId == Globle().loginModel.data.id) {
+          d2 = double.parse(list[i].amount);
+        }
+      }
+      double dou = double.parse(widget.getmyOrderBookingHistory.totalAmount);
+      double d4 = dou + d2;
+      String str = d4.toStringAsFixed(2);
+      return str;
+    } else {
+      String strDou = double.parse(widget.getmyOrderBookingHistory.totalAmount)
+          .toStringAsFixed(2);
+      return strDou;
+    }
+  }
+
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    return "$dateStr $time";
   }
 }

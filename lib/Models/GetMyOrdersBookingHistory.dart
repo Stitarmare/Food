@@ -344,7 +344,7 @@ class GetMyOrderBookingHistoryList {
   List<GetMyOrderBookingList> list;
   List<Splitbilltransactions> splitbilltransactions;
   List<Null> invitation;
-  WaiterTip waiterTip;
+  List<WaiterTip> waiterTip;
 
   GetMyOrderBookingHistoryList(
       {this.id,
@@ -411,9 +411,12 @@ class GetMyOrderBookingHistoryList {
     //     invitation.add(new Null.fromJson(v));
     //   });
     // }
-    waiterTip = json['waiter_tip'] != null
-        ? new WaiterTip.fromJson(json['waiter_tip'])
-        : null;
+    if (json['waiter_tip'] != null) {
+      waiterTip = new List<WaiterTip>();
+      json['waiter_tip'].forEach((v) {
+        waiterTip.add(new WaiterTip.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -450,7 +453,7 @@ class GetMyOrderBookingHistoryList {
     //   data['invitation'] = this.invitation.map((v) => v.toJson()).toList();
     // }
     if (this.waiterTip != null) {
-      data['waiter_tip'] = this.waiterTip.toJson();
+      data['waiter_tip'] = this.waiterTip.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -728,7 +731,7 @@ class WaiterTip {
     userId = json['user_id'];
     orderId = json['order_id'];
     tableId = json['table_id'];
-    amount = json['amount'] != null ? json['amount'] : null;
+    amount = json['amount'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }

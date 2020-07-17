@@ -59,9 +59,9 @@ class _RestaurantViewState extends State<RestaurantView>
   List<CategoryItems> _categorydata;
   String menutype = " ";
   int restaurantId;
-  int _selectedMenu;
+  int _selectedMenu = 0;
   int previousValue;
-  int _selectedSubMenu;
+  int _selectedSubMenu = 0;
   var tableID;
   RestaurantItemsModel restaurantItemsModel;
   bool valueBool = false;
@@ -137,7 +137,7 @@ class _RestaurantViewState extends State<RestaurantView>
               subcategoriesList = category2[index].subcategories;
               // subcategories = [];
               subcategoriesList2 = [];
-              // _selectedSubMenu = 0;
+              _selectedSubMenu = null;
               // _getSubMenucount();
             });
           } else {
@@ -347,20 +347,16 @@ class _RestaurantViewState extends State<RestaurantView>
           children: <Widget>[
             // Expanded(flex: 1, child: _restaurantLogo()),
             Expanded(
-              flex: 7,
+              child: Column(children: <Widget>[
+                _getMenuListHorizontal(context),
+                _getSubMenuListHorizontal(context),
+              ]),
+            ),
+            Expanded(
+              flex: 9,
               child: CustomScrollView(
                 controller: _controller,
                 slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Container(
-                      child: SizedBox(
-                        height: 15,
-                      ),
-                    ),
-                  ),
-                  _getMenuListHorizontal(context),
-                  _getSubMenuListHorizontal(context),
-                  // _getOptionsformenu(context),
                   SliverToBoxAdapter(
                     child: Container(
                       child: SizedBox(
@@ -368,6 +364,16 @@ class _RestaurantViewState extends State<RestaurantView>
                       ),
                     ),
                   ),
+                  // _getMenuListHorizontal(context),
+                  // _getSubMenuListHorizontal(context),
+                  // // _getOptionsformenu(context),
+                  // SliverToBoxAdapter(
+                  //   child: Container(
+                  //     child: SizedBox(
+                  //       height: 0,
+                  //     ),
+                  //   ),
+                  // ),
                   (_restaurantList != null)
                       ? _menuItemList()
                       : isLoading
@@ -418,7 +424,7 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 45.0, vertical: 0.0),
         height: valueBool ? 40 : 0,
@@ -582,7 +588,7 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   _getMenuListHorizontal(BuildContext context) {
-    return SliverToBoxAdapter(
+    return Expanded(
       child: Center(
         child: Container(
           height: 40,
@@ -1150,17 +1156,17 @@ class _RestaurantViewState extends State<RestaurantView>
       }
     });
 
-    // if (categoryData[0].category[0].subcategories.length > 0) {
-    //   setState(() {
-    //     valueBool = true;
-    //     subcategoriesList = categoryData[0].category[0].subcategories;
-    //   });
-    // } else {
-    //   setState(() {
-    //     valueBool = false;
-    //     subcategoriesList = [];
-    //   });
-    // }
+    if (categoryData[0].category[0].subcategories.length > 0) {
+      setState(() {
+        valueBool = true;
+        subcategoriesList = categoryData[0].category[0].subcategories;
+      });
+    } else {
+      setState(() {
+        valueBool = false;
+        subcategoriesList = [];
+      });
+    }
   }
 }
 
