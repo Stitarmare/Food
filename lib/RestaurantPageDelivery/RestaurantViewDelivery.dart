@@ -632,7 +632,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                                         : orangetheme300)
                                     : Color.fromRGBO(118, 118, 118, 1),
                               )).width +
-                          32,
+                          35,
                       child: Column(
                         children: <Widget>[
                           Padding(

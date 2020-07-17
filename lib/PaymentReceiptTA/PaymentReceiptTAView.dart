@@ -41,45 +41,45 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView> {
         body: CustomScrollView(
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 55,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  // Container(
-                  //   height: 35,
-                  // ),
-                  GestureDetector(
-                    onTap: () async {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          child: EmailReceiptDialogView());
-                    },
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          "Email Receipt",
-                          style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
+        // bottomNavigationBar: BottomAppBar(
+        //   child: Container(
+        //       height: 55,
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         mainAxisAlignment: MainAxisAlignment.end,
+        //         children: <Widget>[
+        //           // Container(
+        //           //   height: 35,
+        //           // ),
+        //           GestureDetector(
+        //             onTap: () async {
+        //               showDialog(
+        //                   context: context,
+        //                   barrierDismissible: true,
+        //                   child: EmailReceiptDialogView());
+        //             },
+        //             child: Container(
+        //               height: 45,
+        //               decoration: BoxDecoration(
+        //                   color: getColorByHex(Globle().colorscode),
+        //                   borderRadius: BorderRadius.only(
+        //                       topLeft: Radius.circular(15),
+        //                       topRight: Radius.circular(15))),
+        //               child: Center(
+        //                 child: Text(
+        //                   "Email Receipt",
+        //                   style: TextStyle(
+        //                       fontFamily: KEY_FONTFAMILY,
+        //                       fontWeight: FontWeight.w600,
+        //                       fontSize: FONTSIZE_16,
+        //                       color: Colors.white),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       )),
+        // ),
       ),
     );
   }
