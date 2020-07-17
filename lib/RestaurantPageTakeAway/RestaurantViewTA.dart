@@ -277,7 +277,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
             ],
           )),
           Expanded(
-            flex: 9,
+            flex: 7,
             child: CustomScrollView(
               controller: _controller,
               slivers: <Widget>[
@@ -493,7 +493,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.85,
+        childAspectRatio: 0.7,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -778,7 +778,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                                         : orangetheme300)
                                     : Color.fromRGBO(118, 118, 118, 1),
                               )).width +
-                          32,
+                          20,
                       child: Column(
                         children: <Widget>[
                           Padding(

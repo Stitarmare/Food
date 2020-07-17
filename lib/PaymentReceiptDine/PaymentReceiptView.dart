@@ -147,7 +147,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        "Time :",
+                        "Time : ",
                         style: TextStyle(
                           fontSize: FONTSIZE_18,
                           fontFamily: Constants.getFontType(),
@@ -173,7 +173,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                 Row(
                   children: <Widget>[
                     Text(
-                      "Table :",
+                      "Table : ",
                       style: TextStyle(
                         fontSize: FONTSIZE_18,
                         fontFamily: Constants.getFontType(),
@@ -183,7 +183,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0),
                       child: Text(
-                        "Table 1",
+                        widget.getmyOrderBookingHistory.tableName ?? "",
                         style: TextStyle(
                             fontSize: FONTSIZE_17,
                             fontFamily: Constants.getFontType(),
@@ -203,7 +203,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
               child: Row(
                 children: <Widget>[
                   Text(
-                    "Waiter :",
+                    "Waiter : ",
                     style: TextStyle(
                       fontSize: FONTSIZE_18,
                       fontFamily: Constants.getFontType(),
@@ -213,7 +213,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0),
                     child: Text(
-                      "Waiter name",
+                      widget.getmyOrderBookingHistory.waiterName ?? "",
                       style: TextStyle(
                           fontSize: FONTSIZE_17,
                           fontFamily: Constants.getFontType(),
@@ -366,7 +366,15 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                                           fontWeight: FontWeight.w700),
                                     ),
                                   ],
-                                )
+                                ),
+                                widget.list[index].cartExtras.length != 0
+                                    ? Text(
+                                        "+Extras",
+                                        style: TextStyle(
+                                            fontSize: FONTSIZE_14,
+                                            fontWeight: FontWeight.w700),
+                                      )
+                                    : Text(""),
                               ],
                             ),
                           ),

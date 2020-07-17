@@ -339,6 +339,8 @@ class GetMyOrderBookingHistoryList {
   String createdAt;
   String updatedAt;
   String orderNumber;
+  String tableName;
+  String waiterName;
   bool isRunning;
   Restaurant restaurant;
   List<GetMyOrderBookingList> list;
@@ -357,8 +359,10 @@ class GetMyOrderBookingHistoryList {
       this.deliveryCharge,
       this.cancellationReason,
       this.totalAmount,
+      this.waiterName,
       this.splitType,
       this.splitAmount,
+      this.tableName,
       this.timeToPickupOrder,
       this.waiterId,
       this.createdAt,
@@ -386,7 +390,9 @@ class GetMyOrderBookingHistoryList {
     timeToPickupOrder = json['time_to_pickup_order'];
     waiterId = json['waiter_id'];
     createdAt = json['created_at'];
+    waiterName = json['waiter_name'];
     updatedAt = json['updated_at'];
+    tableName = json['table_name'];
     orderNumber = json['order_number'];
     isRunning = json['is_running'];
     deliveryCharge = json['delivery_charge'];
@@ -437,6 +443,8 @@ class GetMyOrderBookingHistoryList {
     data['delivery_charge'] = this.deliveryCharge;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['waiter_name'] = this.waiterName;
+    data['table_name'] = this.tableName;
     data['order_number'] = this.orderNumber;
     data['is_running'] = this.isRunning;
     if (this.restaurant != null) {
@@ -517,6 +525,7 @@ class GetMyOrderBookingList {
   String createdAt;
   String updatedAt;
   Items items;
+  List<CartExtras> cartExtras;
 
   GetMyOrderBookingList(
       {this.id,
@@ -525,6 +534,7 @@ class GetMyOrderBookingList {
       this.preparationTime,
       this.preparationNote,
       this.itemId,
+      this.cartExtras,
       this.itemSizePriceId,
       this.tableId,
       this.orderId,
@@ -561,6 +571,12 @@ class GetMyOrderBookingList {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     items = json['items'] != null ? new Items.fromJson(json['items']) : null;
+    if (json['cart_extras'] != null) {
+      cartExtras = new List<CartExtras>();
+      json['cart_extras'].forEach((v) {
+        cartExtras.add(new CartExtras.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -586,6 +602,9 @@ class GetMyOrderBookingList {
     data['updated_at'] = this.updatedAt;
     if (this.items != null) {
       data['items'] = this.items.toJson();
+    }
+    if (this.cartExtras != null) {
+      data['cart_extras'] = this.cartExtras.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -654,6 +673,67 @@ class Items {
     data['item_code'] = this.itemCode;
     data['item_image'] = this.itemImage;
     data['workstation_id'] = this.workstationId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class CartExtras {
+  int id;
+  String price;
+  Null cartId;
+  int itemId;
+  int extraId;
+  int spreadId;
+  int subspreadId;
+  int switchId;
+  String switchOption;
+  int orderListId;
+  String createdAt;
+  String updatedAt;
+
+  CartExtras(
+      {this.id,
+      this.price,
+      this.cartId,
+      this.itemId,
+      this.extraId,
+      this.spreadId,
+      this.subspreadId,
+      this.switchId,
+      this.switchOption,
+      this.orderListId,
+      this.createdAt,
+      this.updatedAt});
+
+  CartExtras.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    price = json['price'];
+    cartId = json['cart_id'];
+    itemId = json['item_id'];
+    extraId = json['extra_id'];
+    spreadId = json['spread_id'];
+    subspreadId = json['subspread_id'];
+    switchId = json['switch_id'];
+    switchOption = json['switch_option'];
+    orderListId = json['order_list_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['price'] = this.price;
+    data['cart_id'] = this.cartId;
+    data['item_id'] = this.itemId;
+    data['extra_id'] = this.extraId;
+    data['spread_id'] = this.spreadId;
+    data['subspread_id'] = this.subspreadId;
+    data['switch_id'] = this.switchId;
+    data['switch_option'] = this.switchOption;
+    data['order_list_id'] = this.orderListId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

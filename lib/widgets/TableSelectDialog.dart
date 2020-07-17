@@ -41,9 +41,7 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       children: <Widget>[
         Container(
-          height: isTableList
-              ? MediaQuery.of(context).size.height * 0.21
-              : MediaQuery.of(context).size.height * 0.19,
+          height: isTableList ? 200 : MediaQuery.of(context).size.height * 0.24,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Column(
@@ -91,7 +89,7 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
                 alignment: Alignment.bottomRight,
                 child: FlatButton(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 30),
                     child: Text(STR_OK,
                         style: TextStyle(
                             fontSize: FONTSIZE_14,

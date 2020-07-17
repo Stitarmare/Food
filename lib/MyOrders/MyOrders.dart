@@ -693,28 +693,34 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       // ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5.0),
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          color: Colors.blue,
-                          child: Text(
-                            "Payment Receipt",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        PaymentReceiptDineView(
-                                          getmyOrderBookingHistory:
-                                              getmyOrderBookingHistory[index],
-                                          list: getmyOrderBookingHistory[index]
-                                              .list,
-                                        )));
-                          },
-                        ),
+                        child: getmyOrderBookingHistory[index].status !=
+                                STR_CANCELLED
+                            ? RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                color: Colors.blue,
+                                child: Text(
+                                  "Payment Receipt",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PaymentReceiptDineView(
+                                                getmyOrderBookingHistory:
+                                                    getmyOrderBookingHistory[
+                                                        index],
+                                                list: getmyOrderBookingHistory[
+                                                        index]
+                                                    .list,
+                                              )));
+                                },
+                              )
+                            : Text(""),
                       ),
                     ],
                   ),
