@@ -305,8 +305,8 @@ class _PaymentReceiptDeliveryViewState
                                     //       fontWeight: FontWeight.w700),
                                     // ),
                                     Text(
-                                      widget.list[index].price != null
-                                          ? widget.list[index].price
+                                      widget.list[index].totalAmount != null
+                                          ? widget.list[index].totalAmount
                                           : widget.list[index].sizePrice != null
                                               ? widget.list[index].sizePrice
                                               : "",

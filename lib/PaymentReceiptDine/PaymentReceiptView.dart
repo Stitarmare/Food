@@ -41,45 +41,45 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
         body: CustomScrollView(
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-              height: 55,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  // Container(
-                  //   height: 35,
-                  // ),
-                  GestureDetector(
-                    onTap: () async {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: true,
-                          child: EmailReceiptDialogView());
-                    },
-                    child: Container(
-                      height: 45,
-                      decoration: BoxDecoration(
-                          color: getColorByHex(Globle().colorscode),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          "Email Receipt",
-                          style: TextStyle(
-                              fontFamily: KEY_FONTFAMILY,
-                              fontWeight: FontWeight.w600,
-                              fontSize: FONTSIZE_16,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
+        // bottomNavigationBar: BottomAppBar(
+        //   child: Container(
+        //       height: 55,
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         mainAxisAlignment: MainAxisAlignment.end,
+        //         children: <Widget>[
+        //           // Container(
+        //           //   height: 35,
+        //           // ),
+        //           GestureDetector(
+        //             onTap: () async {
+        //               showDialog(
+        //                   context: context,
+        //                   barrierDismissible: true,
+        //                   child: EmailReceiptDialogView());
+        //             },
+        //             child: Container(
+        //               height: 45,
+        //               decoration: BoxDecoration(
+        //                   color: getColorByHex(Globle().colorscode),
+        //                   borderRadius: BorderRadius.only(
+        //                       topLeft: Radius.circular(15),
+        //                       topRight: Radius.circular(15))),
+        //               child: Center(
+        //                 child: Text(
+        //                   "Email Receipt",
+        //                   style: TextStyle(
+        //                       fontFamily: KEY_FONTFAMILY,
+        //                       fontWeight: FontWeight.w600,
+        //                       fontSize: FONTSIZE_16,
+        //                       color: Colors.white),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         ],
+        //       )),
+        // ),
       ),
     );
   }
@@ -213,7 +213,9 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0),
                     child: Text(
-                      widget.getmyOrderBookingHistory.waiterName ?? "",
+                      StringUtils.capitalize(
+                              widget.getmyOrderBookingHistory.waiterName) ??
+                          "",
                       style: TextStyle(
                           fontSize: FONTSIZE_17,
                           fontFamily: Constants.getFontType(),
@@ -356,8 +358,8 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                                     //       fontWeight: FontWeight.w700),
                                     // ),
                                     Text(
-                                      widget.list[index].price != null
-                                          ? widget.list[index].price
+                                      widget.list[index].totalAmount != null
+                                          ? widget.list[index].totalAmount
                                           : widget.list[index].sizePrice != null
                                               ? widget.list[index].sizePrice
                                               : "",
@@ -367,14 +369,6 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView> {
                                     ),
                                   ],
                                 ),
-                                widget.list[index].cartExtras.length != 0
-                                    ? Text(
-                                        "+Extras",
-                                        style: TextStyle(
-                                            fontSize: FONTSIZE_14,
-                                            fontWeight: FontWeight.w700),
-                                      )
-                                    : Text(""),
                               ],
                             ),
                           ),
