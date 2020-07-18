@@ -10,6 +10,8 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 
 class UserFeedbackView extends StatefulWidget {
+  DateTime dateTime;
+  UserFeedbackView({this.dateTime});
   @override
   State createState() => new UserFeedbackViewState();
 }
@@ -32,6 +34,8 @@ class UserFeedbackViewState extends State<UserFeedbackView> {
 
   @override
   void initState() {
+    print(widget.dateTime.toString());
+
     super.initState();
   }
 
@@ -39,216 +43,236 @@ class UserFeedbackViewState extends State<UserFeedbackView> {
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Order Feedback",
-          style: TextStyle(
-              fontSize: FONTSIZE_20,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontFamily: Constants.getFontType()),
+    return SafeArea(
+      top: false,
+      right: false,
+      left: false,
+      bottom: true,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Order Feedback",
+            style: TextStyle(
+                fontSize: FONTSIZE_20,
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontFamily: Constants.getFontType()),
+          ),
+          // backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        // backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-            height: 50,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () async {
-                    if (_rating != 0) {
-                      if (_controller.value.text == STR_BLANK) {
-                        Toast.show(STR_ADD_REVIEW, context,
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+              height: 50,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () async {
+                      if (_rating != 0) {
+                        if (_controller.value.text == STR_BLANK) {
+                          Toast.show(STR_ADD_REVIEW, context,
+                              duration: Toast.LENGTH_SHORT,
+                              gravity: Toast.BOTTOM);
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainWidget()),
+                              ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+                        }
+                      } else {
+                        Toast.show(STR_ADD_REVIEW_RATING, context,
                             duration: Toast.LENGTH_SHORT,
                             gravity: Toast.BOTTOM);
-                      } else {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainWidget()),
-                            ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                       }
-                    } else {
-                      Toast.show(STR_ADD_REVIEW_RATING, context,
-                          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-                    }
-                    print(_rating);
-                    print(_controller.value.text);
-                  },
-                  child: Container(
-                    height: 45,
-                    decoration: BoxDecoration(
-                        color: getColorByHex(Globle().colorscode),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15))),
-                    child: Center(
-                      child: Text(
-                        "SUBMIT",
-                        style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w600,
-                            fontSize: FONTSIZE_16,
-                            color: Colors.white),
+                      print(_rating);
+                      print(_controller.value.text);
+                    },
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: getColorByHex(Globle().colorscode),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          "SUBMIT",
+                          style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )),
-      ),
-      body: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10,
-            ),
-            Image.asset("assets/FoodServeIcon/plate.png",
-                height: 150,
-                width: 150,
-                fit: BoxFit.fitWidth,
-                color: Globle().colorscode != null
-                    ? getColorByHex(Globle().colorscode)
-                    : orangetheme300),
-            Text(
-              "You Just got served!",
-              style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w700,
-                fontSize: FONTSIZE_22,
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              "${getDateForOrderHistory()}",
-              style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w500,
-                fontSize: FONTSIZE_15,
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Divider(
-                thickness: 0.5,
-              ),
-            ),
-            SizedBox(height: 60),
-            Text(
-              "Rate Restaurant",
-              style: TextStyle(
-                fontFamily: KEY_FONTFAMILY,
-                fontWeight: FontWeight.w400,
-                fontSize: FONTSIZE_20,
-              ),
-            ),
-            SizedBox(height: 15),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  new GestureDetector(
-                    child: new Icon(
-                      Icons.star,
-                      size: 20,
-                      color: _rating >= 1 ? redtheme : greytheme1300,
-                    ),
-                    onTap: () => rate(1),
-                  ),
-                  SizedBox(
-                    width: 11,
-                  ),
-                  new GestureDetector(
-                    child: new Icon(
-                      Icons.star,
-                      size: 20,
-                      color: _rating >= 2 ? redtheme : greytheme1300,
-                    ),
-                    onTap: () => rate(2),
-                  ),
-                  SizedBox(
-                    width: 11,
-                  ),
-                  new GestureDetector(
-                    child: new Icon(
-                      Icons.star,
-                      size: 20,
-                      color: _rating >= 3 ? redtheme : greytheme1300,
-                    ),
-                    onTap: () => rate(3),
-                  ),
-                  SizedBox(
-                    width: 11,
-                  ),
-                  new GestureDetector(
-                    child: new Icon(
-                      Icons.star,
-                      size: 20,
-                      color: _rating >= 4 ? redtheme : greytheme1300,
-                    ),
-                    onTap: () => rate(4),
-                  ),
-                  SizedBox(
-                    width: 11,
-                  ),
-                  new GestureDetector(
-                    child: new Icon(
-                      Icons.star,
-                      size: 20,
-                      color: _rating >= 5 ? redtheme : greytheme1300,
-                    ),
-                    onTap: () => rate(5),
-                  )
                 ],
+              )),
+        ),
+        body: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(height: 40),
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(left: 37, right: 27),
-                height: 140,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: greytheme600)),
-                padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: STR_WRITE_REVIEWS,
-                    hintStyle: TextStyle(
-                      fontFamily: Constants.getFontType(),
-                      color: greytheme700,
-                      fontSize: FONTSIZE_13,
-                    ),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
-                  maxLines: null,
-                  controller: _controller,
+              Image.asset("assets/FoodServeIcon/plate.png",
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.fitWidth,
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300),
+              Text(
+                "You Just got served!",
+                style: TextStyle(
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w700,
+                  fontSize: FONTSIZE_22,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 26,
-            ),
-          ],
+              SizedBox(height: 5),
+              widget.dateTime != null
+                  ? Text(
+                      "${getDateForOrderHistory(widget.dateTime.toString())}",
+                      style: TextStyle(
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w500,
+                        fontSize: FONTSIZE_15,
+                      ),
+                    )
+                  : Text(""),
+              SizedBox(height: 5),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(
+                  thickness: 0.5,
+                ),
+              ),
+              SizedBox(height: 60),
+              Text(
+                "Rate Restaurant",
+                style: TextStyle(
+                  fontFamily: KEY_FONTFAMILY,
+                  fontWeight: FontWeight.w400,
+                  fontSize: FONTSIZE_20,
+                ),
+              ),
+              SizedBox(height: 15),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new GestureDetector(
+                      child: new Icon(
+                        Icons.star,
+                        size: 20,
+                        color: _rating >= 1 ? redtheme : greytheme1300,
+                      ),
+                      onTap: () => rate(1),
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    new GestureDetector(
+                      child: new Icon(
+                        Icons.star,
+                        size: 20,
+                        color: _rating >= 2 ? redtheme : greytheme1300,
+                      ),
+                      onTap: () => rate(2),
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    new GestureDetector(
+                      child: new Icon(
+                        Icons.star,
+                        size: 20,
+                        color: _rating >= 3 ? redtheme : greytheme1300,
+                      ),
+                      onTap: () => rate(3),
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    new GestureDetector(
+                      child: new Icon(
+                        Icons.star,
+                        size: 20,
+                        color: _rating >= 4 ? redtheme : greytheme1300,
+                      ),
+                      onTap: () => rate(4),
+                    ),
+                    SizedBox(
+                      width: 11,
+                    ),
+                    new GestureDetector(
+                      child: new Icon(
+                        Icons.star,
+                        size: 20,
+                        color: _rating >= 5 ? redtheme : greytheme1300,
+                      ),
+                      onTap: () => rate(5),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 40),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(left: 37, right: 27),
+                  height: 140,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: greytheme600)),
+                  padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: STR_WRITE_REVIEWS,
+                      hintStyle: TextStyle(
+                        fontFamily: Constants.getFontType(),
+                        color: greytheme700,
+                        fontSize: FONTSIZE_13,
+                      ),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
+                    maxLines: null,
+                    controller: _controller,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 26,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  String getDateForOrderHistory() {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('EEE d MMM yyyy kk:mm a').format(now);
-    return formattedDate;
+  String getDateForOrderHistory(String dateString) {
+    var date = DateTime.parse(dateString);
+    var dateStr = DateFormat("dd MMM yyyy").format(date.toLocal());
+
+    DateFormat format = new DateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTime time1 = format.parse(dateString, true);
+    var time = DateFormat("hh:mm a").format(time1.toLocal());
+
+    return "$dateStr at $time";
   }
+
+  // String getDateForOrderHistory() {
+  //   DateTime now = DateTime.now();
+  //   String formattedDate = DateFormat('EEE d MMM yyyy kk:mm a').format(now);
+  //   return formattedDate;
+  // }
 }

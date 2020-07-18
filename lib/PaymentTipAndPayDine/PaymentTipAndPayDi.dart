@@ -1008,10 +1008,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       //     MaterialPageRoute(builder: (context) => MainWidget()),
                       //     ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
 
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => UserFeedbackView()));
+                              builder: (context) => UserFeedbackView(
+                                  dateTime: myOrderData.createdAt)),
+                          ModalRoute.withName("/UserFeedbackView"));
                     },
                   )
                 ],
@@ -1031,7 +1033,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     await progressDialog.hide();
-    await progressDialog.hide();
+    // await progressDialog.hide();
 
     setState(() {
       isLoading = false;
