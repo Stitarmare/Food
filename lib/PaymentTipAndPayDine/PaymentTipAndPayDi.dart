@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-//import 'dart:html';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
@@ -9,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
-import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/PayCheckOutNetBanking.dart';
@@ -18,6 +15,7 @@ import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
+import 'package:foodzi/UserFeedbackPage/UserFeedBackView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -1001,11 +999,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       // Navigator.pushReplacementNamed(
                       //     context, STR_MAIN_WIDGET_PAGE);
                       Navigator.of(context).pop();
-
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MainWidget()),
-                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+                          MaterialPageRoute(
+                              builder: (context) => UserFeedbackDialogView()));
+                      // Navigator.pushAndRemoveUntil(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => MainWidget()),
+                      //     ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
                     },
                   )
                 ],
