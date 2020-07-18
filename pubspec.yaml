@@ -191,6 +191,8 @@ flutter:
       - assets/UserGuide/paymentpage.png
       - assets/UserGuide/currentorders.png
       - assets/UserGuide/LandingScreen.png
+      #FoodServeIcon
+      - assets/FoodServeIcon/plate.png
 
       
 

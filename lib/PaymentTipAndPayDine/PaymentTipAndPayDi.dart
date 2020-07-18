@@ -18,6 +18,7 @@ import 'package:foodzi/Models/payment_Checkout_model.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayContractor.dart';
 import 'package:foodzi/PaymentTipAndPayDine/PaymentTipAndPayDiPresenter.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewPresenter.dart';
+import 'package:foodzi/UserFeedbackPage/UserFeedbackView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/WebViewPage.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -1002,10 +1003,15 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                       //     context, STR_MAIN_WIDGET_PAGE);
                       Navigator.of(context).pop();
 
-                      Navigator.pushAndRemoveUntil(
+                      // Navigator.pushAndRemoveUntil(
+                      //     context,
+                      //     MaterialPageRoute(builder: (context) => MainWidget()),
+                      //     ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+
+                      Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MainWidget()),
-                          ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+                          MaterialPageRoute(
+                              builder: (context) => UserFeedbackView()));
                     },
                   )
                 ],
