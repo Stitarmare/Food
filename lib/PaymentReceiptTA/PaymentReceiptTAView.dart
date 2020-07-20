@@ -319,20 +319,13 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
                                 SizedBox(width: 10),
                                 Row(
                                   children: <Widget>[
-                                    // Text(
-                                    //   Globle().currencySymb != null
-                                    //       ? Globle().currencySymb
-                                    //       : STR_R_CURRENCY_SYMBOL,
-                                    //   style: TextStyle(
-                                    //       fontSize: FONTSIZE_15,
-                                    //       fontWeight: FontWeight.w700),
-                                    // ),
                                     Text(
-                                      widget.list[index].totalAmount != null
-                                          ? widget.list[index].totalAmount
-                                          : widget.list[index].sizePrice != null
-                                              ? widget.list[index].sizePrice
-                                              : "",
+                                      "${getItemTotal(widget.list[index])}",
+                                      // widget.list[index].totalAmount != null
+                                      //     ? widget.list[index].totalAmount
+                                      //     : widget.list[index].sizePrice != null
+                                      //         ? widget.list[index].sizePrice
+                                      //         : "",
                                       style: TextStyle(
                                           fontSize: FONTSIZE_15,
                                           fontWeight: FontWeight.w700),
@@ -646,6 +639,32 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
           .toStringAsFixed(2);
       return strDou;
     }
+  }
+
+  String getItemTotal(GetMyOrderBookingList list) {
+    double d1;
+    double d2;
+    double d3;
+    String str;
+    if (list.price != null) {
+      d1 = double.parse(list.price);
+    } else if (list.sizePrice != null) {
+      d1 = double.parse(list.sizePrice);
+    }
+
+    if (list.cartExtras != null) {
+      if (list.cartExtras.length > 0) {
+        for (int j = 0; j < list.cartExtras.length; j++) {
+          if (list.cartExtras[j].price != null) {
+            d2 = double.parse(list.cartExtras[j].price);
+          }
+        }
+      }
+    }
+
+    d3 = d1 + d2;
+    str = d3.toStringAsFixed(2);
+    return str;
   }
 
   String getDateForOrderHistory(String dateString) {
