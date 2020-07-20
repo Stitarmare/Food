@@ -1012,7 +1012,8 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                           context,
                           MaterialPageRoute(
                               builder: (context) => UserFeedbackView(
-                                  dateTime: myOrderData.createdAt)),
+                                  dateTime: myOrderData.createdAt,
+                                  restId: myOrderData.restId)),
                           ModalRoute.withName("/UserFeedbackView"));
                     },
                   )

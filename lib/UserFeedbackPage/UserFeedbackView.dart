@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
+import 'package:foodzi/Models/WriteRestaurantReview.dart';
+import 'package:foodzi/Models/RestaurantInfoModel.dart';
+import 'package:foodzi/Models/GetRestaurantReview.dart';
+import 'package:foodzi/RestaurantInfoPage/RestaurantInfoContractor.dart';
 import 'package:foodzi/RestaurantInfoPage/RestaurantInfoPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
@@ -11,12 +15,14 @@ import 'package:toast/toast.dart';
 
 class UserFeedbackView extends StatefulWidget {
   DateTime dateTime;
-  UserFeedbackView({this.dateTime});
+  int restId;
+  UserFeedbackView({this.dateTime, this.restId});
   @override
   State createState() => new UserFeedbackViewState();
 }
 
-class UserFeedbackViewState extends State<UserFeedbackView> {
+class UserFeedbackViewState extends State<UserFeedbackView>
+    implements RestaurantInfoModelView {
   int _rating = 0;
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
@@ -35,7 +41,8 @@ class UserFeedbackViewState extends State<UserFeedbackView> {
   @override
   void initState() {
     print(widget.dateTime.toString());
-
+    restaurantReviewPresenter =
+        RestaurantInfoPresenter(restaurantInfoModelView: this);
     super.initState();
   }
 
@@ -75,11 +82,12 @@ class UserFeedbackViewState extends State<UserFeedbackView> {
                               duration: Toast.LENGTH_SHORT,
                               gravity: Toast.BOTTOM);
                         } else {
-                          Navigator.pushAndRemoveUntil(
+                          await progressDialog.show();
+                          restaurantReviewPresenter.writeRestaurantReview(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainWidget()),
-                              ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+                              widget.restId,
+                              _controller.value.text,
+                              _rating);
                         }
                       } else {
                         Toast.show(STR_ADD_REVIEW_RATING, context,
@@ -270,9 +278,35 @@ class UserFeedbackViewState extends State<UserFeedbackView> {
     return "$dateStr at $time";
   }
 
-  // String getDateForOrderHistory() {
-  //   DateTime now = DateTime.now();
-  //   String formattedDate = DateFormat('EEE d MMM yyyy kk:mm a').format(now);
-  //   return formattedDate;
-  // }
+  @override
+  void getReviewFailed() {}
+
+  @override
+  void getReviewSuccess(List<RestaurantReviewList> getReviewList) {}
+
+  @override
+  void restaurantInfoFailed() {}
+
+  @override
+  void restaurantInfoSuccess(RestaurantInfoData restaurantInfoData) {}
+
+  @override
+  void writeReviewFailed() async {
+    await progressDialog.hide();
+  }
+
+  @override
+  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) async {
+    await progressDialog.hide();
+    Toast.show(
+      STR_REVIEW_SUMBITTED,
+      context,
+      duration: Toast.LENGTH_SHORT,
+      gravity: Toast.BOTTOM,
+    );
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainWidget()),
+        ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+  }
 }
