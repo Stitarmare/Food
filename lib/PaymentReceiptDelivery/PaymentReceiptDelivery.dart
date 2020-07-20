@@ -616,9 +616,9 @@ class _PaymentReceiptDeliveryViewState extends State<PaymentReceiptDeliveryView>
   }
 
   String getItemTotal(GetMyOrderBookingList list) {
-    double d1;
-    double d2;
-    double d3;
+    double d1 = 0;
+    double d2 = 0;
+    double d3 = 0;
     String str;
     if (list.price != null) {
       d1 = double.parse(list.price);
