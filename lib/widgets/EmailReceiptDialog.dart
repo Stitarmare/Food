@@ -12,6 +12,8 @@ class EmailReceiptDialogView extends StatefulWidget {
 class _EmailReceiptDialogViewState extends State<EmailReceiptDialogView> {
   final GlobalKey<FormState> _emailIdKey = GlobalKey<FormState>();
   bool _validate = false;
+  String strEmailId;
+  var _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,10 @@ class _EmailReceiptDialogViewState extends State<EmailReceiptDialogView> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 28.0),
                   child: AppTextField(
-                    onChanged: (text) {},
+                    controller: _controller,
+                    onChanged: (text) {
+                      strEmailId = text;
+                    },
                     icon: Icon(
                       Icons.mail,
                       color: greytheme1000,
@@ -73,7 +78,9 @@ class _EmailReceiptDialogViewState extends State<EmailReceiptDialogView> {
 
   Future<void> emailIdBtn() async {
     if (_emailIdKey.currentState.validate()) {
-      Navigator.of(context).pop();
+      if (_controller.text != null) {
+        Navigator.of(context).pop({"textValue": _controller.value.text});
+      }
       print("emailId");
     } else {
       setState(() {

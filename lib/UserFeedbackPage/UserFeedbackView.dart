@@ -16,7 +16,10 @@ import 'package:toast/toast.dart';
 class UserFeedbackView extends StatefulWidget {
   DateTime dateTime;
   int restId;
-  UserFeedbackView({this.dateTime, this.restId});
+  UserFeedbackView({
+    this.dateTime,
+    this.restId,
+  });
   @override
   State createState() => new UserFeedbackViewState();
 }

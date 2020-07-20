@@ -3,6 +3,8 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
+import 'package:foodzi/PaymentReceiptDine/PaymentReceiptContractor.dart';
+import 'package:foodzi/PaymentReceiptDine/PaymentReceiptPresenter.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
@@ -10,6 +12,7 @@ import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/EmailReceiptDialog.dart';
 import 'package:intl/intl.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class PaymentReceiptDeliveryView extends StatefulWidget {
   GetMyOrderBookingHistoryList getmyOrderBookingHistory;
@@ -21,10 +24,21 @@ class PaymentReceiptDeliveryView extends StatefulWidget {
       _PaymentReceiptDeliveryViewState();
 }
 
-class _PaymentReceiptDeliveryViewState
-    extends State<PaymentReceiptDeliveryView> {
+class _PaymentReceiptDeliveryViewState extends State<PaymentReceiptDeliveryView>
+    implements PaymentReceiptModalView {
+  PayementReceiptPresenter payementReceiptPresenter;
+  ProgressDialog progressDialog;
+
+  @override
+  void initState() {
+    payementReceiptPresenter = PayementReceiptPresenter(this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
+
     return SafeArea(
       left: false,
       top: false,
@@ -43,45 +57,55 @@ class _PaymentReceiptDeliveryViewState
         body: CustomScrollView(
           slivers: <Widget>[_getmainviewTableno(), _getOptions()],
         ),
-        // bottomNavigationBar: BottomAppBar(
-        //   child: Container(
-        //       height: 55,
-        //       child: Column(
-        //         mainAxisSize: MainAxisSize.min,
-        //         mainAxisAlignment: MainAxisAlignment.end,
-        //         children: <Widget>[
-        //           // Container(
-        //           //   height: 35,
-        //           // ),
-        //           GestureDetector(
-        //             onTap: () async {
-        //               showDialog(
-        //                   context: context,
-        //                   barrierDismissible: true,
-        //                   child: EmailReceiptDialogView());
-        //             },
-        //             child: Container(
-        //               height: 45,
-        //               decoration: BoxDecoration(
-        //                   color: getColorByHex(Globle().colorscode),
-        //                   borderRadius: BorderRadius.only(
-        //                       topLeft: Radius.circular(15),
-        //                       topRight: Radius.circular(15))),
-        //               child: Center(
-        //                 child: Text(
-        //                   "Email Receipt",
-        //                   style: TextStyle(
-        //                       fontFamily: KEY_FONTFAMILY,
-        //                       fontWeight: FontWeight.w600,
-        //                       fontSize: FONTSIZE_16,
-        //                       color: Colors.white),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         ],
-        //       )),
-        // ),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+              height: 55,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  // Container(
+                  //   height: 35,
+                  // ),
+                  GestureDetector(
+                    onTap: () async {
+                      var value = await showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          child: EmailReceiptDialogView());
+                      if (value != null) {
+                        if (value["textValue"] != null) {
+                          print(value["textValue"]);
+                          await progressDialog.show();
+                          payementReceiptPresenter.getPaymentReceipt(
+                              widget.getmyOrderBookingHistory.id,
+                              value["textValue"],
+                              context);
+                        }
+                      }
+                    },
+                    child: Container(
+                      height: 45,
+                      decoration: BoxDecoration(
+                          color: getColorByHex(Globle().colorscode),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15))),
+                      child: Center(
+                        child: Text(
+                          "Email Receipt",
+                          style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w600,
+                              fontSize: FONTSIZE_16,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -607,5 +631,18 @@ class _PaymentReceiptDeliveryViewState
     var time = DateFormat("hh:mm a").format(time1.toLocal());
 
     return "$dateStr $time";
+  }
+
+  @override
+  void onFailedPaymentReceipt() async {
+    await progressDialog.hide();
+  }
+
+  @override
+  void onSuccessPaymentReceipt(String message) async {
+    await progressDialog.hide();
+    if (message != null) {
+      Constants.showAlertSuccess("Email Status", message, context);
+    }
   }
 }

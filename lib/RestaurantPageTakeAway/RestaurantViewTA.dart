@@ -488,12 +488,15 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   }
 
   Widget _menuItemList() {
+    MediaQueryData mediaQueryData;
+    mediaQueryData = MediaQuery.of(context);
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: 0.7,
+        // childAspectRatio: 0.7,
+        childAspectRatio: mediaQueryData.devicePixelRatio * 0.28,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
