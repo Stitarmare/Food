@@ -692,7 +692,7 @@ class _MyOrdersState extends State<MyOrders> implements MyOrderModelView {
                       //   ),
                       // ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
+                        padding: const EdgeInsets.only(right: 10.0),
                         child: getmyOrderBookingHistory[index].status !=
                                 STR_CANCELLED
                             ? RaisedButton(

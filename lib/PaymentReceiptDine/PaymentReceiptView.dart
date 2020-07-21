@@ -634,6 +634,27 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
                           fontSize: FONTSIZE_18, fontWeight: FontWeight.w600),
                     ),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(right: 20),
+                  //   child: getMethodSplit(widget
+                  //           .getmyOrderBookingHistory.splitbilltransactions)
+                  //       ? Text(
+                  //           splitBillTotalAmount(
+                  //               widget.getmyOrderBookingHistory.waiterTip,
+                  //               widget.getmyOrderBookingHistory
+                  //                   .splitbilltransactions),
+                  //           style: TextStyle(
+                  //               fontSize: FONTSIZE_18,
+                  //               fontWeight: FontWeight.w600),
+                  //         )
+                  //       : Text(
+                  //           getTotalAmount(
+                  //               widget.getmyOrderBookingHistory.waiterTip),
+                  //           style: TextStyle(
+                  //               fontSize: FONTSIZE_18,
+                  //               fontWeight: FontWeight.w600),
+                  //         ),
+                  // ),
                 ],
               ),
             ],
@@ -668,7 +689,6 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
                 ),
                 flex: 2,
               ),
-              // : Container(),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: widget.getmyOrderBookingHistory.splitbilltransactions
@@ -681,7 +701,6 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
                             child: Text(
                               Globle().currencySymb != null
                                   ? '${Globle().currencySymb} ' +
-                                      // '${getmyOrderBookingHistory[index].splitAmount}'
                                       getSplitAmount(widget
                                           .getmyOrderBookingHistory
                                           .splitbilltransactions)
@@ -695,7 +714,6 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
                           )
                         : Text("")
                     : Text(""),
-                // : Text(""),
               ),
             ],
           ),
@@ -795,6 +813,42 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
     var time = DateFormat("hh:mm a").format(time1.toLocal());
 
     return "$dateStr $time";
+  }
+
+  String splitBillTotalAmount(
+      List<WaiterTip> list, List<Splitbilltransactions> list1) {
+    double d2 = 0;
+    double d3 = 0;
+    double d4 = 0;
+    String str2;
+    if (list1 != null) {
+      if (list != null) {
+        for (int i = 0; i < list.length; i++) {
+          if (list[i].userId == Globle().loginModel.data.id) {
+            d2 = double.parse(list[i].amount);
+          }
+        }
+
+        for (int j = 0; j < list1.length; j++) {
+          if (list1[j].userId == Globle().loginModel.data.id) {
+            d3 = double.parse(list1[j].amount);
+          }
+        }
+
+        d4 = d2 + d3;
+        str2 = d4.toStringAsFixed(2);
+        return str2;
+      } else {
+        for (int j = 0; j < list1.length; j++) {
+          if (list[j].userId == Globle().loginModel.data.id) {
+            d3 = double.parse(list[j].amount);
+          }
+        }
+        str2 = d3.toStringAsFixed(2);
+        return str2;
+      }
+    }
+    return "0.00";
   }
 
   @override

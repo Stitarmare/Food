@@ -664,7 +664,7 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                       //   ),
                       // ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
+                        padding: const EdgeInsets.only(right: 10.0),
                         child: RaisedButton(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
