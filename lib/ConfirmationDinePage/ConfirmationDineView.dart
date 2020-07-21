@@ -184,13 +184,14 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.1,
+            // height: MediaQuery.of(context).size.height * 0.1,
+            height: 60,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Container(
-                  height: 10,
-                ),
+                // Container(
+                //   height: 10,
+                // ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 54,

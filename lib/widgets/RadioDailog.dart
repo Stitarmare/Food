@@ -191,9 +191,7 @@ class RadioDialogState extends State<RadioDialog>
   }
 
   @override
-  void getSplitBillNotificationFailed() {
-    // TODO: implement getSplitBillNotificationFailed
-  }
+  void getSplitBillNotificationFailed() {}
 
   @override
   void getSplitBillNotificationSuccess() {

@@ -668,13 +668,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   @override
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
+    await progressDialog.hide();
+
     setState(() {
       if (myOrderDataDetails == null) {
         myOrderDataDetails = orderData;
         _model = model;
       }
     });
-    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -729,7 +730,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       isIgnoreTouch = false;
     });
     await progressDialog.hide();
-    await progressDialog.hide();
 
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
@@ -742,6 +742,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+
+    await progressDialog.hide();
 
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
