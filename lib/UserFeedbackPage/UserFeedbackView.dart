@@ -93,9 +93,15 @@ class UserFeedbackViewState extends State<UserFeedbackView>
                               _rating);
                         }
                       } else {
-                        Toast.show(STR_ADD_REVIEW_RATING, context,
-                            duration: Toast.LENGTH_SHORT,
-                            gravity: Toast.BOTTOM);
+                        if (_controller.value.text != STR_BLANK) {
+                          Toast.show(STR_ADD_RATING, context,
+                              duration: Toast.LENGTH_SHORT,
+                              gravity: Toast.BOTTOM);
+                        } else {
+                          Toast.show(STR_ADD_REVIEW_RATING, context,
+                              duration: Toast.LENGTH_SHORT,
+                              gravity: Toast.BOTTOM);
+                        }
                       }
                       print(_rating);
                       print(_controller.value.text);

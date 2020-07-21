@@ -510,6 +510,8 @@ const JSON_STR_PAYMENT_MODE = "payment_mode";
 const JSON_STR_TIP = "tip";
 const JSON_STR_TRANSACTION_ID = "transaction_id";
 const JSON_STR_DELIVERY_CHARGE = "delivery_charge";
+const STR_DELIVERED = "delivered";
+const STR_COMPLETED = "completed";
 
 // ProfilePage
 const BACK_ARROW_IMAGE_PATH = 'assets/BackButtonIcon/Path1621.png';
@@ -545,6 +547,7 @@ const JSON_STR_RATING = "rating";
 const STR_ADD_REVIEW = "Add Review";
 const STR_ADD_REVIEW_RATING = "Add Review & Ratings";
 const STR_REVIEW_SUMBITTED = "Review Submitted";
+const STR_ADD_RATING = "Add Rating";
 
 // Restaurant View
 const STR_CURRENCY_SYMBOL = "currencySymbol";

@@ -126,13 +126,14 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
-                height: 80,
+                height: 55,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Container(
-                      height: 35,
-                    ),
+                    // Container(
+                    //   height: 35,
+                    // ),
                     GestureDetector(
                       onTap: () async {
                         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
@@ -728,6 +729,8 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
       isIgnoreTouch = false;
     });
     await progressDialog.hide();
+    await progressDialog.hide();
+
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
@@ -751,7 +754,6 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
-    // TODO: implement cancelledPaymentFailed
   }
 
   @override
@@ -762,16 +764,11 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
-    // TODO: implement cancelledPaymentSuccess
   }
 
   @override
-  void onFailedQuantityIncrease() {
-    // TODO: implement onFailedQuantityIncrease
-  }
+  void onFailedQuantityIncrease() {}
 
   @override
-  void onSuccessQuantityIncrease() {
-    // TODO: implement onSuccessQuantityIncrease
-  }
+  void onSuccessQuantityIncrease() {}
 }

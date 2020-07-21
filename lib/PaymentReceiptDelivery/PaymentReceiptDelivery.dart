@@ -195,6 +195,33 @@ class _PaymentReceiptDeliveryViewState extends State<PaymentReceiptDeliveryView>
                     ],
                   ),
                 ),
+                Spacer(),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Table : ",
+                      style: TextStyle(
+                        fontSize: FONTSIZE_18,
+                        fontFamily: Constants.getFontType(),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: widget.getmyOrderBookingHistory.status ==
+                              STR_DELIVERED
+                          ? Text(
+                              STR_DELIVERY_FOOD ?? "",
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_17,
+                                  fontFamily: Constants.getFontType(),
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            )
+                          : Text(""),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

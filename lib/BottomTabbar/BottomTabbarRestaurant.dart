@@ -138,7 +138,9 @@ class _BottomTabbarHomeState extends State<BottomTabbarHome>
           children: <Widget>[
             FittedBox(
               child: FloatingActionButton(
-                  backgroundColor: getColorByHex(Globle().colorscode),
+                  backgroundColor: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
                   onPressed: () {
                     if (Globle().isTabelAvailable && Globle().tableID != 0) {
                       restaurantPresenter.notifyWaiter(

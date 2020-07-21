@@ -129,13 +129,14 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
-                height: 80,
+                height: 55,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Container(
-                      height: 35,
-                    ),
+                    // Container(
+                    //   height: 35,
+                    // ),
                     GestureDetector(
                       onTap: () async {
                         getVerifyAmount();

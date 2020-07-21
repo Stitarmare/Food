@@ -194,8 +194,66 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
                     ],
                   ),
                 ),
+                Spacer(),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Table : ",
+                      style: TextStyle(
+                        fontSize: FONTSIZE_18,
+                        fontFamily: Constants.getFontType(),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: widget.getmyOrderBookingHistory.status ==
+                              STR_COMPLETED
+                          ? Text(
+                              STR_COLLECTION ?? "",
+                              style: TextStyle(
+                                  fontSize: FONTSIZE_17,
+                                  fontFamily: Constants.getFontType(),
+                                  fontWeight: FontWeight.w500,
+                                  color: greytheme700),
+                            )
+                          : Text(""),
+                    ),
+                  ],
+                ),
               ],
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    "Waiter : ",
+                    style: TextStyle(
+                      fontSize: FONTSIZE_18,
+                      fontFamily: Constants.getFontType(),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    child: Text(
+                      StringUtils.capitalize(
+                              widget.getmyOrderBookingHistory.waiterName) ??
+                          "",
+                      style: TextStyle(
+                          fontSize: FONTSIZE_17,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w500,
+                          color: greytheme700),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
