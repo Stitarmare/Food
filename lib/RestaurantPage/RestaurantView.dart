@@ -360,6 +360,7 @@ class _RestaurantViewState extends State<RestaurantView>
           children: <Widget>[
             // Expanded(flex: 1, child: _restaurantLogo()),
             Expanded(
+              flex: 1,
               child: Column(children: <Widget>[
                 _getMenuListHorizontal(context),
                 _getSubMenuListHorizontal(context),
@@ -768,8 +769,8 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        // childAspectRatio: queryData.devicePixelRatio * 0.3,
-        childAspectRatio: 0.7,
+        childAspectRatio: queryData.devicePixelRatio * 0.3,
+        // childAspectRatio: 0.8,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -844,7 +845,8 @@ class _RestaurantViewState extends State<RestaurantView>
                                     ? StringUtils.capitalize(
                                         "${_restaurantList[index].itemName}")
                                     : STR_SPACE,
-                                maxLines: 2,
+                                // maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.center,
                                 // minFontSize: FONTSIZE_10,
                                 // maxFontSize: FONTSIZE_13,
