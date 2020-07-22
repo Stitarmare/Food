@@ -732,6 +732,8 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
         Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
         Globle().orderNumber = orderData.orderNumber;
         Globle().dinecartValue = 0;
+        Preference.removeForKey("keyCategoryId");
+        Preference.removeForKey("keySubCateId");
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => CartDetailsPage(
                   orderId: myOrderData.id,

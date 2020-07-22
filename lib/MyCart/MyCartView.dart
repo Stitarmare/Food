@@ -1143,10 +1143,14 @@ class _MyCartViewState extends State<MyCartView>
   }
 
   @override
-  void placeOrderCartFailed() {}
+  void placeOrderCartFailed() async {
+    await progressDialog.hide();
+  }
 
   @override
-  void placeOrderCartSuccess(OrderData orderData) {
+  void placeOrderCartSuccess(OrderData orderData) async {
+    await progressDialog.hide();
+
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
@@ -1162,8 +1166,9 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    //await progressDialog.hide();
-    progressDialog.hide();
+    Preference.removeForKey("keyCategoryId");
+    Preference.removeForKey("keySubCateId");
+
     Navigator.push(
         context,
         MaterialPageRoute(

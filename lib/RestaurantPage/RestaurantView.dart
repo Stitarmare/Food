@@ -18,6 +18,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -91,15 +92,26 @@ class _RestaurantViewState extends State<RestaurantView>
     setState(() {
       isLoading = true;
     });
-    restaurantPresenter.getMenuList(widget.restId, context,
-        categoryId: abc, menu: menutype);
+    // restaurantPresenter.getMenuList(widget.restId, context,
+    //     categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
 
-    if (Globle().colorscode != null) {
-      print(Globle().colorscode);
-    }
+    Preference.getPrefValue<int>("keyCategoryId").then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedMenu = value;
+        });
+      }
+    });
+    Preference.getPrefValue<int>("keySubCateId").then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedSubMenu = value;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -128,7 +140,7 @@ class _RestaurantViewState extends State<RestaurantView>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
-
+      Preference.setPersistData<int>(_selectedMenu, "keyCategoryId");
       if (_selectedMenu == index) {
         if (category2[index].subcategories != null) {
           if (category2[index].subcategories.length > 0) {
@@ -193,6 +205,7 @@ class _RestaurantViewState extends State<RestaurantView>
     });
     abc = category2[index].id;
     if (abc != null) {
+      subCategoryIdabc = null;
       callItemOnCategorySelect();
     } else {
       abc = null;
@@ -203,6 +216,7 @@ class _RestaurantViewState extends State<RestaurantView>
   _onSubMenuSelected(index) {
     setState(() {
       _selectedSubMenu = index;
+      Preference.setPersistData<int>(_selectedSubMenu, "keySubCateId");
       subCategoryIdabc =
           category2[_selectedMenu].subcategories[_selectedSubMenu].id;
 
@@ -239,7 +253,6 @@ class _RestaurantViewState extends State<RestaurantView>
     print("CategoryId " + abc.toString());
     print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
-
     await progressDialog.show();
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
@@ -1162,12 +1175,21 @@ class _RestaurantViewState extends State<RestaurantView>
     if (categoryData[0].category[0].subcategories.length > 0) {
       setState(() {
         valueBool = true;
-        subcategoriesList = categoryData[0].category[0].subcategories;
+        subcategoriesList =
+            categoryData[0].category[_selectedMenu].subcategories;
+        abc = categoryData[0].category[_selectedMenu].id;
+        subCategoryIdabc = categoryData[0]
+            .category[_selectedMenu]
+            .subcategories[_selectedSubMenu]
+            .id;
+        callItemOnCategorySelect();
       });
     } else {
       setState(() {
         valueBool = false;
         subcategoriesList = [];
+        abc = categoryData[0].category[_selectedMenu].id;
+        callItemOnCategorySelect();
       });
     }
   }

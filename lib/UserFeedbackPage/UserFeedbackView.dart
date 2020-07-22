@@ -10,6 +10,8 @@ import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:intl/intl.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:keyboard_actions/keyboard_actions_config.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:toast/toast.dart';
 
@@ -30,6 +32,7 @@ class UserFeedbackViewState extends State<UserFeedbackView>
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
   ProgressDialog progressDialog;
+  final FocusNode _nodeText1 = FocusNode();
 
   void rate(int rating) {
     setState(() {
@@ -128,149 +131,152 @@ class UserFeedbackViewState extends State<UserFeedbackView>
                 ],
               )),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 10,
-                ),
-                Image.asset("assets/FoodServeIcon/plate.png",
-                    height: 150,
-                    width: 150,
-                    fit: BoxFit.fitWidth,
-                    color: Globle().colorscode != null
-                        ? getColorByHex(Globle().colorscode)
-                        : orangetheme300),
-                Text(
-                  "You Just got served!",
-                  style: TextStyle(
-                    fontFamily: KEY_FONTFAMILY,
-                    fontWeight: FontWeight.w700,
-                    fontSize: FONTSIZE_22,
+        body: KeyboardActions(
+          config: _buildConfig(context),
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                SizedBox(height: 5),
-                widget.dateTime != null
-                    ? Text(
-                        "${getDateForOrderHistory(widget.dateTime.toString())}",
-                        style: TextStyle(
-                          fontFamily: KEY_FONTFAMILY,
-                          fontWeight: FontWeight.w500,
-                          fontSize: FONTSIZE_15,
-                        ),
-                      )
-                    : Text(""),
-                SizedBox(height: 5),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Divider(
-                    thickness: 0.5,
-                  ),
-                ),
-                SizedBox(height: 60),
-                Text(
-                  "Rate Restaurant",
-                  style: TextStyle(
-                    fontFamily: KEY_FONTFAMILY,
-                    fontWeight: FontWeight.w400,
-                    fontSize: FONTSIZE_20,
-                  ),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      new GestureDetector(
-                        child: new Icon(
-                          Icons.star,
-                          size: 20,
-                          color: _rating >= 1 ? redtheme : greytheme1300,
-                        ),
-                        onTap: () => rate(1),
-                      ),
-                      SizedBox(
-                        width: 11,
-                      ),
-                      new GestureDetector(
-                        child: new Icon(
-                          Icons.star,
-                          size: 20,
-                          color: _rating >= 2 ? redtheme : greytheme1300,
-                        ),
-                        onTap: () => rate(2),
-                      ),
-                      SizedBox(
-                        width: 11,
-                      ),
-                      new GestureDetector(
-                        child: new Icon(
-                          Icons.star,
-                          size: 20,
-                          color: _rating >= 3 ? redtheme : greytheme1300,
-                        ),
-                        onTap: () => rate(3),
-                      ),
-                      SizedBox(
-                        width: 11,
-                      ),
-                      new GestureDetector(
-                        child: new Icon(
-                          Icons.star,
-                          size: 20,
-                          color: _rating >= 4 ? redtheme : greytheme1300,
-                        ),
-                        onTap: () => rate(4),
-                      ),
-                      SizedBox(
-                        width: 11,
-                      ),
-                      new GestureDetector(
-                        child: new Icon(
-                          Icons.star,
-                          size: 20,
-                          color: _rating >= 5 ? redtheme : greytheme1300,
-                        ),
-                        onTap: () => rate(5),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 40),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 37, right: 27),
-                    height: 140,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: greytheme600)),
-                    padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        hintText: STR_WRITE_REVIEWS,
-                        hintStyle: TextStyle(
-                          fontFamily: Constants.getFontType(),
-                          color: greytheme700,
-                          fontSize: FONTSIZE_13,
-                        ),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                      ),
-                      maxLines: null,
-                      controller: _controller,
+                  Image.asset("assets/FoodServeIcon/plate.png",
+                      height: 150,
+                      width: 150,
+                      fit: BoxFit.fitWidth,
+                      color: Globle().colorscode != null
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme300),
+                  Text(
+                    "You Just got served!",
+                    style: TextStyle(
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w700,
+                      fontSize: FONTSIZE_22,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 26,
-                ),
-              ],
+                  SizedBox(height: 5),
+                  widget.dateTime != null
+                      ? Text(
+                          "${getDateForOrderHistory(widget.dateTime.toString())}",
+                          style: TextStyle(
+                            fontFamily: KEY_FONTFAMILY,
+                            fontWeight: FontWeight.w500,
+                            fontSize: FONTSIZE_15,
+                          ),
+                        )
+                      : Text(""),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      thickness: 0.5,
+                    ),
+                  ),
+                  SizedBox(height: 60),
+                  Text(
+                    "Rate Restaurant",
+                    style: TextStyle(
+                      fontFamily: KEY_FONTFAMILY,
+                      fontWeight: FontWeight.w400,
+                      fontSize: FONTSIZE_20,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new GestureDetector(
+                          child: new Icon(
+                            Icons.star,
+                            size: 20,
+                            color: _rating >= 1 ? redtheme : greytheme1300,
+                          ),
+                          onTap: () => rate(1),
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        new GestureDetector(
+                          child: new Icon(
+                            Icons.star,
+                            size: 20,
+                            color: _rating >= 2 ? redtheme : greytheme1300,
+                          ),
+                          onTap: () => rate(2),
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        new GestureDetector(
+                          child: new Icon(
+                            Icons.star,
+                            size: 20,
+                            color: _rating >= 3 ? redtheme : greytheme1300,
+                          ),
+                          onTap: () => rate(3),
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        new GestureDetector(
+                          child: new Icon(
+                            Icons.star,
+                            size: 20,
+                            color: _rating >= 4 ? redtheme : greytheme1300,
+                          ),
+                          onTap: () => rate(4),
+                        ),
+                        SizedBox(
+                          width: 11,
+                        ),
+                        new GestureDetector(
+                          child: new Icon(
+                            Icons.star,
+                            size: 20,
+                            color: _rating >= 5 ? redtheme : greytheme1300,
+                          ),
+                          onTap: () => rate(5),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 40),
+                  Center(
+                    child: Container(
+                      margin: EdgeInsets.only(left: 37, right: 27),
+                      height: 140,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: greytheme600)),
+                      padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
+                      child: TextFormField(
+                        focusNode: _nodeText1,
+                        decoration: InputDecoration(
+                          hintText: STR_WRITE_REVIEWS,
+                          hintStyle: TextStyle(
+                            fontFamily: Constants.getFontType(),
+                            color: greytheme700,
+                            fontSize: FONTSIZE_13,
+                          ),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
+                        maxLines: null,
+                        controller: _controller,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 26,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -287,6 +293,23 @@ class UserFeedbackViewState extends State<UserFeedbackView>
     var time = DateFormat("hh:mm a").format(time1.toLocal());
 
     return "$dateStr at $time";
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: false,
+      actions: [
+        KeyboardAction(
+          focusNode: _nodeText1,
+          closeWidget: Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(STR_DONE),
+          ),
+        ),
+      ],
+    );
   }
 
   @override

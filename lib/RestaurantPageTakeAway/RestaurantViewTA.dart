@@ -18,6 +18,7 @@ import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
 import 'package:foodzi/Utils/globle.dart';
+import 'package:foodzi/Utils/shared_preference.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -73,11 +74,25 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     setState(() {
       isLoading = true;
     });
-    restaurantPresenter.getMenuList(widget.restId, context,
-        categoryId: abc, menu: menutype);
+    // restaurantPresenter.getMenuList(widget.restId, context,
+    //     categoryId: abc, menu: menutype);
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
+    Preference.getPrefValue<int>("takeAwayCategory").then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedMenu = value;
+        });
+      }
+    });
+    Preference.getPrefValue<int>("takeAwaySubCateId").then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedSubMenu = value;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -97,6 +112,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
+      Preference.setPersistData<int>(_selectedMenu, "takeAwayCategory");
 
       if (_selectedMenu == index) {
         if (category2[index].subcategories != null) {
@@ -162,6 +178,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     });
     abc = category2[index].id;
     if (abc != null) {
+      _selectedSubMenu = null;
       callItemOnCategorySelect();
     } else {
       abc = null;
@@ -172,6 +189,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   _onSubMenuSelected(index) {
     setState(() {
       _selectedSubMenu = index;
+      Preference.setPersistData<int>(_selectedSubMenu, "takeAwaySubCateId");
+
       subCategoryIdabc =
           category2[_selectedMenu].subcategories[_selectedSubMenu].id;
 
@@ -972,12 +991,21 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     if (categoryData[0].category[0].subcategories.length > 0) {
       setState(() {
         valueBool = true;
-        subcategoriesList = categoryData[0].category[0].subcategories;
+        subcategoriesList =
+            categoryData[0].category[_selectedMenu].subcategories;
+        abc = categoryData[0].category[_selectedMenu].id;
+        subCategoryIdabc = categoryData[0]
+            .category[_selectedMenu]
+            .subcategories[_selectedSubMenu]
+            .id;
+        callItemOnCategorySelect();
       });
     } else {
       setState(() {
         valueBool = false;
         subcategoriesList = [];
+        abc = categoryData[0].category[_selectedMenu].id;
+        callItemOnCategorySelect();
       });
     }
   }
