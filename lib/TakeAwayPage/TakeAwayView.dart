@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/TakeAwayPage/TakeAwayContractor.dart';
@@ -27,6 +28,7 @@ class TakeAwayView extends StatefulWidget {
 }
 
 class _TakeAwayViewState extends State<TakeAwayView>
+    with TickerProviderStateMixin
     implements TakeAwayRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
@@ -66,6 +68,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
   var sliderValue;
   bool isIgnoreTouch = true;
   bool isBackActive = false;
+  bool isLoader = false;
 
   var sliderval;
   @override
@@ -108,7 +111,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
-        await progressDialog.show();
+        // await progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -138,7 +141,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
         } else {
           // DialogsIndicator.showLoadingDialog(
           //     context, _keyLoader, STR_PLEASE_WAIT);
-          await progressDialog.show();
+          // await progressDialog.show();
           dinerestaurantPresenter.getrestaurantspage(
               _position.latitude.toString(),
               _position.longitude.toString(),
@@ -462,7 +465,17 @@ class _TakeAwayViewState extends State<TakeAwayView>
                               color: greytheme1200),
                         ),
                       ),
-                      CircularProgressIndicator()
+                      // CircularProgressIndicator()
+
+                      SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
                     ],
                   ),
                 )
@@ -551,46 +564,58 @@ class _TakeAwayViewState extends State<TakeAwayView>
   }
 
   Widget restaurantsInfo() {
-    return RefreshIndicator(
-      onRefresh: _refreshRstaurantList,
-      child: ListView.builder(
-        controller: _controller,
-        itemCount: _getint(),
-        itemBuilder: (_, i) {
-          return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
-              elevation: 2,
-              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-              child: ListTile(
-                  contentPadding: EdgeInsets.all(0.0),
-                  title: _getMainView(
-                    _restaurantList[i].restName,
-                    _restaurantList[i].distance,
-                    _restaurantList[i].openingTime,
-                    _restaurantList[i].closingTime,
-                    _restaurantList[i].averageRating.toString(),
-                    _restaurantList[i].coverImage,
-                  ),
-                  onTap: () {
-                    Globle().takeAwayCartItemCount = 0;
-                    Preference.setPersistData<int>(
-                        0, PreferenceKeys.takeAwayCartCount);
-                    Globle().colorscode = _restaurantList[i].colourCode;
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => TakeAwayBottombar(
-                              title: _restaurantList[i].restName,
-                              restId: _restaurantList[i].id,
-                              lat: _restaurantList[i].latitude,
-                              long: _restaurantList[i].longitude,
-                              imageUrl: _restaurantList[i].coverImage,
-                            )));
-                    setState(() {});
-                  }));
-        },
+    return Stack(children: <Widget>[
+      RefreshIndicator(
+        onRefresh: _refreshRstaurantList,
+        child: ListView.builder(
+          controller: _controller,
+          itemCount: _getint(),
+          itemBuilder: (_, i) {
+            return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                ),
+                elevation: 2,
+                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+                child: ListTile(
+                    contentPadding: EdgeInsets.all(0.0),
+                    title: _getMainView(
+                      _restaurantList[i].restName,
+                      _restaurantList[i].distance,
+                      _restaurantList[i].openingTime,
+                      _restaurantList[i].closingTime,
+                      _restaurantList[i].averageRating.toString(),
+                      _restaurantList[i].coverImage,
+                    ),
+                    onTap: () {
+                      Globle().takeAwayCartItemCount = 0;
+                      Preference.setPersistData<int>(
+                          0, PreferenceKeys.takeAwayCartCount);
+                      Globle().colorscode = _restaurantList[i].colourCode;
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TakeAwayBottombar(
+                                title: _restaurantList[i].restName,
+                                restId: _restaurantList[i].id,
+                                lat: _restaurantList[i].latitude,
+                                long: _restaurantList[i].longitude,
+                                imageUrl: _restaurantList[i].coverImage,
+                              )));
+                      setState(() {});
+                    }));
+          },
+        ),
       ),
-    );
+      isLoader
+          ? SpinKitFadingCircle(
+              color: Globle().colorscode != null
+                  ? getColorByHex(Globle().colorscode)
+                  : orangetheme300,
+              size: 50.0,
+              controller: AnimationController(
+                  vsync: this, duration: const Duration(milliseconds: 1200)),
+            )
+          : Text("")
+    ]);
   }
 
   Widget _getMainView(

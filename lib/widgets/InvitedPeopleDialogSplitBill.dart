@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
@@ -23,6 +24,7 @@ class InvitedPeopleDialog extends StatefulWidget {
 }
 
 class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
+    with TickerProviderStateMixin
     implements
         StatusTrackViewModelView,
         SplitBillContractorModelView,
@@ -36,6 +38,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   SplitBillPresenter _billPresenter;
   SplitBillNotificationPresenter _splitBillNotificationPresenter;
   ProgressDialog progressDialog;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -57,126 +60,141 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
-        Container(
-            height: 350,
-            width: 200,
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 5,
-                ),
-                Center(
-                  child: Text(
-                    STR_SPLIT_BILL_BTWN,
-                    style: TextStyle(
-                        fontSize: FONTSIZE_16,
-                        color: greytheme700,
-                        fontFamily: Constants.getFontType(),
-                        fontWeight: FontWeight.w600),
+        Stack(children: <Widget>[
+          Container(
+              height: 350,
+              width: 200,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
-                SizedBox(height: 10),
-                Text("${(widget.amount).toStringAsFixed(2)}"),
-                Expanded(
-                    flex: 4,
-                    child: ListView.builder(
-                        itemCount: _checkBoxOptions.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          index = i;
-                          return CheckboxListTile(
-                              activeColor: ((Globle().colorscode) != null)
-                                  ? getColorByHex(Globle().colorscode)
-                                  : orangetheme300,
-                              value: _checkBoxOptions[i].isChecked,
-                              controlAffinity: ListTileControlAffinity.leading,
-                              onChanged: (val) {
-                                setState(() {
-                                  if (invitedPeople == null) {
-                                    invitedPeople = [];
-                                  }
-                                  if (invitedPeople.length > 0) {
-                                    if (val) {
+                  Center(
+                    child: Text(
+                      STR_SPLIT_BILL_BTWN,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_16,
+                          color: greytheme700,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text("${(widget.amount).toStringAsFixed(2)}"),
+                  Expanded(
+                      flex: 4,
+                      child: ListView.builder(
+                          itemCount: _checkBoxOptions.length,
+                          itemBuilder: (BuildContext context, int i) {
+                            index = i;
+                            return CheckboxListTile(
+                                activeColor: ((Globle().colorscode) != null)
+                                    ? getColorByHex(Globle().colorscode)
+                                    : orangetheme300,
+                                value: _checkBoxOptions[i].isChecked,
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                onChanged: (val) {
+                                  setState(() {
+                                    if (invitedPeople == null) {
+                                      invitedPeople = [];
+                                    }
+                                    if (invitedPeople.length > 0) {
+                                      if (val) {
+                                        var ext = InvitePeople();
+                                        ext.inviteId =
+                                            _checkBoxOptions[i].index;
+                                        invitedPeople.add(ext);
+                                      } else {
+                                        for (int i = 0;
+                                            i < invitedPeople.length;
+                                            i++) {
+                                          if (_checkBoxOptions[i].index ==
+                                              invitedPeople[i].inviteId) {
+                                            invitedPeople.removeAt(i);
+                                          }
+                                        }
+                                      }
+                                    } else {
                                       var ext = InvitePeople();
                                       ext.inviteId = _checkBoxOptions[i].index;
                                       invitedPeople.add(ext);
-                                    } else {
-                                      for (int i = 0;
-                                          i < invitedPeople.length;
-                                          i++) {
-                                        if (_checkBoxOptions[i].index ==
-                                            invitedPeople[i].inviteId) {
-                                          invitedPeople.removeAt(i);
-                                        }
-                                      }
                                     }
-                                  } else {
-                                    var ext = InvitePeople();
-                                    ext.inviteId = _checkBoxOptions[i].index;
-                                    invitedPeople.add(ext);
-                                  }
-                                  _checkBoxOptions[i].isChecked = val;
-                                });
-                              },
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    invitedPeopleList[i].toUser.firstName ??
-                                        STR_BLANK,
-                                    style: TextStyle(
-                                        fontSize: FONTSIZE_13,
-                                        color: Color.fromRGBO(64, 64, 64, 1)),
-                                  ),
-                                ],
-                              ));
-                        })),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: RaisedButton(
-                      color: ((Globle().colorscode) != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme300,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        STR_CANCEL_TITLE,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: FONTSIZE_18,
+                                    _checkBoxOptions[i].isChecked = val;
+                                  });
+                                },
+                                title: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      invitedPeopleList[i].toUser.firstName ??
+                                          STR_BLANK,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_13,
+                                          color: Color.fromRGBO(64, 64, 64, 1)),
+                                    ),
+                                  ],
+                                ));
+                          })),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                          child: RaisedButton(
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          STR_CANCEL_TITLE,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: FONTSIZE_18,
+                          ),
                         ),
-                      ),
-                    )),
-                    SizedBox(width: 10),
-                    Center(
-                        child: RaisedButton(
-                      color: ((Globle().colorscode) != null)
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme300,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      onPressed: () {
-                        callApi();
-                      },
-                      child: Text(
-                        STR_OK,
-                        style: TextStyle(
-                            color: Colors.white, fontSize: FONTSIZE_18),
-                      ),
-                    )),
-                  ],
-                ),
-              ],
-            ))
+                      )),
+                      SizedBox(width: 10),
+                      Center(
+                          child: RaisedButton(
+                        color: ((Globle().colorscode) != null)
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        onPressed: () {
+                          callApi();
+                        },
+                        child: Text(
+                          STR_OK,
+                          style: TextStyle(
+                              color: Colors.white, fontSize: FONTSIZE_18),
+                        ),
+                      )),
+                    ],
+                  ),
+                ],
+              )),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ])
       ],
     );
   }
@@ -191,7 +209,10 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
       }
     }
     if (users.length != 0) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       _billPresenter.getSPlitBill(widget.orderID, Globle().loginModel.data.id,
           2, widget.amount.toInt(), context,
           users: users);
@@ -251,12 +272,18 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   @override
   void getSplitBillFailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop(false);
   }
 
   @override
   void getSplitBillSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop(true);
   }
 

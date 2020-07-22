@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -41,6 +42,7 @@ class CartDetailsPage extends StatefulWidget {
 }
 
 class CartDetailsPageState extends State<CartDetailsPage>
+    with TickerProviderStateMixin
     implements PaymentTipandPayDiModelView {
   int count;
   int cartId;
@@ -60,6 +62,8 @@ class CartDetailsPageState extends State<CartDetailsPage>
   OrderDetailsModel _model;
   OrderDetailData myOrderDataDetails;
   var isFirst = false;
+  bool isLoader = false;
+
   Timer _timer;
   @override
   void initState() {
@@ -97,7 +101,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
 
   callApi() async {
     if (!isFirst) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
     }
 
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderId, context);
@@ -304,25 +311,47 @@ class CartDetailsPageState extends State<CartDetailsPage>
                               color: greytheme1200),
                         ),
                       ),
-                      CircularProgressIndicator()
+                      // CircularProgressIndicator()
+                      SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
                     ],
                   ),
                 )
-              : Column(
-                  children: <Widget>[
-                    _getmainviewTableno(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Divider(
-                      height: 2,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _getAddedListItem()
-                  ],
-                ),
+              : Stack(children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      _getmainviewTableno(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Divider(
+                        height: 2,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      _getAddedListItem()
+                    ],
+                  ),
+                  isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : Text("")
+                ]),
           bottomNavigationBar: BottomAppBar(
             child: isCancelOrder()
                 ? Container(
@@ -818,7 +847,10 @@ class CartDetailsPageState extends State<CartDetailsPage>
   }
 
   callIncreaseQuantityApi(int itemId, String id) async {
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _paymentTipandPayDiPresenter.increaseQuantity(
         myOrderDataDetails.id.toString(), itemId.toString(), id, context);
   }
@@ -997,6 +1029,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
     setState(() {
       isloading = false;
       isFirst = false;
+      isLoader = false;
     });
   }
 
@@ -1009,6 +1042,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
       setState(() {
         myOrderDataDetails = orderData;
         _model = model;
+        isLoader = false;
       });
     }
     if (!isFirst) {
@@ -1057,11 +1091,17 @@ class CartDetailsPageState extends State<CartDetailsPage>
   @override
   void onFailedQuantityIncrease() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
   }
 
   @override
   void onSuccessQuantityIncrease() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     callApi();
   }
 

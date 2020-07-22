@@ -1,5 +1,6 @@
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EnterMobileNoPage/EnterMobileNoPage.dart';
 import 'package:foodzi/Login/LoginView.dart';
 import 'package:foodzi/Setting/DeleteAccContractor.dart';
@@ -7,6 +8,7 @@ import 'package:foodzi/Setting/DeleteAccPresenter.dart';
 import 'package:foodzi/Setting/NotificationSetting.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:toast/toast.dart';
@@ -17,9 +19,12 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView>
+    with TickerProviderStateMixin
     implements DeleteAccModelView {
   var action;
   DeleteAccPresenter deleteAccPresenter;
+  bool isLoader = false;
+
   @override
   void initState() {
     deleteAccPresenter = DeleteAccPresenter(this);
@@ -53,122 +58,137 @@ class _SettingViewState extends State<SettingView>
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => NotificationSetting()));
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationSetting()));
-                // final action = await DailogBox.settingDialog(context,'Notification Settings?', 'Enable', 'Disable');
+      body: Stack(children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NotificationSetting()));
+                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationSetting()));
+                  // final action = await DailogBox.settingDialog(context,'Notification Settings?', 'Enable', 'Disable');
+                },
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
+                      child: Text(
+                        'Notification Settings',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Constants.getFontType(),
+                            fontWeight: FontWeight.w600,
+                            color: greytheme500),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 80,
+                      ),
+                      flex: 2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(Icons.keyboard_arrow_right),
+                    )
+                  ],
+                )),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            Divider(
+              thickness: 2,
+            ),
+            // SizedBox(
+            //   height: 10,
+            // ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EnterMobileNoPage(
+                            flag: 3,
+                          )));
+                },
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
+                      child: Text(
+                        'Update Mobile Number',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Constants.getFontType(),
+                            fontWeight: FontWeight.w600,
+                            color: greytheme500),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: 80,
+                      ),
+                      flex: 2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Icon(Icons.keyboard_arrow_right),
+                    )
+                  ],
+                )),
+            Divider(
+              thickness: 2,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GestureDetector(
+              onTap: () async {
+                //  final action = await DailogBox.settingDialog(context,'Delete Account?','Are you sure you want to delete your account?' 'Yes', 'No');
+                final action = await DailogBox.settingDialog(
+                    context,
+                    'Delete Account?',
+                    'Are you sure you want to delete your account?',
+                    'Yes',
+                    'No');
+                if (action == DailogAction.yes) {
+                  setState(() {
+                    isLoader = true;
+                  });
+                  deleteAccPresenter.deleteAccRequest(context);
+                }
               },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
-                    child: Text(
-                      'Notification Settings',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: Constants.getFontType(),
-                          fontWeight: FontWeight.w600,
-                          color: greytheme500),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: 80,
-                    ),
-                    flex: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Icon(Icons.keyboard_arrow_right),
-                  )
-                ],
-              )),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          Divider(
-            thickness: 2,
-          ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EnterMobileNoPage(
-                          flag: 3,
-                        )));
-              },
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 25, top: 10, bottom: 10),
-                    child: Text(
-                      'Update Mobile Number',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: Constants.getFontType(),
-                          fontWeight: FontWeight.w600,
-                          color: greytheme500),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: 80,
-                    ),
-                    flex: 2,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Icon(Icons.keyboard_arrow_right),
-                  )
-                ],
-              )),
-          Divider(
-            thickness: 2,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-            onTap: () async {
-              //  final action = await DailogBox.settingDialog(context,'Delete Account?','Are you sure you want to delete your account?' 'Yes', 'No');
-              final action = await DailogBox.settingDialog(
-                  context,
-                  'Delete Account?',
-                  'Are you sure you want to delete your account?',
-                  'Yes',
-                  'No');
-              if (action == DailogAction.yes) {
-                deleteAccPresenter.deleteAccRequest(context);
-              }
-            },
-            child: Padding(
-              padding: EdgeInsets.only(left: 25, bottom: 10),
-              child: Text(
-                'Delete Account',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: Constants.getFontType(),
-                    fontWeight: FontWeight.w600,
-                    color: greytheme500),
+              child: Padding(
+                padding: EdgeInsets.only(left: 25, bottom: 10),
+                child: Text(
+                  'Delete Account',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: Constants.getFontType(),
+                      fontWeight: FontWeight.w600,
+                      color: greytheme500),
+                ),
               ),
             ),
-          ),
-          Divider(
-            thickness: 2,
-          ),
-        ],
-      ),
+            Divider(
+              thickness: 2,
+            ),
+          ],
+        ),
+        isLoader
+            ? SpinKitFadingCircle(
+                color: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme300,
+                size: 50.0,
+                controller: AnimationController(
+                    vsync: this, duration: const Duration(milliseconds: 1200)),
+              )
+            : Text("")
+      ]),
     );
   }
 
@@ -236,10 +256,18 @@ class _SettingViewState extends State<SettingView>
   }
 
   @override
-  void deleteAccFailed() {}
+  void deleteAccFailed() {
+    setState(() {
+      isLoader = false;
+      ;
+    });
+  }
 
   @override
   void deleteAccSuccess(String message) {
+    setState(() {
+      isLoader = false;
+    });
     showAlertSuccess("Account Status", message, context);
   }
 }

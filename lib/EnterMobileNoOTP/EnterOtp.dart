@@ -1,12 +1,14 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:keyboard_actions/keyboard_action.dart';
@@ -24,6 +26,7 @@ class EnterOTPScreen extends StatefulWidget {
 }
 
 class EnterOTPScreenState extends State<EnterOTPScreen>
+    with TickerProviderStateMixin
     implements EnterOTPModelView {
   static String mobno = KEY_MOBILE_NUMBER;
 
@@ -44,6 +47,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   var countrycode = '+27';
   var oldCountrycode = '+27';
   bool isIgnoring = false;
+  bool isLoader = false;
 
   var enterOTPScreenPresenter;
   bool flagValue = false;
@@ -84,7 +88,20 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
             child: KeyboardActions(
               config: _buildConfig(context),
               child: SingleChildScrollView(
-                child: mainview(),
+                child: Stack(alignment: Alignment.center, children: <Widget>[
+                  mainview(),
+                  isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : Text("")
+                ]),
               ),
             ),
           ),
@@ -114,22 +131,24 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
     if (_enterOTPFormKey.currentState.validate()) {
       setState(() {
         isIgnoring = true;
+        isLoader = true;
       });
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-        await progressDialog.show();
+        // await progressDialog.show();
+
         this
             .enterOTPScreenPresenter
             .requestForOTP(_mobileNumber, countrycode, context);
       } else if (widget.flag == 2) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-        await progressDialog.show();
+        // await progressDialog.show();
         this
             .enterOTPScreenPresenter
             .requestforloginOTP(_mobileNumber, countrycode, context);
         _enterOTPFormKey.currentState.save();
       } else if (widget.flag == 3) {
-        await progressDialog.show();
+        // await progressDialog.show();
         this.enterOTPScreenPresenter.provideAnotherNumberOTP(
             oldMobNumber, _mobileNumber, countrycode, oldCountrycode, context);
       }
@@ -412,6 +431,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Future<void> onRequestOtpFailed() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -420,6 +440,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Future<void> onRequestOtpSuccess() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(
@@ -435,6 +456,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Future<void> requestforloginotpfailed() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -443,6 +465,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Future<void> requestforloginotpsuccess() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -476,6 +499,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void requestforUpdateNoOtpFailed() {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
   }
 
@@ -483,6 +507,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void requestforUpdateNoOtpSuccess() {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
   }
 
@@ -490,6 +515,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void onProvideOtpFailed() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -498,6 +524,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   void onProvideOtpSuccess() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     Navigator.of(context).push(MaterialPageRoute(

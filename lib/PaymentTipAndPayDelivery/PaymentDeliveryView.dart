@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/GetDeliveryChargeModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
@@ -67,6 +68,7 @@ class PaymentDeliveryView extends StatefulWidget {
 }
 
 class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
+    with TickerProviderStateMixin
     implements
         PaymentDeliveryModelView,
         PaymentTipandPayDiModelView,
@@ -90,6 +92,8 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   OrderDetailData myOrderDataDetails;
   PaycheckoutNetbanking billModel;
   bool isIgnoreTouch = false;
+  bool isLoader = false;
+
   @override
   void initState() {
     print(widget.items);
@@ -123,10 +127,23 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
             backgroundColor: Colors.transparent,
             elevation: 0,
           ),
-          body: CustomScrollView(
-            controller: _controller,
-            slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-          ),
+          body: Stack(children: <Widget>[
+            CustomScrollView(
+              controller: _controller,
+              slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+            ),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
                 height: 55,
@@ -191,8 +208,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     if ((widget.totalAmount + deliveryCharge) > 1.0) {
       setState(() {
         isIgnoreTouch = true;
+        isLoader = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
       _billCheckoutPresenter.payBillCheckOut(
           widget.restId,
           widget.totalAmount.toString(),
@@ -690,6 +708,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -698,6 +717,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> placeOrdersuccess(OrderData orderData) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
 
     if (orderData == null) {
@@ -714,7 +734,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     widget.items = [];
     widget.itemdata = [];
     Globle().orderNumber = orderData.orderNumber;
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _finalBillPresenter.payfinalOrderBill(
       Globle().loginModel.data.id,
       myOrderData.restId,
@@ -736,6 +759,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -744,6 +768,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (billModel == null) {
       billModel = model;
@@ -775,6 +800,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -782,15 +808,16 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> getOrderDetailsSuccess(
       OrderDetailData orderData, OrderDetailsModel model) async {
     setState(() {
+      isLoader = false;
+      isIgnoreTouch = false;
+
       if (myOrderDataDetails == null) {
         myOrderDataDetails = orderData;
         _model = model;
       }
     });
     await progressDialog.hide();
-    setState(() {
-      isIgnoreTouch = false;
-    });
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -799,6 +826,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -808,10 +836,14 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
       PaymentCheckoutModel paymentCheckoutModel) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (paymentCheckoutModel.statusCode == 200) {
       _paymentCheckoutModel = paymentCheckoutModel;
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       _paymentDeliveryPresenter.placeOrderDelivery(
           Globle().loginModel.data.id,
           widget.restId,
@@ -837,6 +869,9 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
       // );
     } else {
       await progressDialog.hide();
+      setState(() {
+        isLoader = false;
+      });
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
@@ -847,6 +882,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -855,6 +891,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   Future<void> payfinalBillSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
     Preference.removeForKey(PreferenceKeys.orderId);
@@ -877,6 +914,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -886,6 +924,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_CANCELLED, context);
@@ -901,6 +940,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
   void getDeliveryDataSuccess(DeliveryData data) {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (data != null) {
       setState(() {

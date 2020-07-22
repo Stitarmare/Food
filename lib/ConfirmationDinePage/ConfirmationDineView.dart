@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
@@ -64,6 +65,7 @@ class ConfirmationDineView extends StatefulWidget {
 }
 
 class _ConfirmationDineViewState extends State<ConfirmationDineView>
+    with TickerProviderStateMixin
     implements
         PaymentTipAndPayModelView,
         ConfirmationDineViewModelView,
@@ -105,6 +107,7 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   StreamController<Position> _controllerPosition = new StreamController();
   String strTotalAmount = "";
   GlobalKey _scaffold = GlobalKey();
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -174,14 +177,27 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
-          controller: _controller,
-          slivers: <Widget>[
-            // _getorderOptions(),
-            _gettableText(),
-            // radioId == 1 ? _gettableText() : _gettimeOptions(),
-          ],
-        ),
+        body: Stack(children: <Widget>[
+          CustomScrollView(
+            controller: _controller,
+            slivers: <Widget>[
+              // _getorderOptions(),
+              _gettableText(),
+              // radioId == 1 ? _gettableText() : _gettimeOptions(),
+            ],
+          ),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ]),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             // height: MediaQuery.of(context).size.height * 0.1,
@@ -253,7 +269,10 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
   }
 
   callapiPLaceorder() {
-    progressDialog.show();
+    // progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _paymentTipAndPayPresenter.placeOrder(
         widget.restId,
         Globle().loginModel.data.id,
@@ -697,6 +716,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     //await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
   }
 
   @override
@@ -704,6 +726,9 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
 
     if (model != null) {
       setState(() {

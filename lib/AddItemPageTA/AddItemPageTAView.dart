@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAContractor.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAPresenter.dart';
 import 'package:foodzi/BottomTabbar/TakeAwayBottombar.dart';
@@ -40,6 +41,7 @@ class AddItemPageTAView extends StatefulWidget {
 }
 
 class _AddItemPageTAViewState extends State<AddItemPageTAView>
+    with TickerProviderStateMixin
     implements
         AddItemPageTAModelView,
         AddmenuToCartModelviews,
@@ -77,6 +79,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
 
   List<Extras> defaultExtra;
   bool isIgnoreTouch = false;
+  bool isLoader = false;
 
   Sizes defaultSize;
   List<Switches> defaultSwitch;
@@ -326,10 +329,23 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                     ],
                   ),
                 )
-              : CustomScrollView(
-                  controller: _controller,
-                  slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-                ),
+              : Stack(children: <Widget>[
+                  CustomScrollView(
+                    controller: _controller,
+                    slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+                  ),
+                  isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : Text(""),
+                ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
               height: 91,
@@ -557,8 +573,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         //     context, _keyLoader, STR_BLANK);
         setState(() {
           isIgnoreTouch = true;
+          isLoader = true;
         });
-        await progressDialog.show();
+        // await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       }
     } else {
@@ -566,8 +583,9 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
       //     context, _keyLoader, STR_BLANK);
       setState(() {
         isIgnoreTouch = true;
+        isLoader = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
       _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
     }
   }
@@ -1123,7 +1141,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   }
 
   callClearCart() async {
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _addItemPagepresenter.clearCart(context);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
@@ -1627,6 +1648,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       isLoding = false;
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -1637,6 +1659,8 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     setState(() {
       isLoding = false;
       isIgnoreTouch = false;
+      isLoader = false;
+
       _addItemModelList = _additemlist[0];
       addItemPageModelList1 = addItemPageModelList;
     });
@@ -1662,6 +1686,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1669,6 +1694,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Future<void> addMenuToCartsuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     specialReq = "";
     Globle().takeAwayCartItemCount += 1;
@@ -1689,6 +1715,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1696,6 +1723,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
   Future<void> clearCartSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);

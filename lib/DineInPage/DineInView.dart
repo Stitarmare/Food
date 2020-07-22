@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
 import 'package:foodzi/DineInPage/DineInContractor.dart';
 import 'package:foodzi/DineInPage/DineInPresenter.dart';
@@ -29,6 +30,7 @@ class DineInView extends StatefulWidget {
 }
 
 class _DineViewState extends State<DineInView>
+    with TickerProviderStateMixin
     implements DineInRestaurantListModelView {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _controller = ScrollController();
@@ -68,6 +70,7 @@ class _DineViewState extends State<DineInView>
   var sliderval;
   bool isIgnoreTouch = true;
   bool isBackActive = false;
+  bool isLoader = true;
 
   @override
   void didChangeDependencies() {
@@ -110,10 +113,11 @@ class _DineViewState extends State<DineInView>
         setState(() {
           getttingLocation = true;
           locationNotFound = false;
+          isLoader = true;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
-        await progressDialog.show();
+        // await progressDialog.show();
         dinerestaurantPresenter.getrestaurantspage(
             _position.latitude.toString(),
             _position.longitude.toString(),
@@ -462,7 +466,17 @@ class _DineViewState extends State<DineInView>
                               color: greytheme1200),
                         ),
                       ),
-                      CircularProgressIndicator()
+                      // CircularProgressIndicator()
+
+                      SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
                     ],
                   ),
                 )
@@ -551,54 +565,66 @@ class _DineViewState extends State<DineInView>
   }
 
   Widget restaurantsInfo() {
-    return RefreshIndicator(
-      onRefresh: _refreshRstaurantList,
-      child: ListView.builder(
-        controller: _controller,
-        itemCount: _getint(),
-        itemBuilder: (_, i) {
-          return Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-              ),
-              elevation: 2,
-              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-              child: ListTile(
-                  contentPadding: EdgeInsets.all(0.0),
-                  title: _getMainView(
-                    _restaurantList[i].restName,
-                    _restaurantList[i].distance,
-                    _restaurantList[i].openingTime,
-                    _restaurantList[i].closingTime,
-                    _restaurantList[i].averageRating.toString(),
-                    _restaurantList[i].coverImage,
-                  ),
-                  onTap: () {
-                    //Globle().dinecartValue = 0;
-                    //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-                    Globle().colorscode = _restaurantList[i].colourCode;
-                    setState(() {
-                      Preference.setPersistData<String>(
-                          _restaurantList[i].latitude,
-                          PreferenceKeys.keyLatitude);
-                      Preference.setPersistData<String>(
-                          _restaurantList[i].longitude,
-                          PreferenceKeys.keyLongitude);
-                    });
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => BottomTabbarHome(
-                              title: _restaurantList[i].restName,
-                              restId: _restaurantList[i].id,
-                              lat: _restaurantList[i].latitude,
-                              long: _restaurantList[i].longitude,
-                              imageUrl: _restaurantList[i].coverImage,
-                              tableName: widget.tableName,
-                              restaurantList: _restaurantList[i],
-                            )));
-                  }));
-        },
+    return Stack(alignment: Alignment.center, children: <Widget>[
+      RefreshIndicator(
+        onRefresh: _refreshRstaurantList,
+        child: ListView.builder(
+          controller: _controller,
+          itemCount: _getint(),
+          itemBuilder: (_, i) {
+            return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                ),
+                elevation: 2,
+                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+                child: ListTile(
+                    contentPadding: EdgeInsets.all(0.0),
+                    title: _getMainView(
+                      _restaurantList[i].restName,
+                      _restaurantList[i].distance,
+                      _restaurantList[i].openingTime,
+                      _restaurantList[i].closingTime,
+                      _restaurantList[i].averageRating.toString(),
+                      _restaurantList[i].coverImage,
+                    ),
+                    onTap: () {
+                      //Globle().dinecartValue = 0;
+                      //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+                      Globle().colorscode = _restaurantList[i].colourCode;
+                      setState(() {
+                        Preference.setPersistData<String>(
+                            _restaurantList[i].latitude,
+                            PreferenceKeys.keyLatitude);
+                        Preference.setPersistData<String>(
+                            _restaurantList[i].longitude,
+                            PreferenceKeys.keyLongitude);
+                      });
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BottomTabbarHome(
+                                title: _restaurantList[i].restName,
+                                restId: _restaurantList[i].id,
+                                lat: _restaurantList[i].latitude,
+                                long: _restaurantList[i].longitude,
+                                imageUrl: _restaurantList[i].coverImage,
+                                tableName: widget.tableName,
+                                restaurantList: _restaurantList[i],
+                              )));
+                    }));
+          },
+        ),
       ),
-    );
+      isLoader
+          ? SpinKitFadingCircle(
+              color: Globle().colorscode != null
+                  ? getColorByHex(Globle().colorscode)
+                  : orangetheme300,
+              size: 50.0,
+              controller: AnimationController(
+                  vsync: this, duration: const Duration(milliseconds: 1200)),
+            )
+          : Text("")
+    ]);
   }
 
   Widget _getMainView(
@@ -762,6 +788,7 @@ class _DineViewState extends State<DineInView>
     setState(() {
       isIgnoreTouch = false;
       isBackActive = true;
+      isLoader = false;
     });
 
     await progressDialog.hide();
@@ -772,6 +799,7 @@ class _DineViewState extends State<DineInView>
     setState(() {
       isIgnoreTouch = false;
       isBackActive = true;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();

@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryContractor.dart';
 import 'package:foodzi/AddItemPageDelivery/AddItemDeliveryPresenter.dart';
 import 'package:foodzi/BottomTabbar/DeliveryBottomTabbar.dart';
@@ -47,6 +48,7 @@ class AddItemDeliveryPageView extends StatefulWidget {
 }
 
 class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
+    with TickerProviderStateMixin
     implements
         AddItemDeliveryModelView,
         AddmenuToCartModelview,
@@ -98,6 +100,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
 
   Spreads defaultSpread;
   bool isIgnoreTouch = false;
+  bool isLoader = false;
 
   List<Extras> defaultExtra;
 
@@ -385,10 +388,23 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                     ],
                   ),
                 )
-              : CustomScrollView(
-                  controller: _controller,
-                  slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-                ),
+              : Stack(children: <Widget>[
+                  CustomScrollView(
+                    controller: _controller,
+                    slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+                  ),
+                  isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : Text(""),
+                ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
               height: 91,
@@ -464,7 +480,10 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
 
                           // DialogsIndicator.showLoadingDialog(
                           //     context, _keyLoader, STR_BLANK);
-                          await progressDialog.show();
+                          // await progressDialog.show();
+                          setState(() {
+                            isLoader = true;
+                          });
                           _addItemDeliverypresenter.updateOrder(
                               _updateOrderModel, context);
                         } else {
@@ -635,8 +654,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
         setState(() {
           isIgnoreTouch = true;
+          isLoader = true;
         });
-        await progressDialog.show();
+        // await progressDialog.show();
         _addItemDeliverypresenter.performaddMenuToCart(
             addMenuToCartModel, context);
       }
@@ -644,8 +664,9 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       setState(() {
         isIgnoreTouch = true;
+        isLoader = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
       _addItemDeliverypresenter.performaddMenuToCart(
           addMenuToCartModel, context);
     }
@@ -778,7 +799,10 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   }
 
   callClearCart() async {
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _addItemDeliverypresenter.clearCart(context);
     Preference.setPersistData<int>(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(true, PreferenceKeys.isAlreadyINCart);
@@ -1749,6 +1773,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     setState(() {
       isLoding = false;
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1758,6 +1783,8 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     setState(() {
       isLoding = false;
       isIgnoreTouch = false;
+      isLoader = false;
+
       _addItemPageModelList = addItemPageModelList1;
     });
     _addItemModelList = _additemlist[0];
@@ -1784,6 +1811,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1791,6 +1819,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   Future<void> addMenuToCartsuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     specialReq = "";
     if (Globle().dinecartValue == null) {
@@ -1814,6 +1843,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1823,6 +1853,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1832,6 +1863,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1841,6 +1873,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     // getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
@@ -1854,6 +1887,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   void clearCartFailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1862,6 +1896,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
@@ -1873,6 +1908,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   void updateOrderFailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1880,6 +1916,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
   Future<void> updateOrderSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     specialReq = "";
     Globle().dinecartValue += 1;

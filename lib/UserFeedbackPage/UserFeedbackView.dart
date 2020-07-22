@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/WriteRestaurantReview.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
@@ -27,12 +28,14 @@ class UserFeedbackView extends StatefulWidget {
 }
 
 class UserFeedbackViewState extends State<UserFeedbackView>
+    with TickerProviderStateMixin
     implements RestaurantInfoModelView {
   int _rating = 0;
   RestaurantInfoPresenter restaurantReviewPresenter;
   final _controller = TextEditingController();
   ProgressDialog progressDialog;
   final FocusNode _nodeText1 = FocusNode();
+  bool isLoader = false;
 
   void rate(int rating) {
     setState(() {
@@ -88,7 +91,10 @@ class UserFeedbackViewState extends State<UserFeedbackView>
                               duration: Toast.LENGTH_SHORT,
                               gravity: Toast.BOTTOM);
                         } else {
-                          await progressDialog.show();
+                          // await progressDialog.show();
+                          setState(() {
+                            isLoader = true;
+                          });
                           restaurantReviewPresenter.writeRestaurantReview(
                               context,
                               widget.restId,
@@ -134,150 +140,163 @@ class UserFeedbackViewState extends State<UserFeedbackView>
         body: KeyboardActions(
           config: _buildConfig(context),
           child: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Image.asset("assets/FoodServeIcon/plate.png",
-                      height: 150,
-                      width: 150,
-                      fit: BoxFit.fitWidth,
-                      color: Globle().colorscode != null
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme300),
-                  Text(
-                    "You Just got served!",
-                    style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w700,
-                      fontSize: FONTSIZE_22,
+            child: Stack(alignment: Alignment.center, children: <Widget>[
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  widget.dateTime != null
-                      ? Text(
-                          "${getDateForOrderHistory(widget.dateTime.toString())}",
-                          style: TextStyle(
-                            fontFamily: KEY_FONTFAMILY,
-                            fontWeight: FontWeight.w500,
-                            fontSize: FONTSIZE_15,
-                          ),
-                        )
-                      : Text(""),
-                  SizedBox(height: 5),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Divider(
-                      thickness: 0.5,
-                    ),
-                  ),
-                  SizedBox(height: 60),
-                  Text(
-                    "Rate Restaurant",
-                    style: TextStyle(
-                      fontFamily: KEY_FONTFAMILY,
-                      fontWeight: FontWeight.w400,
-                      fontSize: FONTSIZE_20,
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new GestureDetector(
-                          child: new Icon(
-                            Icons.star,
-                            size: 20,
-                            color: _rating >= 1 ? redtheme : greytheme1300,
-                          ),
-                          onTap: () => rate(1),
-                        ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        new GestureDetector(
-                          child: new Icon(
-                            Icons.star,
-                            size: 20,
-                            color: _rating >= 2 ? redtheme : greytheme1300,
-                          ),
-                          onTap: () => rate(2),
-                        ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        new GestureDetector(
-                          child: new Icon(
-                            Icons.star,
-                            size: 20,
-                            color: _rating >= 3 ? redtheme : greytheme1300,
-                          ),
-                          onTap: () => rate(3),
-                        ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        new GestureDetector(
-                          child: new Icon(
-                            Icons.star,
-                            size: 20,
-                            color: _rating >= 4 ? redtheme : greytheme1300,
-                          ),
-                          onTap: () => rate(4),
-                        ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        new GestureDetector(
-                          child: new Icon(
-                            Icons.star,
-                            size: 20,
-                            color: _rating >= 5 ? redtheme : greytheme1300,
-                          ),
-                          onTap: () => rate(5),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                  Center(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 37, right: 27),
-                      height: 140,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: greytheme600)),
-                      padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
-                      child: TextFormField(
-                        focusNode: _nodeText1,
-                        decoration: InputDecoration(
-                          hintText: STR_WRITE_REVIEWS,
-                          hintStyle: TextStyle(
-                            fontFamily: Constants.getFontType(),
-                            color: greytheme700,
-                            fontSize: FONTSIZE_13,
-                          ),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                        ),
-                        maxLines: null,
-                        controller: _controller,
+                    Image.asset("assets/FoodServeIcon/plate.png",
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.fitWidth,
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300),
+                    Text(
+                      "You Just got served!",
+                      style: TextStyle(
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w700,
+                        fontSize: FONTSIZE_22,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 26,
-                  ),
-                ],
+                    SizedBox(height: 5),
+                    widget.dateTime != null
+                        ? Text(
+                            "${getDateForOrderHistory(widget.dateTime.toString())}",
+                            style: TextStyle(
+                              fontFamily: KEY_FONTFAMILY,
+                              fontWeight: FontWeight.w500,
+                              fontSize: FONTSIZE_15,
+                            ),
+                          )
+                        : Text(""),
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Divider(
+                        thickness: 0.5,
+                      ),
+                    ),
+                    SizedBox(height: 60),
+                    Text(
+                      "Rate Restaurant",
+                      style: TextStyle(
+                        fontFamily: KEY_FONTFAMILY,
+                        fontWeight: FontWeight.w400,
+                        fontSize: FONTSIZE_20,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 1 ? redtheme : greytheme1300,
+                            ),
+                            onTap: () => rate(1),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 2 ? redtheme : greytheme1300,
+                            ),
+                            onTap: () => rate(2),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 3 ? redtheme : greytheme1300,
+                            ),
+                            onTap: () => rate(3),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 4 ? redtheme : greytheme1300,
+                            ),
+                            onTap: () => rate(4),
+                          ),
+                          SizedBox(
+                            width: 11,
+                          ),
+                          new GestureDetector(
+                            child: new Icon(
+                              Icons.star,
+                              size: 20,
+                              color: _rating >= 5 ? redtheme : greytheme1300,
+                            ),
+                            onTap: () => rate(5),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40),
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 37, right: 27),
+                        height: 140,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(color: greytheme600)),
+                        padding: EdgeInsets.fromLTRB(12, 12, 12, 16),
+                        child: TextFormField(
+                          focusNode: _nodeText1,
+                          decoration: InputDecoration(
+                            hintText: STR_WRITE_REVIEWS,
+                            hintStyle: TextStyle(
+                              fontFamily: Constants.getFontType(),
+                              color: greytheme700,
+                              fontSize: FONTSIZE_13,
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
+                          maxLines: null,
+                          controller: _controller,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 26,
+                    ),
+                  ],
+                ),
               ),
-            ),
+              isLoader
+                  ? SpinKitFadingCircle(
+                      color: Globle().colorscode != null
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme300,
+                      size: 50.0,
+                      controller: AnimationController(
+                          vsync: this,
+                          duration: const Duration(milliseconds: 1200)),
+                    )
+                  : Text("")
+            ]),
           ),
         ),
       ),
@@ -326,12 +345,19 @@ class UserFeedbackViewState extends State<UserFeedbackView>
 
   @override
   void writeReviewFailed() async {
+    setState(() {
+      isLoader = false;
+    });
     await progressDialog.hide();
   }
 
   @override
   void writeReviewSuccess(WriteRestaurantReviewModel writeReview) async {
+    setState(() {
+      isLoader = false;
+    });
     await progressDialog.hide();
+
     // Toast.show(
     //   STR_REVIEW_SUMBITTED,
     //   context,

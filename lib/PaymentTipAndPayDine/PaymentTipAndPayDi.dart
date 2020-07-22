@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
@@ -41,6 +42,7 @@ class PaymentTipAndPayDi extends StatefulWidget {
 }
 
 class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
+    with TickerProviderStateMixin
     implements
         PaymentTipandPayDiModelView,
         PayFinalBillModelView,
@@ -71,6 +73,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   var isBillSplitedForUser = false;
   Stream stream;
   StreamSubscription<double> _streamSubscription;
+  bool isLoader = false;
 
   String searchText;
   bool isIgnoreTouch = false;
@@ -217,10 +220,23 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                         ],
                       ),
                     )
-                  : CustomScrollView(
-                      controller: _controller,
-                      slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-                    ),
+                  : Stack(children: <Widget>[
+                      CustomScrollView(
+                        controller: _controller,
+                        slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+                      ),
+                      isLoader
+                          ? SpinKitFadingCircle(
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme300,
+                              size: 50.0,
+                              controller: AnimationController(
+                                  vsync: this,
+                                  duration: const Duration(milliseconds: 1200)),
+                            )
+                          : Text("")
+                    ]),
           bottomNavigationBar: isLoading
               ? Container(height: 0)
               : (myOrderData == null)
@@ -317,8 +333,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     if ((grandTotal.roundToDouble()) >= 1.0) {
       setState(() {
         isIgnoreTouch = true;
+        isLoader = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
 
       _billCheckoutPresenter.payBillCheckOut(
         myOrderData.restId,
@@ -501,7 +518,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   }
 
   callApi() async {
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _paymentTipandPayDiPresenter.getOrderDetails(widget.orderID, context);
   }
 
@@ -1027,6 +1047,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void getOrderDetailsFailed() async {
     setState(() {
       isLoading = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -1039,6 +1060,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
     setState(() {
       isLoading = false;
+      isLoader = false;
       myOrderData = orderData;
       _model = model;
       if (_model.data.invitation != null) {
@@ -1078,6 +1100,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> payfinalBillFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -1087,6 +1110,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> payfinalBillSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData<int>(null, PreferenceKeys.orderId);
@@ -1113,6 +1137,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> payBillCheckoutFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -1122,6 +1147,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   void payBillCheckoutSuccess(PaycheckoutNetbanking model) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (billModel == null) {
       billModel = model;
@@ -1151,11 +1177,10 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> paymentCheckoutFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
-    setState(() {
-      isIgnoreTouch = false;
-    });
+
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -1164,10 +1189,14 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       PaymentCheckoutModel paymentCheckoutModel) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (paymentCheckoutModel.statusCode == 200) {
-      await progressDialog.show();
+      // await progressDialog.show();
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+      setState(() {
+        isLoader = true;
+      });
       _finalBillPresenter.payfinalOrderBill(
           Globle().loginModel.data.id,
           myOrderData.restId,
@@ -1180,6 +1209,9 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           tipAmount.toString());
     } else {
       await progressDialog.hide();
+      setState(() {
+        isLoader = false;
+      });
       Constants.showAlert(STR_FOODZI_TITLE, STR_PAYMENT_FAILED, context);
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     }
@@ -1189,6 +1221,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> cancelledPaymentFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -1198,6 +1231,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   Future<void> cancelledPaymentSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();

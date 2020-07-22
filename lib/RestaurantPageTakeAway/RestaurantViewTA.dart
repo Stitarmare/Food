@@ -3,6 +3,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/AddItemPageTA/AddItemPageTAView.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
@@ -38,6 +39,7 @@ class RestaurantTAView extends StatefulWidget {
 }
 
 class _RestaurantTAViewState extends State<RestaurantTAView>
+    with TickerProviderStateMixin
     implements RestaurantTAModelView, MenuDropdownModelView {
   RestaurantTAPresenter restaurantPresenter;
   List<RestaurantMenuItem> _restaurantList;
@@ -62,6 +64,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   List<Subcategories> subcategoriesList = [];
   List<Subcategories> subcategoriesList2 = [];
   bool isLoading = false;
+  bool isLoader = false;
 
   var abc;
   var subCategoryIdabc;
@@ -73,6 +76,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     _restaurantItemsModel = RestaurantItemsModel();
     setState(() {
       isLoading = true;
+      isLoader = true;
     });
     // restaurantPresenter.getMenuList(widget.restId, context,
     //     categoryId: abc, menu: menutype);
@@ -101,7 +105,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
-          await progressDialog.show();
+          // await progressDialog.show();
           restaurantPresenter.getMenuList(widget.restId, context,
               categoryId: abc, menu: menutype, page: page);
         }
@@ -227,7 +231,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     print("CategoryId " + abc.toString());
     print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
   }
@@ -284,93 +291,107 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          // Expanded(flex: 2, child: _restaurantLogo()),
-          Expanded(
-              child: Column(
-            children: <Widget>[
-              _getMenuListHorizontal(context),
-              _getSubMenuListHorizontal(context),
-            ],
-          )),
-          Expanded(
-            flex: 7,
-            child: CustomScrollView(
-              controller: _controller,
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  child: Container(
-                    child: SizedBox(
-                      height: 0,
+      body: Stack(children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // Expanded(flex: 2, child: _restaurantLogo()),
+            Expanded(
+                child: Column(
+              children: <Widget>[
+                _getMenuListHorizontal(context),
+                _getSubMenuListHorizontal(context),
+              ],
+            )),
+            Expanded(
+              flex: 7,
+              child: CustomScrollView(
+                controller: _controller,
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    child: Container(
+                      child: SizedBox(
+                        height: 0,
+                      ),
                     ),
                   ),
-                ),
-                // _getOptionsformenu(context),
-                // _getMenuListHorizontal(context),
-                // _getSubMenuListHorizontal(context),
-                // SliverToBoxAdapter(
-                //   child: Container(
-                //     child: SizedBox(
-                //       height: 15,
-                //     ),
-                //   ),
-                // ),
-                (_restaurantList != null)
-                    ? _menuItemList()
-                    : isLoading
-                        ? SliverToBoxAdapter(
-                            child: Center(
-                            child: Container(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.25,
-                                  ),
-                                  CircularProgressIndicator(),
-                                  // Text(
-                                  //   STR_NO_ITEM_FOUND,
-                                  //   textAlign: TextAlign.start,
-                                  //   style: TextStyle(
-                                  //       fontSize: FONTSIZE_25,
-                                  //       fontFamily: Constants.getFontType(),
-                                  //       fontWeight: FontWeight.w500,
-                                  //       color: greytheme700),
-                                  // ),
-                                ],
+                  // _getOptionsformenu(context),
+                  // _getMenuListHorizontal(context),
+                  // _getSubMenuListHorizontal(context),
+                  // SliverToBoxAdapter(
+                  //   child: Container(
+                  //     child: SizedBox(
+                  //       height: 15,
+                  //     ),
+                  //   ),
+                  // ),
+                  (_restaurantList != null)
+                      ? _menuItemList()
+                      : isLoading
+                          ? SliverToBoxAdapter(
+                              child: Center(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                    ),
+                                    // CircularProgressIndicator(),
+                                    // Text(
+                                    //   STR_NO_ITEM_FOUND,
+                                    //   textAlign: TextAlign.start,
+                                    //   style: TextStyle(
+                                    //       fontSize: FONTSIZE_25,
+                                    //       fontFamily: Constants.getFontType(),
+                                    //       fontWeight: FontWeight.w500,
+                                    //       color: greytheme700),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ))
-                        : SliverToBoxAdapter(
-                            child: Center(
-                            child: Container(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.25,
-                                  ),
-                                  // CircularProgressIndicator(),
-                                  Text(
-                                    STR_NO_ITEMS_FOUND,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontSize: FONTSIZE_25,
-                                        fontFamily: Constants.getFontType(),
-                                        fontWeight: FontWeight.w500,
-                                        color: greytheme700),
-                                  ),
-                                ],
+                            ))
+                          : SliverToBoxAdapter(
+                              child: Center(
+                              child: Container(
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.25,
+                                    ),
+                                    // CircularProgressIndicator(),
+                                    Text(
+                                      STR_NO_ITEMS_FOUND,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_25,
+                                          fontFamily: Constants.getFontType(),
+                                          fontWeight: FontWeight.w500,
+                                          color: greytheme700),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )),
-              ],
+                            )),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        isLoader
+            ? SpinKitFadingCircle(
+                color: Globle().colorscode != null
+                    ? getColorByHex(Globle().colorscode)
+                    : orangetheme300,
+                size: 50.0,
+                controller: AnimationController(
+                    vsync: this, duration: const Duration(milliseconds: 1200)),
+              )
+            : Text("")
+      ]),
     );
   }
 
@@ -942,6 +963,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     await progressDialog.hide();
     setState(() {
       isLoading = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
@@ -951,6 +973,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
       RestaurantItemsModel restaurantItemsModel1) async {
     setState(() {
       isLoading = false;
+      isLoader = false;
     });
     if (menulist.length == 0) {
       await progressDialog.hide();

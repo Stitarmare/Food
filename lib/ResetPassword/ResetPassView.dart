@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/ResetPassword/ResetPassPresenter.dart';
 import 'package:foodzi/ResetPassword/ResetpassContractor.dart';
 import 'dart:math' as math;
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -21,6 +23,7 @@ class ResetPasswordview extends StatefulWidget {
 }
 
 class _ResetPasswordview extends State<ResetPasswordview>
+    with TickerProviderStateMixin
     implements ResetPassModelView {
   static String enterPass = KEY_ENTER_PASSWORD;
   static String enterConfirmPass = KEY_CONFIRM_PASSWORD;
@@ -39,6 +42,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
   var resetpasswordPresenter;
   var _password = STR_BLANK;
   var _confirmPassword = STR_BLANK;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -63,7 +67,20 @@ class _ResetPasswordview extends State<ResetPasswordview>
             )),
         body: Center(
           child: SingleChildScrollView(
-            child: mainview(),
+            child: Stack(children: <Widget>[
+              mainview(),
+              isLoader
+                  ? SpinKitFadingCircle(
+                      color: Globle().colorscode != null
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme300,
+                      size: 50.0,
+                      controller: AnimationController(
+                          vsync: this,
+                          duration: const Duration(milliseconds: 1200)),
+                    )
+                  : Text("")
+            ]),
           ),
         ));
   }
@@ -89,7 +106,10 @@ class _ResetPasswordview extends State<ResetPasswordview>
 
   Future<void> onsubmitButtonClicked() async {
     if (_resetpasswordFormKey.currentState.validate()) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
           widget.mobno, widget.countryCode, _password, context);
@@ -303,12 +323,18 @@ class _ResetPasswordview extends State<ResetPasswordview>
   @override
   Future<void> resetpassfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = true;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> resetpasssuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = true;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }

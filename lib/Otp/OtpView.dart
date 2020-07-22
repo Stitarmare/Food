@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
 import 'package:foodzi/Otp/OtpPresenter.dart';
@@ -7,6 +8,7 @@ import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -33,7 +35,9 @@ class OTPScreen extends StatefulWidget {
   }
 }
 
-class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
+class _OTPScreenState extends State<OTPScreen>
+    with TickerProviderStateMixin
+    implements OTPModelView {
   String otpsave;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -41,6 +45,8 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   String mobileNo;
   ProgressDialog progressDialog;
   bool isIgnoreTouch = false;
+  bool isLoader = false;
+
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
@@ -65,7 +71,20 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: mainview(),
+              child: Stack(children: <Widget>[
+                mainview(),
+                isLoader
+                    ? SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
+                    : Text("")
+              ]),
             ),
           )),
     );
@@ -94,27 +113,28 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
     if (otpsave != null && otpsave.length == 6) {
       setState(() {
         isIgnoreTouch = true;
+        isLoader = true;
       });
       if (widget.value == 0 && otpsave != null) {
-        await progressDialog.show();
+        // await progressDialog.show();
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
         otppresenter.performOTP(
             widget.mobno, widget.countryCode, otpsave, context);
       } else if (widget.isFromFogetPass == true &&
           widget.value == 1 &&
           otpsave != null) {
-        await progressDialog.show();
+        // await progressDialog.show();
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
         otppresenter.perfromresetpassword(
             widget.mobno, widget.countryCode, otpsave, context);
       } else if ((widget.isFromUpadateNo == true &&
           widget.value == 2 &&
           otpsave != null)) {
-        await progressDialog.show();
+        // await progressDialog.show();
       } else if ((widget.isProvideAnotherNumber == true &&
           widget.value == 3 &&
           otpsave != null)) {
-        await progressDialog.show();
+        // await progressDialog.show();
         otppresenter.performOTP(
             widget.mobno, widget.countryCode, otpsave, context);
       }
@@ -320,6 +340,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> otpfailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -329,6 +350,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> otpsuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
@@ -339,6 +361,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> getFailedForForgetPass() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -348,6 +371,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> getSuccesForForgetPass() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
@@ -362,6 +386,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> resendotpfailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -371,6 +396,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   Future<void> resendotpsuccess(message) async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -381,6 +407,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void loginwithotpfailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -388,6 +415,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void loginwithotpsuccess() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     Navigator.pushNamed(context, STR_MAIN_WIDGET_PAGE);
   }
@@ -396,6 +424,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void performOTPUpdateNoFailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -403,6 +432,7 @@ class _OTPScreenState extends State<OTPScreen> implements OTPModelView {
   void performOTPUpdateNoSuccess() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 }

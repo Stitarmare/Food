@@ -2,6 +2,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtp.dart';
 import 'package:foodzi/Login/LoginContractor.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
@@ -25,7 +26,9 @@ class LoginView extends StatefulWidget {
   }
 }
 
-class _LoginViewState extends State<LoginView> implements LoginModelView {
+class _LoginViewState extends State<LoginView>
+    with TickerProviderStateMixin
+    implements LoginModelView {
   static String mobno = KEY_MOBILE_NUMBER;
   static String enterPass = KEY_ENTER_PASSWORD;
   final GlobalKey<FormState> _signInFormKey = GlobalKey<FormState>();
@@ -38,6 +41,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   bool _validate = false;
   bool isSelected = false;
   String strWebViewUrl = "";
+  bool isLoader = false;
 
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -82,8 +86,17 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
 
   Widget _buildStackView() {
     return Stack(
+      alignment: Alignment.center,
       children: <Widget>[
         _buildmainview(),
+        isLoader
+            ? SpinKitFadingCircle(
+                color: orangetheme300,
+                size: 50.0,
+                controller: AnimationController(
+                    vsync: this, duration: const Duration(milliseconds: 1200)),
+              )
+            : Text(""),
       ],
     );
   }
@@ -92,8 +105,10 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
     if (_signInFormKey.currentState.validate()) {
       setState(() {
         isIgnoringTouch = true;
+        isLoader = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
+
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       loginPresenter.performLogin(mobilenumber, countrycode, password, context);
     } else {
@@ -507,6 +522,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   Future<void> loginFailed() async {
     setState(() {
       isIgnoringTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     if (Globle().isRegister) {
@@ -518,6 +534,7 @@ class _LoginViewState extends State<LoginView> implements LoginModelView {
   Future<void> loginSuccess() async {
     setState(() {
       isIgnoringTouch = false;
+      isLoader = false;
     });
     _signInFormKey.currentState.save();
     await progressDialog.hide();

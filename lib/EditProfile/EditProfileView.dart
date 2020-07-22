@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EditProfile/EditProfileContractor.dart';
 import 'package:foodzi/EditProfile/EditProfilePresenter.dart';
 import 'package:foodzi/Models/EditCityModel.dart';
@@ -24,6 +25,7 @@ class EditProfileview extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfileview>
+    with TickerProviderStateMixin
     implements EditProfileModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -46,6 +48,8 @@ class _EditProfileState extends State<EditProfileview>
   var cityID;
   var pinCode;
   var isIgnoring = false;
+  bool isLoader = false;
+
   EditProfilePresenter editprofilepresenter;
   @override
   void initState() {
@@ -107,7 +111,20 @@ class _EditProfileState extends State<EditProfileview>
           child: KeyboardActions(
             config: _buildConfig(context),
             child: SingleChildScrollView(
-              child: _getmainView(context),
+              child: Stack(children: <Widget>[
+                _getmainView(context),
+                isLoader
+                    ? SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
+                    : Text("")
+              ]),
             ),
           ),
         ));
@@ -145,7 +162,10 @@ class _EditProfileState extends State<EditProfileview>
       setState(() {
         isIgnoring = true;
       });
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       editprofilepresenter.performUpdate(firstName, lastName, streetAddress,
           countryID, stateID, cityID, pinCode, context);
@@ -586,6 +606,7 @@ class _EditProfileState extends State<EditProfileview>
   void profileUpdateFailed() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
   }
@@ -594,6 +615,7 @@ class _EditProfileState extends State<EditProfileview>
   Future<void> profileUpdateSuccess() async {
     setState(() {
       isIgnoring = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();

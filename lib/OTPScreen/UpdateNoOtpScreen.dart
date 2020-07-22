@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOTPScreenPresenter.dart';
 import 'package:foodzi/EnterMobileNoOTP/EnterOtpContractor.dart';
 import 'package:foodzi/Otp/OtpContractor.dart';
@@ -8,6 +9,7 @@ import 'package:foodzi/ResetPassword/ResetPassView.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/Utils/dialogs.dart';
+import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -26,6 +28,7 @@ class UpdateNoOTPScreen extends StatefulWidget {
 }
 
 class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
+    with TickerProviderStateMixin
     implements OTPModelView, EnterOTPModelView {
   var otpsave;
   OtpPresenter otppresenter;
@@ -33,6 +36,8 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
   String mobileNo;
   String countryCode;
   ProgressDialog progressDialog;
+  bool isLoader = false;
+
   @override
   void initState() {
     otppresenter = OtpPresenter(this);
@@ -58,7 +63,20 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
         ),
         body: Center(
           child: SingleChildScrollView(
-            child: mainview(),
+            child: Stack(children: <Widget>[
+              mainview(),
+              isLoader
+                  ? SpinKitFadingCircle(
+                      color: Globle().colorscode != null
+                          ? getColorByHex(Globle().colorscode)
+                          : orangetheme300,
+                      size: 50.0,
+                      controller: AnimationController(
+                          vsync: this,
+                          duration: const Duration(milliseconds: 1200)),
+                    )
+                  : Text("")
+            ]),
           ),
         ));
   }
@@ -84,7 +102,10 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
 
   Future<void> onsubmitButtonClicked() async {
     if ((otpsave != null)) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       //API call
       otppresenter.performOTPUpdateNo(mobileNo, countryCode, otpsave, context);
     }
@@ -302,6 +323,9 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
   @override
   Future<void> otpfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
@@ -309,30 +333,45 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
   Future<void> otpsuccess() async {
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
   @override
   Future<void> resendotpfailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> resendotpsuccess(message) async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Constants.showAlert(STR_RESEND_OTP, message, context);
   }
 
   @override
   Future<void> performOTPUpdateNoFailed() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     // TODO: implement performOTPUpdateNoFailed
   }
 
   @override
   Future<void> performOTPUpdateNoSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     showDialogBox(context);
     // TODO: implement performOTPUpdateNoSuccess
   }
@@ -369,12 +408,18 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
 
   @override
   void requestforUpdateNoOtpFailed() {
+    setState(() {
+      isLoader = false;
+    });
     // TODO: implement requestforUpdateNoOtpFailed
   }
 
   @override
   Future<void> requestforUpdateNoOtpSuccess() async {
     await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Constants.showAlert(STR_RESEND_OTP, STR_RESEND_OTP_SUCCESS, context);
     // TODO: implement requestforUpdateNoOtpSuccess
   }

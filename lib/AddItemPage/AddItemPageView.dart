@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/AddItemPage/ADdItemPagePresenter.dart';
 import 'package:foodzi/AddItemPage/AddItemPageContractor.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbarRestaurant.dart';
@@ -47,6 +48,7 @@ class AddItemPageView extends StatefulWidget {
 }
 
 class _AddItemPageViewState extends State<AddItemPageView>
+    with TickerProviderStateMixin
     implements
         AddItemPageModelView,
         AddmenuToCartModelview,
@@ -106,6 +108,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Spreads defaultSpread;
 
   List<Extras> defaultExtra;
+  bool isLoader = false;
 
   Sizes defaultSize;
   List<Switches> defaultSwitch;
@@ -397,10 +400,23 @@ class _AddItemPageViewState extends State<AddItemPageView>
                     ],
                   ),
                 )
-              : CustomScrollView(
-                  controller: _controller,
-                  slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-                ),
+              : Stack(children: <Widget>[
+                  CustomScrollView(
+                    controller: _controller,
+                    slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+                  ),
+                  isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : Text(""),
+                ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
               height: 91,
@@ -517,9 +533,12 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
                           // DialogsIndicator.showLoadingDialog(
                           //     context, _keyLoader, STR_BLANK);
-                          await progressDialog.show();
+                          // await progressDialog.show();
                           // _addItemPagepresenter.updateOrder(
                           //     _updateOrderModel, context);
+                          setState(() {
+                            isLoader = true;
+                          });
                           _addItemPagepresenter.orderAddMenuCart(
                               _updateOrderModel, context);
                         } else {
@@ -770,8 +789,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
         if (mycartTableId != null) {
           setState(() {
             isIgnoreTouch = true;
+            isLoader = true;
           });
-          await progressDialog.show();
+          // await progressDialog.show();
           _addItemPagepresenter.performaddMenuToCart(
               addMenuToCartModel, context);
         } else {
@@ -804,8 +824,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
       if (mycartTableId != null) {
         setState(() {
           isIgnoreTouch = true;
+          isLoader = true;
         });
-        await progressDialog.show();
+        // await progressDialog.show();
         _addItemPagepresenter.performaddMenuToCart(addMenuToCartModel, context);
       } else {
         // Constants.showAlert(
@@ -969,8 +990,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
     Globle().dinecartValue = 0;
-    await progressDialog.show();
-
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     _addItemPagepresenter.clearCart(context);
   }
 
@@ -1960,6 +1983,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       isIgnoreTouch = false;
       isLoding = false;
+      isLoader = false;
     });
   }
 
@@ -1969,6 +1993,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     setState(() {
       isLoding = false;
       isIgnoreTouch = false;
+      isLoader = false;
       addItemPageModelList = addItemPageModelList1;
     });
     _addItemModelList = _additemlist[0];
@@ -1995,6 +2020,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2002,6 +2028,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Future<void> addMenuToCartsuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     specialReq = "";
     Globle().dinecartValue += 1;
@@ -2026,6 +2053,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2035,6 +2063,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2044,6 +2073,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2053,6 +2083,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     // getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
@@ -2067,6 +2098,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2075,6 +2107,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
@@ -2087,6 +2120,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2094,6 +2128,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   Future<void> updateOrderSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     specialReq = "";
     Globle().dinecartValue += 1;
@@ -2175,6 +2210,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -2182,6 +2218,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   void orderAddMenuCartSuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     await progressDialog.hide();
     specialReq = "";

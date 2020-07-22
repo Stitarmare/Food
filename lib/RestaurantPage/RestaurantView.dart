@@ -3,6 +3,7 @@ import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/AddItemPage/AddItemPageView.dart';
 import 'package:foodzi/BottomTabbar/BottomTabbar.dart';
 import 'package:foodzi/MenuDropdownCategory/MenuItemDropDown.dart';
@@ -44,6 +45,7 @@ class RestaurantView extends StatefulWidget {
 }
 
 class _RestaurantViewState extends State<RestaurantView>
+    with TickerProviderStateMixin
     implements RestaurantModelView, MenuDropdownModelView {
   RestaurantPresenter restaurantPresenter;
 
@@ -76,6 +78,7 @@ class _RestaurantViewState extends State<RestaurantView>
   var abc;
   bool isLoading = false;
   var subCategoryIdabc;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -91,6 +94,7 @@ class _RestaurantViewState extends State<RestaurantView>
     restaurantItemsModel = RestaurantItemsModel();
     setState(() {
       isLoading = true;
+      isLoader = true;
     });
     // restaurantPresenter.getMenuList(widget.restId, context,
     //     categoryId: abc, menu: menutype);
@@ -120,7 +124,7 @@ class _RestaurantViewState extends State<RestaurantView>
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
-          await progressDialog.show();
+          // await progressDialog.show();
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
           restaurantPresenter.getMenuList(widget.restId, context,
               categoryId: abc, menu: menutype, page: page);
@@ -253,7 +257,10 @@ class _RestaurantViewState extends State<RestaurantView>
     print("CategoryId " + abc.toString());
     print("SubCategoryId " + subCategoryIdabc.toString());
     _restaurantList = null;
-    await progressDialog.show();
+    // await progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
   }
@@ -355,86 +362,99 @@ class _RestaurantViewState extends State<RestaurantView>
             )
           ],
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            // Expanded(flex: 1, child: _restaurantLogo()),
-            Expanded(
-              flex: 1,
-              child: Column(children: <Widget>[
-                _getMenuListHorizontal(context),
-                _getSubMenuListHorizontal(context),
-              ]),
-            ),
-            Expanded(
-              flex: 7,
-              child: CustomScrollView(
-                controller: _controller,
-                slivers: <Widget>[
-                  SliverToBoxAdapter(
-                    child: Container(
-                      child: SizedBox(
-                        height: 0,
+        body: Stack(alignment: Alignment.center, children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // Expanded(flex: 1, child: _restaurantLogo()),
+              Expanded(
+                flex: 1,
+                child: Column(children: <Widget>[
+                  _getMenuListHorizontal(context),
+                  _getSubMenuListHorizontal(context),
+                ]),
+              ),
+              Expanded(
+                flex: 7,
+                child: CustomScrollView(
+                  controller: _controller,
+                  slivers: <Widget>[
+                    SliverToBoxAdapter(
+                      child: Container(
+                        child: SizedBox(
+                          height: 0,
+                        ),
                       ),
                     ),
-                  ),
-                  // _getMenuListHorizontal(context),
-                  // _getSubMenuListHorizontal(context),
-                  // // _getOptionsformenu(context),
-                  // SliverToBoxAdapter(
-                  //   child: Container(
-                  //     child: SizedBox(
-                  //       height: 0,
-                  //     ),
-                  //   ),
-                  // ),
-                  (_restaurantList != null)
-                      ? _menuItemList()
-                      : isLoading
-                          ? SliverToBoxAdapter(
-                              child: Center(
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25,
-                                    ),
-                                    CircularProgressIndicator(),
-                                  ],
+                    // _getMenuListHorizontal(context),
+                    // _getSubMenuListHorizontal(context),
+                    // // _getOptionsformenu(context),
+                    // SliverToBoxAdapter(
+                    //   child: Container(
+                    //     child: SizedBox(
+                    //       height: 0,
+                    //     ),
+                    //   ),
+                    // ),
+                    (_restaurantList != null)
+                        ? _menuItemList()
+                        : isLoading
+                            ? SliverToBoxAdapter(
+                                child: Center(
+                                child: Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.25,
+                                      ),
+                                      // CircularProgressIndicator(),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ))
-                          : SliverToBoxAdapter(
-                              child: Center(
-                              child: Container(
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25,
-                                    ),
-                                    // CircularProgressIndicator(),
-                                    Text(
-                                      STR_NO_ITEM_FOUND,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: FONTSIZE_25,
-                                          fontFamily: Constants.getFontType(),
-                                          fontWeight: FontWeight.w500,
-                                          color: greytheme700),
-                                    ),
-                                  ],
+                              ))
+                            : SliverToBoxAdapter(
+                                child: Center(
+                                child: Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.25,
+                                      ),
+                                      // CircularProgressIndicator(),
+                                      Text(
+                                        STR_NO_ITEM_FOUND,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontSize: FONTSIZE_25,
+                                            fontFamily: Constants.getFontType(),
+                                            fontWeight: FontWeight.w500,
+                                            color: greytheme700),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )),
-                ],
+                              )),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ));
+            ],
+          ),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ]));
   }
 
   _getSubMenuListHorizontal(BuildContext context) {
@@ -1118,6 +1138,7 @@ class _RestaurantViewState extends State<RestaurantView>
     await progressDialog.hide();
     setState(() {
       isLoading = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
@@ -1129,6 +1150,7 @@ class _RestaurantViewState extends State<RestaurantView>
       await progressDialog.hide();
       setState(() {
         isLoading = false;
+        isLoader = false;
       });
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
@@ -1148,6 +1170,7 @@ class _RestaurantViewState extends State<RestaurantView>
     await progressDialog.hide();
     setState(() {
       isLoading = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
