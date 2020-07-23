@@ -789,7 +789,7 @@ class _RestaurantViewState extends State<RestaurantView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: queryData.devicePixelRatio * 0.3,
+        childAspectRatio: queryData.devicePixelRatio * 0.25,
         // childAspectRatio: 0.8,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/error_model.dart';
@@ -35,6 +36,7 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView>
+    with TickerProviderStateMixin
     implements NotificationModelView {
   NotificationPresenter notificationPresenter;
   List<Datum> notificationData;
@@ -46,6 +48,7 @@ class _NotificationViewState extends State<NotificationView>
   List notifytext;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -87,7 +90,20 @@ class _NotificationViewState extends State<NotificationView>
             },
           ),
         ),
-        body: _notificationList(context));
+        body: Stack(children: <Widget>[
+          _notificationList(context),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ]));
   }
 
   int _selectedIndex = 0;
@@ -178,7 +194,10 @@ class _NotificationViewState extends State<NotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          await progressDialog.show();
+          setState(() {
+            isLoader = true;
+          });
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -203,7 +222,10 @@ class _NotificationViewState extends State<NotificationView>
           if (status == DailogAction.yes) {
             statusStr = "accept";
           }
-          await progressDialog.show();
+          setState(() {
+            isLoader = true;
+          });
+          // await progressDialog.show();
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
           notificationPresenter.acceptRequestInvitiation(
               notificationData[index].fromId,
@@ -267,10 +289,17 @@ class _NotificationViewState extends State<NotificationView>
   }
 
   @override
-  void getNotificationsFailed() {}
+  void getNotificationsFailed() {
+    setState(() {
+      isLoader = false;
+    });
+  }
 
   @override
   Future<void> getNotificationsSuccess(List<Datum> getNotificationList) async {
+    setState(() {
+      isLoader = false;
+    });
     if (getNotificationList.length == 0) {
       return;
     }
@@ -283,7 +312,7 @@ class _NotificationViewState extends State<NotificationView>
       }
       page++;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -311,7 +340,10 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   Future<void> acceptInvitationFailed(ErrorModel model) async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (model != null) {
       notificationPresenter.getNotifications(context);
@@ -327,7 +359,10 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     if (model != null) {
       notificationPresenter.getNotifications(context);
@@ -348,7 +383,10 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptRejectFailed(ErrorModel model) async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
 
     if (model != null) {
       notificationPresenter.getNotifications(context);
@@ -363,7 +401,10 @@ class _NotificationViewState extends State<NotificationView>
 
   @override
   void acceptRejectSuccess(ErrorModel model) async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
 
     if (model != null) {
       notificationPresenter.getNotifications(context);

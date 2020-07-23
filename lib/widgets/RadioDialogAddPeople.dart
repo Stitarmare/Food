@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flappy_search_bar/flappy_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
@@ -39,6 +40,7 @@ class RadioDialogAddPeople extends StatefulWidget {
 }
 
 class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
+    with TickerProviderStateMixin
     implements ConfirmationDineViewModelView, StatusTrackViewModelView {
   String radioItem = STR_MANGO;
   List<PeopleData> addList = [];
@@ -57,6 +59,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
   ProgressDialog progressDialog;
   List<String> listMobile = [];
   List<String> listMobile1 = [];
+  bool isLoader = false;
 
   String searchText = "";
 
@@ -81,24 +84,37 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         children: <Widget>[
-          Container(
-            height: 100,
-            width: 284,
-            child: SimpleDialogOption(
-              child: Center(
-                  child: Text(
-                "No Record found.",
-                style: TextStyle(
-                    fontSize: FONTSIZE_20,
-                    color: greytheme700,
-                    fontFamily: Constants.getFontType(),
-                    fontWeight: FontWeight.w600),
-              )),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+          Stack(children: <Widget>[
+            Container(
+              height: 100,
+              width: 284,
+              child: SimpleDialogOption(
+                child: Center(
+                    child: Text(
+                  "No Record found.",
+                  style: TextStyle(
+                      fontSize: FONTSIZE_20,
+                      color: greytheme700,
+                      fontFamily: Constants.getFontType(),
+                      fontWeight: FontWeight.w600),
+                )),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
-          ),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
         ],
       );
     } else {
@@ -312,7 +328,10 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
                         //     context, _keyLoader, STR_LOADING);
                         List<String> mobNoList = numbers.split(",");
 
-                        progressDialog.show();
+                        // progressDialog.show();
+                        setState(() {
+                          isLoader = true;
+                        });
 
                         confirmationDineviewPresenter.addPeople(mobNoList,
                             widget.tableId, widget.restId, orderId, context);
@@ -503,26 +522,38 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void addPeopleFailed() {
-    progressDialog.hide();
+    // progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop();
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void addPeopleSuccess() {
-    progressDialog.hide();
+    // progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> getPeopleListonFailed() async {
+    setState(() {
+      isLoader = false;
+    });
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   Future<void> getPeopleListonSuccess(List<PeopleData> data) async {
+    setState(() {
+      isLoader = false;
+    });
     if (data.length == 0) {
       await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -553,6 +584,9 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
+    setState(() {
+      isLoader = false;
+    });
     if (list.length == 0) {
       return;
     }

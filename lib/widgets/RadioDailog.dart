@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
@@ -33,6 +34,7 @@ class RadioDialog extends StatefulWidget {
 }
 
 class RadioDialogState extends State<RadioDialog>
+    with TickerProviderStateMixin
     implements
         SplitBillContractorModelView,
         SplitBillNotificationContractorModelView {
@@ -59,6 +61,7 @@ class RadioDialogState extends State<RadioDialog>
     ),
   ];
   ProgressDialog progressDialog;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -73,76 +76,92 @@ class RadioDialogState extends State<RadioDialog>
     return new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
-        Container(
-            height: 350,
-            width: 284,
-            decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 25,
-                ),
-                Center(
-                  child: Text(
-                    STR_SPLIT_BILL,
-                    style: TextStyle(
-                        fontSize: FONTSIZE_16,
-                        color: greytheme700,
-                        fontFamily: Constants.getFontType(),
-                        fontWeight: FontWeight.w600),
+        Stack(children: <Widget>[
+          Container(
+              height: 350,
+              width: 284,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 25,
                   ),
-                ),
-                Column(
-                  children: bList
-                      .map((data) => RadioListTile(
-                            title: Text(
-                              data.name,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_15,
-                                  color: greytheme700,
-                                  fontFamily: Constants.getFontType()),
-                            ),
-                            groupValue: id,
-                            value: data.index,
-                            activeColor: redtheme,
-                            onChanged: (val) {
-                              setState(() {
-                                radioItem = data.name;
-                                id = data.index;
-                              });
-                            },
-                          ))
-                      .toList(),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Center(
-                    child: RaisedButton(
-                  color: redtheme,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  onPressed: () {
-                    onConfirmTap();
-                  },
-                  child: Text(
-                    STR_CONFIRM,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: FONTSIZE_18,
+                  Center(
+                    child: Text(
+                      STR_SPLIT_BILL,
+                      style: TextStyle(
+                          fontSize: FONTSIZE_16,
+                          color: greytheme700,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
-                ))
-              ],
-            ))
+                  Column(
+                    children: bList
+                        .map((data) => RadioListTile(
+                              title: Text(
+                                data.name,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_15,
+                                    color: greytheme700,
+                                    fontFamily: Constants.getFontType()),
+                              ),
+                              groupValue: id,
+                              value: data.index,
+                              activeColor: redtheme,
+                              onChanged: (val) {
+                                setState(() {
+                                  radioItem = data.name;
+                                  id = data.index;
+                                });
+                              },
+                            ))
+                        .toList(),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Center(
+                      child: RaisedButton(
+                    color: redtheme,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    onPressed: () {
+                      onConfirmTap();
+                    },
+                    child: Text(
+                      STR_CONFIRM,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: FONTSIZE_18,
+                      ),
+                    ),
+                  ))
+                ],
+              )),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ])
       ],
     );
   }
 
   onConfirmTap() async {
     if (id == 1) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       _splitBillPresenter.getSPlitBill(widget.orderId,
           Globle().loginModel.data.id, 1, widget.amount.toInt(), context);
       // _splitBillNotificationPresenter.getSPlitBillNotification(
@@ -154,7 +173,10 @@ class RadioDialogState extends State<RadioDialog>
     } else if (id == 2) {
       Navigator.of(context).pop({"isInvitePeople": true});
     } else if (id == 3) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       _splitBillPresenter.getSPlitBill(widget.orderId,
           Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
 
@@ -165,7 +187,10 @@ class RadioDialogState extends State<RadioDialog>
       //     widget.amount.toInt(),
       //     context);
     } else if (id == 4) {
-      await progressDialog.show();
+      // await progressDialog.show();
+      setState(() {
+        isLoader = true;
+      });
       _splitBillPresenter.getSPlitBill(widget.orderId,
           Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
 
@@ -180,22 +205,35 @@ class RadioDialogState extends State<RadioDialog>
 
   @override
   void getSplitBillFailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop({"isSplitBill": false});
   }
 
   @override
   void getSplitBillSuccess() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
     Navigator.of(context).pop({"isSplitBill": true});
   }
 
   @override
-  void getSplitBillNotificationFailed() {}
+  void getSplitBillNotificationFailed() {
+    setState(() {
+      isLoader = false;
+    });
+  }
 
   @override
   void getSplitBillNotificationSuccess() {
     // TODO: implement getSplitBillNotificationSuccess
+    setState(() {
+      isLoader = false;
+    });
   }
 }
 
