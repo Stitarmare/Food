@@ -76,7 +76,7 @@ class RadioDialogState extends State<RadioDialog>
     return new SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       children: <Widget>[
-        Stack(children: <Widget>[
+        Stack(alignment: Alignment.center, children: <Widget>[
           Container(
               height: 350,
               width: 284,

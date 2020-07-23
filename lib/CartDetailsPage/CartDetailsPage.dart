@@ -628,6 +628,9 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.63,
                                         child: Text(
                                           myOrderDataDetails.list[index].items
                                                       .itemName !=
@@ -636,7 +639,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
                                                   myOrderDataDetails.list[index]
                                                       .items.itemName)
                                               : "Bacon & Cheese Burger",
-                                          maxLines: 2,
                                           style: TextStyle(
                                               fontFamily: "gotham",
                                               fontSize: 16,

@@ -42,7 +42,7 @@ class _DineViewState extends State<DineInView>
   String sortedBy = STR_BLANK;
   String favourite;
   String rating;
-  String sortByDistance;
+  String sortByDistance = "ASC";
   String sortByRating;
   String filteredBy = STR_BLANK;
   final GlobalKey<State> _keyLoader = GlobalKey<State>();

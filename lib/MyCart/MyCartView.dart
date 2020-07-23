@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/CartDetailsPage/CartDetailsPage.dart';
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineView.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
@@ -47,6 +48,7 @@ class MyCartView extends StatefulWidget {
 }
 
 class _MyCartViewState extends State<MyCartView>
+    with TickerProviderStateMixin
     implements MyCartModelView, GetTableListModelView, AddTablenoModelView {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   DialogsIndicator dialogs = DialogsIndicator();
@@ -72,6 +74,7 @@ class _MyCartViewState extends State<MyCartView>
   int cartId;
   MenuCartDisplayModel myCart;
   int page = 1;
+  bool isLoader = false;
 
   int id;
   List<int> itemList = [];
@@ -255,8 +258,9 @@ class _MyCartViewState extends State<MyCartView>
               if (menuCartList.quantity > 0) {
                 setState(() {
                   isIgnoreTouch = true;
+                  isLoader = true;
                 });
-                await progressDialog.show();
+                // await progressDialog.show();
                 _myCartpresenter.updateQauntityCount(
                     menuCartList.id,
                     menuCartList.quantity,
@@ -269,8 +273,9 @@ class _MyCartViewState extends State<MyCartView>
                 //     context, _keyLoader, STR_LOADING);
                 setState(() {
                   isIgnoreTouch = true;
+                  isLoader = true;
                 });
-                await progressDialog.show();
+                // await progressDialog.show();
                 _myCartpresenter.removeItemfromCart(
                     menuCartList.id, Globle().loginModel.data.id, context);
                 setState(() {
@@ -312,11 +317,12 @@ class _MyCartViewState extends State<MyCartView>
               menuCartList.quantity += 1;
               print(menuCartList.quantity);
               isIgnoreTouch = true;
+              isLoader = true;
             });
             // DialogsIndicator.showLoadingDialog(
             //     context, _keyLoader, STR_LOADING);
 
-            await progressDialog.show();
+            // await progressDialog.show();
             _myCartpresenter.updateQauntityCount(
                 menuCartList.id,
                 menuCartList.quantity,
@@ -487,11 +493,20 @@ class _MyCartViewState extends State<MyCartView>
                                   color: greytheme1200),
                             ),
                           ),
-                          CircularProgressIndicator()
+                          // CircularProgressIndicator()
+                          SpinKitFadingCircle(
+                            color: Globle().colorscode != null
+                                ? getColorByHex(Globle().colorscode)
+                                : orangetheme300,
+                            size: 50.0,
+                            controller: AnimationController(
+                                vsync: this,
+                                duration: const Duration(milliseconds: 1200)),
+                          )
                         ],
                       ),
                     )
-                  : _getAddedListItem()
+                  : _getAddedListItem(),
             ],
           ),
           bottomNavigationBar: BottomAppBar(
@@ -721,7 +736,10 @@ class _MyCartViewState extends State<MyCartView>
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
+                    // await progressDialog.show();
+                    setState(() {
+                      isLoader = true;
+                    });
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                     setState(() {

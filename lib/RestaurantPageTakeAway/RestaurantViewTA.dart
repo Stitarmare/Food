@@ -234,6 +234,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     // await progressDialog.show();
     setState(() {
       isLoader = true;
+      isLoading = true;
     });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);
@@ -536,7 +537,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
         // childAspectRatio: 0.8,
-        childAspectRatio: mediaQueryData.devicePixelRatio * 0.3,
+        childAspectRatio: mediaQueryData.devicePixelRatio * 0.25,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return

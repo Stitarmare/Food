@@ -260,6 +260,7 @@ class _RestaurantViewState extends State<RestaurantView>
     // await progressDialog.show();
     setState(() {
       isLoader = true;
+      isLoading = true;
     });
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, subCategoryId: subCategoryIdabc, menu: menutype);

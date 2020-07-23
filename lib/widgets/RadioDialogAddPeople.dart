@@ -84,7 +84,7 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         children: <Widget>[
-          Stack(children: <Widget>[
+          Stack(alignment: Alignment.center, children: <Widget>[
             Container(
               height: 100,
               width: 284,

@@ -40,6 +40,7 @@ class MyCartTWView extends StatefulWidget {
 }
 
 class _MyCartTWViewState extends State<MyCartTWView>
+    with TickerProviderStateMixin
     implements MyCartTWModelView {
   final _textController = TextEditingController();
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -56,6 +57,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
   ProgressDialog progressDialog;
   bool isIgnoreTouch = false;
   bool isloading = false;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -150,8 +152,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
               if (_cartItemList[i].quantity > 0) {
                 setState(() {
                   isIgnoreTouch = true;
+                  isLoader = true;
                 });
-                await progressDialog.show();
+                // await progressDialog.show();
 
                 _myCartpresenter.updateQauntityCount(
                     _cartItemList[i].id,
@@ -165,8 +168,9 @@ class _MyCartTWViewState extends State<MyCartTWView>
                 //     context, _keyLoader, STR_LOADING);
                 setState(() {
                   isIgnoreTouch = true;
+                  isLoader = true;
                 });
-                await progressDialog.show();
+                // await progressDialog.show();
                 _myCartpresenter.removeItemfromCart(
                     _cartItemList[i].id, Globle().loginModel.data.id, context);
                 setState(() {
@@ -215,10 +219,11 @@ class _MyCartTWViewState extends State<MyCartTWView>
               _cartItemList[i].quantity += 1;
               print(_cartItemList[i].quantity);
               isIgnoreTouch = true;
+              isLoader = true;
             });
             // DialogsIndicator.showLoadingDialog(
             //     context, _keyLoader, STR_LOADING);
-            await progressDialog.show();
+            // await progressDialog.show();
             _myCartpresenter.updateQauntityCount(
                 _cartItemList[i].id,
                 _cartItemList[i].quantity,
@@ -555,7 +560,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
+                    // await progressDialog.show();
+                    setState(() {
+                      isLoader = true;
+                    });
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                     setState(() {
@@ -587,7 +595,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                         height: 25,
                                       ),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 5),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -637,12 +645,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                   steppercount(index, context),
                                 ],
                               ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: 80,
-                                ),
-                                flex: 2,
-                              ),
+                              // Expanded(
+                              //   child: SizedBox(
+                              //     width: 80,
+                              //   ),
+                              //   flex: 2,
+                              // ),
                               Padding(
                                 padding: EdgeInsets.only(right: 5, top: 30),
                                 child: Text(
