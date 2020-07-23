@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCartTW/MyCartTWContractor.dart';
 import 'package:foodzi/MyCartTW/MyCartTWPresenter.dart';
@@ -395,42 +396,55 @@ class _MyCartTWViewState extends State<MyCartTWView>
             backgroundColor: Colors.white,
             elevation: 0,
           ),
-          body: Column(
-            children: <Widget>[
-              _getmainviewTableno(),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                height: 2,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              isloading
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme1200),
+          body: Stack(alignment: Alignment.center, children: <Widget>[
+            Column(
+              children: <Widget>[
+                _getmainviewTableno(),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(
+                  height: 2,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                isloading
+                    ? Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text(
+                                "",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_15,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1200),
+                              ),
                             ),
-                          ),
-                          CircularProgressIndicator()
-                        ],
-                      ),
-                    )
-                  : _getAddedListItem()
-            ],
-          ),
+                            CircularProgressIndicator()
+                          ],
+                        ),
+                      )
+                    : _getAddedListItem()
+              ],
+            ),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.19,
@@ -747,6 +761,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     setState(() {
       isIgnoreTouch = false;
       isloading = false;
+      isLoader = false;
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -759,6 +774,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     setState(() {
       isIgnoreTouch = false;
       isloading = false;
+      isLoader = false;
     });
     if (menulist.length == 0) {
       Globle().takeAwayCartItemCount = menulist.length;
@@ -793,6 +809,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -806,6 +823,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
@@ -840,8 +858,10 @@ class _MyCartTWViewState extends State<MyCartTWView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
-    await progressDialog.show();
+    // await progressDialog.show();
+
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
 
@@ -853,6 +873,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     // Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }

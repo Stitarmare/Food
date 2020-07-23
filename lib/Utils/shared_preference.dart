@@ -22,6 +22,8 @@ class PreferenceKeys {
   static final mycartTableIdKey = "TableKey";
   static final keyLatitude = "keyLatitude";
   static final keyLongitude = "keyLongitude";
+  static final dineCategoryId = "dineCategoryId";
+  static final dineSubCatId = "dineSubCateId";
 }
 
 class Preference {

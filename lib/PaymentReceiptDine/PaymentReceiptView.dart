@@ -31,6 +31,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
   PayementReceiptPresenter payementReceiptPresenter;
   ProgressDialog progressDialog;
   bool isLoader = false;
+  double itemTotal = 0;
 
   @override
   void initState() {
@@ -431,11 +432,17 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
                                   fontWeight: FontWeight.w700),
                             ),
                             Text(
-                              '${widget.list[index].totalAmount}' ?? "0.00",
+                              '${itemTotal.toStringAsFixed(2)}' ?? "0.00",
                               style: TextStyle(
                                   fontSize: FONTSIZE_16,
                                   fontWeight: FontWeight.w700),
                             ),
+                            // Text(
+                            //   '${widget.list[index].totalAmount}' ?? "0.00",
+                            //   style: TextStyle(
+                            //       fontSize: FONTSIZE_16,
+                            //       fontWeight: FontWeight.w700),
+                            // ),
                           ],
                         ),
                       )
@@ -763,7 +770,7 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
       if (list.cartExtras.length > 0) {
         for (int j = 0; j < list.cartExtras.length; j++) {
           if (list.cartExtras[j].price != null) {
-            d2 = double.parse(list.cartExtras[j].price);
+            d2 = d2 + double.parse(list.cartExtras[j].price);
           }
         }
       }
@@ -771,6 +778,9 @@ class _PaymentReceiptDineViewState extends State<PaymentReceiptDineView>
 
     d3 = d1 + d2;
     str = d3.toStringAsFixed(2);
+
+    itemTotal = list.qty * d3;
+
     return str;
   }
 

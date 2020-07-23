@@ -54,7 +54,7 @@ class _EmailReceiptDialogViewState extends State<EmailReceiptDialogView> {
                       Icons.mail,
                       color: greytheme1000,
                     ),
-                    placeHolderName: "Enter Email_id to send receipt",
+                    placeHolderName: "Enter Email_id",
                     validator: validateEmailId,
                   ),
                 ),

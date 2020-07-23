@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/MyCartDelivery/MyCartDeliveryContractor.dart';
@@ -41,6 +42,7 @@ class MyCartDeliveryView extends StatefulWidget {
 }
 
 class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
+    with TickerProviderStateMixin
     implements
         MyCartDeliveryModelView,
         GetTableListModelView,
@@ -54,6 +56,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   bool isloading = false;
 
   int _dropdownTableNumber;
+  bool isLoader = false;
 
   String tableno;
   int count;
@@ -162,8 +165,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
               if (menuCartList.quantity > 0) {
                 setState(() {
                   isIgnoreTouch = true;
+                  isLoader = true;
                 });
-                await progressDialog.show();
+                // await progressDialog.show();
                 _myCartpresenter.updateQauntityCount(
                     menuCartList.id,
                     menuCartList.quantity,
@@ -217,10 +221,11 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 menuCartList.quantity += 1;
                 print(menuCartList.quantity);
                 isIgnoreTouch = true;
+                isLoader = true;
               });
               // DialogsIndicator.showLoadingDialog(
               //     context, _keyLoader, STR_LOADING);
-              await progressDialog.show();
+              // await progressDialog.show();
               _myCartpresenter.updateQauntityCount(
                   menuCartList.id,
                   menuCartList.quantity,
@@ -323,42 +328,55 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
             backgroundColor: Colors.white,
             elevation: 0,
           ),
-          body: Column(
-            children: <Widget>[
-              _getmainviewTableno(),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                height: 2,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              isloading
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme1200),
+          body: Stack(alignment: Alignment.center, children: <Widget>[
+            Column(
+              children: <Widget>[
+                _getmainviewTableno(),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(
+                  height: 2,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                isloading
+                    ? Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text(
+                                "",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_15,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1200),
+                              ),
                             ),
-                          ),
-                          CircularProgressIndicator()
-                        ],
-                      ),
-                    )
-                  : _getAddedListItem()
-            ],
-          ),
+                            CircularProgressIndicator()
+                          ],
+                        ),
+                      )
+                    : _getAddedListItem()
+              ],
+            ),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.19,
@@ -492,7 +510,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                 tableno = _dropdownItemsTable[i].name;
               }
             }
-            await progressDialog.show();
+            // await progressDialog.show();
             //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
             _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                 widget.restId, _dropdownTableNumber, context);
@@ -540,7 +558,10 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                     int cartIdnew = _cartItemList[index].id;
                     // DialogsIndicator.showLoadingDialog(
                     //     context, _keyLoader, STR_LOADING);
-                    await progressDialog.show();
+                    // await progressDialog.show();
+                    setState(() {
+                      isLoader = true;
+                    });
                     _myCartpresenter.removeItemfromCart(
                         cartIdnew, Globle().loginModel.data.id, context);
                     setState(() {
@@ -572,7 +593,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
                                         height: 25,
                                       ),
                               ),
-                              SizedBox(width: 16),
+                              SizedBox(width: 5),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -748,8 +769,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       _cartItemList = null;
       isIgnoreTouch = false;
       isloading = false;
+      isLoader = false;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -759,12 +781,13 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     setState(() {
       isIgnoreTouch = false;
       isloading = false;
+      isLoader = false;
     });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
           Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
-      await progressDialog.hide();
+      // await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -786,7 +809,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
       // }
       page++;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
@@ -794,6 +817,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   Future<void> removeItemFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -807,6 +831,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
 
     if (_cartItemList != null) {
@@ -832,18 +857,20 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Future<void> addTablebnoSuccces() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> addTablenofailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -852,6 +879,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   void getTableListFailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -859,6 +887,7 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   void getTableListSuccess(List<GetTableList> _getlist) {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
@@ -870,8 +899,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
   Future<void> updatequantitySuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
 
     // _cartItemList = null;
     // Globle().dinecartValue -= 1;
@@ -882,9 +912,10 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
 
   @override
   Future<void> updatequantityfailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }

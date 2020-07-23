@@ -102,14 +102,14 @@ class _RestaurantViewState extends State<RestaurantView>
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
 
-    Preference.getPrefValue<int>("keyCategoryId").then((value) {
+    Preference.getPrefValue<int>(PreferenceKeys.dineCategoryId).then((value) {
       if (value != null) {
         setState(() {
           _selectedMenu = value;
         });
       }
     });
-    Preference.getPrefValue<int>("keySubCateId").then((value) {
+    Preference.getPrefValue<int>(PreferenceKeys.dineSubCatId).then((value) {
       if (value != null) {
         setState(() {
           _selectedSubMenu = value;
@@ -144,7 +144,8 @@ class _RestaurantViewState extends State<RestaurantView>
   _onSelected(index) {
     setState(() {
       _selectedMenu = index;
-      Preference.setPersistData<int>(_selectedMenu, "keyCategoryId");
+      Preference.setPersistData<int>(
+          _selectedMenu, PreferenceKeys.dineCategoryId);
       if (_selectedMenu == index) {
         if (category2[index].subcategories != null) {
           if (category2[index].subcategories.length > 0) {
@@ -220,7 +221,8 @@ class _RestaurantViewState extends State<RestaurantView>
   _onSubMenuSelected(index) {
     setState(() {
       _selectedSubMenu = index;
-      Preference.setPersistData<int>(_selectedSubMenu, "keySubCateId");
+      Preference.setPersistData<int>(
+          _selectedSubMenu, PreferenceKeys.dineSubCatId);
       subCategoryIdabc =
           category2[_selectedMenu].subcategories[_selectedSubMenu].id;
 

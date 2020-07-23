@@ -2039,9 +2039,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
       isIgnoreTouch = false;
       isLoader = false;
     });
+
     specialReq = "";
     Globle().dinecartValue += 1;
     int i = Globle().dinecartValue;
+
     print(i);
     // cartPageCount = Globle().dinecartValue += 1;
 
@@ -2234,6 +2236,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Globle().dinecartValue += 1;
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertUpdateOrderSuccess(
         "${widget.title}", "${widget.title} " + STR_CARTADDED, context);

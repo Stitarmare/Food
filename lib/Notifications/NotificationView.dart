@@ -90,7 +90,7 @@ class _NotificationViewState extends State<NotificationView>
             },
           ),
         ),
-        body: Stack(children: <Widget>[
+        body: Stack(alignment: Alignment.center, children: <Widget>[
           _notificationList(context),
           isLoader
               ? SpinKitFadingCircle(
