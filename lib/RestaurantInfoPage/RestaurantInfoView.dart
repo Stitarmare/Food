@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Utils/String.dart';
 import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/Models/RestaurantInfoModel.dart';
@@ -36,6 +37,7 @@ class RestaurantInfoView extends StatefulWidget {
 }
 
 class RestaurantInfoViewState extends State<RestaurantInfoView>
+    with TickerProviderStateMixin
     implements RestaurantInfoModelView {
   DialogsIndicator dialogs = DialogsIndicator();
   RestaurantInfoPresenter restaurantIdInfoPresenter;
@@ -45,6 +47,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   ProgressDialog progressDialog;
   ScrollController _scrollcontroller;
   ScrollController _controller;
+  bool isLoader = false;
 
   int page = 1;
   List<MenuCategoryButton> menuOptionItem = [
@@ -99,7 +102,8 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
         !_scrollcontroller.position.outOfRange) {
       setState(() {
         print("reach the bottom");
-        progressDialog.show();
+        // progressDialog.show();
+        isLoader = true;
         restaurantIdInfoPresenter.getRestaurantReview(
             context, widget.restId, page);
       });
@@ -118,7 +122,10 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   _getRestaurantInfo() {
     //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    progressDialog.show();
+    // progressDialog.show();
+    setState(() {
+      isLoader = true;
+    });
     restaurantIdInfoPresenter.getRestaurantInfoPage(context, widget.restId);
   }
 
@@ -132,8 +139,11 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   _getRestaurantReview() async {
-    await progressDialog.show();
+    // await progressDialog.show();
     // //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
+    setState(() {
+      isLoader = true;
+    });
     restaurantIdInfoPresenter.getRestaurantReview(context, widget.restId, page);
   }
 
@@ -410,79 +420,99 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
               ]),
         ));
     return Scaffold(
-      body: _restaurantInfoData == null
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      STR_FETCHING_INFO,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: FONTSIZE_12,
-                          fontFamily: Constants.getFontType(),
-                          fontWeight: FontWeight.w500,
-                          color: greytheme1200),
-                    ),
-                  ),
-                  CircularProgressIndicator()
-                ],
-              ),
+      body: isLoader
+          ? SpinKitFadingCircle(
+              color: Globle().colorscode != null
+                  ? getColorByHex(Globle().colorscode)
+                  : orangetheme300,
+              size: 50.0,
+              controller: AnimationController(
+                  vsync: this, duration: const Duration(milliseconds: 1200)),
             )
-          : Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Stack(
-                fit: StackFit.passthrough,
-                alignment: AlignmentDirectional.topStart,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Positioned(left: 0, right: 0, top: 0, child: imageCarousel),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            FlatButton(
-                              child: Image.asset(
-                                BACK_BTN_ICON_PATH,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                width: 520,
-                              ),
-                              flex: 2,
-                            ),
-                          ],
-                        )),
+          : _restaurantInfoData == null
+              ? Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          STR_FETCHING_INFO,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: FONTSIZE_12,
+                              fontFamily: Constants.getFontType(),
+                              fontWeight: FontWeight.w500,
+                              color: greytheme1200),
+                        ),
+                      ),
+                      // CircularProgressIndicator()
+
+                      SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    top: Constants.getSafeAreaHeight(context) * 0.3,
-                    left: 0,
-                    child: Container(
-                      decoration: new BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(40.0),
-                              topRight: const Radius.circular(40.0))),
-                      height: Constants.getSafeAreaHeight(context) * 0.7,
-                      width: Constants.getScreenWidth(context),
-                      child: hotelInfo,
-                    ),
-                  )
-                ],
-              ),
-            ),
+                )
+              : Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
+                    fit: StackFit.passthrough,
+                    alignment: AlignmentDirectional.topStart,
+                    overflow: Overflow.visible,
+                    children: <Widget>[
+                      Positioned(
+                          left: 0, right: 0, top: 0, child: imageCarousel),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                        child: Container(
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Image.asset(
+                                    BACK_BTN_ICON_PATH,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    width: 520,
+                                  ),
+                                  flex: 2,
+                                ),
+                              ],
+                            )),
+                      ),
+                      Positioned(
+                        top: Constants.getSafeAreaHeight(context) * 0.3,
+                        left: 0,
+                        child: Container(
+                          decoration: new BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: new BorderRadius.only(
+                                  topLeft: const Radius.circular(40.0),
+                                  topRight: const Radius.circular(40.0))),
+                          height: Constants.getSafeAreaHeight(context) * 0.7,
+                          width: Constants.getScreenWidth(context),
+                          child: hotelInfo,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
     );
   }
 
@@ -921,6 +951,9 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   Future<void> restaurantInfoFailed() async {
     //await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
   }
 
   String getReview(int index) {
@@ -932,6 +965,7 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   @override
   Future<void> restaurantInfoSuccess(RestaurantInfoData restInfoData) async {
     setState(() {
+      isLoader = false;
       if (restInfoData == null) {}
       _restaurantInfoData = restInfoData;
       if (_restaurantInfoData.gallary != null &&
@@ -947,12 +981,18 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
 
   @override
   Future<void> getReviewFailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
   }
 
   @override
   Future<void> getReviewSuccess(
       List<RestaurantReviewList> getReviewList) async {
+    setState(() {
+      isLoader = false;
+    });
     if (getReviewList.length == 0) {
       await progressDialog.hide();
 
@@ -981,10 +1021,18 @@ class RestaurantInfoViewState extends State<RestaurantInfoView>
   }
 
   @override
-  void writeReviewFailed() {}
+  void writeReviewFailed() {
+    setState(() {
+      isLoader = false;
+    });
+  }
 
   @override
-  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {}
+  void writeReviewSuccess(WriteRestaurantReviewModel writeReview) {
+    setState(() {
+      isLoader = false;
+    });
+  }
 
   String getRestName() {
     if (_restaurantInfoData != null) {
