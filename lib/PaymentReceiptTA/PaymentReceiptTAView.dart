@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:basic_utils/basic_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/PaymentReceiptDine/PaymentReceiptContractor.dart';
 import 'package:foodzi/PaymentReceiptDine/PaymentReceiptPresenter.dart';
@@ -24,9 +25,11 @@ class PaymentReceiptTAView extends StatefulWidget {
 }
 
 class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
+    with TickerProviderStateMixin
     implements PaymentReceiptModalView {
   PayementReceiptPresenter payementReceiptPresenter;
   ProgressDialog progressDialog;
+  bool isLoader = false;
 
   @override
   void initState() {
@@ -53,9 +56,22 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: CustomScrollView(
-          slivers: <Widget>[_getmainviewTableno(), _getOptions()],
-        ),
+        body: Stack(children: <Widget>[
+          CustomScrollView(
+            slivers: <Widget>[_getmainviewTableno(), _getOptions()],
+          ),
+          isLoader
+              ? SpinKitFadingCircle(
+                  color: Globle().colorscode != null
+                      ? getColorByHex(Globle().colorscode)
+                      : orangetheme300,
+                  size: 50.0,
+                  controller: AnimationController(
+                      vsync: this,
+                      duration: const Duration(milliseconds: 1200)),
+                )
+              : Text("")
+        ]),
         bottomNavigationBar: BottomAppBar(
           child: Container(
               height: 55,
@@ -75,7 +91,10 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
                       if (value != null) {
                         if (value["textValue"] != null) {
                           print(value["textValue"]);
-                          await progressDialog.show();
+                          // await progressDialog.show();
+                          setState(() {
+                            isLoader = true;
+                          });
                           payementReceiptPresenter.getPaymentReceipt(
                               widget.getmyOrderBookingHistory.id,
                               value["textValue"],
@@ -738,12 +757,18 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
 
   @override
   void onFailedPaymentReceipt() async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
   }
 
   @override
   void onSuccessPaymentReceipt(String message) async {
-    await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
+    // await progressDialog.hide();
     if (message != null) {
       Constants.showAlertSuccess("Email Status", message, context);
     }
