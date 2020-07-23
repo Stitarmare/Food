@@ -464,51 +464,64 @@ class _MyCartViewState extends State<MyCartView>
               },
             ),
           ),
-          body: Column(
-            children: <Widget>[
-              _getmainviewTableno(),
-              SizedBox(
-                height: 20,
-              ),
-              Divider(
-                height: 2,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              isloading
-                  ? Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Text(
-                              "",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_15,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme1200),
+          body: Stack(alignment: Alignment.center, children: <Widget>[
+            Column(
+              children: <Widget>[
+                _getmainviewTableno(),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(
+                  height: 2,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                isloading
+                    ? Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Center(
+                              child: Text(
+                                "",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: FONTSIZE_15,
+                                    fontFamily: KEY_FONTFAMILY,
+                                    fontWeight: FontWeight.w500,
+                                    color: greytheme1200),
+                              ),
                             ),
-                          ),
-                          // CircularProgressIndicator()
-                          SpinKitFadingCircle(
-                            color: Globle().colorscode != null
-                                ? getColorByHex(Globle().colorscode)
-                                : orangetheme300,
-                            size: 50.0,
-                            controller: AnimationController(
-                                vsync: this,
-                                duration: const Duration(milliseconds: 1200)),
-                          )
-                        ],
-                      ),
-                    )
-                  : _getAddedListItem(),
-            ],
-          ),
+                            // CircularProgressIndicator()
+                            SpinKitFadingCircle(
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme300,
+                              size: 50.0,
+                              controller: AnimationController(
+                                  vsync: this,
+                                  duration: const Duration(milliseconds: 1200)),
+                            )
+                          ],
+                        ),
+                      )
+                    : _getAddedListItem(),
+              ],
+            ),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
                 height: MediaQuery.of(context).size.height * 0.21,
@@ -687,7 +700,10 @@ class _MyCartViewState extends State<MyCartView>
                   Preference.setPersistData<String>(tableno, "tableName");
                 }
               }
-              await progressDialog.show();
+              setState(() {
+                isLoader = true;
+              });
+              // await progressDialog.show();
               //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
               _myCartpresenter.addTablenoToCart(Globle().loginModel.data.id,
                   widget.restId, _dropdownTableNumber, context);
@@ -948,7 +964,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> getCartMenuListfailed() async {
     setState(() {
       isloading = false;
-
+      isLoader = false;
       _cartItemList = null;
       isIgnoreTouch = false;
     });
@@ -963,6 +979,7 @@ class _MyCartViewState extends State<MyCartView>
     setState(() {
       isIgnoreTouch = false;
       isloading = false;
+      isLoader = false;
     });
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
@@ -1065,6 +1082,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> removeItemFailed() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     isBtnEnabled = false;
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
@@ -1079,6 +1097,7 @@ class _MyCartViewState extends State<MyCartView>
     setState(() {
       isIgnoreTouch = false;
       isBtnEnabled = false;
+      isLoader = false;
     });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
@@ -1103,18 +1122,20 @@ class _MyCartViewState extends State<MyCartView>
 
   @override
   Future<void> addTablebnoSuccces() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> addTablenofailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
@@ -1123,6 +1144,7 @@ class _MyCartViewState extends State<MyCartView>
   void getTableListFailed() {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
   }
 
@@ -1130,6 +1152,7 @@ class _MyCartViewState extends State<MyCartView>
   void getTableListSuccess(List<GetTableList> _getlist) {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     getTableListModel = _getlist[0];
     if (_getlist.length > 0) {
@@ -1141,6 +1164,7 @@ class _MyCartViewState extends State<MyCartView>
   Future<void> updatequantitySuccess() async {
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Globle().dinecartValue -= 1;
     await progressDialog.hide();
@@ -1156,24 +1180,29 @@ class _MyCartViewState extends State<MyCartView>
     await progressDialog.hide();
     setState(() {
       isIgnoreTouch = false;
+      isLoader = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
   void placeOrderCartFailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
+    setState(() {
+      isLoader = false;
+    });
   }
 
   @override
   void placeOrderCartSuccess(OrderData orderData) async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
 
     setState(() {
       if (myOrderData == null) {
         myOrderData = orderData;
       }
       isTableExists = false;
+      isLoader = false;
     });
 
     Globle().isTabelAvailable = true;

@@ -63,7 +63,7 @@ class _TakeAwayViewState extends State<TakeAwayView>
 
   String favourite;
   String rating;
-  String sortByDistance;
+  String sortByDistance = "ASC";
   String sortByRating;
   var sliderValue;
   bool isIgnoreTouch = true;

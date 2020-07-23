@@ -550,8 +550,9 @@ class _DineViewState extends State<DineInView>
     setState(() {
       page = 1;
       _restaurantList = null;
+      isLoader = true;
     });
-    await progressDialog.show();
+    // await progressDialog.show();
     dinerestaurantPresenter.getrestaurantspage(
         _position.latitude.toString(),
         _position.longitude.toString(),

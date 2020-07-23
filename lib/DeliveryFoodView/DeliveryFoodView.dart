@@ -51,7 +51,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
   String rating;
   String favourite;
   String sortByRating;
-  String sortByDistance;
+  String sortByDistance = "ASC";
   StreamController<Position> _controllerPosition = new StreamController();
   List<BottomItemButton> optionSortBy = [
     BottomItemButton(
