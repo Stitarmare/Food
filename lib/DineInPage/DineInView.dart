@@ -505,9 +505,32 @@ class _DineViewState extends State<DineInView>
                         ],
                       ),
                     )
-                  : (_restaurantList != null)
-                      ? (_restaurantList.length > 0)
-                          ? restaurantsInfo()
+                  : isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : (_restaurantList != null)
+                          ? (_restaurantList.length > 0)
+                              ? restaurantsInfo()
+                              : Container(
+                                  child: Center(
+                                    child: Text(
+                                      STR_NO_RESTAURANT,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_25,
+                                          fontFamily: KEY_FONTFAMILY,
+                                          fontWeight: FontWeight.w500,
+                                          color: greytheme700),
+                                    ),
+                                  ),
+                                )
                           : Container(
                               child: Center(
                                 child: Text(
@@ -520,20 +543,7 @@ class _DineViewState extends State<DineInView>
                                       color: greytheme700),
                                 ),
                               ),
-                            )
-                      : Container(
-                          child: Center(
-                            child: Text(
-                              STR_NO_RESTAURANT,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_25,
-                                  fontFamily: KEY_FONTFAMILY,
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700),
                             ),
-                          ),
-                        ),
         ),
       ),
     );
@@ -566,66 +576,54 @@ class _DineViewState extends State<DineInView>
   }
 
   Widget restaurantsInfo() {
-    return Stack(alignment: Alignment.center, children: <Widget>[
-      RefreshIndicator(
-        onRefresh: _refreshRstaurantList,
-        child: ListView.builder(
-          controller: _controller,
-          itemCount: _getint(),
-          itemBuilder: (_, i) {
-            return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-                elevation: 2,
-                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-                child: ListTile(
-                    contentPadding: EdgeInsets.all(0.0),
-                    title: _getMainView(
-                      _restaurantList[i].restName,
-                      _restaurantList[i].distance,
-                      _restaurantList[i].openingTime,
-                      _restaurantList[i].closingTime,
-                      _restaurantList[i].averageRating.toString(),
-                      _restaurantList[i].coverImage,
-                    ),
-                    onTap: () {
-                      //Globle().dinecartValue = 0;
-                      //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-                      Globle().colorscode = _restaurantList[i].colourCode;
-                      setState(() {
-                        Preference.setPersistData<String>(
-                            _restaurantList[i].latitude,
-                            PreferenceKeys.keyLatitude);
-                        Preference.setPersistData<String>(
-                            _restaurantList[i].longitude,
-                            PreferenceKeys.keyLongitude);
-                      });
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => BottomTabbarHome(
-                                title: _restaurantList[i].restName,
-                                restId: _restaurantList[i].id,
-                                lat: _restaurantList[i].latitude,
-                                long: _restaurantList[i].longitude,
-                                imageUrl: _restaurantList[i].coverImage,
-                                tableName: widget.tableName,
-                                restaurantList: _restaurantList[i],
-                              )));
-                    }));
-          },
-        ),
+    return RefreshIndicator(
+      onRefresh: _refreshRstaurantList,
+      child: ListView.builder(
+        controller: _controller,
+        itemCount: _getint(),
+        itemBuilder: (_, i) {
+          return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+              elevation: 2,
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+              child: ListTile(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: _getMainView(
+                    _restaurantList[i].restName,
+                    _restaurantList[i].distance,
+                    _restaurantList[i].openingTime,
+                    _restaurantList[i].closingTime,
+                    _restaurantList[i].averageRating.toString(),
+                    _restaurantList[i].coverImage,
+                  ),
+                  onTap: () {
+                    //Globle().dinecartValue = 0;
+                    //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+                    Globle().colorscode = _restaurantList[i].colourCode;
+                    setState(() {
+                      Preference.setPersistData<String>(
+                          _restaurantList[i].latitude,
+                          PreferenceKeys.keyLatitude);
+                      Preference.setPersistData<String>(
+                          _restaurantList[i].longitude,
+                          PreferenceKeys.keyLongitude);
+                    });
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => BottomTabbarHome(
+                              title: _restaurantList[i].restName,
+                              restId: _restaurantList[i].id,
+                              lat: _restaurantList[i].latitude,
+                              long: _restaurantList[i].longitude,
+                              imageUrl: _restaurantList[i].coverImage,
+                              tableName: widget.tableName,
+                              restaurantList: _restaurantList[i],
+                            )));
+                  }));
+        },
       ),
-      isLoader
-          ? SpinKitFadingCircle(
-              color: Globle().colorscode != null
-                  ? getColorByHex(Globle().colorscode)
-                  : orangetheme300,
-              size: 50.0,
-              controller: AnimationController(
-                  vsync: this, duration: const Duration(milliseconds: 1200)),
-            )
-          : Text("")
-    ]);
+    );
   }
 
   Widget _getMainView(

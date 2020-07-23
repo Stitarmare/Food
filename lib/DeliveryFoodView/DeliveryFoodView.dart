@@ -114,6 +114,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
         setState(() {
           getttingLocation = true;
           locationNotFound = false;
+          isLoader = true;
         });
         // DialogsIndicator.showLoadingDialog(
         //     context, _keyLoader, STR_PLEASE_WAIT);
@@ -129,14 +130,6 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
             page,
             delivery,
             context);
-        // dinerestaurantPresenter.getrestaurantspage(
-        //     _position.latitude.toString(),
-        //     _position.longitude.toString(),
-        //     sortedBy,
-        //     filteredBy,
-        //     page,
-        //     delivery,
-        //     context);
       } else {
         setState(() {
           getttingLocation = true;
@@ -163,14 +156,6 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
               page,
               delivery,
               context);
-          // dinerestaurantPresenter.getrestaurantspage(
-          //     _position.latitude.toString(),
-          //     _position.longitude.toString(),
-          //     sortedBy,
-          //     filteredBy,
-          //     page,
-          //     delivery,
-          //     context);
         }
       }
     });
@@ -545,9 +530,32 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                         ],
                       ),
                     )
-                  : (_restaurantList != null)
-                      ? (_restaurantList.length > 0)
-                          ? restaurantsInfo()
+                  : isLoader
+                      ? SpinKitFadingCircle(
+                          color: Globle().colorscode != null
+                              ? getColorByHex(Globle().colorscode)
+                              : orangetheme300,
+                          size: 50.0,
+                          controller: AnimationController(
+                              vsync: this,
+                              duration: const Duration(milliseconds: 1200)),
+                        )
+                      : (_restaurantList != null)
+                          ? (_restaurantList.length > 0)
+                              ? restaurantsInfo()
+                              : Container(
+                                  child: Center(
+                                    child: Text(
+                                      STR_NO_RESTAURANT,
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontSize: FONTSIZE_25,
+                                          fontFamily: Constants.getFontType(),
+                                          fontWeight: FontWeight.w500,
+                                          color: greytheme700),
+                                    ),
+                                  ),
+                                )
                           : Container(
                               child: Center(
                                 child: Text(
@@ -560,20 +568,7 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
                                       color: greytheme700),
                                 ),
                               ),
-                            )
-                      : Container(
-                          child: Center(
-                            child: Text(
-                              STR_NO_RESTAURANT,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: FONTSIZE_25,
-                                  fontFamily: Constants.getFontType(),
-                                  fontWeight: FontWeight.w500,
-                                  color: greytheme700),
                             ),
-                          ),
-                        ),
         ),
       ),
     );
@@ -590,8 +585,9 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
     setState(() {
       page = 1;
       _restaurantList = null;
+      isLoader = true;
     });
-    await progressDialog.show();
+    // await progressDialog.show();
     dinerestaurantPresenter.getrestaurantspage(
         _position.latitude.toString(),
         _position.longitude.toString(),
@@ -602,69 +598,49 @@ class _DeliveryFoodViewState extends State<DeliveryFoodView>
         page,
         delivery,
         context);
-    // dinerestaurantPresenter.getrestaurantspage(
-    //     _position.latitude.toString(),
-    //     _position.longitude.toString(),
-    //     sortedBy,
-    //     filteredBy,
-    //     page,
-    //     delivery,
-    //     context);
   }
 
   Widget restaurantsInfo() {
-    return Stack(children: <Widget>[
-      RefreshIndicator(
-        onRefresh: _refreshRstaurantList,
-        child: ListView.builder(
-          controller: _controller,
-          itemCount: _getint(),
-          itemBuilder: (_, i) {
-            return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(10.0),
-                ),
-                elevation: 2,
-                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
-                child: ListTile(
-                    contentPadding: EdgeInsets.all(0.0),
-                    title: _getMainView(
-                      _restaurantList[i].restName,
-                      _restaurantList[i].distance,
-                      _restaurantList[i].openingTime,
-                      _restaurantList[i].closingTime,
-                      _restaurantList[i].averageRating.toString(),
-                      _restaurantList[i].coverImage,
-                    ),
-                    onTap: () {
-                      //Globle().dinecartValue = 0;
-                      //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
-                      Globle().colorscode = _restaurantList[i].colourCode;
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => DeliveryBottomTabbarHome(
-                                title: _restaurantList[i].restName,
-                                restId: _restaurantList[i].id,
-                                lat: _restaurantList[i].latitude,
-                                long: _restaurantList[i].longitude,
-                                imageUrl: _restaurantList[i].coverImage,
-                                tableName: widget.tableName,
-                              )));
-                      setState(() {});
-                    }));
-          },
-        ),
+    return RefreshIndicator(
+      onRefresh: _refreshRstaurantList,
+      child: ListView.builder(
+        controller: _controller,
+        itemCount: _getint(),
+        itemBuilder: (_, i) {
+          return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0),
+              ),
+              elevation: 2,
+              margin: const EdgeInsets.only(left: 15, right: 15, bottom: 14),
+              child: ListTile(
+                  contentPadding: EdgeInsets.all(0.0),
+                  title: _getMainView(
+                    _restaurantList[i].restName,
+                    _restaurantList[i].distance,
+                    _restaurantList[i].openingTime,
+                    _restaurantList[i].closingTime,
+                    _restaurantList[i].averageRating.toString(),
+                    _restaurantList[i].coverImage,
+                  ),
+                  onTap: () {
+                    //Globle().dinecartValue = 0;
+                    //Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+                    Globle().colorscode = _restaurantList[i].colourCode;
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DeliveryBottomTabbarHome(
+                              title: _restaurantList[i].restName,
+                              restId: _restaurantList[i].id,
+                              lat: _restaurantList[i].latitude,
+                              long: _restaurantList[i].longitude,
+                              imageUrl: _restaurantList[i].coverImage,
+                              tableName: widget.tableName,
+                            )));
+                    setState(() {});
+                  }));
+        },
       ),
-      isLoader
-          ? SpinKitFadingCircle(
-              color: Globle().colorscode != null
-                  ? getColorByHex(Globle().colorscode)
-                  : orangetheme300,
-              size: 50.0,
-              controller: AnimationController(
-                  vsync: this, duration: const Duration(milliseconds: 1200)),
-            )
-          : Text("")
-    ]);
+    );
   }
 
   Widget _getMainView(
