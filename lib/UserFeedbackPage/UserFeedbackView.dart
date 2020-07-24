@@ -76,6 +76,18 @@ class UserFeedbackViewState extends State<UserFeedbackView>
           ),
           // backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(
+                  Icons.close,
+                ),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainWidget()),
+                      ModalRoute.withName(STR_MAIN_WIDGET_PAGE));
+                })
+          ],
         ),
         bottomNavigationBar: BottomAppBar(
           child: Container(

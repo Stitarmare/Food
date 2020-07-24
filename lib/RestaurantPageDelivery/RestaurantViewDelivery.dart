@@ -110,6 +110,10 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
               setState(() {
                 _selectedSubMenu = value;
               });
+            } else {
+              setState(() {
+                _selectedSubMenu = null;
+              });
             }
           });
         }
@@ -1122,10 +1126,13 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           subcategoriesList =
               categoryData[0].category[_selectedMenu].subcategories;
           abc = categoryData[0].category[_selectedMenu].id;
-          subCategoryIdabc = categoryData[0]
-              .category[_selectedMenu]
-              .subcategories[_selectedSubMenu]
-              .id;
+          if (_selectedSubMenu != null) {
+            subCategoryIdabc = categoryData[0]
+                .category[_selectedMenu]
+                .subcategories[_selectedSubMenu]
+                .id;
+          }
+
           callItemOnCategorySelect();
         });
       } else {
