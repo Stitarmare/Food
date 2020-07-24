@@ -426,7 +426,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     color: greytheme1200),
                               ),
                             ),
-                            CircularProgressIndicator()
+                            // CircularProgressIndicator()
+                            SpinKitFadingCircle(
+                              color: Globle().colorscode != null
+                                  ? getColorByHex(Globle().colorscode)
+                                  : orangetheme300,
+                              size: 50.0,
+                              controller: AnimationController(
+                                  vsync: this,
+                                  duration: const Duration(milliseconds: 1200)),
+                            )
                           ],
                         ),
                       )
