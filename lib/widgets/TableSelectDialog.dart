@@ -41,7 +41,9 @@ class _TableSelectDialogViewState extends State<TableSelectDialogView>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       children: <Widget>[
         Container(
-          height: isTableList ? 200 : MediaQuery.of(context).size.height * 0.24,
+          height: isTableList
+              ? 200
+              : 180, //MediaQuery.of(context).size.height * 0.24
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           child: Column(

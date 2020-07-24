@@ -194,7 +194,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     });
     abc = category2[index].id;
     if (abc != null) {
-      _selectedSubMenu = null;
+      subCategoryIdabc = null;
       callItemOnCategorySelect();
     } else {
       abc = null;
@@ -256,6 +256,8 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
+    SizeConfig().init(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(
@@ -361,7 +363,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                     _getSubMenuListHorizontal(context),
                   ])),
               Expanded(
-                flex: 7,
+                flex: 6,
                 child: CustomScrollView(
                   controller: _controller,
                   slivers: <Widget>[
@@ -835,8 +837,9 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
+        // childAspectRatio: queryData.devicePixelRatio * 0.25,
         // childAspectRatio: 0.8,
-        childAspectRatio: queryData.devicePixelRatio * 0.25,
+        childAspectRatio: SizeConfig.blockSizeHorizontal / 5,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -1027,7 +1030,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
   }
 
   callAPIOnSwitchChange(String menuType) async {
-    await progressDialog.show();
+    // await progressDialog.show();
     menutype = menuType;
     restaurantDeliveryPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
@@ -1051,7 +1054,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
 
   @override
   Future<void> getMenuListfailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isLoading = false;
       isLoader = false;
@@ -1067,7 +1070,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       isLoader = false;
     });
     if (menulist.length == 0) {
-      await progressDialog.hide();
+      // await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
@@ -1082,7 +1085,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       }
       page++;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

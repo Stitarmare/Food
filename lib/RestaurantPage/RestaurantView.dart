@@ -272,6 +272,7 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
+    SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           title: Center(
@@ -378,7 +379,7 @@ class _RestaurantViewState extends State<RestaurantView>
                 ]),
               ),
               Expanded(
-                flex: 7,
+                flex: 6,
                 child: CustomScrollView(
                   controller: _controller,
                   slivers: <Widget>[
@@ -787,13 +788,15 @@ class _RestaurantViewState extends State<RestaurantView>
   Widget _menuItemList() {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
+
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
-        childAspectRatio: queryData.devicePixelRatio * 0.25,
+        // childAspectRatio: queryData.devicePixelRatio * 0.25,
         // childAspectRatio: 0.8,
+        childAspectRatio: SizeConfig.blockSizeHorizontal / 5,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
@@ -823,8 +826,8 @@ class _RestaurantViewState extends State<RestaurantView>
                     // borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       LimitedBox(
                         child: ClipRRect(
@@ -833,26 +836,27 @@ class _RestaurantViewState extends State<RestaurantView>
                           //   topLeft: Radius.circular(10.0),
                           //   topRight: Radius.circular(10.0),
                           // ),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            heightFactor: 1,
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 150,
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                FOOD_IMAGE_PATH,
-                                fit: BoxFit.contain,
-                                width: double.infinity,
-                                height: 100,
-                              ),
-                              imageUrl: BaseUrl.getBaseUrlImages() +
-                                  '${_restaurantList[index].itemImage}',
+                          // child:
+                          // Align(
+                          //   alignment: Alignment.bottomRight,
+                          // heightFactor: 1,
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 150,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(),
                             ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              FOOD_IMAGE_PATH,
+                              fit: BoxFit.contain,
+                              width: double.infinity,
+                              height: 100,
+                            ),
+                            imageUrl: BaseUrl.getBaseUrlImages() +
+                                '${_restaurantList[index].itemImage}',
                           ),
+                          // ),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -1114,7 +1118,7 @@ class _RestaurantViewState extends State<RestaurantView>
   }
 
   callAPIOnSwitchChange(String menuType) async {
-    await progressDialog.show();
+    // await progressDialog.show();
     menutype = menuType;
     restaurantPresenter.getMenuList(widget.restId, context,
         categoryId: abc, menu: menutype);
@@ -1138,7 +1142,7 @@ class _RestaurantViewState extends State<RestaurantView>
 
   @override
   Future<void> getMenuListfailed() async {
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isLoading = false;
       isLoader = false;
@@ -1150,7 +1154,7 @@ class _RestaurantViewState extends State<RestaurantView>
   Future<void> getMenuListsuccess(List<RestaurantMenuItem> menulist,
       RestaurantItemsModel _restaurantItemsModel1) async {
     if (menulist.length == 0) {
-      await progressDialog.hide();
+      // await progressDialog.hide();
       setState(() {
         isLoading = false;
         isLoader = false;
@@ -1170,7 +1174,7 @@ class _RestaurantViewState extends State<RestaurantView>
 
       page++;
     });
-    await progressDialog.hide();
+    // await progressDialog.hide();
     setState(() {
       isLoading = false;
       isLoader = false;

@@ -182,7 +182,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     });
     abc = category2[index].id;
     if (abc != null) {
-      _selectedSubMenu = null;
+      subCategoryIdabc = null;
       callItemOnCategorySelect();
     } else {
       abc = null;
@@ -244,6 +244,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
     progressDialog.style(message: STR_LOADING);
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
@@ -298,14 +299,15 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           children: <Widget>[
             // Expanded(flex: 2, child: _restaurantLogo()),
             Expanded(
+                flex: 1,
                 child: Column(
-              children: <Widget>[
-                _getMenuListHorizontal(context),
-                _getSubMenuListHorizontal(context),
-              ],
-            )),
+                  children: <Widget>[
+                    _getMenuListHorizontal(context),
+                    _getSubMenuListHorizontal(context),
+                  ],
+                )),
             Expanded(
-              flex: 7,
+              flex: 6,
               child: CustomScrollView(
                 controller: _controller,
                 slivers: <Widget>[
@@ -536,8 +538,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
         mainAxisSpacing: 0.0,
         crossAxisSpacing: 0.0,
+        // childAspectRatio: mediaQueryData.devicePixelRatio * 0.25,
         // childAspectRatio: 0.8,
-        childAspectRatio: mediaQueryData.devicePixelRatio * 0.25,
+        childAspectRatio: SizeConfig.blockSizeHorizontal / 5,
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return
