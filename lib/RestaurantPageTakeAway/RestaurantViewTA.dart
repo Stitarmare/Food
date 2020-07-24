@@ -83,20 +83,28 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
-    Preference.getPrefValue<int>("takeAwayCategory").then((value) {
+
+    Preference.getPrefValue<int>(PreferenceKeys.subcatRestIdTA).then((value) {
       if (value != null) {
-        setState(() {
-          _selectedMenu = value;
-        });
+        if (widget.restId == value) {
+          Preference.getPrefValue<int>("takeAwayCategory").then((value) {
+            if (value != null) {
+              setState(() {
+                _selectedMenu = value;
+              });
+            }
+          });
+          Preference.getPrefValue<int>("takeAwaySubCateId").then((value) {
+            if (value != null) {
+              setState(() {
+                _selectedSubMenu = value;
+              });
+            }
+          });
+        }
       }
     });
-    Preference.getPrefValue<int>("takeAwaySubCateId").then((value) {
-      if (value != null) {
-        setState(() {
-          _selectedSubMenu = value;
-        });
-      }
-    });
+
     super.initState();
   }
 
@@ -117,7 +125,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     setState(() {
       _selectedMenu = index;
       Preference.setPersistData<int>(_selectedMenu, "takeAwayCategory");
-
+      Preference.setPersistData<int>(
+          widget.restId, PreferenceKeys.subcatRestIdTA);
       if (_selectedMenu == index) {
         if (category2[index].subcategories != null) {
           if (category2[index].subcategories.length > 0) {
@@ -173,6 +182,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
           subCategoryIdabc = null;
           _selectedSubMenu = null;
           previousValue = _selectedMenu;
+          Preference.setPersistData<int>(_selectedSubMenu, "takeAwaySubCateId");
         }
       } else {
         previousValue = _selectedMenu;
@@ -194,6 +204,8 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
     setState(() {
       _selectedSubMenu = index;
       Preference.setPersistData<int>(_selectedSubMenu, "takeAwaySubCateId");
+      Preference.setPersistData<int>(
+          widget.restId, PreferenceKeys.subcatRestIdTA);
 
       subCategoryIdabc =
           category2[_selectedMenu].subcategories[_selectedSubMenu].id;

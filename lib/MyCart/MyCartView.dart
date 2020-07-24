@@ -1213,8 +1213,9 @@ class _MyCartViewState extends State<MyCartView>
     Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
     Globle().orderNumber = orderData.orderNumber;
     Globle().dinecartValue = 0;
-    Preference.removeForKey("keyCategoryId");
-    Preference.removeForKey("keySubCateId");
+    Preference.removeForKey(PreferenceKeys.dineCategoryId);
+    Preference.removeForKey(PreferenceKeys.dineSubCatId);
+    Preference.removeForKey(PreferenceKeys.categoryDineRestId);
 
     Navigator.push(
         context,

@@ -904,6 +904,10 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+    Preference.removeForKey("deliveryCatIdRestId");
+    Preference.removeForKey("deliveryCategory");
+    Preference.removeForKey("deliverySubCateId");
+
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertSuccess(STR_PAYMENT_SUCCESS, STR_TRANSACTION_DONE, context);

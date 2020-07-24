@@ -782,6 +782,9 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
+    Preference.removeForKey(PreferenceKeys.subcatRestIdTA);
+    Preference.removeForKey("takeAwayCategory");
+    Preference.removeForKey("takeAwaySubCateId");
 
     await progressDialog.hide();
 

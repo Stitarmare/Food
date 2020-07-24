@@ -447,7 +447,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
           ]),
           bottomNavigationBar: BottomAppBar(
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.19,
+                height: MediaQuery.of(context).size.height * 0.21,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[

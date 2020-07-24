@@ -24,6 +24,8 @@ class PreferenceKeys {
   static final keyLongitude = "keyLongitude";
   static final dineCategoryId = "dineCategoryId";
   static final dineSubCatId = "dineSubCateId";
+  static final categoryDineRestId = "restIdCategory";
+  static final subcatRestIdTA = "SubcatRestIdTA";
 }
 
 class Preference {

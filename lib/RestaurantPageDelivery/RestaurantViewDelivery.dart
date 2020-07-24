@@ -94,20 +94,28 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     print(widget.imageUrl);
     menudropdownPresenter = MenuDropdpwnPresenter(this);
     menudropdownPresenter.getMenuCategoryList(widget.restId, context, true);
-    Preference.getPrefValue<int>("deliveryCategory").then((value) {
+
+    Preference.getPrefValue<int>("deliveryCatIdRestId").then((value) {
       if (value != null) {
-        setState(() {
-          _selectedMenu = value;
-        });
+        if (widget.restId == value) {
+          Preference.getPrefValue<int>("deliveryCategory").then((value) {
+            if (value != null) {
+              setState(() {
+                _selectedMenu = value;
+              });
+            }
+          });
+          Preference.getPrefValue<int>("deliverySubCateId").then((value) {
+            if (value != null) {
+              setState(() {
+                _selectedSubMenu = value;
+              });
+            }
+          });
+        }
       }
     });
-    Preference.getPrefValue<int>("deliverySubCateId").then((value) {
-      if (value != null) {
-        setState(() {
-          _selectedSubMenu = value;
-        });
-      }
-    });
+
     super.initState();
   }
 
@@ -129,7 +137,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     setState(() {
       _selectedMenu = index;
       Preference.setPersistData<int>(_selectedMenu, "deliveryCategory");
-
+      Preference.setPersistData<int>(widget.restId, "deliveryCatIdRestId");
       if (_selectedMenu == index) {
         if (category2[index].subcategories != null) {
           if (category2[index].subcategories.length > 0) {
@@ -185,6 +193,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
           subCategoryIdabc = null;
           _selectedSubMenu = null;
           previousValue = _selectedMenu;
+          Preference.setPersistData<int>(_selectedSubMenu, "deliverySubCateId");
         }
       } else {
         previousValue = _selectedMenu;
@@ -206,6 +215,7 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
     setState(() {
       _selectedSubMenu = index;
       Preference.setPersistData<int>(_selectedSubMenu, "deliverySubCateId");
+      Preference.setPersistData<int>(widget.restId, "deliveryCatIdRestId");
 
       subCategoryIdabc =
           category2[_selectedMenu].subcategories[_selectedSubMenu].id;
