@@ -74,6 +74,7 @@ class UserFeedbackViewState extends State<UserFeedbackView>
                 fontWeight: FontWeight.w600,
                 fontFamily: Constants.getFontType()),
           ),
+          centerTitle: true,
           // backgroundColor: Colors.transparent,
           elevation: 0,
           actions: <Widget>[
