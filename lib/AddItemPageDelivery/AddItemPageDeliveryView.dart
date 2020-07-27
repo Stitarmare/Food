@@ -1833,10 +1833,11 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       isLoader = false;
     });
     specialReq = "";
-    if (Globle().deliveryCartItemCount == null) {
-      Globle().deliveryCartItemCount = 0;
-    }
+
     Globle().deliveryCartItemCount += 1;
+    Globle().dinecartValue += 1;
+
+    print(Globle().deliveryCartItemCount);
     Preference.setPersistData<int>(
         Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
