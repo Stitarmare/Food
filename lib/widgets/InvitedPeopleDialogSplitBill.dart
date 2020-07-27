@@ -18,7 +18,8 @@ class InvitedPeopleDialog extends StatefulWidget {
   int tableId;
   double amount;
   int orderID;
-  InvitedPeopleDialog({this.tableId, this.amount, this.orderID});
+  int userId;
+  InvitedPeopleDialog({this.tableId, this.amount, this.orderID, this.userId});
   @override
   _InvitedPeopleDialogState createState() => _InvitedPeopleDialogState();
 }
@@ -45,8 +46,12 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     _billPresenter = SplitBillPresenter(this);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
     _splitBillNotificationPresenter = SplitBillNotificationPresenter(this);
+    // statusTrackViewPresenter.getInvitedPeople(
+    //     Globle().loginModel.data.id, widget.tableId, context,
+    //     orderId: widget.orderID);
+
     statusTrackViewPresenter.getInvitedPeople(
-        Globle().loginModel.data.id, widget.tableId, context,
+        widget.userId, widget.tableId, context,
         orderId: widget.orderID);
 
     print(widget.tableId);
