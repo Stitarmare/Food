@@ -172,15 +172,15 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
                     overflow: Overflow.visible,
                     children: <Widget>[
                       Icon(Icons.shopping_cart, color: Colors.white),
-                      (Globle().dinecartValue != null)
-                          ? Globle().dinecartValue > 0 && cartStatus
+                      (Globle().deliveryCartItemCount != null)
+                          ? Globle().deliveryCartItemCount > 0 && cartStatus
                               ? Positioned(
                                   top: -20,
                                   right: -15,
                                   child: Badge(
                                       badgeColor: redtheme,
                                       badgeContent: Text(
-                                          "${Globle().dinecartValue} ",
+                                          "${Globle().deliveryCartItemCount} ",
                                           textAlign: TextAlign.center,
                                           style:
                                               TextStyle(color: Colors.white))))
@@ -373,10 +373,10 @@ class _DeliveryBottomTabbarHomeState extends State<DeliveryBottomTabbarHome>
 
   getCartCount() async {
     var cartCount =
-        await Preference.getPrefValue<int>(PreferenceKeys.dineCartItemCount);
+        await Preference.getPrefValue<int>(PreferenceKeys.deliveryCartCount);
     if (cartCount != null) {
       setState(() {
-        Globle().dinecartValue = cartCount;
+        Globle().deliveryCartItemCount = cartCount;
       });
       return cartCount;
     }

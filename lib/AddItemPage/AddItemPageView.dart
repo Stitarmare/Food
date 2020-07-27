@@ -1045,13 +1045,15 @@ class _AddItemPageViewState extends State<AddItemPageView>
               // ),
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
-                child: Text(
-                  StringUtils.capitalize(widget.description),
-                  style: TextStyle(
-                      fontFamily: Constants.getFontType(),
-                      fontSize: FONTSIZE_16,
-                      color: greytheme1000),
-                ),
+                child: widget.description != null
+                    ? Text(
+                        StringUtils.capitalize(widget.description),
+                        style: TextStyle(
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_16,
+                            color: greytheme1000),
+                      )
+                    : Text(""),
               ),
               SizedBox(
                 height: 25,

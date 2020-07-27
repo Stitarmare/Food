@@ -395,6 +395,12 @@ class _MyCartTWViewState extends State<MyCartTWView>
             title: Text(STR_MYCART),
             backgroundColor: Colors.white,
             elevation: 0,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
           body: Stack(alignment: Alignment.center, children: <Widget>[
             Column(

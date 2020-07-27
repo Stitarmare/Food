@@ -859,13 +859,15 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
               // ),
               Padding(
                 padding: EdgeInsets.only(left: 26, top: 12),
-                child: Text(
-                  StringUtils.capitalize(widget.description),
-                  style: TextStyle(
-                      fontFamily: Constants.getFontType(),
-                      fontSize: FONTSIZE_16,
-                      color: greytheme1000),
-                ),
+                child: widget.description != null
+                    ? Text(
+                        StringUtils.capitalize(widget.description),
+                        style: TextStyle(
+                            fontFamily: Constants.getFontType(),
+                            fontSize: FONTSIZE_16,
+                            color: greytheme1000),
+                      )
+                    : Text(""),
               ),
               SizedBox(
                 height: 25,
@@ -1831,12 +1833,12 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       isLoader = false;
     });
     specialReq = "";
-    if (Globle().dinecartValue == null) {
-      Globle().dinecartValue = 0;
+    if (Globle().deliveryCartItemCount == null) {
+      Globle().deliveryCartItemCount = 0;
     }
-    Globle().dinecartValue += 1;
+    Globle().deliveryCartItemCount += 1;
     Preference.setPersistData<int>(
-        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+        Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
@@ -1928,7 +1930,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       isLoader = false;
     });
     specialReq = "";
-    Globle().dinecartValue += 1;
+    Globle().deliveryCartItemCount += 1;
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showAlertUpdateOrderSuccess(

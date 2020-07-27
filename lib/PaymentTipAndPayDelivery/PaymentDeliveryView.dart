@@ -900,7 +900,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     Preference.setPersistData<int>(null, PreferenceKeys.tableId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
-    Preference.setPersistData<int>(null, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(null, PreferenceKeys.deliveryCartCount);
     Preference.setPersistData<int>(null, PreferenceKeys.currentRestaurantId);
     Preference.setPersistData<int>(null, PreferenceKeys.currentOrderId);
     Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);

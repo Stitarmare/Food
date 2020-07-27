@@ -866,11 +866,10 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
                   builder: (context) => AddItemDeliveryPageView(
                         itemId: _restaurantList[index].id,
                         restId: _restaurantList[index].restId,
-                        title: '${_restaurantList[index].itemName}',
-                        description:
-                            '${_restaurantList[index].itemDescription}',
+                        title: _restaurantList[index].itemName,
+                        description: _restaurantList[index].itemDescription,
                         restName: widget.title,
-                        itemImage: '${_restaurantList[index].itemImage}',
+                        itemImage: _restaurantList[index].itemImage,
                         isFromOrder: widget.isFromOrder,
                         lat: widget.lat,
                         long: widget.long,

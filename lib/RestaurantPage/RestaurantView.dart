@@ -829,11 +829,10 @@ class _RestaurantViewState extends State<RestaurantView>
                   builder: (context) => AddItemPageView(
                         itemId: _restaurantList[index].id,
                         restId: _restaurantList[index].restId,
-                        title: '${_restaurantList[index].itemName}',
-                        description:
-                            '${_restaurantList[index].itemDescription}',
+                        title: _restaurantList[index].itemName,
+                        description: _restaurantList[index].itemDescription,
                         restName: widget.title,
-                        itemImage: '${_restaurantList[index].itemImage}',
+                        itemImage: _restaurantList[index].itemImage,
                         isFromOrder: widget.isFromOrder,
                         restaurantList: restaurantList1,
                       ))),

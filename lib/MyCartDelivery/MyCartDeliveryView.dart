@@ -795,14 +795,14 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     if (menulist.length == 0) {
       Globle().dinecartValue = menulist.length;
       Preference.setPersistData<int>(
-          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+          Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
       // await progressDialog.hide();
       //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
       return;
     }
-    Globle().dinecartValue = menulist.length;
+    Globle().deliveryCartItemCount = menulist.length;
     Preference.setPersistData<int>(
-        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+        Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
 
     setState(() {
       _cartItemList = menulist;
@@ -848,8 +848,8 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
         Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
         Preference.setPersistData<bool>(false, PreferenceKeys.isAlreadyINCart);
         Preference.setPersistData<String>(null, PreferenceKeys.restaurantName);
-        Globle().dinecartValue = 0;
-        Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        Globle().deliveryCartItemCount = 0;
+        Preference.setPersistData<int>(0, PreferenceKeys.deliveryCartCount);
         setState(() {
           myCart = null;
         });
@@ -857,9 +857,9 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     }
 
     // _cartItemList = null;
-    Globle().dinecartValue -= 1;
+    Globle().deliveryCartItemCount -= 1;
     Preference.setPersistData<int>(
-        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+        Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
   }

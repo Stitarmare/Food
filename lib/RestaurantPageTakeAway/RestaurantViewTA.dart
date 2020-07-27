@@ -569,10 +569,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                   builder: (context) => AddItemPageTAView(
                         itemId: _restaurantList[index].id,
                         restId: _restaurantList[index].restId,
-                        title: '${_restaurantList[index].itemName}',
-                        description:
-                            '${_restaurantList[index].itemDescription}',
-                        imageUrl: '${_restaurantList[index].itemImage}',
+                        title: _restaurantList[index].itemName,
+                        description: _restaurantList[index].itemDescription,
+                        imageUrl: _restaurantList[index].itemImage,
                         lat: widget.lat,
                         long: widget.long,
                         restName: widget.title,

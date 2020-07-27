@@ -23,6 +23,7 @@ class Globle {
   String colorscode;
   int dinecartValue = 0;
   int takeAwayCartItemCount = 0;
+  int deliveryCartItemCount = 0;
   String restauranrtName = STR_BLANK;
   String orderNumber = STR_BLANK;
   String currencySymb = STR_BLANK;

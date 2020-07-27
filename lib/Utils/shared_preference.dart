@@ -8,6 +8,7 @@ class PreferenceKeys {
   static const User_data = STR_USER_DATA;
   static final dineCartItemCount = STR_CART_ITEM_COUNT;
   static final takeAwayCartCount = STR_TAKE_AWAY_ITEM_COUNT;
+  static final deliveryCartCount = STR_DELIVERY_ITEM_COUNT;
   static final isAlreadyINCart = STR_IS_ALREADY_IN_CART;
   static final restaurantID = STR_RESTAURANT_ID;
   static final isAlreadyINCartTA = STR_IS_ALREADY_IN_CART_TA;

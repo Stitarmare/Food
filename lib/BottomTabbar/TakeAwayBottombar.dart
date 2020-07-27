@@ -117,15 +117,15 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                     Icons.shopping_cart,
                     color: Colors.white,
                   ),
-                  (Globle().dinecartValue != null)
-                      ? Globle().dinecartValue > 0 && cartStatus
+                  (Globle().takeAwayCartItemCount != null)
+                      ? Globle().takeAwayCartItemCount > 0 && cartStatus
                           ? Positioned(
                               top: -20,
                               right: -15,
                               child: Badge(
                                   badgeColor: redtheme,
                                   badgeContent: Text(
-                                      "${Globle().dinecartValue} ",
+                                      "${Globle().takeAwayCartItemCount} ",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Colors.white))))
                           : Text(STR_BLANK)
@@ -182,11 +182,14 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
                           Positioned(
                               top: -11,
                               right: -11,
-                              child: Badge(
-                                  badgeColor: redtheme,
-                                  badgeContent: Text(STR_ONE,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white)))
+                              child: cartStatus
+                                  ? Badge(
+                                      badgeColor: redtheme,
+                                      badgeContent: Text(STR_ONE,
+                                          textAlign: TextAlign.center,
+                                          style:
+                                              TextStyle(color: Colors.white)))
+                                  : Text("")
                               // : Text(STR_BLANK),
                               )
                         ],
@@ -247,6 +250,10 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
           cartStatus = false;
         });
       }
+    } else {
+      setState(() {
+        cartStatus = false;
+      });
     }
   }
 
