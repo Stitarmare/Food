@@ -817,9 +817,6 @@ class CartDetailsPageState extends State<CartDetailsPage>
               for (var inv in myOrderDataDetails.invitation) {
                 if (inv.fromId == Globle().loginModel.data.id) {
                   return false;
-                } else {
-                  //changes to show pay bill btn to all users
-                  return false;
                 }
               }
             } else {

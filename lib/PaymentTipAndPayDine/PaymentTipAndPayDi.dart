@@ -77,7 +77,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
 
   String searchText;
   bool isIgnoreTouch = false;
-  int fromUserId;
 
   @override
   void initState() {
@@ -244,84 +243,84 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                   ? Container(height: 0)
                   : BottomAppBar(
                       child: Container(
-                          // height: (isBillSplitedForUser) ? 0 : 80,
-                          height: 80,
+                          height: (isBillSplitedForUser) ? 0 : 80,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              // isInvited()
-                              // ? Expanded(child: Container())
-                              // :
-                              isSplitBillEnabled()
-                                  ? SizedBox(height: 35, child: Text(""))
-                                  : Container(
-                                      height: 35,
-                                      child: FlatButton(
-                                        child: Text(
-                                          STR_SPLIT_BILL,
-                                          style: TextStyle(
-                                              fontSize: FONTSIZE_16,
-                                              fontFamily: KEY_FONTFAMILY,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              decorationColor:
-                                                  ((Globle().colorscode) !=
+                              isInvited()
+                                  ? Expanded(child: Container())
+                                  : isSplitBillEnabled()
+                                      ? SizedBox(height: 35, child: Text(""))
+                                      : Container(
+                                          height: 35,
+                                          child: FlatButton(
+                                            child: Text(
+                                              STR_SPLIT_BILL,
+                                              style: TextStyle(
+                                                  fontSize: FONTSIZE_16,
+                                                  fontFamily: KEY_FONTFAMILY,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor: ((Globle()
+                                                              .colorscode) !=
                                                           null)
                                                       ? getColorByHex(
                                                           Globle().colorscode)
                                                       : orangetheme300,
-                                              color: ((Globle().colorscode) !=
-                                                      null)
-                                                  ? getColorByHex(
-                                                      Globle().colorscode)
-                                                  : orangetheme300,
-                                              fontWeight: FontWeight.w600),
+                                                  color: ((Globle()
+                                                              .colorscode) !=
+                                                          null)
+                                                      ? getColorByHex(
+                                                          Globle().colorscode)
+                                                      : orangetheme300,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            onPressed: () {
+                                              onSplitBillButtonTap();
+                                            },
+                                          ),
                                         ),
-                                        onPressed: () {
-                                          onSplitBillButtonTap();
-                                        },
+                              isSplitAmount()
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () async {
+                                        // await progressDialog.show();
+                                        getVerifyAmount();
+                                        // DialogsIndicator.showLoadingDialog(
+                                        //     context, _keyLoader, STR_BLANK);
+
+                                        // _billCheckoutPresenter.payBillCheckOut(
+                                        //   myOrderData.restId,
+                                        //   getOrderTotal(),
+                                        //   sliderValue.toString(),
+                                        //   "ZAR",
+                                        //   myOrderData.id,
+                                        //   context,
+                                        // );
+                                      },
+                                      child: Container(
+                                        height: 45,
+                                        decoration: BoxDecoration(
+                                            color:
+                                                ((Globle().colorscode) != null)
+                                                    ? getColorByHex(
+                                                        Globle().colorscode)
+                                                    : orangetheme300,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(15),
+                                                topRight: Radius.circular(15))),
+                                        child: Center(
+                                          child: Text(
+                                            STR_PAY_BILL,
+                                            style: TextStyle(
+                                                fontFamily: KEY_FONTFAMILY,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: FONTSIZE_16,
+                                                color: Colors.white),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                              // isSplitAmount()
-                              // ? Container()
-                              // :
-                              GestureDetector(
-                                onTap: () async {
-                                  // await progressDialog.show();
-                                  getVerifyAmount();
-                                  // DialogsIndicator.showLoadingDialog(
-                                  //     context, _keyLoader, STR_BLANK);
-
-                                  // _billCheckoutPresenter.payBillCheckOut(
-                                  //   myOrderData.restId,
-                                  //   getOrderTotal(),
-                                  //   sliderValue.toString(),
-                                  //   "ZAR",
-                                  //   myOrderData.id,
-                                  //   context,
-                                  // );
-                                },
-                                child: Container(
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                      color: ((Globle().colorscode) != null)
-                                          ? getColorByHex(Globle().colorscode)
-                                          : orangetheme300,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15))),
-                                  child: Center(
-                                    child: Text(
-                                      STR_PAY_BILL,
-                                      style: TextStyle(
-                                          fontFamily: KEY_FONTFAMILY,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: FONTSIZE_16,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
                             ],
                           )),
                     ),
@@ -481,7 +480,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           tableId: widget.tableId,
           orderId: widget.orderID,
           elementList: myOrderData.list,
-          userId: fromUserId,
         ));
     if (data != null) {
       if (data["isInvitePeople"] == true) {
@@ -510,7 +508,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           orderID: widget.orderID,
           amount: (double.parse(_model.grandTotal) + tipAmount),
           tableId: widget.tableId,
-          userId: fromUserId,
         ));
 
     if (data != null) {
@@ -1068,10 +1065,6 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       _model = model;
       if (_model.data.invitation != null) {
         invitationOrder = _model.data.invitation;
-        for (var varUserId in invitationOrder) {
-          fromUserId = varUserId.fromId;
-          print(fromUserId);
-        }
       }
       isBillSplitedForUsers();
       // if (myOrderData.splitAmount != null) {

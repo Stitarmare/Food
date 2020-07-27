@@ -16,7 +16,6 @@ class RadioDialog extends StatefulWidget {
   int tableId;
   int orderId;
   double amount;
-  int userId;
   List<ListElements> elementList;
 
   RadioDialog(
@@ -25,7 +24,6 @@ class RadioDialog extends StatefulWidget {
       this.tableId,
       this.orderId,
       this.amount,
-      this.userId,
       this.elementList});
 
   final String initialValue;
@@ -164,11 +162,8 @@ class RadioDialogState extends State<RadioDialog>
       setState(() {
         isLoader = true;
       });
-      // _splitBillPresenter.getSPlitBill(widget.orderId,
-      //     Globle().loginModel.data.id, 1, widget.amount.toInt(), context);
-
-      _splitBillPresenter.getSPlitBill(
-          widget.orderId, widget.userId, 1, widget.amount.toInt(), context);
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 1, widget.amount.toInt(), context);
 
       // _splitBillNotificationPresenter.getSPlitBillNotification(
       //     widget.orderId,
@@ -183,21 +178,15 @@ class RadioDialogState extends State<RadioDialog>
       setState(() {
         isLoader = true;
       });
-      // _splitBillPresenter.getSPlitBill(widget.orderId,
-      //     Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
-
-      _splitBillPresenter.getSPlitBill(
-          widget.orderId, widget.userId, 3, widget.amount.toInt(), context);
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
     } else if (id == 4) {
       // await progressDialog.show();
       setState(() {
         isLoader = true;
       });
-      // _splitBillPresenter.getSPlitBill(widget.orderId,
-      //     Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
-
-      _splitBillPresenter.getSPlitBill(
-          widget.orderId, widget.userId, 3, widget.amount.toInt(), context);
+      _splitBillPresenter.getSPlitBill(widget.orderId,
+          Globle().loginModel.data.id, 3, widget.amount.toInt(), context);
     }
   }
 
