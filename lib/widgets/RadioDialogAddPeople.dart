@@ -8,6 +8,7 @@ import 'package:foodzi/ConfirmationDinePage/ConfirmationDineViewContractor.dart'
 import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/error_model.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
@@ -607,6 +608,12 @@ class RadioDialogAddPeopleState extends State<RadioDialogAddPeople>
 
   @override
   void inviteRequestSuccess(String message) {}
+
+  @override
+  void getInvitedPeopleMemberFailed() {}
+
+  @override
+  void getInvitedPeopleMemberSuccess(List<InvitePeopleMemberList> list) {}
 }
 
 abstract class AddPeopleInterface {

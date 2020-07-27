@@ -13,6 +13,7 @@ import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/GetRestaurantReview.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/NotificationModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
@@ -147,7 +148,8 @@ class GenericModel<T> {
         return DeliveryBoyModel.fromJson(json) as T;
       case OrderAddMenuModel:
         return OrderAddMenuModel.fromJson(json) as T;
-
+      case InvitePeopleMember:
+        return InvitePeopleMember.fromJson(json) as T;
       default:
         break;
     }

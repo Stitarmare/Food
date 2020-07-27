@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/StatusTrackPage/StatusTrackViewContractor.dart';
@@ -36,7 +37,7 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
   void initState() {
     checkboxbtn(widget.listElement.length);
     statusTrackViewPresenter = StatusTrackViewPresenter(this);
-    statusTrackViewPresenter.getInvitedPeople(
+    statusTrackViewPresenter.getInvitedPeopleMember(
         Globle().loginModel.data.id, widget.tableId, context);
     super.initState();
   }
@@ -362,6 +363,16 @@ class _UserSpecificOrderDialogState extends State<UserSpecificOrderDialog>
 
   @override
   void getOrderStatussuccess(StatusData statusData) {}
+
+  @override
+  void getInvitedPeopleMemberFailed() {
+    // TODO: implement getInvitedPeopleMemberFailed
+  }
+
+  @override
+  void getInvitedPeopleMemberSuccess(List<InvitePeopleMemberList> list) {
+    // TODO: implement getInvitedPeopleMemberSuccess
+  }
 }
 
 class ItemList {

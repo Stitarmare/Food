@@ -233,10 +233,12 @@ class _TakeAwayBottombarState extends State<TakeAwayBottombar> {
   }
 
   getAlreadyInCart() async {
+    var alreadyIncartStatus =
+        await Preference.getPrefValue<bool>(PreferenceKeys.isAlreadyINCart);
     var restId =
         await Preference.getPrefValue<int>(PreferenceKeys.restaurantID);
     if (restId != null) {
-      if (restId == widget.restId) {
+      if (alreadyIncartStatus == true && restId == widget.restId) {
         setState(() {
           cartStatus = true;
         });

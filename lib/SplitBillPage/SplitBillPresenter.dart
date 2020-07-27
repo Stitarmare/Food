@@ -13,14 +13,17 @@ class SplitBillPresenter extends SplitBillContractor {
     this._splitBillContractorModelView = _splitBillContractorModelView;
   }
   @override
-  void getSPlitBill(
-      int orderId, int userId, int option, int amount, BuildContext context,{List<String> users}) {
+  void getSPlitBill(int orderId, int userId, int option, int amount,
+      int ownerId, BuildContext context,
+      {List<String> users}) {
     ApiBaseHelper().post(UrlConstant.getSplitBillOption, context, body: {
       JSON_STR_ORDER_ID: orderId,
       JSON_STR_USER_ID: userId,
       JSON_STR_OPTION: option,
       //JSON_STR_AMOUNT: amount,
-      "users":users ?? []
+      "owner_id": ownerId,
+
+      "users": users ?? []
     }).then((value) {
       switch (value.result) {
         case SuccessType.success:

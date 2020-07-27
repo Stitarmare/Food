@@ -75,7 +75,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
   StreamSubscription<double> _streamSubscription;
   bool isLoader = false;
   int fromUserId;
-
+  int ownerKey;
   String searchText;
   bool isIgnoreTouch = false;
 
@@ -482,6 +482,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           orderId: widget.orderID,
           elementList: myOrderData.list,
           userId: fromUserId,
+          ownerKeyId: ownerKey,
         ));
     if (data != null) {
       if (data["isInvitePeople"] == true) {
@@ -511,6 +512,7 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
           amount: (double.parse(_model.grandTotal) + tipAmount),
           tableId: widget.tableId,
           userId: fromUserId,
+          ownerKeyId: ownerKey,
         ));
 
     if (data != null) {
@@ -1070,7 +1072,13 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
         invitationOrder = _model.data.invitation;
         for (var varUserId in invitationOrder) {
           fromUserId = varUserId.fromId;
-          print(fromUserId);
+
+          if (varUserId.fromId == Globle().loginModel.data.id) {
+            ownerKey = 0;
+            print(fromUserId);
+          } else {
+            ownerKey = 1;
+          }
         }
       }
       isBillSplitedForUsers();

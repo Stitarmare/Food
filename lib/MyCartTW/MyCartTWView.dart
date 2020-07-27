@@ -655,7 +655,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                               _cartItemList[index]
                                                   .items
                                                   .itemDescription)
-                                          : STR_ITEM_DESC,
+                                          : "",
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: FONTSIZE_14,

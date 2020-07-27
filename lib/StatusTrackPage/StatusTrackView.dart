@@ -8,6 +8,7 @@ import 'package:foodzi/Models/CurrentOrderModel.dart';
 import 'package:foodzi/Models/GetMyOrdersBookingHistory.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/OrderDetailsModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/error_model.dart';
@@ -716,5 +717,15 @@ class _StatusTrackingViewState extends State<StatusTrackView>
   @override
   void inviteRequestSuccess(String message) {
     // TODO: implement inviteRequestSuccess
+  }
+
+  @override
+  void getInvitedPeopleMemberFailed() {
+    // TODO: implement getInvitedPeopleMemberFailed
+  }
+
+  @override
+  void getInvitedPeopleMemberSuccess(List<InvitePeopleMemberList> list) {
+    // TODO: implement getInvitedPeopleMemberSuccess
   }
 }

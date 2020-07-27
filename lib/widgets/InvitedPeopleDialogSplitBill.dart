@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/SplitBillPage/SplitBillContractor.dart';
 import 'package:foodzi/SplitBillPage/SplitBillPresenter.dart';
@@ -19,7 +20,9 @@ class InvitedPeopleDialog extends StatefulWidget {
   double amount;
   int orderID;
   int userId;
-  InvitedPeopleDialog({this.tableId, this.amount, this.orderID, this.userId});
+  int ownerKeyId;
+  InvitedPeopleDialog(
+      {this.tableId, this.amount, this.orderID, this.ownerKeyId, this.userId});
   @override
   _InvitedPeopleDialogState createState() => _InvitedPeopleDialogState();
 }
@@ -31,7 +34,9 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
         SplitBillContractorModelView,
         SplitBillNotificationContractorModelView {
   StatusTrackViewPresenter statusTrackViewPresenter;
-  List<InvitePeopleList> invitedPeopleList = [];
+  // List<InvitePeopleList> invitedPeopleList = [];
+  List<InvitePeopleMemberList> invitedPeopleList = [];
+
   List<CheckBoxOptions> _checkBoxOptions = [];
   List<InvitePeople> invitedPeople;
   int index;
@@ -50,7 +55,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     //     Globle().loginModel.data.id, widget.tableId, context,
     //     orderId: widget.orderID);
 
-    statusTrackViewPresenter.getInvitedPeople(
+    statusTrackViewPresenter.getInvitedPeopleMember(
         widget.userId, widget.tableId, context,
         orderId: widget.orderID);
 
@@ -134,7 +139,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      invitedPeopleList[i].toUser.firstName ??
+                                      invitedPeopleList[i].firstName ??
                                           STR_BLANK,
                                       style: TextStyle(
                                           fontSize: FONTSIZE_13,
@@ -219,7 +224,7 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
         isLoader = true;
       });
       _billPresenter.getSPlitBill(widget.orderID, Globle().loginModel.data.id,
-          2, widget.amount.toInt(), context,
+          2, widget.amount.toInt(), widget.ownerKeyId, context,
           users: users);
     } else {
       Navigator.of(context).pop();
@@ -233,14 +238,14 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     for (int i = 1; i <= length; i++) {
       _checkboxlist.add(CheckBoxOptions(
         isChecked: true,
-        index: invitedPeopleList[i - 1].toUser.id,
-        title: invitedPeopleList[i - 1].toUser.firstName ?? '',
+        index: invitedPeopleList[i - 1].id,
+        title: invitedPeopleList[i - 1].firstName ?? '',
       ));
 
       if (invitedPeople == null) {
         invitedPeople = [];
         var inv = InvitePeople();
-        inv.inviteId = invitedPeopleList[i - 1].toUser.id;
+        inv.inviteId = invitedPeopleList[i - 1].id;
         invitedPeople.add(inv);
       }
     }
@@ -249,23 +254,44 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
     });
   }
 
+  // int checkboxbtn(int length) {
+  //   List<CheckBoxOptions> _checkboxlist = [];
+  //   for (int i = 1; i <= length; i++) {
+  //     _checkboxlist.add(CheckBoxOptions(
+  //       isChecked: true,
+  //       index: invitedPeopleList[i - 1].toUser.id,
+  //       title: invitedPeopleList[i - 1].toUser.firstName ?? '',
+  //     ));
+
+  //     if (invitedPeople == null) {
+  //       invitedPeople = [];
+  //       var inv = InvitePeople();
+  //       inv.inviteId = invitedPeopleList[i - 1].toUser.id;
+  //       invitedPeople.add(inv);
+  //     }
+  //   }
+  //   setState(() {
+  //     _checkBoxOptions = _checkboxlist;
+  //   });
+  // }
+
   @override
   void getInvitedPeopleFailed() {}
 
   @override
   void getInvitedPeopleSuccess(List<InvitePeopleList> list) {
-    if (list.length == 0) {
-      return;
-    }
-    setState(() {
-      if (invitedPeopleList == null) {
-        invitedPeopleList = list;
-        checkboxbtn(invitedPeopleList.length);
-      } else {
-        invitedPeopleList.addAll(list);
-        checkboxbtn(invitedPeopleList.length);
-      }
-    });
+    // if (list.length == 0) {
+    //   return;
+    // }
+    // setState(() {
+    //   if (invitedPeopleList == null) {
+    //     invitedPeopleList = list;
+    //     checkboxbtn(invitedPeopleList.length);
+    //   } else {
+    //     invitedPeopleList.addAll(list);
+    //     checkboxbtn(invitedPeopleList.length);
+    //   }
+    // });
   }
 
   @override
@@ -298,6 +324,25 @@ class _InvitedPeopleDialogState extends State<InvitedPeopleDialog>
   @override
   void getSplitBillNotificationSuccess() {
     // TODO: implement getSplitBillNotificationSuccess
+  }
+
+  @override
+  void getInvitedPeopleMemberFailed() {}
+
+  @override
+  void getInvitedPeopleMemberSuccess(List<InvitePeopleMemberList> list) {
+    if (list.length == 0) {
+      return;
+    }
+    setState(() {
+      if (invitedPeopleList == null) {
+        invitedPeopleList = list;
+        checkboxbtn(invitedPeopleList.length);
+      } else {
+        invitedPeopleList.addAll(list);
+        checkboxbtn(invitedPeopleList.length);
+      }
+    });
   }
 }
 

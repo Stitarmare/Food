@@ -594,7 +594,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             fit: BoxFit.fill,
                             width: double.infinity,
                             height: 150,
-                            placeholder: (context, url) => Center(
+                            placeholder: (context, uprl) => Center(
                               child: CircularProgressIndicator(),
                             ),
                             errorWidget: (context, url, error) => Image.asset(

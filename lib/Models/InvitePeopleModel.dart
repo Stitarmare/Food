@@ -167,3 +167,54 @@ class UserList {
     return data;
   }
 }
+
+// class InvitePeopleModel {
+//   String status;
+//   int statusCode;
+//   List<InvitePeopleList> data;
+
+//   InvitePeopleModel({this.status, this.statusCode, this.data});
+
+//   InvitePeopleModel.fromJson(Map<String, dynamic> json) {
+//     status = json['status'];
+//     statusCode = json['status_code'];
+//     if (json['data'] != null) {
+//       data = new List<InvitePeopleList>();
+//       json['data'].forEach((v) {
+//         data.add(new InvitePeopleList.fromJson(v));
+//       });
+//     }
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['status'] = this.status;
+//     data['status_code'] = this.statusCode;
+//     if (this.data != null) {
+//       data['data'] = this.data.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }
+
+// // class InvitePeopleList {
+// //   int id;
+// //   String firstName;
+// //   String lastName;
+
+// //   InvitePeopleList({this.id, this.firstName, this.lastName});
+
+// //   InvitePeopleList.fromJson(Map<String, dynamic> json) {
+// //     id = json['id'];
+// //     firstName = json['first_name'];
+// //     lastName = json['last_name'];
+// //   }
+
+// //   Map<String, dynamic> toJson() {
+// //     final Map<String, dynamic> data = new Map<String, dynamic>();
+// //     data['id'] = this.id;
+// //     data['first_name'] = this.firstName;
+// //     data['last_name'] = this.lastName;
+// //     return data;
+// //   }
+// // }

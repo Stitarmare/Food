@@ -861,7 +861,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           //   alignment: Alignment.bottomRight,
                           // heightFactor: 1,
                           child: CachedNetworkImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                             width: double.infinity,
                             height: 150,
                             placeholder: (context, url) => Center(

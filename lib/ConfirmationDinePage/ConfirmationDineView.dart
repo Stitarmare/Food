@@ -9,6 +9,7 @@ import 'package:foodzi/ConfirmationDinePage/ConfirmationDineviewPresenter.dart';
 import 'package:foodzi/LandingPage/LandingView.dart';
 import 'package:foodzi/Models/GetPeopleListModel.dart';
 import 'package:foodzi/Models/InvitePeopleModel.dart';
+import 'package:foodzi/Models/InvitedPeopleMemberModel.dart';
 import 'package:foodzi/Models/MenuCartDisplayModel.dart';
 import 'package:foodzi/Models/OrderStatusModel.dart';
 import 'package:foodzi/Models/PlaceOrderModel.dart';
@@ -827,6 +828,12 @@ class _ConfirmationDineViewState extends State<ConfirmationDineView>
 
     // Constants.showAlertSuccess("Success", message, context);
   }
+
+  @override
+  void getInvitedPeopleMemberFailed() {}
+
+  @override
+  void getInvitedPeopleMemberSuccess(List<InvitePeopleMemberList> list) {}
 }
 
 class RadioButtonOptions {
