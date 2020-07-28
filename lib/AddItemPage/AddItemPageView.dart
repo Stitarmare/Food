@@ -967,7 +967,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
             imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
             errorWidget: (context, url, error) => Image.asset(
               RESTAURANT_IMAGE_PATH,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             imageBuilder: (context, imageProvider) => Container(
               height: 195,
@@ -979,7 +979,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                   bottomLeft: const Radius.circular(10.0),
                   bottomRight: const Radius.circular(10.0),
                 ),
-                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -2044,13 +2044,13 @@ class _AddItemPageViewState extends State<AddItemPageView>
 
     specialReq = "";
     Globle().dinecartValue += 1;
-    int i = Globle().dinecartValue;
-
-    print(i);
+    Globle().takeAwayCartItemCount += 1;
     // cartPageCount = Globle().dinecartValue += 1;
 
     Preference.setPersistData<int>(
         Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(
+        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
     Preference.setPersistData(widget.restId, PreferenceKeys.restaurantID);
     Preference.setPersistData(true, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(widget.restName, PreferenceKeys.restaurantName);
@@ -2126,6 +2126,11 @@ class _AddItemPageViewState extends State<AddItemPageView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
   }
 
   @override

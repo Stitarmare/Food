@@ -65,7 +65,6 @@ class _LandingStateView extends State<Landingview>
 
     Globle().navigatorIndex = 1;
     onStreamListen();
-
     super.initState();
   }
 

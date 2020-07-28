@@ -86,7 +86,8 @@ class _NotificationViewState extends State<NotificationView>
               if (widget.flag == 1) {
                 Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
               }
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
             },
           ),
         ),

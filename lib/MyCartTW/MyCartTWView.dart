@@ -653,15 +653,16 @@ class _MyCartTWViewState extends State<MyCartTWView>
                                     height: 30,
                                     width: 180,
                                     child: AutoSizeText(
-                                      _cartItemList[index]
-                                                  .items
-                                                  .itemDescription !=
-                                              null
-                                          ? StringUtils.capitalize(
-                                              _cartItemList[index]
-                                                  .items
-                                                  .itemDescription)
-                                          : "",
+                                      // _cartItemList[index]
+                                      //             .items
+                                      //             .itemDescription !=
+                                      //         null
+                                      //     ? StringUtils.capitalize(
+                                      //         _cartItemList[index]
+                                      //             .items
+                                      //             .itemDescription)
+                                      //     : "",
+                                      getExtra(_cartItemList[index]),
                                       style: TextStyle(
                                         color: greytheme1000,
                                         fontSize: FONTSIZE_14,
@@ -771,12 +772,65 @@ class _MyCartTWViewState extends State<MyCartTWView>
     return "0";
   }
 
+  String getExtra(MenuCartList menuCartList) {
+    var extras = STR_BLANK;
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+          extras = removeLastChar(extras);
+          extras = removeLastChar(extras);
+        }
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtraItems[i].subspreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          if (menuCartList.cartExtraItems[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtraItems[i].switches[j].name} - ${menuCartList.cartExtraItems[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtraItems[i].switches[j].name},";
+          }
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
+  }
+
   @override
   void getCartMenuListfailed() {
     setState(() {
       isIgnoreTouch = false;
       isloading = false;
       isLoader = false;
+      _cartItemList = null;
     });
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
@@ -839,7 +893,6 @@ class _MyCartTWViewState extends State<MyCartTWView>
     setState(() {
       isIgnoreTouch = false;
       isLoader = false;
-      isloading = false;
     });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {

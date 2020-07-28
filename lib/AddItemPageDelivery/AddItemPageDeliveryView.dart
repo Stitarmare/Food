@@ -780,7 +780,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
             imageUrl: BaseUrl.getBaseUrlImages() + "${widget.itemImage}",
             errorWidget: (context, url, error) => Image.asset(
               RESTAURANT_IMAGE_PATH,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
             imageBuilder: (context, imageProvider) => Container(
               height: 195,
@@ -792,7 +792,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                   bottomLeft: const Radius.circular(10.0),
                   bottomRight: const Radius.circular(10.0),
                 ),
-                image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -1914,6 +1914,12 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
     Preference.setPersistData(null, PreferenceKeys.restaurantID);
     Preference.setPersistData(null, PreferenceKeys.isAlreadyINCart);
     Preference.setPersistData(null, PreferenceKeys.restaurantName);
+    Globle().dinecartValue = 0;
+    Globle().takeAwayCartItemCount = 0;
+
+    Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+    Preference.setPersistData<int>(0, PreferenceKeys.takeAwayCartCount);
+    Preference.setPersistData<int>(0, PreferenceKeys.deliveryCartCount);
   }
 
   @override
