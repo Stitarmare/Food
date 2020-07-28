@@ -1112,9 +1112,11 @@ class _MyCartViewState extends State<MyCartView>
       }
     }
     // _cartItemList = null;
-    Globle().dinecartValue -= 1;
-    Preference.setPersistData<int>(
-        Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    if (Globle().dinecartValue > 0) {
+      Globle().dinecartValue -= 1;
+      Preference.setPersistData<int>(
+          Globle().dinecartValue, PreferenceKeys.dineCartItemCount);
+    }
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
     await progressDialog.hide();

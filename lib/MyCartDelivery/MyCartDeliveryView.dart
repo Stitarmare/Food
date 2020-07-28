@@ -857,9 +857,12 @@ class _MyCartDeliveryViewState extends State<MyCartDeliveryView>
     }
 
     // _cartItemList = null;
-    Globle().deliveryCartItemCount -= 1;
-    Preference.setPersistData<int>(
-        Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
+    if (Globle().deliveryCartItemCount > 0) {
+      Globle().deliveryCartItemCount -= 1;
+      Preference.setPersistData<int>(
+          Globle().deliveryCartItemCount, PreferenceKeys.deliveryCartCount);
+    }
+
     _myCartpresenter.getCartMenuList(
         widget.restId, context, Globle().loginModel.data.id);
   }

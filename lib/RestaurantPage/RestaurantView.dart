@@ -860,7 +860,7 @@ class _RestaurantViewState extends State<RestaurantView>
                           //   alignment: Alignment.bottomRight,
                           // heightFactor: 1,
                           child: CachedNetworkImage(
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             width: double.infinity,
                             height: 150,
                             placeholder: (context, url) => Center(
@@ -868,7 +868,7 @@ class _RestaurantViewState extends State<RestaurantView>
                             ),
                             errorWidget: (context, url, error) => Image.asset(
                               FOOD_IMAGE_PATH,
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                               width: double.infinity,
                               height: 100,
                             ),
@@ -1192,12 +1192,11 @@ class _RestaurantViewState extends State<RestaurantView>
       }
 
       page++;
-    });
-    // await progressDialog.hide();
-    setState(() {
+
       isLoading = false;
       isLoader = false;
     });
+    // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 

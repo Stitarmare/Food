@@ -590,7 +590,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           child: CachedNetworkImage(
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             width: double.infinity,
                             height: 150,
                             placeholder: (context, uprl) => Center(
@@ -598,7 +598,7 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
                             ),
                             errorWidget: (context, url, error) => Image.asset(
                               FOOD_IMAGE_PATH,
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                               width: double.infinity,
                               height: 100,
                             ),

@@ -848,6 +848,8 @@ class _MyCartTWViewState extends State<MyCartTWView>
         Globle().takeAwayCartItemCount = 0;
         Globle().dinecartValue = 0;
         Preference.setPersistData<int>(0, PreferenceKeys.dineCartItemCount);
+        Preference.setPersistData<int>(
+            Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
         setState(() {
           myCart = null;
         });
@@ -855,10 +857,14 @@ class _MyCartTWViewState extends State<MyCartTWView>
     }
     // _cartItemList = null;
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    Globle().takeAwayCartItemCount -= 1;
-    Globle().dinecartValue -= 1;
-    Preference.setPersistData<int>(
-        Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+    print(Globle().takeAwayCartItemCount);
+    if (Globle().takeAwayCartItemCount > 0) {
+      Globle().takeAwayCartItemCount -= 1;
+      Globle().dinecartValue -= 1;
+      Preference.setPersistData<int>(
+          Globle().takeAwayCartItemCount, PreferenceKeys.takeAwayCartCount);
+    }
+
     // Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     // Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);
     _myCartpresenter.getCartMenuList(
