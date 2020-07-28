@@ -839,6 +839,7 @@ class _MyCartTWViewState extends State<MyCartTWView>
     setState(() {
       isIgnoreTouch = false;
       isLoader = false;
+      isloading = false;
     });
     if (_cartItemList != null) {
       if (_cartItemList.length == 0) {
