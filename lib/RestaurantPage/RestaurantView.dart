@@ -141,7 +141,10 @@ class _RestaurantViewState extends State<RestaurantView>
           // await progressDialog.show();
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
           restaurantPresenter.getMenuList(widget.restId, context,
-              categoryId: abc, menu: menutype, page: page);
+              categoryId: abc,
+              subCategoryId: subCategoryIdabc,
+              menu: menutype,
+              page: page);
         }
       }
     });

@@ -119,7 +119,10 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         } else {
           // await progressDialog.show();
           restaurantPresenter.getMenuList(widget.restId, context,
-              categoryId: abc, menu: menutype, page: page);
+              categoryId: abc,
+              subCategoryId: subCategoryIdabc,
+              menu: menutype,
+              page: page);
         }
       }
     });
