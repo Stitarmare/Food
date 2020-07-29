@@ -337,9 +337,9 @@ class _MyOrdersDeliveryState extends State<MyOrdersDelivery>
                       child: Text(
                         Globle().currencySymb != null
                             ? '${Globle().currencySymb} ' +
-                                '${_orderDetailList[index].totalAmount}'
+                                '${getTotalAmount(_orderDetailList[index].totalAmount)}'
                             : STR_R_CURRENCY_SYMBOL +
-                                '${_orderDetailList[index].totalAmount}',
+                                '${getTotalAmount(_orderDetailList[index].totalAmount)}',
                         style: TextStyle(
                           fontSize: FONTSIZE_16,
                           fontWeight: FontWeight.w500,

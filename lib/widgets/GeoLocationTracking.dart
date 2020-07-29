@@ -27,9 +27,9 @@ class GeoLocationTracking {
         case GeolocationStatus.denied:
           Constants.showAlert(STR_ACCESS_DENIED, STR_ENABLE_LOCATION, context);
           break;
-        case GeolocationStatus.disabled:
-          Constants.showAlert(STR_ACCESS_DENIED, STR_ALLOW_LOCATION, context);
-          break;
+        // case GeolocationStatus.disabled:
+        //   Constants.showAlert(STR_ACCESS_DENIED, STR_ALLOW_LOCATION, context);
+        //   break;
         case GeolocationStatus.granted:
           break;
         case GeolocationStatus.restricted:
