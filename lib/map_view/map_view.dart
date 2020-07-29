@@ -601,7 +601,7 @@ class MapViewState extends State<MapView> {
               },
               keyboardType: TextInputType.text,
               placeHolderName: "House/Flat/Block No",
-              validator: validatename,
+              validator: validateHouseNo,
               onSaved: (String value) {},
             ),
           )
@@ -624,7 +624,7 @@ class MapViewState extends State<MapView> {
               },
               keyboardType: TextInputType.text,
               placeHolderName: "Landmark",
-              validator: validatename,
+              validator: validateLandmark,
               onSaved: (String value) {},
             ),
           )
@@ -735,11 +735,20 @@ class MapViewState extends State<MapView> {
     }
   }
 
-  String validatename(String value) {
+  String validateHouseNo(String value) {
     // String validCharacters = STR_VALIDATE_NAME_TITLE;
     // RegExp regexp = RegExp(validCharacters);
     if (value.isEmpty) {
-      return KEY_THIS_SHOULD_NOT_BE_EMPTY;
+      return HOUSE_SHOULD_NOT_BE_EMPTY;
+    }
+    return null;
+  }
+
+  String validateLandmark(String value) {
+    // String validCharacters = STR_VALIDATE_NAME_TITLE;
+    // RegExp regexp = RegExp(validCharacters);
+    if (value.isEmpty) {
+      return LANDMARK_SHOULD_NOT_BE_EMPTY;
     }
     return null;
   }

@@ -118,6 +118,9 @@ class _RestaurantTAViewState extends State<RestaurantTAView>
         if (_controller.position.pixels == 0) {
         } else {
           // await progressDialog.show();
+          setState(() {
+            isLoader = true;
+          });
           restaurantPresenter.getMenuList(widget.restId, context,
               categoryId: abc,
               subCategoryId: subCategoryIdabc,

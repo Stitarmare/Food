@@ -14,7 +14,7 @@ enum Environment { PRODUCTION, DEVLOPMENT, UAT }
 
 class BaseUrl {
   BaseUrl();
-  static var environment = Environment.DEVLOPMENT;
+  static var environment = Environment.UAT;
   static String getBaseUrl() {
     switch (environment) {
       case Environment.PRODUCTION:
@@ -350,6 +350,9 @@ class ApiBaseHelper {
         var apiModel = APIModel<T>();
         apiModel.result = SuccessType.failed;
         json.decode(response.body.toString());
+        if (response.statusCode == 429) {
+          return apiModel;
+        }
         Future.delayed(const Duration(milliseconds: 100), () {
           _showAlert(
               context, STR_ERROR, STR_ERROR_MSG + '${response.statusCode}', () {

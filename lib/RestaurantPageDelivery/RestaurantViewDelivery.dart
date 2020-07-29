@@ -128,7 +128,9 @@ class _RestaurantDeliveryViewState extends State<RestaurantDeliveryView>
       if (_controller.position.atEdge) {
         if (_controller.position.pixels == 0) {
         } else {
-          await progressDialog.show();
+          setState(() {
+            isLoader = true;
+          });
           // DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_LOADING);
           restaurantDeliveryPresenter.getMenuList(widget.restId, context,
               categoryId: abc,
