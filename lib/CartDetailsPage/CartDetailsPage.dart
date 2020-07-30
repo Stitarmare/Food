@@ -1048,15 +1048,13 @@ class CartDetailsPageState extends State<CartDetailsPage>
         myOrderDataDetails = orderData;
         _model = model;
         isLoader = false;
+        isloading = false;
+        isFirst = false;
       });
     }
     if (!isFirst) {
       await progressDialog.hide();
     }
-    setState(() {
-      isloading = false;
-      isFirst = false;
-    });
 
     if (isCancelOrder()) {
       Preference.setPersistData<int>(null, PreferenceKeys.orderId);
