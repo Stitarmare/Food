@@ -43,6 +43,7 @@ class _OTPScreenState extends State<OTPScreen>
   DialogsIndicator dialogs = DialogsIndicator();
   OtpPresenter otppresenter;
   String mobileNo;
+  String countryCode;
   ProgressDialog progressDialog;
   bool isIgnoreTouch = false;
   bool isLoader = false;
@@ -53,6 +54,7 @@ class _OTPScreenState extends State<OTPScreen>
     super.initState();
     setState(() {
       mobileNo = widget.mobno;
+      countryCode = widget.countryCode;
     });
   }
 
@@ -71,7 +73,7 @@ class _OTPScreenState extends State<OTPScreen>
           ),
           body: Center(
             child: SingleChildScrollView(
-              child: Stack(children: <Widget>[
+              child: Stack(alignment: Alignment.center, children: <Widget>[
                 mainview(),
                 isLoader
                     ? SpinKitFadingCircle(
@@ -243,12 +245,26 @@ class _OTPScreenState extends State<OTPScreen>
   }
 
   Widget _mobnoEntered() {
-    return Text(mobileNo,
-        style: TextStyle(
-            color: greytheme300,
-            fontFamily: Constants.getFontType(),
-            fontWeight: FontWeight.w600,
-            fontSize: FONTSIZE_16));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(countryCode,
+            style: TextStyle(
+                color: greytheme300,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                fontSize: FONTSIZE_16)),
+        SizedBox(
+          width: 5,
+        ),
+        Text(mobileNo,
+            style: TextStyle(
+                color: greytheme300,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w600,
+                fontSize: FONTSIZE_16)),
+      ],
+    );
   }
 
   Widget _submitButton() {

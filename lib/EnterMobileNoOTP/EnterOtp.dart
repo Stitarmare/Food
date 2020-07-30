@@ -133,6 +133,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
         isIgnoring = true;
         isLoader = true;
       });
+
       if (widget.flag == 1) {
         //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
         // await progressDialog.show();
