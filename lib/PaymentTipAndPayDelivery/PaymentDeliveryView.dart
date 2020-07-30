@@ -897,6 +897,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
     Preference.removeForKey(PreferenceKeys.orderId);
     Globle().orderID = 0;
     Globle().dinecartValue = 0;
+    Globle().deliveryCartItemCount = 0;
     Preference.setPersistData<int>(null, PreferenceKeys.tableId);
     Preference.setPersistData<int>(null, PreferenceKeys.restaurantID);
     Preference.setPersistData<bool>(null, PreferenceKeys.isAlreadyINCart);

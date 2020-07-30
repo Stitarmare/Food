@@ -277,9 +277,27 @@ class MapViewState extends State<MapView> {
                               // showPinsOnMap();
                             }
                           },
-                          gestureRecognizers: Set()
-                            ..add(Factory<PanGestureRecognizer>(
-                                () => PanGestureRecognizer()))),
+                          gestureRecognizers: {
+                            Factory<OneSequenceGestureRecognizer>(
+                              () => EagerGestureRecognizer(),
+                            ),
+                          }
+                          // Set()
+                          //   ..add(Factory<PanGestureRecognizer>(
+                          //       () => PanGestureRecognizer()))
+                          //   ..add(
+                          //     Factory<VerticalDragGestureRecognizer>(
+                          //         () => VerticalDragGestureRecognizer()),
+                          //   )
+                          //   ..add(
+                          //     Factory<HorizontalDragGestureRecognizer>(
+                          //         () => HorizontalDragGestureRecognizer()),
+                          //   )
+                          //   ..add(
+                          //     Factory<ScaleGestureRecognizer>(
+                          //         () => ScaleGestureRecognizer()),
+                          //   ),
+                          ),
                       Image.asset("assets/MappinImage/mappin.png"),
                       // Align(
                       //     alignment: Alignment.topCenter,
