@@ -67,7 +67,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
             )),
         body: Center(
           child: SingleChildScrollView(
-            child: Stack(children: <Widget>[
+            child: Stack(alignment: Alignment.center, children: <Widget>[
               mainview(),
               isLoader
                   ? SpinKitFadingCircle(

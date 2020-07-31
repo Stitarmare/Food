@@ -861,7 +861,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
                                   child: Text(
                                     addItemPageModelList1.spreadsLabel ??
@@ -901,7 +901,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 8),
+                          padding: EdgeInsets.only(left: 10, top: 8),
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
@@ -935,7 +935,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.34),
                                 Container(
                                   child: Text(
                                     addItemPageModelList1.extrasLabel ??
@@ -975,7 +975,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 8),
+                          padding: EdgeInsets.only(left: 10, top: 8),
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
@@ -1008,7 +1008,7 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.32),
                                 Container(
                                   child: Text(
                                     addItemPageModelList1.switchesLabel ??
@@ -1802,7 +1802,10 @@ class _AddItemPageTAViewState extends State<AddItemPageTAView>
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
       } else {
-        defaultSwitch = [];
+        // defaultSwitch = [];
+        requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        defaultSwitch.add(requiredSwitch);
       }
     }
   }

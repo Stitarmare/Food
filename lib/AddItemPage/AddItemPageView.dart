@@ -1183,7 +1183,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.35),
+                                        0.34),
                                 Container(
                                   alignment: Alignment.center,
                                   child: Text(
@@ -2214,6 +2214,10 @@ class _AddItemPageViewState extends State<AddItemPageView>
       defaultSwitch = List<Switches>();
 
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
+        requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        defaultSwitch.add(requiredSwitch);
+      } else {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);

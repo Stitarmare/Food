@@ -922,7 +922,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
                                   child: Text(
                                     _addItemModelList.spreadsLabel ??
@@ -962,7 +962,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 8),
+                          padding: EdgeInsets.only(left: 10, top: 8),
                           child: Text(
                             STR_SELECT_OPTION,
                             style: TextStyle(
@@ -997,7 +997,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.34),
                                 Container(
                                   child: Text(
                                     _addItemModelList.extrasLabel ??
@@ -1037,7 +1037,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 26, top: 8),
+                          padding: EdgeInsets.only(left: 10, top: 8),
                           child: Text(
                             STR_MULIPLE_OPTIONS,
                             style: TextStyle(
@@ -1073,7 +1073,7 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
                                   child: Text(
                                     _addItemModelList.switchesLabel ??
@@ -2000,6 +2000,10 @@ class _AddItemDeliveryPageViewState extends State<AddItemDeliveryPageView>
       Switches requiredSwitch = Switches();
       defaultSwitch = List<Switches>();
       if (_addItemModelList.switches[i - 1].switchDefault == "yes") {
+        requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
+        requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
+        defaultSwitch.add(requiredSwitch);
+      } else {
         requiredSwitch.switchId = (_addItemModelList.switches[i - 1].id);
         requiredSwitch.switchOption = _addItemModelList.switches[i - 1].option1;
         defaultSwitch.add(requiredSwitch);
