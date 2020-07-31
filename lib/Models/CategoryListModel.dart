@@ -47,7 +47,7 @@ class CategoryItems {
   int stateId;
   int cityId;
   int userId;
-  Null submanagerId;
+  int submanagerId;
   String status;
   String selected;
   int createdBy;

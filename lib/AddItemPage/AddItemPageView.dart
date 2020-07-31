@@ -1108,7 +1108,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
                                   child: Text(
                                     addItemPageModelList.spreadsLabel ??
@@ -1183,8 +1183,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
+                                  alignment: Alignment.center,
                                   child: Text(
                                     addItemPageModelList.extrasLabel ??
                                         STR_ADDITIONS,
@@ -1259,7 +1260,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
                               children: <Widget>[
                                 SizedBox(
                                     width: MediaQuery.of(context).size.width *
-                                        0.4),
+                                        0.35),
                                 Container(
                                   child: Text(
                                     addItemPageModelList.switchesLabel ??
