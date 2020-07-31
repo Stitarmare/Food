@@ -413,7 +413,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                               widget.itemdata[index].items.itemName != null
                                   ? StringUtils.capitalize(
                                       widget.itemdata[index].items.itemName)
-                                  : STR_ITEM_NAME,
+                                  : STR_ITEM_NAME, //STR_BLANK,
                               style: TextStyle(
                                   fontSize: FONTSIZE_18, color: greytheme700),
                             ),
@@ -429,7 +429,7 @@ class _PaymentDeliveryViewState extends State<PaymentDeliveryView>
                                       null
                                   ? StringUtils.capitalize(widget
                                       .itemdata[index].items.itemDescription)
-                                  : STR_ITEM_DESC,
+                                  : STR_ITEM_DESC, //STR_BLANK,
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
