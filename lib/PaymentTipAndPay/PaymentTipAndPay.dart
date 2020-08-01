@@ -312,11 +312,12 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              widget.itemdata[index].items.itemDescription !=
-                                      null
-                                  ? StringUtils.capitalize(widget
-                                      .itemdata[index].items.itemDescription)
-                                  : STR_ITEM_DESC, //STR_BLANK,
+                              // widget.itemdata[index].items.itemDescription !=d
+                              //         null
+                              //     ? StringUtils.capitalize(widget
+                              //         .itemdata[index].items.itemDescription)
+                              //     : STR_ITEM_DESC, //STR_BLANK,
+                              getExtra(widget.itemdata[index]),
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
@@ -534,6 +535,58 @@ class _PaymentTipAndPayState extends State<PaymentTipAndPay>
   double getDefaultTipValue() {
     tipAmount = (tipDefaultValue * (widget.totalAmount)) / 100;
     return tipAmount;
+  }
+
+  String getExtra(MenuCartList menuCartList) {
+    var extras = STR_BLANK;
+    for (int i = 0; i < menuCartList.cartExtraItems.length; i++) {
+      if (menuCartList.cartExtraItems[i].spreads.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].spreads.length;
+            j++) {
+          extras += "${menuCartList.cartExtraItems[i].spreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].subspreads.length > 0) {
+        if (extras.isNotEmpty) {
+          extras = removeLastChar(extras);
+          extras = removeLastChar(extras);
+        }
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].subspreads.length;
+            j++) {
+          extras += " - ${menuCartList.cartExtraItems[i].subspreads[j].name}, ";
+        }
+      }
+
+      if (menuCartList.cartExtraItems[i].extras.length > 0) {
+        for (int j = 0; j < menuCartList.cartExtraItems[i].extras.length; j++) {
+          extras += "${menuCartList.cartExtraItems[i].extras[j].name}, ";
+        }
+      }
+      if (menuCartList.cartExtraItems[i].switches.length > 0) {
+        for (int j = 0;
+            j < menuCartList.cartExtraItems[i].switches.length;
+            j++) {
+          if (menuCartList.cartExtraItems[i].switchOption != null) {
+            extras +=
+                "${menuCartList.cartExtraItems[i].switches[j].name} - ${menuCartList.cartExtraItems[i].switchOption}, ";
+          } else {
+            extras += "${menuCartList.cartExtraItems[i].switches[j].name},";
+          }
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removeLastChar(extras);
+      extras = removeLastChar(extras);
+    }
+    return extras;
+  }
+
+  static String removeLastChar(String str) {
+    return str.substring(0, str.length - 1);
   }
 
   void showAlertSuccess(String title, String message, BuildContext context) {

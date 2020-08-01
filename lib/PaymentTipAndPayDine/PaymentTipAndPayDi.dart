@@ -603,11 +603,12 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
                             height: 30,
                             width: 180,
                             child: AutoSizeText(
-                              myOrderData.list[index].items.itemDescription !=
-                                      null
-                                  ? StringUtils.capitalize(myOrderData
-                                      .list[index].items.itemDescription)
-                                  : STR_ITEM_DESC,
+                              // myOrderData.list[index].items.itemDescription !=
+                              //         null
+                              //     ? StringUtils.capitalize(myOrderData
+                              //         .list[index].items.itemDescription)
+                              //     : STR_ITEM_DESC,
+                              getExtra(myOrderData.list[index]),
                               style: TextStyle(
                                 color: greytheme1000,
                                 fontSize: FONTSIZE_14,
@@ -932,6 +933,51 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
       }
     }
     return false;
+  }
+
+  String getExtra(ListElements list) {
+    var extras = "";
+    for (int i = 0; i < list.cartExtras.length; i++) {
+      if (list.cartExtras[i].spreads.length > 0) {
+        for (int j = 0; j < list.cartExtras[i].spreads.length; j++) {
+          extras += "${list.cartExtras[i].spreads[j].name},";
+        }
+      }
+
+      if (list.cartExtras[i].subspreads != null) {
+        if (list.cartExtras[i].subspreads.length > 0) {
+          for (int j = 0; j < list.cartExtras[i].subspreads.length; j++) {
+            extras += "${list.cartExtras[i].subspreads[j].name},";
+          }
+        }
+      }
+
+      if (list.cartExtras[i].extras.length > 0) {
+        for (int j = 0; j < list.cartExtras[i].extras.length; j++) {
+          extras += "${list.cartExtras[i].extras[j].name},";
+        }
+      }
+
+      if (list.cartExtras[i].switches.length > 0) {
+        for (int j = 0; j < list.cartExtras[i].switches.length; j++) {
+          if (list.cartExtras[i].switchOption != null) {
+            extras +=
+                "${list.cartExtras[i].switches[j].name}  - ${list.cartExtras[i].switchOption},";
+          } else {
+            extras += "${list.cartExtras[i].switches[j].name},";
+          }
+        }
+      }
+    }
+    if (extras.isNotEmpty) {
+      extras = removelastChar(extras);
+      // extras = removelastChar(extras);
+    }
+    return extras;
+  }
+
+  String removelastChar(String str) {
+    return str.substring(0, str.length - 1);
   }
 
   void _showAlert(
