@@ -940,14 +940,18 @@ class _PaymentTipAndPayDiState extends State<PaymentTipAndPayDi>
     for (int i = 0; i < list.cartExtras.length; i++) {
       if (list.cartExtras[i].spreads.length > 0) {
         for (int j = 0; j < list.cartExtras[i].spreads.length; j++) {
-          extras += "${list.cartExtras[i].spreads[j].name},";
+          extras += "${list.cartExtras[i].spreads[j].name}, ";
         }
       }
 
       if (list.cartExtras[i].subspreads != null) {
         if (list.cartExtras[i].subspreads.length > 0) {
+          if (extras.isNotEmpty) {
+            extras = removelastChar(extras);
+            extras = removelastChar(extras);
+          }
           for (int j = 0; j < list.cartExtras[i].subspreads.length; j++) {
-            extras += "${list.cartExtras[i].subspreads[j].name},";
+            extras += "- ${list.cartExtras[i].subspreads[j].name},";
           }
         }
       }

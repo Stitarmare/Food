@@ -188,7 +188,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
             Row(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(left: 18.0),
+                  padding: const EdgeInsets.only(left: 14.0),
                   child: Row(
                     children: <Widget>[
                       Text(
@@ -247,7 +247,7 @@ class _PaymentReceiptTAViewState extends State<PaymentReceiptTAView>
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 18.0),
+              padding: const EdgeInsets.only(left: 14.0),
               child: Row(
                 children: <Widget>[
                   Text(
