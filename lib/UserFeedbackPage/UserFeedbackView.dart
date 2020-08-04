@@ -79,9 +79,7 @@ class UserFeedbackViewState extends State<UserFeedbackView>
           elevation: 0,
           actions: <Widget>[
             IconButton(
-                icon: Icon(
-                  Icons.close,
-                ),
+                icon: Icon(Icons.close, color: Colors.white),
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                       context,
