@@ -46,13 +46,15 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   // final GlobalKey<State> _keyLoader = GlobalKey<State>();
   ProgressDialog progressDialog;
   bool isLoader = false;
+  bool isProgress = false;
 
   @override
   void initState() {
     Globle().notificationFLag = false;
     notificationPresenter = NotificationPresenter(notificationModelView: this);
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
-    isLoader = true;
+    // isLoader = true;
+    isProgress = true;
     notificationPresenter.getNotifications(context);
     super.initState();
   }
@@ -77,7 +79,17 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
                     fontWeight: FontWeight.w500)),
           ),
           body: Stack(alignment: Alignment.center, children: <Widget>[
-            _notificationList(context),
+            isProgress
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : _notificationList(context),
             isLoader
                 ? SpinKitFadingCircle(
                     color: Globle().colorscode != null
@@ -185,6 +197,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
           setState(() {
             isLoader = true;
+            isProgress = false;
           });
           notificationPresenter.acceptInvitation(notificationData[index].fromId,
               notificationData[index].invitationId, statusStr, context);
@@ -213,6 +226,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
           //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
           setState(() {
             isLoader = true;
+            isProgress = false;
           });
           notificationPresenter.acceptRequestInvitiation(
               notificationData[index].fromId,
@@ -290,6 +304,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   void getNotificationsFailed() {
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
   }
 
@@ -297,6 +312,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   Future<void> getNotificationsSuccess(List<Datum> getNotificationList) async {
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
     if (getNotificationList.length == 0) {
       return;
@@ -330,6 +346,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     // await progressDialog.hide();
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
     Toast.show(
       model.message,
@@ -343,6 +360,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   Future<void> acceptInvitationSuccess(ErrorModel model) async {
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
     // await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
@@ -360,6 +378,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   void updateNotificationFailed() {
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
   }
 
@@ -367,6 +386,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
   void updateNotificationSuccess(String message) {
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
   }
 
@@ -375,6 +395,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     // await progressDialog.hide();
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
     if (model != null) {
       notificationPresenter.getNotifications(context);
@@ -393,6 +414,7 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
     // await progressDialog.hide();
     setState(() {
       isLoader = false;
+      isProgress = false;
     });
     if (model != null) {
       notificationPresenter.getNotifications(context);

@@ -277,6 +277,7 @@ class MapViewState extends State<MapView> {
                               // showPinsOnMap();
                             }
                           },
+                          // ignore: sdk_version_set_literal
                           gestureRecognizers: {
                             Factory<OneSequenceGestureRecognizer>(
                               () => EagerGestureRecognizer(),
