@@ -39,6 +39,8 @@ class _WebViewPageState extends State<WebViewPage> {
     return WebviewScaffold(
       url: widget.strURL,
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+            color: widget.title == STR_ABOUT_US ? Colors.black : Colors.white),
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor:
@@ -49,8 +51,9 @@ class _WebViewPageState extends State<WebViewPage> {
                 style: TextStyle(
                     fontSize: FONTSIZE_18,
                     fontFamily: KEY_FONTFAMILY,
-                    fontWeight: FontWeight.w500,
-                    color: greytheme1200),
+                    fontWeight: FontWeight.w600,
+                    // color: greytheme1200
+                    color: Colors.white),
               )
             : Image.asset(FODDZI_LOGO_3X, height: 50),
         elevation: 0.0,

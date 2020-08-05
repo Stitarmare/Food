@@ -15,7 +15,15 @@ class _FaqUserGuideViewState extends State<FaqUserGuideView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FAQ & User Guide"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "FAQ & User Guide",
+          style: TextStyle(
+              fontSize: FONTSIZE_18,
+              fontFamily: KEY_FONTFAMILY,
+              fontWeight: FontWeight.w600,
+              color: Colors.white),
+        ),
       ),
       body: Container(
           child: ListView.builder(
