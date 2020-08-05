@@ -427,9 +427,15 @@ class _LoginViewState extends State<LoginView>
         splashColor: Color.fromRGBO(72, 189, 111, 0.80),
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(32.0),
-            side: BorderSide(color: Color.fromRGBO(72, 189, 111, 0.80))),
-      ),
-    );
+            side: BorderSide(
+              color:
+              //  Color.fromRGBO(72, 189, 111, 0.80
+              isSelected ? greentheme400 : greytheme100
+              )
+            )
+            ),
+      );
+    // );
   }
 
   Widget _otptext() {
