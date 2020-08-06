@@ -33,6 +33,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
   DialogsIndicator dialogs = DialogsIndicator();
   bool _validate = false;
   ProgressDialog progressDialog;
+  bool isIgnoringTouch = false;
 
   final Map<String, dynamic> _signInData = {
     enterPass: null,
@@ -53,36 +54,39 @@ class _ResetPasswordview extends State<ResetPasswordview>
   @override
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    return Scaffold(
-        appBar: AppBar(
-            brightness: Brightness.dark,
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Colors.black,
+    return IgnorePointer(
+      ignoring: isIgnoringTouch,
+      child: Scaffold(
+          appBar: AppBar(
+              brightness: Brightness.dark,
+              elevation: 0,
+              iconTheme: IconThemeData(
+                color: Colors.black,
+              ),
+              backgroundColor: Colors.white70,
+              title: Image.asset(
+                FOODZI_LOGO_PATH,
+                height: 50,
+              )),
+          body: Center(
+            child: SingleChildScrollView(
+              child: Stack(alignment: Alignment.center, children: <Widget>[
+                mainview(),
+                isLoader
+                    ? SpinKitFadingCircle(
+                        color: Globle().colorscode != null
+                            ? getColorByHex(Globle().colorscode)
+                            : orangetheme300,
+                        size: 50.0,
+                        controller: AnimationController(
+                            vsync: this,
+                            duration: const Duration(milliseconds: 1200)),
+                      )
+                    : Text("")
+              ]),
             ),
-            backgroundColor: Colors.white70,
-            title: Image.asset(
-              FOODZI_LOGO_PATH,
-              height: 50,
-            )),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Stack(alignment: Alignment.center, children: <Widget>[
-              mainview(),
-              isLoader
-                  ? SpinKitFadingCircle(
-                      color: Globle().colorscode != null
-                          ? getColorByHex(Globle().colorscode)
-                          : orangetheme300,
-                      size: 50.0,
-                      controller: AnimationController(
-                          vsync: this,
-                          duration: const Duration(milliseconds: 1200)),
-                    )
-                  : Text("")
-            ]),
-          ),
-        ));
+          )),
+    );
   }
 
   Widget mainview() {
@@ -109,6 +113,7 @@ class _ResetPasswordview extends State<ResetPasswordview>
       // await progressDialog.show();
       setState(() {
         isLoader = true;
+        isIgnoringTouch = true;
       });
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       resetpasswordPresenter.perfromresetpassword(
@@ -325,16 +330,18 @@ class _ResetPasswordview extends State<ResetPasswordview>
     await progressDialog.hide();
     setState(() {
       isLoader = true;
+      isIgnoringTouch = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
   }
 
   @override
   Future<void> resetpasssuccess() async {
-    await progressDialog.hide();
     setState(() {
       isLoader = true;
+      isIgnoringTouch = false;
     });
+    await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     showDialogBox(context);
   }

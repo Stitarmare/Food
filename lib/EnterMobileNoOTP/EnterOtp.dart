@@ -46,7 +46,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   var _mobileNumber;
   var countrycode = '+27';
   var oldCountrycode = '+27';
-  bool isIgnoring = false;
+  bool isIgnoringTouch = false;
   bool isLoader = false;
 
   var enterOTPScreenPresenter;
@@ -83,7 +83,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
           ],
         ),
         body: IgnorePointer(
-          ignoring: isIgnoring,
+          ignoring: isIgnoringTouch,
           child: Center(
             child: KeyboardActions(
               config: _buildConfig(context),
@@ -130,7 +130,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   Future<void> onsubmitButtonClicked() async {
     if (_enterOTPFormKey.currentState.validate()) {
       setState(() {
-        isIgnoring = true;
+        isIgnoringTouch = true;
         isLoader = true;
       });
 
@@ -431,7 +431,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> onRequestOtpFailed() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();
@@ -440,7 +440,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> onRequestOtpSuccess() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();
@@ -456,7 +456,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> requestforloginotpfailed() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();
@@ -465,7 +465,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   Future<void> requestforloginotpsuccess() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();
@@ -499,7 +499,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void requestforUpdateNoOtpFailed() {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
   }
@@ -507,7 +507,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void requestforUpdateNoOtpSuccess() {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
   }
@@ -515,7 +515,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void onProvideOtpFailed() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();
@@ -524,7 +524,7 @@ class EnterOTPScreenState extends State<EnterOTPScreen>
   @override
   void onProvideOtpSuccess() async {
     setState(() {
-      isIgnoring = false;
+      isIgnoringTouch = false;
       isLoader = false;
     });
     await progressDialog.hide();

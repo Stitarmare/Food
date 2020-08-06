@@ -43,6 +43,7 @@ class _RegisterviewState extends State<Registerview>
   var _lastname = STR_BLANK;
   var _phoneno = STR_BLANK;
   var _password = STR_BLANK;
+  bool isIgnoringTouch = false;
 
   bool _validate = false;
   var countrycode = "+27";
@@ -65,25 +66,28 @@ class _RegisterviewState extends State<Registerview>
 
   Widget build(BuildContext context) {
     progressDialog = ProgressDialog(context, type: ProgressDialogType.Normal);
-    return Scaffold(
-        body: Center(
-      child: SingleChildScrollView(
-        child: Stack(alignment: Alignment.center, children: <Widget>[
-          mainview(),
-          isLoader
-              ? SpinKitFadingCircle(
-                  color: Globle().colorscode != null
-                      ? getColorByHex(Globle().colorscode)
-                      : orangetheme300,
-                  size: 50.0,
-                  controller: AnimationController(
-                      vsync: this,
-                      duration: const Duration(milliseconds: 1200)),
-                )
-              : Text("")
-        ]),
-      ),
-    ));
+    return IgnorePointer(
+      ignoring: isIgnoringTouch,
+      child: Scaffold(
+          body: Center(
+        child: SingleChildScrollView(
+          child: Stack(alignment: Alignment.center, children: <Widget>[
+            mainview(),
+            isLoader
+                ? SpinKitFadingCircle(
+                    color: Globle().colorscode != null
+                        ? getColorByHex(Globle().colorscode)
+                        : orangetheme300,
+                    size: 50.0,
+                    controller: AnimationController(
+                        vsync: this,
+                        duration: const Duration(milliseconds: 1200)),
+                  )
+                : Text("")
+          ]),
+        ),
+      )),
+    );
   }
 
   Widget mainview() {
@@ -111,6 +115,7 @@ class _RegisterviewState extends State<Registerview>
       //DialogsIndicator.showLoadingDialog(context, _keyLoader, STR_BLANK);
       setState(() {
         isLoader = true;
+        isIgnoringTouch = true;
       });
       registerPresenter.performregister(
           _firstname, _lastname, _phoneno, _password, countrycode, context);
@@ -454,10 +459,10 @@ class _RegisterviewState extends State<Registerview>
         splashColor: Color.fromRGBO(72, 189, 111, 0.80),
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(32.0),
-            side: BorderSide(color:
-            //  Color.fromRGBO(72, 189, 111, 0.80)
-            isSelected ? greentheme400 : greytheme100
-             )),
+            side: BorderSide(
+                color:
+                    //  Color.fromRGBO(72, 189, 111, 0.80)
+                    isSelected ? greentheme400 : greytheme100)),
       ),
     );
   }
@@ -512,6 +517,7 @@ class _RegisterviewState extends State<Registerview>
     await progressDialog.hide();
     setState(() {
       isLoader = false;
+      isIgnoringTouch = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
     _goToNextPageDineIn(context);
@@ -522,6 +528,7 @@ class _RegisterviewState extends State<Registerview>
     await progressDialog.hide();
     setState(() {
       isLoader = false;
+      isIgnoringTouch = false;
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
