@@ -50,8 +50,9 @@ class _BottomNotificationViewState extends State<BottomNotificationView>
 
   @override
   void initState() {
-    Globle().notificationFLag = false;
     notificationPresenter = NotificationPresenter(notificationModelView: this);
+    Globle().notificationFLag = false;
+
     // DialogsIndicator.showLoadingDialog(context, _keyLoader, "");
     // isLoader = true;
     isProgress = true;
