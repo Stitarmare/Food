@@ -24,6 +24,7 @@ class _FaqUserGuideViewState extends State<FaqUserGuideView> {
               fontWeight: FontWeight.w600,
               color: Colors.white),
         ),
+        centerTitle: true,
       ),
       body: Container(
           child: ListView.builder(

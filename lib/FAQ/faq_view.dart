@@ -46,7 +46,16 @@ class _FAQVIewState extends State<FAQVIew> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FAQS"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "FAQS",
+          style: TextStyle(
+              fontSize: FONTSIZE_18,
+              fontFamily: KEY_FONTFAMILY,
+              fontWeight: FontWeight.w600,
+              color: Colors.white),
+        ),
+        centerTitle: true,
       ),
       body: Container(
         child: SingleChildScrollView(

@@ -25,7 +25,15 @@ class FaqQueAndViewState extends State<FaqQueAndView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+              fontFamily: KEY_FONTFAMILY,
+              fontWeight: FontWeight.w600,
+              color: Colors.white),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
