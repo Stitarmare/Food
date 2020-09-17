@@ -204,9 +204,7 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                   Container(
                     child: widget.header,
                   ),
-                  SizedBox(
-                    height: 60,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                   Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: drawerItems()),

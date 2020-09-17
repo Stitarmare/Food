@@ -719,7 +719,7 @@ class CartDetailsPageState extends State<CartDetailsPage>
                             Align(
                               alignment: Alignment.bottomRight,
                               child: Container(
-                                height: 20,
+                                height: 25,
                                 //color: greytheme1400,
                                 decoration: BoxDecoration(
                                     color: Colors.grey[400],
