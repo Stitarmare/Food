@@ -26,6 +26,8 @@ class _NotificationSettingState extends State<NotificationSetting>
   ];
   NotificationSettingPresenter _notificationSettingPresenter;
 
+  bool isIgnoring = true;
+
   @override
   void initState() {
     _notificationSettingPresenter =
@@ -44,111 +46,114 @@ class _NotificationSettingState extends State<NotificationSetting>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: true,
-        elevation: 0.0,
-        title: Text(
-          'Notification Settings',
-          style: TextStyle(
-              fontSize: FONTSIZE_18,
-              fontFamily: Constants.getFontType(),
-              fontWeight: FontWeight.w500,
-              color: greytheme1200),
+    return IgnorePointer(
+      ignoring: isIgnoring,
+      child: Scaffold(
+        appBar: AppBar(
+          brightness: Brightness.dark,
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: true,
+          elevation: 0.0,
+          title: Text(
+            'Notification Settings',
+            style: TextStyle(
+                fontSize: FONTSIZE_18,
+                fontFamily: Constants.getFontType(),
+                fontWeight: FontWeight.w500,
+                color: greytheme1200),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        // child: SliverToBoxAdapter(
-        //           child: Container(
-        //     margin: EdgeInsets.fromLTRB(0 ,10, 0, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Enable All',
-                    style: TextStyle(
-                        fontSize: FONTSIZE_18,
-                        fontFamily: Constants.getFontType(),
-                        fontWeight: FontWeight.w400,
-                        color: greytheme700),
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    width: 100,
-                  ),
-                  flex: 2,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Transform.scale(
-                    scale: 0.7,
-                    child: CupertinoSwitch(
-                      // activeColor: ((Globle().colorscode) != null)
-                      //     ? getColorByHex(Globle().colorscode)
-                      //     : orangetheme,
-                      activeColor: greentheme400,
-                      onChanged: (bool value) {
-                        setState(() {
-                          this._switchvalue = value;
-                          Preference.setPersistData<bool>(
-                              value, "notificationKey");
-                          _checkBoxOptions = [
-                            CheckBoxOptions(
-                                index: 1,
-                                title: 'Activity on my Reviews',
-                                isChecked: value),
-                            CheckBoxOptions(
-                                index: 2,
-                                title: 'Important updates from Foodzi',
-                                isChecked: value),
-                            CheckBoxOptions(
-                                index: 3,
-                                title: 'Other social Notifications',
-                                isChecked: value)
-                          ];
-                        });
-                        updateNotification();
-                      },
-                      value: this._switchvalue,
+        body: SingleChildScrollView(
+          // child: SliverToBoxAdapter(
+          //           child: Container(
+          //     margin: EdgeInsets.fromLTRB(0 ,10, 0, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Enable All',
+                      style: TextStyle(
+                          fontSize: FONTSIZE_18,
+                          fontFamily: Constants.getFontType(),
+                          fontWeight: FontWeight.w400,
+                          color: greytheme700),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                'Push Notifications',
-                style: TextStyle(
-                    fontSize: FONTSIZE_18,
-                    fontFamily: Constants.getFontType(),
-                    fontWeight: FontWeight.w400,
-                    color: greytheme700),
+                  Expanded(
+                    child: SizedBox(
+                      width: 100,
+                    ),
+                    flex: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Transform.scale(
+                      scale: 0.7,
+                      child: CupertinoSwitch(
+                        // activeColor: ((Globle().colorscode) != null)
+                        //     ? getColorByHex(Globle().colorscode)
+                        //     : orangetheme,
+                        activeColor: greentheme400,
+                        onChanged: (bool value) {
+                          setState(() {
+                            this._switchvalue = value;
+                            Preference.setPersistData<bool>(
+                                value, "notificationKey");
+                            _checkBoxOptions = [
+                              CheckBoxOptions(
+                                  index: 1,
+                                  title: 'Activity on my Reviews',
+                                  isChecked: value),
+                              CheckBoxOptions(
+                                  index: 2,
+                                  title: 'Important updates from Foodzi',
+                                  isChecked: value),
+                              CheckBoxOptions(
+                                  index: 3,
+                                  title: 'Other social Notifications',
+                                  isChecked: value)
+                            ];
+                          });
+                          updateNotification();
+                        },
+                        value: this._switchvalue,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            _notificationCheckbox()
-            // )
-          ],
+              Divider(
+                thickness: 2,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  'Push Notifications',
+                  style: TextStyle(
+                      fontSize: FONTSIZE_18,
+                      fontFamily: Constants.getFontType(),
+                      fontWeight: FontWeight.w400,
+                      color: greytheme700),
+                ),
+              ),
+              _notificationCheckbox()
+              // )
+            ],
+          ),
         ),
+        // ),
+        // ),
       ),
-      // ),
-      // ),
     );
   }
 
@@ -208,19 +213,32 @@ class _NotificationSettingState extends State<NotificationSetting>
   }
 
   @override
-  void onFailedUpdateNotification() {}
+  void onFailedUpdateNotification() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
-  void onSuccessUpdateNotification() {}
+  void onSuccessUpdateNotification() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
-  void onFailedGetNotification() {}
+  void onFailedGetNotification() {
+    setState(() {
+      isIgnoring = false;
+    });
+  }
 
   @override
   void onSuccessGetNotification(GetNotificationSetting getNotificationSetting) {
     var model = getNotificationSetting.data;
 
     setState(() {
+      isIgnoring = false;
       if (model != null) {
         if (model.length > 0) {
           var check1 = false;
