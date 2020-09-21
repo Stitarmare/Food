@@ -71,6 +71,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   void getTableListno(int restId, BuildContext context) {
     ApiBaseHelper()
         .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {
@@ -93,6 +94,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   void performaddMenuToCart(AddItemsToCartModel item, BuildContext context) {
     ApiBaseHelper()
         .post<AddMenuToCartModel>(UrlConstant.addMenuToCartApi, context,
@@ -117,6 +119,7 @@ class AddItemPagepresenter extends AddItemPageContractor {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   void addTablenoToCart(
       int userId, int restId, int tableId, BuildContext context) {
     ApiBaseHelper().post<ErrorModel>(UrlConstant.addTablenoApi, context, body: {

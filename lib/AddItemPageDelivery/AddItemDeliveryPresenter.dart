@@ -67,6 +67,7 @@ class AddItemDeliverypresenter extends AddItemDeliveryContractor {
   }
 
   @override
+  // ignore: override_on_non_overriding_member
   void getTableListno(int restId, BuildContext context) {
     ApiBaseHelper()
         .post<GetTableListModel>(UrlConstant.getTablenoListApi, context, body: {

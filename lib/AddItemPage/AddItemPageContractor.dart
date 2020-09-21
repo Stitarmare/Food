@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:foodzi/Models/AddItemPageModel.dart';
 import 'package:foodzi/Models/GetTableListModel.dart';
 import 'package:foodzi/Models/UpdateOrderModel.dart';
-import 'package:foodzi/Models/orderAddMenuCartModel.dart';
 
 abstract class AddItemPageContractor {
   void performAddItem(int itemId, int restId, BuildContext context);

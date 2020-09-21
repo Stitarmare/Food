@@ -88,6 +88,7 @@ class _AddItemPageViewState extends State<AddItemPageView>
   int tableID;
   bool alreadyAdded = false;
   int restaurant;
+  // ignore: unused_field
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   int sizesid = 1;
   AddItemPageModelList addItemPageModelList;
@@ -533,7 +534,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
                           _updateOrderModel.items[0].subspreads = subSpread;
                           _updateOrderModel.items[0].extra = extras;
                           _updateOrderModel.items[0].spreads = spread == null
-                              ? (defaultSpread != null) ? [defaultSpread] : null
+                              ? (defaultSpread != null)
+                                  ? [defaultSpread]
+                                  : null
                               : [spread];
                           _updateOrderModel.items[0].switches = switchess;
 
@@ -778,7 +781,9 @@ class _AddItemPageViewState extends State<AddItemPageView>
     //   addMenuToCartModel.items[0].spreads = spread == null ? [] : [spread];
     // }
     addMenuToCartModel.items[0].spreads = spread == null
-        ? (defaultSpread != null) ? [defaultSpread] : null
+        ? (defaultSpread != null)
+            ? [defaultSpread]
+            : null
         : [spread];
     addMenuToCartModel.items[0].switches = switchess;
     addMenuToCartModel.items[0].quantity = count;
