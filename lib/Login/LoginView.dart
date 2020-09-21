@@ -413,28 +413,25 @@ class _LoginViewState extends State<LoginView>
       minWidth: 280,
       height: 54,
       child: RaisedButton(
-        color: isSelected ? greentheme400 : greytheme100,
-        onPressed: () => isSelected ? onSignInButtonClicked() : null,
-        child: Text(
-          KEY_SIGN_IN,
-          style: TextStyle(
-              fontSize: FONTSIZE_16,
-              fontWeight: FontWeight.w700,
-              fontFamily: Constants.getFontType()),
-        ),
-        textColor: Colors.white,
-        textTheme: ButtonTextTheme.normal,
-        splashColor: Color.fromRGBO(72, 189, 111, 0.80),
-        shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(32.0),
-            side: BorderSide(
-              color:
-              //  Color.fromRGBO(72, 189, 111, 0.80
-              isSelected ? greentheme400 : greytheme100
-              )
-            )
-            ),
-      );
+          color: isSelected ? greentheme400 : greytheme100,
+          onPressed: () => isSelected ? onSignInButtonClicked() : null,
+          child: Text(
+            KEY_SIGN_IN,
+            style: TextStyle(
+                fontSize: FONTSIZE_16,
+                fontWeight: FontWeight.w700,
+                fontFamily: Constants.getFontType()),
+          ),
+          textColor: Colors.white,
+          textTheme: ButtonTextTheme.normal,
+          splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+          shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(32.0),
+              side: BorderSide(
+                  color:
+                      //  Color.fromRGBO(72, 189, 111, 0.80
+                      isSelected ? greentheme400 : greytheme100))),
+    );
     // );
   }
 
@@ -545,6 +542,8 @@ class _LoginViewState extends State<LoginView>
     _signInFormKey.currentState.save();
     await progressDialog.hide();
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 }

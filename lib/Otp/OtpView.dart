@@ -370,6 +370,8 @@ class _OTPScreenState extends State<OTPScreen>
     });
     //Navigator.of(_keyLoader.currentContext, rootNavigator: true)..pop();
     await progressDialog.hide();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 

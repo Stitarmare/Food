@@ -40,6 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
             Globle().authKey = userData.token;
             Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
           } else {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+
             Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
             // Navigator.pushAndRemoveUntil(
             //     context,
@@ -54,6 +56,8 @@ class _SplashScreenState extends State<SplashScreen> {
             //     ModalRoute.withName(STR_WEB_VIEW_PAGE));
           }
         } else {
+          Navigator.of(context).popUntil((route) => route.isFirst);
+
           Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
           // Navigator.pushAndRemoveUntil(
           //     context,
@@ -68,6 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
           //     ModalRoute.withName(STR_WEB_VIEW_PAGE));
         }
       }).catchError(() {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+
         Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
         // Navigator.pushAndRemoveUntil(
         //     context,

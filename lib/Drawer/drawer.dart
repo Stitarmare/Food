@@ -221,6 +221,9 @@ class _HiddenDrawerState extends State<HiddenDrawer>
                       icon: Image.asset(STR_IMAGE_PATH1),
                       onPressed: () {
                         Preference.removeAllPref();
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+
                         Navigator.pushReplacementNamed(context, STR_LOGIN_PAGE);
                       }),
                   Padding(

@@ -311,6 +311,8 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
                     fontSize: FONTSIZE_20),
               ),
               onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+
                 Navigator.of(context).pushReplacementNamed(STR_LOGIN_PAGE);
               },
             ),
@@ -336,6 +338,8 @@ class _UpdateNoOTPScreenState extends State<UpdateNoOTPScreen>
     setState(() {
       isLoader = false;
     });
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
     Navigator.pushReplacementNamed(context, STR_MAIN_WIDGET_PAGE);
   }
 
