@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodzi/Utils/String.dart';
+import 'package:foodzi/Utils/constant.dart';
 import 'package:foodzi/theme/colors.dart';
 
 enum DailogAction { yes, abort }
@@ -20,14 +21,14 @@ class DailogBox {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-                height: height * 0.4,
+                height: height * 0.47,
                 width: width * 0.7,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: (height * 0.3) * 0.1,
+                      height: (height * 0.3) * 0.15,
                     ),
                     Center(
                       child: Text(

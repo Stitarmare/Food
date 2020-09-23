@@ -456,7 +456,8 @@ class _RegisterviewState extends State<Registerview>
         ),
         textColor: Colors.white,
         textTheme: ButtonTextTheme.normal,
-        splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+        splashColor:
+            isSelected ? Color.fromRGBO(72, 189, 111, 0.80) : greytheme100,
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(32.0),
             side: BorderSide(

@@ -15,6 +15,7 @@ import 'package:foodzi/Utils/globle.dart';
 import 'package:foodzi/network/ApiBaseHelper.dart';
 import 'package:foodzi/theme/colors.dart';
 import 'package:foodzi/widgets/AppTextfield.dart';
+import 'package:foodzi/widgets/NotificationDailogBox.dart';
 import 'package:foodzi/widgets/WebView.dart';
 import 'LoginPresenter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -424,7 +425,8 @@ class _LoginViewState extends State<LoginView>
           ),
           textColor: Colors.white,
           textTheme: ButtonTextTheme.normal,
-          splashColor: Color.fromRGBO(72, 189, 111, 0.80),
+          splashColor:
+              isSelected ? Color.fromRGBO(72, 189, 111, 0.80) : greytheme100,
           shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(32.0),
               side: BorderSide(
