@@ -21,15 +21,14 @@ class DailogBox {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
               child: Container(
-                // height: height *0.5,
-                height: height / 2.2,
+                height: height * 0.47,
                 width: width * 0.7,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: (height * 0.3) * 0.12,
+                      height: (height * 0.3) * 0.1,
                     ),
                     Center(
                       child: Text(

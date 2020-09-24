@@ -83,7 +83,7 @@ class _BottomProfileScreenState extends State<BottomProfileScreen>
               // ),
               Positioned(
                 left: MediaQuery.of(context).size.width / 2.5,
-                top: MediaQuery.of(context).size.height * 0.35 - 141,
+                top: MediaQuery.of(context).size.height * 0.35 - 120,
                 child: Stack(
                   overflow: Overflow.visible,
                   children: <Widget>[

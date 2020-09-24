@@ -288,6 +288,9 @@ class _LoginViewState extends State<LoginView>
                   BlacklistingTextInputFormatter(RegExp(STR_INPUTFORMAT)),
                   WhitelistingTextInputFormatter.digitsOnly,
                   BlacklistingTextInputFormatter(RegExp("[*#@!\$]")),
+                  // FilteringTextInputFormatter.deny(RegExp(STR_INPUTFORMAT)),
+                  // FilteringTextInputFormatter.deny(RegExp("[*#@!\$]")),
+                  // FilteringTextInputFormatter.digitsOnly,
                 ],
                 onChanged: (text) {
                   mobilenumber = text;
